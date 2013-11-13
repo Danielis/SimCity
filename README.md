@@ -1,9 +1,9 @@
 ###Team 05
 ####Team Information
 
-  + Team Name: Team Victorious Secret
+  + Team Name: Victorious Secret
   + Team E-Mail: usc-csci201-fall2013-team05-l@mymaillists.usc.edu
-  + Team Mentor: William Adama <husker@galactica.com>
+  + Team Mentor: Daniel Bloznalis <bloznali@usc.edu>
 
 ####Resources
 
@@ -11,17 +11,17 @@
   + [Documentation](https://github.com/usc-csci201-fall2013/team05/wiki)
 
 ####Team Members
-| No. | Name (First (Nickname) Last) |       USC Email       |                GitHub Username                |      Role      |
-| :-: | :--------------------------- | :-------------------- | :-------------------------------------------- | :------------- |
-|  1  | Aleena Byrne           | aleenaby@usc.edu      | @[buccaneer](https://github.com/aleenabyrne)  |  Team Leader   |
-|  2  | Norman Chootong              | tfoster@usc.edu       | @[toaster](https://github.com/toaster)        |                |
-|  3  | Daniel Silva                   | daniel@usc.edu         | @[kobol](https://github.com/[kobol)           |                |
-|  4  | Victor Sherman                    | vsherman@usc.edu            | @[colonel](https://github.com/vicss103)        |   |
-|  5  | Chris Daniels          | chdaniel@usc.edu        | @[mrfixit](https://github.com/mrfixit)        | |
+| No. | Name (First (Nickname) Last) |       USC Email       |                GitHub Username                     |      Role      |
+| :-: | :--------------------------- | :-------------------- | :--------------------------------------------      | :------------- |
+|  1  | Norman Chootong              | chootong@usc.edu      | @[chootong](https://github.com/chootong)           |                |
+|  2  | Chris Daniels                | chdaniel@usc.edu      | @[chrisdaniels9](https://github.com/chrisdaniels9) |                |
+|  3  | Daniel Silva                 | danielis@usc.edu      | @[danielis](https://github.com/danielis)           |                |
+|  4  | Victor Sherman               | vsherman@usc.edu      | @[vicss103](https://github.com/vicss)              |                |
+|  5  | Aleena Byrne                 | aleenaby@usc.edu      | @[aleenabyrne](https://github.com/aleenabyrne)     |   Team Leader   |
 
 ####Team Meetings
 |       Meeting       |           Time           |      Location      |
 | :------------------ | :----------------------- | :----------------- |
-| Lab                 | Wed. 04:00pm             | SAL 109            |
-| Weekly Meeting 1    | Mon. 06:00pm to 10:00pm  | GFS 112            |
-| Weekly Meeting 2    | Fri. 04:00pm to 06:30pm  | SAL 125            |
+| Lab                 | Tue. 02:00pm             | SAL 126            |
+| Weekly Meeting 1    | Sun. 01:00pm to 05:00pm  | Century            |
+| Weekly Meeting 2    | Thu. 05:00pm to 10:00pm  | Century            |
