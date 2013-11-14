@@ -185,6 +185,8 @@ public class PersonAgent extends Agent implements Person
 	    //gui.isVisible();
 	    stateChanged();
 	}
+
+
 	
 	/*
 	//Work
@@ -234,4 +236,14 @@ public class PersonAgent extends Agent implements Person
 	//Transportation
 
 	//Figure out how we are going to incorporate Bus,Car and walking into SimCity
+	
+	/*****************************************************************************
+	 								SCHEDULER
+	 ******************************************************************************/
+	
+	@Override
+	protected boolean pickAndExecuteAnAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
