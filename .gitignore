@@ -19,3 +19,35 @@ Desktop.ini
 .DS_Store
 .Trashes
 .Trash
+
+
+
+# for eclipse:
+*.pydevproject
+.metadata
+.gradle
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+# TeXlipse plugin
+.texlipse
