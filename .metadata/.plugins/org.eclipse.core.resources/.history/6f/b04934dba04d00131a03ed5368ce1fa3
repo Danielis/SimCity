@@ -148,34 +148,45 @@ public class ListPanel extends JPanel implements ActionListener {
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
             button.addActionListener(this);
-            listForPeople.add(button);
-            listForPeople.add(button);
+            listForWaiter.add(button);
+            viewForWaiter.add(button);
             cityPanel.addPerson(name);
-            cityPanel.showPersonInfo(name);
-            System.out.println("add ppl called");
             validate();
         }
     }
  
     
-    public void updatePersonInfoPanel(PersonAgent p) {
-    	this.lastPersonClicked = p;
+    public void updatePersonInfoPanel(PersonAgent person) {
+    	this.lastPersonClicked = person;
        	personHungryCheckBox.setVisible(true);
-        currentPerson = p;
-        PersonAgent person = p;
+        currentPerson = person;
+        PersonAgent customer = person;
         personHungryCheckBox.setText("Hungry?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
-        System.out.println("updatepersoninfopanel called");
-
     }
     public void updateCustomerPanel()
     {
         personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
         personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());
     }
-   
-   
+    public void updateWaiterInfoPanel(WaiterAgent person)
+    {
+    	/*
+    	this.lastWaiterClicked = person;
+    	waiterBreakCheckBox.setVisible(true);
+        currentWaiter = person;
+        WaiterAgent waiter = person;
+        customerHungryCheckBox.setText("On Break");
+        waiterBreakCheckBox.setSelected(waiter.isOnBreak);
+        */
+    }
+    
+    public void updateWaiterPanel()
+    {
+    	//this.cityPanel.refresh();
+    }
+    
     public void updatePerson(PersonAgent person)
     {
     	currentPerson = person;

@@ -146,7 +146,7 @@ public class CityPanel extends JPanel {
             if (temp.getName() == name)
             {
                 personPanel.updatePerson(temp);
-                gui.updatePersonInformationPanel(temp);
+                gui.updateCustomerInformationPanel(temp);
                 personPanel.updatePerson(temp);
             }
         }
@@ -175,7 +175,7 @@ public class CityPanel extends JPanel {
     
     public void addPerson(String name) 
     {
-    	 System.out.println("add person called");
+    	 System.out.println("test2");
 		PersonAgent p = new PersonAgent(name);	
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);

@@ -152,7 +152,7 @@ public class ListPanel extends JPanel implements ActionListener {
             listForPeople.add(button);
             cityPanel.addPerson(name);
             cityPanel.showPersonInfo(name);
-            System.out.println("add ppl called");
+            System.out.println("add customer called");
             validate();
         }
     }

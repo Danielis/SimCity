@@ -146,7 +146,7 @@ public class CityPanel extends JPanel {
             if (temp.getName() == name)
             {
                 personPanel.updatePerson(temp);
-                gui.updatePersonInformationPanel(temp);
+                gui.updateCustomerInformationPanel(temp);
                 personPanel.updatePerson(temp);
             }
         }

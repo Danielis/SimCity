@@ -151,8 +151,6 @@ public class ListPanel extends JPanel implements ActionListener {
             listForPeople.add(button);
             listForPeople.add(button);
             cityPanel.addPerson(name);
-            cityPanel.showPersonInfo(name);
-            System.out.println("add ppl called");
             validate();
         }
     }
@@ -169,7 +167,7 @@ public class ListPanel extends JPanel implements ActionListener {
         System.out.println("updatepersoninfopanel called");
 
     }
-    public void updateCustomerPanel()
+    public void d()
     {
         personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
         personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());

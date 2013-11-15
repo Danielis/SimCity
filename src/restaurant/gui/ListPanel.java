@@ -178,10 +178,12 @@ public class ListPanel extends JPanel implements ActionListener {
             restPanel.addCustomer(name);
             restPanel.showCustomerInfo(name);
             validate();
+           
         }
     }
     
     public void updateCustomerInfoPanel(CustomerAgent person) {
+    	System.out.println("update custoemr info panel called");
     	this.lastCustomerClicked = person;
         customerHungryCheckBox.setVisible(true);
         currentCustomer = person;
@@ -192,6 +194,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     public void updateCustomerPanel()
     {
+    	System.out.println("update customer panel called");
         customerHungryCheckBox.setSelected(lastCustomerClicked.getGui().isHungry());
         customerHungryCheckBox.setEnabled(!lastCustomerClicked.getGui().isHungry());
     }

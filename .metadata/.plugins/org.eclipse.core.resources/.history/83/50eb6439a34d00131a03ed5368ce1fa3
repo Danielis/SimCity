@@ -33,8 +33,8 @@ public class CityGui extends JFrame implements ActionListener {
  
     private CityPanel cityPanel = new CityPanel(this);
     
-    /* personInformationPanel holds information about the clicked customer, if there is one*/
-    private JPanel personInformationPanel;
+    /* customerInformationPanel holds information about the clicked customer, if there is one*/
+    private JPanel customerInformationPanel;
     private JPanel waiterInformationPanel;
     private JPanel InformationPanel;
     private JPanel buttonPanel;
@@ -94,22 +94,22 @@ public class CityGui extends JFrame implements ActionListener {
         
 //CUSTOMER PANEL INFORMATION
         Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .12));
-        personInformationPanel = new JPanel();
-        personInformationPanel.setPreferredSize(infoDimCustomer);
-        personInformationPanel.setMinimumSize(infoDimCustomer);
-        personInformationPanel.setMaximumSize(infoDimCustomer);
-        personInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
+        customerInformationPanel = new JPanel();
+        customerInformationPanel.setPreferredSize(infoDimCustomer);
+        customerInformationPanel.setMinimumSize(infoDimCustomer);
+        customerInformationPanel.setMaximumSize(infoDimCustomer);
+        customerInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
        
         customerStateCheckBox = new JCheckBox();
         customerStateCheckBox.setVisible(false);
         customerStateCheckBox.addActionListener(this);
         
-        personInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
+        customerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
-        personInformationPanel.add(infoCustomerLabel);
-        personInformationPanel.add(customerStateCheckBox);
+        customerInformationPanel.add(infoCustomerLabel);
+        customerInformationPanel.add(customerStateCheckBox);
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
@@ -132,7 +132,7 @@ public class CityGui extends JFrame implements ActionListener {
         waiterInformationPanel.add(waiterON);
         waiterInformationPanel.add(waiterOFF);
         RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
-        InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
+        InformationPanel.add(customerInformationPanel, BorderLayout.NORTH);
         MrKrabsButton = new JButton(MrKrabs);
         RamsayButton = new JButton(Ramsay);
         MrKrabsButton.addActionListener(this);
@@ -152,12 +152,12 @@ public class CityGui extends JFrame implements ActionListener {
 
     }
     /**
-     * updatepersonInformationPanel() takes the given customer (or, for v3, Host) object and
+     * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
      *
      * @param temp customer (or waiter) object
      */
-    public void updatePersonInformationPanel(PersonAgent temp) {
+    public void updateCustomerInformationPanel(PersonAgent temp) {
         customerStateCheckBox.setVisible(true);
         currentPerson = temp;
         PersonAgent person = temp;
@@ -166,7 +166,7 @@ public class CityGui extends JFrame implements ActionListener {
         customerStateCheckBox.setEnabled(!person.getGui().isHungry());
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
-        personInformationPanel.validate();
+        customerInformationPanel.validate();
     }
     public void updateLastCustomer()
     {
@@ -174,7 +174,7 @@ public class CityGui extends JFrame implements ActionListener {
     	{
 	        customerStateCheckBox.setSelected(currentPerson.getGui().isHungry());
 	        customerStateCheckBox.setEnabled(!currentPerson.getGui().isHungry());
-	        personInformationPanel.validate();
+	        customerInformationPanel.validate();
     	}
     }
     public void updateLastWaiter()
