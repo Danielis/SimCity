@@ -12,6 +12,8 @@ import restaurant.gui.RestaurantGui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import city.PersonAgent;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -45,7 +47,7 @@ public class CityGui extends JFrame implements ActionListener {
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
-    private CustomerAgent currentCustomer;
+    private PersonAgent currentPerson;
     private WaiterAgent currentWaiter;
 
     private JButton pauseButton;
@@ -153,25 +155,25 @@ public class CityGui extends JFrame implements ActionListener {
      * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
      *
-     * @param person customer (or waiter) object
+     * @param temp customer (or waiter) object
      */
-    public void updateCustomerInformationPanel(CustomerAgent person) {
+    public void updateCustomerInformationPanel(PersonAgent temp) {
         customerStateCheckBox.setVisible(true);
-        currentCustomer = person;
-        CustomerAgent customer = person;
+        currentPerson = temp;
+        PersonAgent person = temp;
         customerStateCheckBox.setText("Hungry?");
-        customerStateCheckBox.setSelected(customer.getGui().isHungry());
-        customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
+        customerStateCheckBox.setSelected(person.getGui().isHungry());
+        customerStateCheckBox.setEnabled(!person.getGui().isHungry());
         infoCustomerLabel.setText(
-           "<html><pre>     Name: " + customer.getName() + " </pre></html>");
+           "<html><pre>     Name: " + person.getName() + " </pre></html>");
         customerInformationPanel.validate();
     }
     public void updateLastCustomer()
     {
-    	if (currentCustomer != null)
+    	if (currentPerson != null)
     	{
-	        customerStateCheckBox.setSelected(currentCustomer.getGui().isHungry());
-	        customerStateCheckBox.setEnabled(!currentCustomer.getGui().isHungry());
+	        customerStateCheckBox.setSelected(currentPerson.getGui().isHungry());
+	        customerStateCheckBox.setEnabled(!currentPerson.getGui().isHungry());
 	        customerInformationPanel.validate();
     	}
     }
@@ -199,7 +201,7 @@ public class CityGui extends JFrame implements ActionListener {
     
         if (e.getSource() == customerStateCheckBox) 
         {
-            CustomerAgent c = (CustomerAgent) currentCustomer;
+            PersonAgent c = (PersonAgent) currentPerson;
             c.getGui().setHungry();
             customerStateCheckBox.setEnabled(false);
         }
@@ -250,9 +252,9 @@ public class CityGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        CustomerAgent cust = currentCustomer;
-        if (c.equals(cust)) 
+    public void setCustomerEnabled(PersonAgent p) {
+        PersonAgent per = currentPerson;
+        if (p.equals(per)) 
         {
             customerStateCheckBox.setEnabled(true);
             customerStateCheckBox.setSelected(false);

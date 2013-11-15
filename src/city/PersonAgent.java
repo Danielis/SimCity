@@ -3,6 +3,7 @@ package city;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
 import agent.Agent;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import city.guis.CityAnimationPanel;
+import city.guis.PersonGui;
 
 
 public class PersonAgent extends Agent implements Person
@@ -34,9 +36,16 @@ public class PersonAgent extends Agent implements Person
 	//Instances
 	city.guis.PersonGui gui;
 	double money;
+	String name;
 	PersonStatus Status = new PersonStatus();
 
 	public CityAnimationPanel copyOfAnimPanel;	
+	
+	
+	public PersonAgent(String name){
+		this.name = name;
+		System.out.println("Added person " + name);
+	}
 	
 	//Class Declarations
 	class Role
@@ -258,4 +267,11 @@ public class PersonAgent extends Agent implements Person
 	public void setAnimationPanel(CityAnimationPanel panel) {
 		copyOfAnimPanel = panel;
 	}
+
+
+	public PersonGui getGui() {
+		// TODO Auto-generated method stub
+		return gui;
+	}
+
 }

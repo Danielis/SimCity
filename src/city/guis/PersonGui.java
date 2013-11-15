@@ -47,42 +47,11 @@ public class PersonGui implements Gui{
 	Coordinate waitingroom;
 	
 	//images
-	BufferedImage imgQuestion;
-	BufferedImage imgSteak;
-	BufferedImage imgChicken;
-	BufferedImage imgSalad;
-	BufferedImage imgPizza;
-	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
 	public PersonGui(PersonAgent c, CityGui gui2){
 		
-        try
-        {
-        	imgQuestion = ImageIO.read(getClass().getResource("/question.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgSteak = ImageIO.read(getClass().getResource("/steak.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgChicken= ImageIO.read(getClass().getResource("/chicken.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgSalad = ImageIO.read(getClass().getResource("/salad.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgPizza = ImageIO.read(getClass().getResource("/pizza.png"));
-        } catch (IOException e ) {}
-        
         
 		agent = c;
 		this.gui = gui2;
@@ -152,7 +121,7 @@ public class PersonGui implements Gui{
 		Graphics2D newG = (Graphics2D)g;
 		Color customerColor = new Color(195, 178, 116);
 		newG.setColor(customerColor);
-		newG.fillRect(position.x, position.y, customerSize, customerSize);
+		newG.fillRect(50, 50, customerSize, customerSize);
 		
 	}
 

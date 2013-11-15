@@ -46,8 +46,7 @@ public class CityPanel extends JPanel {
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private ListPanel personPanel = new ListPanel(this, "People");
     private JPanel group = new JPanel();
         
     //Image Related
@@ -95,8 +94,7 @@ public class CityPanel extends JPanel {
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
-        group.add(customerPanel);
-        group.add(waiterPanel);
+        group.add(personPanel);
 
         initRestLabel();
         add(restLabel);
@@ -141,31 +139,20 @@ public class CityPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter
      * @param name name of person
      */
-    public void showCustomerInfo(String name)
+    public void showPersonInfo(String name)
     {
-        for (int i = 0; i < customers.size(); i++) {
-            CustomerAgent temp = customers.get(i);
+        for (int i = 0; i < people.size(); i++) {
+            PersonAgent temp = people.get(i);
             if (temp.getName() == name)
             {
-                customerPanel.updateCustomer(temp);
+                personPanel.updatePerson(temp);
                 gui.updateCustomerInformationPanel(temp);
-                customerPanel.updateCustomer(temp);
+                personPanel.updatePerson(temp);
             }
         }
     }
     
-    public void showWaiterInfo(String name) 
-    {
-        for (int i = 0; i < waiters.size(); i++) {
-            WaiterAgent temp = waiters.get(i);
-            if (temp.getName() == name)
-            {
-                waiterPanel.updateWaiter(temp);
-                gui.updateWaiterInformationPanel(temp);
-                waiterPanel.updateWaiter(temp);
-            }
-        }
-    }
+   
 
     /**
      * Adds a customer or waiter to the appropriate list
@@ -188,7 +175,7 @@ public class CityPanel extends JPanel {
     
     public void addPerson(String name) 
     {
-		PersonAgent p = new PersonAgent();	
+		PersonAgent p = new PersonAgent(name);	
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
