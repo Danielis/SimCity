@@ -116,7 +116,7 @@ public class PersonAgent extends Agent implements Person
 			nour = state;
 		}
 		
-		public nourishment getNourishmnet()
+		public nourishment getNourishment()
 		{
 			return nour;
 		}
@@ -151,7 +151,7 @@ public class PersonAgent extends Agent implements Person
 	enum houseStatus{notHome,home,noHome,goingHome} //no home may be used for deadbeats
 	enum marketStatus{nothing,buying,waiting}
 	enum transportStatus{nothing, walking,car,bus}
-	enum morality{good,bad} // may be used for theifs later on for non-norms
+	enum morality{good,bad} // may be used for thieves later on for non-norms
 	//other potentials: rent, 
 
 	
@@ -257,10 +257,16 @@ public class PersonAgent extends Agent implements Person
 	 ******************************************************************************/
 	
 	@Override
-	protected boolean pickAndExecuteAnAction() {
+	protected boolean pickAndExecuteAnAction() {	
+		
+		
+		// TODO basic ai stuff here
+		// work stuff
+		// deposit money, withdraw money, buy items, go home to eat, go home to watch TV
+		
+		
 		// TODO Auto-generated method stub
-		// gui input for make guy hungry
-		if (Status.getNourishmnet() == nourishment.goingToFood) {
+		if (Status.getNourishment() == nourishment.goingToFood) {
 			//GoToRestaurant();
 		}
 		return false;
