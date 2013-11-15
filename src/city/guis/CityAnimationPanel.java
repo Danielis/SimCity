@@ -73,6 +73,7 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
 				gui.updatePosition();
 			}
 		}
+		
 
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
