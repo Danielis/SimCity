@@ -228,6 +228,7 @@ public class CustomerGui implements Gui{
 		System.out.println(agent.getName() + " is going to cashier.");
 		destination = cashier;
 		agent.WaitForAnimation();
+		
 	}
 	
 	public void DoGoToWaitingRoom()
