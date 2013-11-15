@@ -3,5 +3,6 @@
 	<classpathentry kind="src" output="build" path="src"/>
 	<classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
 	<classpathentry kind="con" path="C:/Users/Aleena/Documents/GitHub/team05/build"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

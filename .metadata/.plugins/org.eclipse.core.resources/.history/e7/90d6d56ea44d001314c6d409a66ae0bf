@@ -46,7 +46,7 @@ public class CityPanel extends JPanel {
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     private JPanel restLabel = new JPanel();
-    private CityListPanel personPanel = new CityListPanel(this, "People");
+    private ListPanel personPanel = new ListPanel(this, "People");
     private JPanel group = new JPanel();
         
     //Image Related
@@ -175,7 +175,7 @@ public class CityPanel extends JPanel {
     
     public void addPerson(String name) 
     {
-    	System.out.println("add person called");
+    	 System.out.println("add person called");
 		PersonAgent p = new PersonAgent(name);	
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);

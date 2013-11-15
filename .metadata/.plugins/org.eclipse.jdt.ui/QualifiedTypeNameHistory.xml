@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="restaurant.gui.HostGui"/>
+<fullyQualifiedTypeName name="restaurant.gui.CookGui"/>
+<fullyQualifiedTypeName name="restaurant.gui.RestaurantGui"/>
+<fullyQualifiedTypeName name="restaurant.gui.RestaurantAnimationPanel"/>
+<fullyQualifiedTypeName name="city.guis.CityGui"/>
+<fullyQualifiedTypeName name="restaurant.gui.Gui"/>
+<fullyQualifiedTypeName name="city.PersonAgent"/>
+<fullyQualifiedTypeName name="city.guis.PersonGui"/>
+</qualifiedTypeNameHistroy>
