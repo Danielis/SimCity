@@ -1,6 +1,6 @@
 package restaurant;
 
-import restaurant.gui.AnimationPanel;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CustomerGui;
 import restaurant.interfaces.*;
 import agent.Agent;
@@ -42,7 +42,7 @@ public class CustomerAgent extends Agent implements Customer {
 	String choice;								//Choice
 	RestaurantMenu menu;						//Copy of the menu
 	public iconState icon = iconState.none;		//For animation
-	public AnimationPanel copyOfAnimPanel;		//For drawing icons
+	public RestaurantAnimationPanel copyOfAnimPanel;		//For drawing icons
 	Boolean imusthavethisitem = false;			//To bypass re-selection
 	Boolean reordering = false;					//To check if he's reordering
 	public Semaphore animSemaphore = new Semaphore(0, true);
@@ -70,7 +70,7 @@ public class CustomerAgent extends Agent implements Customer {
 	{
 		return icon;
 	}
-	public void setAnimPanel(AnimationPanel panel)
+	public void setAnimPanel(RestaurantAnimationPanel panel)
 	{
 		copyOfAnimPanel = panel;
 	}

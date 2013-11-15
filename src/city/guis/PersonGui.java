@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import city.PersonAgent;
+
 public class PersonGui implements Gui{
 	
 	//variables
@@ -32,10 +34,10 @@ public class PersonGui implements Gui{
 	private final int table_divider = 100;
 
 	//self agent
-	private CustomerAgent agent = null;
+	private PersonAgent agent = null;
 
 	//private HostAgent host;
-	RestaurantGui gui;
+	CityGui gui;
 	
 	//Coordinates
 	Coordinate position;
@@ -54,7 +56,7 @@ public class PersonGui implements Gui{
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-	public PersonGui(CustomerAgent c, RestaurantGui gui){
+	public PersonGui(PersonAgent c, CityGui gui2){
 		
         try
         {
@@ -83,7 +85,7 @@ public class PersonGui implements Gui{
         
         
 		agent = c;
-		this.gui = gui;
+		this.gui = gui2;
 		
 		outside = new Coordinate(-50,105);
     	position = new Coordinate(-50,105);
@@ -140,7 +142,7 @@ public class PersonGui implements Gui{
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;
-            	agent.DoneWithAnimation();
+            	//agent.DoneWithAnimation();
             }
     	}
 	}
@@ -152,34 +154,6 @@ public class PersonGui implements Gui{
 		newG.setColor(customerColor);
 		newG.fillRect(position.x, position.y, customerSize, customerSize);
 		
-		
-		if (agent.icon != iconState.none)
-		{
-			Graphics2D graphic = (Graphics2D)g;
-			Coordinate temp_c = tables.get(agent.mySeat-1);
-			int x = temp_c.x + 15;
-			int y = temp_c.y + 15;
-			if (agent.icon == iconState.question)
-			{
-				graphic.drawImage(imgQuestion,  x,  y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.steak)
-			{
-				graphic.drawImage(imgSteak,  x,  y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.chicken)
-			{
-				graphic.drawImage(imgChicken, x, y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.salad)
-			{
-				graphic.drawImage(imgSalad, x, y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.pizza)
-			{
-				graphic.drawImage(imgPizza, x, y, agent.copyOfAnimPanel);
-			}
-		}
 	}
 
 	
@@ -189,7 +163,7 @@ public class PersonGui implements Gui{
 	
 	public void setHungry() {
 		isHungry = true;
-		agent.msgGotHungry();
+		//agent.msgGotHungry();
 		setPresent(true);
 	}
 	
@@ -209,34 +183,34 @@ public class PersonGui implements Gui{
 	public void DoGoToSeat(int tableNum)
 	{
     	goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to table " + tableNum);
+		//System.out.println(agent.getName() + " is going to table " + tableNum);
 		int i_temp = tableNum -1;
 		Coordinate c_temp = tables.get(i_temp);
 		destination = new Coordinate(c_temp.x+15, c_temp.y-15);
-		agent.WaitForAnimation();
+		//agent.WaitForAnimation();
 	}
 	
 	public void DoExitRestaurant()
 	{
 		goingSomewhere = true;
-		System.out.println(agent.getName() + " is leaving.");
+		//System.out.println(agent.getName() + " is leaving.");
 		destination = outside;
-		agent.WaitForAnimation();
+		//agent.WaitForAnimation();
 	}
 	
 	public void DoGoToCashier()
 	{
 		goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to cashier.");
+		//System.out.println(agent.getName() + " is going to cashier.");
 		destination = cashier;
-		agent.WaitForAnimation();
+		//agent.WaitForAnimation();
 	}
 	
 	public void DoGoToWaitingRoom()
 	{
 		goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to the waiting room.");
+		//System.out.println(agent.getName() + " is going to the waiting room.");
 		destination = waitingroom;
-		agent.WaitForAnimation();
+		//agent.WaitForAnimation();
 	}
 }

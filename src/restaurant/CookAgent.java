@@ -2,7 +2,7 @@ package restaurant;
 
 import agent.Agent;
 import restaurant.CustomerAgent.iconState;
-import restaurant.gui.AnimationPanel;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CookGui;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.HostGui;
@@ -39,7 +39,7 @@ public class CookAgent extends Agent {
 	
 	//Anim Stuff
 	public List<myIcon> icons = Collections.synchronizedList(new ArrayList<myIcon>());
-	public AnimationPanel copyOfAnimPanel;						//For drawing icons
+	public RestaurantAnimationPanel copyOfAnimPanel;						//For drawing icons
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public Map<String, iconState> iconMap = new HashMap<String, iconState>();
 	public CookGui cookGui = null;

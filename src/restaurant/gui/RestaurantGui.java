@@ -22,7 +22,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
 	
 	JFrame animationFrame = new JFrame("Restaurant Animation");
-	AnimationPanel animationPanel = new AnimationPanel();
+	RestaurantAnimationPanel animationPanel = new RestaurantAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
  
     private RestaurantPanel restPanel = new RestaurantPanel(this);
@@ -62,8 +62,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         int WINDOWY = 500;
         
         ButtonPanel = new JPanel();
-        MrKrabs = new ImageIcon(getClass().getResource("/MrKrabs.png"));
-        Ramsay = new ImageIcon(getClass().getResource("/Ramsay.png"));
+        MrKrabs = new ImageIcon(getClass().getResource("/resources/MrKrabs.png"));
+        Ramsay = new ImageIcon(getClass().getResource("/resources/Ramsay.png"));
         
         RestaurantPortion.setLayout(new BorderLayout());
         InformationPanel = new JPanel();
@@ -258,11 +258,11 @@ public class RestaurantGui extends JFrame implements ActionListener {
     /**
      * Main routine to get gui started
      */
-    public static void main(String[] args) {
-        RestaurantGui gui = new RestaurantGui();
-        gui.setTitle("Norman's Restaurant");
-        gui.setVisible(true);
-        gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+//    public static void main(String[] args) {
+//        RestaurantGui gui = new RestaurantGui();
+//        gui.setTitle("Norman's Restaurant");
+//        gui.setVisible(true);
+//        gui.setResizable(false);
+//        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    }
 }

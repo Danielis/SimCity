@@ -56,27 +56,27 @@ public class CustomerGui implements Gui{
 		
         try
         {
-        	imgQuestion = ImageIO.read(getClass().getResource("/question.png"));
+        	imgQuestion = ImageIO.read(getClass().getResource("/resources/question.png"));
         } catch (IOException e ) {}
         
         try
         {
-        	imgSteak = ImageIO.read(getClass().getResource("/steak.png"));
+        	imgSteak = ImageIO.read(getClass().getResource("/resources/steak.png"));
         } catch (IOException e ) {}
         
         try
         {
-        	imgChicken= ImageIO.read(getClass().getResource("/chicken.png"));
+        	imgChicken= ImageIO.read(getClass().getResource("/resources/chicken.png"));
         } catch (IOException e ) {}
         
         try
         {
-        	imgSalad = ImageIO.read(getClass().getResource("/salad.png"));
+        	imgSalad = ImageIO.read(getClass().getResource("/resources/salad.png"));
         } catch (IOException e ) {}
         
         try
         {
-        	imgPizza = ImageIO.read(getClass().getResource("/pizza.png"));
+        	imgPizza = ImageIO.read(getClass().getResource("/resources/pizza.png"));
         } catch (IOException e ) {}
         
         

@@ -3,13 +3,15 @@ package city;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
 import agent.Agent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import city.cityGui.PersonGui;
+import city.guis.CityAnimationPanel;
+
 
 public class PersonAgent extends Agent implements Person
 {
@@ -30,10 +32,11 @@ public class PersonAgent extends Agent implements Person
 	List<Role> myRoles = Collections.synchronizedList(new ArrayList<Role>());
 	
 	//Instances
-	PersonGui gui;
+	city.guis.PersonGui gui;
 	double money;
 	PersonStatus Status = new PersonStatus();
 
+	public CityAnimationPanel copyOfAnimPanel;	
 	
 	//Class Declarations
 	class Role
@@ -144,9 +147,9 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	******************************************************************************/
 
-	void setGui(PersonGui gui)
+	public void setGui(city.guis.PersonGui g)
 	{
-		this.gui = gui;
+		this.gui = g;
 	}
 	
 	
@@ -172,7 +175,7 @@ public class PersonAgent extends Agent implements Person
 	}*/
 
 	//Restaurant
-	public void msgGoToRestaurant(Role r){
+	public void msgGoToRestaurant(Role r){ // sent from gui
 	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
 	    Status.setNourishment(nourishment.goingToFood);
 	    stateChanged();
@@ -244,6 +247,15 @@ public class PersonAgent extends Agent implements Person
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
+		// gui input for make guy hungry
+		if (Status.getNourishmnet() == nourishment.goingToFood) {
+			//GoToRestaurant();
+		}
 		return false;
+	}
+
+
+	public void setAnimationPanel(CityAnimationPanel panel) {
+		copyOfAnimPanel = panel;
 	}
 }
