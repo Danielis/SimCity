@@ -1,4 +1,4 @@
-package restaurant.gui;
+package city.guis;
 
 import restaurant.CustomerAgent;
 import restaurant.HostAgent;
@@ -6,6 +6,8 @@ import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 
 import javax.swing.*;
+
+import city.PersonAgent;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
  */
-public class ListPanel extends JPanel implements ActionListener {
+public class CityListPanel extends JPanel implements ActionListener {
     
     //CUSTOMER STUFF
     public JScrollPane customerPane =
@@ -25,11 +27,11 @@ public class ListPanel extends JPanel implements ActionListener {
     private JPanel viewForCustomer = new JPanel();
     private JPanel topPart_customer = new JPanel();
     private JPanel bottomPart_customer = new JPanel();
-    private List<JButton> listForCustomer = new ArrayList<JButton>();
-    private JButton addCustomerButton = new JButton("Add");
-    private JTextField nameFieldForCustomer = new JTextField("Enter Customer Here");
-    private JCheckBox customerHungryCheckBox = new JCheckBox("Make Hungry");
-    private CustomerAgent currentCustomer;
+    private List<JButton> listForPeople = new ArrayList<JButton>();
+    private JButton addPersonButton = new JButton("Add");
+    private JTextField nameFieldForPerson = new JTextField("");
+    private JCheckBox personHungryCheckBox = new JCheckBox("Make Hungry");
+    private PersonAgent currentPerson;
     
     //WAITER STUFF
     public JScrollPane waiterPane = 
@@ -38,17 +40,15 @@ public class ListPanel extends JPanel implements ActionListener {
     private JPanel viewForWaiter = new JPanel();
     private JPanel topPart_waiter = new JPanel();
     private JPanel bottomPart_waiter = new JPanel();
-    private List<JButton> listForWaiter = new ArrayList<JButton>();
     private JButton addWaiterButton = new JButton("Add");
     private JTextField nameFieldForWaiter = new JTextField("Enter Waiter Here");
     private JCheckBox waiterBreakCheckBox = new JCheckBox("Set Breaks Below");
-    private WaiterAgent currentWaiter;
     
-    private CustomerAgent lastCustomerClicked;
-    private WaiterAgent lastWaiterClicked;
+    private PersonAgent lastPersonClicked;
+    
 
     //GENERAL STUFF
-    private RestaurantPanel restPanel;
+    private CityPanel cityPanel;
     String type;
     /**
      * Constructor for ListPanel.  Sets up all the gui
@@ -56,8 +56,8 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
-        restPanel = rp;
+    public CityListPanel(CityPanel rp, String type) {
+        cityPanel = rp;
         this.type = type;
 
         //setLayout(new GridLayout(0,1,1,1));
@@ -70,16 +70,16 @@ public class ListPanel extends JPanel implements ActionListener {
         JLabel name = new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>");
         name.setAlignmentY(CENTER_ALIGNMENT);
         
-        if (type == "Customers"){
+        if (type == "People"){
         	topPart_customer.add(name, BorderLayout.NORTH);
-            addCustomerButton.addActionListener(this);
-            topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
+            addPersonButton.addActionListener(this);
+            topPart_customer.add(nameFieldForPerson, BorderLayout.CENTER);
             //customerHungryCheckBox.addActionListener(this);
-            topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
-            customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
+            topPart_customer.add(personHungryCheckBox, BorderLayout.SOUTH);
+            personHungryCheckBox.setMinimumSize(new Dimension(250,100));
             viewForCustomer.setLayout(new BoxLayout((Container) viewForCustomer, BoxLayout.Y_AXIS));
             customerPane.setViewportView(viewForCustomer);
-            bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
+            bottomPart_customer.add(addPersonButton, BorderLayout.NORTH);
             bottomPart_customer.add(customerPane, BorderLayout.CENTER);
             add(topPart_customer, BorderLayout.NORTH);
             add(bottomPart_customer, BorderLayout.CENTER);
@@ -106,30 +106,23 @@ public class ListPanel extends JPanel implements ActionListener {
      * Handles the event of the add button being pressed
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addCustomerButton) 
+        if (e.getSource() == addPersonButton) 
         {
-            addCustomer(nameFieldForCustomer.getText());
+        	addPerson(nameFieldForPerson.getText());
         }
         else if (e.getSource() == addWaiterButton)
         {
-        	addWaiter(nameFieldForWaiter.getText());
         }
         else {
         	// Isn't the second for loop more beautiful?
             /*for (int i = 0; i < list.size(); i++) {
                 JButton temp = list.get(i);*/
-        	for (JButton temp1:listForCustomer){
+        	for (JButton temp1:listForPeople){
                 if (e.getSource() == temp1)
                 {
-                    restPanel.showCustomerInfo(temp1.getText());
+                    cityPanel.showPersonInfo(temp1.getText());
                 }
             }
-        	for (JButton temp2:listForWaiter){
-        		if (e.getSource() == temp2)
-        		{
-        			restPanel.showWaiterInfo(temp2.getText());
-        		}
-        	}
         }
     }
 
@@ -141,7 +134,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param name name of new person
      */
     
-    public void addWaiter(String name) {
+    public void addPerson(String name) {
         if (name != null) {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
@@ -153,95 +146,45 @@ public class ListPanel extends JPanel implements ActionListener {
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
             button.addActionListener(this);
-            listForWaiter.add(button);
-            viewForWaiter.add(button);
-            restPanel.addWaiter(name);
-            restPanel.showWaiterInfo(name);
+            listForPeople.add(button);
+            listForPeople.add(button);
+            cityPanel.addPerson(name);
+            cityPanel.showPersonInfo(name);
+            System.out.println("add ppl called");
             validate();
         }
     }
+ 
     
-    public void addCustomer(String name) {
-        if (name != null) {
-            JButton button = new JButton(name);
-            button.setBackground(Color.white);
+    public void updatePersonInfoPanel(PersonAgent p) {
+    	this.lastPersonClicked = p;
+       	personHungryCheckBox.setVisible(true);
+        currentPerson = p;
+        PersonAgent person = p;
+        personHungryCheckBox.setText("Hungry?");
+        personHungryCheckBox.setSelected(person.getGui().isHungry());
+        personHungryCheckBox.setEnabled(!person.getGui().isHungry());
+        System.out.println("updatepersoninfopanel called");
 
-            Dimension paneSize = customerPane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 20,
-                    (int) (paneSize.height / 10));
-            button.setPreferredSize(buttonSize);
-            button.setMinimumSize(buttonSize);
-            button.setMaximumSize(buttonSize);
-            button.addActionListener(this);
-            listForCustomer.add(button);
-            viewForCustomer.add(button);
-            restPanel.addCustomer(name);
-            restPanel.showCustomerInfo(name);
-            validate();
-           
-        }
-    }
-    
-    public void updateCustomerInfoPanel(CustomerAgent person) {
-    	this.lastCustomerClicked = person;
-        customerHungryCheckBox.setVisible(true);
-        currentCustomer = person;
-        CustomerAgent customer = person;
-        customerHungryCheckBox.setText("Hungry?");
-        customerHungryCheckBox.setSelected(customer.getGui().isHungry());
-        customerHungryCheckBox.setEnabled(!customer.getGui().isHungry());
     }
     public void updateCustomerPanel()
     {
-        customerHungryCheckBox.setSelected(lastCustomerClicked.getGui().isHungry());
-        customerHungryCheckBox.setEnabled(!lastCustomerClicked.getGui().isHungry());
+        personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
+        personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());
     }
-    public void updateWaiterInfoPanel(WaiterAgent person)
-    {
-    	/*
-    	this.lastWaiterClicked = person;
-    	waiterBreakCheckBox.setVisible(true);
-        currentWaiter = person;
-        WaiterAgent waiter = person;
-        customerHungryCheckBox.setText("On Break");
-        waiterBreakCheckBox.setSelected(waiter.isOnBreak);
-        */
-    }
-    
-    public void updateWaiterPanel()
-    {
-    	//this.restPanel.refresh();
-    }
-    
-    public void updateCustomer(CustomerAgent person)
-    {
    
-    	currentCustomer = person;
-        	if (customerHungryCheckBox.isSelected())
+   
+    public void updatePerson(PersonAgent person)
+    {
+    	currentPerson = person;
+        	if (personHungryCheckBox.isSelected())
         	{
-        		customerHungryCheckBox.setSelected(false);
-        		CustomerAgent c = currentCustomer;
-        		c.getGui().setHungry();
+        		personHungryCheckBox.setSelected(false);
+        		PersonAgent p = currentPerson;
+        		p.getGui().setHungry();
         	}
     }
     
     
-    public void updateWaiter(WaiterAgent person)
-    {
-    	
-    	/*currentWaiter = person;
-    	
-		if (waiterBreakCheckBox.isSelected() == true)
-		{
-			waiterBreakCheckBox.setSelected(true);
-			WaiterAgent w = currentWaiter;
-    		w.getGui().AskForBreak();
-		}
-		else if (waiterBreakCheckBox.isSelected() == false)
-		{
-			waiterBreakCheckBox.setSelected(false);
-			WaiterAgent w = currentWaiter;
-			w.isOnBreak = false;
-		}*/
-    }
+    
 }

@@ -47,9 +47,6 @@ public class PersonAgent extends Agent implements Person
 		System.out.println("Added person " + name);
 	}
 	
-	public String getName(){
-		return name;
-	}
 	//Class Declarations
 	class Role
 	{

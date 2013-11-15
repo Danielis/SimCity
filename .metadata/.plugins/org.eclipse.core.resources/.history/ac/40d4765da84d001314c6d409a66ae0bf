@@ -144,8 +144,10 @@ public class CityPanel extends JPanel {
         for (int i = 0; i < people.size(); i++) {
         	
             PersonAgent temp = people.get(i);
+            System.out.println("name " + temp.getName() + " " +name);
             if (temp.getName() == name)
             {
+            	System.out.println("showpersoninfocalled");
                 personPanel.updatePerson(temp);
                 gui.updatePersonInformationPanel(temp);
                 personPanel.updatePerson(temp);
@@ -176,6 +178,7 @@ public class CityPanel extends JPanel {
     
     public void addPerson(String name) 
     {
+    	System.out.println("add person called");
 		PersonAgent p = new PersonAgent(name);	
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);

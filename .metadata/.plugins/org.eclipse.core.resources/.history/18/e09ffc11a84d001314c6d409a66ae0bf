@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class CityListPanel extends JPanel implements ActionListener {
     
     //CUSTOMER STUFF
-    public JScrollPane personPane =
+    public JScrollPane customerPane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel viewForPerson = new JPanel();
@@ -32,7 +32,11 @@ public class CityListPanel extends JPanel implements ActionListener {
     private JTextField nameFieldForPerson = new JTextField("");
     private JCheckBox personHungryCheckBox = new JCheckBox("Make Hungry");
     private PersonAgent currentPerson;
-
+    
+    //WAITER STUFF
+    public JScrollPane waiterPane = 
+            new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private PersonAgent lastPersonClicked;
     
 
@@ -64,9 +68,9 @@ public class CityListPanel extends JPanel implements ActionListener {
         topPart_person.add(personHungryCheckBox, BorderLayout.SOUTH);
         personHungryCheckBox.setMinimumSize(new Dimension(250,100));
         viewForPerson.setLayout(new BoxLayout((Container) viewForPerson, BoxLayout.Y_AXIS));
-        personPane.setViewportView(viewForPerson);
+        customerPane.setViewportView(viewForPerson);
         bottomPart_person.add(addPersonButton, BorderLayout.NORTH);
-        bottomPart_person.add(personPane, BorderLayout.CENTER);
+        bottomPart_person.add(customerPane, BorderLayout.CENTER);
         add(topPart_person, BorderLayout.NORTH);
         add(bottomPart_person, BorderLayout.CENTER);
     }
@@ -106,7 +110,7 @@ public class CityListPanel extends JPanel implements ActionListener {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
 
-            Dimension paneSize = personPane.getSize();
+            Dimension paneSize = waiterPane.getSize();
             Dimension buttonSize = new Dimension(paneSize.width - 20,
                     (int) (paneSize.height / 10));
             button.setPreferredSize(buttonSize);
@@ -117,6 +121,7 @@ public class CityListPanel extends JPanel implements ActionListener {
             viewForPerson.add(button);
             cityPanel.addPerson(name);
             cityPanel.showPersonInfo(name);
+            System.out.println("add ppl called");
             validate();
         }
     }
@@ -130,9 +135,10 @@ public class CityListPanel extends JPanel implements ActionListener {
         personHungryCheckBox.setText("Hungry?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
+        System.out.println("updatepersoninfopanel called");
 
     }
-    public void updatePersonPanel()
+    public void updateCustomerPanel()
     {
         personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
         personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());

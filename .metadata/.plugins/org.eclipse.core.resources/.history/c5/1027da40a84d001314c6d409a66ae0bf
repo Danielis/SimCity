@@ -117,6 +117,7 @@ public class CityListPanel extends JPanel implements ActionListener {
             viewForPerson.add(button);
             cityPanel.addPerson(name);
             cityPanel.showPersonInfo(name);
+            System.out.println("add ppl called");
             validate();
         }
     }
@@ -130,6 +131,7 @@ public class CityListPanel extends JPanel implements ActionListener {
         personHungryCheckBox.setText("Hungry?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
+        System.out.println("updatepersoninfopanel called");
 
     }
     public void updatePersonPanel()
