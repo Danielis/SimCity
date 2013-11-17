@@ -1,15 +1,13 @@
 package bank;
 
-import java.util.List;
-
-import bank.TellerAgent.loanState;
+import java.util.*;
 
 
 
 public class Bank {
 	double balance;
-	List <Account> accounts;
-	List <Loan> loans;
+	List <Account> accounts = new ArrayList<Account>();
+	List <Loan> loans = new ArrayList<Loan>();
 	
 	public class Account {
 	    public Account(CustomerAgent c2, double amount) {
@@ -32,7 +30,17 @@ public class Bank {
 	    	
 	    }
 	}
-	enum loanState {unpaid, partiallyPaid, paid};
+	enum loanState {unpaid, partiallyPaid, paid}
+	
+	public Account createAccount(CustomerAgent c, double amount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Loan createLoan(CustomerAgent c, double amount) {
+		// TODO Auto-generated method stub
+		return null;
+	};
 }
 
 

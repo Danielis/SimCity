@@ -198,7 +198,7 @@ private void LeaveBank(){
 	
 
 	public String toString() {
-		return "customer " + getName();
+		return getName();
 	}
 
 	public void setGui(CustomerGui g) {

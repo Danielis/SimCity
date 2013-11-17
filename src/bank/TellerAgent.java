@@ -9,7 +9,6 @@ import bank.Bank.Account;
 import bank.Bank.Loan;
 import bank.Bank.loanState;
 
-import java.awt.Menu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -18,8 +17,8 @@ public class TellerAgent extends Agent implements Teller {
 	
 	//Lists and Other Agents
 	double balance;
-	List <MyCustomer> myCustomers;
-	List <Transaction> transactions;
+	List <MyCustomer> myCustomers = new ArrayList<MyCustomer>();
+	List <Transaction> transactions = new ArrayList<Transaction>();
 	
 	
 	
@@ -106,7 +105,7 @@ public enum myState
 //MESSAGES****************************************************
 
 public void IWantAccount(CustomerAgent c, double amount){
-    Account acct = new Account(c, amount);
+    Account acct = bank.createAccount(c, amount);
     transactions.add(new Transaction(acct, amount, transactionType.newAccount));
 }
 
@@ -129,8 +128,7 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 }
 
 public void IWantLoan(CustomerAgent c, double amount){
-    //int time = generateTime(); // stub
-    Loan loan = new Loan(); //TODO change 5 to a time value
+    Loan loan = bank.createLoan(c, amount);
     transactions.add(new Transaction(loan, amount, transactionType.newLoan));
 }
 
@@ -262,8 +260,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	private void CreateLoan(Transaction t){
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
-	        Loan loan = new Loan();
-	    	bank.loans.add(loan);
+	    	bank.loans.add(t.loan);
 	        t.loan.c.LoanCreated();
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){

@@ -13,8 +13,8 @@ public class HostAgent extends Agent {
 	
 		
 	//Lists
-	Collection<CustomerAgent> customers;
-	Collection<MyTeller> myTellers;
+	List<CustomerAgent> customers = new ArrayList<CustomerAgent>();
+	Collection<MyTeller> myTellers = new ArrayList<MyTeller>();
 
 	//Other Variables
 	private String name;
@@ -176,9 +176,9 @@ public class HostAgent extends Agent {
 		customers.remove(mc);
 	}
 	
-	private void assignCustomer(CustomerAgent c, TellerAgent t){
+	private void assignCustomer(CustomerAgent c, MyTeller t){
 	    customers.remove(0);
-	    c.GoToTeller(t);
+	    c.GoToTeller(t.t);
 	}
 
 	

@@ -31,7 +31,7 @@ public class BankPanel extends JPanel {
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private ListPanel waiterPanel = new ListPanel(this, "Tellers");
     private JPanel group = new JPanel();
         
     //Image Related
@@ -150,7 +150,7 @@ public class BankPanel extends JPanel {
 		c.startThread();
     }
     
-    public void addWaiter(String name) 
+    public void addTeller(String name) 
     {
 		waiterindex++;
     	TellerAgent w = new TellerAgent(name);	
