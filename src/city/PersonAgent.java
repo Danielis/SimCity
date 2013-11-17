@@ -3,6 +3,8 @@ package city;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import restaurant.CustomerAgent;
+import restaurant.CustomerAgent.myState;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
@@ -20,31 +22,27 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 	 								VARIABLES
 	 ******************************************************************************/
-
-	//Notes for ourselves
-	/*
-	 * 
-	 * 	//Table_globalinfo_home_locations_restaurants_banks_...
-
-	 * 
-	 */
-	
 	
 	//Lists
 	List<Role> myRoles = Collections.synchronizedList(new ArrayList<Role>());
 	
-	//Instances
-	city.guis.PersonGui gui;
+	//Variable
+	PersonAgent myself = this;
+	PersonGui gui;
 	double money;
 	String name;
 	PersonStatus Status = new PersonStatus();
+	public Semaphore animSemaphore = new Semaphore(0, true);
 
-	public CityAnimationPanel copyOfAnimPanel;	
+	public CityAnimationPanel copyOfCityAnimPanel;	
 	
 	
 	public PersonAgent(String name){
 		this.name = name;
 		System.out.println("Added person " + name);
+		
+		//Create customer role
+		myRoles.add(new Role("customer"));
 	}
 	
 	public String getName(){
@@ -53,10 +51,21 @@ public class PersonAgent extends Agent implements Person
 	//Class Declarations
 	class Role
 	{
-		//Vairalbes
+		//Variables
+		Agent agent;
 		PersonAgent myPerson;
 		Boolean active;
-		Boolean finishedRole;
+		
+		Role(String a)
+		{
+			if (a == "customer" || a == "Customer")
+			{
+				agent = new CustomerAgent("Customer");
+				print("Customer created");
+				myPerson = myself;
+				active = false;
+			}
+		}
 		
 		//Utilities
 		public void setPerson(PersonAgent a)
@@ -116,7 +125,7 @@ public class PersonAgent extends Agent implements Person
 			nour = state;
 		}
 		
-		public nourishment getNourishment()
+		public nourishment getNourishmnet()
 		{
 			return nour;
 		}
@@ -151,7 +160,7 @@ public class PersonAgent extends Agent implements Person
 	enum houseStatus{notHome,home,noHome,goingHome} //no home may be used for deadbeats
 	enum marketStatus{nothing,buying,waiting}
 	enum transportStatus{nothing, walking,car,bus}
-	enum morality{good,bad} // may be used for thieves later on for non-norms
+	enum morality{good,bad} // may be used for theifs later on for non-norms
 	//other potentials: rent, 
 
 	
@@ -163,7 +172,23 @@ public class PersonAgent extends Agent implements Person
 	{
 		this.gui = g;
 	}
+
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
 	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
 	
 	/*****************************************************************************
 	 								 MESSAGES
@@ -192,6 +217,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setNourishment(nourishment.goingToFood);
 	    stateChanged();
 	}
+	
 	public void msgLeavingRestaurant(Role r){
 	    r.setActivity(false);
 	    Status.setLocation(location.outside);
@@ -257,30 +283,38 @@ public class PersonAgent extends Agent implements Person
 	 ******************************************************************************/
 	
 	@Override
-	protected boolean pickAndExecuteAnAction() {	
-		
-		
-		// TODO basic ai stuff here
-		// work stuff
-		// deposit money, withdraw money, buy items, go home to eat, go home to watch TV
-		
-		
-		// TODO Auto-generated method stub
-		if (Status.getNourishment() == nourishment.goingToFood) {
-			//GoToRestaurant();
+	protected boolean pickAndExecuteAnAction() {
+
+		if (Status.getNourishmnet() == nourishment.goingToFood &&
+			Status.getLocation() == location.outside) {
+			GoToRestaurant();
+			return true;
 		}
 		return false;
 	}
 
 
 	public void setAnimationPanel(CityAnimationPanel panel) {
-		copyOfAnimPanel = panel;
+		copyOfCityAnimPanel = panel;
 	}
 
 
 	public PersonGui getGui() {
 		// TODO Auto-generated method stub
 		return gui;
+	}
+	
+	/*****************************************************************************
+										ACTIONS
+	 ******************************************************************************/
+	
+	private void GoToRestaurant()
+	{
+		gui.DoGoToCheckpoint('A');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.restaurant);
 	}
 
 }

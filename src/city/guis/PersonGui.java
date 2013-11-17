@@ -23,7 +23,7 @@ public class PersonGui implements Gui{
 	
 	//variables
 	private boolean isPresent = false;
-	private boolean isHungry = false;
+	private boolean isActive = false;
 	private boolean goingSomewhere = false;
 	
 	//finals
@@ -40,6 +40,11 @@ public class PersonGui implements Gui{
 	CityGui gui;
 	
 	//Coordinates
+	Coordinate checkpointA;
+	Coordinate checkpointB;
+	Coordinate checkpointC;
+	Coordinate checkpointD;
+	
 	Coordinate position;
 	Coordinate destination;
 	Coordinate outside;
@@ -51,13 +56,17 @@ public class PersonGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
 	public PersonGui(PersonAgent c, CityGui gui2){
-		
         
 		agent = c;
 		this.gui = gui2;
 		
-		outside = new Coordinate(-50,105);
-    	position = new Coordinate(-50,105);
+		checkpointA = new Coordinate(200,200);
+		checkpointB = new Coordinate(200,200);
+		checkpointC = new Coordinate(200,200);
+		checkpointD = new Coordinate(200,200);
+		
+		outside = new Coordinate(600, 200);
+    	position = new Coordinate(-50, 105);
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -130,33 +139,34 @@ public class PersonGui implements Gui{
 		return isPresent;
 	}
 	
-	public void setHungry() {
-		isHungry = true;
+	public void setActive() {
+		isActive = true;
 		//agent.msgGotHungry();
 		setPresent(true);
 	}
 	
-	public void setNotHungry()
+	public void setNotActive()
 	{
-		isHungry = false;
+		isActive = false;
 		setPresent(false);
 	}
-	public boolean isHungry() {
-		return isHungry;
+	
+	public boolean isActive() {
+		return isActive;
 	}
 
 	public void setPresent(boolean p) {
-		isPresent = p;
+		isActive = p;
 	}
 	
-	public void DoGoToSeat(int tableNum)
+	public void DoGoToCheckpoint(char a)
 	{
-    	goingSomewhere = true;
-		//System.out.println(agent.getName() + " is going to table " + tableNum);
-		int i_temp = tableNum -1;
-		Coordinate c_temp = tables.get(i_temp);
-		destination = new Coordinate(c_temp.x+15, c_temp.y-15);
-		//agent.WaitForAnimation();
+		if(a == 'A' || a == 'a')
+		{
+	    	goingSomewhere = true;
+			destination = checkpointA;
+			agent.WaitForAnimation();
+		}
 	}
 	
 	public void DoExitRestaurant()
