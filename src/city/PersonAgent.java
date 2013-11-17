@@ -39,7 +39,7 @@ public class PersonAgent extends Agent implements Person
 	String name;
 	PersonStatus Status = new PersonStatus();
 
-	public CityAnimationPanel copyOfAnimPanel;	
+	public CityAnimationPanel copyOfCityAnimPanel;	
 	
 	
 	public PersonAgent(String name){
@@ -268,7 +268,7 @@ public class PersonAgent extends Agent implements Person
 
 
 	public void setAnimationPanel(CityAnimationPanel panel) {
-		copyOfAnimPanel = panel;
+		copyOfCityAnimPanel = panel;
 	}
 
 

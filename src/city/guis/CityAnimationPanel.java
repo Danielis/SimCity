@@ -50,10 +50,8 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
         public void paintComponent(Graphics g) {
 
         		Graphics2D City = (Graphics2D)g;
-        		City.drawImage(CityMap, 0, 0, this);
-
+        		
                 Graphics2D restaurant = (Graphics2D)g;
-        		City.drawImage(CityMap, 0, 0, this);
 
                 Graphics2D g1 = (Graphics2D)g;
                 Graphics2D g2 = (Graphics2D)g;
@@ -63,8 +61,6 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
                 //COLORS                
                 Color brown = new Color(245, 201, 114);
                 //Color backgroundColor = new Color(167, 92, 86);
-        		City.drawImage(CityMap, 0, 0, this);
-
 
                 //BACKGROUND INITIATION
                 //g1.setColor(backgroundColor);
@@ -78,16 +74,12 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
                 for(Gui gui : guis) {
                         if (gui.isPresent()) {
                                 gui.updatePosition();
-                        		City.drawImage(CityMap, 0, 0, this);
-
                         }
                 }
 
                 for(Gui gui : guis) {
                         if (gui.isPresent()) {
                                 gui.draw(restaurant);
-                        		City.drawImage(CityMap, 0, 0, this);
-
                         }
                 }
 
