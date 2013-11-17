@@ -35,7 +35,6 @@ public class CityGui extends JFrame implements ActionListener {
     
     /* personInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel personInformationPanel;
-    private JPanel waiterInformationPanel;
     private JPanel InformationPanel;
     private JPanel buttonPanel;
     
@@ -113,35 +112,16 @@ public class CityGui extends JFrame implements ActionListener {
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
-        waiterInformationPanel = new JPanel();
-        waiterInformationPanel.setPreferredSize(infoDimWaiter);
-        waiterInformationPanel.setMinimumSize(infoDimWaiter);
-        waiterInformationPanel.setMaximumSize(infoDimWaiter);
-        waiterInformationPanel.setBorder(BorderFactory.createTitledBorder("Waiters"));
 
         waiterON.addActionListener(this);
         waiterOFF.addActionListener(this);
         
-        waiterInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
-
         infoWaiterLabel = new JLabel();
         infoWaiterLabel.setText("<html><pre><i>Click Add to make waiters</i></pre></html>");
-        waiterInformationPanel.add(infoWaiterLabel);
         waiterON.setVisible(false);
         waiterOFF.setVisible(false);
-        waiterInformationPanel.add(waiterON);
-        waiterInformationPanel.add(waiterOFF);
         RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
         InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
-        MrKrabsButton = new JButton(MrKrabs);
-        RamsayButton = new JButton(Ramsay);
-        MrKrabsButton.addActionListener(this);
-        RamsayButton.addActionListener(this);
-        ButtonPanel.setLayout(new BorderLayout());
-        ButtonPanel.add(MrKrabsButton, BorderLayout.WEST);
-        ButtonPanel.add(RamsayButton, BorderLayout.EAST);
-        InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
-        InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
         buttonPanel.add(pauseButton, BorderLayout.CENTER);
         buttonPanel.add(refreshButton, BorderLayout.EAST);
@@ -180,16 +160,6 @@ public class CityGui extends JFrame implements ActionListener {
     public void updateLastWaiter()
     {
     	//empty
-    }
-    
-    public void updateWaiterInformationPanel(WaiterAgent person) {
-    	waiterON.setVisible(true);
-    	waiterOFF.setVisible(true);
-        currentWaiter = person;
-        WaiterAgent waiter = person;
-    	infoWaiterLabel.setText(
-                "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
-        waiterInformationPanel.validate();
     }
     
     /**
