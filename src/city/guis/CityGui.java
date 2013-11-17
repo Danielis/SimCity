@@ -63,7 +63,7 @@ public class CityGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public CityGui() {
-        int WINDOWX = 600;
+        int WINDOWX = 300;
         int WINDOWY = 500;
         
         ButtonPanel = new JPanel();
@@ -77,7 +77,7 @@ public class CityGui extends JFrame implements ActionListener {
         buttonPanel.setLayout(new BorderLayout());
         
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setBounds(25, 25, WINDOWX+650, WINDOWY+170);
+    	setBounds(25, 25, WINDOWX+700, WINDOWY+170);
     	setVisible(true);
 
         setLayout(new BorderLayout());
