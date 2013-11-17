@@ -96,8 +96,8 @@ public class CityPanel extends JPanel {
 
         group.add(personPanel);
 
-        initRestLabel();
-        add(restLabel);
+        //initRestLabel();
+        //add(restLabel);
         add(group);
     }
 
@@ -231,6 +231,5 @@ public class CityPanel extends JPanel {
     public void refresh()
     {
     	gui.updateLastCustomer();
-    	gui.updateLastWaiter();
     }
 }
