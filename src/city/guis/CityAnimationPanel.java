@@ -54,9 +54,6 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
                 Graphics2D restaurant = (Graphics2D)g;
 
                 Graphics2D g1 = (Graphics2D)g;
-                Graphics2D g2 = (Graphics2D)g;
-                Graphics2D g3 = (Graphics2D)g;
-                Graphics2D g4 = (Graphics2D)g;
 
                 //COLORS                
                 Color brown = new Color(245, 201, 114);
