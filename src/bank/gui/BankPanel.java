@@ -1,0 +1,199 @@
+package bank.gui;
+
+import bank.CustomerAgent;
+import bank.HostAgent;
+import bank.TellerAgent;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
+
+/**
+ * Panel in frame that contains all the restaurant information,
+ * including host, cook, waiters, and customers.
+ */
+public class BankPanel extends JPanel {
+
+    //Host, cook, waiters and customers
+    private HostAgent host = new HostAgent("Oprah");
+    private HostGui hostGui = new HostGui(host);
+    
+    int waiterindex = 0; 		//To assign waiters individual locations
+    
+    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
+    private Vector<TellerAgent> waiters = new Vector<TellerAgent>();
+
+    private JPanel restLabel = new JPanel();
+    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private JPanel group = new JPanel();
+        
+    //Image Related
+    ImageIcon iconOwner;
+    JLabel picOwner;
+    ImageIcon iconMenu;
+    JLabel picMenu;
+    
+    private BankGui gui; //reference to main gui
+
+    public BankPanel(BankGui gui) {
+        this.gui = gui;
+        host.setGui(hostGui);
+        
+        iconOwner = new ImageIcon(getClass().getResource("/resources/menu_header.png"));
+        picOwner = new JLabel(iconOwner);
+        iconMenu = new ImageIcon(getClass().getResource("/resources/menu.png"));
+        picMenu = new JLabel(iconMenu);
+       
+        gui.animationPanel.addGui(hostGui);
+        
+       
+        
+        host.startThread();
+       
+        
+        setLayout(new GridLayout(1, 2, 20, 20));
+        group.setLayout(new GridLayout(1, 2, 10, 10));
+
+        group.add(customerPanel);
+        group.add(waiterPanel);
+
+        initRestLabel();
+        add(restLabel);
+        add(group);
+    }
+
+    /**
+     * Sets up the restaurant label that includes the menu,
+     * and host and cook information
+     */
+    private void initRestLabel() {
+        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
+        restLabel.setLayout(new BorderLayout());
+        /*old
+         * 
+         * label.setText(
+                "<html>"
+	                + "<h3><u>Tonight's Staff</u></h3>"
+	                + "<table>"
+	                	+ "<tr><td>Host:</td><td>" + host.getName() + "</td></tr>"
+        			+ "</table>"
+	                + "<h3><u> Menu</u></h3>"
+	                + "<table>"
+		                + "<tr><td>Steak</td><td>$15.99</td></tr>"
+		                + "<tr><td>Chicken</td><td>$10.99</td></tr>"
+		                + "<tr><td>Salad</td><td>$5.99</td></tr>"
+		                + "<tr><td>Pizza</td><td>$8.99</td></tr>"
+	                + "</table><br>"
+                + "</html>");
+         */
+
+        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+        restLabel.add(picMenu, BorderLayout.SOUTH);
+        restLabel.add(picOwner, BorderLayout.NORTH);
+    }
+
+    /**
+     * When a customer or waiter is clicked, this function calls
+     * updatedInfoPanel() from the main gui so that person's information
+     * will be shown
+     *
+     * @param type indicates whether the person is a customer or waiter
+     * @param name name of person
+     */
+    public void showCustomerInfo(String name)
+    {
+        for (int i = 0; i < customers.size(); i++) {
+            CustomerAgent temp = customers.get(i);
+            if (temp.getName() == name)
+            {
+                customerPanel.updateCustomer(temp);
+                gui.updateCustomerInformationPanel(temp);
+                customerPanel.updateCustomer(temp);
+            }
+        }
+    }
+    
+    public void showWaiterInfo(String name) 
+    {
+        for (int i = 0; i < waiters.size(); i++) {
+            TellerAgent temp = waiters.get(i);
+            if (temp.getName() == name)
+            {
+                waiterPanel.updateWaiter(temp);
+                gui.updateWaiterInformationPanel(temp);
+                waiterPanel.updateWaiter(temp);
+            }
+        }
+    }
+
+    /**
+     * Adds a customer or waiter to the appropriate list
+     *
+     * @param type indicates whether the person is a customer or waiter (later)
+     * @param name name of person
+     */
+    public void addCustomer(String name) 
+    {
+		CustomerAgent c = new CustomerAgent(name);	
+		CustomerGui g = new CustomerGui(c, gui);
+		gui.animationPanel.addGui(g);
+		c.setGui(g);
+		//c.setAnimPanel(gui.animationPanel);
+		customers.add(c);
+		c.startThread();
+    }
+    
+    public void addWaiter(String name) 
+    {
+		waiterindex++;
+    	TellerAgent w = new TellerAgent(name);	
+		WaiterGui g = new WaiterGui(w, gui, waiterindex);
+		gui.animationPanel.addGui(g);
+		w.setHost(host);
+		host.msgNewWaiter(w);
+		w.setGui(g);
+		waiters.add(w);
+		w.startThread();
+    }
+    
+    public void pause()
+    {
+    	host.pauseAgent();
+ 
+    	for (CustomerAgent c : customers)
+    	{
+    		c.pauseAgent();
+    	}
+    	for (TellerAgent w : waiters)
+    	{
+    		w.pauseAgent();
+    	}
+    }
+    
+    public void resume()
+    {
+    	host.resumeAgent();
+    
+    	for (CustomerAgent c : customers)
+    	{
+    		c.resumeAgent();
+    	}
+    	for (TellerAgent w : waiters)
+    	{
+    		w.resumeAgent();
+    	}
+    }
+
+    public void refresh()
+    {
+    	gui.updateLastCustomer();
+    	gui.updateLastWaiter();
+    }
+}
