@@ -2,8 +2,12 @@ package bank;
 
 import agent.Agent;
 import agent.RestaurantMenu;
-import bank.gui.WaiterGui;
+import bank.gui.TellerGui;
 import bank.interfaces.*;
+import bank.Bank;
+import bank.Bank.Account;
+import bank.Bank.Loan;
+import bank.Bank.loanState;
 
 import java.awt.Menu;
 import java.util.*;
@@ -16,14 +20,15 @@ public class TellerAgent extends Agent implements Teller {
 	double balance;
 	List <MyCustomer> myCustomers;
 	List <Transaction> transactions;
-	List <Account> accounts;
-	List <Loan> loans;
+	
+	
 	
 	public HostAgent host;
-	public WaiterGui waiterGui;
+	public TellerGui waiterGui;
 	
 	//Variables
 	private String name;
+	private Bank bank;
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	
@@ -62,11 +67,11 @@ public class TellerAgent extends Agent implements Teller {
 		return myCustomers;
 	}
 	
-	public void setGui(WaiterGui gui) {
+	public void setGui(TellerGui gui) {
 		waiterGui = gui;
 	}
 	
-	public WaiterGui getGui() {
+	public TellerGui getGui() {
 		return waiterGui;
 	}
 
@@ -92,21 +97,6 @@ private class MyCustomer{
 	    CustomerAgent c;
 	}
 
-private class Account {
-	    int id; // auto increment
-	    CustomerAgent c;
-	    double balance;
-	}
-
-private class Loan {
-		CustomerAgent c;
-	    double balanceOwed;
-	    double balancePaid;
-	    int dayCreated;
-	    int dayOwed;
-	    loanState s;
-	}
-enum loanState {unpaid, partiallyPaid, paid};
 	
 public enum myState
 {
@@ -121,24 +111,36 @@ public void IWantAccount(CustomerAgent c, double amount){
 }
 
 public void DepositMoney(CustomerAgent c, int accountID, double amount){
-    Account acct = accounts.find(accountID);
-    transactions.add(new Transaction(acct, amount, transactionType.deposit));
+	for (Account a : bank.accounts){
+		if (a.id == accountID){
+			Account acct = a;
+			 transactions.add(new Transaction(acct, amount, transactionType.deposit));
+		}
+	}
 }
 
 public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
-    Account acct = accounts.find(accountID);
-    transactions.add(new Transaction(acct, amount, transactionType.withdrawal));
+	for (Account a : bank.accounts){
+		if (a.id == accountID){
+			Account acct = a;
+			transactions.add(new Transaction(acct, amount, transactionType.withdrawal));
+		}
+	}
 }
 
 public void IWantLoan(CustomerAgent c, double amount){
-    //time = generateTime(); // stub
-    Loan loan = new Loan(c, amount, time);
+    //int time = generateTime(); // stub
+    Loan loan = new Loan(); //TODO change 5 to a time value
     transactions.add(new Transaction(loan, amount, transactionType.newLoan));
 }
 
 public void PayMyLoan(CustomerAgent c, double amount){
-    Loan loan = loans.find(p);
-    transactions.add(new Transaction(loan, amount, transactionType.loanPayment));
+    for (Loan l : bank.loans){
+		if (l.c == c){
+			Loan loan  = l;
+			transactions.add(new Transaction(loan, amount, transactionType.loanPayment));
+		}
+	}
 }
 
 	public void msgSetOffBreak()
@@ -252,7 +254,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	private void NewAccount(Transaction t){
 	    t.account.balance += t.amount;
 	    balance += t.amount;
-	    accounts.add(t.account);
+	    bank.accounts.add(t.account);
 	    t.status = transactionStatus.resolved;
 	    t.account.c.AccountCreated();
 	}
@@ -261,7 +263,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
 	        Loan loan = new Loan();
-	    	loans.add(loan);
+	    	bank.loans.add(loan);
 	        t.loan.c.LoanCreated();
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){

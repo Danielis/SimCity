@@ -3,7 +3,7 @@ package bank.gui;
 import bank.CustomerAgent;
 import bank.CustomerAgent.iconState;
 import bank.HostAgent;
-import bank.gui.WaiterGui.Coordinate;
+import bank.gui.TellerGui.Coordinate;
 
 import java.io.*;
 import java.awt.*;
@@ -89,10 +89,7 @@ public class CustomerGui implements Gui{
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
     	
-    	for (int i = 0; i < HostAgent.NTABLES; i++)
-    	{
-    		tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
-    	}
+    	
 	}
 	//UTILITIES ***********************************************
     public class Coordinate

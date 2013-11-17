@@ -143,7 +143,7 @@ private void GoToBank() {
 	
 private void TellHost(){
 	   // DoEnterBank();
-	    h.IWantService();
+	    h.IWantService(this);
 	    state = bankCustomerState.waiting;
 }
 

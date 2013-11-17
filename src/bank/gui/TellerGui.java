@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-public class WaiterGui implements Gui {
+public class TellerGui implements Gui {
 	
 	//finals
 	private final int tables_y = 450;
@@ -39,7 +39,7 @@ public class WaiterGui implements Gui {
     
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-    public WaiterGui(TellerAgent w, BankGui gui, int in) {
+    public TellerGui(TellerAgent w, BankGui gui, int in) {
     	
     	setPresent(true);
     	isPresent = true;
@@ -56,10 +56,7 @@ public class WaiterGui implements Gui {
     	homeposition = new Coordinate(index * 40 + 200, 190);
     	destination = homeposition;
     	
-    	for (int i = 0; i < HostAgent.NTABLES; i++)
-    	{
-    		tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
-    	}
+  
     }
 
   //UTILITIES ***********************************************

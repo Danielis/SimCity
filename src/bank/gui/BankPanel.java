@@ -154,10 +154,10 @@ public class BankPanel extends JPanel {
     {
 		waiterindex++;
     	TellerAgent w = new TellerAgent(name);	
-		WaiterGui g = new WaiterGui(w, gui, waiterindex);
+		TellerGui g = new TellerGui(w, gui, waiterindex);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
-		host.msgNewWaiter(w);
+		host.msgNewTeller(w);
 		w.setGui(g);
 		waiters.add(w);
 		w.startThread();
