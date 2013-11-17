@@ -19,10 +19,6 @@ import java.util.Vector;
 
 public class CityAnimationPanel extends JPanel implements ActionListener {
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 794cd26d2b50b47333546d5e31c8e37e21bb5931
         private final int WINDOWX_ANIM = 934;
         private final int WINDOWY_ANIM = 645;
 
@@ -89,11 +85,4 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
         public void addGui(PersonGui gui) {
                 guis.add(gui);
         }
-
-
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 794cd26d2b50b47333546d5e31c8e37e21bb5931
