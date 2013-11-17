@@ -19,72 +19,72 @@ import java.util.Vector;
 
 public class CityAnimationPanel extends JPanel implements ActionListener {
 
-	private final int WINDOWX_ANIM = 700;
-	private final int WINDOWY_ANIM = 700;
+        private final int WINDOWX_ANIM = 700;
+        private final int WINDOWY_ANIM = 700;
 
-	int RESTAURANT_X = 50;
-	int RESTAURANT_Y = 100;
-	int RESTAURANT_SIZE = 50;
+        int RESTAURANT_X = 50;
+        int RESTAURANT_Y = 100;
+        int RESTAURANT_SIZE = 50;
 
-	private Image bufferImage;
-	private Dimension bufferSize;
+        private Image bufferImage;
+        private Dimension bufferSize;
 
-	private List<Gui> guis = new ArrayList<Gui>();
+        private List<Gui> guis = new ArrayList<Gui>();
 
-	public CityAnimationPanel() {
-		setSize(WINDOWX_ANIM, WINDOWY_ANIM);
-		setVisible(true);
+        public CityAnimationPanel() {
+                setSize(WINDOWX_ANIM, WINDOWY_ANIM);
+                setVisible(true);
 
-		bufferSize = this.getSize();
+                bufferSize = this.getSize();
 
-		Timer timer = new Timer(20, this );
-		timer.start();
-	}
+                Timer timer = new Timer(20, this );
+                timer.start();
+        }
 
-	public void actionPerformed(ActionEvent e) {
-		repaint();  //Will have paintComponent called
-	}
+        public void actionPerformed(ActionEvent e) {
+                repaint();  //Will have paintComponent called
+        }
 
-	public void paintComponent(Graphics g) {
-
-
-		Graphics2D restaurant = (Graphics2D)g;
-
-		Graphics2D g1 = (Graphics2D)g;
-		Graphics2D g2 = (Graphics2D)g;
-		Graphics2D g3 = (Graphics2D)g;
-		Graphics2D g4 = (Graphics2D)g;
-
-		//COLORS		
-		Color brown = new Color(245, 201, 114);
-		Color backgroundColor = new Color(167, 92, 86);
+        public void paintComponent(Graphics g) {
 
 
-		//BACKGROUND INITIATION
-		g1.setColor(backgroundColor);
-		g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
+                Graphics2D restaurant = (Graphics2D)g;
 
-		//temporary rectangle, could represent restaurant
-		restaurant.setColor(brown);
-		restaurant.fillRect(RESTAURANT_X, RESTAURANT_Y, RESTAURANT_SIZE, RESTAURANT_SIZE);
+                Graphics2D g1 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g3 = (Graphics2D)g;
+                Graphics2D g4 = (Graphics2D)g;
 
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
+                //COLORS                
+                Color brown = new Color(245, 201, 114);
+                Color backgroundColor = new Color(167, 92, 86);
 
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(restaurant);
-			}
-		}
 
-	}
+                //BACKGROUND INITIATION
+                g1.setColor(backgroundColor);
+                g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
 
-	public void addGui(PersonGui gui) {
-		guis.add(gui);
-	}
+                //temporary rectangle, could represent restaurant
+                restaurant.setColor(brown);
+                restaurant.fillRect(RESTAURANT_X, RESTAURANT_Y, RESTAURANT_SIZE, RESTAURANT_SIZE);
+
+                for(Gui gui : guis) {
+                        if (gui.isPresent()) {
+                                gui.updatePosition();
+                        }
+                }
+
+                for(Gui gui : guis) {
+                        if (gui.isPresent()) {
+                                gui.draw(restaurant);
+                        }
+                }
+
+        }
+
+        public void addGui(PersonGui gui) {
+                guis.add(gui);
+        }
 
 
 }
