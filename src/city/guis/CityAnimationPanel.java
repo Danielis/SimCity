@@ -20,7 +20,7 @@ import java.util.Vector;
 public class CityAnimationPanel extends JPanel implements ActionListener {
 
         private final int WINDOWX_ANIM = 934;
-        private final int WINDOWY_ANIM = 645;
+        private final int WINDOWY_ANIM = 635;
 
         int RESTAURANT_X = 50;
         int RESTAURANT_Y = 100;

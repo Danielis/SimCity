@@ -63,7 +63,7 @@ public class CityGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public CityGui() {
-        int WINDOWX = 300;
+        int WINDOWX = 500;
         int WINDOWY = 500;
         
         ButtonPanel = new JPanel();
@@ -77,7 +77,7 @@ public class CityGui extends JFrame implements ActionListener {
         buttonPanel.setLayout(new BorderLayout());
         
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setBounds(25, 25, WINDOWX+700, WINDOWY+170);
+    	setBounds(25, 25, WINDOWX+700, WINDOWY+150);
     	setVisible(true);
 
         setLayout(new BorderLayout());
@@ -92,7 +92,7 @@ public class CityGui extends JFrame implements ActionListener {
         refreshButton.addActionListener(this);
         
 //CUSTOMER PANEL INFORMATION
-        Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .12));
+        Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .30));
         personInformationPanel = new JPanel();
         personInformationPanel.setPreferredSize(infoDimCustomer);
         personInformationPanel.setMinimumSize(infoDimCustomer);
@@ -103,12 +103,12 @@ public class CityGui extends JFrame implements ActionListener {
         customerStateCheckBox.setVisible(false);
         customerStateCheckBox.addActionListener(this);
         
-        personInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
+        personInformationPanel.setLayout(new BorderLayout());
         
         infoCustomerLabel = new JLabel(); 
-        infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
-        personInformationPanel.add(infoCustomerLabel);
-        personInformationPanel.add(customerStateCheckBox);
+        infoCustomerLabel.setText("<html><p><p>Click Add to make customers</p></p></html>");
+        personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
+        personInformationPanel.add(customerStateCheckBox, BorderLayout.CENTER);
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
