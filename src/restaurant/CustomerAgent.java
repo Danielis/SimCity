@@ -345,25 +345,18 @@ public class CustomerAgent extends Agent implements Customer {
 			if(imusthavethisitem == true)
 			{
 				int index;
-				switch (choice)
-				{
-				case "Steak":
+				
+				if (choice.equals("Steak"))
 					index = 0;
-					break;
-				case "Chicken":
+				else if (choice.equals("Chicken"))
 					index = 1;
-					break;
-				case "Salad":
+				else if (choice.equals("Salad"))
 					index = 2;
-					break;
-				case "Pizza":
+				else if (choice.equals("Pizza"))
 					index = 3;
-					break;
-				default:
+				else
 					index = 0;
-					break;
-				}
-
+				
 				if(foodOptions.get(index) == false)
 				{
 					print("They don't have the item I want. Going to leave.");
@@ -427,21 +420,16 @@ public class CustomerAgent extends Agent implements Customer {
 	private void EatFood() {
 		state = myState.eating;
 		print("Eating my " + choice);
-		switch(choice)
-		{
-			case "Steak":
-				icon = iconState.steak;
-				break;
-			case "Chicken":
-				icon = iconState.chicken;
-				break;
-			case "Salad":
-				icon = iconState.salad;
-				break;
-			case "Pizza":
-				icon = iconState.pizza;
-				break;
-		}
+		
+		if (choice.equals("Steak"))
+			icon = iconState.steak;
+		else if (choice.equals("Chicken"))
+			icon = iconState.chicken;
+		else if (choice.equals("Salad"))
+			icon = iconState.salad;
+		else if (choice.equals("Pizza"))
+			icon = iconState.pizza;
+		
 		timer.schedule(new TimerTask() {
 			public void run() {
 				DoneEating();
