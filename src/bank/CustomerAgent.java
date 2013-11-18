@@ -60,54 +60,66 @@ public class CustomerAgent extends Agent implements Customer {
 public void	WantsToDo(String visitPurpose, int quantity){ //called from Person agent
 	    //purpose = convert(visitPurpose);
 	    this.state = bankCustomerState.entered;
+	    stateChanged();
 	}
 
 public void	GoToTeller(TellerAgent t){
 	    this.t = t;
 	    state = bankCustomerState.assigned;
+	    stateChanged();
 	}
 
 public void	AccountCreated(){
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	MoneySuccesfullyDeposited(){
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	LoanCreated(){
 	    balance += amount;
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	CannotCreatLoan(){
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	CreditNotGoodEnough(){
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	YourLoanIsPaidOff(){
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	YouStillOwe(double d, int i){
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	HereIsWithdrawal(double amount){
 	    balance += amount;
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	HereIsPartialWithdrawal(double amount){
 	    balance += amount;
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 public void	NoMoney(){ // in account
 	    state = bankCustomerState.done;
+	    stateChanged();
 	}
 
 	
@@ -182,9 +194,11 @@ private void AskForAssistance(){
 
 
 private void LeaveBank(){
-		print("I'm leaving the bank.");
+		print("Thank you.");
+		
 		customerGui.DoExitRestaurant();
 	    state = bankCustomerState.exited;
+	    t.IAmLeaving();
 }
 	
 	

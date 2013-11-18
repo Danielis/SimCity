@@ -51,8 +51,13 @@ public class CustomerGui implements Gui{
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
-
+ 
+    
 	public CustomerGui(CustomerAgent c, BankGui gui){
+		for (int i = 0; i < 5; i++)
+		{
+			tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
+		}
 		
         try
         {

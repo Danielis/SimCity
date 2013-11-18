@@ -13,7 +13,7 @@ public class HostAgent extends Agent {
 	
 		
 	//Lists
-	List<CustomerAgent> customers = new ArrayList<CustomerAgent>();
+	List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	Collection<MyTeller> myTellers = new ArrayList<MyTeller>();
 
 	//Other Variables
@@ -57,19 +57,38 @@ public class HostAgent extends Agent {
 		}
 		enum tellerState {free, busy, wantsBreak, onBreak};
 		
-
+		public class MyCustomer{
+			
+			public MyCustomer(CustomerAgent c) {
+				this.c = c;
+				this.s = customerState.waiting;
+			}
+			CustomerAgent c;
+			customerState s;
+		}
+		enum customerState {waiting, done};
 	
 
 //MESSAGES****************************************************
 
 	public void IWantService(CustomerAgent c){
-		    customers.add(c);
+    customers.add(new MyCustomer(c));
+    stateChanged();
 	}
 		
 	public void msgNewTeller(TellerAgent t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
+	}
+	
+	public void IAmFree(TellerAgent tell){
+		for(MyTeller t: myTellers){
+			if (t.t == tell){
+				t.s = tellerState.free;
+				stateChanged();
+			}
+		}
 	}
 	
 	
@@ -111,10 +130,13 @@ public class HostAgent extends Agent {
 		{
 			synchronized(customers)
 			{
-				if (customers.size() > 0){
-					for (MyTeller t : myTellers){
-						if (t.s.equals(tellerState.free)){
-							assignCustomer(customers.get(0), t);
+				for (MyCustomer c : customers){
+					if (c.s == customerState.waiting){
+						for (MyTeller t : myTellers){
+							if (t.s.equals(tellerState.free)){
+								assignCustomer(c, t);
+								return true;
+							}
 						}
 					}
 				}
@@ -176,10 +198,11 @@ public class HostAgent extends Agent {
 		customers.remove(mc);
 	}
 	
-	private void assignCustomer(CustomerAgent c, MyTeller t){
+	private void assignCustomer(MyCustomer c, MyTeller t){
 		print("Customer go to teller");
-	    customers.remove(0);
-	    c.GoToTeller(t.t);
+	    c.s = customerState.done;
+	    t.s = tellerState.busy;
+	    c.c.GoToTeller(t.t);
 	}
 
 	

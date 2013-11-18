@@ -27,7 +27,7 @@ public class TellerAgent extends Agent implements Teller {
 	
 	//Variables
 	private String name;
-	private Bank bank;
+	private Bank bank = new Bank();
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	
@@ -80,8 +80,11 @@ public class TellerAgent extends Agent implements Teller {
 	    public Transaction(Loan loan2, double amount2, transactionType loanpayment) {
 		
 	    }
-		public Transaction(Account acct, double amount2, transactionType withdrawal) {
-		
+		public Transaction(Account acct, double amount2, transactionType type) {
+		account = acct;
+		amount = amount2;
+		this.type = type;
+		status = transactionStatus.unresolved;
 		}
 		double amount;
 	    Account account;
@@ -99,14 +102,15 @@ private class MyCustomer{
 	
 public enum myState
 {
-	none, wantBreak, askedForBreak, onBreak
+	none, free, wantBreak, askedForBreak, onBreak
 }
 
 //MESSAGES****************************************************
 
 public void IWantAccount(CustomerAgent c, double amount){
-    Account acct = bank.createAccount(c, amount);
+    Account acct = bank.createAccount(c);
     transactions.add(new Transaction(acct, amount, transactionType.newAccount));
+    stateChanged();
 }
 
 public void DepositMoney(CustomerAgent c, int accountID, double amount){
@@ -114,6 +118,7 @@ public void DepositMoney(CustomerAgent c, int accountID, double amount){
 		if (a.id == accountID){
 			Account acct = a;
 			 transactions.add(new Transaction(acct, amount, transactionType.deposit));
+			 stateChanged();
 		}
 	}
 }
@@ -123,6 +128,7 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 		if (a.id == accountID){
 			Account acct = a;
 			transactions.add(new Transaction(acct, amount, transactionType.withdrawal));
+			stateChanged();
 		}
 	}
 }
@@ -130,6 +136,7 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 public void IWantLoan(CustomerAgent c, double amount){
     Loan loan = bank.createLoan(c, amount);
     transactions.add(new Transaction(loan, amount, transactionType.newLoan));
+    stateChanged();
 }
 
 public void PayMyLoan(CustomerAgent c, double amount){
@@ -137,9 +144,15 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		if (l.c == c){
 			Loan loan  = l;
 			transactions.add(new Transaction(loan, amount, transactionType.loanPayment));
+			stateChanged();
 		}
 	}
 }
+
+	public void IAmLeaving(){
+		state = myState.free;
+		stateChanged();
+	}
 
 	public void msgSetOffBreak()
 	{/*
@@ -147,6 +160,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		state = myState.none;
 		waiterGui.setBreak(false);*/
 		isOnBreak = false;
+		stateChanged();
 	}
 	
 	public void msgSetOnBreak()
@@ -190,6 +204,9 @@ public void PayMyLoan(CustomerAgent c, double amount){
 				}
 			}
 
+			if (state == myState.free){
+				TellHostFree();
+			}
 
 			if (state == myState.wantBreak)
 			{
@@ -262,6 +279,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    bank.accounts.add(t.account);
 	    t.status = transactionStatus.resolved;
 	    t.account.c.AccountCreated();
+	    print("Your new account ID is " + t.account.id + " with balance of $" + t.account.balance);
 	}
 
 	private void CreateLoan(Transaction t){
@@ -294,6 +312,11 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    	print("You still owe");
 	        t.loan.c.YouStillOwe(t.loan.balanceOwed - t.loan.balancePaid, t.loan.dayCreated - t.loan.dayOwed);
 	    }
+	}
+	
+	private void TellHostFree(){
+		print("I am ready for next customer.");
+		host.IAmFree(this);
 	}
 	
 	private void AskForBreak()
