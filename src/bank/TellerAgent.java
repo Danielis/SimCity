@@ -209,6 +209,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 //ACTIONS********************************************************
 
 	private void HandleTransaction(Transaction t){
+		print("Looking into transaction...");
 		if (t.type == transactionType.deposit){
 			Deposit(t);
 		}
@@ -227,6 +228,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 	
 	private void Deposit(Transaction t){
+		print("Depositing money");
 	    t.account.balance += t.amount;
 	    balance += t.amount;
 	    t.status = transactionStatus.resolved;
@@ -234,22 +236,27 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 
 	private void Withdraw(Transaction t){
+		t.status = transactionStatus.resolved;
 	    if (t.account.balance >= t.amount){
+	    	print("Here is your withdrawal");
 	        t.account.balance -= t.amount;
 	        balance -= t.amount;
 	        t.account.c.HereIsWithdrawal(t.amount);
 	    }
 	    else if (t.account.balance > 0){
+	    	print("Here is partial withdrawal");
 	        t.account.balance -= t.amount;
 	        balance -= t.amount;
 	        t.account.c.HereIsPartialWithdrawal(t.amount);
 	    }
-	    else
+	    else{
+	    	print("You do not have any money");
 	        t.account.c.NoMoney();
-	    t.status = transactionStatus.resolved;
+	    }  
 	}
 
 	private void NewAccount(Transaction t){
+		print("Creating new account");
 	    t.account.balance += t.amount;
 	    balance += t.amount;
 	    bank.accounts.add(t.account);
@@ -260,14 +267,18 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	private void CreateLoan(Transaction t){
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
+	    	print("Created loan");
 	    	bank.loans.add(t.loan);
 	        t.loan.c.LoanCreated();
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){
+	    	print("Sorry we do not have enough money");
 	        t.loan.c.CannotCreatLoan();
 	    }
-	    else // bad credit
+	    else { // bad credit
+	    	print("Your credit is not good enough");
 	        t.loan.c.CreditNotGoodEnough();
+	    }
 	}
 
 	private void LoanPayBack(Transaction t){
@@ -275,11 +286,14 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    balance += t.amount;
 	    t.status = transactionStatus.resolved;
 	    if (t.loan.balancePaid >= t.loan.balanceOwed){
+	    	print("Your loan is paid off!");
 	        t.loan.s = loanState.paid;
 	        t.loan.c.YourLoanIsPaidOff();
 	    }
-	    else
+	    else{
+	    	print("You still owe");
 	        t.loan.c.YouStillOwe(t.loan.balanceOwed - t.loan.balancePaid, t.loan.dayCreated - t.loan.dayOwed);
+	    }
 	}
 	
 	private void AskForBreak()

@@ -35,11 +35,16 @@ public class CustomerAgent extends Agent implements Customer {
 	int accountID;
 	private CustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
-	//List of foods available
+	public String name;
 	
 	//Constructor
-	public CustomerAgent(String name){
+	public CustomerAgent(String name, HostAgent h){
 		super();
+		this.name = name;
+		this.h = h;
+		state = bankCustomerState.outside;
+		purpose = customerPurpose.createAccount;
+		amount = 400;
 	}
 
 //UTILITIES**************************************************
@@ -137,18 +142,21 @@ public void	NoMoney(){ // in account
 
 private void GoToBank() {
 		print("Going to bank");
-		this.customerGui.DoGoToWaitingRoom();
+		customerGui.DoGoToWaitingRoom();
 		state = bankCustomerState.entered;
 }
 	
 private void TellHost(){
 	   // DoEnterBank();
+		print("I want service");
 	    h.IWantService(this);
 	    state = bankCustomerState.waiting;
 }
 
 private void AskForAssistance(){
 	   // DoGiveOrder();
+	
+		print("This what I want to do...");
 
 	    if (purpose == customerPurpose.createAccount){
 	        balance -= amount;
@@ -174,7 +182,7 @@ private void AskForAssistance(){
 
 
 private void LeaveBank(){
-		print("I'm going to leave the restaurant.");
+		print("I'm leaving the bank.");
 		customerGui.DoExitRestaurant();
 	    state = bankCustomerState.exited;
 }
@@ -184,7 +192,7 @@ private void LeaveBank(){
 	
 	private void WalkToTeller() 
 	{
-		print("Being seated. Going to table " + 2);
+		print("Directed to teller.");
 		customerGui.DoGoToSeat(2);
 		state = bankCustomerState.atCounter;
 		stateChanged();
@@ -198,7 +206,7 @@ private void LeaveBank(){
 	
 
 	public String toString() {
-		return getName();
+		return name;
 	}
 
 	public void setGui(CustomerGui g) {

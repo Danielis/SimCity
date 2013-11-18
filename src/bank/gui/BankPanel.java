@@ -141,7 +141,7 @@ public class BankPanel extends JPanel {
      */
     public void addCustomer(String name) 
     {
-		CustomerAgent c = new CustomerAgent(name);	
+		CustomerAgent c = new CustomerAgent(name, host);	
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setGui(g);

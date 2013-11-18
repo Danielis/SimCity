@@ -177,6 +177,7 @@ public class HostAgent extends Agent {
 	}
 	
 	private void assignCustomer(CustomerAgent c, MyTeller t){
+		print("Customer go to teller");
 	    customers.remove(0);
 	    c.GoToTeller(t.t);
 	}
