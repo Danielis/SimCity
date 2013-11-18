@@ -176,6 +176,7 @@ public class CityPanel extends JPanel {
     
     public void addPerson(String name) 
     {
+    	System.out.println("Got here A");
 		PersonAgent p = new PersonAgent(name);	
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);

@@ -51,8 +51,6 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
 
         		Graphics2D City = (Graphics2D)g;
         		
-                Graphics2D restaurant = (Graphics2D)g;
-
                 Graphics2D g1 = (Graphics2D)g;
 
                 //COLORS                
@@ -62,10 +60,7 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
                 //BACKGROUND INITIATION
                 //g1.setColor(backgroundColor);
                 g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
-
-                //temporary rectangle, could represent restaurant
-                restaurant.setColor(brown);
-                restaurant.fillRect(RESTAURANT_X, RESTAURANT_Y, RESTAURANT_SIZE, RESTAURANT_SIZE);
+                
         		City.drawImage(CityMap, 0, 0, this);
 
                 for(Gui gui : guis) {
@@ -76,7 +71,7 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
 
                 for(Gui gui : guis) {
                         if (gui.isPresent()) {
-                                gui.draw(restaurant);
+                                //gui.draw(restaurant);
                         }
                 }
 

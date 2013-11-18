@@ -69,7 +69,7 @@ public class PersonAgent extends Agent implements Person
 			}
 		}
 		
-		//Utilities
+		//Utilities for Role
 		public void setPerson(PersonAgent a)
 		{
 			myPerson = a;
@@ -170,9 +170,17 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	******************************************************************************/
 
-	public void setGui(city.guis.PersonGui g)
+	public void setGui(PersonGui g)
 	{
 		this.gui = g;
+	}
+
+	public void setAnimationPanel(CityAnimationPanel panel) {
+		copyOfCityAnimPanel = panel;
+	}
+
+	public PersonGui getGui() {
+		return gui;
 	}
 
 	public void WaitForAnimation()
@@ -292,17 +300,6 @@ public class PersonAgent extends Agent implements Person
 			return true;
 		}
 		return false;
-	}
-
-
-	public void setAnimationPanel(CityAnimationPanel panel) {
-		copyOfCityAnimPanel = panel;
-	}
-
-
-	public PersonGui getGui() {
-		// TODO Auto-generated method stub
-		return gui;
 	}
 	
 	/*****************************************************************************

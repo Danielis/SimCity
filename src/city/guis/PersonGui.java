@@ -161,12 +161,30 @@ public class PersonGui implements Gui{
 	
 	public void DoGoToCheckpoint(char a)
 	{
-		if(a == 'A' || a == 'a')
-		{
-	    	goingSomewhere = true;
-			destination = checkpointA;
-			agent.WaitForAnimation();
-		}
+	      if(a == 'A' || a == 'a')
+          {
+              goingSomewhere = true;
+                  destination = checkpointA;
+                  agent.WaitForAnimation();
+          }
+          if(a == 'B' || a == 'b')
+          {
+              goingSomewhere = true;
+                  destination = checkpointB;
+                  agent.WaitForAnimation();
+          }
+          if(a == 'C' || a == 'c')
+          {
+              goingSomewhere = true;
+                  destination = checkpointC;
+                  agent.WaitForAnimation();
+          }
+          if(a == 'D' || a == 'd')
+          {
+              goingSomewhere = true;
+                  destination = checkpointD;
+                  agent.WaitForAnimation();
+          }
 	}
 	
 	public void DoExitRestaurant()
