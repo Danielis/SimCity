@@ -80,20 +80,30 @@ public class TellerAgent extends Agent implements Teller {
 	    public Transaction(Loan loan2, double amount2, transactionType loanpayment) {
 		
 	    }
+	    
 		public Transaction(Account acct, double amount2, transactionType type) {
 		account = acct;
 		amount = amount2;
 		this.type = type;
 		status = transactionStatus.unresolved;
 		}
+		
+		public Transaction(double amount2, transactionType t, CustomerAgent c) {
+		amount = amount2;
+		type = t;
+		this.c = c;
+		status = transactionStatus.noAccount;
+		}
+		
 		double amount;
 	    Account account;
 	    Loan loan;
 	    transactionType type;
 	    transactionStatus status;
+	    CustomerAgent c;
 	}
 	enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
-	enum transactionStatus {unresolved, resolved};
+	enum transactionStatus {unresolved, resolved, noAccount, waiting};
 
 private class MyCustomer{
 	    CustomerAgent c;
@@ -114,13 +124,19 @@ public void IWantAccount(CustomerAgent c, double amount){
 }
 
 public void DepositMoney(CustomerAgent c, int accountID, double amount){
+	print("Looking for account...");
 	for (Account a : bank.accounts){
 		if (a.id == accountID){
+			print("Found account.");
 			Account acct = a;
 			 transactions.add(new Transaction(acct, amount, transactionType.deposit));
 			 stateChanged();
 		}
 	}
+	print("No account found.");
+	transactions.add(new Transaction(amount, transactionType.deposit, c));
+	stateChanged();
+	
 }
 
 public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
@@ -131,6 +147,7 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 			stateChanged();
 		}
 	}
+	transactions.add(new Transaction(amount, transactionType.withdrawal, c));
 }
 
 public void IWantLoan(CustomerAgent c, double amount){
@@ -198,6 +215,11 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		try
 		{
 			for (Transaction t : transactions){
+				//print("status: "+ t.status);
+				if (t.status == transactionStatus.noAccount){
+					HandleNoAccount(t);
+					return true;
+				}
 				if (t.status == transactionStatus.unresolved){
 					HandleTransaction(t);
 					return true;
@@ -225,6 +247,15 @@ public void PayMyLoan(CustomerAgent c, double amount){
 
 //ACTIONS********************************************************
 
+	private void HandleNoAccount(Transaction t){
+		print("handling no account");
+		if (t.type == transactionType.deposit){
+			print("You do not have an account at this bank. Would you like to create one?");
+			t.status = transactionStatus.waiting;
+			t.c.WantAccount();
+		}
+	}
+	
 	private void HandleTransaction(Transaction t){
 		print("Looking into transaction...");
 		if (t.type == transactionType.deposit){

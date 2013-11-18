@@ -12,6 +12,7 @@ public class Bank {
 	List <Loan> loans = new ArrayList<Loan>();
 	int idIncr = 0;
 	
+	
 	public class Account {
 		
 	    public Account(CustomerAgent c) {

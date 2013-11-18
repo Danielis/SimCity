@@ -32,7 +32,7 @@ public class CustomerAgent extends Agent implements Customer {
 	double balance;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
-	int accountID;
+	int accountID = -999;
 	private CustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
@@ -43,7 +43,7 @@ public class CustomerAgent extends Agent implements Customer {
 		this.name = name;
 		this.h = h;
 		state = bankCustomerState.outside;
-		purpose = customerPurpose.createAccount;
+		purpose = customerPurpose.deposit;
 		amount = 400;
 	}
 
@@ -122,6 +122,13 @@ public void	NoMoney(){ // in account
 	    stateChanged();
 	}
 
+public void WantAccount(){
+	//	state = bankCustomerState.thinking;
+		purpose = customerPurpose.createAccount;
+		state = bankCustomerState.atCounter;
+		stateChanged();
+}
+
 	
 //SCHEDULER*************************************************
 	protected boolean pickAndExecuteAnAction() 
@@ -174,14 +181,18 @@ private void AskForAssistance(){
 	        balance -= amount;
 	        t.IWantAccount(this, amount);
 	    }
+	    
 	    if (purpose == customerPurpose.withdraw)
 	        t.WithdrawMoney(this, accountID, amount);
+	    
 	    if (purpose == customerPurpose.deposit){
 	        balance -= amount;
 	        t.DepositMoney(this, accountID, amount);
 	    }
+	    
 	    if (purpose == customerPurpose.takeLoan)
 	        t.IWantLoan(this, amount);
+	    
 	    if (purpose == customerPurpose.payLoan){
 	        balance -= amount;
 	        t.PayMyLoan(this, amount);

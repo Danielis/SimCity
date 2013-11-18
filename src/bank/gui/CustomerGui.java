@@ -23,7 +23,7 @@ public class CustomerGui implements Gui{
 	private boolean goingSomewhere = false;
 	
 	//finals
-	private final int tables_y = 450;
+	private final int tables_y = 150;
 	private final int customerSize = 20;
 	private final int deltadivider = 100;
 	private final int starting_X = 150;
