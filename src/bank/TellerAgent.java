@@ -77,15 +77,20 @@ public class TellerAgent extends Agent implements Teller {
 //CLASSES/ENUMS**********************************************
 		
 	private class Transaction{
-	    public Transaction(Loan loan2, double amount2, transactionType loanpayment) {
-		
+	    public Transaction(Loan loan2, double amount2, transactionType type, CustomerAgent c) {
+	    	loan = loan2;
+			amount = amount2;
+			this.type = type;
+			status = transactionStatus.unresolved;
+			this.c = c;
 	    }
 	    
-		public Transaction(Account acct, double amount2, transactionType type) {
+		public Transaction(Account acct, double amount2, transactionType type, CustomerAgent c) {
 		account = acct;
 		amount = amount2;
 		this.type = type;
 		status = transactionStatus.unresolved;
+		this.c = c;
 		}
 		
 		public Transaction(double amount2, transactionType t, CustomerAgent c) {
@@ -94,6 +99,8 @@ public class TellerAgent extends Agent implements Teller {
 		this.c = c;
 		status = transactionStatus.noAccount;
 		}
+		
+		
 		
 		double amount;
 	    Account account;
@@ -119,7 +126,7 @@ public enum myState
 
 public void IWantAccount(CustomerAgent c, double amount){
     Account acct = bank.createAccount(c);
-    transactions.add(new Transaction(acct, amount, transactionType.newAccount));
+    transactions.add(new Transaction(acct, amount, transactionType.newAccount, c));
     stateChanged();
 }
 
@@ -129,8 +136,9 @@ public void DepositMoney(CustomerAgent c, int accountID, double amount){
 		if (a.id == accountID){
 			print("Found account.");
 			Account acct = a;
-			 transactions.add(new Transaction(acct, amount, transactionType.deposit));
+			 transactions.add(new Transaction(acct, amount, transactionType.deposit, c));
 			 stateChanged();
+			 return;
 		}
 	}
 	print("No account found.");
@@ -143,16 +151,18 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 	for (Account a : bank.accounts){
 		if (a.id == accountID){
 			Account acct = a;
-			transactions.add(new Transaction(acct, amount, transactionType.withdrawal));
+			transactions.add(new Transaction(acct, amount, transactionType.withdrawal, c));
 			stateChanged();
+			return;
 		}
 	}
-	transactions.add(new Transaction(amount, transactionType.withdrawal, c));
+	print("No account found");
+	//transactions.add(new Transaction(amount, transactionType.withdrawal, c));
 }
 
 public void IWantLoan(CustomerAgent c, double amount){
     Loan loan = bank.createLoan(c, amount);
-    transactions.add(new Transaction(loan, amount, transactionType.newLoan));
+    transactions.add(new Transaction(loan, amount, transactionType.newLoan, c));
     stateChanged();
 }
 
@@ -160,7 +170,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
     for (Loan l : bank.loans){
 		if (l.c == c){
 			Loan loan  = l;
-			transactions.add(new Transaction(loan, amount, transactionType.loanPayment));
+			transactions.add(new Transaction(loan, amount, transactionType.loanPayment, c));
 			stateChanged();
 		}
 	}
@@ -276,37 +286,43 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 	
 	private void Deposit(Transaction t){
-		print("Depositing money");
+		print("Depositing $" + t.amount + " into account #" + t.account.id);
 	    t.account.balance += t.amount;
-	    balance += t.amount;
+	    print("New account balance is $" + t.account.balance);
+	    bank.balance += t.amount;
+	    print("New bank cash balance is $" + bank.balance);
 	    t.status = transactionStatus.resolved;
-	    t.account.c.MoneySuccesfullyDeposited();
+	    t.c.MoneySuccesfullyDeposited();
 	}
 
 	private void Withdraw(Transaction t){
 		t.status = transactionStatus.resolved;
 	    if (t.account.balance >= t.amount){
-	    	print("Here is your withdrawal");
+	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
 	        t.account.balance -= t.amount;
-	        balance -= t.amount;
-	        t.account.c.HereIsWithdrawal(t.amount);
+	        print("New account balance is $" + t.account.balance);
+	        bank.balance -= t.amount;
+	        print("New bank cash balance is $" + bank.balance);
+	        t.c.HereIsWithdrawal(t.amount);
 	    }
 	    else if (t.account.balance > 0){
-	    	print("Here is partial withdrawal");
+	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
 	        t.account.balance -= t.amount;
-	        balance -= t.amount;
-	        t.account.c.HereIsPartialWithdrawal(t.amount);
+	        print("New account balance is $" + t.account.balance);
+	        bank.balance -= t.amount;
+	        print("New bank cash balance is $" + bank.balance);
+	        t.c.HereIsPartialWithdrawal(t.amount);
 	    }
 	    else{
-	    	print("You do not have any money");
-	        t.account.c.NoMoney();
+	    	print("You do not have any money in that account.");
+	        t.c.NoMoney();
 	    }  
 	}
 
 	private void NewAccount(Transaction t){
 		print("Creating new account");
 	    t.account.balance += t.amount;
-	    balance += t.amount;
+	    bank.balance += t.amount;
 	    bank.accounts.add(t.account);
 	    t.status = transactionStatus.resolved;
 	    t.account.c.AccountCreated();
@@ -314,6 +330,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 
 	private void CreateLoan(Transaction t){
+		print("reached creatloan function");
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
 	    	print("Created loan");
@@ -332,7 +349,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 
 	private void LoanPayBack(Transaction t){
 	    t.loan.balancePaid += t.amount;
-	    balance += t.amount;
+	    bank.balance += t.amount;
 	    t.status = transactionStatus.resolved;
 	    if (t.loan.balancePaid >= t.loan.balanceOwed){
 	    	print("Your loan is paid off!");

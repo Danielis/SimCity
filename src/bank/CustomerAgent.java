@@ -32,7 +32,7 @@ public class CustomerAgent extends Agent implements Customer {
 	double balance;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
-	int accountID = -999;
+	int accountID = 1;
 	private CustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
@@ -43,7 +43,7 @@ public class CustomerAgent extends Agent implements Customer {
 		this.name = name;
 		this.h = h;
 		state = bankCustomerState.outside;
-		purpose = customerPurpose.deposit;
+		purpose = customerPurpose.withdraw;
 		amount = 400;
 	}
 
@@ -64,6 +64,7 @@ public void	WantsToDo(String visitPurpose, int quantity){ //called from Person a
 	}
 
 public void	GoToTeller(TellerAgent t){
+	print("received teller info");
 	    this.t = t;
 	    state = bankCustomerState.assigned;
 	    stateChanged();
@@ -133,6 +134,7 @@ public void WantAccount(){
 //SCHEDULER*************************************************
 	protected boolean pickAndExecuteAnAction() 
 	{
+		print("reached sched");
 		if (state == bankCustomerState.outside){
 			GoToBank();
 		}
@@ -205,7 +207,7 @@ private void AskForAssistance(){
 
 
 private void LeaveBank(){
-		print("Thank you.");
+		print("Thank you. I now have $" + balance);
 		
 		customerGui.DoExitRestaurant();
 	    state = bankCustomerState.exited;
