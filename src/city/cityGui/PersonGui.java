@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import city.PersonAgent;
+
 public class PersonGui implements Gui{
 	
 	//variables
@@ -25,14 +27,10 @@ public class PersonGui implements Gui{
 	private boolean goingSomewhere = false;
 	
 	//finals
-	private final int tables_y = 450;
-	private final int customerSize = 20;
 	private final int deltadivider = 100;
-	private final int starting_X = 150;
-	private final int table_divider = 100;
 
 	//self agent
-	private CustomerAgent agent = null;
+	private PersonAgent agent = null;
 
 	//private HostAgent host;
 	RestaurantGui gui;
@@ -44,43 +42,25 @@ public class PersonGui implements Gui{
 	Coordinate cashier;
 	Coordinate waitingroom;
 	
+    //Coordinates
+    Coordinate checkpointA;
+    Coordinate checkpointB;
+    Coordinate checkpointC;
+    Coordinate checkpointD;
+	
 	//images
-	BufferedImage imgQuestion;
-	BufferedImage imgSteak;
-	BufferedImage imgChicken;
-	BufferedImage imgSalad;
-	BufferedImage imgPizza;
+	BufferedImage imgPerson;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-	public PersonGui(CustomerAgent c, RestaurantGui gui){
+	public PersonGui(PersonAgent c, RestaurantGui gui){
 		
         try
         {
-        	imgQuestion = ImageIO.read(getClass().getResource("/question.png"));
+        	imgPerson = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
-        
-        try
-        {
-        	imgSteak = ImageIO.read(getClass().getResource("/steak.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgChicken= ImageIO.read(getClass().getResource("/chicken.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgSalad = ImageIO.read(getClass().getResource("/salad.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgPizza = ImageIO.read(getClass().getResource("/pizza.png"));
-        } catch (IOException e ) {}
-        
+
         
 		agent = c;
 		this.gui = gui;
@@ -90,11 +70,6 @@ public class PersonGui implements Gui{
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
-    	
-    	for (int i = 0; i < HostAgent.NTABLES; i++)
-    	{
-    		tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
-    	}
 	}
 	//UTILITIES ***********************************************
     public class Coordinate
@@ -147,39 +122,8 @@ public class PersonGui implements Gui{
 
 	public void draw(Graphics2D g) 
 	{
-		Graphics2D newG = (Graphics2D)g;
-		Color customerColor = new Color(195, 178, 116);
-		newG.setColor(customerColor);
-		newG.fillRect(position.x, position.y, customerSize, customerSize);
-		
-		
-		if (agent.icon != iconState.none)
-		{
-			Graphics2D graphic = (Graphics2D)g;
-			Coordinate temp_c = tables.get(agent.mySeat-1);
-			int x = temp_c.x + 15;
-			int y = temp_c.y + 15;
-			if (agent.icon == iconState.question)
-			{
-				graphic.drawImage(imgQuestion,  x,  y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.steak)
-			{
-				graphic.drawImage(imgSteak,  x,  y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.chicken)
-			{
-				graphic.drawImage(imgChicken, x, y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.salad)
-			{
-				graphic.drawImage(imgSalad, x, y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.pizza)
-			{
-				graphic.drawImage(imgPizza, x, y, agent.copyOfAnimPanel);
-			}
-		}
+		Graphics2D self = (Graphics2D)g;
+		self.drawImage(imgPerson, position.x, position.y, agent.copyOfCityAnimPanel);
 	}
 
 	
@@ -189,7 +133,7 @@ public class PersonGui implements Gui{
 	
 	public void setHungry() {
 		isHungry = true;
-		agent.msgGotHungry();
+		agent.msgGoToRestaurant();
 		setPresent(true);
 	}
 	
@@ -239,4 +183,14 @@ public class PersonGui implements Gui{
 		destination = waitingroom;
 		agent.WaitForAnimation();
 	}
+	
+    public void DoGoToCheckpoint(char a)
+    {
+            if(a == 'A' || a == 'a')
+            {
+                goingSomewhere = true;
+                    destination = checkpointA;
+                    agent.WaitForAnimation();
+            }
+    }
 }

@@ -53,6 +53,7 @@ public class PersonAgent extends Agent implements Person
 	{
 		//Variables
 		Agent agent;
+		String name;
 		PersonAgent myPerson;
 		Boolean active;
 		
@@ -61,6 +62,7 @@ public class PersonAgent extends Agent implements Person
 			if (a == "customer" || a == "Customer")
 			{
 				agent = new CustomerAgent("Customer");
+				name = "Customer";
 				print("Customer created");
 				myPerson = myself;
 				active = false;
@@ -212,8 +214,7 @@ public class PersonAgent extends Agent implements Person
 	}*/
 
 	//Restaurant
-	public void msgGoToRestaurant(Role r){ // sent from gui
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	public void msgGoToRestaurant(){ // sent from gui
 	    Status.setNourishment(nourishment.goingToFood);
 	    stateChanged();
 	}
@@ -315,6 +316,6 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
+		//thatrestaurant.msgHereIAm(role r);
 	}
-
 }
