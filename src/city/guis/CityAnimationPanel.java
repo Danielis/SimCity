@@ -49,34 +49,33 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
 
         public void paintComponent(Graphics g) {
 
+        		Graphics2D images = (Graphics2D)g;
+        	
         		Graphics2D City = (Graphics2D)g;
         		
-                Graphics2D g1 = (Graphics2D)g;
+        		Graphics2D random = (Graphics2D)g;
+        		
+                //Graphics2D g1 = (Graphics2D)g;
 
                 //COLORS                
-                Color brown = new Color(245, 201, 114);
-                //Color backgroundColor = new Color(167, 92, 86);
+                //Color brown = new Color(245, 201, 114);
+                Color backgroundColor = new Color(167, 92, 86);
 
-                //BACKGROUND INITIATION
-                //g1.setColor(backgroundColor);
-                g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
-                
         		City.drawImage(CityMap, 0, 0, this);
 
+        		
                 for(Gui gui : guis) {
                         if (gui.isPresent()) {
-                                gui.updatePosition();
+                        	gui.updatePosition();
                         }
                 }
 
                 for(Gui gui : guis) {
                         if (gui.isPresent()) {
-                                //gui.draw(restaurant);
+                               gui.draw(images);
                         }
                 }
-
         }
-
         public void addGui(PersonGui gui) {
                 guis.add(gui);
         }

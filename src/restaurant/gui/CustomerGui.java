@@ -145,6 +145,7 @@ public class CustomerGui implements Gui{
 
 	public void draw(Graphics2D g) 
 	{
+		System.out.println("Drawing customer, not person");
 		Graphics2D newG = (Graphics2D)g;
 		Color customerColor = new Color(195, 178, 116);
 		newG.setColor(customerColor);

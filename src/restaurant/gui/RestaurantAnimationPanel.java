@@ -50,8 +50,8 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
     int HOST_X = 80+5;
     int HOST_Y = 30-10;
     
-    private Image bufferImage;
-    private Dimension bufferSize;
+    //private Image bufferImage;
+    //private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
     private Vector<Graphics2D> tables = new Vector<Graphics2D>();
@@ -60,7 +60,7 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
     	setSize(WINDOWX_ANIM, WINDOWY_ANIM);
         setVisible(true);
         
-        bufferSize = this.getSize();
+        //bufferSize = this.getSize();
         
     	Timer timer = new Timer(20, this );
     	timer.start();
@@ -71,32 +71,6 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
 	}
 
     public void paintComponent(Graphics g) {
-
-        /* Doesn't work
-    	for (int i = 0; i < HostAgent.NTABLES; i++)
-    	{
-    		Graphics2D temp = (Graphics2D)g;
-    		tables.add(temp);
-    	}
-        tables.add(g1);
-        tables.add(g2);
-        tables.add(g3);
-        tables.add(g4);
-        
-    	tables.get(0).setColor(getBackground());
-    	tables.get(0).fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
-    	
-    	for (int i=0; i<tables.size(); i++)
-    	{
-    		tables.get(i).setColor(Color.ORANGE);
-    		tables.get(i).fillRect(150+100*i, TABLES_Y, TABLESIZE, TABLESIZE);
-    	}
-    	
-		gui.draw(tables.get(0));
-		gui.draw(tables.get(1));
-		gui.draw(tables.get(2));
-		gui.draw(tables.get(3));
-        */
     	
         Graphics2D carpet = (Graphics2D)g;
         Graphics2D entrance = (Graphics2D)g;

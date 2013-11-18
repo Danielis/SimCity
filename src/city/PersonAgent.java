@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import restaurant.CustomerAgent;
-import restaurant.CustomerAgent.myState;
-import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
-import restaurant.interfaces.*;
+import restaurant.gui.RestaurantPanel;
 import agent.Agent;
 
 import java.util.*;
@@ -28,13 +26,14 @@ public class PersonAgent extends Agent implements Person
 	
 	//Variable
 	PersonAgent myself = this;
-	PersonGui gui;
+	PersonGui gui = null;
 	double money;
 	String name;
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
 
 	public CityAnimationPanel copyOfCityAnimPanel;	
+	public RestaurantPanel restPanel;
 	
 	
 	public PersonAgent(String name){
@@ -52,21 +51,17 @@ public class PersonAgent extends Agent implements Person
 	class Role
 	{
 		//Variables
-		Agent agent;
+		CustomerAgent customer;
 		String name;
 		PersonAgent myPerson;
 		Boolean active;
 		
 		Role(String a)
 		{
-			if (a == "customer" || a == "Customer")
-			{
-				agent = new CustomerAgent("Customer");
-				name = "Customer";
-				print("Customer created");
-				myPerson = myself;
-				active = false;
-			}
+			customer = new CustomerAgent("a");
+			print("Customer created");
+			myPerson = myself;
+			active = false;
 		}
 		
 		//Utilities for Role
@@ -178,6 +173,11 @@ public class PersonAgent extends Agent implements Person
 	public void setAnimationPanel(CityAnimationPanel panel) {
 		copyOfCityAnimPanel = panel;
 	}
+	
+	public void setRestaurantPanel(RestaurantPanel panel)
+	{
+		restPanel = panel;
+	}
 
 	public PersonGui getGui() {
 		return gui;
@@ -223,7 +223,8 @@ public class PersonAgent extends Agent implements Person
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
-	    Status.setNourishment(nourishment.goingToFood);
+	    Status.setNourishment(nourishment.Hungry);
+	    print("Got here C");
 	    stateChanged();
 	}
 	
@@ -294,7 +295,7 @@ public class PersonAgent extends Agent implements Person
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 
-		if (Status.getNourishmnet() == nourishment.goingToFood &&
+		if (Status.getNourishmnet() == nourishment.Hungry &&
 			Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
@@ -308,11 +309,15 @@ public class PersonAgent extends Agent implements Person
 	
 	private void GoToRestaurant()
 	{
+		Status.setNourishment(nourishment.goingToFood);
+		System.out.println("Got here D");
 		gui.DoGoToCheckpoint('A');
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
-		//thatrestaurant.msgHereIAm(role r);
+		gui.setPresent(false);
+		this.myRoles.get(0).setActivity(true);
+		restPanel.addCustomer(this.myRoles.get(0).customer);
 	}
 }

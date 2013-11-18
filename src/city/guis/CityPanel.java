@@ -9,6 +9,7 @@ import restaurant.MarketAgent;
 import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantGui;
+import restaurant.gui.RestaurantPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -37,6 +38,7 @@ public class CityPanel extends JPanel {
     private MarketAgent market3 = new MarketAgent("Market 3");
     public CookAgent cook = new CookAgent("Gordon Ramsay");
     private CookGui cookGui;
+    public RestaurantPanel restPanel;
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
@@ -67,9 +69,6 @@ public class CityPanel extends JPanel {
         picOwner = new JLabel(iconOwner);
         iconMenu = new ImageIcon(getClass().getResource("/resources/menu.png"));
         picMenu = new JLabel(iconMenu);
-       
-       // gui.cityAnimationPanel.addGui(hostGui);
-        //gui.cityAnimationPanel.addGui(cookGui);
         
         market1.startThread();
         market2.startThread();
@@ -182,51 +181,24 @@ public class CityPanel extends JPanel {
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
+		p.setRestaurantPanel(restPanel);
 		people.add(p);
 		p.startThread();
     }
     
-//    public void addWaiter(String name) 
-//    {
-//		waiterindex++;
-//    	WaiterAgent w = new WaiterAgent(name);	
-//		WaiterGui g = new WaiterGui(w, gui, waiterindex);
-//		gui.animationPanel.addGui(g);
-//		w.setHost(host);
-//		host.msgNewWaiter(w);
-//		w.setCook(cook);
-//		w.setCashier(cashier);
-//		w.setGui(g);
-//		waiters.add(w);
-//		w.startThread();
-//    }
+    public void setRestPanel(RestaurantPanel panel)
+    {
+    	restPanel = panel;
+    }
     
     public void pause()
     {
-    	host.pauseAgent();
-    	cook.pauseAgent();
-    	for (CustomerAgent c : customers)
-    	{
-    		c.pauseAgent();
-    	}
-    	for (WaiterAgent w : waiters)
-    	{
-    		w.pauseAgent();
-    	}
+
     }
     
     public void resume()
     {
-    	host.resumeAgent();
-    	cook.resumeAgent();
-    	for (CustomerAgent c : customers)
-    	{
-    		c.resumeAgent();
-    	}
-    	for (WaiterAgent w : waiters)
-    	{
-    		w.resumeAgent();
-    	}
+
     }
 
     public void refresh()
