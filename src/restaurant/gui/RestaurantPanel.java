@@ -41,7 +41,7 @@ public class RestaurantPanel extends JPanel {
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
         
@@ -170,6 +170,7 @@ public class RestaurantPanel extends JPanel {
      */
     public void addCustomer(CustomerAgent customer) 
     {
+    	System.out.println("Got here ASDF");
 		CustomerAgent c = customer;
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);

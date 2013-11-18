@@ -318,6 +318,8 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 		this.myRoles.get(0).setActivity(true);
-		restPanel.addCustomer(this.myRoles.get(0).customer);
+		System.out.println(restPanel == null);
+		restPanel.customerPanel.customerHungryCheckBox.setSelected(true);
+		restPanel.customerPanel.addCustomer(this.getName());
 	}
 }
