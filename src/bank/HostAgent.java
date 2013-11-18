@@ -13,8 +13,8 @@ public class HostAgent extends Agent {
 	
 		
 	//Lists
-	Collection<CustomerAgent> customers;
-	Collection<MyTeller> myTellers;
+	List<CustomerAgent> customers;
+	List<MyTeller> myTellers;
 
 	//Other Variables
 	private String name;
