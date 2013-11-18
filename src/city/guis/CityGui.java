@@ -250,9 +250,9 @@ public class CityGui extends JFrame implements ActionListener {
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         BankGui gui3 = new BankGui();
-        gui2.setTitle("Aleena's Bank");
-        gui2.setVisible(true);
-        gui2.setResizable(false);
-        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        gui3.setTitle("Aleena's Bank");
+        gui3.setVisible(true);
+        gui3.setResizable(false);
+        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
     }
 }
