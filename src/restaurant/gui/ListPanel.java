@@ -28,7 +28,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private List<JButton> listForCustomer = new ArrayList<JButton>();
     private JButton addCustomerButton = new JButton("Add");
     private JTextField nameFieldForCustomer = new JTextField("Enter Customer Here");
-    private JCheckBox customerHungryCheckBox = new JCheckBox("Make Hungry");
+    public JCheckBox customerHungryCheckBox = new JCheckBox("Make Hungry");
     private CustomerAgent currentCustomer;
     
     //WAITER STUFF

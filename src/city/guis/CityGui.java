@@ -3,6 +3,7 @@ package city.guis;
 
 
 import restaurant.CustomerAgent;
+import bank.gui.BankGui;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
@@ -12,7 +13,6 @@ import restaurant.gui.RestaurantGui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import bank.gui.BankGui;
 import city.PersonAgent;
 
 import java.awt.*;
@@ -42,7 +42,7 @@ public class CityGui extends JFrame implements ActionListener {
     private JLabel infoCustomerLabel;
     private JLabel infoWaiterLabel;
 
-    private JCheckBox personActiveCheckBox;
+    private JCheckBox personHungryCheckBox;
     //private JCheckBox waiterBreakCheckBox;
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
@@ -100,16 +100,16 @@ public class CityGui extends JFrame implements ActionListener {
         personInformationPanel.setMaximumSize(infoDimCustomer);
         personInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
        
-        personActiveCheckBox = new JCheckBox();
-        personActiveCheckBox.setVisible(false);
-        personActiveCheckBox.addActionListener(this);
+        personHungryCheckBox = new JCheckBox();
+        personHungryCheckBox.setVisible(false);
+        personHungryCheckBox.addActionListener(this);
         
         personInformationPanel.setLayout(new BorderLayout());
         
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make customers</p></p></html>");
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
-        personInformationPanel.add(personActiveCheckBox, BorderLayout.SOUTH);
+        personInformationPanel.add(personHungryCheckBox, BorderLayout.SOUTH);
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
@@ -139,12 +139,12 @@ public class CityGui extends JFrame implements ActionListener {
      * @param temp customer (or waiter) object
      */
     public void updatePersonInformationPanel(PersonAgent temp) {
-        personActiveCheckBox.setVisible(true);
+        personHungryCheckBox.setVisible(true);
         currentPerson = temp;
         PersonAgent person = temp;
-        personActiveCheckBox.setText("Hungry?");
-        personActiveCheckBox.setSelected(person.getGui().isActive());
-        personActiveCheckBox.setEnabled(!person.getGui().isActive());
+        personHungryCheckBox.setText("Hungry?");
+        personHungryCheckBox.setSelected(person.getGui().isHungry());
+        personHungryCheckBox.setEnabled(!person.getGui().isHungry());
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
         personInformationPanel.validate();
@@ -153,8 +153,8 @@ public class CityGui extends JFrame implements ActionListener {
     {
     	if (currentPerson != null)
     	{
-	        personActiveCheckBox.setSelected(currentPerson.getGui().isActive());
-	        personActiveCheckBox.setEnabled(!currentPerson.getGui().isActive());
+	        personHungryCheckBox.setSelected(currentPerson.getGui().isHungry());
+	        personHungryCheckBox.setEnabled(!currentPerson.getGui().isHungry());
 	        personInformationPanel.validate();
     	}
     }
@@ -170,11 +170,11 @@ public class CityGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
     
-        if (e.getSource() == personActiveCheckBox) 
+        if (e.getSource() == personHungryCheckBox) 
         {
             PersonAgent c = (PersonAgent) currentPerson;
-            c.getGui().setActive();
-            personActiveCheckBox.setEnabled(false);
+            c.getGui().setHungry();
+            personHungryCheckBox.setEnabled(false);
         }
         if (e.getSource() == waiterON)
         {
@@ -227,32 +227,32 @@ public class CityGui extends JFrame implements ActionListener {
         PersonAgent per = currentPerson;
         if (p.equals(per)) 
         {
-            personActiveCheckBox.setEnabled(true);
-            personActiveCheckBox.setSelected(false);
+            personHungryCheckBox.setEnabled(true);
+            personHungryCheckBox.setSelected(false);
         }
 }
 
     /**
      * Main routine to get gui started
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) {    
+        RestaurantGui gui2 = new RestaurantGui();
+        gui2.setTitle("Norman's Restaurant");
+        gui2.setVisible(true);
+        gui2.setResizable(false);
+        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+    	
         CityGui gui = new CityGui();
+        gui.cityPanel.setRestPanel(gui2.restPanel);
         gui.setTitle("Team 05's City");
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        RestaurantGui gui2 = new RestaurantGui();
-        gui2.setTitle("Norman's Restaurant");
+        BankGui gui3 = new BankGui();
+        gui2.setTitle("Aleena's Bank");
         gui2.setVisible(true);
         gui2.setResizable(false);
-        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        BankGui gui3 = new BankGui();
-        gui3.setTitle("Aleena's Bank");
-        gui3.setVisible(true);
-        gui3.setResizable(false);
-        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
+        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
     }
 }

@@ -10,6 +10,8 @@ import restaurant.MarketAgent;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import agent.Agent;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -39,7 +41,7 @@ public class RestaurantPanel extends JPanel {
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
         
@@ -166,9 +168,23 @@ public class RestaurantPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
+    public void addCustomer(CustomerAgent customer) 
+    {
+    	System.out.println("Got here ASDF");
+		CustomerAgent c = customer;
+		CustomerGui g = new CustomerGui(c, gui);
+		gui.animationPanel.addGui(g);
+		c.setHost(host);
+		c.setCashier(cashier);
+		c.setGui(g);
+		c.setAnimPanel(gui.animationPanel);
+		customers.add(c);
+		c.startThread();
+    }
+    
     public void addCustomer(String name) 
     {
-		CustomerAgent c = new CustomerAgent(name);	
+		CustomerAgent c = new CustomerAgent(name);
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);

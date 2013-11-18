@@ -43,6 +43,7 @@ public class CustomerGui implements Gui{
 	Coordinate waitingroom;
 	
 	//images
+	BufferedImage imgTrainer;
 	BufferedImage imgQuestion;
 	BufferedImage imgSteak;
 	BufferedImage imgChicken;
@@ -53,6 +54,11 @@ public class CustomerGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
 	public CustomerGui(CustomerAgent c, RestaurantGui gui){
+		
+        try
+        {
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+        } catch (IOException e ) {}
 		
         try
         {
@@ -146,9 +152,7 @@ public class CustomerGui implements Gui{
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		Color customerColor = new Color(195, 178, 116);
-		newG.setColor(customerColor);
-		newG.fillRect(position.x, position.y, customerSize, customerSize);
+		newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
 		
 		
 		if (agent.icon != iconState.none)

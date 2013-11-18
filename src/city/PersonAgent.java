@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import restaurant.CustomerAgent;
-import restaurant.CustomerAgent.myState;
-import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
-import restaurant.interfaces.*;
+import restaurant.gui.RestaurantPanel;
 import agent.Agent;
 
 import java.util.*;
@@ -28,13 +26,14 @@ public class PersonAgent extends Agent implements Person
 	
 	//Variable
 	PersonAgent myself = this;
-	PersonGui gui;
+	PersonGui gui = null;
 	double money;
 	String name;
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
 
 	public CityAnimationPanel copyOfCityAnimPanel;	
+	public RestaurantPanel restPanel;
 	
 	
 	public PersonAgent(String name){
@@ -52,22 +51,20 @@ public class PersonAgent extends Agent implements Person
 	class Role
 	{
 		//Variables
-		Agent agent;
+		CustomerAgent customer;
+		String name;
 		PersonAgent myPerson;
 		Boolean active;
 		
 		Role(String a)
 		{
-			if (a == "customer" || a == "Customer")
-			{
-				agent = new CustomerAgent("Customer");
-				print("Customer created");
-				myPerson = myself;
-				active = false;
-			}
+			customer = new CustomerAgent("a");
+			print("Customer created");
+			myPerson = myself;
+			active = false;
 		}
 		
-		//Utilities
+		//Utilities for Role
 		public void setPerson(PersonAgent a)
 		{
 			myPerson = a;
@@ -168,9 +165,22 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	******************************************************************************/
 
-	public void setGui(city.guis.PersonGui g)
+	public void setGui(PersonGui g)
 	{
 		this.gui = g;
+	}
+
+	public void setAnimationPanel(CityAnimationPanel panel) {
+		copyOfCityAnimPanel = panel;
+	}
+	
+	public void setRestaurantPanel(RestaurantPanel panel)
+	{
+		restPanel = panel;
+	}
+
+	public PersonGui getGui() {
+		return gui;
 	}
 
 	public void WaitForAnimation()
@@ -212,9 +222,9 @@ public class PersonAgent extends Agent implements Person
 	}*/
 
 	//Restaurant
-	public void msgGoToRestaurant(Role r){ // sent from gui
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
-	    Status.setNourishment(nourishment.goingToFood);
+	public void msgGoToRestaurant(){ // sent from gui
+	    Status.setNourishment(nourishment.Hungry);
+	    print("Got here C");
 	    stateChanged();
 	}
 	
@@ -285,23 +295,12 @@ public class PersonAgent extends Agent implements Person
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 
-		if (Status.getNourishmnet() == nourishment.goingToFood &&
+		if (Status.getNourishmnet() == nourishment.Hungry &&
 			Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
 		}
 		return false;
-	}
-
-
-	public void setAnimationPanel(CityAnimationPanel panel) {
-		copyOfCityAnimPanel = panel;
-	}
-
-
-	public PersonGui getGui() {
-		// TODO Auto-generated method stub
-		return gui;
 	}
 	
 	/*****************************************************************************
@@ -310,11 +309,17 @@ public class PersonAgent extends Agent implements Person
 	
 	private void GoToRestaurant()
 	{
+		Status.setNourishment(nourishment.goingToFood);
+		System.out.println("Got here D");
 		gui.DoGoToCheckpoint('A');
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		this.myRoles.get(0).setActivity(true);
+		System.out.println(restPanel == null);
+		restPanel.customerPanel.customerHungryCheckBox.setSelected(true);
+		restPanel.customerPanel.addCustomer(this.getName());
 	}
-
 }

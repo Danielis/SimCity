@@ -25,7 +25,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
 	RestaurantAnimationPanel animationPanel = new RestaurantAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
  
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    public RestaurantPanel restPanel = new RestaurantPanel(this);
     
     /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;

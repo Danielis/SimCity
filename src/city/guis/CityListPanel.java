@@ -128,14 +128,14 @@ public class CityListPanel extends JPanel implements ActionListener {
         currentPerson = p;
         PersonAgent person = p;
         personHungryCheckBox.setText("Hungry?");
-        personHungryCheckBox.setSelected(person.getGui().isActive());
-        personHungryCheckBox.setEnabled(!person.getGui().isActive());
+        personHungryCheckBox.setSelected(person.getGui().isHungry());
+        personHungryCheckBox.setEnabled(!person.getGui().isHungry());
 
     }
     public void updatePersonPanel()
     {
-        personHungryCheckBox.setSelected(lastPersonClicked.getGui().isActive());
-        personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isActive());
+        personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
+        personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());
     }
    
    
@@ -146,7 +146,7 @@ public class CityListPanel extends JPanel implements ActionListener {
         	{
         		personHungryCheckBox.setSelected(false);
         		PersonAgent p = currentPerson;
-        		p.getGui().setActive();
+        		p.getGui().setHungry();
         	}
     }
 }
