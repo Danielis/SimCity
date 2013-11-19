@@ -29,7 +29,7 @@ public class HostGui implements Gui {
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
-    	homeposition = new Coordinate(297, 260);
+    	homeposition = new Coordinate(297, 252);
         position = new Coordinate(homeposition.x, homeposition.y - 20);
     	destination = homeposition;
     }

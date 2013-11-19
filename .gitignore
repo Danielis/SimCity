@@ -21,7 +21,7 @@ Desktop.ini
 .Trash
 
 
-.metadata\
+.metadata/**
 
 # for eclipse:
 *.pydevproject

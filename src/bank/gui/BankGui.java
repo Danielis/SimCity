@@ -43,10 +43,7 @@ public class BankGui extends JFrame implements ActionListener {
     private JButton pauseButton;
     private JButton refreshButton;
     private JPanel ButtonPanel;
-    private JButton MrKrabsButton;
-    private ImageIcon MrKrabs;
-    private JButton RamsayButton;
-    private ImageIcon Ramsay;
+
     
     Boolean isPaused = false;
     /**
@@ -58,9 +55,7 @@ public class BankGui extends JFrame implements ActionListener {
         int WINDOWY = 500;
         
         ButtonPanel = new JPanel();
-        MrKrabs = new ImageIcon(getClass().getResource("/resources/MrKrabs.png"));
-        Ramsay = new ImageIcon(getClass().getResource("/resources/Ramsay.png"));
-        
+       
         RestaurantPortion.setLayout(new BorderLayout());
         InformationPanel = new JPanel();
         InformationPanel.setLayout(new BorderLayout());
@@ -107,7 +102,7 @@ public class BankGui extends JFrame implements ActionListener {
         waiterInformationPanel.setPreferredSize(infoDimWaiter);
         waiterInformationPanel.setMinimumSize(infoDimWaiter);
         waiterInformationPanel.setMaximumSize(infoDimWaiter);
-        waiterInformationPanel.setBorder(BorderFactory.createTitledBorder("Waiters"));
+        waiterInformationPanel.setBorder(BorderFactory.createTitledBorder("Tellers"));
 
         waiterON.addActionListener(this);
         waiterOFF.addActionListener(this);
@@ -123,13 +118,7 @@ public class BankGui extends JFrame implements ActionListener {
         waiterInformationPanel.add(waiterOFF);
         RestaurantPortion.add(restPanel, BorderLayout.NORTH);
         InformationPanel.add(customerInformationPanel, BorderLayout.NORTH);
-        MrKrabsButton = new JButton(MrKrabs);
-        RamsayButton = new JButton(Ramsay);
-        MrKrabsButton.addActionListener(this);
-        RamsayButton.addActionListener(this);
         ButtonPanel.setLayout(new BorderLayout());
-        ButtonPanel.add(MrKrabsButton, BorderLayout.WEST);
-        ButtonPanel.add(RamsayButton, BorderLayout.EAST);
         InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
         InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);

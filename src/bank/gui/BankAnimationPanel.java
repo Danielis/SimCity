@@ -53,7 +53,6 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
-    private Vector<Graphics2D> tables = new Vector<Graphics2D>();
 
     public BankAnimationPanel() {
     	setSize(WINDOWX_ANIM, WINDOWY_ANIM);
@@ -80,27 +79,16 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     	//Color backgroundColor = new Color(167, 92, 86);
 
 		
-        Graphics2D carpet = (Graphics2D)g;
-        Graphics2D entrance = (Graphics2D)g;
-        Graphics2D waitingcarpet = (Graphics2D)g;
-        Graphics2D cookcarpet = (Graphics2D)g;
-        Graphics2D grill = (Graphics2D)g;
-        Graphics2D fridge = (Graphics2D)g;
+  
         Graphics2D host = (Graphics2D)g;
         Graphics2D cashier = (Graphics2D)g;
     	
         Graphics2D g1 = (Graphics2D)g;
-        Graphics2D g2 = (Graphics2D)g;
-        Graphics2D g3 = (Graphics2D)g;
-        Graphics2D g4 = (Graphics2D)g;
-        
+  
         Graphics2D Bank = (Graphics2D)g;
         
         Graphics2D entrance_door = (Graphics2D)g;
-        Graphics2D cook_table = (Graphics2D)g;
-        Graphics2D cashier_table = (Graphics2D)g;
-        Graphics2D host_table = (Graphics2D)g;
-        
+    
         //COLORS
         Color brown_1 = new Color(210,180,140);
         Color carpetColor = new Color(174, 105, 90);
@@ -118,8 +106,8 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     	
        	
         //OTHER INITIATION
-       // entrance_door.setColor(entranceColor);
-      //  entrance_door.fillRect(ENTRANCE_DOOR_X, ENTRANCE_DOOR_Y, TABLESIZE, TABLESIZE*2);
+      // entrance_door.setColor(entranceColor);
+      //entrance_door.fillRect(ENTRANCE_DOOR_X, ENTRANCE_DOOR_Y, 1000, 1000);
         
         //Carpets
       //  entrance.setColor(carpetColor);
@@ -155,20 +143,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
             
-            	gui.draw(carpet);
-            	gui.draw(cookcarpet);
-            	gui.draw(waitingcarpet);
-            	gui.draw(grill);
-            	gui.draw(fridge);
-            	gui.draw(g1);
-            	gui.draw(g2);
-            	gui.draw(g3);
-            	gui.draw(g4);
-            	gui.draw(entrance_door);
-            	gui.draw(cook_table);
-            	gui.draw(cashier_table);
-            	gui.draw(host_table);
-            	gui.draw(entrance);
+            	
             	gui.draw(cashier);
             	gui.draw(host);
             }

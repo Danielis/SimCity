@@ -54,7 +54,7 @@ public class TellerGui implements Gui {
     	this.index = in;
     	
     	host = new Coordinate(-30,125);
-    	homeposition = new Coordinate(index * 127 + 33, 100);
+    	homeposition = new Coordinate(index * 127 + 33, 92);
     	position = new Coordinate(homeposition.x + 10, homeposition.y - 10);
     	destination = homeposition;
     	
