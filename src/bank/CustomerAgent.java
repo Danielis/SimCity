@@ -32,7 +32,7 @@ public class CustomerAgent extends Agent implements Customer {
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
 	TellerAgent t;
-	double balance;
+	double balance = 10;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
 	int accountID;
@@ -52,6 +52,18 @@ public class CustomerAgent extends Agent implements Customer {
 
 //UTILITIES**************************************************
 
+	private Boolean enoughBalance(){
+		if (amount > balance){
+			print("I just realized I do not have enough money");
+			state = bankCustomerState.done;
+			stateChanged();
+			return false;
+		}
+		else{
+			balance -= amount;
+			return true;
+		}
+	}
 	
 //CLASSES/ENUMS**********************************************
 
@@ -229,8 +241,8 @@ private void GiveRequest(){
 	    	print("I would like to create an account and deposit $" + amount);
 	    	else
 	    	print("I would like to create an account.");
-	        balance -= amount;
-	        t.IWantAccount(this, amount);
+	    	if (enoughBalance())
+	    		t.IWantAccount(this, amount);
 	    }
 	    
 	    if (purpose == customerPurpose.withdraw){
@@ -240,8 +252,9 @@ private void GiveRequest(){
 	    
 	    if (purpose == customerPurpose.deposit){
 	    	print("I would like to deposit $" + amount);
-	        balance -= amount;
-	        t.DepositMoney(this, accountID, amount);
+	    	
+	    	if (enoughBalance())
+	    		t.DepositMoney(this, accountID, amount);
 	    }
 	    
 	    if (purpose == customerPurpose.takeLoan){
@@ -251,8 +264,9 @@ private void GiveRequest(){
 	    
 	    if (purpose == customerPurpose.payLoan){
 	    	print("I would like to payback $" + amount + " of my loan");
-	        balance -= amount;
-	        t.PayMyLoan(this, amount);
+	        
+	    	if (enoughBalance())
+	    		t.PayMyLoan(this, amount);
 	    }
 
 
