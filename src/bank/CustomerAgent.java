@@ -60,6 +60,11 @@ public class CustomerAgent extends Agent implements Customer {
 	
 //MESSAGES*************************************************
 
+	public void NoLoan() {
+	state = bankCustomerState.done;	
+	stateChanged();
+	}
+	
 public void msgWantsTransaction(String type, double temp){
 		if (type.equals("New Account"))
 			purpose = customerPurpose.createAccount;
@@ -212,7 +217,7 @@ private void AskForAssistance(){
 		{				
 			GiveRequest();
 		}
-	},  5000);
+	},  100);
 }
 
 private void GiveRequest(){
@@ -258,8 +263,26 @@ private void GiveRequest(){
 
 private void LeaveBank(){
 		print("Thank you. I now have $" + balance);
-		 t.IAmLeaving();
-		customerGui.DoExitRestaurant();
+		t.IAmLeaving();
+
+		if (t.getTableNum() == 1){
+			customerGui.DoGoToWaitingRoom();
+			customerGui.DoExitRestaurant();
+		}
+		else if (t.getTableNum() == 2){
+			customerGui.DoGoToTopLeft();
+			customerGui.DoGoToBotLeft();
+			customerGui.DoGoToWaitingRoom();
+			customerGui.DoExitRestaurant();
+		}
+		else if (t.getTableNum() == 3){
+			customerGui.DoGoToTopRight();
+			customerGui.DoGoToBotRight();
+			customerGui.DoGoToWaitingRoom();
+			customerGui.DoExitRestaurant();
+		}
+		
+		
 	    state = bankCustomerState.exited;  
 	    
 	    customerGui.finishedTransaction();
@@ -271,7 +294,20 @@ private void LeaveBank(){
 	private void WalkToTeller() 
 	{
 		print("Directed to teller.");
+		
+		if (t.getTableNum() == 1){
 		customerGui.DoGoToSeat(t.getTableNum());
+		}
+		else if (t.getTableNum() == 2){
+			customerGui.DoGoToBotLeft();
+			customerGui.DoGoToTopLeft();
+			customerGui.DoGoToSeat(t.getTableNum());
+		}
+		else if (t.getTableNum() == 3){
+			customerGui.DoGoToBotRight();
+			customerGui.DoGoToTopRight();
+			customerGui.DoGoToSeat(t.getTableNum());
+		}
 		state = bankCustomerState.atCounter;
 		//stateChanged();
 	}
@@ -316,6 +352,8 @@ private void LeaveBank(){
 	{
 		copyOfAnimPanel = panel;
 	}
+
+	
 }
 
 

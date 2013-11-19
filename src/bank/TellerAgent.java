@@ -109,6 +109,13 @@ public class TellerAgent extends Agent implements Teller {
 		
 		
 		
+		public Transaction(CustomerAgent c2) {
+		c = c2;
+		status = transactionStatus.noLoan;
+		}
+
+
+
 		double amount;
 	    Account account;
 	    Loan loan;
@@ -117,7 +124,7 @@ public class TellerAgent extends Agent implements Teller {
 	    CustomerAgent c;
 	}
 	enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
-	enum transactionStatus {unresolved, resolved, noAccount, waiting};
+	enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
 
 private class MyCustomer{
 	    CustomerAgent c;
@@ -179,9 +186,12 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		if (l.c == c){
 			transactions.add(new Transaction(l, amount, transactionType.loanPayment, c));
 			stateChanged();
+			return;
 		}
 	}
+    transactions.add(new Transaction(c));
     print("No loan found");
+    stateChanged();
 }
 
 	public void IAmLeaving(){
@@ -238,6 +248,10 @@ public void PayMyLoan(CustomerAgent c, double amount){
 					HandleNoAccount(t);
 					return true;
 				}
+				if (t.status == transactionStatus.noLoan){
+					HandleNoLoan(t);
+					return true;
+				}
 				if (t.status == transactionStatus.unresolved){
 					HandleTransaction(t);
 					return true;
@@ -265,6 +279,12 @@ public void PayMyLoan(CustomerAgent c, double amount){
 
 //ACTIONS********************************************************
 
+	private void HandleNoLoan(Transaction t){
+		print("You do not have a loan here.");
+		t.status = transactionStatus.resolved;
+		t.c.NoLoan();
+	}
+	
 	private void HandleNoAccount(Transaction t){
 		//print("handling no account");
 		if (t.type == transactionType.deposit){

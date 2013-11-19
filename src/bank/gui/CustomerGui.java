@@ -35,11 +35,16 @@ public class CustomerGui implements Gui{
 	BankGui gui;
 	
 	//Coordinates
-	Coordinate position;
 	Coordinate destination;
-	Coordinate outside;
-	Coordinate cashier;
-	Coordinate waitingroom;
+	
+	Coordinate outside = new Coordinate(296,435);
+	Coordinate position = new Coordinate(296,435);
+	Coordinate cashier = new Coordinate(255, 75);
+	Coordinate waitingroom = new Coordinate(296, 300);
+	Coordinate botLeft = new Coordinate(170, 300);
+	Coordinate botRight = new Coordinate(430, 300);
+	Coordinate topLeft = new Coordinate(170, 180);
+	Coordinate topRight = new Coordinate(430, 180);
 	
 	//images
 	BufferedImage imgTrainer;
@@ -63,10 +68,7 @@ public class CustomerGui implements Gui{
 		agent = c;
 		this.gui = gui;
 		
-		outside = new Coordinate(296,435);
-    	position = new Coordinate(296,435);
-    	cashier = new Coordinate(255, 75);
-    	waitingroom = new Coordinate(296, 300);
+		
     	destination = outside;
     	
     	
@@ -86,16 +88,22 @@ public class CustomerGui implements Gui{
         	if (deltax < 0) deltax *= -1;
         	if (deltay < 0) deltay *= -1;
         	
-            if (position.x < destination.x)
-                position.x += (1 + deltax/deltadivider);
-            else if (position.x > destination.x)
+        	if (position.x > destination.x){
                 position.x -= (1 + deltax/deltadivider);
-
-            if (position.y < destination.y)
+                setLeftImage();
+            }
+            else if (position.y < destination.y){
                 position.y += (1 + deltay/deltadivider);
-            else if (position.y > destination.y)
+                setDownImage();
+            }
+            else if (position.y > destination.y){
                 position.y -= (1 + deltay/deltadivider);
-            
+                setUpImage();
+            }
+            else if (position.x < destination.x){
+                position.x += (1 + deltax/deltadivider);
+                setRightImage();
+            }
 
             if (position.x == destination.x && position.y == destination.y)
             {
@@ -103,6 +111,36 @@ public class CustomerGui implements Gui{
             	agent.DoneWithAnimation();
             }
     	}
+	}
+
+	private void setLeftImage() {
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/left.png"));
+	        } catch (IOException e ) {}
+	}
+
+	private void setRightImage() {
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/right.png"));
+	        } catch (IOException e ) {}
+	}
+
+	private void setDownImage() {
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/down.png"));
+	        } catch (IOException e ) {}
+		
+	}
+
+	private void setUpImage() {
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/up.png"));
+	        } catch (IOException e ) {}
+		
 	}
 
 	public void draw(Graphics2D g) 
@@ -158,8 +196,10 @@ public class CustomerGui implements Gui{
 	{
 		goingSomewhere = true;
 		System.out.println(agent.getName() + " is leaving.");
+
 		destination = outside;
 		agent.WaitForAnimation();
+		
 		setPresent(false);
 	}
 	
@@ -177,6 +217,30 @@ public class CustomerGui implements Gui{
 		goingSomewhere = true;
 		System.out.println(agent.getName() + " is going to the waiting room.");
 		destination = waitingroom;
+		agent.WaitForAnimation();
+	}
+	
+	public void DoGoToBotLeft(){
+		goingSomewhere = true;
+		destination = botLeft;
+		agent.WaitForAnimation();
+	}
+	
+	public void DoGoToBotRight(){
+		goingSomewhere = true;
+		destination = botRight;
+		agent.WaitForAnimation();
+	}
+	
+	public void DoGoToTopLeft(){
+		goingSomewhere = true;
+		destination = topLeft;
+		agent.WaitForAnimation();
+	}
+	
+	public void DoGoToTopRight(){
+		goingSomewhere = true;
+		destination = topRight;
 		agent.WaitForAnimation();
 	}
 
