@@ -35,7 +35,7 @@ public class CustomerAgent extends Agent implements Customer {
 	double balance;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
-	int accountID = 1;
+	int accountID;
 	private CustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
@@ -149,6 +149,8 @@ public void	NoMoney(){ // in account
 
 public void WantAccount(){
 	//	state = bankCustomerState.thinking;
+	if (purpose.equals(customerPurpose.withdraw))
+		amount = 0;
 		purpose = customerPurpose.createAccount;
 		state = bankCustomerState.atCounter;
 		stateChanged();
@@ -210,7 +212,7 @@ private void AskForAssistance(){
 		{				
 			GiveRequest();
 		}
-	},  100);
+	},  5000);
 }
 
 private void GiveRequest(){

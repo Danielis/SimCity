@@ -140,7 +140,7 @@ public void IWantAccount(CustomerAgent c, double amount){
 public void DepositMoney(CustomerAgent c, int accountID, double amount){
 	print("Looking for account...");
 	for (Account a : bank.accounts){
-		if (a.id == accountID){
+		if (a.c == c){
 			print("Found account.");
 			Account acct = a;
 			 transactions.add(new Transaction(acct, amount, transactionType.deposit, c));
@@ -156,7 +156,7 @@ public void DepositMoney(CustomerAgent c, int accountID, double amount){
 
 public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 	for (Account a : bank.accounts){
-		if (a.id == accountID){
+		if (a.c == c){
 			Account acct = a;
 			transactions.add(new Transaction(acct, amount, transactionType.withdrawal, c));
 			stateChanged();
@@ -164,7 +164,8 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 		}
 	}
 	print("No account found");
-	//transactions.add(new Transaction(amount, transactionType.withdrawal, c));
+	transactions.add(new Transaction(amount, transactionType.withdrawal, c));
+	stateChanged();
 }
 
 public void IWantLoan(CustomerAgent c, double amount){
@@ -176,11 +177,11 @@ public void IWantLoan(CustomerAgent c, double amount){
 public void PayMyLoan(CustomerAgent c, double amount){
     for (Loan l : bank.loans){
 		if (l.c == c){
-			Loan loan  = l;
-			transactions.add(new Transaction(loan, amount, transactionType.loanPayment, c));
+			transactions.add(new Transaction(l, amount, transactionType.loanPayment, c));
 			stateChanged();
 		}
 	}
+    print("No loan found");
 }
 
 	public void IAmLeaving(){
@@ -265,10 +266,16 @@ public void PayMyLoan(CustomerAgent c, double amount){
 //ACTIONS********************************************************
 
 	private void HandleNoAccount(Transaction t){
-		print("handling no account");
+		//print("handling no account");
 		if (t.type == transactionType.deposit){
 			print("You do not have an account at this bank. Would you like to create one?");
 			t.status = transactionStatus.waiting;
+			t.c.WantAccount();
+		}
+		if (t.type == transactionType.withdrawal){
+			print("You do not have an account at this bank. Would you like to create one for future withdrawals?");
+			t.status = transactionStatus.waiting;
+			t.amount = 0;
 			t.c.WantAccount();
 		}
 	}
