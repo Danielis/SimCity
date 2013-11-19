@@ -3,7 +3,7 @@ package bank.gui;
 import bank.CustomerAgent;
 import bank.CustomerAgent.iconState;
 import bank.HostAgent;
-import bank.gui.TellerGui.Coordinate;
+import bank.gui.Coordinate;
 
 import java.io.*;
 import java.awt.*;
@@ -27,6 +27,7 @@ public class CustomerGui implements Gui{
 	private final int deltadivider = 100;
 	private final int starting_X = 146;
 	private final int table_divider = 127;
+	Boolean visible = true;
 
 	//self agent
 	private CustomerAgent agent = null;
@@ -72,22 +73,7 @@ public class CustomerGui implements Gui{
     	
 	}
 	//UTILITIES ***********************************************
-    public class Coordinate
-    {
-    	int x;
-    	int y;
-    	
-    	Coordinate()
-    	{
-    		x = 0;
-    		y = 0;
-    	}
-    	Coordinate(int a, int b)
-    	{
-    		x = a;
-    		y = b;
-    	}
-    }
+    
 	public void updatePosition() {
 		if (goingSomewhere)
     	{
@@ -123,9 +109,7 @@ public class CustomerGui implements Gui{
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		Color customerColor = new Color(195, 178, 116);
-		newG.setColor(customerColor);
-		//newG.fillRect(position.x, position.y, customerSize, customerSize);
+		if (visible)
 		newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
 
 		
@@ -166,6 +150,8 @@ public class CustomerGui implements Gui{
 		agent.WaitForAnimation();
 	}
 	
+	
+	
 	public void DoExitRestaurant()
 	{
 		goingSomewhere = true;
@@ -189,5 +175,9 @@ public class CustomerGui implements Gui{
 		System.out.println(agent.getName() + " is going to the waiting room.");
 		destination = waitingroom;
 		agent.WaitForAnimation();
+	}
+
+	public void Hide() {
+		visible = false;
 	}
 }

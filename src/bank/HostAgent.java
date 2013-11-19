@@ -1,6 +1,7 @@
 package bank;
 
 import agent.Agent;
+import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
 import bank.TellerAgent;
 import bank.CustomerAgent;
@@ -20,6 +21,8 @@ public class HostAgent extends Agent {
 	private String name;
 	public HostGui hostGui = null;
 
+	public Semaphore animSemaphore = new Semaphore(0,true);
+	public BankAnimationPanel copyOfAnimPanel;
 //CONSTRUCTOR
 	public HostAgent(String name) {
 		super();
@@ -43,7 +46,25 @@ public class HostAgent extends Agent {
 	public HostGui getGui() {
 		return hostGui;
 	}
-	
+	public void DoneWithAnimation()
+	{
+		animSemaphore.release();
+	}
+	public void WaitForAnimation()
+	{
+		try
+		{
+			animSemaphore.acquire();		
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	public void setAnimPanel(BankAnimationPanel panel)
+	{
+		copyOfAnimPanel = panel;
+	}
 	
 //CLASSES****************************************************
 		public class MyTeller{
@@ -83,6 +104,7 @@ public class HostAgent extends Agent {
 	}
 	
 	public void IAmFree(TellerAgent tell){
+		print("received msg free");
 		for(MyTeller t: myTellers){
 			if (t.t == tell){
 				t.s = tellerState.free;
@@ -182,6 +204,8 @@ public class HostAgent extends Agent {
 					}
 				}
 			}
+			print("reached gui call");
+			hostGui.DoGoToHomePosition();
 			return false;
 		}
 		
@@ -199,7 +223,7 @@ public class HostAgent extends Agent {
 	}
 	
 	private void assignCustomer(MyCustomer c, MyTeller t){
-		print("Customer go to teller");
+		print("Customer go to teller " + t.t.getTableNum());
 	    c.s = customerState.done;
 	    t.s = tellerState.busy;
 	    c.c.GoToTeller(t.t);

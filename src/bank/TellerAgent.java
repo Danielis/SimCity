@@ -29,7 +29,7 @@ public class TellerAgent extends Agent implements Teller {
 	//Variables
 	private int tableNum;
 	private String name;
-	private Bank bank = new Bank();
+	private Bank bank;
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	private int loanAccountThreshold = 500;
@@ -425,6 +425,9 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 	public int getTableNum() {
 		return tableNum;
+	}
+	public void setBank(Bank b) {
+		this.bank = b;
 	}
 
 }

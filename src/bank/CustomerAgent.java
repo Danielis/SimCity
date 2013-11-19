@@ -162,7 +162,8 @@ public void WantAccount(){
 		    LeaveBank();
 		    return true;
 		}
-
+		
+		
 		return false;
 	}
 
@@ -177,8 +178,8 @@ private void GoToBank() {
 private void TellHost(){
 	   // DoEnterBank();
 		print("I want service");
-	    h.IWantService(this);
 	    state = bankCustomerState.waiting;
+	    h.IWantService(this);
 }
 
 private void AskForAssistance(){
@@ -235,10 +236,10 @@ private void GiveRequest(){
 
 private void LeaveBank(){
 		print("Thank you. I now have $" + balance);
-		
+		 t.IAmLeaving();
 		customerGui.DoExitRestaurant();
-	    state = bankCustomerState.exited;
-	    t.IAmLeaving();
+	    state = bankCustomerState.exited;  
+	    customerGui.Hide();
 }
 	
 	

@@ -1,5 +1,6 @@
 package bank.gui;
 
+import bank.Bank;
 import bank.CustomerAgent;
 import bank.HostAgent;
 import bank.TellerAgent;
@@ -41,10 +42,12 @@ public class BankPanel extends JPanel {
     JLabel picMenu;
     
     private BankGui gui; //reference to main gui
-
+    Bank b = new Bank();
+    
     public BankPanel(BankGui gui) {
         this.gui = gui;
         host.setGui(hostGui);
+        host.setAnimPanel(gui.animationPanel);
         
         iconOwner = new ImageIcon(getClass().getResource("/resources/menu_header.png"));
         picOwner = new JLabel(iconOwner);
@@ -56,7 +59,7 @@ public class BankPanel extends JPanel {
        
         
         host.startThread();
-       
+        
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
@@ -155,6 +158,7 @@ public class BankPanel extends JPanel {
 		waiterindex++;
     	TellerAgent w = new TellerAgent(name, waiterindex);	
 		TellerGui g = new TellerGui(w, gui, waiterindex);
+		w.setBank(b);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
 		w.setAnimPanel(gui.animationPanel);

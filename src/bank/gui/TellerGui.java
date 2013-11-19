@@ -68,22 +68,6 @@ public class TellerGui implements Gui {
 
   //UTILITIES ***********************************************
 
-    public class Coordinate
-    {
-    	int x;
-    	int y;
-    	
-    	Coordinate()
-    	{
-    		x = 0;
-    		y = 0;
-    	}
-    	Coordinate(int a, int b)
-    	{
-    		x = a;
-    		y = b;
-    	}
-    }
     
     public void updatePosition() {
     	
@@ -169,46 +153,6 @@ public class TellerGui implements Gui {
 	
 //ANIMATION FUNCTIONS ****************************************
 	
-	public void DoGoToHost()
-	{
-		goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to the host");
-		destination = host;
-		agent.WaitForAnimation();
-	}
-	
-	public void DoGoToTable(int tableNum)
-	{
-    	goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to the table");
-		int i_temp = tableNum -1;
-		Coordinate c_temp = tables.get(i_temp);
-		destination = new Coordinate(c_temp.x+45, c_temp.y-15);
-		agent.WaitForAnimation();
-	}
-	public void DoGoToCook()
-	{
-    	goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to the cook");
-		destination = cook;
-		agent.WaitForAnimation();
-	}
-	
-	public void DoGoToCashier()
-	{
-    	goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to the cashier");
-		destination = cashier;
-		agent.WaitForAnimation();
-	}
-	
-	public void DoGoToWaitingRoom()
-	{
-    	goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to the waiting room");
-		destination = waitingroom;
-		agent.WaitForAnimation();
-	}
 	
 	public void DoGoToHomePosition()
 	{
