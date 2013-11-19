@@ -2,6 +2,7 @@ package bank;
 
 import agent.Agent;
 import agent.RestaurantMenu;
+import bank.gui.BankAnimationPanel;
 import bank.gui.TellerGui;
 import bank.interfaces.*;
 import bank.Bank;
@@ -20,16 +21,18 @@ public class TellerAgent extends Agent implements Teller {
 	List <MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	List <Transaction> transactions = new ArrayList<Transaction>();
 	
-	
+	public BankAnimationPanel copyOfAnimPanel;
 	
 	public HostAgent host;
 	public TellerGui waiterGui;
 	
 	//Variables
+	private int tableNum;
 	private String name;
 	private Bank bank = new Bank();
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
+	private int loanAccountThreshold = 500;
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
@@ -42,9 +45,10 @@ public class TellerAgent extends Agent implements Teller {
 		print("initialized teller");
 		
 	}
-	public TellerAgent(String name) {
+	public TellerAgent(String name, int index) {
 		super();
 		this.name = name;
+		this.tableNum = index;
 	}
 	
 
@@ -73,7 +77,10 @@ public class TellerAgent extends Agent implements Teller {
 	public TellerGui getGui() {
 		return waiterGui;
 	}
-
+	public void setAnimPanel(BankAnimationPanel panel)
+	{
+		copyOfAnimPanel = panel;
+	}
 //CLASSES/ENUMS**********************************************
 		
 	private class Transaction{
@@ -292,6 +299,8 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    bank.balance += t.amount;
 	    print("New bank cash balance is $" + bank.balance);
 	    t.status = transactionStatus.resolved;
+	    
+	   
 	    t.c.MoneySuccesfullyDeposited();
 	}
 
@@ -330,7 +339,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 
 	private void CreateLoan(Transaction t){
-		print("reached creatloan function");
+		print("reached createloan function");
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
 	    	print("Created loan");
@@ -339,7 +348,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){
 	    	print("Sorry we do not have enough money");
-	        t.loan.c.CannotCreatLoan();
+	        t.loan.c.CannotCreateLoan();
 	    }
 	    else { // bad credit
 	    	print("Your credit is not good enough");
@@ -375,6 +384,22 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 	
 	private Boolean HasGoodCredit(CustomerAgent c){
+		Boolean hasLoan = false;
+		Boolean goodAccount = true;
+		
+		for (Loan l : bank.loans){
+			if (l.c == c && l.s != loanState.paid){
+				print("Customer already has a loan to pay off.");
+				return false;
+			}
+		}
+		
+//		for (Account a : bank.accounts){
+//			if (a.c == c && a.balance > loanAccountThreshold){
+//				return false;
+//			}
+//		}
+		
 		return true;
 	}
 	
@@ -397,6 +422,9 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	public void DoneWithAnimation()
 	{
 		animSemaphore.release();
+	}
+	public int getTableNum() {
+		return tableNum;
 	}
 
 }

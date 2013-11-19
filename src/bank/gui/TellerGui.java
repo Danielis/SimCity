@@ -4,22 +4,27 @@ import bank.HostAgent;
 import bank.TellerAgent;
 
 import java.awt.*;
-
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 
 public class TellerGui implements Gui {
 	
 	//finals
-	private final int tables_y = 450;
+	private final int tables_y = 150;
 	private final int waiterSize = 20;
 	private final int deltadivider = 100;
 	private final int starting_X = 150;
 	private final int table_divider = 100;
 	
 	int index; //used for unique locations
-
+	//images
+	BufferedImage imgTrainer;
+		
     private TellerAgent agent = null;
     BankGui gui;
 
@@ -49,12 +54,14 @@ public class TellerGui implements Gui {
     	this.index = in;
     	
     	host = new Coordinate(-30,125);
-    	cook = new Coordinate(450,170);
-    	cashier = new Coordinate(255, 75);
-    	position = new Coordinate(-30,125);
-    	waitingroom = new Coordinate(170,90);
-    	homeposition = new Coordinate(index * 40 + 200, 190);
+    	homeposition = new Coordinate(index * 127 + 33, 100);
+    	position = new Coordinate(homeposition.x + 10, homeposition.y - 10);
     	destination = homeposition;
+    	
+        try
+        {
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+        } catch (IOException e ) {}
     	
   
     }
@@ -113,9 +120,12 @@ public class TellerGui implements Gui {
     }
 
     public void draw(Graphics2D g) {
-    	Color waiterColor = new Color(193, 218, 214);
-        g.setColor(waiterColor);
-        g.fillRect(position.x, position.y, waiterSize, waiterSize);
+    	//Color waiterColor = new Color(193, 218, 214);
+       // g.setColor(waiterColor);
+       // g.fillRect(position.x, position.y, waiterSize, waiterSize);
+    	Graphics2D newG = (Graphics2D)g;
+        newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
+
     }
     
     public void AskForBreak()

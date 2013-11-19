@@ -24,10 +24,9 @@ public class CustomerGui implements Gui{
 	
 	//finals
 	private final int tables_y = 150;
-	private final int customerSize = 20;
 	private final int deltadivider = 100;
-	private final int starting_X = 150;
-	private final int table_divider = 100;
+	private final int starting_X = 146;
+	private final int table_divider = 127;
 
 	//self agent
 	private CustomerAgent agent = null;
@@ -43,11 +42,7 @@ public class CustomerGui implements Gui{
 	Coordinate waitingroom;
 	
 	//images
-	BufferedImage imgQuestion;
-	BufferedImage imgSteak;
-	BufferedImage imgChicken;
-	BufferedImage imgSalad;
-	BufferedImage imgPizza;
+	BufferedImage imgTrainer;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -61,37 +56,17 @@ public class CustomerGui implements Gui{
 		
         try
         {
-        	imgQuestion = ImageIO.read(getClass().getResource("/resources/question.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgSteak = ImageIO.read(getClass().getResource("/resources/steak.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgChicken= ImageIO.read(getClass().getResource("/resources/chicken.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgSalad = ImageIO.read(getClass().getResource("/resources/salad.png"));
-        } catch (IOException e ) {}
-        
-        try
-        {
-        	imgPizza = ImageIO.read(getClass().getResource("/resources/pizza.png"));
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
         
         
 		agent = c;
 		this.gui = gui;
 		
-		outside = new Coordinate(-50,105);
-    	position = new Coordinate(-50,105);
+		outside = new Coordinate(296,435);
+    	position = new Coordinate(296,435);
     	cashier = new Coordinate(255, 75);
-    	waitingroom = new Coordinate(140,70);
+    	waitingroom = new Coordinate(296, 300);
     	destination = outside;
     	
     	
@@ -150,8 +125,9 @@ public class CustomerGui implements Gui{
 		Graphics2D newG = (Graphics2D)g;
 		Color customerColor = new Color(195, 178, 116);
 		newG.setColor(customerColor);
-		newG.fillRect(position.x, position.y, customerSize, customerSize);
-		
+		//newG.fillRect(position.x, position.y, customerSize, customerSize);
+		newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
+
 		
 		
 	}

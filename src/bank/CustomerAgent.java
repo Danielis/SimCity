@@ -9,6 +9,8 @@ import agent.RestaurantMenu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import restaurant.gui.RestaurantAnimationPanel;
+
 //Customer Agent
 //It still is a finite state machine, instead of events it still uses the state enum.
 //I used this design from the designs drawn from class.
@@ -28,6 +30,7 @@ public class CustomerAgent extends Agent implements Customer {
 //VARIABLES*************************************************
 	HostAgent h;
 	bankCustomerState state;
+	public BankAnimationPanel copyOfAnimPanel; // for gui
 	TellerAgent t;
 	double balance;
 	customerPurpose purpose;
@@ -36,6 +39,7 @@ public class CustomerAgent extends Agent implements Customer {
 	private CustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
+	Timer timer = new Timer();
 	
 	//Constructor
 	public CustomerAgent(String name, HostAgent h){
@@ -43,7 +47,7 @@ public class CustomerAgent extends Agent implements Customer {
 		this.name = name;
 		this.h = h;
 		state = bankCustomerState.outside;
-		purpose = customerPurpose.withdraw;
+		purpose = customerPurpose.createAccount;
 		amount = 400;
 	}
 
@@ -86,7 +90,7 @@ public void	LoanCreated(){
 	    stateChanged();
 	}
 
-public void	CannotCreatLoan(){
+public void	CannotCreateLoan(){
 	    state = bankCustomerState.done;
 	    stateChanged();
 	}
@@ -134,9 +138,10 @@ public void WantAccount(){
 //SCHEDULER*************************************************
 	protected boolean pickAndExecuteAnAction() 
 	{
-		print("reached sched");
+		//print("reached sched");
 		if (state == bankCustomerState.outside){
 			GoToBank();
+			return true;
 		}
 		if (state == bankCustomerState.entered){
 		    TellHost();
@@ -145,6 +150,7 @@ public void WantAccount(){
 
 		if (state == bankCustomerState.assigned){
 		    WalkToTeller();
+		    return true;
 		}
 		
 		if (state == bankCustomerState.atCounter){
@@ -154,6 +160,7 @@ public void WantAccount(){
 
 		if (state == bankCustomerState.done){
 		    LeaveBank();
+		    return true;
 		}
 
 		return false;
@@ -175,33 +182,53 @@ private void TellHost(){
 }
 
 private void AskForAssistance(){
-	   // DoGiveOrder();
-	
-		print("This what I want to do...");
+	state = bankCustomerState.waiting;
+	timer.schedule( new TimerTask()
+	{
+		public void run()
+		{				
+			GiveRequest();
+		}
+	},  5000);
+}
 
+private void GiveRequest(){
+		//print("This what I want to do...");
+		
+		
 	    if (purpose == customerPurpose.createAccount){
+	    	if (amount > 0)
+	    	print("I would like to create an account and deposit $" + amount);
+	    	else
+	    	print("I would like to create an account.");
 	        balance -= amount;
 	        t.IWantAccount(this, amount);
 	    }
 	    
-	    if (purpose == customerPurpose.withdraw)
+	    if (purpose == customerPurpose.withdraw){
+	    	print("I would like to withdraw $" + amount);
 	        t.WithdrawMoney(this, accountID, amount);
+	    }
 	    
 	    if (purpose == customerPurpose.deposit){
+	    	print("I would like to deposit $" + amount);
 	        balance -= amount;
 	        t.DepositMoney(this, accountID, amount);
 	    }
 	    
-	    if (purpose == customerPurpose.takeLoan)
+	    if (purpose == customerPurpose.takeLoan){
+	    	print("I would like to take out a loan of $" + amount);
 	        t.IWantLoan(this, amount);
+	    }
 	    
 	    if (purpose == customerPurpose.payLoan){
+	    	print("I would like to payback $" + amount + " of my loan");
 	        balance -= amount;
 	        t.PayMyLoan(this, amount);
 	    }
 
 
-	    state = bankCustomerState.waiting;
+	    
 	}
 
 
@@ -220,9 +247,9 @@ private void LeaveBank(){
 	private void WalkToTeller() 
 	{
 		print("Directed to teller.");
-		customerGui.DoGoToSeat(2);
+		customerGui.DoGoToSeat(t.getTableNum());
 		state = bankCustomerState.atCounter;
-		stateChanged();
+		//stateChanged();
 	}
 	
 	
@@ -260,5 +287,11 @@ private void LeaveBank(){
 	{
 		this.animSemaphore.release();
 	}
+	
+	public void setAnimPanel(BankAnimationPanel panel)
+	{
+		copyOfAnimPanel = panel;
+	}
 }
+
 
