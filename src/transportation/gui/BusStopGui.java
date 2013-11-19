@@ -1,4 +1,4 @@
-package city.guis;
+package transportation.gui;
 
 import restaurant.gui.Gui;
 
@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import city.PersonAgent;
+import city.guis.CityGui;
 
-public class PersonGui implements Gui{
+public class BusStopGui implements Gui{
 	
 	//variables
 	private boolean isPresent = false;
@@ -48,14 +49,14 @@ public class PersonGui implements Gui{
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-	public PersonGui(PersonAgent c, CityGui gui2){
+	public BusStopGui(PersonAgent c, CityGui gui2){
         
         try
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
 		
-		System.out.println("Got to the persongui constructor");
+		System.out.println("Got to the BusStop constructor");
 		
 		agent = c;
 		this.gui = gui2;
@@ -175,5 +176,19 @@ public class PersonGui implements Gui{
                   destination = checkpointD;
                   agent.WaitForAnimation();
           }
+	}
+	
+	public void setStopGui(boolean T){
+		if (T){
+			 try
+		        {
+		        	imgTrainer = ImageIO.read(getClass().getResource("/resources/dbus.png"));
+		        } catch (IOException e ) {}
+		}
+		else
+			try
+        	{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/ubus.png"));
+        	} catch (IOException e ) {}
 	}
 }

@@ -32,7 +32,7 @@ public class PersonAgent extends Agent implements Person
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
 
-	public CityAnimationPanel copyOfCityAnimPanel;	
+	public CityAnimationPanel CityAnimPanel;	
 	public RestaurantPanel restPanel;
 	
 	
@@ -171,7 +171,7 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void setAnimationPanel(CityAnimationPanel panel) {
-		copyOfCityAnimPanel = panel;
+		CityAnimPanel = panel;
 	}
 	
 	public void setRestaurantPanel(RestaurantPanel panel)
@@ -208,7 +208,7 @@ public class PersonAgent extends Agent implements Person
 	//Housing
 	//Passes an inactive role which contains location and otherinfo needed later
 	public void msgGoToHome(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise donï¿½t need to add role.
 	    Status.setHouse(houseStatus.goingHome);
 	    stateChanged();
 	}
@@ -242,7 +242,7 @@ public class PersonAgent extends Agent implements Person
 	/*
 	//Work
 	public void msgGoToWork(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise donï¿½t need to add role.
 	    Status.setWork(workStatus.goingToWork);
 	    stateChanged();
 	}
@@ -257,7 +257,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Banks
 	public void goToBank(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise donï¿½t need to add role.
 	    Status.setBank(bankStatus.goingToBank);
 	    stateChanged();
 	}
@@ -271,7 +271,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	//Markets
 	public void goToMarket(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise donï¿½t need to add role.
 	    Status.setMarket(marketStatus.goingToMarket);
 	    stateChanged();
 	}
