@@ -27,9 +27,9 @@ public class HostGui implements Gui {
         this.agent = agent;
         try
         {
-        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/host.png"));
         } catch (IOException e ) {}
-    	homeposition = new Coordinate(297, 252);
+    	homeposition = new Coordinate(297, 249);
         position = new Coordinate(homeposition.x, homeposition.y - 20);
     	destination = homeposition;
     }

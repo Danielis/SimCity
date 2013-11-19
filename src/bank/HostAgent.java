@@ -94,6 +94,7 @@ public class HostAgent extends Agent {
 
 	public void IWantService(CustomerAgent c){
     customers.add(new MyCustomer(c));
+    updateCustpost();
     stateChanged();
 	}
 		
@@ -224,7 +225,8 @@ public class HostAgent extends Agent {
 	
 	private void assignCustomer(MyCustomer c, MyTeller t){
 		print("Customer go to teller " + t.t.getTableNum());
-	    c.s = customerState.done;
+	   // c.s = customerState.done;
+		customers.remove(0);
 	    t.s = tellerState.busy;
 	    c.c.GoToTeller(t.t);
 	}
@@ -245,5 +247,12 @@ public class HostAgent extends Agent {
 			mw.t.msgBreakGranted(false);
 		}
 	}
+	
+	public void updateCustpost(){
+		//print("called update custp os");
+       // for (int i =0; i <customers.size(); i++){
+       // 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
+       // }
+}
 }
 

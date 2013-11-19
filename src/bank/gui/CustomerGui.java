@@ -43,8 +43,9 @@ public class CustomerGui implements Gui{
 	Coordinate waitingroom = new Coordinate(296, 300);
 	Coordinate botLeft = new Coordinate(170, 300);
 	Coordinate botRight = new Coordinate(430, 300);
-	Coordinate topLeft = new Coordinate(170, 180);
+	Coordinate topLeft = new Coordinate(170, 160);
 	Coordinate topRight = new Coordinate(430, 180);
+	Coordinate topMiddle = new Coordinate(290, 160);
 	
 	//images
 	BufferedImage imgTrainer;
@@ -108,6 +109,7 @@ public class CustomerGui implements Gui{
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;
+            	setUpImage();
             	agent.DoneWithAnimation();
             }
     	}
@@ -242,6 +244,18 @@ public class CustomerGui implements Gui{
 		goingSomewhere = true;
 		destination = topRight;
 		agent.WaitForAnimation();
+	}
+	
+	public void DoGoToTopMiddle(){
+		goingSomewhere = true;
+		destination = topMiddle;
+		agent.WaitForAnimation();
+	}
+	
+	public void shuffle(int x, int y){
+		goingSomewhere = true;
+        destination.x = waitingroom.x;
+        destination.y = 300 + y;
 	}
 
 	

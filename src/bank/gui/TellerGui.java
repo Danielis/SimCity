@@ -54,13 +54,13 @@ public class TellerGui implements Gui {
     	this.index = in;
     	
     	host = new Coordinate(-30,125);
-    	homeposition = new Coordinate(index * 127 + 33, 92);
+    	homeposition = new Coordinate(index * 127 + 33, 89);
     	position = new Coordinate(homeposition.x + 10, homeposition.y - 10);
     	destination = homeposition;
     	
         try
         {
-        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/teller.png"));
         } catch (IOException e ) {}
     	
   

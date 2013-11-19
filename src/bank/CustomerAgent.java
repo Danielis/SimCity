@@ -210,7 +210,7 @@ public void WantAccount(){
 
 private void GoToBank() {
 		print("Going to bank");
-		customerGui.DoGoToWaitingRoom();
+		getCustomerGui().DoGoToWaitingRoom();
 		state = bankCustomerState.entered;
 }
 	
@@ -229,7 +229,7 @@ private void AskForAssistance(){
 		{				
 			GiveRequest();
 		}
-	},  100);
+	}, 5000);
 }
 
 private void GiveRequest(){
@@ -280,26 +280,27 @@ private void LeaveBank(){
 		t.IAmLeaving();
 
 		if (t.getTableNum() == 1){
-			customerGui.DoGoToWaitingRoom();
-			customerGui.DoExitRestaurant();
+			getCustomerGui().DoGoToWaitingRoom();
+			getCustomerGui().DoExitRestaurant();
 		}
 		else if (t.getTableNum() == 2){
-			customerGui.DoGoToTopLeft();
-			customerGui.DoGoToBotLeft();
-			customerGui.DoGoToWaitingRoom();
-			customerGui.DoExitRestaurant();
+			getCustomerGui().DoGoToTopMiddle();
+			getCustomerGui().DoGoToTopLeft();
+			getCustomerGui().DoGoToBotLeft();
+			getCustomerGui().DoGoToWaitingRoom();
+			getCustomerGui().DoExitRestaurant();
 		}
 		else if (t.getTableNum() == 3){
-			customerGui.DoGoToTopRight();
-			customerGui.DoGoToBotRight();
-			customerGui.DoGoToWaitingRoom();
-			customerGui.DoExitRestaurant();
+			getCustomerGui().DoGoToTopRight();
+			getCustomerGui().DoGoToBotRight();
+			getCustomerGui().DoGoToWaitingRoom();
+			getCustomerGui().DoExitRestaurant();
 		}
 		
 		
 	    state = bankCustomerState.exited;  
 	    
-	    customerGui.finishedTransaction();
+	    getCustomerGui().finishedTransaction();
 }
 	
 	
@@ -310,17 +311,18 @@ private void LeaveBank(){
 		print("Directed to teller.");
 		
 		if (t.getTableNum() == 1){
-		customerGui.DoGoToSeat(t.getTableNum());
+		getCustomerGui().DoGoToSeat(t.getTableNum());
 		}
 		else if (t.getTableNum() == 2){
-			customerGui.DoGoToBotLeft();
-			customerGui.DoGoToTopLeft();
-			customerGui.DoGoToSeat(t.getTableNum());
+			getCustomerGui().DoGoToBotLeft();
+			getCustomerGui().DoGoToTopLeft();
+			getCustomerGui().DoGoToTopMiddle();
+			getCustomerGui().DoGoToSeat(t.getTableNum());
 		}
 		else if (t.getTableNum() == 3){
-			customerGui.DoGoToBotRight();
-			customerGui.DoGoToTopRight();
-			customerGui.DoGoToSeat(t.getTableNum());
+			getCustomerGui().DoGoToBotRight();
+			getCustomerGui().DoGoToTopRight();
+			getCustomerGui().DoGoToSeat(t.getTableNum());
 		}
 		state = bankCustomerState.atCounter;
 		//stateChanged();
@@ -338,11 +340,11 @@ private void LeaveBank(){
 	}
 
 	public void setGui(CustomerGui g) {
-		customerGui = g;
+		setCustomerGui(g);
 	}
 
 	public CustomerGui getGui() {
-		return customerGui;
+		return getCustomerGui();
 	}
 	
 	public void WaitForAnimation()
@@ -365,6 +367,14 @@ private void LeaveBank(){
 	public void setAnimPanel(BankAnimationPanel panel)
 	{
 		copyOfAnimPanel = panel;
+	}
+
+	public CustomerGui getCustomerGui() {
+		return customerGui;
+	}
+
+	public void setCustomerGui(CustomerGui customerGui) {
+		this.customerGui = customerGui;
 	}
 
 	
