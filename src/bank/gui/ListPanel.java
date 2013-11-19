@@ -74,8 +74,8 @@ public class ListPanel extends JPanel implements ActionListener {
             addCustomerButton.addActionListener(this);
             topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
             //customerHungryCheckBox.addActionListener(this);
-            topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
-            customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
+           //topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
+            //customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
             viewForCustomer.setLayout(new BoxLayout((Container) viewForCustomer, BoxLayout.Y_AXIS));
             customerPane.setViewportView(viewForCustomer);
             bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
@@ -88,8 +88,8 @@ public class ListPanel extends JPanel implements ActionListener {
         	topPart_waiter.add(name, BorderLayout.NORTH);
         	addWaiterButton.addActionListener(this);  
         	topPart_waiter.add(nameFieldForWaiter, BorderLayout.CENTER);
-        	waiterBreakCheckBox.setEnabled(false);
-        	topPart_waiter.add(waiterBreakCheckBox, BorderLayout.SOUTH);
+        	//waiterBreakCheckBox.setEnabled(false);
+        	//topPart_waiter.add(waiterBreakCheckBox, BorderLayout.SOUTH);
             viewForWaiter.setLayout(new BoxLayout((Container) viewForWaiter, BoxLayout.Y_AXIS));
             waiterPane.setViewportView(viewForWaiter);
             bottomPart_waiter.add(addWaiterButton, BorderLayout.NORTH);
@@ -220,7 +220,7 @@ public class ListPanel extends JPanel implements ActionListener {
         	{
         		customerHungryCheckBox.setSelected(false);
         		CustomerAgent c = currentCustomer;
-        		c.getGui().setHungry();
+        		//c.getGui().setHungry();
         	}
     }
     

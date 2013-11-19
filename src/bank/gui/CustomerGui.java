@@ -19,7 +19,7 @@ public class CustomerGui implements Gui{
 	
 	//variables
 	private boolean isPresent = false;
-	private boolean isHungry = false;
+	private boolean isBusy = false;
 	private boolean goingSomewhere = false;
 	
 	//finals
@@ -27,7 +27,6 @@ public class CustomerGui implements Gui{
 	private final int deltadivider = 100;
 	private final int starting_X = 146;
 	private final int table_divider = 127;
-	Boolean visible = true;
 
 	//self agent
 	private CustomerAgent agent = null;
@@ -109,7 +108,7 @@ public class CustomerGui implements Gui{
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		if (visible)
+		if (isPresent)
 		newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
 
 		
@@ -121,19 +120,19 @@ public class CustomerGui implements Gui{
 		return isPresent;
 	}
 	
-	public void setHungry() {
-		isHungry = true;
-		//agent.msgGotHungry();
+	public void setAction(String temp) {
+		isBusy = true;
+		agent.msgWantsTransaction(temp);
 		setPresent(true);
 	}
 	
-	public void setNotHungry()
+	public void finishedTransaction()
 	{
-		isHungry = false;
-		setPresent(false);
+		isBusy = false;
+		//setPresent(false);
 	}
 	public boolean isHungry() {
-		return isHungry;
+		return isBusy;
 	}
 
 	public void setPresent(boolean p) {
@@ -158,6 +157,7 @@ public class CustomerGui implements Gui{
 		System.out.println(agent.getName() + " is leaving.");
 		destination = outside;
 		agent.WaitForAnimation();
+		setPresent(false);
 	}
 	
 	public void DoGoToCashier()
@@ -177,7 +177,5 @@ public class CustomerGui implements Gui{
 		agent.WaitForAnimation();
 	}
 
-	public void Hide() {
-		visible = false;
-	}
+	
 }

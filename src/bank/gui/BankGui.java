@@ -33,6 +33,9 @@ public class BankGui extends JFrame implements ActionListener {
     private JLabel infoWaiterLabel;
 
     private JCheckBox customerStateCheckBox;
+    String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
+
+    JComboBox transactionList = new JComboBox(transactions);
     //private JCheckBox waiterBreakCheckBox;
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
@@ -89,12 +92,16 @@ public class BankGui extends JFrame implements ActionListener {
         customerStateCheckBox.setVisible(false);
         customerStateCheckBox.addActionListener(this);
         
+        
+      
+        
         customerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
         customerInformationPanel.add(infoCustomerLabel);
         customerInformationPanel.add(customerStateCheckBox);
+        customerInformationPanel.add(transactionList);
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
@@ -140,9 +147,12 @@ public class BankGui extends JFrame implements ActionListener {
         customerStateCheckBox.setVisible(true);
         currentCustomer = person;
         CustomerAgent customer = person;
-        customerStateCheckBox.setText("Hungry?");
+        customerStateCheckBox.setText("Start transaction?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
+        transactionList.setSelectedIndex(0);
+        transactionList.addActionListener(this);
+        
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + customer.getName() + " </pre></html>");
         customerInformationPanel.validate();
@@ -181,9 +191,13 @@ public class BankGui extends JFrame implements ActionListener {
         if (e.getSource() == customerStateCheckBox) 
         {
             CustomerAgent c = (CustomerAgent) currentCustomer;
-            c.getGui().setHungry();
+            c.getGui().setAction(transactionList.getSelectedItem().toString());
             customerStateCheckBox.setEnabled(false);
         }
+//        if (e.getSource() == transactionList)
+//        {
+//        	restPanel.refresh();
+//        }
         if (e.getSource() == waiterON)
         {
         	TellerAgent w = currentWaiter;
@@ -214,6 +228,7 @@ public class BankGui extends JFrame implements ActionListener {
         {
         	restPanel.refresh();
         }
+        
     }
     /**
      * Message sent from a customer gui to enable that customer's

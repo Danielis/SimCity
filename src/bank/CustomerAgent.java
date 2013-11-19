@@ -61,6 +61,21 @@ public class CustomerAgent extends Agent implements Customer {
 	
 //MESSAGES*************************************************
 
+public void msgWantsTransaction(String temp){
+		if (customerPurpose.createAccount.toString().equals(temp))
+			purpose = customerPurpose.createAccount;
+		else if (customerPurpose.withdraw.toString().equals(temp))
+			purpose = customerPurpose.withdraw;
+		else if (customerPurpose.deposit.toString().equals(temp))
+			purpose = customerPurpose.deposit;
+		else if (customerPurpose.takeLoan.toString().equals(temp))
+			purpose = customerPurpose.takeLoan;
+		else if (customerPurpose.payLoan.toString().equals(temp))
+			purpose = customerPurpose.payLoan;
+		state = bankCustomerState.outside;
+		stateChanged();
+	}
+
 public void	WantsToDo(String visitPurpose, int quantity){ //called from Person agent
 	    //purpose = convert(visitPurpose);
 	    this.state = bankCustomerState.entered;
@@ -239,7 +254,8 @@ private void LeaveBank(){
 		 t.IAmLeaving();
 		customerGui.DoExitRestaurant();
 	    state = bankCustomerState.exited;  
-	    customerGui.Hide();
+	    
+	    customerGui.finishedTransaction();
 }
 	
 	
