@@ -47,7 +47,6 @@ public class CustomerAgent extends Agent implements Customer {
 		this.name = name;
 		this.h = h;
 		state = bankCustomerState.outside;
-		purpose = customerPurpose.createAccount;
 		amount = 400;
 	}
 
@@ -61,18 +60,19 @@ public class CustomerAgent extends Agent implements Customer {
 	
 //MESSAGES*************************************************
 
-public void msgWantsTransaction(String temp){
-		if (customerPurpose.createAccount.toString().equals(temp))
+public void msgWantsTransaction(String type, double temp){
+		if (type.equals("New Account"))
 			purpose = customerPurpose.createAccount;
-		else if (customerPurpose.withdraw.toString().equals(temp))
+		else if (type.equals("Withdraw"))
 			purpose = customerPurpose.withdraw;
-		else if (customerPurpose.deposit.toString().equals(temp))
+		else if (type.equals("Deposit"))
 			purpose = customerPurpose.deposit;
-		else if (customerPurpose.takeLoan.toString().equals(temp))
+		else if (type.equals("New Loan"))
 			purpose = customerPurpose.takeLoan;
-		else if (customerPurpose.payLoan.toString().equals(temp))
+		else if (type.equals("Pay Loan"))
 			purpose = customerPurpose.payLoan;
 		state = bankCustomerState.outside;
+		amount = temp;
 		stateChanged();
 	}
 
@@ -83,7 +83,7 @@ public void	WantsToDo(String visitPurpose, int quantity){ //called from Person a
 	}
 
 public void	GoToTeller(TellerAgent t){
-	print("received teller info");
+	//print("received teller info");
 	    this.t = t;
 	    state = bankCustomerState.assigned;
 	    stateChanged();
@@ -99,8 +99,8 @@ public void	MoneySuccesfullyDeposited(){
 	    stateChanged();
 	}
 
-public void	LoanCreated(){
-	    balance += amount;
+public void	LoanCreated(double temp){
+	    balance += temp;
 	    state = bankCustomerState.done;
 	    stateChanged();
 	}
@@ -115,7 +115,12 @@ public void	CreditNotGoodEnough(){
 	    stateChanged();
 	}
 
-public void	YourLoanIsPaidOff(){
+public void	YourLoanIsPaidOff(double change){
+		if (change > 0){
+		balance += change;
+		print("Received received change of $" + change);
+		print("Now I have $" + balance);
+		}
 	    state = bankCustomerState.done;
 	    stateChanged();
 	}
@@ -205,7 +210,7 @@ private void AskForAssistance(){
 		{				
 			GiveRequest();
 		}
-	},  5000);
+	},  100);
 }
 
 private void GiveRequest(){

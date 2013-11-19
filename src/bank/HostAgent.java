@@ -104,7 +104,7 @@ public class HostAgent extends Agent {
 	}
 	
 	public void IAmFree(TellerAgent tell){
-		print("received msg free");
+		//print("received msg free");
 		for(MyTeller t: myTellers){
 			if (t.t == tell){
 				t.s = tellerState.free;
@@ -204,7 +204,7 @@ public class HostAgent extends Agent {
 					}
 				}
 			}
-			print("reached gui call");
+			//print("reached gui call");
 			hostGui.DoGoToHomePosition();
 			return false;
 		}

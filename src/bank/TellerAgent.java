@@ -315,12 +315,13 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	        t.c.HereIsWithdrawal(t.amount);
 	    }
 	    else if (t.account.balance > 0){
-	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
-	        t.account.balance -= t.amount;
+	    	double temp = t.account.balance;
+	    	print("You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id);
+	        t.account.balance -= temp;
 	        print("New account balance is $" + t.account.balance);
-	        bank.balance -= t.amount;
+	        bank.balance -= temp;
 	        print("New bank cash balance is $" + bank.balance);
-	        t.c.HereIsPartialWithdrawal(t.amount);
+	        t.c.HereIsPartialWithdrawal(temp);
 	    }
 	    else{
 	    	print("You do not have any money in that account.");
@@ -329,22 +330,25 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 
 	private void NewAccount(Transaction t){
-		print("Creating new account");
+		print("Creating new account...");
 	    t.account.balance += t.amount;
 	    bank.balance += t.amount;
 	    bank.accounts.add(t.account);
 	    t.status = transactionStatus.resolved;
 	    t.account.c.AccountCreated();
 	    print("Your new account ID is " + t.account.id + " with balance of $" + t.account.balance);
+	    print("Bank cash balance is $" + bank.balance);
 	}
 
 	private void CreateLoan(Transaction t){
-		print("reached createloan function");
+		//print("reached createloan function");
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
-	    	print("Created loan");
+	    	print("Created loan. Here is $" + t.amount + ". You owe $" + t.loan.balanceOwed);
 	    	bank.loans.add(t.loan);
-	        t.loan.c.LoanCreated();
+	    	bank.balance -= t.amount;
+	        t.loan.c.LoanCreated(t.amount);
+	        print("Bank cash balance is $" + bank.balance);
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){
 	    	print("Sorry we do not have enough money");
@@ -363,10 +367,11 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    if (t.loan.balancePaid >= t.loan.balanceOwed){
 	    	print("Your loan is paid off!");
 	        t.loan.s = loanState.paid;
-	        t.loan.c.YourLoanIsPaidOff();
+	        double change = t.loan.balancePaid - t.loan.balanceOwed;
+	        t.loan.c.YourLoanIsPaidOff(change);
 	    }
 	    else{
-	    	print("You still owe");
+	    	print("You still owe $" + "t.loan.balanceOwed - t.loan.balancePaid");
 	        t.loan.c.YouStillOwe(t.loan.balanceOwed - t.loan.balancePaid, t.loan.dayCreated - t.loan.dayOwed);
 	    }
 	}

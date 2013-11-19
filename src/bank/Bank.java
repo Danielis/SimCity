@@ -14,7 +14,7 @@ public class Bank {
 	
 	public Bank(){
 		balance = 50000;
-		accounts.add(new Account(1, 500));
+		//accounts.add(new Account(1, 500));
 	}
 	
 	
@@ -47,8 +47,9 @@ public class Bank {
 	    
 	    Loan(CustomerAgent c2, double amount){
 	    c = c2;
-	    rate = .08;
-	    balanceOwed = amount * rate;
+	    rate = 1.08;
+	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
+	    balancePaid = 0;
 	    }
 	}
 	enum loanState {unpaid, partiallyPaid, paid}

@@ -120,9 +120,12 @@ public class CustomerGui implements Gui{
 		return isPresent;
 	}
 	
-	public void setAction(String temp) {
+	public void setAction(String type, String amount) {
 		isBusy = true;
-		agent.msgWantsTransaction(temp);
+		//int temp = Integer.parseInt(amount);
+		double temp = Double.parseDouble(amount);
+		temp =  Math.round(temp * 100) / 100.0d;
+		agent.msgWantsTransaction(type, temp);
 		setPresent(true);
 	}
 	

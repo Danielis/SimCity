@@ -33,8 +33,9 @@ public class BankGui extends JFrame implements ActionListener {
     private JLabel infoWaiterLabel;
 
     private JCheckBox customerStateCheckBox;
+    private JTextField amountInput = new JTextField("");
+    
     String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
-
     JComboBox transactionList = new JComboBox(transactions);
     //private JCheckBox waiterBreakCheckBox;
     private JButton waiterON = new JButton("Go On Break");
@@ -101,6 +102,7 @@ public class BankGui extends JFrame implements ActionListener {
         infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
         customerInformationPanel.add(infoCustomerLabel);
         customerInformationPanel.add(customerStateCheckBox);
+        customerInformationPanel.add(amountInput);
         customerInformationPanel.add(transactionList);
         
 //WAITER PANEL INFORMATION
@@ -147,7 +149,7 @@ public class BankGui extends JFrame implements ActionListener {
         customerStateCheckBox.setVisible(true);
         currentCustomer = person;
         CustomerAgent customer = person;
-        customerStateCheckBox.setText("Start transaction?");
+        customerStateCheckBox.setText("Start?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
         transactionList.setSelectedIndex(0);
@@ -191,7 +193,7 @@ public class BankGui extends JFrame implements ActionListener {
         if (e.getSource() == customerStateCheckBox) 
         {
             CustomerAgent c = (CustomerAgent) currentCustomer;
-            c.getGui().setAction(transactionList.getSelectedItem().toString());
+            c.getGui().setAction(transactionList.getSelectedItem().toString(), amountInput.getText());
             customerStateCheckBox.setEnabled(false);
         }
 //        if (e.getSource() == transactionList)
