@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -46,9 +47,15 @@ public class CustomerGui implements Gui{
 	Coordinate topLeft = new Coordinate(170, 160);
 	Coordinate topRight = new Coordinate(430, 180);
 	Coordinate topMiddle = new Coordinate(290, 160);
+	Timer timer = new Timer();
 	
 	//images
 	BufferedImage imgTrainer;
+	BufferedImage speechBubble;
+	
+	Boolean showSpeechBubble = false;
+	Coordinate speechBubbleLoc;
+	
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -71,8 +78,6 @@ public class CustomerGui implements Gui{
 		
 		
     	destination = outside;
-    	
-    	
 	}
 	//UTILITIES ***********************************************
     
@@ -144,15 +149,37 @@ public class CustomerGui implements Gui{
 	        } catch (IOException e ) {}
 		
 	}
+	
+	public void setSpeechBubble(String temp){
+		speechBubbleLoc= new Coordinate(position.x - 10, position.y + 15);
+		showSpeechBubble = true;
+		temp = "/resources/bankSprites/speech/" + temp +".png";
+		 try
+	        {
+	        	speechBubble = ImageIO.read(getClass().getResource(temp));
+	        } catch (IOException e ) {} 
+		 
+		 timer.schedule( new TimerTask()
+			{
+				public void run()
+				{				
+					
+					showSpeechBubble = false;
+				}
+			}, 2000);
+	}
 
 	public void draw(Graphics2D g) 
 	{
+		
 		Graphics2D newG = (Graphics2D)g;
 		if (isPresent)
-		newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
+			newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
 
-		
-		
+
+		if (showSpeechBubble){
+			newG.drawImage(speechBubble, speechBubbleLoc.x, speechBubbleLoc.y, agent.copyOfAnimPanel);
+		}
 	}
 
 	

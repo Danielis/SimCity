@@ -32,7 +32,7 @@ public class CustomerAgent extends Agent implements Customer {
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
 	TellerAgent t;
-	double balance = 10;
+	double balance = 1000;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
 	int accountID;
@@ -223,13 +223,38 @@ private void TellHost(){
 
 private void AskForAssistance(){
 	state = bankCustomerState.waiting;
+	
+	
+
+    if (purpose == customerPurpose.createAccount){
+    	customerGui.setSpeechBubble("newacctq");
+    }
+    
+    else if (purpose == customerPurpose.withdraw){
+    	customerGui.setSpeechBubble("withdrawq");
+    }
+    
+    else if (purpose == customerPurpose.deposit){
+    	customerGui.setSpeechBubble("deposit");
+    }
+    
+    else if (purpose == customerPurpose.takeLoan){
+    	customerGui.setSpeechBubble("newloanq");
+    }
+    
+    else if (purpose == customerPurpose.payLoan){
+    	customerGui.setSpeechBubble("payloan");
+    }
+	
+	
+	
 	timer.schedule( new TimerTask()
 	{
 		public void run()
 		{				
 			GiveRequest();
 		}
-	}, 5000);
+	}, 2000);
 }
 
 private void GiveRequest(){
@@ -241,8 +266,9 @@ private void GiveRequest(){
 	    	print("I would like to create an account and deposit $" + amount);
 	    	else
 	    	print("I would like to create an account.");
-	    	if (enoughBalance())
+	    	if (enoughBalance()){
 	    		t.IWantAccount(this, amount);
+	    	}
 	    }
 	    
 	    if (purpose == customerPurpose.withdraw){
