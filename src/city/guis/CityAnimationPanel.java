@@ -36,7 +36,7 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
                 
                 try
                 {
-                	CityMap = ImageIO.read(getClass().getResource("/resources/CityMap.png"));
+                	CityMap = ImageIO.read(getClass().getResource("/resources/CityMap3.png"));
                 } catch (IOException e ) {}
 
                 Timer timer = new Timer(20, this );
