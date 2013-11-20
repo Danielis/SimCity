@@ -58,6 +58,8 @@ public class CityGui extends JFrame implements ActionListener {
     private JButton RamsayButton;
     private ImageIcon Ramsay;
     
+    
+    
     Boolean isPaused = false;
     /**
      * Constructor for RestaurantGui class.
@@ -91,6 +93,9 @@ public class CityGui extends JFrame implements ActionListener {
         pauseButton.addActionListener(this);
         refreshButton = new JButton("REFRESH");
         refreshButton.addActionListener(this);
+        
+        
+        
         
 //CUSTOMER PANEL INFORMATION
         Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .30));
@@ -130,7 +135,47 @@ public class CityGui extends JFrame implements ActionListener {
 
         add(cityAnimationPanel, BorderLayout.CENTER);
         add(RestaurantPortion, BorderLayout.EAST);
+        
+        
+        
+        
+        cityAnimationPanel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            int x=e.getX();
+            int y=e.getY();
+            System.out.println(x+","+y);//these co-ords are relative to the component
+          
+            
+            if ((x<159) && (y<85) && (x>0) && (y>0)){
+           
+                  BankGui gui3 = new BankGui();
+                   gui3.setTitle("Aleena's Bank");
+                   gui3.setVisible(true);
+                   gui3.setResizable(false);
+                   gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
+            }
+            
+            if ((x<314) && (y<468) && (x>210) && (y>370)){
+             RestaurantGui gui2 = new RestaurantGui();
+              gui2.setTitle("Norman's Restaurant");
+              gui2.setVisible(true);
+              gui2.setResizable(false);
+              gui2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
+            }
+            
+            }
 
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent arg0) {}
+			public void mousePressed(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
+        });
+
+        
+        
+  
+        
     }
     /**
      * updatepersonInformationPanel() takes the given customer (or, for v3, Host) object and
@@ -236,23 +281,14 @@ public class CityGui extends JFrame implements ActionListener {
      * Main routine to get gui started
      */
     public static void main(String[] args) {    
-        RestaurantGui gui2 = new RestaurantGui();
-        gui2.setTitle("Norman's Restaurant");
-        gui2.setVisible(true);
-        gui2.setResizable(false);
-        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+ 
     	
         CityGui gui = new CityGui();
-        gui.cityPanel.setRestPanel(gui2.restPanel);
+       // gui.cityPanel.setRestPanel(gui2.restPanel);
         gui.setTitle("Team 05's City");
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        BankGui gui3 = new BankGui();
-        gui3.setTitle("Aleena's Bank");
-        gui3.setVisible(true);
-        gui3.setResizable(false);
-        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+
     }
 }

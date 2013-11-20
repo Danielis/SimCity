@@ -22,6 +22,10 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
         private final int WINDOWX_ANIM = 934;
         private final int WINDOWY_ANIM = 645;
 
+        
+       // private ImageIcon bank;
+        //private JButton bank = new JButton();
+        
         int RESTAURANT_X = 50;
         int RESTAURANT_Y = 100;
         int RESTAURANT_SIZE = 50;
@@ -41,6 +45,7 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
 
                 Timer timer = new Timer(20, this );
                 timer.start();
+             
         }
 
         public void actionPerformed(ActionEvent e) {
