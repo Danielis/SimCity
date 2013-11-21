@@ -26,6 +26,9 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	int HOUSE_Y = 100;
 	int HOUSE_SIZE = 50;
 
+	private Image wood_floor;
+	private Image kitchen; 
+	
 	private Image bufferImage;
 	private Dimension bufferSize;
 
@@ -35,6 +38,16 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		setSize(WINDOWX_ANIM, WINDOWY_ANIM);
 		setVisible(true);
 
+		try
+        {
+            wood_floor = ImageIO.read(getClass().getResource("/resources/wood_floor.png"));
+        } catch (IOException e ) {}
+		
+		try
+        {
+            kitchen = ImageIO.read(getClass().getResource("/resources/kitchen.png"));
+        } catch (IOException e ) {}
+		
 		bufferSize = this.getSize();
 
 		Timer timer = new Timer(20, this );
@@ -49,7 +62,8 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 
 
 		Graphics2D house = (Graphics2D)g;
-
+		
+		Graphics2D background = (Graphics2D)g;
 		Graphics2D g1 = (Graphics2D)g;
 		Graphics2D g2 = (Graphics2D)g;
 		Graphics2D g3 = (Graphics2D)g;
@@ -57,16 +71,18 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 
 		//COLORS		
 		Color brown = new Color(245, 201, 114);
-		Color backgroundColor = new Color(167, 92, 86);
-
-
+		Color backgroundColor = new Color(255, 255, 255);
+		background.setColor(backgroundColor);
+		background.drawImage(wood_floor, 0, 0, this);
+		background.drawImage(kitchen, 0, 0, 288, 241, this);
+		
 		//BACKGROUND INITIATION
-		g1.setColor(backgroundColor);
-		g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
+		//g1.setColor(backgroundColor);
+		//g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
 
 		//temporary rectangle, could represent restaurant
 		house.setColor(brown);
-		house.fillRect(HOUSE_X, HOUSE_Y, HOUSE_SIZE, HOUSE_SIZE);
+		//house.fillRect(HOUSE_X, HOUSE_Y, HOUSE_SIZE, HOUSE_SIZE);
 
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
@@ -74,13 +90,13 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 			}
 		}
 		
-
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.draw(house);
 			}
 		}
 	}
+	
 	public void addGui(HousingCustomerGui gui) {
 		guis.add(gui);
 	}

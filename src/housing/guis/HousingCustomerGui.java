@@ -39,7 +39,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		
 		//images
 		//List of tables
-	    public List<Coordinate> tables = new ArrayList<Coordinate>();
 
 		public HousingCustomerGui(PersonAgent c, CityGui gui2){
 			
@@ -53,10 +52,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	    	waitingroom = new Coordinate(140,70);
 	    	destination = outside;
 	    	
-	    	for (int i = 0; i < HostAgent.NTABLES; i++)
-	    	{
-	    		tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
-	    	}
 		}
 		//UTILITIES ***********************************************
 	    public class Coordinate
@@ -75,6 +70,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	    		y = b;
 	    	}
 	    }
+	    
 		public void updatePosition() {
 			if (goingSomewhere)
 	    	{
@@ -138,16 +134,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 		public void setPresent(boolean p) {
 			isPresent = p;
-		}
-		
-		public void DoGoToSeat(int tableNum)
-		{
-	    	goingSomewhere = true;
-			//System.out.println(agent.getName() + " is going to table " + tableNum);
-			int i_temp = tableNum -1;
-			Coordinate c_temp = tables.get(i_temp);
-			destination = new Coordinate(c_temp.x+15, c_temp.y-15);
-			//agent.WaitForAnimation();
 		}
 		
 		public void DoExitRestaurant()

@@ -50,10 +50,8 @@ public class HousingPanel extends JPanel {
     public HousingPanel(HousingGui gui) {
         this.gui = gui;
       
-       
        // gui.cityAnimationPanel.addGui(hostGui);
         //gui.cityAnimationPanel.addGui(cookGui);
-        
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
