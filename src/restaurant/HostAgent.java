@@ -2,6 +2,7 @@ package restaurant;
 
 import agent.Agent;
 import restaurant.gui.HostGui;
+import restaurant.interfaces.Customer;
 import restaurant.WaiterAgent;
 import restaurant.CustomerAgent;
 
@@ -142,11 +143,11 @@ public class HostAgent extends Agent {
 		//MyCustomer Class
 		private class MyCustomer
 		{
-			CustomerAgent c;
+			Customer c;
 			customerState state;
 		
 			//Constructor	
-			MyCustomer(CustomerAgent newCustomer, customerState newState)
+			MyCustomer(Customer newCustomer, customerState newState)
 			{
 				c = newCustomer;
 				state = newState;
@@ -193,13 +194,13 @@ public class HostAgent extends Agent {
 		stateChanged();
 	}
 	
-	public void msgCheckForASpot(CustomerAgent cust)
+	public void msgCheckForASpot(Customer cust)
 	{
 		customers.add(new MyCustomer(cust, customerState.waitingToSeeIfFull));
 		stateChanged();
 	}
 	
-	public void msgIWantFood(CustomerAgent cust, Boolean b) 
+	public void msgIWantFood(Customer cust, Boolean b) 
 	{		
 		//If Customer wants food, assign him
 		if (b)

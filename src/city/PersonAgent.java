@@ -333,6 +333,7 @@ import java.util.Collections;
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
+import restaurant.interfaces.Customer;
 import agent.Agent;
 
 import java.util.*;
@@ -342,7 +343,7 @@ import javax.management.relation.RoleStatus;
 
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
-
+import roles.Role;
 
 public class PersonAgent extends Agent implements Person
 {
@@ -370,38 +371,28 @@ public class PersonAgent extends Agent implements Person
 
 	}
 	
+	/*****************************************************************************
+										CLASSES
+	 ******************************************************************************/
 	//Class Declarations
-	class Role
+	/*
+	class CustomerRole extends Role implements Customer
 	{
-		PersonAgent myPerson;
-		Boolean active;
-		
-		//Utilities for Role
-		public void setPerson(PersonAgent a)
+		public void msgWhatWouldYouLike()
 		{
-			myPerson = a;
+			//
 		}
 		
-		public PersonAgent getPersonAgent()
+		public void msgGotHungry()
 		{
-			return myPerson;
+			//
 		}
 		
-		private void stateChanged()
+		public void msgHereIsYourCheck(float price)
 		{
-			myPerson.stateChanged();
+			//
 		}
-		
-		public void setActivity(Boolean b)
-		{
-			active = b;
-		}
-	
-		public Boolean getActivity()
-		{
-			return active;
-		}
-	}
+	}*/
 	
 	class PersonStatus
 	{
@@ -563,8 +554,6 @@ public class PersonAgent extends Agent implements Person
 	    //gui.isVisible();
 	    stateChanged();
 	}
-
-
 	
 	/*
 	//Work
@@ -621,13 +610,15 @@ public class PersonAgent extends Agent implements Person
 	
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-/*
+
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 			Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
 		}
-		return false;*/
+		return false;
+		
+		/*
 		Boolean anytrue = false;
 		for(Role r : roles)
 		{
@@ -638,7 +629,7 @@ public class PersonAgent extends Agent implements Person
 		}
 		
 		if(anytrue)
-			return true;
+			return true;*/
 	}
 	
 	/*****************************************************************************

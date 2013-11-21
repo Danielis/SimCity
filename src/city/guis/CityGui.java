@@ -3,7 +3,7 @@ package city.guis;
 
 
 import restaurant.CustomerAgent;
-import bank.gui.BankGui;
+//import bank.gui.BankGui;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
@@ -248,11 +248,11 @@ public class CityGui extends JFrame implements ActionListener {
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+/*        
         BankGui gui3 = new BankGui();
         gui3.setTitle("Aleena's Bank");
         gui3.setVisible(true);
         gui3.setResizable(false);
-        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   */
     }
 }
