@@ -15,13 +15,14 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//constructor
 	public HousingCustomerAgent(String name2) {
 		name = name2;
+		balance = 10000;
 		needsLoan = false;
 		houseNeedsRepairs = false;
 		System.out.println("Housing Customer created.");
 	}
 
-	public void setLandlord(Landlord l) {
-		landlord = l;
+	public void setLandlord(LandlordAgent landlord2) {
+		landlord = landlord2;
 	}
 
 	public HousingAnimationPanel copyOfAnimationPanel() {
@@ -42,7 +43,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	private HousingCustomerGui gui;
 
 	//landlord agent for the customer
-	private Landlord landlord;
+	private LandlordAgent landlord;
 
 	//how much money owned/owed 
 	double balance;
@@ -122,7 +123,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	private void CallLandlordRepairs(){
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
-		System.out.println("Called housing worker for repairs.");
+		System.out.println("Tenant: called landlord for repairs.");
 	}
 
 	private void TakeOutLoan(){

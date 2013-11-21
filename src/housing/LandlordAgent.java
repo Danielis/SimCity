@@ -17,14 +17,15 @@ public class LandlordAgent extends Agent {
 	public LandlordAgent() {
 		complexes.add(new HousingComplex());
 		System.out.println("Landlord created.");
+		balance = 10000;
 	}
 	
 	public void addCustomer(HousingCustomer hc){
 		complexes.get(0).inhabitants.add(hc);
 	}
 	
-	public void addWorker(HousingWorker hw) {
-		workers.add(new MaintenanceWorker(hw, 0));
+	public void addWorker(HousingWorkerAgent worker) {
+		workers.add(new MaintenanceWorker(worker, 0));
 	}
 
 	//--------------------------------------------------------
@@ -33,7 +34,7 @@ public class LandlordAgent extends Agent {
 	private List<HousingComplex> complexes = new ArrayList<HousingComplex>();
 	private List<RepairTicket> tickets = new ArrayList<RepairTicket>();
 	private List<Payment> payments = new ArrayList<Payment>();
-	private List<MaintenanceWorker> workers;
+	private List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
 	double balance;
 
 	public class HousingComplex {
@@ -42,7 +43,7 @@ public class LandlordAgent extends Agent {
 		double rent;
 		public HousingComplex() {
 			type = complexType.apartment;
-			rent = 100;
+			rent = 1000;
 		}
 	}
 	enum complexType {apartment, house};
@@ -75,10 +76,10 @@ public class LandlordAgent extends Agent {
 	enum ticketStatus {unassigned, assigned, completed, paid};
 
 	private class MaintenanceWorker{
-		HousingWorker p;
+		HousingWorkerAgent p;
 		int jobs;
 		//constructor
-		public MaintenanceWorker(HousingWorker h, int j) {
+		public MaintenanceWorker(HousingWorkerAgent h, int j) {
 			p = h;
 			jobs = j;
 		}
@@ -163,8 +164,7 @@ public class LandlordAgent extends Agent {
 	//------------------Actions-----------------------------
 	//--------------------------------------------------------
 	private void AssignTicket(RepairTicket t){
-		t.w = workers.get(0); //stub
-		//there should be a better way of picking workers
+		t.w = workers.get(0); //there should be a better way of picking workers
 		t.s = ticketStatus.assigned;
 		t.w.p.GoRepair(t.complex);
 		System.out.println("Landlord: Ticket assigned.");
@@ -177,15 +177,15 @@ public class LandlordAgent extends Agent {
 	}
 
 	private void UpdateBill(Payment p){
-		if (p.amountPaid > p.amountOwed){
+		if (p.amountOwed < 0){
 			p.s = paymentState.completed;
 			balance -= p.amountPaid - p.amountOwed;
-			p.inhabitant.HereIsChange(p.amountPaid - p.amountOwed);
+			p.inhabitant.HereIsChange((-1) * p.amountOwed);
 			p.amountPaid = p.amountOwed;
 			p.inhabitant.RentIsPaid();
 			System.out.println("Landlord: Money received, change is owed.");
 		}
-		else if (p.amountPaid == p.amountOwed){
+		else if (p.amountOwed == 0){
 			p.s = paymentState.completed;
 			p.inhabitant.RentIsPaid();
 			System.out.println("Landlord: Money received, no change is owed.");

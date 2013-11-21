@@ -34,6 +34,11 @@ public class HousingWorkerAgent extends Agent {
 	//constructor
 	public HousingWorkerAgent(){
 		System.out.println("Housing Worker Created.");
+		balance = 0;
+	}
+	
+	public void setLandlord(LandlordAgent l) {
+		landlord = l;
 	}
 	
 	//------------------------------------------------------
@@ -41,7 +46,7 @@ public class HousingWorkerAgent extends Agent {
 	//------------------------------------------------------
 	public void GoRepair(HousingComplex c){
 	        //a bill will be calculated here eventually
-	        myJobs.add(new Job(c, 10.0, 0.0, jobState.created) );
+	        myJobs.add(new Job(c, 100.0, 0.0, jobState.created) );
 	        stateChanged();
 	}
 

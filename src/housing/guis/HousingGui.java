@@ -214,6 +214,9 @@ public class HousingGui extends JFrame implements ActionListener {
 		if(e.getSource() == rentButton) {
 			housingPanel.landlord.EveryoneOwesRent();
 		}
+		if(e.getSource() == breakStuffButton) {
+			housingPanel.tenant.MyHouseNeedsRepairs();
+		}
 	}
 	/**
 	 * Message sent from a customer gui to enable that customer's

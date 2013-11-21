@@ -34,7 +34,7 @@ public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
 	public LandlordAgent landlord = new LandlordAgent();
-	private HousingCustomerAgent tenant;
+	public HousingCustomerAgent tenant;
 	private HousingWorkerAgent worker = new HousingWorkerAgent();
         
     private Vector<HousingCustomerAgent> people = new Vector<HousingCustomerAgent>();
@@ -56,6 +56,9 @@ public class HousingPanel extends JPanel {
 
         addPerson("Landlord");
         landlord.addCustomer(tenant);
+        tenant.setLandlord(landlord);
+        landlord.addWorker(worker);
+        worker.setLandlord(landlord);
         
         initRestLabel();
         add(restLabel);
