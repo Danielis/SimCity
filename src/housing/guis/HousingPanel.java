@@ -12,6 +12,7 @@ import restaurant.gui.RestaurantGui;
 import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
 import housing.LandlordAgent;
+import housing.interfaces.Landlord;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -121,20 +122,7 @@ public class HousingPanel extends JPanel {
      *
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
-     */
-//    public void addCustomer(String name) 
-//    {
-//		CustomerAgent c = new CustomerAgent(name);	
-//		CustomerGui g = new CustomerGui(c, gui);
-//		gui.animationPanel.addGui(g);
-//		c.setHost(host);
-//		c.setCashier(cashier);
-//		c.setGui(g);
-//		c.setAnimPanel(gui.animationPanel);
-//		customers.add(c);
-//		c.startThread();
-//    }
-    
+*/
     public void addPerson(String name) 
     {
 		//PersonAgent p = new PersonAgent(name);	
@@ -146,24 +134,9 @@ public class HousingPanel extends JPanel {
     	//p.startThread();
     }
     
-//    public void addWaiter(String name) 
-//    {
-//		waiterindex++;
-//    	WaiterAgent w = new WaiterAgent(name);	
-//		WaiterGui g = new WaiterGui(w, gui, waiterindex);
-//		gui.animationPanel.addGui(g);
-//		w.setHost(host);
-//		host.msgNewWaiter(w);
-//		w.setCook(cook);
-//		w.setCashier(cashier);
-//		w.setGui(g);
-//		waiters.add(w);
-//		w.startThread();
-//    }
-    
     public void pause()
     {
-
+    
     }
     
     public void resume()
@@ -171,9 +144,12 @@ public class HousingPanel extends JPanel {
 
     }
 
-    public void refresh()
+    public void startThreads()
     {
-    	gui.updateLastCustomer();
-    	gui.updateLastWaiter();
+    	landlord.startThread();
+    	tenant.startThread();
+    	worker.startThread();
+    	//gui.updateLastCustomer();
+    	//gui.updateLastWaiter();
     }
 }

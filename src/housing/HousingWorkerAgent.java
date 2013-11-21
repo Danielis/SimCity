@@ -44,6 +44,7 @@ public class HousingWorkerAgent extends Agent {
 				j.s = jobState.completed;
 			}
 		}
+		stateChanged();
 	}
 
 	//------------------------------------------------------
@@ -72,12 +73,12 @@ public class HousingWorkerAgent extends Agent {
 	        //DoGoToComplex(j.c);
 	        //DoRepairComplex(j.c);
 	        job.s = jobState.completed;
+	        System.out.println("Job completed.");
 	}
 
 	private void AskForPay(Job job){
 	        landlord.RepairsCompleted(job.c, job.bill);
 	        job.s = jobState.billed;
+	        System.out.println("Asking for pay.");
 	}
-
-	
 }

@@ -1,6 +1,7 @@
 package housing;
 
 import housing.interfaces.HousingCustomer;
+import housing.interfaces.HousingWorker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +11,19 @@ import agent.Agent;
 public class LandlordAgent extends Agent {
 
 	//--------------------------------------------------------
+	//-------------------Utilities---------------------------------
+	//--------------------------------------------------------
+	public void addWorker(HousingWorker hw) {
+		workers.add(new MaintenanceWorker(hw, 0));
+	}
+
+	//--------------------------------------------------------
 	//-------------------Data---------------------------------
 	//--------------------------------------------------------
 	private List<HousingComplex> complexes = new ArrayList<HousingComplex>();
 	private List<RepairTicket> tickets = new ArrayList<RepairTicket>();
 	private List<Payment> payments = new ArrayList<Payment>();
-	private List<MaintanenceWorker> workers;
+	private List<MaintenanceWorker> workers;
 	double balance;
 
 	public class HousingComplex {
@@ -42,7 +50,7 @@ public class LandlordAgent extends Agent {
 
 	private class RepairTicket{
 		HousingComplex complex;
-		MaintanenceWorker w;
+		MaintenanceWorker w;
 		double bill;
 		ticketStatus s;
 		public RepairTicket(HousingComplex c, ticketStatus ts) {
@@ -52,9 +60,14 @@ public class LandlordAgent extends Agent {
 	}
 	enum ticketStatus {unassigned, assigned, completed, paid};
 
-	private class MaintanenceWorker{
-		HousingWorkerAgent p;
+	private class MaintenanceWorker{
+		HousingWorker p;
 		int jobs;
+		//constructor
+		public MaintenanceWorker(HousingWorker h, int j) {
+			p = h;
+			jobs = j;
+		}
 	}
 
 	//--------------------------------------------------------
@@ -63,8 +76,10 @@ public class LandlordAgent extends Agent {
 	public void EveryoneOwesRent(){ //called by gui or timer or something
 		for(HousingComplex c: complexes) {
 			for(HousingCustomerAgent i: c.inhabitants) {
-				payments.add(new Payment(c, i, c.rent / c.inhabitants.size(), paymentState.created));	        	}
+				payments.add(new Payment(c, i, c.rent / c.inhabitants.size(), paymentState.created));	        	
+			}
 		}
+		stateChanged();
 	}
 
 
@@ -77,6 +92,7 @@ public class LandlordAgent extends Agent {
 				p.amountOwed -= amount;
 			}
 		}
+		stateChanged();
 	}
 
 	public void MyHouseNeedsRepairs(HousingCustomerAgent p){
@@ -87,6 +103,7 @@ public class LandlordAgent extends Agent {
 				}
 			}
 		}
+		stateChanged();
 	}
 
 	public void RepairsCompleted(HousingComplex complex, double amount){
@@ -96,6 +113,7 @@ public class LandlordAgent extends Agent {
 				t.s = ticketStatus.completed;
 			}
 		}
+		stateChanged();
 	}
 
 	//--------------------------------------------------------
@@ -123,7 +141,7 @@ public class LandlordAgent extends Agent {
 				return true;
 			}
 		}
-				return false;
+		return false;
 	}
 
 	//--------------------------------------------------------
@@ -134,11 +152,13 @@ public class LandlordAgent extends Agent {
 		//there should be a better way of picking workers
 		t.s = ticketStatus.assigned;
 		t.w.p.GoRepair(t.complex);
+		System.out.println("Landlord: Ticket assigned.");
 	}
 
 	private void SendBill(Payment p){
 		p.s = paymentState.issued;
 		p.inhabitant.HereIsRentBill(p.amountOwed);
+		System.out.println("Landlord: Bill sent to tenant.");
 	}
 
 	private void UpdateBill(Payment p){
@@ -148,14 +168,17 @@ public class LandlordAgent extends Agent {
 			p.inhabitant.HereIsChange(p.amountPaid - p.amountOwed);
 			p.amountPaid = p.amountOwed;
 			p.inhabitant.RentIsPaid();
+			System.out.println("Landlord: Money received, change is owed.");
 		}
 		else if (p.amountPaid == p.amountOwed){
 			p.s = paymentState.completed;
 			p.inhabitant.RentIsPaid();
+			System.out.println("Landlord: Money received, no change is owed.");
 		}
 		else{
 			p.s = paymentState.issued;
 			p.inhabitant.YouStillOwe(p.amountOwed - p.amountPaid);
+			System.out.println("Landlord: Money is still owed.");
 		}
 	}
 
@@ -164,9 +187,11 @@ public class LandlordAgent extends Agent {
 			balance -= t.bill;
 			t.s = ticketStatus.paid;
 			t.w.p.HereIsMoney(t.complex, t.bill);
+			System.out.println("Landlord: Ticket being paid.");
 		}
 		else{
 			//TakeOutLoan(t.bill); //stub
+			System.out.println("Landlord: Loan needed.");
 		}
 	}
 

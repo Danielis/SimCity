@@ -37,7 +37,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
     
 
     //GENERAL STUFF
-    private HousingPanel cityPanel;
+    private HousingPanel housingPanel;
     String type;
     /**
      * Constructor for ListPanel.  Sets up all the gui
@@ -46,7 +46,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
      * @param type indicates if this is for customers or waiters
      */
     public HousingListPanel(HousingPanel rp, String type) {
-        cityPanel = rp;
+        housingPanel = rp;
         this.type = type;
 
         //setLayout(new GridLayout(0,1,1,1));
@@ -87,7 +87,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
         	for (JButton temp1:listForPeople){
                 if (e.getSource() == temp1)
                 {
-                    cityPanel.showPersonInfo(temp1.getText());
+                    housingPanel.showPersonInfo(temp1.getText());
                 }
             }
         }
@@ -115,8 +115,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForPeople.add(button);
             viewForPerson.add(button);
-            cityPanel.addPerson(name);
-            cityPanel.showPersonInfo(name);
+            housingPanel.addPerson(name);
+            housingPanel.showPersonInfo(name);
             validate();
         }
     }

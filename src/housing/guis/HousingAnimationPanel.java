@@ -80,12 +80,8 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 				gui.draw(house);
 			}
 		}
-
 	}
-
 	public void addGui(HousingCustomerGui gui) {
 		guis.add(gui);
 	}
-
-
 }
