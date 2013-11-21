@@ -19,7 +19,7 @@ import city.guis.PersonGui.Coordinate;
 public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 	//variables
-		private boolean isPresent = false;
+		private boolean isPresent = true;
 		private boolean isHungry = false;
 		private boolean goingSomewhere = false;
 		
@@ -60,10 +60,10 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	        } catch (IOException e ) {}
 			
 			outside = new Coordinate(-50,105);
-	    	position = new Coordinate(-50,105);
+	    	position = new Coordinate(350,350);
 	    	cashier = new Coordinate(255, 75);
 	    	waitingroom = new Coordinate(140,70);
-	    	destination = outside;
+	    	destination = position;
 	    	
 		}
 		//UTILITIES ***********************************************

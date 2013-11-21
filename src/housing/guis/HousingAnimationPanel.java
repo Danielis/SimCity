@@ -98,6 +98,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	}
 	
 	public void addGui(HousingCustomerGui gui) {
+		System.out.println("Gui added!");
 		guis.add(gui);
 	}
 }

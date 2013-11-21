@@ -33,11 +33,11 @@ import java.util.Vector;
 public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
-	private LandlordAgent landlord = new LandlordAgent();
-	private HousingCustomerAgent tenant = new HousingCustomerAgent("Tenant");
+	public LandlordAgent landlord = new LandlordAgent();
+	private HousingCustomerAgent tenant;
 	private HousingWorkerAgent worker = new HousingWorkerAgent();
         
-    private Vector<PersonAgent> people = new Vector<PersonAgent>();
+    private Vector<HousingCustomerAgent> people = new Vector<HousingCustomerAgent>();
 
     private JPanel restLabel = new JPanel();
     private HousingListPanel personPanel = new HousingListPanel(this, "People");
@@ -49,14 +49,14 @@ public class HousingPanel extends JPanel {
     public HousingPanel(HousingGui gui) {
         this.gui = gui;
       
-       // gui.cityAnimationPanel.addGui(hostGui);
-        //gui.cityAnimationPanel.addGui(cookGui);
-        
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
-
+        
         group.add(personPanel);
 
+        addPerson("Landlord");
+        landlord.addCustomer(tenant);
+        
         initRestLabel();
         add(restLabel);
         add(group);
@@ -102,11 +102,11 @@ public class HousingPanel extends JPanel {
     {
         for (int i = 0; i < people.size(); i++) {
         	
-            PersonAgent temp = people.get(i);
+            HousingCustomerAgent temp = people.get(i);
             if (temp.getName() == name)
             {
                 personPanel.updatePerson(temp);
-                gui.updatePersonInformationPanel(temp);
+               // gui.updatePersonInformationPanel(temp);
                 personPanel.updatePerson(temp);
             }
         }
@@ -128,8 +128,6 @@ public class HousingPanel extends JPanel {
 		p.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		tenant = p;
-    	//people.add(p);
-    	//p.startThread();
     }
     
     public void pause()
@@ -147,7 +145,5 @@ public class HousingPanel extends JPanel {
     	landlord.startThread();
     	tenant.startThread();
     	worker.startThread();
-    	//gui.updateLastCustomer();
-    	//gui.updateLastWaiter();
     }
 }

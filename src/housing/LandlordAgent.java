@@ -16,6 +16,7 @@ public class LandlordAgent extends Agent {
 	//constructor
 	public LandlordAgent() {
 		complexes.add(new HousingComplex());
+		System.out.println("Landlord created.");
 	}
 	
 	public void addCustomer(HousingCustomer hc){
@@ -87,9 +88,11 @@ public class LandlordAgent extends Agent {
 	//-------------------Messages-----------------------------
 	//--------------------------------------------------------
 	public void EveryoneOwesRent(){ //called by gui or timer or something
+		System.out.println("Landlord: time to figure out rent.");
 		for(HousingComplex c: complexes) {
 			for(HousingCustomer i: c.inhabitants) {
-				payments.add(new Payment(c, i, c.rent / c.inhabitants.size(), paymentState.created));	        	
+				payments.add(new Payment(c, i, c.rent / c.inhabitants.size(), paymentState.created));
+				System.out.println("Landlord: payment request added.");
 			}
 		}
 		stateChanged();

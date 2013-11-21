@@ -51,10 +51,9 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JButton pauseButton;
 	private JButton startButton;
 	private JPanel ButtonPanel;
-	private JButton MrKrabsButton;
+	private JButton rentButton;
 	private ImageIcon MrKrabs;
-	private JButton RamsayButton;
-	private ImageIcon Ramsay;
+	private JButton breakStuffButton;
 
 	Boolean isPaused = false;
 	
@@ -66,8 +65,6 @@ public class HousingGui extends JFrame implements ActionListener {
 
 		//button panel at bottom
 		ButtonPanel = new JPanel();
-		MrKrabs = new ImageIcon(getClass().getResource("/resources/MrKrabs.png"));
-		Ramsay = new ImageIcon(getClass().getResource("/resources/Ramsay.png"));
 
 		RestaurantPortion.setLayout(new BorderLayout());
 		InformationPanel = new JPanel();
@@ -125,13 +122,13 @@ public class HousingGui extends JFrame implements ActionListener {
 		waiterInformationPanel.add(infoWaiterLabel);
 		RestaurantPortion.add(housingPanel, BorderLayout.NORTH);
 		InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
-		MrKrabsButton = new JButton(MrKrabs);
-		RamsayButton = new JButton(Ramsay);
-		MrKrabsButton.addActionListener(this);
-		RamsayButton.addActionListener(this);
+		rentButton = new JButton("Rent time!");
+		breakStuffButton = new JButton("Break Stuff!");
+		rentButton.addActionListener(this);
+		breakStuffButton.addActionListener(this);
 		ButtonPanel.setLayout(new BorderLayout());
-		ButtonPanel.add(MrKrabsButton, BorderLayout.WEST);
-		ButtonPanel.add(RamsayButton, BorderLayout.EAST);
+		ButtonPanel.add(rentButton, BorderLayout.WEST);
+		ButtonPanel.add(breakStuffButton, BorderLayout.EAST);
 		InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
 		InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
 		RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
@@ -213,6 +210,9 @@ public class HousingGui extends JFrame implements ActionListener {
 		if (e.getSource() == startButton)
 		{
 			housingPanel.startThreads();
+		}
+		if(e.getSource() == rentButton) {
+			housingPanel.landlord.EveryoneOwesRent();
 		}
 	}
 	/**

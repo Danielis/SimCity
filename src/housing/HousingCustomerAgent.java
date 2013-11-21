@@ -15,6 +15,8 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//constructor
 	public HousingCustomerAgent(String name2) {
 		name = name2;
+		needsLoan = false;
+		houseNeedsRepairs = false;
 		System.out.println("Housing Customer created.");
 	}
 

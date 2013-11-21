@@ -4,6 +4,7 @@ import restaurant.CustomerAgent;
 import restaurant.HostAgent;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
+import housing.HousingCustomerAgent;
 
 import javax.swing.*;
 
@@ -31,9 +32,9 @@ public class HousingListPanel extends JPanel implements ActionListener {
     private JButton addPersonButton = new JButton("Add");
     private JTextField nameFieldForPerson = new JTextField("");
     private JCheckBox personHungryCheckBox = new JCheckBox("Make Hungry");
-    private PersonAgent currentPerson;
+    private HousingCustomerAgent currentPerson;
 
-    private PersonAgent lastPersonClicked;
+    private HousingCustomerAgent lastPersonClicked;
     
 
     //GENERAL STUFF
@@ -122,31 +123,31 @@ public class HousingListPanel extends JPanel implements ActionListener {
     }
  
     
-    public void updatePersonInfoPanel(PersonAgent p) {
+    public void updatePersonInfoPanel(HousingCustomerAgent p) {
     	this.lastPersonClicked = p;
        	personHungryCheckBox.setVisible(true);
         currentPerson = p;
-        PersonAgent person = p;
+        HousingCustomerAgent person = p;
         personHungryCheckBox.setText("Hungry?");
-        personHungryCheckBox.setSelected(person.getGui().isHungry());
-        personHungryCheckBox.setEnabled(!person.getGui().isHungry());
+        //personHungryCheckBox.setSelected(person.getGui().isHungry());
+        //personHungryCheckBox.setEnabled(!person.getGui().isHungry());
 
     }
     public void updatePersonPanel()
     {
-        personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
-        personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());
+       // personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
+       // personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());
     }
    
    
-    public void updatePerson(PersonAgent person)
+    public void updatePerson(HousingCustomerAgent temp)
     {
-    	currentPerson = person;
+    	currentPerson = temp;
         	if (personHungryCheckBox.isSelected())
         	{
         		personHungryCheckBox.setSelected(false);
-        		PersonAgent p = currentPerson;
-        		p.getGui().setHungry();
+        		HousingCustomerAgent p = currentPerson;
+        		//p.getGui().setHungry();
         	}
     }
 }
