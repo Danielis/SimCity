@@ -29,6 +29,14 @@ public class HousingWorkerAgent extends Agent {
 	enum jobState {created, completed, billed, paid};
 
 	//------------------------------------------------------
+	//-----------------Utilities----------------------------
+	//------------------------------------------------------
+	//constructor
+	public HousingWorkerAgent(){
+		System.out.println("Housing Worker Created.");
+	}
+	
+	//------------------------------------------------------
 	//-----------------Messages-----------------------------
 	//------------------------------------------------------
 	public void GoRepair(HousingComplex c){

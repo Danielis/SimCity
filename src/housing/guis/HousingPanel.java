@@ -34,11 +34,10 @@ public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
 	private LandlordAgent landlord = new LandlordAgent();
-	private HousingCustomerAgent tenant = new HousingCustomerAgent();
+	private HousingCustomerAgent tenant = new HousingCustomerAgent("Tenant");
 	private HousingWorkerAgent worker = new HousingWorkerAgent();
         
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
-    
 
     private JPanel restLabel = new JPanel();
     private HousingListPanel personPanel = new HousingListPanel(this, "People");
@@ -123,11 +122,12 @@ public class HousingPanel extends JPanel {
 */
     public void addPerson(String name) 
     {
-		//PersonAgent p = new PersonAgent(name);	
- //   	PersonGui g = new PersonGui(p, gui);
-   // 	gui.cityAnimationPanel.addGui(g);
-    //	p.setGui(g);
+		HousingCustomerAgent p = new HousingCustomerAgent(name);
+		HousingCustomerGui g = new HousingCustomerGui(p, gui);
+		gui.housingAnimationPanel.addGui(g);
+		p.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
+		tenant = p;
     	//people.add(p);
     	//p.startThread();
     }

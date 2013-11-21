@@ -11,8 +11,17 @@ import agent.Agent;
 public class LandlordAgent extends Agent {
 
 	//--------------------------------------------------------
-	//-------------------Utilities---------------------------------
+	//-------------------Utilities----------------------------
 	//--------------------------------------------------------
+	//constructor
+	public LandlordAgent() {
+		complexes.add(new HousingComplex());
+	}
+	
+	public void addCustomer(HousingCustomer hc){
+		complexes.get(0).inhabitants.add(hc);
+	}
+	
 	public void addWorker(HousingWorker hw) {
 		workers.add(new MaintenanceWorker(hw, 0));
 	}
@@ -27,19 +36,23 @@ public class LandlordAgent extends Agent {
 	double balance;
 
 	public class HousingComplex {
-		List<HousingCustomerAgent> inhabitants = new ArrayList<HousingCustomerAgent>();
+		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();
 		complexType type;
 		double rent;
+		public HousingComplex() {
+			type = complexType.apartment;
+			rent = 100;
+		}
 	}
 	enum complexType {apartment, house};
 
 	private class Payment{
 		HousingComplex complex;
-		HousingCustomerAgent inhabitant;
+		HousingCustomer inhabitant;
 		double amountOwed;
 		double amountPaid;
 		paymentState s;
-		public Payment(HousingComplex c, HousingCustomerAgent i, double owed, paymentState initialState) {
+		public Payment(HousingComplex c, HousingCustomer i, double owed, paymentState initialState) {
 			complex = c;
 			inhabitant = i;
 			amountOwed = owed;
@@ -75,13 +88,12 @@ public class LandlordAgent extends Agent {
 	//--------------------------------------------------------
 	public void EveryoneOwesRent(){ //called by gui or timer or something
 		for(HousingComplex c: complexes) {
-			for(HousingCustomerAgent i: c.inhabitants) {
+			for(HousingCustomer i: c.inhabitants) {
 				payments.add(new Payment(c, i, c.rent / c.inhabitants.size(), paymentState.created));	        	
 			}
 		}
 		stateChanged();
 	}
-
 
 	public void HereIsRent(HousingCustomerAgent inhabitant, double amount){
 		for(Payment p: payments) {
@@ -97,7 +109,7 @@ public class LandlordAgent extends Agent {
 
 	public void MyHouseNeedsRepairs(HousingCustomerAgent p){
 		for(HousingComplex c: complexes) {
-			for(HousingCustomerAgent h: c.inhabitants) {
+			for(HousingCustomer h: c.inhabitants) {
 				if(h == p) {
 					tickets.add(new RepairTicket(c, ticketStatus.unassigned));
 				}

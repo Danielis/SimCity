@@ -1,30 +1,51 @@
 package housing;
 
+import housing.guis.HousingAnimationPanel;
+import housing.guis.HousingCustomerGui;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.Landlord;
 import agent.Agent;
 
 public class HousingCustomerAgent extends Agent implements HousingCustomer{
+
+
 	//-----------------------------------------------
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
+	//constructor
+	public HousingCustomerAgent(String name2) {
+		name = name2;
+		System.out.println("Housing Customer created.");
+	}
+
 	public void setLandlord(Landlord l) {
 		landlord = l;
 	}
+
+	public HousingAnimationPanel copyOfAnimationPanel() {
+		return animationPanel;
+	}
 	
+	public void setGui(HousingCustomerGui g) {
+		gui = g;		
+	}
+
 	//-----------------------------------------------
 	//--------------------DATA-----------------------
 	//-----------------------------------------------
 	//name
 	public String name;
-	
+
+	private HousingAnimationPanel animationPanel;
+	private HousingCustomerGui gui;
+
 	//landlord agent for the customer
 	private Landlord landlord;
-	
+
 	//how much money owned/owed 
 	double balance;
 	double bill;
-	
+
 	//booleans to track loan needs and repairs
 	private Boolean needsLoan;
 	private Boolean houseNeedsRepairs;
@@ -32,7 +53,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//-----------------------------------------------
 	//------------------Messages---------------------
 	//-----------------------------------------------
-	
+
 	//sent from landlord.  rent bill
 	public void HereIsRentBill(double amount){
 		bill = amount;
@@ -107,4 +128,5 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		needsLoan = false;
 		System.out.println("Went to bank.");
 	}
+
 }

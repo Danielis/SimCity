@@ -1,9 +1,15 @@
 package housing.guis;
 
+import housing.HousingCustomerAgent;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import restaurant.HostAgent;
 import city.PersonAgent;
@@ -25,10 +31,12 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		private final int table_divider = 100;
 
 		//self agent
-		private PersonAgent agent = null;
+		private HousingCustomerAgent agent = null;
 
 		//private HostAgent host;
-		CityGui gui;
+		HousingGui gui;
+		
+		private Image avatar;
 		
 		//Coordinates
 		Coordinate position;
@@ -40,11 +48,16 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public HousingCustomerGui(PersonAgent c, CityGui gui2){
+		public HousingCustomerGui(HousingCustomerAgent c, HousingGui gui3){
 			
 	        
 			agent = c;
-			this.gui = gui2;
+			this.gui = gui3;
+			
+			try
+	        {
+	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
+	        } catch (IOException e ) {}
 			
 			outside = new Coordinate(-50,105);
 	    	position = new Coordinate(-50,105);
@@ -108,11 +121,10 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 			Graphics2D newG = (Graphics2D)g;
 			Color customerColor = new Color(195, 178, 116);
 			newG.setColor(customerColor);
-			newG.fillRect(50, 50, customerSize, customerSize);
-			
+			//newG.fillRect(50, 50, customerSize, customerSize);
+			newG.drawImage(avatar, position.x, position.y, agent.copyOfAnimationPanel());			
 		}
 
-		
 		public boolean isPresent() {
 			return isPresent;
 		}
@@ -123,11 +135,11 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 			setPresent(true);
 		}
 		
-		public void setNotHungry()
-		{
+		public void setNotHungry() {
 			isHungry = false;
 			setPresent(false);
 		}
+		
 		public boolean isHungry() {
 			return isHungry;
 		}
