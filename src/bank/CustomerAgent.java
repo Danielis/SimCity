@@ -41,6 +41,8 @@ public class CustomerAgent extends Agent implements Customer {
 	public String name;
 	Timer timer = new Timer();
 	
+	Boolean isHappy = true;
+	
 	//Constructor
 	public CustomerAgent(String name, HostAgent h){
 		super();
@@ -124,11 +126,13 @@ public void	LoanCreated(double temp){
 
 public void	CannotCreateLoan(){
 	    state = bankCustomerState.done;
+	    isHappy = false;
 	    stateChanged();
 	}
 
 public void	CreditNotGoodEnough(){
 	    state = bankCustomerState.done;
+	    isHappy = false;
 	    stateChanged();
 	}
 
@@ -144,6 +148,7 @@ public void	YourLoanIsPaidOff(double change){
 
 public void	YouStillOwe(double d, int i){
 	    state = bankCustomerState.done;
+	    isHappy = false;
 	    stateChanged();
 	}
 
@@ -160,6 +165,7 @@ public void	HereIsPartialWithdrawal(double amount){
 	}
 
 public void	NoMoney(){ // in account
+	isHappy = false;
 	    state = bankCustomerState.done;
 	    stateChanged();
 	}
@@ -198,7 +204,7 @@ public void WantAccount(){
 		}
 
 		if (state == bankCustomerState.done){
-		    LeaveBank();
+			SayThanks();
 		    return true;
 		}
 		
@@ -254,7 +260,24 @@ private void AskForAssistance(){
 		{				
 			GiveRequest();
 		}
+	}, 4000);
+}
+
+private void SayThanks(){
+	state = bankCustomerState.exited;
+	if (isHappy)
+	customerGui.setSpeechBubble("thnxcust");
+	else
+	customerGui.setSpeechBubble("oksadcust");
+	
+	timer.schedule( new TimerTask()
+	{
+		public void run()
+		{				
+			LeaveBank();
+		}
 	}, 2000);
+	
 }
 
 private void GiveRequest(){

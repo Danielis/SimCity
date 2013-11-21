@@ -9,6 +9,7 @@ import bank.Bank;
 import bank.Bank.Account;
 import bank.Bank.Loan;
 import bank.Bank.loanState;
+import bank.CustomerAgent.customerPurpose;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -155,6 +156,7 @@ public void DepositMoney(CustomerAgent c, int accountID, double amount){
 			 return;
 		}
 	}
+	waiterGui.setSpeechBubble("noacct");
 	print("No account found.");
 	transactions.add(new Transaction(amount, transactionType.deposit, c));
 	stateChanged();
@@ -170,6 +172,7 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 			return;
 		}
 	}
+	waiterGui.setSpeechBubble("noacct");
 	print("No account found");
 	transactions.add(new Transaction(amount, transactionType.withdrawal, c));
 	stateChanged();
@@ -190,6 +193,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		}
 	}
     transactions.add(new Transaction(c));
+    waiterGui.setSpeechBubble("noloanteller");
     print("No loan found");
     stateChanged();
 }
@@ -320,6 +324,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	}
 	
 	private void Deposit(Transaction t){
+		waiterGui.setSpeechBubble("thnxteller");
 		print("Depositing $" + t.amount + " into account #" + t.account.id);
 	    t.account.balance += t.amount;
 	    print("New account balance is $" + t.account.balance);
@@ -334,6 +339,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	private void Withdraw(Transaction t){
 		t.status = transactionStatus.resolved;
 	    if (t.account.balance >= t.amount){
+	    	waiterGui.setSpeechBubble("withdrawteller");
 	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
 	        t.account.balance -= t.amount;
 	        print("New account balance is $" + t.account.balance);
@@ -342,6 +348,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	        t.c.HereIsWithdrawal(t.amount);
 	    }
 	    else if (t.account.balance > 0){
+	    	waiterGui.setSpeechBubble("withdrawteller");
 	    	double temp = t.account.balance;
 	    	print("You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id);
 	        t.account.balance -= temp;
@@ -351,12 +358,16 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	        t.c.HereIsPartialWithdrawal(temp);
 	    }
 	    else{
+	    	waiterGui.setSpeechBubble("banknomoney");
 	    	print("You do not have any money in that account.");
 	        t.c.NoMoney();
 	    }  
 	}
 
 	private void NewAccount(Transaction t){
+		
+	   	waiterGui.setSpeechBubble("newacctteller");
+	    
 		print("Creating new account...");
 	    t.account.balance += t.amount;
 	    bank.balance += t.amount;
@@ -371,6 +382,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		//print("reached createloan function");
 	    t.status = transactionStatus.resolved;
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
+	    	waiterGui.setSpeechBubble("loanteller");
 	    	print("Created loan. Here is $" + t.amount + ". You owe $" + t.loan.balanceOwed);
 	    	bank.loans.add(t.loan);
 	    	bank.balance -= t.amount;
@@ -378,10 +390,12 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	        print("Bank cash balance is $" + bank.balance);
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){
+	    	waiterGui.setSpeechBubble("banknomoney");
 	    	print("Sorry we do not have enough money");
 	        t.loan.c.CannotCreateLoan();
 	    }
 	    else { // bad credit
+	    	waiterGui.setSpeechBubble("noloanteller");
 	    	print("Your credit is not good enough");
 	        t.loan.c.CreditNotGoodEnough();
 	    }
@@ -392,13 +406,15 @@ public void PayMyLoan(CustomerAgent c, double amount){
 	    bank.balance += t.amount;
 	    t.status = transactionStatus.resolved;
 	    if (t.loan.balancePaid >= t.loan.balanceOwed){
+	    	waiterGui.setSpeechBubble("thnxteller");
 	    	print("Your loan is paid off!");
 	        t.loan.s = loanState.paid;
 	        double change = t.loan.balancePaid - t.loan.balanceOwed;
 	        t.loan.c.YourLoanIsPaidOff(change);
 	    }
 	    else{
-	    	print("You still owe $" + "t.loan.balanceOwed - t.loan.balancePaid");
+	    	waiterGui.setSpeechBubble("stilloweloanteller");
+	    	print("You still owe $" + (t.loan.balanceOwed - t.loan.balancePaid));
 	        t.loan.c.YouStillOwe(t.loan.balanceOwed - t.loan.balancePaid, t.loan.dayCreated - t.loan.dayOwed);
 	    }
 	}

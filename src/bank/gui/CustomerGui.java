@@ -31,6 +31,8 @@ public class CustomerGui implements Gui{
 
 	//self agent
 	private CustomerAgent agent = null;
+	
+	
 
 	//private HostAgent host;
 	BankGui gui;
@@ -151,7 +153,8 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void setSpeechBubble(String temp){
-		speechBubbleLoc= new Coordinate(position.x - 10, position.y + 15);
+		System.out.println("setting");
+		speechBubbleLoc= new Coordinate(position.x - 10, position.y + 7);
 		showSpeechBubble = true;
 		temp = "/resources/bankSprites/speech/" + temp +".png";
 		 try

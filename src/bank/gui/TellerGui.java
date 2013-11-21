@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -39,6 +41,11 @@ public class TellerGui implements Gui {
     Coordinate cashier;
     Coordinate waitingroom;
     Coordinate homeposition;
+    
+    Boolean showSpeechBubble = false;
+	Coordinate speechBubbleLoc;
+	BufferedImage speechBubble;
+	Timer timer = new Timer();
     
     Boolean goingSomewhere = false;
     
@@ -110,7 +117,33 @@ public class TellerGui implements Gui {
     	Graphics2D newG = (Graphics2D)g;
         newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
 
+        if (showSpeechBubble){
+			newG.drawImage(speechBubble, speechBubbleLoc.x, speechBubbleLoc.y, agent.copyOfAnimPanel);
+		//System.out.println("x: " + speechBubbleLoc.x + " y: " + speechBubbleLoc.y);
+        }
     }
+    
+    
+    public void setSpeechBubble(String temp){
+    	//System.out.println("setting");
+		speechBubbleLoc = new Coordinate(position.x - 82, position.y - 53);
+		showSpeechBubble = true;
+		temp = "/resources/bankSprites/speech/" + temp +".png";
+		 try
+	        {
+	        	speechBubble = ImageIO.read(getClass().getResource(temp));
+	        } catch (IOException e ) {} 
+		 
+		 timer.schedule( new TimerTask()
+			{
+				public void run()
+				{				
+					
+					showSpeechBubble = false;
+				}
+			}, 2000);
+	}
+    
     
     public void AskForBreak()
     {
