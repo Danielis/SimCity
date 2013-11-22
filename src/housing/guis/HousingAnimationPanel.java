@@ -83,7 +83,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		//temporary rectangle, could represent restaurant
 		house.setColor(brown);
 		//house.fillRect(HOUSE_X, HOUSE_Y, HOUSE_SIZE, HOUSE_SIZE);
-
+		int i = 0;
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
@@ -98,7 +98,10 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	}
 	
 	public void addGui(HousingCustomerGui gui) {
-		System.out.println("Gui added!");
 		guis.add(gui);
+	}
+	public void addGui(HousingWorkerGui gui) {
+		guis.add(gui);
+		System.out.println("Gui size: " + guis.size());
 	}
 }

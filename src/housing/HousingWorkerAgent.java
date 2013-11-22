@@ -2,9 +2,13 @@ package housing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import housing.LandlordAgent.HousingComplex;
+import housing.guis.HousingAnimationPanel;
+import housing.guis.HousingGui;
+import housing.guis.HousingWorkerGui;
 import housing.interfaces.Landlord;
 
 public class HousingWorkerAgent extends Agent {
@@ -13,18 +17,20 @@ public class HousingWorkerAgent extends Agent {
 	LandlordAgent landlord;
 	private List<Job> myJobs = new ArrayList<Job>();
 	double balance;
-
+	private Semaphore waitingForAnimation = new Semaphore(0);
+	private HousingAnimationPanel animationPanel;
+	private HousingWorkerGui gui;
 	private class Job{
-	HousingComplex c;
-	double bill;
-	double amountReceived;
-	jobState s;
-	public Job(HousingComplex hc, double charged, double received, jobState state) {
-		c = hc;
-		bill = charged;
-		amountReceived = received;
-		s = state;
-	}
+		HousingComplex c;
+		double bill;
+		double amountReceived;
+		jobState s;
+		public Job(HousingComplex hc, double charged, double received, jobState state) {
+			c = hc;
+			bill = charged;
+			amountReceived = received;
+			s = state;
+		}
 	}
 	enum jobState {created, completed, billed, paid};
 
@@ -36,18 +42,39 @@ public class HousingWorkerAgent extends Agent {
 		System.out.println("Housing Worker Created.");
 		balance = 0;
 	}
-	
+
 	public void setLandlord(LandlordAgent l) {
 		landlord = l;
 	}
-	
+
+	public HousingAnimationPanel copyOfAnimationPanel() {
+		return animationPanel;
+	}
+
+	public void setGui(HousingWorkerGui g) {
+		gui = g;
+	}
+
+	public void WaitForAnimation() {
+		try {
+			waitingForAnimation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void DoneWithAnimation() {
+		waitingForAnimation.release();
+	}
+
 	//------------------------------------------------------
 	//-----------------Messages-----------------------------
 	//------------------------------------------------------
 	public void GoRepair(HousingComplex c){
-	        //a bill will be calculated here eventually
-	        myJobs.add(new Job(c, 100.0, 0.0, jobState.created) );
-	        stateChanged();
+		//a bill will be calculated here eventually
+		myJobs.add(new Job(c, 100.0, 0.0, jobState.created) );
+		stateChanged();
 	}
 
 	public void HereIsMoney(HousingComplex c, double amount){
@@ -83,15 +110,16 @@ public class HousingWorkerAgent extends Agent {
 	//-----------------Actions-----------------------------
 	//------------------------------------------------------
 	private void CompleteJob(Job job){
-	        //DoGoToComplex(j.c);
-	        //DoRepairComplex(j.c);
-	        job.s = jobState.completed;
-	        System.out.println("Job completed.");
+		gui.DoGoToComplex();
+		//DoRepairComplex(j.c);
+		job.s = jobState.completed;
+		System.out.println("Worker: Job completed.");
 	}
 
 	private void AskForPay(Job job){
-	        landlord.RepairsCompleted(job.c, job.bill);
-	        job.s = jobState.billed;
-	        System.out.println("Asking for pay.");
+		gui.DoGoHome();
+		landlord.RepairsCompleted(job.c, job.bill);
+		job.s = jobState.billed;
+		System.out.println("Worker: Asking for pay.");
 	}
 }

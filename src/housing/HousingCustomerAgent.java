@@ -1,5 +1,7 @@
 package housing;
 
+import java.util.concurrent.Semaphore;
+
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
 import housing.interfaces.HousingCustomer;
@@ -32,13 +34,26 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	public void setGui(HousingCustomerGui g) {
 		gui = g;		
 	}
+	
+	public void WaitForAnimation() {
+		try {
+			waitingForAnimation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void DoneWithAnimation() {
+		waitingForAnimation.release();
+	}
 
 	//-----------------------------------------------
 	//--------------------DATA-----------------------
 	//-----------------------------------------------
 	//name
 	public String name;
-
+	private Semaphore waitingForAnimation = new Semaphore(0);
 	private HousingAnimationPanel animationPanel;
 	private HousingCustomerGui gui;
 
@@ -107,6 +122,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//----------------Actions-------------------------
 	//------------------------------------------------
 	private void PayBill(){
+		gui.DoGoToLandlord();
 		if (balance > bill){
 			balance -= bill;
 			landlord.HereIsRent(this, bill);
@@ -119,11 +135,14 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 			balance = 0;
 			System.out.println("This is all I have.  I'm out of money.");
 		}
+		gui.DoGoHome();
 	}
 	private void CallLandlordRepairs(){
+		gui.DoGoToPhone();
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
 		System.out.println("Tenant: called landlord for repairs.");
+		gui.DoGoHome();
 	}
 
 	private void TakeOutLoan(){
@@ -131,5 +150,6 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		needsLoan = false;
 		System.out.println("Went to bank.");
 	}
+	
 
 }

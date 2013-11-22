@@ -35,7 +35,7 @@ public class HousingPanel extends JPanel {
     //declare agents.  for now one landlord, one worker, and one customer
 	public LandlordAgent landlord = new LandlordAgent();
 	public HousingCustomerAgent tenant;
-	private HousingWorkerAgent worker = new HousingWorkerAgent();
+	private HousingWorkerAgent worker;
         
     private Vector<HousingCustomerAgent> people = new Vector<HousingCustomerAgent>();
 
@@ -54,7 +54,8 @@ public class HousingPanel extends JPanel {
         
         group.add(personPanel);
 
-        addPerson("Landlord");
+        addTenant("Landlord");
+        addWorker("Worker");
         landlord.addCustomer(tenant);
         tenant.setLandlord(landlord);
         landlord.addWorker(worker);
@@ -123,7 +124,7 @@ public class HousingPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
 */
-    public void addPerson(String name) 
+    public void addTenant(String name) 
     {
 		HousingCustomerAgent p = new HousingCustomerAgent(name);
 		HousingCustomerGui g = new HousingCustomerGui(p, gui);
@@ -131,6 +132,16 @@ public class HousingPanel extends JPanel {
 		p.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		tenant = p;
+    }
+    
+    public void addWorker(String name) 
+    {
+		HousingWorkerAgent p = new HousingWorkerAgent();
+		HousingWorkerGui g = new HousingWorkerGui(p, gui);
+		gui.housingAnimationPanel.addGui(g);
+		p.setGui(g);
+    	//p.setAnimationPanel(gui.cityAnimationPanel);
+		worker = p;
     }
     
     public void pause()

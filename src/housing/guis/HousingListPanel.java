@@ -116,7 +116,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForPeople.add(button);
             viewForPerson.add(button);
-            housingPanel.addPerson(name);
+            housingPanel.addTenant(name);
             housingPanel.showPersonInfo(name);
             validate();
         }

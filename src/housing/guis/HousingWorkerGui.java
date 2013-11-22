@@ -1,6 +1,7 @@
 package housing.guis;
 
 import housing.HousingCustomerAgent;
+import housing.HousingWorkerAgent;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,7 +17,7 @@ import city.PersonAgent;
 import city.guis.CityGui;
 import city.guis.PersonGui.Coordinate;
 
-public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
+public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 
 	//variables
 		private boolean isPresent = true;
@@ -31,7 +32,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		private final int table_divider = 100;
 
 		//self agent
-		private HousingCustomerAgent agent = null;
+		private HousingWorkerAgent agent = null;
 
 		//private HostAgent host;
 		HousingGui gui;
@@ -42,13 +43,12 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		Coordinate position;
 		Coordinate destination;
 		Coordinate outside;
-		Coordinate cashier;
-		Coordinate waitingroom;
+		Coordinate workarea;
 		
 		//images
 		//List of tables
 
-		public HousingCustomerGui(HousingCustomerAgent c, HousingGui gui3){
+		public HousingWorkerGui(HousingWorkerAgent c, HousingGui gui3){
 			
 	        
 			agent = c;
@@ -59,11 +59,10 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 	        } catch (IOException e ) {}
 			
-			outside = new Coordinate(-50,105);
-	    	position = new Coordinate(350,350);
-	    	cashier = new Coordinate(255, 75);
-	    	waitingroom = new Coordinate(140,70);
-	    	destination = position;
+			outside = new Coordinate(-50,450);
+			destination = new Coordinate(-50, 450);
+	    	workarea = new Coordinate(12,80);
+	    	position = outside;
 	    	
 		}
 		//UTILITIES ***********************************************
@@ -87,6 +86,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		public void updatePosition() {
 			if (goingSomewhere)
 	    	{
+				//System.out.println("Is this being consistently called?");
 	    		//Do you like my Delta Movement System?
 	    		//I thought of it myself :D
 	    		//EC PLS
@@ -108,9 +108,9 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	                position.y -= (1 + deltay/deltadivider);
 	            
 
-	            if (position.x == destination.x && position.y == destination.y)
-	            {
+	            if (position.x == destination.x && position.y == destination.y) {
 	            	goingSomewhere = false;
+	            	System.out.println("Reached destination!.");
 	            	agent.DoneWithAnimation();
 	            }
 	    	}
@@ -121,7 +121,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 			Graphics2D newG = (Graphics2D)g;
 			Color customerColor = new Color(195, 178, 116);
 			newG.setColor(customerColor);
-			//newG.fillRect(50, 50, customerSize, customerSize);
 			newG.drawImage(avatar, position.x, position.y, agent.copyOfAnimationPanel());			
 		}
 
@@ -148,45 +147,18 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 			isPresent = p;
 		}
 		
-		public void DoExitRestaurant()
+		public void DoGoHome()
 		{
 			goingSomewhere = true;
-			//System.out.println(agent.getName() + " is leaving.");
-			destination = outside;
-			//agent.WaitForAnimation();
-		}
-		
-		public void DoGoToCashier()
-		{
-			goingSomewhere = true;
-			//System.out.println(agent.getName() + " is going to cashier.");
-			destination = cashier;
-			//agent.WaitForAnimation();
-		}
-		
-		public void DoGoToWaitingRoom()
-		{
-			goingSomewhere = true;
-			//System.out.println(agent.getName() + " is going to the waiting room.");
-			destination = waitingroom;
-			//agent.WaitForAnimation();
-		}
-		
-		public void DoGoToPhone() {
-			goingSomewhere = true;
-			destination = new Coordinate(250, 25);
+			destination = new Coordinate(-50, 450);
 			agent.WaitForAnimation();
 		}
 		
-		public void DoGoHome() {
+		
+		public void DoGoToComplex() {
 			goingSomewhere = true;
-			destination = new Coordinate(350,350);
+			destination = new Coordinate(12, 80);
 			agent.WaitForAnimation();
 		}
 
-		public void DoGoToLandlord() {
-			goingSomewhere = true;
-			destination = new Coordinate(-50,450);
-			agent.WaitForAnimation();
-		}
 }
