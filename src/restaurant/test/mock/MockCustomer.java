@@ -4,7 +4,11 @@ package restaurant.test.mock;
 import java.util.List;
 
 import agent.RestaurantMenu;
+import restaurant.CashierAgent;
+import restaurant.HostAgent;
 import restaurant.WaiterAgent;
+import restaurant.gui.CustomerGui;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;
 
@@ -61,6 +65,57 @@ public class MockCustomer extends Mock implements Customer {
         		System.out.println(check);
                 cashier.msgHereIsMyPayment(this, check);
         }
+	}
+	
+	public void WaitForAnimation()
+	{
+		//
+	}
+	
+	public void DoneWithAnimation()
+	{
+		//
+	}
+
+	@Override
+	public void setHost(HostAgent host) {
+		//
+	}
+
+	@Override
+	public void setCashier(CashierAgent cashier) {
+		//
+	}
+
+	@Override
+	public void setGui(CustomerGui g) {
+		//
+	}
+
+	@Override
+	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+		//
+	}
+
+	@Override
+	public CustomerGui getGui() {
+		//
+		return null;
+	}
+
+	@Override
+	public void startThread() {
+		//
+	}
+
+	@Override
+	public void pauseAgent() {
+		//
+	}
+
+	@Override
+	public void resumeAgent() {
+		//
 	}
 
 }

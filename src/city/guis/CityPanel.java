@@ -144,6 +144,6 @@ public class CityPanel extends JPanel {
 
     public void refresh()
     {
-    	gui.updateLastPerson();
+    	//gui.updateLastPerson();
     }
 }

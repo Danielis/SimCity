@@ -44,7 +44,7 @@ public class CityGui extends JFrame implements ActionListener {
     public CityPanel cityPanel = new CityPanel(this);
 	
 	//Contains a lot of information for the city
-	public JPanel cityInformationAndButtons = new JPanel();
+	public JPanel RestaurantPortion = new JPanel();
     
     //City JPanels for information
     private JPanel personInformationPanel;
@@ -69,16 +69,17 @@ public class CityGui extends JFrame implements ActionListener {
         int WINDOWY = 500;
         
         //Set the City Gui's specifications
+       	this.setVisible(true);
         setTitle("Team 05's City");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setBounds(25, 25, WINDOWX+700, WINDOWY+150);
-    	setVisible(true);
+ 
         setLayout(new BorderLayout());
         cityPanel.setRestaurants(restaurants);
         
         //Set the layouts of the panels
-        cityInformationAndButtons.setLayout(new BorderLayout());
+        RestaurantPortion.setLayout(new BorderLayout());
         InformationPanel = new JPanel();
         InformationPanel.setLayout(new BorderLayout());
         buttonPanel = new JPanel();
@@ -111,14 +112,14 @@ public class CityGui extends JFrame implements ActionListener {
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
         personInformationPanel.add(personHungryCheckBox, BorderLayout.SOUTH);
-        cityInformationAndButtons.add(cityPanel, BorderLayout.NORTH);
+        RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
         InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
-        cityInformationAndButtons.add(InformationPanel, BorderLayout.CENTER);
+        RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
         buttonPanel.add(pauseButton, BorderLayout.CENTER);
         buttonPanel.add(refreshButton, BorderLayout.EAST);
-        cityInformationAndButtons.add(buttonPanel, BorderLayout.SOUTH);
+        RestaurantPortion.add(buttonPanel, BorderLayout.SOUTH);
         add(cityAnimationPanel, BorderLayout.CENTER);
-        add(cityInformationAndButtons, BorderLayout.EAST);
+        add(RestaurantPortion, BorderLayout.EAST);
         
         //City Element Creation
         createRestaurant("Norman's Restaurant", "Norman");
@@ -230,12 +231,7 @@ public class CityGui extends JFrame implements ActionListener {
     	}
     }
     
-    /**
-     * Message sent from a customer gui to enable that customer's
-     * "I'm hungry" checkbox.
-     *
-     * @param c reference to the customer
-     */
+    //Set Person Enabled
     public void setPersonEnabled(PersonAgent p) {
         PersonAgent per = currentPerson;
         if (p.equals(per)) 
@@ -245,12 +241,11 @@ public class CityGui extends JFrame implements ActionListener {
         }
 }
     
-    /**
-     * Main routine to get gui started
-     */
+   //Main Function - Sets up the program
     public static void main(String[] args) 
-    {    
-        CityGui gui = new CityGui();        
+    {    	  	
+	      CityGui gui = new CityGui();
+	      gui.setVisible(true);
     }
     
 

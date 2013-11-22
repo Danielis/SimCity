@@ -4,6 +4,7 @@ import restaurant.CustomerAgent;
 import restaurant.CustomerAgent.iconState;
 import restaurant.HostAgent;
 import restaurant.gui.WaiterGui.Coordinate;
+import restaurant.interfaces.Customer;
 
 import java.io.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class CustomerGui implements Gui{
 	private final int table_divider = 100;
 
 	//self agent
-	private CustomerAgent agent = null;
+	private Customer agent = null;
 
 	//private HostAgent host;
 	RestaurantGui gui;
@@ -53,7 +54,7 @@ public class CustomerGui implements Gui{
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){
+	public CustomerGui(Customer c, RestaurantGui gui){
 		
         try
         {

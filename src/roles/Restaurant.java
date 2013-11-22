@@ -14,12 +14,11 @@ public class Restaurant {
 	public RestaurantPanel panel;
 	public String name; //Name of the restaurant
     public Location location;
-    public HostAgent host;
-    public CookAgent cook;
-    public CashierAgent cashier;
-    public String customerRole; //value is something like "Restaurant1CustomerRole"
-    public RestaurantMenu menu;
-    public String type;
+    //public CookAgent cook;
+    //public CashierAgent cashier;
+    //public String customerRole; //value is something like "Restaurant1CustomerRole"
+    //public RestaurantMenu menu;
+    //public String type;
     
     public Restaurant(RestaurantGui gui, String name)
     {

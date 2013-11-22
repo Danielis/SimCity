@@ -4,6 +4,7 @@ import restaurant.CustomerAgent;
 import restaurant.HostAgent;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
+import restaurant.interfaces.Customer;
 
 import javax.swing.*;
 
@@ -29,7 +30,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addCustomerButton = new JButton("Add");
     private JTextField nameFieldForCustomer = new JTextField("Enter Customer Here");
     public JCheckBox customerHungryCheckBox = new JCheckBox("Make Hungry");
-    private CustomerAgent currentCustomer;
+    private Customer currentCustomer;
     
     //WAITER STUFF
     public JScrollPane waiterPane = 
@@ -44,7 +45,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JCheckBox waiterBreakCheckBox = new JCheckBox("Set Breaks Below");
     private WaiterAgent currentWaiter;
     
-    private CustomerAgent lastCustomerClicked;
+    private Customer lastCustomerClicked;
     private WaiterAgent lastWaiterClicked;
 
     //GENERAL STUFF
@@ -182,11 +183,33 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }
     
-    public void updateCustomerInfoPanel(CustomerAgent person) {
+    public void addCustomer(Customer customer) {
+        if (customer.getName() != null) {
+            JButton button = new JButton(customer.getName());
+            button.setBackground(Color.white);
+
+            Dimension paneSize = customerPane.getSize();
+            Dimension buttonSize = new Dimension(paneSize.width - 20,
+                    (int) (paneSize.height / 10));
+            button.setPreferredSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            button.addActionListener(this);
+            listForCustomer.add(button);
+            viewForCustomer.add(button);
+            restPanel.addCustomer(customer);
+            restPanel.showCustomerInfo(customer.getName());
+            validate();
+           
+        }
+    }
+    
+    
+    public void updateCustomerInfoPanel(Customer person) {
     	this.lastCustomerClicked = person;
         customerHungryCheckBox.setVisible(true);
         currentCustomer = person;
-        CustomerAgent customer = person;
+        Customer customer = person;
         customerHungryCheckBox.setText("Hungry?");
         customerHungryCheckBox.setSelected(customer.getGui().isHungry());
         customerHungryCheckBox.setEnabled(!customer.getGui().isHungry());
@@ -213,14 +236,14 @@ public class ListPanel extends JPanel implements ActionListener {
     	//this.restPanel.refresh();
     }
     
-    public void updateCustomer(CustomerAgent person)
+    public void updateCustomer(Customer person)
     {
    
     	currentCustomer = person;
         	if (customerHungryCheckBox.isSelected())
         	{
         		customerHungryCheckBox.setSelected(false);
-        		CustomerAgent c = currentCustomer;
+        		Customer c = currentCustomer;
         		c.getGui().setHungry();
         	}
     }

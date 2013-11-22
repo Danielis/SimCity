@@ -6,6 +6,7 @@ import restaurant.HostAgent;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import restaurant.MarketAgent;
+import restaurant.interfaces.Customer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,19 +27,19 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Oprah");
-    private HostGui hostGui = new HostGui(host);
+    public HostAgent host = new HostAgent("Oprah");
+    public HostGui hostGui = new HostGui(host);
     public CashierAgent cashier = new CashierAgent("Squidward");
-    private MarketAgent market1 = new MarketAgent("Market 1");
-    private MarketAgent market2 = new MarketAgent("Market 2");
-    private MarketAgent market3 = new MarketAgent("Market 3");
+    public MarketAgent market1 = new MarketAgent("Market 1");
+    public MarketAgent market2 = new MarketAgent("Market 2");
+    public MarketAgent market3 = new MarketAgent("Market 3");
     public CookAgent cook = new CookAgent("Gordon Ramsay");
-    private CookGui cookGui;
+    public CookGui cookGui;
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    public Vector<Customer> customers = new Vector<Customer>();
+    public Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -139,7 +140,7 @@ public class RestaurantPanel extends JPanel {
     public void showCustomerInfo(String name)
     {
         for (int i = 0; i < customers.size(); i++) {
-            CustomerAgent temp = customers.get(i);
+            Customer temp = customers.get(i);
             if (temp.getName() == name)
             {
                 customerPanel.updateCustomer(temp);
@@ -168,23 +169,22 @@ public class RestaurantPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
-    public void addCustomer(CustomerAgent customer) 
+    public void addCustomer(Customer customer) 
     {
-    	System.out.println("Got here ASDF");
-		CustomerAgent c = customer;
+		Customer c = customer;
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);
 		c.setCashier(cashier);
 		c.setGui(g);
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
-		c.startThread();
     }
     
     public void addCustomer(String name) 
     {
-		CustomerAgent c = new CustomerAgent(name);
+		Customer c = new CustomerAgent(name);
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);
@@ -214,7 +214,7 @@ public class RestaurantPanel extends JPanel {
     {
     	host.pauseAgent();
     	cook.pauseAgent();
-    	for (CustomerAgent c : customers)
+    	for (Customer c : customers)
     	{
     		c.pauseAgent();
     	}
@@ -228,7 +228,7 @@ public class RestaurantPanel extends JPanel {
     {
     	host.resumeAgent();
     	cook.resumeAgent();
-    	for (CustomerAgent c : customers)
+    	for (Customer c : customers)
     	{
     		c.resumeAgent();
     	}

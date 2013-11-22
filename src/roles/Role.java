@@ -5,8 +5,23 @@ import city.PersonAgent;
 
 public class Role
 {
-	PersonAgent myPerson;
-	Boolean active;
+	public PersonAgent myPerson;
+	public Boolean active;
+	
+	public void startThread()
+	{
+		myPerson.startThread();
+	}
+	
+	public void pauseAgent()
+	{
+		myPerson.pauseAgent();
+	}
+	
+	public void resumeAgent()
+	{
+		myPerson.resumeAgent();
+	}
 	
 	//Utilities for Role
 	public void setPerson(PersonAgent a)
@@ -19,8 +34,9 @@ public class Role
 		return myPerson;
 	}
 	
-	private void stateChanged()
+	protected void stateChanged()
 	{
+		System.out.println(myPerson);
 		myPerson.stateChanged();
 	}
 	
@@ -54,4 +70,9 @@ public class Role
         }
         System.out.print(sb.toString());
     }
+
+	public boolean pickAndExecuteAnAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
