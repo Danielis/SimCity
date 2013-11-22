@@ -327,25 +327,23 @@
 
 package city;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
+//Package Imports
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
-import restaurant.interfaces.Customer;
 import agent.Agent;
-
-import java.util.*;
-import java.util.concurrent.Semaphore;
-
-import javax.management.relation.RoleStatus;
-
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
+
+//Utility Imports
+
+import java.util.*;
+import java.util.concurrent.Semaphore;
+
+
 
 public class PersonAgent extends Agent implements Person
 {
@@ -355,7 +353,7 @@ public class PersonAgent extends Agent implements Person
 	
 	//Lists: Roles, Restaurants
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
-	List<Restaurant> restaurants = Collections.synchronizedList(new ArrayList<Restaurant>());
+	Vector<Restaurant> restaurants = new Vector<Restaurant>(); //City Gui won't let me implement Lists
 	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 	
 	//Variable
@@ -378,26 +376,6 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										CLASSES
 	 ******************************************************************************/
-	//Class Declarations
-	/*
-	class CustomerRole extends Role implements Customer
-	{
-		public void msgWhatWouldYouLike()
-		{
-			//
-		}
-		
-		public void msgGotHungry()
-		{
-			//
-		}
-		
-		public void msgHereIsYourCheck(float price)
-		{
-			//
-		}
-	}*/
-	
 	class PersonStatus
 	{
 		nourishment nour;
@@ -472,6 +450,11 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	******************************************************************************/
 
+	public void setRestaurants(Vector<Restaurant> res)
+	{
+		restaurants = res;
+	}
+	
 	public void addRole(Role r)
 	{
 		roles.add(r);
@@ -494,11 +477,6 @@ public class PersonAgent extends Agent implements Person
 
 	public void setAnimationPanel(CityAnimationPanel panel) {
 		copyOfCityAnimPanel = panel;
-	}
-	
-	public void setRestaurantPanel(RestaurantPanel panel)
-	{
-		restPanel = panel;
 	}
 
 	public PersonGui getGui() {
@@ -546,7 +524,7 @@ public class PersonAgent extends Agent implements Person
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
 	    Status.setNourishment(nourishment.Hungry);
-	    print("Got here C");
+	    gui.setPresent(false);
 	    stateChanged();
 	}
 	
@@ -555,7 +533,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setNourishment(nourishment.notHungry);
-	    //gui.isVisible();
+	    gui.setPresent(true);
 	    stateChanged();
 	}
 	

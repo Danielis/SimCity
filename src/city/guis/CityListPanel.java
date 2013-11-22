@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class CityListPanel extends JPanel implements ActionListener {
     
-    //CUSTOMER STUFF
+	//Person Variables
     public JScrollPane personPane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -34,17 +34,11 @@ public class CityListPanel extends JPanel implements ActionListener {
     private PersonAgent currentPerson;
 
     private PersonAgent lastPersonClicked;
-    
 
-    //GENERAL STUFF
     private CityPanel cityPanel;
     String type;
-    /**
-     * Constructor for ListPanel.  Sets up all the gui
-     *
-     * @param rp   reference to the restaurant panel
-     * @param type indicates if this is for customers or waiters
-     */
+
+    //CONSTRUCTOR
     public CityListPanel(CityPanel rp, String type) {
         cityPanel = rp;
         this.type = type;
@@ -71,19 +65,13 @@ public class CityListPanel extends JPanel implements ActionListener {
         add(bottomPart_person, BorderLayout.CENTER);
     }
 
-    /**
-     * Method from the ActionListener interface.
-     * Handles the event of the add button being pressed
-     */
+    //Action Listener
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addPersonButton) 
         {
         	addPerson(nameFieldForPerson.getText());
         }
         else {
-        	// Isn't the second for loop more beautiful?
-            /*for (int i = 0; i < list.size(); i++) {
-                JButton temp = list.get(i);*/
         	for (JButton temp1:listForPeople){
                 if (e.getSource() == temp1)
                 {
@@ -93,14 +81,7 @@ public class CityListPanel extends JPanel implements ActionListener {
         }
     }
 
-    /**
-     * If the add button is pressed, this function creates
-     * a spot for it in the scroll pane, and tells the restaurant panel
-     * to add a new person.
-     *
-     * @param name name of new person
-     */
-    
+    //Add Person to the List
     public void addPerson(String name) {
         if (name != null) {
             JButton button = new JButton(name);
@@ -120,7 +101,6 @@ public class CityListPanel extends JPanel implements ActionListener {
             validate();
         }
     }
- 
     
     public void updatePersonInfoPanel(PersonAgent p) {
     	this.lastPersonClicked = p;

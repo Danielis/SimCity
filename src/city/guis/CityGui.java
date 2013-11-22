@@ -1,7 +1,7 @@
 package city.guis;
 
 
-
+//Import other packages
 import restaurant.CustomerAgent;
 //import bank.gui.BankGui;
 import restaurant.WaiterAgent;
@@ -11,26 +11,28 @@ import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
 import roles.Restaurant;
 import housing.guis.HousingGui;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
 import bank.gui.BankGui;
 import city.PersonAgent;
+
+
+//Import Java utilities
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-/**
- * Main GUI class.
- * Contains the main frame and subsequent panels
- */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Vector;
+
+
 public class CityGui extends JFrame implements ActionListener {
 	
 	
-	//Variables
-	
+	//Lists
+	public Vector<Restaurant> restaurants = new Vector<Restaurant>();
 	
 	//Java Structure
 	public JFrame animationFrame = new JFrame("Restaurant Animation");
@@ -53,48 +55,48 @@ public class CityGui extends JFrame implements ActionListener {
     //Useful Checkboxes
     private JCheckBox personHungryCheckBox;
 
+    //Copy of the current person
     private PersonAgent currentPerson;
 
+    //Functionality buttons
     private JButton pauseButton;
     private JButton refreshButton;
-    
-    
-    
     Boolean isPaused = false;
-    /**
-     * Constructor for RestaurantGui class.
-     * Sets up all the gui components.
-     */
+    
+    //CONSTRUCTOR
     public CityGui() {
         int WINDOWX = 500;
         int WINDOWY = 500;
-
         
+        //Set the City Gui's specifications
+        setTitle("Team 05's City");
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setBounds(25, 25, WINDOWX+700, WINDOWY+150);
+    	setVisible(true);
+        setLayout(new BorderLayout());
+        cityPanel.setRestaurants(restaurants);
+        
+        //Set the layouts of the panels
         cityInformationAndButtons.setLayout(new BorderLayout());
         InformationPanel = new JPanel();
         InformationPanel.setLayout(new BorderLayout());
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BorderLayout());
         
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setBounds(25, 25, WINDOWX+700, WINDOWY+150);
-    	setVisible(true);
-
-        setLayout(new BorderLayout());
+        //Set Dimension for CityPanel
         Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .86));
         cityPanel.setPreferredSize(restDim);
         cityPanel.setMinimumSize(restDim);
         cityPanel.setMaximumSize(restDim);
         
+        //Initiate buttons
         pauseButton = new JButton("PAUSE");
         pauseButton.addActionListener(this);
         refreshButton = new JButton("REFRESH");
         refreshButton.addActionListener(this);
         
-        
-        
-        
-        //PERSON INFORMATION STRUCTURE
+        //Set the information Panel Structures (Java layout for the panels)
         Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .30));
         personInformationPanel = new JPanel();
         personInformationPanel.setPreferredSize(infoDimCustomer);
@@ -118,6 +120,10 @@ public class CityGui extends JFrame implements ActionListener {
         add(cityAnimationPanel, BorderLayout.CENTER);
         add(cityInformationAndButtons, BorderLayout.EAST);
         
+        //City Element Creation
+        createRestaurant("Norman's Restaurant", "Norman");
+        
+        //Mouse Listener for the coordinates
         cityAnimationPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -128,10 +134,10 @@ public class CityGui extends JFrame implements ActionListener {
             
             if ((x<159) && (y<85) && (x>0) && (y>0)){
                   BankGui gui3 = new BankGui();
-                   gui3.setTitle("Aleena's Bank");
-                   gui3.setVisible(true);
-                   gui3.setResizable(false);
-                   gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
+                  gui3.setTitle("Aleena's Bank");
+                  gui3.setVisible(true);
+                  gui3.setResizable(false);
+                  gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
             }
             
             if ((x<314) && (y<468) && (x>210) && (y>370)){
@@ -158,10 +164,9 @@ public class CityGui extends JFrame implements ActionListener {
 			public void mouseReleased(MouseEvent arg0) {}
         });
     }
-    /**
-     * updatepersonInformationPanel() takes the given customer (or, for v3, Host) object and
-     * changes the information panel to hold that person's info.
-     */
+
+
+    //Update the information Panel
     public void updatePersonInformationPanel(PersonAgent temp) {
         personHungryCheckBox.setVisible(true);
         currentPerson = temp;
@@ -173,7 +178,9 @@ public class CityGui extends JFrame implements ActionListener {
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
         personInformationPanel.validate();
     }
-    public void updateLastCustomer()
+    
+    //Update the last customer
+    public void updateLastPerson()
     {
     	if (currentPerson != null)
     	{
@@ -183,7 +190,7 @@ public class CityGui extends JFrame implements ActionListener {
     	}
     }
     
-    //ACTION LISTENER
+    //Action Listener
     public void actionPerformed(ActionEvent e) {
     
         if (e.getSource() == personHungryCheckBox) 
@@ -213,9 +220,14 @@ public class CityGui extends JFrame implements ActionListener {
         }
     }
     
-    public void createRestaurant(String name, int index)
+    //Resturant Creation
+    public void createRestaurant(String name, String owner)
     {
-    	Restaurant r = new Restaurant(new RestaurantGui(), "Norman's Restaurant");
+    	if (owner == "Norman")
+    	{
+    		Restaurant r = new Restaurant(new RestaurantGui(), "Norman's Restaurant");
+    		restaurants.add(r);
+    	}
     }
     
     /**
@@ -224,7 +236,7 @@ public class CityGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(PersonAgent p) {
+    public void setPersonEnabled(PersonAgent p) {
         PersonAgent per = currentPerson;
         if (p.equals(per)) 
         {
@@ -238,12 +250,7 @@ public class CityGui extends JFrame implements ActionListener {
      */
     public static void main(String[] args) 
     {    
-        CityGui gui = new CityGui();
-        //gui.cityPanel.setRestPanel(gui2.restPanel);
-        gui.setTitle("Team 05's City");
-        gui.setVisible(true);
-        gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        CityGui gui = new CityGui();        
     }
     
 
