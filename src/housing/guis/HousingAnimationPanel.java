@@ -3,19 +3,14 @@ package housing.guis;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import restaurant.HostAgent;
 import restaurant.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class HousingAnimationPanel extends JPanel implements ActionListener {
 
@@ -29,9 +24,6 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	private Image wood_floor;
 	private Image kitchen; 
 	
-	private Image bufferImage;
-	private Dimension bufferSize;
-
 	private List<Gui> guis = new ArrayList<Gui>();
 
 	public HousingAnimationPanel() {
@@ -48,7 +40,6 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
             kitchen = ImageIO.read(getClass().getResource("/resources/kitchen.png"));
         } catch (IOException e ) {}
 		
-		bufferSize = this.getSize();
 
 		Timer timer = new Timer(20, this );
 		timer.start();
@@ -62,12 +53,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 
 
 		Graphics2D house = (Graphics2D)g;
-		
 		Graphics2D background = (Graphics2D)g;
-		Graphics2D g1 = (Graphics2D)g;
-		Graphics2D g2 = (Graphics2D)g;
-		Graphics2D g3 = (Graphics2D)g;
-		Graphics2D g4 = (Graphics2D)g;
 
 		//COLORS		
 		Color brown = new Color(245, 201, 114);
@@ -77,13 +63,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.drawImage(kitchen, 0, 0, 288, 241, this);
 		
 		//BACKGROUND INITIATION
-		//g1.setColor(backgroundColor);
-		//g1.fillRect(0, 0, WINDOWX_ANIM, WINDOWY_ANIM);
-
-		//temporary rectangle, could represent restaurant
 		house.setColor(brown);
-		//house.fillRect(HOUSE_X, HOUSE_Y, HOUSE_SIZE, HOUSE_SIZE);
-		int i = 0;
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();

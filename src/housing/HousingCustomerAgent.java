@@ -67,6 +67,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//booleans to track loan needs and repairs
 	private Boolean needsLoan;
 	private Boolean houseNeedsRepairs;
+	private Boolean hungry;
 
 	//-----------------------------------------------
 	//------------------Messages---------------------
@@ -95,6 +96,11 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//going be set into action by the user or a criminal or something.  
 	public void MyHouseNeedsRepairs(){
 		houseNeedsRepairs = true;
+		stateChanged();
+	}
+	//eat at home message
+	public void EatAtHome() {
+		hungry = true;
 		stateChanged();
 	}
 

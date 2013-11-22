@@ -24,11 +24,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		private boolean goingSomewhere = false;
 		
 		//finals
-		private final int tables_y = 450;
-		private final int customerSize = 20;
 		private final int deltadivider = 100;
-		private final int starting_X = 150;
-		private final int table_divider = 100;
 
 		//self agent
 		private HousingCustomerAgent agent = null;
@@ -60,10 +56,11 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	        } catch (IOException e ) {}
 			
 			outside = new Coordinate(-50,105);
-	    	position = new Coordinate(350,350);
+	    	position = new Coordinate(-50,350);
 	    	cashier = new Coordinate(255, 75);
 	    	waitingroom = new Coordinate(140,70);
-	    	destination = position;
+	    	destination = new Coordinate(350,350);
+	    	goingSomewhere = true;
 	    	
 		}
 		//UTILITIES ***********************************************
