@@ -654,13 +654,14 @@ public class PersonAgent extends Agent implements Person
 		restPanel.customerPanel.customerHungryCheckBox.setSelected(true);
 		restPanel.customerPanel.addCustomer(this.getName());
 		
+		/*
 		Restaurant r = PickARestaurant();
 		//Transportation t = ChooseTransportation();
 		//DoGoTo(r.location, t);
 		CustomerRole c = new CustomerRole(this.getName());
 		roles.add(c);
 		c.setActivity(true);
-		r.host.msgCheckForASpot(c);
+		r.host.msgCheckForASpot(c);*/
 		
 		/*
 		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list

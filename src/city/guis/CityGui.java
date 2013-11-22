@@ -240,7 +240,7 @@ public class CityGui extends JFrame implements ActionListener {
         gui2.setTitle("Norman's Restaurant");
         gui2.setVisible(true);
         gui2.setResizable(false);
-        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
         CityGui gui = new CityGui();
         gui.cityPanel.setRestPanel(gui2.restPanel);
