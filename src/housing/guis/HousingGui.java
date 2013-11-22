@@ -35,8 +35,8 @@ public class HousingGui extends JFrame implements ActionListener {
 	private HousingPanel housingPanel = new HousingPanel(this);
 
 	/* personInformationPanel holds information about the clicked customer, if there is one*/
-	private JPanel personInformationPanel;
-	private JPanel waiterInformationPanel;
+	private JPanel tenantInformationPanel;
+	private JPanel workerInformationPanel;
 	private JPanel InformationPanel;
 	private JPanel buttonPanel;
 
@@ -89,39 +89,39 @@ public class HousingGui extends JFrame implements ActionListener {
 
 		//CUSTOMER PANEL INFORMATION
 		Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .12));
-		personInformationPanel = new JPanel();
-		personInformationPanel.setPreferredSize(infoDimCustomer);
-		personInformationPanel.setMinimumSize(infoDimCustomer);
-		personInformationPanel.setMaximumSize(infoDimCustomer);
-		personInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
+		tenantInformationPanel = new JPanel();
+		tenantInformationPanel.setPreferredSize(infoDimCustomer);
+		tenantInformationPanel.setMinimumSize(infoDimCustomer);
+		tenantInformationPanel.setMaximumSize(infoDimCustomer);
+		tenantInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
 
 		customerStateCheckBox = new JCheckBox();
 		customerStateCheckBox.setVisible(false);
 		customerStateCheckBox.addActionListener(this);
 
-		personInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
+		tenantInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
 
 		infoCustomerLabel = new JLabel(); 
 		infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
-		personInformationPanel.add(infoCustomerLabel);
-		personInformationPanel.add(customerStateCheckBox);
+		tenantInformationPanel.add(infoCustomerLabel);
+		tenantInformationPanel.add(customerStateCheckBox);
 
 		//WAITER PANEL INFORMATION
 		Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
-		waiterInformationPanel = new JPanel();
-		waiterInformationPanel.setPreferredSize(infoDimWaiter);
-		waiterInformationPanel.setMinimumSize(infoDimWaiter);
-		waiterInformationPanel.setMaximumSize(infoDimWaiter);
-		waiterInformationPanel.setBorder(BorderFactory.createTitledBorder("Waiters"));
+		workerInformationPanel = new JPanel();
+		workerInformationPanel.setPreferredSize(infoDimWaiter);
+		workerInformationPanel.setMinimumSize(infoDimWaiter);
+		workerInformationPanel.setMaximumSize(infoDimWaiter);
+		workerInformationPanel.setBorder(BorderFactory.createTitledBorder("Waiters"));
 
 
-		waiterInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
+		workerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
 
 		infoWaiterLabel = new JLabel();
 		infoWaiterLabel.setText("<html><pre><i>Click Add to make waiters</i></pre></html>");
-		waiterInformationPanel.add(infoWaiterLabel);
+		workerInformationPanel.add(infoWaiterLabel);
 		RestaurantPortion.add(housingPanel, BorderLayout.NORTH);
-		InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
+		InformationPanel.add(tenantInformationPanel, BorderLayout.NORTH);
 		rentButton = new JButton("Rent time!");
 		breakStuffButton = new JButton("Break Stuff!");
 		hungryButton = new JButton("Get Hungry");
@@ -133,7 +133,7 @@ public class HousingGui extends JFrame implements ActionListener {
 		ButtonPanel.add(breakStuffButton, BorderLayout.EAST);
 		ButtonPanel.add(hungryButton, BorderLayout.CENTER);
 		InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
-		InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
+		InformationPanel.add(workerInformationPanel, BorderLayout.CENTER);
 		RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
 		buttonPanel.add(pauseButton, BorderLayout.CENTER);
 		buttonPanel.add(startButton, BorderLayout.EAST);
@@ -158,7 +158,7 @@ public class HousingGui extends JFrame implements ActionListener {
 		customerStateCheckBox.setEnabled(!person.getGui().isHungry());
 		infoCustomerLabel.setText(
 				"<html><pre>     Name: " + person.getName() + " </pre></html>");
-		personInformationPanel.validate();
+		tenantInformationPanel.validate();
 	}
 	public void updateLastCustomer()
 	{
@@ -166,7 +166,7 @@ public class HousingGui extends JFrame implements ActionListener {
 		{
 			customerStateCheckBox.setSelected(currentPerson.getGui().isHungry());
 			customerStateCheckBox.setEnabled(!currentPerson.getGui().isHungry());
-			personInformationPanel.validate();
+			tenantInformationPanel.validate();
 		}
 	}
 	public void updateLastWaiter()
@@ -179,7 +179,7 @@ public class HousingGui extends JFrame implements ActionListener {
 		WaiterAgent waiter = person;
 		infoWaiterLabel.setText(
 				"<html><pre>     Name: " + waiter.getName() + " </pre></html>");
-		waiterInformationPanel.validate();
+		workerInformationPanel.validate();
 	}
 
 	/**

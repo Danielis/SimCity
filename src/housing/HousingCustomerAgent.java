@@ -20,6 +20,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		balance = 10000;
 		needsLoan = false;
 		houseNeedsRepairs = false;
+		hungry = false;
 		System.out.println("Housing Customer created.");
 	}
 
@@ -35,25 +36,13 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		gui = g;		
 	}
 	
-	public void WaitForAnimation() {
-		try {
-			waitingForAnimation.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void DoneWithAnimation() {
-		waitingForAnimation.release();
-	}
 
 	//-----------------------------------------------
 	//--------------------DATA-----------------------
 	//-----------------------------------------------
 	//name
 	public String name;
-	private Semaphore waitingForAnimation = new Semaphore(-1);
+	//private Semaphore waitingForAnimation = new Semaphore(0);
 	private HousingAnimationPanel animationPanel;
 	private HousingCustomerGui gui;
 
@@ -72,7 +61,10 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//-----------------------------------------------
 	//------------------Messages---------------------
 	//-----------------------------------------------
+	//arriving at house
+	public void enteringHouse() {
 
+	}
 	//sent from landlord.  rent bill
 	public void HereIsRentBill(double amount){
 		bill = amount;

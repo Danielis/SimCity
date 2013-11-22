@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.imageio.ImageIO;
 
@@ -33,7 +34,8 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		HousingGui gui;
 		
 		private Image avatar;
-		
+		private Semaphore waitingForAnimation = new Semaphore(-1);
+
 		//Coordinates
 		Coordinate position;
 		Coordinate destination;
@@ -55,11 +57,11 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 	        } catch (IOException e ) {}
 			
-			outside = new Coordinate(-50,105);
-	    	position = new Coordinate(-50,350);
+			outside = new Coordinate(460,750);
+	    	position = new Coordinate(460,750);
 	    	cashier = new Coordinate(255, 75);
 	    	waitingroom = new Coordinate(140,70);
-	    	destination = new Coordinate(350,350);
+	    	destination = new Coordinate(460,20);
 	    	goingSomewhere = true;
 		}
 		//UTILITIES ***********************************************
@@ -79,6 +81,20 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	    		y = b;
 	    	}
 	    }
+	    
+		public void WaitForAnimation() {
+				try {
+					waitingForAnimation.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			public void DoneWithAnimation() {
+				waitingForAnimation.release();
+			}
+			
 	    
 		public void updatePosition() {
 			if (goingSomewhere)
@@ -107,7 +123,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	            if (position.x == destination.x && position.y == destination.y)
 	            {
 	            	goingSomewhere = false;
-	            	agent.DoneWithAnimation();
+	            	DoneWithAnimation();
 	            }
 	    	}
 		}
@@ -171,33 +187,34 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		public void DoGoToPhone() {
 			goingSomewhere = true;
 			destination = new Coordinate(250, 25);
-			agent.WaitForAnimation();
+			//agent.WaitForAnimation();
+			WaitForAnimation();
 		}
 		
 		public void DoGoHome() {
 			goingSomewhere = true;
-			destination = new Coordinate(350,350);
-			agent.WaitForAnimation();
+			destination = new Coordinate(450,20);
+			WaitForAnimation();
 		}
 
 		public void DoGoToLandlord() {
 			goingSomewhere = true;
 			destination = new Coordinate(-50,450);
-			agent.WaitForAnimation();
+			WaitForAnimation();
 		}
 		public void DoGoToKitchen() {
 			goingSomewhere = true;
 			destination = new Coordinate(225,100);
-			agent.WaitForAnimation();
+			WaitForAnimation();
 		}
 		public void DoGoToFridge() {
 			goingSomewhere = true;
 			destination = new Coordinate(50, 80);
-			agent.WaitForAnimation();
+			WaitForAnimation();
 		}
 		public void DoGoToTable() {
 			goingSomewhere = true;
 			destination = new Coordinate(50, 125);
-			agent.WaitForAnimation();
+			WaitForAnimation();
 		}
 }
