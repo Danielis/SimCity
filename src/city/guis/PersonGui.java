@@ -18,7 +18,9 @@ public class PersonGui implements Gui{
 	
 	//variables
 	private boolean isPresent = false;
+	
 	private boolean isHungry = false;
+	private boolean needsmoney = false;
 	private boolean goingSomewhere = false;
 	
 	//finals
@@ -128,7 +130,6 @@ public class PersonGui implements Gui{
 	}
 	
 	public void setHungry() {
-		System.out.println("got here B");
 		isHungry = true;
 		agent.msgGoToRestaurant();
 		setPresent(true);
@@ -142,6 +143,18 @@ public class PersonGui implements Gui{
 	
 	public boolean isHungry() {
 		return isHungry;
+	}
+	
+	public void setNeedsMoney(Boolean b)
+	{
+		this.needsmoney = b;
+		agent.msgGoToBank();
+		setPresent(true);
+	}
+	
+	public boolean needsMoney()
+	{
+		return needsmoney;
 	}
 
 	public void setPresent(boolean p) {

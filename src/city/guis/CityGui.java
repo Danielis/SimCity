@@ -54,6 +54,7 @@ public class CityGui extends JFrame implements ActionListener {
 
     //Useful Checkboxes
     private JCheckBox personHungryCheckBox;
+    private JCheckBox personNeedsMoneyCheckBox;
 
     //Copy of the current person
     private PersonAgent currentPerson;
@@ -107,11 +108,15 @@ public class CityGui extends JFrame implements ActionListener {
         personHungryCheckBox = new JCheckBox();
         personHungryCheckBox.setVisible(false);
         personHungryCheckBox.addActionListener(this);
+        personNeedsMoneyCheckBox = new JCheckBox();
+        personNeedsMoneyCheckBox.setVisible(false);
+        personNeedsMoneyCheckBox.addActionListener(this);
         personInformationPanel.setLayout(new BorderLayout());
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
-        personInformationPanel.add(personHungryCheckBox, BorderLayout.SOUTH);
+        personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
+        personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.SOUTH);
         RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
         InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
@@ -170,11 +175,15 @@ public class CityGui extends JFrame implements ActionListener {
     //Update the information Panel
     public void updatePersonInformationPanel(PersonAgent temp) {
         personHungryCheckBox.setVisible(true);
+        personNeedsMoneyCheckBox.setVisible(true);
         currentPerson = temp;
         PersonAgent person = temp;
         personHungryCheckBox.setText("Hungry?");
+        personNeedsMoneyCheckBox.setText("Needs Money?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
+        personNeedsMoneyCheckBox.setSelected(person.getGui().needsMoney());
+        personNeedsMoneyCheckBox.setEnabled(!person.getGui().needsMoney());
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
         personInformationPanel.validate();
@@ -187,6 +196,8 @@ public class CityGui extends JFrame implements ActionListener {
     	{
 	        personHungryCheckBox.setSelected(currentPerson.getGui().isHungry());
 	        personHungryCheckBox.setEnabled(!currentPerson.getGui().isHungry());
+	        personNeedsMoneyCheckBox.setSelected(currentPerson.getGui().needsMoney());
+	        personNeedsMoneyCheckBox.setEnabled(!currentPerson.getGui().needsMoney());
 	        personInformationPanel.validate();
     	}
     }
@@ -199,6 +210,12 @@ public class CityGui extends JFrame implements ActionListener {
             PersonAgent c = (PersonAgent) currentPerson;
             c.getGui().setHungry();
             personHungryCheckBox.setEnabled(false);
+        }
+        if (e.getSource() == personNeedsMoneyCheckBox)
+        {
+        	PersonAgent c = (PersonAgent) currentPerson;
+        	c.getGui().setNeedsMoney(true);
+        	personNeedsMoneyCheckBox.setEnabled(false);
         }
         if (e.getSource() == pauseButton)
         {
