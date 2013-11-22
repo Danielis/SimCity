@@ -298,9 +298,9 @@ public class PersonAgent extends Agent implements Person
 	{
 		Status.setNourishment(nourishment.goingToFood);
 		//Transportation t = ChooseTransportation();
-		gui.DoGoToCheckpoint('A');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);

@@ -155,34 +155,36 @@ public class CustomerGui implements Gui{
 		Graphics2D newG = (Graphics2D)g;
 		newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
 		
+		// TODO i commented this out - aleena 
 		
-		if (agent.icon != iconState.none)
-		{
-			Graphics2D graphic = (Graphics2D)g;
-			Coordinate temp_c = tables.get(agent.mySeat-1);
-			int x = temp_c.x + 15;
-			int y = temp_c.y + 15;
-			if (agent.icon == iconState.question)
-			{
-				graphic.drawImage(imgQuestion,  x,  y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.steak)
-			{
-				graphic.drawImage(imgSteak,  x,  y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.chicken)
-			{
-				graphic.drawImage(imgChicken, x, y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.salad)
-			{
-				graphic.drawImage(imgSalad, x, y, agent.copyOfAnimPanel);
-			}
-			if (agent.icon == iconState.pizza)
-			{
-				graphic.drawImage(imgPizza, x, y, agent.copyOfAnimPanel);
-			}
-		}
+//		if (agent.icon != iconState.none)
+//		{
+//			Graphics2D graphic = (Graphics2D)g;
+//			Coordinate temp_c = tables.get(agent.mySeat-1);
+//			int x = temp_c.x + 15;
+//			int y = temp_c.y + 15;
+//			if (agent.icon == iconState.question)
+//			{
+//				graphic.drawImage(imgQuestion,  x,  y, agent.copyOfAnimPanel);
+//			}
+//			if (agent.icon == iconState.steak)
+//			{
+//				graphic.drawImage(imgSteak,  x,  y, agent.copyOfAnimPanel);
+//			}
+//			if (agent.icon == iconState.chicken)
+//			{
+//				graphic.drawImage(imgChicken, x, y, agent.copyOfAnimPanel);
+//			}
+//			if (agent.icon == iconState.salad)
+//			{
+//				graphic.drawImage(imgSalad, x, y, agent.copyOfAnimPanel);
+//			}
+//			if (agent.icon == iconState.pizza)
+//			{
+//				graphic.drawImage(imgPizza, x, y, agent.copyOfAnimPanel);
+//			}
+//		}
+		
 	}
 
 	
