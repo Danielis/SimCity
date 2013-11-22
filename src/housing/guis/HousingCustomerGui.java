@@ -61,7 +61,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	    	waitingroom = new Coordinate(140,70);
 	    	destination = new Coordinate(350,350);
 	    	goingSomewhere = true;
-	    	
 		}
 		//UTILITIES ***********************************************
 	    public class Coordinate
@@ -184,6 +183,21 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		public void DoGoToLandlord() {
 			goingSomewhere = true;
 			destination = new Coordinate(-50,450);
+			agent.WaitForAnimation();
+		}
+		public void DoGoToKitchen() {
+			goingSomewhere = true;
+			destination = new Coordinate(225,100);
+			agent.WaitForAnimation();
+		}
+		public void DoGoToFridge() {
+			goingSomewhere = true;
+			destination = new Coordinate(50, 80);
+			agent.WaitForAnimation();
+		}
+		public void DoGoToTable() {
+			goingSomewhere = true;
+			destination = new Coordinate(50, 125);
 			agent.WaitForAnimation();
 		}
 }

@@ -53,7 +53,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//-----------------------------------------------
 	//name
 	public String name;
-	private Semaphore waitingForAnimation = new Semaphore(0);
+	private Semaphore waitingForAnimation = new Semaphore(-1);
 	private HousingAnimationPanel animationPanel;
 	private HousingCustomerGui gui;
 
@@ -121,6 +121,10 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 			PayBill();
 			return true;
 		}
+		if(hungry) {
+			GetFood();
+			return true;
+		}
 		return false;
 	}
 
@@ -155,6 +159,15 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		//GoToBank(); //stub;
 		needsLoan = false;
 		System.out.println("Went to bank.");
+	}
+	private void GetFood() {
+		hungry = false;
+		gui.DoGoToKitchen();
+		gui.DoGoToFridge();
+		gui.DoGoToTable();
+		gui.DoGoToKitchen();
+		gui.DoGoHome();
+		System.out.println("Done Eating.");
 	}
 	
 

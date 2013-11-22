@@ -54,6 +54,7 @@ public class HousingPanel extends JPanel {
         
         group.add(personPanel);
 
+        landlord.startThread();
         addTenant("Landlord");
         addWorker("Worker");
         landlord.addCustomer(tenant);
@@ -132,6 +133,7 @@ public class HousingPanel extends JPanel {
 		p.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		tenant = p;
+		tenant.startThread();
     }
     
     public void addWorker(String name) 
@@ -142,6 +144,7 @@ public class HousingPanel extends JPanel {
 		p.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		worker = p;
+		worker.startThread();
     }
     
     public void pause()
@@ -156,8 +159,6 @@ public class HousingPanel extends JPanel {
 
     public void startThreads()
     {
-    	landlord.startThread();
-    	tenant.startThread();
-    	worker.startThread();
+
     }
 }

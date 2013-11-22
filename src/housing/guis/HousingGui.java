@@ -52,7 +52,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JButton startButton;
 	private JPanel ButtonPanel;
 	private JButton rentButton;
-	private ImageIcon MrKrabs;
+	private JButton hungryButton;
 	private JButton breakStuffButton;
 
 	Boolean isPaused = false;
@@ -124,11 +124,14 @@ public class HousingGui extends JFrame implements ActionListener {
 		InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
 		rentButton = new JButton("Rent time!");
 		breakStuffButton = new JButton("Break Stuff!");
+		hungryButton = new JButton("Get Hungry");
 		rentButton.addActionListener(this);
 		breakStuffButton.addActionListener(this);
+		hungryButton.addActionListener(this);
 		ButtonPanel.setLayout(new BorderLayout());
 		ButtonPanel.add(rentButton, BorderLayout.WEST);
 		ButtonPanel.add(breakStuffButton, BorderLayout.EAST);
+		ButtonPanel.add(hungryButton, BorderLayout.CENTER);
 		InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
 		InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
 		RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
@@ -216,6 +219,9 @@ public class HousingGui extends JFrame implements ActionListener {
 		}
 		if(e.getSource() == breakStuffButton) {
 			housingPanel.tenant.MyHouseNeedsRepairs();
+		}
+		if(e.getSource() == hungryButton) {
+			housingPanel.tenant.EatAtHome();
 		}
 	}
 	/**

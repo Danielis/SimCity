@@ -178,17 +178,12 @@ public class CityGui extends JFrame implements ActionListener {
 			public void mouseExited(MouseEvent arg0) {}
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
-        });
-
-        
-        
-  
-        
+        });   
     }
+    
     /**
      * updatepersonInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
-     *
      * @param temp customer (or waiter) object
      */
     public void updatePersonInformationPanel(PersonAgent temp) {
