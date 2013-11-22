@@ -55,8 +55,8 @@ public class HousingPanel extends JPanel {
         group.add(personPanel);
 
         landlord.startThread();
-        addTenant("Landlord");
         addWorker("Worker");
+        addTenant("Tenant", 0);
         landlord.addCustomer(tenant);
         tenant.setLandlord(landlord);
         landlord.addWorker(worker);
@@ -103,7 +103,7 @@ public class HousingPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter
      * @param name name of person
      */
-    public void showPersonInfo(String name)
+    public void showTenantInfo(String name)
     {
         for (int i = 0; i < people.size(); i++) {
         	
@@ -125,10 +125,10 @@ public class HousingPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
 */
-    public void addTenant(String name) 
+    public void addTenant(String name, int n) 
     {
 		HousingCustomerAgent p = new HousingCustomerAgent(name);
-		HousingCustomerGui g = new HousingCustomerGui(p, gui);
+		HousingCustomerGui g = new HousingCustomerGui(p, gui, n);
 		gui.housingAnimationPanel.addGui(g);
 		p.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);

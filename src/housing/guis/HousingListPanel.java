@@ -25,10 +25,10 @@ public class HousingListPanel extends JPanel implements ActionListener {
     public JScrollPane personPane =
             new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    private JPanel viewForPerson = new JPanel();
+    private JPanel viewForTenant = new JPanel();
     private JPanel topPart_person = new JPanel();
     private JPanel bottomPart_person = new JPanel();
-    private List<JButton> listForPeople = new ArrayList<JButton>();
+    private List<JButton> listForTenants = new ArrayList<JButton>();
     private JButton addPersonButton = new JButton("Add");
     private JTextField nameFieldForPerson = new JTextField("");
     private JCheckBox personHungryCheckBox = new JCheckBox("Make Hungry");
@@ -40,12 +40,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
     //GENERAL STUFF
     private HousingPanel housingPanel;
     String type;
-    /**
-     * Constructor for ListPanel.  Sets up all the gui
-     *
-     * @param rp   reference to the restaurant panel
-     * @param type indicates if this is for customers or waiters
-     */
+
+    //--------------------Constructor-------------------------
     public HousingListPanel(HousingPanel rp, String type) {
         housingPanel = rp;
         this.type = type;
@@ -64,31 +60,30 @@ public class HousingListPanel extends JPanel implements ActionListener {
         //customerHungryCheckBox.addActionListener(this);
         topPart_person.add(personHungryCheckBox, BorderLayout.SOUTH);
         personHungryCheckBox.setMinimumSize(new Dimension(250,100));
-        viewForPerson.setLayout(new BoxLayout((Container) viewForPerson, BoxLayout.Y_AXIS));
-        personPane.setViewportView(viewForPerson);
+        viewForTenant.setLayout(new BoxLayout((Container) viewForTenant, BoxLayout.Y_AXIS));
+        personPane.setViewportView(viewForTenant);
         bottomPart_person.add(addPersonButton, BorderLayout.NORTH);
         bottomPart_person.add(personPane, BorderLayout.CENTER);
         add(topPart_person, BorderLayout.NORTH);
         add(bottomPart_person, BorderLayout.CENTER);
     }
 
-    /**
-     * Method from the ActionListener interface.
-     * Handles the event of the add button being pressed
-     */
+    //--------------------------------------------------
+    //----------------Action Performed------------------
+    //--------------------------------------------------
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addPersonButton) 
         {
-        	addPerson(nameFieldForPerson.getText());
+        	addTenant(nameFieldForPerson.getText());
         }
         else {
         	// Isn't the second for loop more beautiful?
             /*for (int i = 0; i < list.size(); i++) {
                 JButton temp = list.get(i);*/
-        	for (JButton temp1:listForPeople){
+        	for (JButton temp1:listForTenants){
                 if (e.getSource() == temp1)
                 {
-                    housingPanel.showPersonInfo(temp1.getText());
+                    housingPanel.showTenantInfo(temp1.getText());
                 }
             }
         }
@@ -102,7 +97,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
      * @param name name of new person
      */
     
-    public void addPerson(String name) {
+    public void addTenant(String name) {
         if (name != null) {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
@@ -114,15 +109,14 @@ public class HousingListPanel extends JPanel implements ActionListener {
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
             button.addActionListener(this);
-            listForPeople.add(button);
-            viewForPerson.add(button);
-            housingPanel.addTenant(name);
-            housingPanel.showPersonInfo(name);
+            listForTenants.add(button);
+            viewForTenant.add(button);
+            housingPanel.addTenant(name, (listForTenants.size()-1));
+            housingPanel.showTenantInfo(name);
             validate();
         }
     }
  
-    
     public void updatePersonInfoPanel(HousingCustomerAgent p) {
     	this.lastPersonClicked = p;
        	personHungryCheckBox.setVisible(true);

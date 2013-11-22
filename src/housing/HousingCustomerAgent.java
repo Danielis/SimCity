@@ -31,11 +31,11 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	public HousingAnimationPanel copyOfAnimationPanel() {
 		return animationPanel;
 	}
-	
+
 	public void setGui(HousingCustomerGui g) {
 		gui = g;		
 	}
-	
+
 
 	//-----------------------------------------------
 	//--------------------DATA-----------------------
@@ -137,15 +137,18 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 			balance = 0;
 			System.out.println("This is all I have.  I'm out of money.");
 		}
-		gui.DoGoHome();
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();
 	}
 	private void CallLandlordRepairs(){
+		gui.DoGoToThreshold();
 		gui.DoGoToPhone();
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
 		System.out.println("Tenant: called landlord for repairs.");
-		gui.DoGoHome();
-	}
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();	
+		}
 
 	private void TakeOutLoan(){
 		//GoToBank(); //stub;
@@ -154,13 +157,15 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	}
 	private void GetFood() {
 		hungry = false;
+		gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
 		gui.DoGoToTable();
 		gui.DoGoToKitchen();
-		gui.DoGoHome();
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();
 		System.out.println("Done Eating.");
 	}
-	
+
 
 }
