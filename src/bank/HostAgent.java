@@ -3,6 +3,7 @@ package bank;
 import agent.Agent;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
+import bank.interfaces.Host;
 import bank.TellerAgent;
 import bank.CustomerAgent;
 
@@ -10,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Host Agent
-public class HostAgent extends Agent {
+public class HostAgent extends Agent implements Host {
 	
 		
 	//Lists

@@ -28,10 +28,10 @@ public class CustomerAgent extends Agent implements Customer {
 	//EDIT HERE******************************
 	
 //VARIABLES*************************************************
-	HostAgent h;
+	Host h;
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
-	TellerAgent t;
+	Teller t;
 	double balance = 1000;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
@@ -44,7 +44,7 @@ public class CustomerAgent extends Agent implements Customer {
 	Boolean isHappy = true;
 	
 	//Constructor
-	public CustomerAgent(String name, HostAgent h){
+	public CustomerAgent(String name, Host h){
 		super();
 		this.name = name;
 		this.h = h;
@@ -101,7 +101,7 @@ public void	WantsToDo(String visitPurpose, int quantity){ //called from Person a
 	    stateChanged();
 	}
 
-public void	GoToTeller(TellerAgent t){
+public void	GoToTeller(Teller t){
 	//print("received teller info");
 	    this.t = t;
 	    state = bankCustomerState.assigned;
