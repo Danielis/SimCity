@@ -19,6 +19,7 @@ import java.util.Vector;
 
 public class CityAnimationPanel extends JPanel implements ActionListener {
 
+
         private final int WINDOWX_ANIM = 934;
         private final int WINDOWY_ANIM = 645;
 
@@ -84,4 +85,5 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
         public void addGui(PersonGui gui) {
                 guis.add(gui);
         }
+
 }
