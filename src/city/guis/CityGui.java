@@ -9,6 +9,7 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+import housing.guis.HousingGui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -148,7 +149,6 @@ public class CityGui extends JFrame implements ActionListener {
           
             
             if ((x<159) && (y<85) && (x>0) && (y>0)){
-           
                   BankGui gui3 = new BankGui();
                    gui3.setTitle("Aleena's Bank");
                    gui3.setVisible(true);
@@ -163,6 +163,14 @@ public class CityGui extends JFrame implements ActionListener {
               gui2.setResizable(false);
               gui2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
             }
+            
+            if ((x<603) && (y<261) && (x>530) && (y>202)){
+            	HousingGui gui4 = new HousingGui();
+        		gui4.setTitle("Housing View");
+        		gui4.setVisible(true);
+        		gui4.setResizable(false);
+        		gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);  
+               }
             
             }
 

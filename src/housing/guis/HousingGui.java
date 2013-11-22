@@ -236,25 +236,25 @@ public class HousingGui extends JFrame implements ActionListener {
 	/**
 	 * Main routine to get gui started
 	 */
-	public static void main(String[] args) {
-		HousingGui gui = new HousingGui();
-		gui.setTitle("Housing View");
-		gui.setVisible(true);
-		gui.setResizable(false);
-		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		/*
-        CityGui gui3 = new CityGui();
-        gui3.setTitle("Team 05's City");
-        gui3.setVisible(true);
-        gui3.setResizable(false);
-        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        RestaurantGui gui2 = new RestaurantGui();
-        gui2.setTitle("Norman's Restaurant");
-        gui2.setVisible(true);
-        gui2.setResizable(false);
-        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 */
-	}
+//	public static void main(String[] args) {
+//		HousingGui gui = new HousingGui();
+//		gui.setTitle("Housing View");
+//		gui.setVisible(true);
+//		gui.setResizable(false);
+//		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//		/*
+//        CityGui gui3 = new CityGui();
+//        gui3.setTitle("Team 05's City");
+//        gui3.setVisible(true);
+//        gui3.setResizable(false);
+//        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        RestaurantGui gui2 = new RestaurantGui();
+//        gui2.setTitle("Norman's Restaurant");
+//        gui2.setVisible(true);
+//        gui2.setResizable(false);
+//        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		 */
+//	}
 }
