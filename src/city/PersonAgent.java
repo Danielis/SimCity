@@ -205,11 +205,16 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	public void msgLeavingRestaurant(Role r){
+		print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
 	    r.setActivity(false);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setNourishment(nourishment.notHungry);
 	    gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('A');
 	    stateChanged();
 	}
 	
@@ -298,9 +303,9 @@ public class PersonAgent extends Agent implements Person
 	{
 		Status.setNourishment(nourishment.goingToFood);
 		//Transportation t = ChooseTransportation();
-		//gui.DoGoToCheckpoint('A');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('A');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -323,7 +328,7 @@ public class PersonAgent extends Agent implements Person
 		restaurants.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
 		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 		//restaurants.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		restaurants.get(0).panel.customerPanel.addCustomer(this.getName());
+		restaurants.get(0).panel.customerPanel.addCustomer((Customer)roles.get(0));
 		
 		/*
 		Restaurant r = PickARestaurant();
