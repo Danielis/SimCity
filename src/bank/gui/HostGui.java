@@ -9,6 +9,8 @@ import bank.gui.Coordinate;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
@@ -20,6 +22,12 @@ public class HostGui implements Gui {
     Coordinate position;
     Coordinate destination;
     Coordinate homeposition;
+    
+    Timer timer = new Timer();
+	BufferedImage speechBubble;
+	
+	Boolean showSpeechBubble = false;
+	Coordinate speechBubbleLoc;
     
     private final int deltadivider = 100;
     
@@ -70,7 +78,31 @@ public void updatePosition() {
     public void draw(Graphics2D g) {
      	Graphics2D newG = (Graphics2D)g;
         newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
+   
+        if (showSpeechBubble){
+			newG.drawImage(speechBubble, speechBubbleLoc.x, speechBubbleLoc.y, agent.copyOfAnimPanel);
+		}
     }
+    
+    public void setSpeechBubble(String temp){
+		System.out.println("setting");
+		speechBubbleLoc= new Coordinate(position.x - 10, position.y - 53);
+		showSpeechBubble = true;
+		temp = "/resources/bankSprites/speech/" + temp +".png";
+		 try
+	        {
+	        	speechBubble = ImageIO.read(getClass().getResource(temp));
+	        } catch (IOException e ) {} 
+		 
+		 timer.schedule( new TimerTask()
+			{
+				public void run()
+				{				
+					
+					showSpeechBubble = false;
+				}
+			}, 1000);
+	}
 
     public boolean isPresent() {
         return true;

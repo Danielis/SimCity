@@ -225,7 +225,14 @@ public class HostAgent extends Agent {
 	
 	private void assignCustomer(MyCustomer c, MyTeller t){
 		print("Customer go to teller " + t.t.getTableNum());
-	   // c.s = customerState.done;
+		if (t.t.getTableNum() == 1)
+			hostGui.setSpeechBubble("host_1");
+		if (t.t.getTableNum() == 2)
+			hostGui.setSpeechBubble("host_2");
+		if (t.t.getTableNum() == 3)
+			hostGui.setSpeechBubble("host_3");
+		
+		// c.s = customerState.done;
 		customers.remove(0);
 	    t.s = tellerState.busy;
 	    c.c.GoToTeller(t.t);
