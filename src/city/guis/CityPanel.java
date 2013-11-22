@@ -10,6 +10,7 @@ import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
+import roles.Restaurant;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,12 +43,12 @@ public class CityPanel extends JPanel {
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
+    public Vector<Restaurant> restaurants = new Vector<Restaurant>();
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     
     private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
     private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
-    private JPanel restLabel = new JPanel();
     private CityListPanel personPanel = new CityListPanel(this, "People");
     private JPanel group = new JPanel();
         
@@ -94,50 +95,10 @@ public class CityPanel extends JPanel {
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
         group.add(personPanel);
-
-        //initRestLabel();
-        //add(restLabel);
         add(group);
     }
-
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
-    private void initRestLabel() {
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
-        restLabel.setLayout(new BorderLayout());
-        /*old
-         * 
-         * label.setText(
-                "<html>"
-	                + "<h3><u>Tonight's Staff</u></h3>"
-	                + "<table>"
-	                	+ "<tr><td>Host:</td><td>" + host.getName() + "</td></tr>"
-        			+ "</table>"
-	                + "<h3><u> Menu</u></h3>"
-	                + "<table>"
-		                + "<tr><td>Steak</td><td>$15.99</td></tr>"
-		                + "<tr><td>Chicken</td><td>$10.99</td></tr>"
-		                + "<tr><td>Salad</td><td>$5.99</td></tr>"
-		                + "<tr><td>Pizza</td><td>$8.99</td></tr>"
-	                + "</table><br>"
-                + "</html>");
-         */
-
-        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        restLabel.add(picMenu, BorderLayout.SOUTH);
-        restLabel.add(picOwner, BorderLayout.NORTH);
-    }
-
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
-     */
+   
+    //Displays the person information
     public void showPersonInfo(String name)
     {
         for (int i = 0; i < people.size(); i++) {
@@ -152,27 +113,7 @@ public class CityPanel extends JPanel {
         }
     }
     
-   
-
-    /**
-     * Adds a customer or waiter to the appropriate list
-     *
-     * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
-     */
-//    public void addCustomer(String name) 
-//    {
-//		CustomerAgent c = new CustomerAgent(name);	
-//		CustomerGui g = new CustomerGui(c, gui);
-//		gui.animationPanel.addGui(g);
-//		c.setHost(host);
-//		c.setCashier(cashier);
-//		c.setGui(g);
-//		c.setAnimPanel(gui.animationPanel);
-//		customers.add(c);
-//		c.startThread();
-//    }
-    
+	//Adds a person to the city
     public void addPerson(String name) 
     {
     	System.out.println("Got here A");
@@ -181,14 +122,14 @@ public class CityPanel extends JPanel {
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
-		p.setRestaurantPanel(restPanel);
+		p.setRestaurants(restaurants);
 		people.add(p);
 		p.startThread();
     }
     
-    public void setRestPanel(RestaurantPanel panel)
+    public void setRestaurants(Vector<Restaurant> res)
     {
-    	restPanel = panel;
+    	restaurants = res;
     }
     
     public void pause()
@@ -203,6 +144,6 @@ public class CityPanel extends JPanel {
 
     public void refresh()
     {
-    	gui.updateLastCustomer();
+    	//gui.updateLastPerson();
     }
 }

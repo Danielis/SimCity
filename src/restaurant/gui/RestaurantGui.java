@@ -4,6 +4,7 @@ import restaurant.CustomerAgent;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
+import restaurant.interfaces.Customer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,9 +22,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * and the animation frame, (in variable animationFrame within gui)
      */
 	
-	JFrame animationFrame = new JFrame("Restaurant Animation");
-	RestaurantAnimationPanel animationPanel = new RestaurantAnimationPanel();
-	JPanel RestaurantPortion = new JPanel();
+	public JFrame animationFrame = new JFrame("Restaurant Animation");
+	public RestaurantAnimationPanel animationPanel = new RestaurantAnimationPanel();
+	public JPanel RestaurantPortion = new JPanel();
  
     public RestaurantPanel restPanel = new RestaurantPanel(this);
     
@@ -41,7 +42,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
-    private CustomerAgent currentCustomer;
+    private Customer currentCustomer;
     private WaiterAgent currentWaiter;
 
     private JButton pauseButton;
@@ -149,12 +150,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
      *
-     * @param person customer (or waiter) object
+     * @param temp customer (or waiter) object
      */
-    public void updateCustomerInformationPanel(CustomerAgent person) {
+    public void updateCustomerInformationPanel(Customer temp) {
         customerStateCheckBox.setVisible(true);
-        currentCustomer = person;
-        CustomerAgent customer = person;
+        currentCustomer = temp;
+        Customer customer = temp;
         customerStateCheckBox.setText("Hungry?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
@@ -247,7 +248,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * @param c reference to the customer
      */
     public void setCustomerEnabled(CustomerAgent c) {
-        CustomerAgent cust = currentCustomer;
+        Customer cust = currentCustomer;
         if (c.equals(cust)) 
         {
             customerStateCheckBox.setEnabled(true);

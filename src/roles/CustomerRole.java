@@ -44,7 +44,7 @@ public class CustomerRole extends Role implements Customer {
 	String choice;								//Choice
 	RestaurantMenu menu;						//Copy of the menu
 	public iconState icon = iconState.none;		//For animation
-	public RestaurantAnimationPanel copyOfAnimPanel;		//For drawing icons
+	public RestaurantAnimationPanel copyOfAnimPanel;	//For drawing icons
 	Boolean imusthavethisitem = false;			//To bypass re-selection
 	Boolean reordering = false;					//To check if he's reordering
 	public Semaphore animSemaphore = new Semaphore(0, true);
@@ -124,7 +124,7 @@ public class CustomerRole extends Role implements Customer {
 		reordering = false;
 		state = myState.hungry;
 		reordering = false;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 
 	public void msgRestaurantIsFull(Boolean b)
@@ -137,19 +137,19 @@ public class CustomerRole extends Role implements Customer {
 			{
 				//print("Restaurant is full. Leaving the restaurant");
 				state = myState.IllJustLeave;
-				myPerson.stateChanged();
+				stateChanged();
 			}
 			else if (a==1)
 			{
 				//print("Restaurant is full. I still want to wait.");
 				state = myState.gotASpot;
-				myPerson.stateChanged();
+				stateChanged();
 			}
 		}
 		else if (b == false)
 		{
 			state = myState.gotASpot;
-			myPerson.stateChanged();
+			stateChanged();
 		}
 	}
 	
@@ -160,14 +160,14 @@ public class CustomerRole extends Role implements Customer {
 		mySeat = tableNum;
 		menu = m;
 		state = myState.beingSeated;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	
 	public void msgWhatWouldYouLike()
 	{
 		state = myState.ordering;
 		//print("I want to order the " + choice);
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	
 	public void msgSorryOutOfFood(List<Boolean> temp)
@@ -176,14 +176,14 @@ public class CustomerRole extends Role implements Customer {
 		state = myState.seated;
 		print("Got message to reorder.");
 		recalculateOptions(temp);
-		myPerson.stateChanged();
+		stateChanged();
 	}
 
 	public void msgHereIsYourFood(String choice)
 	{
 		print("Got my food.");
 		state = myState.readyToEat;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 
 	public void msgHereIsYourCheck(float check)
@@ -191,11 +191,11 @@ public class CustomerRole extends Role implements Customer {
 		print("Got my check.");
 		state = myState.readyToPay;
 		bill = check;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 
 //SCHEDULER*************************************************
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		if (state == myState.readyToPay){
 			PayForMeal();
@@ -257,7 +257,7 @@ public class CustomerRole extends Role implements Customer {
 		print("Being seated. Going to table " + mySeat);
 		customerGui.DoGoToSeat(mySeat);
 		state = myState.seated;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	
 	private void TellWaiterOrder()
@@ -476,6 +476,9 @@ public class CustomerRole extends Role implements Customer {
 		customerGui.DoExitRestaurant();
 		state = myState.finished;
 		customerGui.setNotHungry();
+		//NEW LINE
+		System.out.println(myPerson);
+		this.myPerson.msgLeavingRestaurant(this);
 	}
 	
 	private void LeaveBecauseFull()
@@ -486,8 +489,6 @@ public class CustomerRole extends Role implements Customer {
 		this.customerGui.DoExitRestaurant();
 		state = myState.finished;
 		customerGui.setNotHungry();
-		//NEW LINE
-		this.myPerson.msgLeavingRestaurant(this);
 	}
 
 //UTILITIES*************************************************
@@ -541,5 +542,6 @@ public class CustomerRole extends Role implements Customer {
 	{
 		this.animSemaphore.release();
 	}
+
 }
 
