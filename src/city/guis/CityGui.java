@@ -11,8 +11,10 @@ import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
 import roles.Restaurant;
 import housing.guis.HousingGui;
+import roles.Bank;
 import bank.gui.BankGui;
 import city.PersonAgent;
+
 
 
 //Import Java utilities
@@ -33,6 +35,7 @@ public class CityGui extends JFrame implements ActionListener {
 	
 	//Lists
 	public Vector<Restaurant> restaurants = new Vector<Restaurant>();
+	public Vector<Bank> banks = new Vector<Bank>();
 	
 	//Java Structure
 	public JFrame animationFrame = new JFrame("Restaurant Animation");
@@ -128,6 +131,7 @@ public class CityGui extends JFrame implements ActionListener {
         
         //City Element Creation
         createRestaurant("Norman's Restaurant", "Norman");
+        createBank("Aleena's Bank");
         
         //Mouse Listener for the coordinates
         cityAnimationPanel.addMouseListener(new MouseListener() {
@@ -243,9 +247,15 @@ public class CityGui extends JFrame implements ActionListener {
     {
     	if (owner == "Norman")
     	{
-    		Restaurant r = new Restaurant(new RestaurantGui(), "Norman's Restaurant");
+    		Restaurant r = new Restaurant(new RestaurantGui(), name);
     		restaurants.add(r);
     	}
+    }
+    
+    public void createBank(String name)
+    {
+    	Bank b = new Bank(new BankGui(), name);
+    	banks.add(b);
     }
     
     //Set Person Enabled

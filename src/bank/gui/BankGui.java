@@ -20,8 +20,9 @@ public class BankGui extends JFrame implements ActionListener {
 	JFrame animationFrame = new JFrame("Restaurant Animation");
 	BankAnimationPanel animationPanel = new BankAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
+	
  
-    private BankPanel restPanel = new BankPanel(this);
+    public BankPanel restPanel = new BankPanel(this);
     
     /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;
