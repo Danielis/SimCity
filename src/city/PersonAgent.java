@@ -343,6 +343,8 @@ import javax.management.relation.RoleStatus;
 
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
+import roles.CustomerRole;
+import roles.Restaurant;
 import roles.Role;
 
 public class PersonAgent extends Agent implements Person
@@ -351,8 +353,10 @@ public class PersonAgent extends Agent implements Person
 	 								VARIABLES
 	 ******************************************************************************/
 	
-	//Lists
+	//Lists: Roles, Restaurants
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
+	List<Restaurant> restaurants = Collections.synchronizedList(new ArrayList<Restaurant>());
+	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 	
 	//Variable
 	PersonGui gui = null;
@@ -639,7 +643,6 @@ public class PersonAgent extends Agent implements Person
 	private void GoToRestaurant()
 	{
 		Status.setNourishment(nourishment.goingToFood);
-		System.out.println("Got here D");
 		gui.DoGoToCheckpoint('A');
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('C');
@@ -650,5 +653,28 @@ public class PersonAgent extends Agent implements Person
 		System.out.println(restPanel == null);
 		restPanel.customerPanel.customerHungryCheckBox.setSelected(true);
 		restPanel.customerPanel.addCustomer(this.getName());
+		
+		Restaurant r = PickARestaurant();
+		//Transportation t = ChooseTransportation();
+		//DoGoTo(r.location, t);
+		CustomerRole c = new CustomerRole(this.getName());
+		roles.add(c);
+		c.setActivity(true);
+		r.host.msgCheckForASpot(c);
+		
+		/*
+		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list
+	    TransportationMethod tm = PickOne(r);    //Someone has to do this.
+	    DoGoTo(r.location, tm);                  //It's probably more complicated than this.
+	    Role c = SimCity201.CustomerFactory(r.customerRole); 
+	    roles.add(c);
+	    c.active = T;
+	    r.getHost().ImHungry((Customer) c);
+		 */
+	}
+	
+	private Restaurant PickARestaurant()
+	{
+		return restaurants.get(0); //Only my restaurant is in here right now
 	}
 }

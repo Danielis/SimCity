@@ -486,6 +486,8 @@ public class CustomerRole extends Role implements Customer {
 		this.customerGui.DoExitRestaurant();
 		state = myState.finished;
 		customerGui.setNotHungry();
+		//NEW LINE
+		this.myPerson.msgLeavingRestaurant(this);
 	}
 
 //UTILITIES*************************************************

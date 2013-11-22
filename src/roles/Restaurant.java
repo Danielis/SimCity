@@ -6,12 +6,14 @@ import restaurant.CookAgent;
 import restaurant.CashierAgent;
 
 public class Restaurant {
-	String name; //Name of the restaurant
-    Location location;
-    HostAgent host;
-    CookAgent cook;
+	public String name; //Name of the restaurant
+    public Location location;
+    public HostAgent host;
+    public CookAgent cook;
     CashierAgent cashier;
-    String customerRole; //value is something like "Restaurant1CustomerRole"
-    RestaurantMenu menu;
-    String type;
+    public String customerRole; //value is something like "Restaurant1CustomerRole"
+    public RestaurantMenu menu;
+    public String type;
+    
+    //add panels
 }
