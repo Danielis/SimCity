@@ -145,6 +145,8 @@ public class HousingGui extends JFrame implements ActionListener {
 		currentTenant = temp;
 		tenantHungryBox.setSelected(currentTenant.hungry);
 		tenantHungryBox.setEnabled(!currentTenant.hungry);
+		tenantRepairBox.setSelected(currentTenant.houseNeedsRepairs);
+		tenantRepairBox.setEnabled(!currentTenant.houseNeedsRepairs);
 		infoCustomerLabel.setText(
 				"<html><pre>     Name: " + currentTenant.name + " </pre></html>");
 		tenantInformationPanel.validate();
@@ -152,8 +154,6 @@ public class HousingGui extends JFrame implements ActionListener {
 	public void updateWorkerInformationPanel(HousingWorkerAgent temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentWorker = temp;
-		tenantRepairBox.setSelected(currentTenant.houseNeedsRepairs);
-		tenantRepairBox.setEnabled(!currentTenant.houseNeedsRepairs);
 		//HousingCustomerAgent tenant = temp;
 		//customerStateCheckBox.setText("Hungry?");
 		//customerStateCheckBox.setSelected(currentTenant.getGui().isHungry());

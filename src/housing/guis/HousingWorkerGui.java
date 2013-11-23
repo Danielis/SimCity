@@ -59,11 +59,11 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 	        } catch (IOException e ) {}
 			
-			outside = new Coordinate(-50,450);
-			destination = new Coordinate(-50, 450);
+			position = new Coordinate(475,750);			
+			outside = new Coordinate(475,750);
+			destination = new Coordinate(475, 750);
 	    	workarea = new Coordinate(12,80);
-	    	position = outside;
-	    	
+
 		}
 		//UTILITIES ***********************************************
 	    public class Coordinate
@@ -150,7 +150,7 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		public void DoGoHome()
 		{
 			goingSomewhere = true;
-			destination = new Coordinate(-50, 450);
+			destination = new Coordinate(475, 750);
 			agent.WaitForAnimation();
 		}
 		

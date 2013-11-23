@@ -59,8 +59,6 @@ public class HousingPanel extends JPanel {
 
         landlord.startThread();
         addWorker("Worker");
-        landlord.addWorker(worker);
-        worker.setLandlord(landlord);
         
         initRestLabel();
         add(restLabel);
