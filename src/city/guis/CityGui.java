@@ -293,11 +293,11 @@ public class CityGui extends JFrame implements ActionListener {
 	      CityGui gui = new CityGui();
 	      gui.setVisible(true);
 	      
-//	      MarketGui gui4 = new MarketGui();
-//          gui4.setTitle("Market");
-//          gui4.setVisible(true);
-//          gui4.setResizable(false);
-//          gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);   
+	      MarketGui gui4 = new MarketGui();
+          gui4.setTitle("Market");
+          gui4.setVisible(true);
+          gui4.setResizable(false);
+          gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);   
     }
     
 

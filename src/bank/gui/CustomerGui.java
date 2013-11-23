@@ -154,7 +154,7 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void setSpeechBubble(String temp){
-		System.out.println("setting");
+		//System.out.println("setting");
 		speechBubbleLoc= new Coordinate(position.x - 10, position.y + 7);
 		showSpeechBubble = true;
 		temp = "/resources/bankSprites/speech/" + temp +".png";
@@ -192,6 +192,7 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void setAction() {
+		System.out.println("customergui reched setaction");
 		isBusy = true;
 		//int temp = Integer.parseInt(amount);
 		agent.msgWantsTransaction();

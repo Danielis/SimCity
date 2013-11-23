@@ -75,6 +75,11 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 	
 //MESSAGES*************************************************
 
+	public void MarketIsClosed(){
+		state = marketCustomerState.done;
+		//customerGui.setSpeechBubble("oksadcust");
+		stateChanged();
+	}
 	
 public void msgWantsToBuy(String type, int temp){ //called from gui
 		item = type;
@@ -240,27 +245,24 @@ private void SayThanks(){
 
 private void LeaveMarket(){
 		print("Thank you. I now have $" + balance);
+		if (t != null){
 		t.IAmLeaving();
-
 		if (t.getTableNum() == 1){
 			getCustomerGui().DoGoToWaitingRoom();
-			getCustomerGui().DoExitRestaurant();
 		}
 		else if (t.getTableNum() == 2){
 			getCustomerGui().DoGoToTopMiddle();
 			getCustomerGui().DoGoToTopLeft();
 			getCustomerGui().DoGoToBotLeft();
 			getCustomerGui().DoGoToWaitingRoom();
-			getCustomerGui().DoExitRestaurant();
 		}
 		else if (t.getTableNum() == 3){
 			getCustomerGui().DoGoToTopRight();
 			getCustomerGui().DoGoToBotRight();
 			getCustomerGui().DoGoToWaitingRoom();
-			getCustomerGui().DoExitRestaurant();
 		}
-		
-		
+		}
+		getCustomerGui().DoExitRestaurant();
 	    state = marketCustomerState.exited;  
 	    
 	    getCustomerGui().finishedTransaction();

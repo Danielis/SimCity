@@ -6,23 +6,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import javax.imageio.ImageIO;
-
-import restaurant.HostAgent;
-import city.PersonAgent;
-import city.guis.CityGui;
-import city.guis.PersonGui.Coordinate;
 
 public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 	//variables
 	private boolean isPresent = true;
 	private boolean isHungry = false;
-	private boolean goingSomewhere = false;
+	public boolean goingSomewhere = false;
+	public boolean initial = true;
 
 	int roomIndex;
 
@@ -44,7 +38,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	Coordinate outside;
 	Coordinate cashier;
 	Coordinate waitingroom;
-
+	
 	//images
 	//List of tables
 
@@ -64,7 +58,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		position = new Coordinate(475,750);
 		cashier = new Coordinate(255, 75);
 		waitingroom = new Coordinate(140,70);
-		destination = new Coordinate(460,20 + (100*roomIndex));
+		destination = new Coordinate(475,20 + (100*roomIndex));
 		goingSomewhere = true;
 	}
 
@@ -90,7 +84,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		try {
 			waitingForAnimation.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -126,8 +119,8 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 			if (position.x == destination.x && position.y == destination.y)
 			{
-				goingSomewhere = false;
-				DoneWithAnimation();
+					goingSomewhere = false;
+					DoneWithAnimation();
 			}
 		}
 	}
@@ -135,9 +128,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		Color customerColor = new Color(195, 178, 116);
-		newG.setColor(customerColor);
-		//newG.fillRect(50, 50, customerSize, customerSize);
 		newG.drawImage(avatar, position.x, position.y, agent.copyOfAnimationPanel());			
 	}
 
@@ -169,22 +159,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		goingSomewhere = true;
 		//System.out.println(agent.getName() + " is leaving.");
 		destination = outside;
-		//agent.WaitForAnimation();
-	}
-
-	public void DoGoToCashier()
-	{
-		goingSomewhere = true;
-		//System.out.println(agent.getName() + " is going to cashier.");
-		destination = cashier;
-		//agent.WaitForAnimation();
-	}
-
-	public void DoGoToWaitingRoom()
-	{
-		goingSomewhere = true;
-		//System.out.println(agent.getName() + " is going to the waiting room.");
-		destination = waitingroom;
 		//agent.WaitForAnimation();
 	}
 

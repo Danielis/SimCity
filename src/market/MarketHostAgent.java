@@ -1,6 +1,7 @@
 package market;
 
 import agent.Agent;
+import bank.HostAgent.MyCustomer;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketHostGui;
 import market.interfaces.MarketHost;
@@ -162,6 +163,10 @@ public class MarketHostAgent extends Agent implements MarketHost {
 								return true;
 							}
 						}
+						if (myTellers.size() == 0){
+							NoTellers(c);
+							return true;
+						}
 					}
 				}
 			}
@@ -218,6 +223,10 @@ public class MarketHostAgent extends Agent implements MarketHost {
 	}
 
 //ACTIONS********************************************************
+	private void NoTellers(MyCustomer c){
+		c.c.MarketIsClosed();
+		customers.remove(c);
+	}
 	
 	private void RemoveCustomer(MarketCustomerAgent mc)
 	{

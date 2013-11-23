@@ -36,7 +36,7 @@ public class Role //why doesnt this extend agent?
 	
 	protected void stateChanged()
 	{
-		System.out.println(myPerson);
+		//System.out.println(myPerson);
 		myPerson.stateChanged();
 	}
 	
@@ -52,8 +52,8 @@ public class Role //why doesnt this extend agent?
 	
 	public String getName()
 	{
-		//return myPerson.getName();
-		return "test";
+		return myPerson.getName();
+		//return "test";
 	}
 	
     protected void print(String msg) {

@@ -102,6 +102,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//--------------------------------------------------------
 	@Override
 	protected boolean pickAndExecuteAnAction() {
+		System.out.println("Tenant scheduler.");
 		if (needsLoan){
 			TakeOutLoan();
 			return true;
@@ -117,6 +118,9 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		if(hungry) {
 			GetFood();
 			return true;
+		}
+		if(!gui.goingSomewhere) {
+			gui.DoGoToBed();
 		}
 		return false;
 	}

@@ -134,9 +134,9 @@ public class BankPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
-    public void addCustomer(BankCustomer customer) 
+    public void addCustomer(BankCustomer c) 
     {
-		BankCustomer c = customer;	
+    	System.out.println("bankpanel addcust");
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);

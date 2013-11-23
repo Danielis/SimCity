@@ -62,14 +62,13 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 
 	public void paintComponent(Graphics g) {
 
-
 		Graphics2D house = (Graphics2D)g;
 		Graphics2D background = (Graphics2D)g;
 
 		//COLORS		
-		Color brown = new Color(245, 201, 114);
 		Color backgroundColor = new Color(0, 0, 0);
 		background.setColor(backgroundColor);
+		background.setStroke(new BasicStroke(3));
 		background.drawImage(wood_floor, 0, 0, this);
 		background.drawImage(kitchen, 0, 0, 288, 241, this);
 		background.drawImage(landlord_office, 300, 0, this);
@@ -77,24 +76,22 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.drawLine(500, 60, 500, 135);
 		background.drawLine(500, 135, 700, 135);
 		background.drawImage(bed, 600, 200, this);		
-		background.drawLine(500, 160, 500, 235);
+		background.drawLine(500, 170, 500, 235);
 		background.drawLine(500, 235, 700, 235);
 		background.drawImage(bed, 600, 300, this);
-		background.drawLine(500, 260, 500, 335);
+		background.drawLine(500, 270, 500, 335);
 		background.drawLine(500, 335, 700, 335);
 		background.drawImage(bed, 600, 400, this);
-		background.drawLine(500, 360, 500, 435);
+		background.drawLine(500, 370, 500, 435);
 		background.drawLine(500, 435, 700, 435);
 		background.drawImage(bed, 600, 500, this);
-		background.drawLine(500, 460, 500, 535);
+		background.drawLine(500, 470, 500, 535);
 		background.drawLine(500, 535, 700, 535);
-		background.drawLine(500, 560, 500, 735);
+		background.drawLine(500, 570, 500, 735);
 
 		background.drawImage(bed, 600, 600, this);
-
 		
 		//BACKGROUND INITIATION
-		house.setColor(brown);
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
