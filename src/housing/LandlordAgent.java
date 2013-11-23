@@ -126,6 +126,7 @@ public class LandlordAgent extends Agent {
 	public void RepairsCompleted(HousingComplex complex, double amount){
 		for(RepairTicket t: tickets) {
 			if(t.complex == complex) {
+				t.w.jobs--;
 				t.bill = amount;
 				t.s = ticketStatus.completed;
 			}
@@ -165,7 +166,13 @@ public class LandlordAgent extends Agent {
 	//------------------Actions-----------------------------
 	//--------------------------------------------------------
 	private void AssignTicket(RepairTicket t){
-		t.w = workers.get(0); //there should be a better way of picking workers
+		MaintenanceWorker min = workers.get(0);
+		for(MaintenanceWorker current:workers){
+			if(current.jobs<min.jobs)
+				min = current;
+		}
+		t.w = min; 
+		t.w.jobs++;
 		t.s = ticketStatus.assigned;
 		t.w.p.GoRepair(t.complex);
 		System.out.println("Landlord: Ticket assigned.");

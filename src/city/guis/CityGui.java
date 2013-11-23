@@ -177,6 +177,7 @@ public class CityGui extends JFrame implements ActionListener {
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
 
+
         });   
     }
     
@@ -185,6 +186,9 @@ public class CityGui extends JFrame implements ActionListener {
      * changes the information panel to hold that person's info.
      * @param temp customer (or waiter) object
      */
+
+
+    //Update the information Panel
 
     public void updatePersonInformationPanel(PersonAgent temp) {
         personHungryCheckBox.setVisible(true);

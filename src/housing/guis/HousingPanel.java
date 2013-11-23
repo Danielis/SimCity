@@ -59,8 +59,6 @@ public class HousingPanel extends JPanel {
 
         landlord.startThread();
         addWorker("Worker");
-        landlord.addWorker(worker);
-        worker.setLandlord(landlord);
         
         initRestLabel();
         add(restLabel);
@@ -105,9 +103,7 @@ public class HousingPanel extends JPanel {
      */
     public void showTenantInfo(String name)
     {
-		System.out.println("Name sent to show info: " + name);
     	for (HousingCustomerAgent temp:tenants) {
-    		System.out.println("Name pulled from tenant: " + temp.name);
     		if (temp.name.equals(name))
     		{
     			tenantPanel.updateTenant(temp);
