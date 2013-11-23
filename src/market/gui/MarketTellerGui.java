@@ -1,7 +1,7 @@
 package market.gui;
 
 import market.MarketHostAgent;
-import market.MarketTellerAgent;
+import market.MarketWorkerAgent;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,7 +27,7 @@ public class MarketTellerGui implements Gui {
 	//images
 	BufferedImage imgTrainer;
 		
-    private MarketTellerAgent agent = null;
+    private MarketWorkerAgent agent = null;
     MarketGui gui;
 
     Boolean isPresent;
@@ -51,7 +51,7 @@ public class MarketTellerGui implements Gui {
     
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-    public MarketTellerGui(MarketTellerAgent w, MarketGui gui, int in) {
+    public MarketTellerGui(MarketWorkerAgent w, MarketGui gui, int in) {
     	
     	setPresent(true);
     	isPresent = true;

@@ -2,7 +2,7 @@ package market.gui;
 
 import market.MarketCustomerAgent;
 import market.MarketHostAgent;
-import market.MarketTellerAgent;
+import market.MarketWorkerAgent;
 
 import javax.swing.*;
 
@@ -41,10 +41,10 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addWaiterButton = new JButton("Add");
     private JTextField nameFieldForWaiter = new JTextField("");
     private JCheckBox waiterBreakCheckBox = new JCheckBox("Set Breaks Below");
-    private MarketTellerAgent currentWaiter;
+    private MarketWorkerAgent currentWaiter;
     
     private MarketCustomerAgent lastCustomerClicked;
-    private MarketTellerAgent lastWaiterClicked;
+    private MarketWorkerAgent lastWaiterClicked;
 
     //GENERAL STUFF
     private MarketPanel restPanel;
@@ -195,7 +195,7 @@ public class ListPanel extends JPanel implements ActionListener {
         customerHungryCheckBox.setSelected(lastCustomerClicked.getGui().isHungry());
         customerHungryCheckBox.setEnabled(!lastCustomerClicked.getGui().isHungry());
     }
-    public void updateWaiterInfoPanel(MarketTellerAgent person)
+    public void updateWaiterInfoPanel(MarketWorkerAgent person)
     {
     	/*
     	this.lastWaiterClicked = person;
@@ -225,7 +225,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     
     
-    public void updateWaiter(MarketTellerAgent person)
+    public void updateWaiter(MarketWorkerAgent person)
     {
     	
     	/*currentWaiter = person;

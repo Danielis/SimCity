@@ -192,10 +192,10 @@ public class MarketCustomerGui implements Gui{
 	
 	public void setAction(String type, String amount) {
 		isBusy = true;
-		//int temp = Integer.parseInt(amount);
 		double temp = Double.parseDouble(amount);
 		temp =  Math.round(temp * 100) / 100.0d;
-		agent.msgWantsTransaction(type, temp);
+		int temp2 = (int) temp;
+		agent.msgWantsToBuy(type, temp2);
 		setPresent(true);
 	}
 	

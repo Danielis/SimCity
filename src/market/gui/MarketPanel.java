@@ -3,7 +3,7 @@ package market.gui;
 import market.Market;
 import market.MarketCustomerAgent;
 import market.MarketHostAgent;
-import market.MarketTellerAgent;
+import market.MarketWorkerAgent;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,7 +28,7 @@ public class MarketPanel extends JPanel {
     int waiterindex = 0; 		//To assign waiters individual locations
     
     private Vector<MarketCustomerAgent> customers = new Vector<MarketCustomerAgent>();
-    private Vector<MarketTellerAgent> waiters = new Vector<MarketTellerAgent>();
+    private Vector<MarketWorkerAgent> waiters = new Vector<MarketWorkerAgent>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -117,7 +117,7 @@ public class MarketPanel extends JPanel {
     public void showWaiterInfo(String name) 
     {
         for (int i = 0; i < waiters.size(); i++) {
-            MarketTellerAgent temp = waiters.get(i);
+            MarketWorkerAgent temp = waiters.get(i);
             if (temp.getName() == name)
             {
                 waiterPanel.updateWaiter(temp);
@@ -147,9 +147,9 @@ public class MarketPanel extends JPanel {
     public void addTeller(String name) 
     {
 		waiterindex++;
-    	MarketTellerAgent w = new MarketTellerAgent(name, waiterindex);	
+    	MarketWorkerAgent w = new MarketWorkerAgent(name, waiterindex);	
 		MarketTellerGui g = new MarketTellerGui(w, gui, waiterindex);
-		w.setBank(b);
+		w.setMarket(b);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
 		w.setAnimPanel(gui.animationPanel);
@@ -167,7 +167,7 @@ public class MarketPanel extends JPanel {
     	{
     		c.pauseAgent();
     	}
-    	for (MarketTellerAgent w : waiters)
+    	for (MarketWorkerAgent w : waiters)
     	{
     		w.pauseAgent();
     	}
@@ -181,7 +181,7 @@ public class MarketPanel extends JPanel {
     	{
     		c.resumeAgent();
     	}
-    	for (MarketTellerAgent w : waiters)
+    	for (MarketWorkerAgent w : waiters)
     	{
     		w.resumeAgent();
     	}

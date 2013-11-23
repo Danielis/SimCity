@@ -2,69 +2,65 @@ package market;
 
 import java.util.*;
 
-import bank.Bank.Account;
-
-
 
 public class Market {
 	double balance;
-	List <Account> accounts = new ArrayList<Account>();
-	List <Loan> loans = new ArrayList<Loan>();
+	List <Item> inventory = new ArrayList<Item>();
 	int idIncr = 0;
 	
 	public Market(){
-		balance = 50000;
-		//accounts.add(new Account(1, 500));
+		balance = 5000;
+		
+		inventory.add(new Item("Steak", 0, 13));
+		inventory.add(new Item("Salad", 100, 3));
+		inventory.add(new Item("Chicken", 100, 9));
+		inventory.add(new Item("Pizza", 100, 4));
+		inventory.add(new Item("Car", 20, 20000)); // lol
 	}
 	
 	
-	public class Account {
-		int id; // auto increment
-	    MarketCustomerAgent c;
-	    double balance;
-	    
-	    
-	    public Account(MarketCustomerAgent c) {
-			this.c = c;
-			balance = 0;
-			id = ++idIncr;
+	public class Item {
+		String name;
+		int quantity;
+		double price;
+		
+		Item(String n, int q, double p){
+			name = n;
+			quantity = q;
+			price = p;
 		}
-	    
-	    public Account(int t, int b) {
-			balance = b;
-			id = t;
-		}
-	}
-	
-	public class Loan {
-		MarketCustomerAgent c;
-	    double balanceOwed;
-	    double balancePaid;
-	    double rate;
-	    int dayCreated;
-	    int dayOwed;
-	    loanState s;
-	    
-	    Loan(MarketCustomerAgent c2, double amount){
-	    c = c2;
-	    rate = 1.08;
-	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
-	    balancePaid = 0;
-	    }
-	}
-	enum loanState {unpaid, partiallyPaid, paid}
-	
-	public Account createAccount(MarketCustomerAgent c) {
-		Account acct = new Account(c);
-		return acct;
 	}
 
-	public Loan createLoan(MarketCustomerAgent c, double amount) {
-		Loan loan = new Loan(c, amount);
-		return loan;
+
+	public double calculatePrice(String item, int quantity) {
+		for (Item i : inventory){
+			if (i.name.equals(item))
+				return i.price * quantity;
+		}
+		return 0;
 	}
 
+
+	public void RemoveInventory(String item, int quantity) {
+		for (Item i : inventory){
+			if (i.name.equals(item)){
+				i.quantity -= quantity;
+			}
+				
+		}
+	}
 	
+	public int Amount(String item){
+		for (Item i : inventory){
+			if (i.name.equals(item)){
+				return i.quantity;
+			}
+				
+		}
+		return 0;
+	}
+	
+
 }
 
 

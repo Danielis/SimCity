@@ -1,7 +1,7 @@
 package market.gui;
 
 import market.MarketCustomerAgent;
-import market.MarketTellerAgent;
+import market.MarketWorkerAgent;
 import market.MarketHostAgent;
 
 import javax.swing.*;
@@ -36,14 +36,14 @@ public class MarketGui extends JFrame implements ActionListener {
     private JCheckBox customerStateCheckBox;
     private JTextField amountInput = new JTextField("");
     
-    String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
+    String[] transactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
     JComboBox transactionList = new JComboBox(transactions);
     //private JCheckBox waiterBreakCheckBox;
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
     private MarketCustomerAgent currentCustomer;
-    private MarketTellerAgent currentWaiter;
+    private MarketWorkerAgent currentWaiter;
 
     private JButton pauseButton;
     private JButton refreshButton;
@@ -174,11 +174,11 @@ public class MarketGui extends JFrame implements ActionListener {
     	//empty
     }
     
-    public void updateWaiterInformationPanel(MarketTellerAgent person) {
+    public void updateWaiterInformationPanel(MarketWorkerAgent person) {
     	waiterON.setVisible(true);
     	waiterOFF.setVisible(true);
         currentWaiter = person;
-        MarketTellerAgent waiter = person;
+        MarketWorkerAgent waiter = person;
     	infoWaiterLabel.setText(
                 "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
         waiterInformationPanel.validate();
@@ -203,12 +203,12 @@ public class MarketGui extends JFrame implements ActionListener {
 //        }
         if (e.getSource() == waiterON)
         {
-        	MarketTellerAgent w = currentWaiter;
+        	MarketWorkerAgent w = currentWaiter;
         	w.getGui().AskForBreak();
         }
         if (e.getSource() == waiterOFF)
         {
-        	MarketTellerAgent w = currentWaiter;
+        	MarketWorkerAgent w = currentWaiter;
         	w.getGui().AskGoOffBreak();
         }
       

@@ -17,9 +17,12 @@ import city.PersonAgent;
 
 
 
+
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import market.gui.MarketGui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -273,6 +276,12 @@ public class CityGui extends JFrame implements ActionListener {
     {    	  	
 	      CityGui gui = new CityGui();
 	      gui.setVisible(true);
+	      
+	      MarketGui gui4 = new MarketGui();
+          gui4.setTitle("Market");
+          gui4.setVisible(true);
+          gui4.setResizable(false);
+          gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);   
     }
     
 

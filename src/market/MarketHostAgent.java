@@ -4,7 +4,7 @@ import agent.Agent;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketHostGui;
 import market.interfaces.MarketHost;
-import market.MarketTellerAgent;
+import market.MarketWorkerAgent;
 import market.MarketCustomerAgent;
 
 import java.util.*;
@@ -70,11 +70,11 @@ public class MarketHostAgent extends Agent implements MarketHost {
 //CLASSES****************************************************
 		public class MyTeller{
 			
-			public MyTeller(MarketTellerAgent t2) {
+			public MyTeller(MarketWorkerAgent t2) {
 				this.t = t2;
 				this.s = tellerState.free;
 			}
-			MarketTellerAgent t;
+			MarketWorkerAgent t;
 			tellerState s;
 		}
 		enum tellerState {free, busy, wantsBreak, onBreak};
@@ -99,13 +99,13 @@ public class MarketHostAgent extends Agent implements MarketHost {
     stateChanged();
 	}
 		
-	public void msgNewTeller(MarketTellerAgent t)
+	public void msgNewTeller(MarketWorkerAgent t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
 	}
 	
-	public void IAmFree(MarketTellerAgent tell){
+	public void IAmFree(MarketWorkerAgent tell){
 		//print("received msg free");
 		for(MyTeller t: myTellers){
 			if (t.t == tell){
@@ -116,7 +116,7 @@ public class MarketHostAgent extends Agent implements MarketHost {
 	}
 	
 	
-	public void msgIdLikeToGoOnBreak(MarketTellerAgent t)
+	public void msgIdLikeToGoOnBreak(MarketWorkerAgent t)
 	{
 		print("Received message that " + t.getName() + " wants to go on break.");
 		for (MyTeller mw : myTellers)
@@ -129,7 +129,7 @@ public class MarketHostAgent extends Agent implements MarketHost {
 		}
 	}
 	
-	public void msgIdLikeToGetOffBreak(MarketTellerAgent t)
+	public void msgIdLikeToGetOffBreak(MarketWorkerAgent t)
 	{
 		print("Received message that " + t.getName() + " wants to go off break.");
 		for (MyTeller mw : myTellers)

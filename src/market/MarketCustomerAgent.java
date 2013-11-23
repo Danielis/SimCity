@@ -4,12 +4,10 @@ import market.gui.MarketAnimationPanel;
 import market.gui.MarketCustomerGui;
 import market.interfaces.*;
 import agent.Agent;
-import agent.RestaurantMenu;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurant.gui.RestaurantAnimationPanel;
 
 //Customer Agent
 //It still is a finite state machine, instead of events it still uses the state enum.
@@ -23,19 +21,15 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 		none, question, steak, chicken, salad, pizza,
 	};
 	
-	//EDIT HERE******************************
-	static final float initialMoney = 20.00f;
-	//EDIT HERE******************************
+	
 	
 //VARIABLES*************************************************
 	MarketHost h;
-	bankCustomerState state;
+	marketCustomerState state;
 	public MarketAnimationPanel copyOfAnimPanel; // for gui
-	MarketTeller t;
+	MarketWorker t;
 	double balance = 1000;
-	customerPurpose purpose;
-	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
-	int accountID;
+	
 	private MarketCustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
@@ -43,167 +37,132 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 	
 	Boolean isHappy = true;
 	
+	String item;
+	int quantityWanted;
+	int quantityReceived; 
+	double amountOwed;
+	
+	
 	//Constructor
 	public MarketCustomerAgent(String name, MarketHost h){
 		super();
 		this.name = name;
 		this.h = h;
-		state = bankCustomerState.outside;
-		amount = 400;
+		state = marketCustomerState.outside;
+		amountOwed = 400;
 	}
 
 //UTILITIES**************************************************
 
 	private Boolean enoughBalance(){
-		if (amount > balance){
+		if (amountOwed > balance){
 			print("I just realized I do not have enough money");
-			state = bankCustomerState.done;
+			state = marketCustomerState.done;
 			stateChanged();
 			return false;
 		}
 		else{
-			balance -= amount;
+			balance -= amountOwed;
 			return true;
 		}
 	}
 	
 //CLASSES/ENUMS**********************************************
 
-	enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan};
-	enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
+	
+	enum marketCustomerState{outside, entered, waiting, assigned, atCounter, canPay, needsPay, done, exited};
+	
 	
 //MESSAGES*************************************************
 
-	public void NoLoan() {
-	state = bankCustomerState.done;	
-	stateChanged();
-	}
 	
-public void msgWantsTransaction(String type, double temp){
-		if (type.equals("New Account"))
-			purpose = customerPurpose.createAccount;
-		else if (type.equals("Withdraw"))
-			purpose = customerPurpose.withdraw;
-		else if (type.equals("Deposit"))
-			purpose = customerPurpose.deposit;
-		else if (type.equals("New Loan"))
-			purpose = customerPurpose.takeLoan;
-		else if (type.equals("Pay Loan"))
-			purpose = customerPurpose.payLoan;
-		state = bankCustomerState.outside;
-		amount = temp;
+public void msgWantsToBuy(String type, int temp){ //called from gui
+		item = type;
+		state = marketCustomerState.outside;
+		quantityWanted = temp;
 		stateChanged();
 	}
 
 public void	WantsToDo(String visitPurpose, int quantity){ //called from Person agent
 	    //purpose = convert(visitPurpose);
-	    this.state = bankCustomerState.entered;
+	    this.state = marketCustomerState.entered;
 	    stateChanged();
 	}
 
-public void	GoToTeller(MarketTeller t){
+public void	GoToTeller(MarketWorker t){
 	//print("received teller info");
 	    this.t = t;
-	    state = bankCustomerState.assigned;
+	    state = marketCustomerState.assigned;
 	    stateChanged();
 	}
 
-public void	AccountCreated(){
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void	MoneySuccesfullyDeposited(){
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void	LoanCreated(double temp){
-	    balance += temp;
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void	CannotCreateLoan(){
-	    state = bankCustomerState.done;
-	    isHappy = false;
-	    stateChanged();
-	}
-
-public void	CreditNotGoodEnough(){
-	    state = bankCustomerState.done;
-	    isHappy = false;
-	    stateChanged();
-	}
-
-public void	YourLoanIsPaidOff(double change){
-		if (change > 0){
-		balance += change;
-		print("Received received change of $" + change);
-		print("Now I have $" + balance);
-		}
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void	YouStillOwe(double d, int i){
-	    state = bankCustomerState.done;
-	    isHappy = false;
-	    stateChanged();
-	}
-
-public void	HereIsWithdrawal(double amount){
-	    balance += amount;
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void	HereIsPartialWithdrawal(double amount){
-	    balance += amount;
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void	NoMoney(){ // in account
+public void OutOfStock(){
+	state = marketCustomerState.done;
 	isHappy = false;
-	    state = bankCustomerState.done;
-	    stateChanged();
-	}
-
-public void WantAccount(){
-	//	state = bankCustomerState.thinking;
-	if (purpose.equals(customerPurpose.withdraw))
-		amount = 0;
-		purpose = customerPurpose.createAccount;
-		state = bankCustomerState.atCounter;
-		stateChanged();
+	stateChanged();
 }
+
+public void YouOwe(double amount){
+	if (balance >= amount){
+		amountOwed = amount;
+		state = marketCustomerState.canPay;
+	}
+	else{
+		print("I can't afford...");
+		isHappy = false;
+		state = marketCustomerState.done;
+	}
+	stateChanged();
+}
+
+public void PleasePay(double amount){
+	amountOwed = amount;
+	state = marketCustomerState.needsPay;
+	stateChanged();
+}
+
+public void HereIsOrder(String i, int q){
+	quantityReceived = q;
+	state = marketCustomerState.done;
+	stateChanged();
+}
+
 
 	
 //SCHEDULER*************************************************
 	protected boolean pickAndExecuteAnAction() 
 	{
 		//print("reached sched");
-		if (state == bankCustomerState.outside){
-			GoToBank();
+		if (state == marketCustomerState.outside){
+			GoToMarket();
 			return true;
 		}
-		if (state == bankCustomerState.entered){
+		if (state == marketCustomerState.entered){
 		    TellHost();
 		    return true;
 		}
 
-		if (state == bankCustomerState.assigned){
+		if (state == marketCustomerState.assigned){
 		    WalkToTeller();
 		    return true;
 		}
 		
-		if (state == bankCustomerState.atCounter){
+		if (state == marketCustomerState.atCounter){
 			AskForAssistance();
 		    return true;
 		}
+		
+		if (state == marketCustomerState.canPay){
+			PriceGood();
+		    return true;
+		}
 
-		if (state == bankCustomerState.done){
+		if (state == marketCustomerState.needsPay){
+			GivePayment();
+		    return true;
+		}
+		
+		if (state == marketCustomerState.done){
 			SayThanks();
 		    return true;
 		}
@@ -214,45 +173,21 @@ public void WantAccount(){
 
 //ACTIONS*************************************************
 
-private void GoToBank() {
-		print("Going to bank");
+private void GoToMarket() {
+		print("Going to market");
 		getCustomerGui().DoGoToWaitingRoom();
-		state = bankCustomerState.entered;
+		state = marketCustomerState.entered;
 }
 	
 private void TellHost(){
 	   // DoEnterBank();
 		print("I want service");
-	    state = bankCustomerState.waiting;
+	    state = marketCustomerState.waiting;
 	    h.IWantService(this);
 }
 
 private void AskForAssistance(){
-	state = bankCustomerState.waiting;
-	
-	
-
-    if (purpose == customerPurpose.createAccount){
-    	customerGui.setSpeechBubble("newacctq");
-    }
-    
-    else if (purpose == customerPurpose.withdraw){
-    	customerGui.setSpeechBubble("withdrawq");
-    }
-    
-    else if (purpose == customerPurpose.deposit){
-    	customerGui.setSpeechBubble("deposit");
-    }
-    
-    else if (purpose == customerPurpose.takeLoan){
-    	customerGui.setSpeechBubble("newloanq");
-    }
-    
-    else if (purpose == customerPurpose.payLoan){
-    	customerGui.setSpeechBubble("payloan");
-    }
-	
-	
+	state = marketCustomerState.waiting;
 	
 	timer.schedule( new TimerTask()
 	{
@@ -263,8 +198,27 @@ private void AskForAssistance(){
 	}, 4000);
 }
 
+private void GiveRequest(){
+	print("I want to order this...");
+	state = marketCustomerState.waiting;
+	t.GiveOrder(this, item, quantityWanted);
+}
+
+private void PriceGood(){
+	print("That price is good!");
+	state = marketCustomerState.waiting;
+	t.PleaseFulfill(this);
+}
+
+private void GivePayment(){
+	print("Here is payment of $" + amountOwed);
+	balance -= amountOwed;
+	state = marketCustomerState.waiting;
+	t.GivePayment(this, amountOwed);
+}
+
 private void SayThanks(){
-	state = bankCustomerState.exited;
+	state = marketCustomerState.exited;
 	if (isHappy)
 	customerGui.setSpeechBubble("thnxcust");
 	else
@@ -274,57 +228,17 @@ private void SayThanks(){
 	{
 		public void run()
 		{				
-			LeaveBank();
+			LeaveMarket();
 		}
 	}, 2000);
 	
 }
 
-private void GiveRequest(){
-		//print("This what I want to do...");
-		
-		
-	    if (purpose == customerPurpose.createAccount){
-	    	if (amount > 0)
-	    	print("I would like to create an account and deposit $" + amount);
-	    	else
-	    	print("I would like to create an account.");
-	    	if (enoughBalance()){
-	    		t.IWantAccount(this, amount);
-	    	}
-	    }
-	    
-	    if (purpose == customerPurpose.withdraw){
-	    	print("I would like to withdraw $" + amount);
-	        t.WithdrawMoney(this, accountID, amount);
-	    }
-	    
-	    if (purpose == customerPurpose.deposit){
-	    	print("I would like to deposit $" + amount);
-	    	
-	    	if (enoughBalance())
-	    		t.DepositMoney(this, accountID, amount);
-	    }
-	    
-	    if (purpose == customerPurpose.takeLoan){
-	    	print("I would like to take out a loan of $" + amount);
-	        t.IWantLoan(this, amount);
-	    }
-	    
-	    if (purpose == customerPurpose.payLoan){
-	    	print("I would like to payback $" + amount + " of my loan");
-	        
-	    	if (enoughBalance())
-	    		t.PayMyLoan(this, amount);
-	    }
-
-
-	    
-	}
 
 
 
-private void LeaveBank(){
+
+private void LeaveMarket(){
 		print("Thank you. I now have $" + balance);
 		t.IAmLeaving();
 
@@ -347,7 +261,7 @@ private void LeaveBank(){
 		}
 		
 		
-	    state = bankCustomerState.exited;  
+	    state = marketCustomerState.exited;  
 	    
 	    getCustomerGui().finishedTransaction();
 }
@@ -373,7 +287,7 @@ private void LeaveBank(){
 			getCustomerGui().DoGoToTopRight();
 			getCustomerGui().DoGoToSeat(t.getTableNum());
 		}
-		state = bankCustomerState.atCounter;
+		state = marketCustomerState.atCounter;
 		//stateChanged();
 	}
 	

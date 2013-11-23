@@ -1,12 +1,12 @@
 package market.interfaces;
 
 import market.MarketCustomerAgent;
-import market.MarketTellerAgent;
+import market.MarketWorkerAgent;
 
 public interface MarketHost {
 	public void IWantService(MarketCustomerAgent c);
-		public void msgNewTeller(MarketTellerAgent t);
-		public void IAmFree(MarketTellerAgent tell);
-		public void msgIdLikeToGoOnBreak(MarketTellerAgent t);
-		public void msgIdLikeToGetOffBreak(MarketTellerAgent t);
+		public void msgNewTeller(MarketWorkerAgent t);
+		public void IAmFree(MarketWorkerAgent tell);
+		public void msgIdLikeToGoOnBreak(MarketWorkerAgent t);
+		public void msgIdLikeToGetOffBreak(MarketWorkerAgent t);
 }
