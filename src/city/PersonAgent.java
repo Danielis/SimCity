@@ -18,16 +18,6 @@ import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
 
-
-
-
-
-
-
-
-
-
-
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -41,12 +31,8 @@ public class PersonAgent extends Agent implements Person
 	//Lists: Roles, Restaurants
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
-
-	
-	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 	
 	//Variable
-	Restaurant currentRestaurant; //Restaurant that the person chooses
 	PersonGui gui = null;
 	double money = 500;
 	String name;
@@ -219,29 +205,34 @@ public class PersonAgent extends Agent implements Person
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
+		print("Got the message to go to the restaurant.");
 	    Status.setNourishment(nourishment.Hungry);
 	    Status.setDestination(destination.restaurant);
 	    gui.setPresent(false);
 	    stateChanged();
 	}
-	
-	public void msgLeavingRestaurant(Role r){
-		print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
+
+	public void msgLeavingRestaurant(Role r, double balance)
+	{
+		print("Got the message that I left the restaurant");
+		roles.remove(r);
+		money = balance;
+		System.out.println(balance);
 	    r.setActivity(false);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setNourishment(nourishment.notHungry);
 	    gui.setPresent(true);
 		gui.DoGoToCheckpoint('D');
-		gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
-		roles.remove(r);
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
 	    stateChanged();
 	}
-	
+
 	public void msgGoToBank()
 	{
+		print("Going to bank");
 		Status.setDestination(destination.bank);
 		Status.setMoneyStatus(bankStatus.withdraw);
 	    gui.setPresent(false);
@@ -328,14 +319,16 @@ public class PersonAgent extends Agent implements Person
 			}
 
 		Boolean anytrue = false;
-		for(Role r : roles)
+		synchronized(roles)
 		{
-			if(r.active)
+			for(Role r : roles)
 			{
-				anytrue = anytrue || r.pickAndExecuteAnAction();
+				if(r.active)
+				{
+					anytrue = anytrue || r.pickAndExecuteAnAction();
+				}
 			}
 		}
-		
 		if(anytrue)
 			return true;
 		
@@ -348,59 +341,33 @@ public class PersonAgent extends Agent implements Person
 	
 	private void GoToRestaurant()
 	{
+		print("Going to restaurant");
 		Status.setNourishment(nourishment.goingToFood);
 		//Transportation t = ChooseTransportation();
-		gui.DoGoToCheckpoint('A');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 		
 		//Role terminologies
-		CustomerRole c = new CustomerRole(this.getName());
+		CustomerRole c = new CustomerRole(this.getName(), money);
 		c.setPerson(this);
-		/*c.setHost(restaurants.get(0).panel.host);
-		c.setCashier(restaurants.get(0).panel.cashier);
-		CustomerGui gui1 = new CustomerGui(c, restaurants.get(0).gui);
-		c.setGui(gui1);
-		restaurants.get(0).gui.animationPanel.addGui(gui1);
-		c.setAnimPanel(restaurants.get(0).gui.animationPanel);
-		restaurants.get(0).panel.customers.add(c);*/
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
-		
-		
-		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 
-		for (Building b: buildings){
-			print(" type: " + b.getType() + " n: ");
-			if (b.getType() == buildingType.restaurant){
-				Restaurant r = (Restaurant) b;
-				r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-				r.panel.customerPanel.addCustomer((Customer)roles.get(0));
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				print(" type: " + b.getType() + " n: ");
+				if (b.getType() == buildingType.restaurant){
+					Restaurant r = (Restaurant) b;
+					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addCustomer((Customer)roles.get(0));
+				}
 			}
 		}
-
-		
-		/*
-		Restaurant r = PickARestaurant();
-		//Transportation t = ChooseTransportation();
-		//DoGoTo(r.location, t);
-		CustomerRole c = new CustomerRole(this.getName());
-		roles.add(c);
-		c.setActivity(true);
-		r.host.msgCheckForASpot(c);*/
-		
-		/*
-		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list
-	    TransportationMethod tm = PickOne(r);    //Someone has to do this.
-	    DoGoTo(r.location, tm);                  //It's probably more complicated than this.
-	    Role c = SimCity201.CustomerFactory(r.customerRole); 
-	    roles.add(c);
-	    c.active = T;
-	    r.getHost().ImHungry((Customer) c);
-		 */
 	}
 	
 	public void GoToWithdrawFromBank()
@@ -419,21 +386,19 @@ public class PersonAgent extends Agent implements Person
 		this.roles.get(0).setActivity(true);
 		c.test("New Account", 20);
 		
-		for (Building b: buildings){
-			if (b.getType() == buildingType.bank){
-				Bank r = (Bank) b;
-				r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-				r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					Bank r = (Bank) b;
+					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+				}
 			}
 		}
 		
-		
-		
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
-	
-	
-	
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
