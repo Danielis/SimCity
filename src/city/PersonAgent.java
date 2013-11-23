@@ -237,7 +237,7 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 
-	public void msgLeavingRestaurant(Role r){
+	public void msgLeavingRestaurant(Role r, float myMoney){
 		//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
 		r.setActivity(false);
 		Status.setLocation(location.outside);
