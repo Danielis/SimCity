@@ -3,9 +3,11 @@ package restaurant.gui;
 import restaurant.CustomerAgent;
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
-import restaurant.WaiterAgent;
+import restaurant.ModernWaiterAgent;
 import restaurant.CookAgent;
 import restaurant.MarketAgent;
+import restaurant.TraditionalWaiterAgent;
+import restaurant.WaiterAgent;
 import restaurant.interfaces.Customer;
 
 import javax.imageio.ImageIO;
@@ -198,16 +200,34 @@ public class RestaurantPanel extends JPanel {
     public void addWaiter(String name) 
     {
 		waiterindex++;
-    	WaiterAgent w = new WaiterAgent(name);	
-		WaiterGui g = new WaiterGui(w, gui, waiterindex);
-		gui.animationPanel.addGui(g);
-		w.setHost(host);
-		host.msgNewWaiter(w);
-		w.setCook(cook);
-		w.setCashier(cashier);
-		w.setGui(g);
-		waiters.add(w);
-		w.startThread();
+		
+		if (waiterindex % 2 == 0){
+			ModernWaiterAgent w = new ModernWaiterAgent(name, gui.restaurant);	
+			WaiterGui g = new WaiterGui(w, gui, waiterindex);
+			gui.animationPanel.addGui(g);
+			w.setHost(host);
+			host.msgNewWaiter(w);
+			w.setCook(cook);
+			w.setCashier(cashier);
+			w.setGui(g);
+			waiters.add(w);
+			w.startThread();
+		}
+		else{
+			TraditionalWaiterAgent w = new TraditionalWaiterAgent(name);	
+			WaiterGui g = new WaiterGui(w, gui, waiterindex);
+			gui.animationPanel.addGui(g);
+			w.setHost(host);
+			host.msgNewWaiter(w);
+			w.setCook(cook);
+			w.setCashier(cashier);
+			w.setGui(g);
+			waiters.add(w);
+			w.startThread();
+		}
+		
+		
+    	
     }
     
     public void pause()

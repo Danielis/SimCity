@@ -256,7 +256,9 @@ public class CityGui extends JFrame implements ActionListener {
     {
     	if (owner == "Norman")
     	{
-    		Restaurant r = new Restaurant(new RestaurantGui(), name);
+    		RestaurantGui rg = new RestaurantGui();
+    		Restaurant r = new Restaurant(rg, name);
+    		rg.setRestaurant(r);
     		restaurants.add(r);
     	}
     }

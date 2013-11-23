@@ -5,6 +5,7 @@ import restaurant.WaiterAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.interfaces.Customer;
+import roles.Restaurant;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -52,6 +53,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private ImageIcon MrKrabs;
     private JButton RamsayButton;
     private ImageIcon Ramsay;
+    
+    public Restaurant restaurant;
     
     Boolean isPaused = false;
     /**
@@ -255,6 +258,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
             customerStateCheckBox.setSelected(false);
         }
 }
+	public void setRestaurant(Restaurant r) {
+		restaurant = r;
+	}
 
     /**
      * Main routine to get gui started
