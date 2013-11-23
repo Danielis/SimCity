@@ -15,6 +15,7 @@ public class HousingWorkerAgent extends Agent {
 
 	// HOUSING WORKER DATA
 	LandlordAgent landlord;
+	public String name;
 	private List<Job> myJobs = new ArrayList<Job>();
 	double balance;
 	private Semaphore waitingForAnimation = new Semaphore(0);
@@ -38,7 +39,8 @@ public class HousingWorkerAgent extends Agent {
 	//-----------------Utilities----------------------------
 	//------------------------------------------------------
 	//constructor
-	public HousingWorkerAgent(){
+	public HousingWorkerAgent(String name1){
+		this.name = name1;
 		System.out.println("Housing Worker Created.");
 		balance = 0;
 	}

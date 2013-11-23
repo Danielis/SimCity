@@ -2,24 +2,14 @@ package housing.guis;
 
 
 
-import restaurant.CustomerAgent;
 import restaurant.WaiterAgent;
-import restaurant.HostAgent;
-import restaurant.CookAgent;
-import restaurant.gui.RestaurantAnimationPanel;
-import restaurant.gui.RestaurantGui;
 import housing.HousingCustomerAgent;
+import housing.HousingWorkerAgent;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import city.PersonAgent;
-import city.guis.CityGui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -42,13 +32,13 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JPanel buttonPanel;
 
 	private JLabel infoCustomerLabel;
-	private JLabel infoWaiterLabel;
+	private JLabel infoWorkerLabel;
 
 	private JCheckBox tenantHungryBox;
 	private JCheckBox tenantRepairBox;
 
 	private HousingCustomerAgent currentTenant;
-	private WaiterAgent currentWaiter;
+	private HousingWorkerAgent currentWorker;
 
 	private JButton pauseButton;
 	private JButton startButton;
@@ -126,9 +116,9 @@ public class HousingGui extends JFrame implements ActionListener {
 
 		workerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
 
-		infoWaiterLabel = new JLabel();
-		infoWaiterLabel.setText("<html><pre><i>Click Add to make waiters</i></pre></html>");
-		workerInformationPanel.add(infoWaiterLabel);
+		infoWorkerLabel = new JLabel();
+		infoWorkerLabel.setText("<html><pre><i>Click Add to make workers</i></pre></html>");
+		workerInformationPanel.add(infoWorkerLabel);
 		RestaurantPortion.add(housingPanel, BorderLayout.NORTH);
 		InformationPanel.add(tenantInformationPanel, BorderLayout.NORTH);
 		rentButton = new JButton("Rent time!");
@@ -169,6 +159,17 @@ public class HousingGui extends JFrame implements ActionListener {
 				"<html><pre>     Name: " + currentTenant.name + " </pre></html>");
 		tenantInformationPanel.validate();
 	}
+	public void updateWorkerInformationPanel(HousingWorkerAgent temp) {
+		//customerStateCheckBox.setVisible(true);
+		currentWorker = temp;
+		//HousingCustomerAgent tenant = temp;
+		//customerStateCheckBox.setText("Hungry?");
+		//customerStateCheckBox.setSelected(currentTenant.getGui().isHungry());
+		//customerStateCheckBox.setEnabled(!currentTenant.getGui().isHungry());
+		infoWorkerLabel.setText(
+				"<html><pre>     Name: " + currentWorker.name + " </pre></html>");
+		workerInformationPanel.validate();
+	}
 	public void updateLastCustomer()
 	{
 		if (currentTenant != null)
@@ -181,11 +182,11 @@ public class HousingGui extends JFrame implements ActionListener {
 		}
 	}
 
-	public void updateWaiterInformationPanel(WaiterAgent person) {
-		currentWaiter = person;
-		WaiterAgent waiter = person;
-		infoWaiterLabel.setText(
-				"<html><pre>     Name: " + waiter.getName() + " </pre></html>");
+	public void updateWaiterInformationPanel(HousingWorkerAgent person) {
+		currentWorker = person;
+		HousingWorkerAgent worker = person;
+		infoWorkerLabel.setText(
+				"<html><pre>     Name: " + worker.name + " </pre></html>");
 		workerInformationPanel.validate();
 	}
 

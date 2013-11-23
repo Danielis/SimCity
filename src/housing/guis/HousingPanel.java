@@ -38,9 +38,11 @@ public class HousingPanel extends JPanel {
 	private HousingWorkerAgent worker;
         
     private Vector<HousingCustomerAgent> tenants = new Vector<HousingCustomerAgent>();
-
+    private Vector<HousingWorkerAgent> workers = new Vector<HousingWorkerAgent>();
+    
     private JPanel restLabel = new JPanel();
-    private HousingListPanel tenantPanel = new HousingListPanel(this, "People");
+    private HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
+    private HousingListPanel workerPanel = new HousingListPanel(this, "Workers");
     private JPanel group = new JPanel();
         
     
@@ -53,6 +55,7 @@ public class HousingPanel extends JPanel {
         group.setLayout(new GridLayout(1, 2, 10, 10));
         
         group.add(tenantPanel);
+        group.add(workerPanel);
 
         landlord.startThread();
         addWorker("Worker");
@@ -112,6 +115,16 @@ public class HousingPanel extends JPanel {
     		}
     	}
     }
+    public void showWorkerInfo(String name)
+    {
+    	for (HousingWorkerAgent temp:workers) {
+    		if (temp.name.equals(name))
+    		{
+    			workerPanel.updateWorker(temp);
+    			gui.updateWorkerInformationPanel(temp);
+    		}
+    	}
+    }
 
     /**
      * Adds a customer or waiter to the appropriate list
@@ -136,12 +149,15 @@ public class HousingPanel extends JPanel {
     
     public void addWorker(String name) 
     {
-		HousingWorkerAgent p = new HousingWorkerAgent();
+    	HousingWorkerAgent p = new HousingWorkerAgent(name);
 		HousingWorkerGui g = new HousingWorkerGui(p, gui);
 		gui.housingAnimationPanel.addGui(g);
 		p.setGui(g);
+        landlord.addWorker(p);
+        p.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		worker = p;
+		workers.add(worker);
 		worker.startThread();
     }
     

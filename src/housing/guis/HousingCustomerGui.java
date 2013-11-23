@@ -208,7 +208,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 	public void DoGoToLandlord() {
 		goingSomewhere = true;
-		destination = new Coordinate(-50,450);
+		destination = new Coordinate(325,50);
 		WaitForAnimation();
 	}
 	public void DoGoToKitchen() {

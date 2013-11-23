@@ -5,6 +5,7 @@ import restaurant.HostAgent;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import housing.HousingCustomerAgent;
+import housing.HousingWorkerAgent;
 
 import javax.swing.*;
 
@@ -26,14 +27,16 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	private JPanel viewForTenant = new JPanel();
+	private JPanel viewForWorker = new JPanel();
 	private JPanel topPart_person = new JPanel();
 	private JPanel bottomPart_person = new JPanel();
 	private List<JButton> listForTenants = new ArrayList<JButton>();
+	private List<JButton> listForWorkers = new ArrayList<JButton>();
 	private JButton addPersonButton = new JButton("Add");
 	private JTextField nameFieldForPerson = new JTextField("");
 	private HousingCustomerAgent currentTenant;
 	private HousingCustomerAgent lastPersonClicked;
-
+	private HousingWorkerAgent currentWorker;
 
 	//GENERAL STUFF
 	private HousingPanel housingPanel;
@@ -43,7 +46,6 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	public HousingListPanel(HousingPanel rp, String type) {
 		housingPanel = rp;
 		this.type = type;
-
 		//setLayout(new GridLayout(0,1,1,1));
 		topPart_person.setLayout(new BorderLayout());
 		bottomPart_person.setLayout(new BorderLayout());
@@ -70,7 +72,14 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	//--------------------------------------------------
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addPersonButton)  {
-			addTenant(nameFieldForPerson.getText());
+			if(type.equals("Tenants")) {
+				System.out.println("The type is " + this.type);
+				addTenant(nameFieldForPerson.getText());
+			}
+			else{
+				System.out.println("The type is " + this.type);
+				addWorker(nameFieldForPerson.getText());
+			}
 		}
 		else {
 			// Isn't the second for loop more beautiful?
@@ -79,8 +88,13 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			for (JButton temp1: listForTenants){
 				if (e.getSource() == temp1)
 				{
-					System.out.println("Button pushed: " + temp1.getText());
 					housingPanel.showTenantInfo(temp1.getText());
+				}
+			}
+			for (JButton temp2: listForWorkers){
+				if (e.getSource() == temp2)
+				{
+					housingPanel.showWorkerInfo(temp2.getText());
 				}
 			}
 		}
@@ -112,17 +126,27 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			validate();
 		}
 	}
-
-	public void updatePersonInfoPanel(HousingCustomerAgent p) {
-		this.lastPersonClicked = p;
-		//personHungryCheckBox.setVisible(true);
-		currentTenant = p;
-		HousingCustomerAgent person = p;
-		//personHungryCheckBox.setText("Hungry?");
-		//personHungryCheckBox.setSelected(person.getGui().isHungry());
-		//personHungryCheckBox.setEnabled(!person.getGui().isHungry());
-
+	
+	public void addWorker(String name) {
+		if (name != null) {
+			JButton button = new JButton(name);
+			button.setBackground(Color.white);
+			Dimension paneSize = personPane.getSize();
+			Dimension buttonSize = new Dimension(paneSize.width - 20,
+					(int) (paneSize.height / 10));
+			button.setPreferredSize(buttonSize);
+			button.setMinimumSize(buttonSize);
+			button.setMaximumSize(buttonSize);
+			button.addActionListener(this);
+			listForWorkers.add(button);
+			viewForWorker.add(button);
+			housingPanel.addWorker(name);
+			housingPanel.showWorkerInfo(name);
+			validate();
+		}
 	}
+
+
 	public void updatePersonPanel()
 	{
 		// personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
@@ -139,7 +163,17 @@ public class HousingListPanel extends JPanel implements ActionListener {
 		//{
 		//	personHungryCheckBox.setSelected(false);
 		//	HousingCustomerAgent p = currentTenant;
-			//p.getGui().setHungry();
+		//p.getGui().setHungry();
+		//}
+	}
+	public void updateWorker(HousingWorkerAgent temp)
+	{
+		currentWorker = temp;
+		//if (personHungryCheckBox.isSelected())
+		//{
+		//	personHungryCheckBox.setSelected(false);
+		//	HousingCustomerAgent p = currentTenant;
+		//p.getGui().setHungry();
 		//}
 	}
 }
