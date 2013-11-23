@@ -9,6 +9,11 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+import transportation.BusAgent;
+import transportation.BusStopAgent;
+import transportation.TransportationCompanyAgent;
+import transportation.gui.BusGui;
+import transportation.gui.BusStopGui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -57,7 +62,7 @@ public class CityGui extends JFrame implements ActionListener {
     private ImageIcon MrKrabs;
     private JButton RamsayButton;
     private ImageIcon Ramsay;
-    
+       
     Boolean isPaused = false;
     /**
      * Constructor for RestaurantGui class.
@@ -66,6 +71,7 @@ public class CityGui extends JFrame implements ActionListener {
     public CityGui() {
         int WINDOWX = 500;
         int WINDOWY = 500;
+
         
         ButtonPanel = new JPanel();
         MrKrabs = new ImageIcon(getClass().getResource("/resources/MrKrabs.png"));
@@ -130,6 +136,8 @@ public class CityGui extends JFrame implements ActionListener {
 
         add(cityAnimationPanel, BorderLayout.CENTER);
         add(RestaurantPortion, BorderLayout.EAST);
+        
+   
 
     }
     /**
@@ -249,10 +257,40 @@ public class CityGui extends JFrame implements ActionListener {
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        //Commands to run stuff for testing code
+        
+        gui.cityPanel.createBusSystem();
+        gui.cityPanel.beginBusMovement();
+        gui.cityPanel.sendPersonToStop();
+        //Setting Metro and adding buses and busStops MODIFY FOR CITY CHANGES
+        /*
+        BusAgent B = new BusAgent("Bus1");
+        BusGui Bg = new BusGui(B,gui);
+        gui.cityAnimationPanel.addGui(Bg);
+        B.setGui(Bg);
+        Bg.setPosition(295,250);
+        Bg.isPresent();
+        B.setAnimationPanel(gui.cityAnimationPanel);
+        //metro.addBus(B);
+        B.startThread();
+        
+        BusStopAgent S = new BusStopAgent("BusStop1");
+        BusStopGui Sg = new BusStopGui(S,gui);
+        gui.cityAnimationPanel.addGui(Sg);
+        S.setGui(Sg);
+        Sg.setPosition(395,250);
+        Sg.isPresent();
+        S.setAnimationPanel(gui.cityAnimationPanel);
+        //metro.addBusStop(S);
+        Sg.isPresent();
+        S.startThread();
+        
+        /*
         BankGui gui3 = new BankGui();
         gui3.setTitle("Aleena's Bank");
         gui3.setVisible(true);
         gui3.setResizable(false);
-        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+        */ 
     }
 }

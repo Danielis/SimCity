@@ -10,6 +10,10 @@ import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
+//adding transportation
+import transportation.*;
+import transportation.gui.BusGui;
+import transportation.gui.BusStopGui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -39,6 +43,7 @@ public class CityPanel extends JPanel {
     public CookAgent cook = new CookAgent("Gordon Ramsay");
     private CookGui cookGui;
     public RestaurantPanel restPanel;
+    public TransportationCompanyAgent metro = new TransportationCompanyAgent("Metro");
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
@@ -58,6 +63,7 @@ public class CityPanel extends JPanel {
     JLabel picMenu;
     
     private CityGui gui; //reference to main gui
+        
 
     public CityPanel(CityGui gui) {
         this.gui = gui;
@@ -89,6 +95,41 @@ public class CityPanel extends JPanel {
         host.startThread();
         cashier.startThread();
         cook.startThread();
+        metro.startThread();
+        
+        /*
+        //Setting Metro and adding buses and busStops MODIFY FOR CITY CHANGES
+        metro = new TransportationCompanyAgent("Metro");
+        metro.startThread();
+        
+        BusAgent B = new BusAgent("Bus1");
+        BusGui Bg = new BusGui(B,gui);
+        gui.cityAnimationPanel.addGui(Bg);
+        B.setGui(Bg);
+        Bg.setPosition(295,250);
+        Bg.isPresent();
+        B.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBus(B);
+        B.startThread();
+
+        
+        BusStopAgent S = new BusStopAgent("BusStop1");
+        BusStopGui Sg = new BusStopGui(S,gui);
+        gui.cityAnimationPanel.addGui(Sg);
+        S.setGui(Sg);
+        Sg.setPosition(395,250);
+        Sg.isPresent();
+        S.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S);
+        Sg.isPresent();
+        S.startThread();*/
+        
+        //Need to set bus destination to A so that it begins it's route then it should act alone, BusStop should react to person reaching
+        // A by having person first move to Bus Stop A. This can be done by passing a command to go to Bus Stop A from cityGui.tranportationCompany 
+        // Maybe people have a cityGui to know where the bus stops are
+        //placing error to mark place
+        
+        //B.getGui().DoGoToCheckpoint('a'); // This makes 2 frames not show?
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
@@ -176,7 +217,7 @@ public class CityPanel extends JPanel {
     public void addPerson(String name) 
     {
     	System.out.println("Got here A");
-		PersonAgent p = new PersonAgent(name);	
+		PersonAgent p = new PersonAgent(name);
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
@@ -186,6 +227,57 @@ public class CityPanel extends JPanel {
 		p.startThread();
     }
     
+    public void createBusSystem() // Once AI and adding implementations are done, we can make this just an addBus or addStop function
+    {
+        System.out.println("Got to create bus system");
+        BusAgent B = new BusAgent("Bus1");
+        BusGui Bg = new BusGui(B,gui);
+        gui.cityAnimationPanel.addGui(Bg);
+        B.setCompany(metro);
+        B.setGui(Bg);
+        Bg.setPosition(395,250);
+        Bg.setPresent(true);
+        B.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBus(B);
+        B.startThread();
+        
+        BusStopAgent S = new BusStopAgent("BusStop1");
+        BusStopGui Sg = new BusStopGui(S,gui);
+        gui.cityAnimationPanel.addGui(Sg);
+        S.setCompany(metro);
+        S.setGui(Sg);
+        Sg.setPosition(395,250);
+        S.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S);
+        Sg.setPresent(true);
+        S.startThread();
+        
+        BusStopAgent S2 = new BusStopAgent("BusStop2");
+        BusStopGui S2g = new BusStopGui(S2,gui);
+        gui.cityAnimationPanel.addGui(S2g);
+        S2.setGui(S2g);
+        S2g.setPosition(395,125);
+        S2.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S2);
+        S2g.setPresent(true);
+        S2.startThread();
+        
+        /*
+        this.addPerson("Mark");
+        people.lastElement().getGui().DoGoToCheckpoint('a');
+        people.lastElement().msgGoToStop(metro.stops.get(0), metro.stops.get(1));
+        */
+    }
+    public void beginBusMovement(){
+    	//metro.buses.get(0).getGui().DoGoToCheckpoint('A');
+    	//metro.buses.get(0).msgNextStop();
+    }
+    
+    public void sendPersonToStop(){
+    	this.personPanel.addPerson("TestPerson");
+    	PersonAgent testPerson = people.lastElement();
+    	testPerson.msgGoToStop(metro.stops.get(0), metro.stops.get(1));
+    }
     public void setRestPanel(RestaurantPanel panel)
     {
     	restPanel = panel;

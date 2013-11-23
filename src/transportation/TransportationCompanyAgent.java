@@ -1,5 +1,6 @@
 package transportation;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,29 +16,26 @@ import transportation.gui.*;
 import transportation.Interfaces.*;
 
 
-public class BusStopAgent extends Agent implements BusStop
+public class TransportationCompanyAgent extends Agent implements TransportationCompany
 {
 	/*****************************************************************************
 	 								VARIABLES
 	 ******************************************************************************/
 	
 	//Variable
-	BusStopGui gui = null;
 	String name;
-	boolean atStop;
-	boolean nextStop;
-	TransportationCompany company;
 	
-	public List<PersonAgent> people = Collections.synchronizedList(new ArrayList<PersonAgent>());
+	public List<BusStopAgent> stops = Collections.synchronizedList(new ArrayList<BusStopAgent>());
+	public List<BusAgent> buses = Collections.synchronizedList(new ArrayList<BusAgent>());
 	
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	
 	public CityAnimationPanel CityAnimPanel;
 
 	
-	public BusStopAgent(String name){
+	public TransportationCompanyAgent(String name){
 		this.name = name;
-		System.out.println("Added BusStop " + name);
+		System.out.println("Added Bus Company " + name);
 	}
 	
 	public String getName(){
@@ -51,16 +49,8 @@ public class BusStopAgent extends Agent implements BusStop
 									 UTILITIES
 	******************************************************************************/
 
-	public void setGui(BusStopGui g)
-	{
-		this.gui = g;
-	}
 	public void setAnimationPanel(CityAnimationPanel panel) {
 		CityAnimPanel = panel;
-	}
-
-	public BusStopGui getGui() {
-		return gui;
 	}
 
 	public void WaitForAnimation()
@@ -79,23 +69,23 @@ public class BusStopAgent extends Agent implements BusStop
 	{
 		this.animSemaphore.release();
 	}
-	public void setCompany(TransportationCompany M){
-		this.company = M;
+	
+	public void addBus(BusAgent B){
+		buses.add(B);
 	}
+	public void addBusStop(BusStopAgent B){
+		stops.add(B);
+	}
+	
+	
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
 	
 
-	//
-	public void msgImAtStop(PersonAgent P){ // sent from BusCompany when Bus Gui matches Bus Stop Gui
-	    this.people.add(P);
-	    print("Person clicked Stop");
-	    stateChanged();
-	}
-	
-	public void msgPeopleGone(){
-		stateChanged(); // invokes scheduler when people have boarded bus in case no one is there anymore.
+	// After any movement of Bus the transportation must check the location of bus with the busStops so call after Bus movement
+	public void busMoved(){ // need to call in Bus when it's gui makes a move.
+		stateChanged();
 	}
 	
 	//Figure out how we are going to incorporate Bus,Car and walking into SimCity
@@ -106,24 +96,25 @@ public class BusStopAgent extends Agent implements BusStop
 	
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		ActionChangeGui();
+		// This function checks bus and busStops to see if they are in the same position, Calls Bus msg that they are at stop
+		Check(); // no need to return true since every time buses move they call this function which is fine because as long as they move they should be checked
+		
 		return false;
 	}
 	
 	/*****************************************************************************
 										ACTIONS
 	 ******************************************************************************/
-	
-	private void ActionChangeGui()
+	private void Check()
 	{
-
-		if (people.isEmpty()) {
-			gui.setStopGui(false); //if no one is at stop then change gui to empty gui
+		for(int i=0;i<buses.size();i++){
+			for(int j=0;j<stops.size();j++){
+				if(buses.get(i).getGui().getXPosition() == stops.get(j).getGui().getXPosition() && buses.get(i).getGui().getYPosition() == stops.get(j).getGui().getYPosition() ){//compare locations of both
+					buses.get(i).msgAtStop(stops.get(j));
+					print("At Stop: " + stops.get(j).getName());
+				}
+			}
 		}
-		else{
-			gui.setStopGui(true); // if someone is at stop then keep gui to not empty gui
-		}
-		stateChanged();
 	}
-	
+
 }

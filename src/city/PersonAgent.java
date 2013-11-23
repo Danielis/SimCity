@@ -1,5 +1,6 @@
 package city;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,6 +14,8 @@ import java.util.concurrent.Semaphore;
 
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
+import city.guis.PersonGui.Coordinate;
+import transportation.BusStopAgent;
 
 
 public class PersonAgent extends Agent implements Person
@@ -31,21 +34,36 @@ public class PersonAgent extends Agent implements Person
 	String name;
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
+	public Semaphore busSemaphore = new Semaphore(0, true);
 
 	public CityAnimationPanel CityAnimPanel;	
 	public RestaurantPanel restPanel;
+	
+	BusStopAgent destinationStop;
+	BusStopAgent curStop;
+	boolean goingToStop;
+	boolean gettingoff;
 	
 	
 	public PersonAgent(String name){
 		this.name = name;
 		System.out.println("Added person " + name);
-		
+		goingToStop = false;
 		//Create customer role
-		myRoles.add(new Role("customer"));
+		myRoles.add(new Role("customer")); // roles should not be added as such
 	}
 	
+	public void setDestinationStop(BusStopAgent P){
+		this.destinationStop = P;
+	}
+	public BusStopAgent getDestinationBusStop(){
+		return this.destinationStop;
+	}
 	public String getName(){
 		return name;
+	}
+	public void setPosition(int X, int Y){
+		gui.setPosition(X,Y);
 	}
 	//Class Declarations
 	class Role
@@ -200,6 +218,23 @@ public class PersonAgent extends Agent implements Person
 		this.animSemaphore.release();
 	}
 	
+	public void WaitForBus()
+	{
+		try
+		{
+			this.busSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithBus()
+	{
+		this.busSemaphore.release();
+	}
+	
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
@@ -237,7 +272,20 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 
-
+	//Transportation
+	public void msgAtBusStop(){
+		//this.DoneWithBus(); // msgBusStopReached() should release agent to do other actions
+		gettingoff = true;
+		print(this.name + "Going to Restaurant now since I reached bus Stop");
+		stateChanged();
+	}
+	public void msgGoToStop(BusStopAgent curStop,BusStopAgent dest){
+		print("Person going to STOP");
+		this.curStop = curStop;
+		this.destinationStop = dest;
+		this.goingToStop = true;
+		stateChanged();
+	}
 	
 	/*
 	//Work
@@ -294,7 +342,15 @@ public class PersonAgent extends Agent implements Person
 	
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-
+		//Not exactly sure where this next bit of code has to go or when it will be called
+		// it is called when a person needs to go to work and the SimCity has determined that it has to
+		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
+		if(goingToStop){
+			ActionGoToBusStop();
+		}
+		if(gettingoff){
+			GoToRestaurant();
+		}
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 			Status.getLocation() == location.outside) {
 			GoToRestaurant();
@@ -306,13 +362,22 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										ACTIONS
 	 ******************************************************************************/
-	
+	private void ActionGoToBusStop(){
+		goingToStop = false;
+		gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+		gui.setPresent(false);
+		curStop.msgImAtStop(this);
+		//WaitForBus();
+		
+	}
 	private void GoToRestaurant()
 	{
+		gettingoff = false;
+		gui.setPresent(true);
 		Status.setNourishment(nourishment.goingToFood);
-		System.out.println("Got here D");
-		gui.DoGoToCheckpoint('A');
-		gui.DoGoToCheckpoint('B');
+		System.out.println("Person Going to Restaurant");
+		//gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);

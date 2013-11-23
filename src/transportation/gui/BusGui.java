@@ -54,10 +54,8 @@ public class BusGui implements Gui{
         
         try
         {
-        	imgBus = ImageIO.read(getClass().getResource("/resources/rbus.png"));
+        	imgBus = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
-		
-		System.out.println("Got to the Busgui constructor");
 		
 		agent = c;
 		this.gui = gui2;
@@ -67,8 +65,9 @@ public class BusGui implements Gui{
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
 		
-		outside = new Coordinate(700, 250);
-    	position = new Coordinate(700, 250);
+		
+		outside = new Coordinate(100, 100);
+    	position = new Coordinate(100, 100);
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -112,9 +111,11 @@ public class BusGui implements Gui{
 
             if (position.x == destination.x && position.y == destination.y)
             {
+            	System.out.println(agent.getName() + "Destination reached");
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
             }
+            agent.msgBusGuiMoved();
     	}
 	}
 
@@ -133,11 +134,17 @@ public class BusGui implements Gui{
 		isPresent = p;
 	}
 	
+	public void DoGoToPlace()
+	{
+        goingSomewhere = true;
+        destination = checkpointA;
+        agent.WaitForAnimation();
+	}
+	
 	public void DoGoToCheckpoint(char a)
 	{
 	      if(a == 'A' || a == 'a')
           {
-	    	  System.out.println("Got here E");
               goingSomewhere = true;
               destination = checkpointA;
               agent.WaitForAnimation();
@@ -163,19 +170,30 @@ public class BusGui implements Gui{
 	}
 	
 	public void NextStop(){
-		if( this.position.equals(destination)){
-			if(this.position.equals(checkpointA)){
-				this.DoGoToCheckpoint('B');
-			}
-			if(this.position.equals(checkpointB)){
-				this.DoGoToCheckpoint('A');
-			}
-			if(this.position.equals(checkpointC)){
-
-			}
-			if(this.position.equals(checkpointD)){
-
-			}
+		if(this.position.x == checkpointA.x && this.position.y == checkpointA.y){
+			this.DoGoToCheckpoint('B');
 		}
+		else if(this.position.x == checkpointB.x && this.position.y == checkpointB.y){
+			this.DoGoToCheckpoint('A');
+		}
+		else if(this.position.x == checkpointC.x && this.position.y == checkpointC.y){
+
+		}
+		else if(this.position.x == checkpointD.x && this.position.y == checkpointD.y){
+
+		}
+		else
+			this.DoGoToCheckpoint('A');
+			
+	}
+	public int getXPosition(){
+		return this.position.x;
+	}
+	public int getYPosition(){
+		return this.position.y;
+	}
+	public void setPosition(int X, int Y){
+		this.position.x = X;
+		this.position.y = Y;
 	}
 }

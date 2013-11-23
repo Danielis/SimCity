@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import restaurant.HostAgent;
 import restaurant.gui.Gui;
+import transportation.gui.BusGui;
+import transportation.gui.BusStopGui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,7 +40,6 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
                 {
                 	CityMap = ImageIO.read(getClass().getResource("/resources/CityMap.png"));
                 } catch (IOException e ) {}
-
                 Timer timer = new Timer(20, this );
                 timer.start();
         }
@@ -78,5 +79,11 @@ public class CityAnimationPanel extends JPanel implements ActionListener {
         }
         public void addGui(PersonGui gui) {
                 guis.add(gui);
+        }
+        public void addGui(BusGui gui) {
+            guis.add(gui);
+        }
+        public void addGui(BusStopGui gui) {
+            guis.add(gui);
         }
 }

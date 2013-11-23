@@ -1,6 +1,7 @@
 package city.guis;
 
 import restaurant.gui.Gui;
+import transportation.gui.BusStopGui.Coordinate;
 
 import java.io.*;
 import java.awt.*;
@@ -175,5 +176,22 @@ public class PersonGui implements Gui{
                   destination = checkpointD;
                   agent.WaitForAnimation();
           }
+	}
+	public void DoGoToLocation(int X,int Y){
+		goingSomewhere = true;
+		setPresent(true);
+		this.destination.x = X;
+		this.destination.y = Y;
+		agent.WaitForAnimation();
+	}
+	public int getXPosition(){
+		return this.position.x;
+	}
+	public int getYPosition(){
+		return this.position.y;
+	}
+	public void setPosition(int X, int Y){
+		this.position.x = X;
+		this.position.y = Y;
 	}
 }
