@@ -191,12 +191,10 @@ public class CustomerGui implements Gui{
 		return isPresent;
 	}
 	
-	public void setAction(String type, String amount) {
+	public void setAction() {
 		isBusy = true;
 		//int temp = Integer.parseInt(amount);
-		double temp = Double.parseDouble(amount);
-		temp =  Math.round(temp * 100) / 100.0d;
-		agent.msgWantsTransaction(type, temp);
+		agent.msgWantsTransaction();
 		setPresent(true);
 	}
 	
@@ -287,6 +285,11 @@ public class CustomerGui implements Gui{
 		goingSomewhere = true;
         destination.x = waitingroom.x;
         destination.y = 300 + y;
+	}
+
+	public void setDone() {
+		isBusy = false;
+		setPresent(false);
 	}
 
 	

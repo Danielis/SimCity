@@ -30,7 +30,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
 	Teller t;
-	double balance = 1000;
+	double balance;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
 	int accountID;
@@ -42,11 +42,27 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	Boolean isHappy = true;
 	
 	//Constructor
-	public BankCustomerRole(String name){
+	public BankCustomerRole(String name, String type, int i, double money){
 		super();
 		this.name = name;
 		state = bankCustomerState.outside;
-		amount = 400;
+		amount = i;
+		balance = money;
+		
+		if (type.equals("New Account"))
+			purpose = customerPurpose.createAccount;
+		else if (type.equals("Withdraw"))
+			purpose = customerPurpose.withdraw;
+		else if (type.equals("Deposit"))
+			purpose = customerPurpose.deposit;
+		else if (type.equals("New Loan"))
+			purpose = customerPurpose.takeLoan;
+		else if (type.equals("Pay Loan"))
+			purpose = customerPurpose.payLoan;
+		else{
+			purpose = customerPurpose.none;
+			state = bankCustomerState.done;
+		}
 	}
 
 //UTILITIES**************************************************
@@ -55,6 +71,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		if (amount > balance){
 			print("I just realized I do not have enough money");
 			state = bankCustomerState.done;
+			isHappy = false;
 			stateChanged();
 			return false;
 		}
@@ -66,7 +83,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 //CLASSES/ENUMS**********************************************
 
-	enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan};
+	enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none};
 	enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
 	
 //MESSAGES*************************************************
@@ -76,19 +93,14 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	stateChanged();
 	}
 	
-public void msgWantsTransaction(String type, double temp){
-		if (type.equals("New Account"))
-			purpose = customerPurpose.createAccount;
-		else if (type.equals("Withdraw"))
-			purpose = customerPurpose.withdraw;
-		else if (type.equals("Deposit"))
-			purpose = customerPurpose.deposit;
-		else if (type.equals("New Loan"))
-			purpose = customerPurpose.takeLoan;
-		else if (type.equals("Pay Loan"))
-			purpose = customerPurpose.payLoan;
-		state = bankCustomerState.outside;
-		amount = temp;
+	public void test(String type, double temp){
+		
+		stateChanged();
+	}
+	
+public void msgWantsTransaction(){
+		
+		print("rec msg");
 		stateChanged();
 	}
 
@@ -215,6 +227,7 @@ private void GoToBank() {
 		print("Going to bank");
 		getCustomerGui().DoGoToWaitingRoom();
 		state = bankCustomerState.entered;
+		
 }
 	
 private void TellHost(){
@@ -345,7 +358,8 @@ private void LeaveBank(){
 		
 		
 	    state = bankCustomerState.exited;  
-	    
+	    customerGui.setDone();
+		this.myPerson.msgLeavingBank(this, balance);
 	    getCustomerGui().finishedTransaction();
 }
 	
@@ -422,7 +436,6 @@ private void LeaveBank(){
 
 	public void setCustomerGui(CustomerGui customerGui) {
 		this.customerGui = customerGui;
-		System.out.println("cust gui set");
 	}
 
 	public void setHost(HostAgent host) {

@@ -12,7 +12,7 @@ public interface BankCustomer
 	
 	public BankAnimationPanel copyOfAnimPanel = null;
 
-public abstract void 	msgWantsTransaction(String type, double temp);
+public abstract void 	msgWantsTransaction();
 
 public abstract void	WantsToDo(String visitPurpose, int quantity);
 
