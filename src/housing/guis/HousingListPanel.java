@@ -159,21 +159,10 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	public void updateTenant(HousingCustomerAgent temp)
 	{
 		currentTenant = temp;
-		//if (personHungryCheckBox.isSelected())
-		//{
-		//	personHungryCheckBox.setSelected(false);
-		//	HousingCustomerAgent p = currentTenant;
-		//p.getGui().setHungry();
-		//}
 	}
 	public void updateWorker(HousingWorkerAgent temp)
 	{
 		currentWorker = temp;
-		//if (personHungryCheckBox.isSelected())
-		//{
-		//	personHungryCheckBox.setSelected(false);
-		//	HousingCustomerAgent p = currentTenant;
-		//p.getGui().setHungry();
-		//}
+
 	}
 }

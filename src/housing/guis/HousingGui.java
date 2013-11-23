@@ -23,7 +23,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	HousingAnimationPanel housingAnimationPanel = new HousingAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
 
-	private HousingPanel housingPanel = new HousingPanel(this);
+	public HousingPanel housingPanel = new HousingPanel(this);
 
 	/* personInformationPanel holds information about the clicked customer, if there is one*/
 	private JPanel tenantInformationPanel;
@@ -44,8 +44,6 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JButton startButton;
 	private JPanel ButtonPanel;
 	private JButton rentButton;
-	private JButton hungryButton;
-	private JButton breakStuffButton;
 
 	Boolean isPaused = false;
 	
@@ -122,15 +120,9 @@ public class HousingGui extends JFrame implements ActionListener {
 		RestaurantPortion.add(housingPanel, BorderLayout.NORTH);
 		InformationPanel.add(tenantInformationPanel, BorderLayout.NORTH);
 		rentButton = new JButton("Rent time!");
-		breakStuffButton = new JButton("Break Stuff!");
-		hungryButton = new JButton("Get Hungry");
 		rentButton.addActionListener(this);
-		breakStuffButton.addActionListener(this);
-		hungryButton.addActionListener(this);
 		ButtonPanel.setLayout(new BorderLayout());
-		ButtonPanel.add(rentButton, BorderLayout.WEST);
-		ButtonPanel.add(breakStuffButton, BorderLayout.EAST);
-		ButtonPanel.add(hungryButton, BorderLayout.CENTER);
+		ButtonPanel.add(rentButton, BorderLayout.CENTER);
 		InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
 		InformationPanel.add(workerInformationPanel, BorderLayout.CENTER);
 		RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
@@ -151,10 +143,8 @@ public class HousingGui extends JFrame implements ActionListener {
 	public void updateTenantInformationPanel(HousingCustomerAgent temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentTenant = temp;
-		//HousingCustomerAgent tenant = temp;
-		//customerStateCheckBox.setText("Hungry?");
-		//customerStateCheckBox.setSelected(currentTenant.getGui().isHungry());
-		//customerStateCheckBox.setEnabled(!currentTenant.getGui().isHungry());
+		tenantHungryBox.setSelected(currentTenant.hungry);
+		tenantHungryBox.setEnabled(!currentTenant.hungry);
 		infoCustomerLabel.setText(
 				"<html><pre>     Name: " + currentTenant.name + " </pre></html>");
 		tenantInformationPanel.validate();
@@ -162,6 +152,8 @@ public class HousingGui extends JFrame implements ActionListener {
 	public void updateWorkerInformationPanel(HousingWorkerAgent temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentWorker = temp;
+		tenantRepairBox.setSelected(currentTenant.houseNeedsRepairs);
+		tenantRepairBox.setEnabled(!currentTenant.houseNeedsRepairs);
 		//HousingCustomerAgent tenant = temp;
 		//customerStateCheckBox.setText("Hungry?");
 		//customerStateCheckBox.setSelected(currentTenant.getGui().isHungry());
@@ -173,8 +165,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	public void updateLastCustomer()
 	{
 		if (currentTenant != null)
-		{
-			tenantHungryBox.setSelected(currentTenant.hungry);
+		{	tenantHungryBox.setSelected(currentTenant.hungry);
 			tenantHungryBox.setEnabled(!currentTenant.hungry);
 			tenantRepairBox.setSelected(currentTenant.houseNeedsRepairs);
 			tenantRepairBox.setEnabled(!currentTenant.houseNeedsRepairs);
@@ -230,12 +221,6 @@ public class HousingGui extends JFrame implements ActionListener {
 		}
 		if(e.getSource() == rentButton) {
 			housingPanel.landlord.EveryoneOwesRent();
-		}
-		if(e.getSource() == breakStuffButton) {
-			housingPanel.tenant.MyHouseNeedsRepairs();
-		}
-		if(e.getSource() == hungryButton) {
-			housingPanel.tenant.EatAtHome();
 		}
 	}
 	/**
