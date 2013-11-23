@@ -2,12 +2,14 @@ package restaurant;
 
 import agent.Agent;
 import restaurant.CustomerAgent.iconState;
+import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CookGui;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.WaiterGui;
 import restaurant.MarketAgent;
+import roles.Restaurant;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -43,6 +45,8 @@ public class CookAgent extends Agent {
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public Map<String, iconState> iconMap = new HashMap<String, iconState>();
 	public CookGui cookGui = null;
+	public Restaurant rest;
+	ProducerConsumerMonitor theMonitor;
 
 	public enum iconState
 	{
@@ -53,6 +57,7 @@ public class CookAgent extends Agent {
 	public CookAgent(String name) {
 		super();
 		this.name = name;
+		
 		
 		//Set the timer
 		timer = new Timer();
@@ -174,12 +179,12 @@ public class CookAgent extends Agent {
 		state s;
 		
 		//Constructor
-		Order(WaiterAgent newWaiter, String newChoice, int newTable, state newState)
+		Order(WaiterAgent newWaiter, String newChoice, int newTable)
 		{
 			w = newWaiter;
 			choice = newChoice;
 			table = newTable;
-			s = newState;
+			s = state.needsProcessing;
 		}
 		
 		//Class Methods
@@ -253,9 +258,12 @@ public class CookAgent extends Agent {
 		}
 	}
 	
+	public void msgNotEmpty(){
+		stateChanged();
+	}
 	public void msgHereIsAnOrder(WaiterAgent w, String choice, int table)
 	{
-		orders.add(new Order(w, choice, table, state.needsProcessing));
+		orders.add(new Order(w, choice, table));
 		print("Received order to prepare " + choice);
 		stateChanged();
 	}
@@ -388,6 +396,7 @@ public class CookAgent extends Agent {
 				}
 			}
 			
+			
 			synchronized(orders)
 			{
 				for (Order o : orders)
@@ -422,6 +431,11 @@ public class CookAgent extends Agent {
 						return true;
 					}
 				}
+			}
+			
+			if (theMonitor != null && theMonitor.getCount() > 0){
+				TakeTicket();
+				return true;
 			}
 	
 			return false;
@@ -591,6 +605,29 @@ public class CookAgent extends Agent {
 		mm.m.msgIWantToOrder(inventory.get(index).name, numItemsToOrder);
 	}
 	
+	
+	
+	
+	private void TakeTicket(){
+		print("Picking up ticket");
+               Ticket data = theMonitor.remove();
+               consume_item(data);
+       }
+       
+       private void consume_item(Ticket data){
+    	   orders.add(new Order(data.w, data.choice, data.table));
+           print("Creating new order from ticket left by " + name 
+                               + " for order of " + data.choice);
+           //try{sleep(1000);}
+          // catch(InterruptedException ex){};
+       }
+       
+      
+       
+
+	
+	
+	
 	public void WaitForAnimation()
 	{
 		try
@@ -611,6 +648,15 @@ public class CookAgent extends Agent {
 	public void forceScheduler()
 	{
 		stateChanged();
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.rest = restaurant;
+		theMonitor = restaurant.theMonitor;
+	}
+
+	public void msgHereIsMonitor(ProducerConsumerMonitor theMonitor2) {
+		theMonitor = theMonitor2;
 	}
 }
 

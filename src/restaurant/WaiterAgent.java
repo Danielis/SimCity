@@ -4,6 +4,7 @@ import agent.Agent;
 import agent.RestaurantMenu;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
+import roles.Restaurant;
 
 import java.awt.Menu;
 import java.util.*;
@@ -23,12 +24,13 @@ public class WaiterAgent extends Agent implements Waiter {
 	public List<Boolean> foodsAvailable = new ArrayList<Boolean>();
 	
 	//Variables
-	private String name;
+	protected String name;
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	
 	//Menu
 	RestaurantMenu Menu;
+	Restaurant rest;
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
@@ -46,9 +48,9 @@ public class WaiterAgent extends Agent implements Waiter {
 			foodsAvailable.add(true);
 		}
 	}
-	public WaiterAgent(String name) {
+	public WaiterAgent(String name, Restaurant rest) {
 		super();
-
+		this.rest = rest;
 		this.name = name;
 	}
 
@@ -332,13 +334,13 @@ public class WaiterAgent extends Agent implements Waiter {
 
 //ACTIONS********************************************************
 
-	private void AskForBreak()
+	protected void AskForBreak()
 	{
 		print("Asking host for a break");
 		state = myState.askedForBreak;
 		host.msgIdLikeToGoOnBreak(this);
 	}
-	private void SeatCustomer(MyCustomer mc) 
+	protected void SeatCustomer(MyCustomer mc) 
 	{
 		print("Going to host to seat new customer");
 		waiterGui.DoGoToWaitingRoom();
@@ -347,7 +349,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		mc.s = CustomerState.seated;
 	}
 
-	private void AskOrder(MyCustomer mc)
+	protected void AskOrder(MyCustomer mc)
 	{
 		print("Asking " + mc.c.getName() + " for an order.");
 		waiterGui.DoGoToTable(mc.table);
@@ -355,7 +357,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		mc.c.msgWhatWouldYouLike();
 	}
 	
-	private void AskAgain(MyCustomer mc)
+	protected void AskAgain(MyCustomer mc)
 	{
 		print("Asking " + mc.c.getName() + " again for a different order.");
 		waiterGui.DoGoToTable(mc.table);
@@ -363,7 +365,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		mc.c.msgSorryOutOfFood(foodsAvailable);
 	}
 	
-	private void PlaceOrder(MyCustomer mc)
+	protected void PlaceOrder(MyCustomer mc)
 	{
 		print("Placing the order for " + mc.choice);
 		waiterGui.DoGoToCook();
@@ -371,7 +373,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		cook.msgHereIsAnOrder(this, mc.choice, mc.table);
 	}
 	
-	private void GiveOrderToCustomerAndCheckToCashier(MyCustomer mc)
+	protected void GiveOrderToCustomerAndCheckToCashier(MyCustomer mc)
 	{
 		print("Getting the order of " + mc.choice + " for " + mc.c.getName());
 		waiterGui.DoGoToCook();
@@ -385,7 +387,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		cashier.msgHereIsACheck(this, mc.c, mc.choice);
 	}
 	
-	private void PickUpAndGiveCheck(MyCustomer mc)
+	protected void PickUpAndGiveCheck(MyCustomer mc)
 	{
 		print("Picking up check.");
 		waiterGui.DoGoToCashier();
@@ -396,7 +398,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		CleanAndNotifyHost(mc);
 	}
 
-	private void CleanAndNotifyHost(MyCustomer mc)
+	protected void CleanAndNotifyHost(MyCustomer mc)
 	{
 		print("Cleaning table " + mc.table);
 		waiterGui.DoGoToTable(mc.table);
