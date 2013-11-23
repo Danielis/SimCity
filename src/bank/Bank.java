@@ -2,7 +2,12 @@ package bank;
 
 import java.util.*;
 
+import javax.swing.JFrame;
+
+import roles.Location;
 import bank.Bank.Account;
+import bank.gui.BankGui;
+import bank.gui.BankPanel;
 
 
 
@@ -12,19 +17,31 @@ public class Bank {
 	List <Loan> loans = new ArrayList<Loan>();
 	int idIncr = 0;
 	
-	public Bank(){
+	public BankGui gui;
+	public BankPanel panel;
+	public String name; //Name of the restaurant
+    public Location location;
+	
+	public Bank(BankGui gui, String name){
 		balance = 50000;
-		//accounts.add(new Account(1, 500));
+		
+		this.gui = gui;
+    	this.panel = gui.restPanel;
+    	gui.restPanel.setBank(this);
+        gui.setTitle(name);
+        gui.setVisible(true);
+        gui.setResizable(false);
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	
 	public class Account {
 		int id; // auto increment
-	    CustomerAgent c;
+	    BankCustomerRole c;
 	    double balance;
 	    
 	    
-	    public Account(CustomerAgent c) {
+	    public Account(BankCustomerRole c) {
 			this.c = c;
 			balance = 0;
 			id = ++idIncr;
@@ -37,7 +54,7 @@ public class Bank {
 	}
 	
 	public class Loan {
-		CustomerAgent c;
+		BankCustomerRole c;
 	    double balanceOwed;
 	    double balancePaid;
 	    double rate;
@@ -45,7 +62,7 @@ public class Bank {
 	    int dayOwed;
 	    loanState s;
 	    
-	    Loan(CustomerAgent c2, double amount){
+	    Loan(BankCustomerRole c2, double amount){
 	    c = c2;
 	    rate = 1.08;
 	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
@@ -54,12 +71,12 @@ public class Bank {
 	}
 	enum loanState {unpaid, partiallyPaid, paid}
 	
-	public Account createAccount(CustomerAgent c) {
+	public Account createAccount(BankCustomerRole c) {
 		Account acct = new Account(c);
 		return acct;
 	}
 
-	public Loan createLoan(CustomerAgent c, double amount) {
+	public Loan createLoan(BankCustomerRole c, double amount) {
 		Loan loan = new Loan(c, amount);
 		return loan;
 	}

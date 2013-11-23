@@ -1,9 +1,10 @@
 package bank.gui;
 
-import bank.CustomerAgent;
-import bank.CustomerAgent.iconState;
+import bank.BankCustomerRole;
+import bank.BankCustomerRole.iconState;
 import bank.HostAgent;
 import bank.gui.Coordinate;
+import bank.interfaces.BankCustomer;
 
 import java.io.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class CustomerGui implements Gui{
 	private final int table_divider = 127;
 
 	//self agent
-	private CustomerAgent agent = null;
+	private BankCustomer agent = null;
 	
 	
 
@@ -63,7 +64,7 @@ public class CustomerGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
  
     
-	public CustomerGui(CustomerAgent c, BankGui gui){
+	public CustomerGui(BankCustomer c, BankGui gui){
 		for (int i = 0; i < 5; i++)
 		{
 			tables.add(new Coordinate(starting_X + table_divider*i, tables_y));

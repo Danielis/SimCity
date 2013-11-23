@@ -1,19 +1,31 @@
 package city;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
+//Package Imports
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
+import restaurant.interfaces.Customer;
 import agent.Agent;
-
-import java.util.*;
-import java.util.concurrent.Semaphore;
-
+import bank.BankCustomerRole;
+import restaurant.gui.CustomerGui;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
+import bank.Bank;
+import bank.interfaces.BankCustomer;
+import roles.CustomerRole;
+import roles.Restaurant;
+import roles.Role;
 
+
+
+
+
+
+
+
+//Utility Imports
+import java.util.*;
+import java.util.concurrent.Semaphore;
 
 public class PersonAgent extends Agent implements Person
 {
@@ -21,11 +33,15 @@ public class PersonAgent extends Agent implements Person
 	 								VARIABLES
 	 ******************************************************************************/
 	
-	//Lists
-	List<Role> myRoles = Collections.synchronizedList(new ArrayList<Role>());
+	//Lists: Roles, Restaurants
+	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
+	Vector<Restaurant> restaurants = new Vector<Restaurant>(); //City Gui won't let me implement Lists
+	Vector<Bank> banks = new Vector<Bank>(); //City Gui won't let me implement Lists
+	
+	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 	
 	//Variable
-	PersonAgent myself = this;
+	Restaurant currentRestaurant; //Restaurant that the person chooses
 	PersonGui gui = null;
 	double money;
 	String name;
@@ -39,58 +55,12 @@ public class PersonAgent extends Agent implements Person
 	public PersonAgent(String name){
 		this.name = name;
 		System.out.println("Added person " + name);
-		
-		//Create customer role
-		myRoles.add(new Role("customer"));
+
 	}
 	
-	public String getName(){
-		return name;
-	}
-	//Class Declarations
-	class Role
-	{
-		//Variables
-		CustomerAgent customer;
-		String name;
-		PersonAgent myPerson;
-		Boolean active;
-		
-		Role(String a)
-		{
-			customer = new CustomerAgent("a");
-			print("Customer created");
-			myPerson = myself;
-			active = false;
-		}
-		
-		//Utilities for Role
-		public void setPerson(PersonAgent a)
-		{
-			myPerson = a;
-		}
-		
-		public PersonAgent getPersonAgent()
-		{
-			return myPerson;
-		}
-		
-		private void stateChanged()
-		{
-			myPerson.stateChanged();
-		}
-		
-		public void setActivity(Boolean b)
-		{
-			active = b;
-		}
-	
-		public Boolean getActivity()
-		{
-			return active;
-		}
-	}
-	
+	/*****************************************************************************
+										CLASSES
+	 ******************************************************************************/
 	class PersonStatus
 	{
 		nourishment nour;
@@ -125,6 +95,16 @@ public class PersonAgent extends Agent implements Person
 		public nourishment getNourishmnet()
 		{
 			return nour;
+		}
+		
+		public void setMoneyStatus(bankStatus state)
+		{
+			bank = state;
+		}
+		
+		public bankStatus getMoneyStatus()
+		{
+			return bank;
 		}
 		
 		public void setLocation(location state)
@@ -164,7 +144,32 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 									 UTILITIES
 	******************************************************************************/
-
+	
+	public void setRestaurants(Vector<Restaurant> res)
+	{
+		restaurants = res;
+	}
+	
+	public void setBanks(Vector<Bank> res)
+	{
+		banks = res;
+	}
+	
+	public void addRole(Role r)
+	{
+		roles.add(r);
+		r.setPerson(this);
+	}
+	
+	public void removeRole(Role r)
+	{
+		roles.remove(r);
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
 	public void setGui(PersonGui g)
 	{
 		this.gui = g;
@@ -172,11 +177,6 @@ public class PersonAgent extends Agent implements Person
 
 	public void setAnimationPanel(CityAnimationPanel panel) {
 		copyOfCityAnimPanel = panel;
-	}
-	
-	public void setRestaurantPanel(RestaurantPanel panel)
-	{
-		restPanel = panel;
 	}
 
 	public PersonGui getGui() {
@@ -224,20 +224,33 @@ public class PersonAgent extends Agent implements Person
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
 	    Status.setNourishment(nourishment.Hungry);
-	    print("Got here C");
+	    Status.setDestination(destination.restaurant);
+	    gui.setPresent(false);
 	    stateChanged();
 	}
 	
 	public void msgLeavingRestaurant(Role r){
+		print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
 	    r.setActivity(false);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setNourishment(nourishment.notHungry);
-	    //gui.isVisible();
+	    gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('A');
+		roles.remove(r);
 	    stateChanged();
 	}
-
-
+	
+	public void msgGoToBank()
+	{
+		Status.setDestination(destination.bank);
+		Status.setMoneyStatus(bankStatus.withdraw);
+	    gui.setPresent(false);
+	    stateChanged();
+	}
 	
 	/*
 	//Work
@@ -294,12 +307,30 @@ public class PersonAgent extends Agent implements Person
 	
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-
+		
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 			Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
 		}
+		if (Status.getMoneyStatus() == bankStatus.withdraw &&
+				Status.getDestination() == destination.bank) {
+				GoToWithdrawFromBank();
+				return true;
+			}
+
+		Boolean anytrue = false;
+		for(Role r : roles)
+		{
+			if(r.active)
+			{
+				anytrue = anytrue || r.pickAndExecuteAnAction();
+			}
+		}
+		
+		if(anytrue)
+			return true;
+		
 		return false;
 	}
 	
@@ -310,16 +341,75 @@ public class PersonAgent extends Agent implements Person
 	private void GoToRestaurant()
 	{
 		Status.setNourishment(nourishment.goingToFood);
-		System.out.println("Got here D");
+		//Transportation t = ChooseTransportation();
 		gui.DoGoToCheckpoint('A');
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
-		this.myRoles.get(0).setActivity(true);
-		System.out.println(restPanel == null);
-		restPanel.customerPanel.customerHungryCheckBox.setSelected(true);
-		restPanel.customerPanel.addCustomer(this.getName());
+		
+		//Role terminologies
+		CustomerRole c = new CustomerRole(this.getName());
+		c.setPerson(this);
+		/*c.setHost(restaurants.get(0).panel.host);
+		c.setCashier(restaurants.get(0).panel.cashier);
+		CustomerGui gui1 = new CustomerGui(c, restaurants.get(0).gui);
+		c.setGui(gui1);
+		restaurants.get(0).gui.animationPanel.addGui(gui1);
+		c.setAnimPanel(restaurants.get(0).gui.animationPanel);
+		restaurants.get(0).panel.customers.add(c);*/
+		roles.add(c);
+		this.roles.get(0).setActivity(true);
+		
+		
+		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
+		restaurants.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
+		//restaurants.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		restaurants.get(0).panel.customerPanel.addCustomer((Customer)roles.get(0));
+		
+		/*
+		Restaurant r = PickARestaurant();
+		//Transportation t = ChooseTransportation();
+		//DoGoTo(r.location, t);
+		CustomerRole c = new CustomerRole(this.getName());
+		roles.add(c);
+		c.setActivity(true);
+		r.host.msgCheckForASpot(c);*/
+		
+		/*
+		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list
+	    TransportationMethod tm = PickOne(r);    //Someone has to do this.
+	    DoGoTo(r.location, tm);                  //It's probably more complicated than this.
+	    Role c = SimCity201.CustomerFactory(r.customerRole); 
+	    roles.add(c);
+	    c.active = T;
+	    r.getHost().ImHungry((Customer) c);
+		 */
+	}
+	
+	public void GoToWithdrawFromBank()
+	{
+		Status.setMoneyStatus(bankStatus.goingToBank);
+		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+		
+		BankCustomerRole c = new BankCustomerRole(this.getName());
+		c.setPerson(this);
+		roles.add(c);
+		this.roles.get(0).setActivity(true);
+		banks.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		banks.get(0).panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+		
+	}
+	
+	private Restaurant PickARestaurant()
+	{
+		return restaurants.get(0); //Only my restaurant is in here right now
 	}
 }

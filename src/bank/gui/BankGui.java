@@ -1,8 +1,9 @@
 package bank.gui;
 
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.TellerAgent;
 import bank.HostAgent;
+import bank.interfaces.BankCustomer;
 
 import javax.swing.*;
 
@@ -20,8 +21,9 @@ public class BankGui extends JFrame implements ActionListener {
 	JFrame animationFrame = new JFrame("Restaurant Animation");
 	BankAnimationPanel animationPanel = new BankAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
+	
  
-    private BankPanel restPanel = new BankPanel(this);
+    public BankPanel restPanel = new BankPanel(this);
     
     /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;
@@ -41,7 +43,7 @@ public class BankGui extends JFrame implements ActionListener {
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
-    private CustomerAgent currentCustomer;
+    private BankCustomer currentCustomer;
     private TellerAgent currentWaiter;
 
     private JButton pauseButton;
@@ -143,12 +145,12 @@ public class BankGui extends JFrame implements ActionListener {
      * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
      *
-     * @param person customer (or waiter) object
+     * @param temp customer (or waiter) object
      */
-    public void updateCustomerInformationPanel(CustomerAgent person) {
+    public void updateCustomerInformationPanel(BankCustomer temp) {
         customerStateCheckBox.setVisible(true);
-        currentCustomer = person;
-        CustomerAgent customer = person;
+        currentCustomer = temp;
+        BankCustomer customer = temp;
         customerStateCheckBox.setText("Start?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
@@ -192,7 +194,7 @@ public class BankGui extends JFrame implements ActionListener {
     
         if (e.getSource() == customerStateCheckBox) 
         {
-            CustomerAgent c = (CustomerAgent) currentCustomer;
+            BankCustomerRole c = (BankCustomerRole) currentCustomer;
             c.getGui().setAction(transactionList.getSelectedItem().toString(), amountInput.getText());
             customerStateCheckBox.setEnabled(false);
         }
@@ -238,8 +240,8 @@ public class BankGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        CustomerAgent cust = currentCustomer;
+    public void setCustomerEnabled(BankCustomerRole c) {
+        BankCustomer cust = currentCustomer;
         if (c.equals(cust)) 
         {
             customerStateCheckBox.setEnabled(true);

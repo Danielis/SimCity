@@ -3,19 +3,17 @@ package bank;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 import bank.interfaces.*;
-import agent.Agent;
-import agent.RestaurantMenu;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import restaurant.gui.RestaurantAnimationPanel;
+import roles.Role;
 
 //Customer Agent
 //It still is a finite state machine, instead of events it still uses the state enum.
 //I used this design from the designs drawn from class.
 
-public class CustomerAgent extends Agent implements Customer {
+public class BankCustomerRole extends Role implements BankCustomer {
 	
 	//To show icon
 	public enum iconState
@@ -28,10 +26,10 @@ public class CustomerAgent extends Agent implements Customer {
 	//EDIT HERE******************************
 	
 //VARIABLES*************************************************
-	HostAgent h;
+	Host h;
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
-	TellerAgent t;
+	Teller t;
 	double balance = 1000;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
@@ -44,10 +42,9 @@ public class CustomerAgent extends Agent implements Customer {
 	Boolean isHappy = true;
 	
 	//Constructor
-	public CustomerAgent(String name, HostAgent h){
+	public BankCustomerRole(String name){
 		super();
 		this.name = name;
-		this.h = h;
 		state = bankCustomerState.outside;
 		amount = 400;
 	}
@@ -101,7 +98,7 @@ public void	WantsToDo(String visitPurpose, int quantity){ //called from Person a
 	    stateChanged();
 	}
 
-public void	GoToTeller(TellerAgent t){
+public void	GoToTeller(Teller t){
 	//print("received teller info");
 	    this.t = t;
 	    state = bankCustomerState.assigned;
@@ -181,7 +178,7 @@ public void WantAccount(){
 
 	
 //SCHEDULER*************************************************
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		//print("reached sched");
 		if (state == bankCustomerState.outside){
@@ -390,6 +387,7 @@ private void LeaveBank(){
 
 	public void setGui(CustomerGui g) {
 		setCustomerGui(g);
+		
 	}
 
 	public CustomerGui getGui() {
@@ -424,6 +422,11 @@ private void LeaveBank(){
 
 	public void setCustomerGui(CustomerGui customerGui) {
 		this.customerGui = customerGui;
+		System.out.println("cust gui set");
+	}
+
+	public void setHost(HostAgent host) {
+		this.h = host;
 	}
 
 	

@@ -17,73 +17,68 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class CityAnimationPanel extends JPanel implements ActionListener {
+public class CityAnimationPanel extends JPanel implements ActionListener 
+{
+    private final int WINDOWX_ANIM = 934;
+    private final int WINDOWY_ANIM = 645;
+    
+    int RESTAURANT_X = 50;
+    int RESTAURANT_Y = 100;
+    int RESTAURANT_SIZE = 50;
+    
+    Image CityMap;
 
+    private List<Gui> guis = new ArrayList<Gui>();
 
-        private final int WINDOWX_ANIM = 934;
-        private final int WINDOWY_ANIM = 645;
+    public CityAnimationPanel() {
+            setSize(WINDOWX_ANIM, WINDOWY_ANIM);
+            setVisible(true);
+            
+            try
+            {
+            	CityMap = ImageIO.read(getClass().getResource("/resources/CityMap3.png"));
+            } catch (IOException e ) {}
 
-        
-       // private ImageIcon bank;
-        //private JButton bank = new JButton();
-        
-        int RESTAURANT_X = 50;
-        int RESTAURANT_Y = 100;
-        int RESTAURANT_SIZE = 50;
-        
-        Image CityMap;
+            Timer timer = new Timer(20, this );
+            timer.start();
+         
+    }
 
-        private List<Gui> guis = new ArrayList<Gui>();
+    public void actionPerformed(ActionEvent e) {
+            repaint();  //Will have paintComponent called
+    }
 
-        public CityAnimationPanel() {
-                setSize(WINDOWX_ANIM, WINDOWY_ANIM);
-                setVisible(true);
-                
-                try
-                {
-                	CityMap = ImageIO.read(getClass().getResource("/resources/CityMap3.png"));
-                } catch (IOException e ) {}
+    public void paintComponent(Graphics g) {
 
-                Timer timer = new Timer(20, this );
-                timer.start();
-             
-        }
+    		Graphics2D images = (Graphics2D)g;
+    	
+    		Graphics2D City = (Graphics2D)g;
+    		
+    		Graphics2D random = (Graphics2D)g;
+    		
+            //Graphics2D g1 = (Graphics2D)g;
 
-        public void actionPerformed(ActionEvent e) {
-                repaint();  //Will have paintComponent called
-        }
+            //COLORS                
+            //Color brown = new Color(245, 201, 114);
+            Color backgroundColor = new Color(167, 92, 86);
 
-        public void paintComponent(Graphics g) {
+    		City.drawImage(CityMap, 0, 0, this);
 
-        		Graphics2D images = (Graphics2D)g;
-        	
-        		Graphics2D City = (Graphics2D)g;
-        		
-        		Graphics2D random = (Graphics2D)g;
-        		
-                //Graphics2D g1 = (Graphics2D)g;
+    		
+            for(Gui gui : guis) {
+                    if (gui.isPresent()) {
+                    	gui.updatePosition();
+                    }
+            }
 
-                //COLORS                
-                //Color brown = new Color(245, 201, 114);
-                Color backgroundColor = new Color(167, 92, 86);
-
-        		City.drawImage(CityMap, 0, 0, this);
-
-        		
-                for(Gui gui : guis) {
-                        if (gui.isPresent()) {
-                        	gui.updatePosition();
-                        }
-                }
-
-                for(Gui gui : guis) {
-                        if (gui.isPresent()) {
-                               gui.draw(images);
-                        }
-                }
-        }
-        public void addGui(PersonGui gui) {
-                guis.add(gui);
-        }
+            for(Gui gui : guis) {
+                    if (gui.isPresent()) {
+                           gui.draw(images);
+                    }
+            }
+    }
+    public void addGui(PersonGui gui) {
+            guis.add(gui);
+    }
 
 }

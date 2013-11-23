@@ -1,7 +1,7 @@
 package bank.gui;
 
 
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.TellerAgent;
 import bank.HostAgent;
 import bank.gui.Coordinate;
