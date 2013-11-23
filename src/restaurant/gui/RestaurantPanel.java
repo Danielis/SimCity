@@ -26,8 +26,8 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
-
+public class RestaurantPanel extends JPanel 
+{
     //Host, cook, waiters and customers
     public HostAgent host = new HostAgent("Oprah");
     public HostGui hostGui = new HostGui(host);

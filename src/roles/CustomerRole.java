@@ -53,12 +53,12 @@ public class CustomerRole extends Role implements Customer {
 	private List<Boolean> foodOptions = new ArrayList<Boolean>();
 	
 	//Constructor
-	public CustomerRole(String name){
+	public CustomerRole(String name, double balance){
 		super();
 		this.name = name;
 		random = new Random();
 		timer = new Timer();
-
+		myMoney = (float)balance;
 		bill = 0;
 		
 		for (int i = 0; i<4; i++)
@@ -476,9 +476,7 @@ public class CustomerRole extends Role implements Customer {
 		customerGui.DoExitRestaurant();
 		state = myState.finished;
 		customerGui.setNotHungry();
-		//NEW LINE
-		//System.out.println(myPerson);
-		this.myPerson.msgLeavingRestaurant(this);
+		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
 	}
 	
 	private void LeaveBecauseFull()
@@ -489,6 +487,7 @@ public class CustomerRole extends Role implements Customer {
 		this.customerGui.DoExitRestaurant();
 		state = myState.finished;
 		customerGui.setNotHungry();
+		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
 	}
 
 //UTILITIES*************************************************

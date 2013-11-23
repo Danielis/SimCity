@@ -24,7 +24,7 @@ public class PersonGui implements Gui{
 	private boolean goingSomewhere = false;
 	
 	//finals
-	private final int customerSize = 20;
+	//private final int customerSize = 20;
 	private final int deltadivider = 100;
 
 	//self agent
@@ -165,7 +165,6 @@ public class PersonGui implements Gui{
 	{
 	      if(a == 'A' || a == 'a')
           {
-	    	  System.out.println("Got here E");
               goingSomewhere = true;
               destination = checkpointA;
               agent.WaitForAnimation();
@@ -173,20 +172,20 @@ public class PersonGui implements Gui{
 	      else if(a == 'B' || a == 'b')
           {
               goingSomewhere = true;
-                  destination = checkpointB;
-                  agent.WaitForAnimation();
+              destination = checkpointB;
+              agent.WaitForAnimation();
           }
 	      else if(a == 'C' || a == 'c')
           {
               goingSomewhere = true;
-                  destination = checkpointC;
-                  agent.WaitForAnimation();
+              destination = checkpointC;
+              agent.WaitForAnimation();
           }
 	      else if(a == 'D' || a == 'd')
           {
               goingSomewhere = true;
-                  destination = checkpointD;
-                  agent.WaitForAnimation();
+              destination = checkpointD;
+              agent.WaitForAnimation();
           }
 	}
 }
