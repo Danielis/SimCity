@@ -190,7 +190,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 	public void DoGoToPhone() {
 		goingSomewhere = true;
-		destination = new Coordinate(250, 25);
+		destination = new Coordinate(250, 50);
 		//agent.WaitForAnimation();
 		WaitForAnimation();
 	}
