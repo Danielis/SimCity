@@ -37,14 +37,16 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 	 								VARIABLES
 	 ******************************************************************************/
-	
+
 	//Lists: Roles, Restaurants
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
 
-	
+	//Inventory List
+	List<Item> inventory = Collections.synchronizedList(new ArrayList<Item>());
+
 	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
-	
+
 	//Variable
 	Restaurant currentRestaurant; //Restaurant that the person chooses
 	PersonGui gui = null;
@@ -55,14 +57,14 @@ public class PersonAgent extends Agent implements Person
 
 	public CityAnimationPanel copyOfCityAnimPanel;	
 	public RestaurantPanel restPanel;
-	
-	
+
+
 	public PersonAgent(String name){
 		this.name = name;
 		System.out.println("Added person " + name);
 
 	}
-	
+
 	/*****************************************************************************
 										CLASSES
 	 ******************************************************************************/
@@ -78,7 +80,7 @@ public class PersonAgent extends Agent implements Person
 		transportStatus trans;
 		morality moral;    
 		//will require constructor and set and gets for the components
-		
+
 		PersonStatus()
 		{
 			nour = nourishment.notHungry;
@@ -91,45 +93,54 @@ public class PersonAgent extends Agent implements Person
 			trans = transportStatus.nothing;
 			moral = morality.good;
 		}
-		
+
 		public void setNourishment(nourishment state)
 		{
 			nour = state;
 		}
-		
+
 		public nourishment getNourishmnet()
 		{
 			return nour;
 		}
-		
+
 		public void setMoneyStatus(bankStatus state)
 		{
 			bank = state;
 		}
-		
+
 		public bankStatus getMoneyStatus()
 		{
 			return bank;
 		}
-		
+
 		public void setLocation(location state)
 		{
 			loc = state;
 		}
-		
+
 		public location getLocation()
 		{
 			return loc;
 		}
-		
+
 		public void setDestination(destination state)
 		{
 			des = state;
 		}
-		
+
 		public destination getDestination()
 		{
 			return des;
+		}
+	}
+
+	class Item {
+		String type;
+		int quantity;
+		public Item(String t, int q) {
+			type = t;
+			quantity = q;
 		}
 	}
 
@@ -145,27 +156,27 @@ public class PersonAgent extends Agent implements Person
 	enum morality{good,bad} // may be used for theifs later on for non-norms
 	//other potentials: rent, 
 
-	
+
 	/*****************************************************************************
 									 UTILITIES
-	******************************************************************************/
-	
-	
+	 ******************************************************************************/
+
+
 	public void addRole(Role r)
 	{
 		roles.add(r);
 		r.setPerson(this);
 	}
-	
+
 	public void removeRole(Role r)
 	{
 		roles.remove(r);
 	}
-	
+
 	public String getName(){
 		return name;
 	}
-	
+
 	public void setGui(PersonGui g)
 	{
 		this.gui = g;
@@ -179,32 +190,43 @@ public class PersonAgent extends Agent implements Person
 		return gui;
 	}
 
+	public boolean hasCar() {
+		synchronized(inventory){
+			for(Item i:inventory) {
+				if(i.equals("Car")) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 	public void WaitForAnimation()
 	{
 		try
 		{
 			this.animSemaphore.acquire();	
 		} catch (InterruptedException e) {
-            // no action - expected when stopping or when deadline changed
-        } catch (Exception e) {
-            print("Unexpected exception caught in Agent thread:", e);
-        }
+			// no action - expected when stopping or when deadline changed
+		} catch (Exception e) {
+			print("Unexpected exception caught in Agent thread:", e);
+		}
 	}
-	
+
 	public void DoneWithAnimation()
 	{
 		this.animSemaphore.release();
 	}
-	
+
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
-	
+
 	/*
 	//Housing
 	//Passes an inactive role which contains location and otherinfo needed later
 	public void msgGoToHome(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don't need to add role.
 	    Status.setHouse(houseStatus.goingHome);
 	    stateChanged();
 	}
@@ -219,51 +241,51 @@ public class PersonAgent extends Agent implements Person
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
-	    Status.setNourishment(nourishment.Hungry);
-	    Status.setDestination(destination.restaurant);
-	    gui.setPresent(false);
-	    stateChanged();
+		Status.setNourishment(nourishment.Hungry);
+		Status.setDestination(destination.restaurant);
+		gui.setPresent(false);
+		stateChanged();
 	}
-	
+
 	public void msgLeavingRestaurant(Role r){
-	//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
-	    r.setActivity(false);
-	    Status.setLocation(location.outside);
-	    Status.setDestination(destination.outside);
-	    Status.setNourishment(nourishment.notHungry);
-	    gui.setPresent(true);
+		//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
+		r.setActivity(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		Status.setNourishment(nourishment.notHungry);
+		gui.setPresent(true);
 		gui.DoGoToCheckpoint('D');
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('A');
 		roles.remove(r);
-	    stateChanged();
+		stateChanged();
 	}
-	
+
 	public void msgGoToBank()
 	{
 		Status.setDestination(destination.bank);
 		Status.setMoneyStatus(bankStatus.withdraw);
-	    gui.setPresent(false);
-	    stateChanged();
+		gui.setPresent(false);
+		stateChanged();
 	}
-	
+
 
 	public void msgLeavingBank(BankCustomerRole r, double balance) {
 		print("Left bank.");
 		money = balance;
-	    r.setActivity(false);
-	    Status.setLocation(location.outside);
-	    Status.setDestination(destination.outside);
-	    gui.setPresent(true);
+		r.setActivity(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		gui.setPresent(true);
 		gui.DoGoToCheckpoint('D');
 		roles.remove(r);
-	    stateChanged();
+		stateChanged();
 	}
 	/*
 	//Work
 	public void msgGoToWork(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
 	    Status.setWork(workStatus.goingToWork);
 	    stateChanged();
 	}
@@ -278,7 +300,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Banks
 	public void goToBank(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
 	    Status.setBank(bankStatus.goingToBank);
 	    stateChanged();
 	}
@@ -292,7 +314,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	//Markets
 	public void goToMarket(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
 	    Status.setMarket(marketStatus.goingToMarket);
 	    stateChanged();
 	}
@@ -304,28 +326,28 @@ public class PersonAgent extends Agent implements Person
 	    gui.isVisible();
 	    stateChanged();
 	}
-	*/
+	 */
 	//Transportation
 
 	//Figure out how we are going to incorporate Bus,Car and walking into SimCity
-	
+
 	/*****************************************************************************
 	 								SCHEDULER
 	 ******************************************************************************/
-	
+
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		
+
 		if (Status.getNourishmnet() == nourishment.Hungry &&
-			Status.getLocation() == location.outside) {
+				Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
 		}
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
-				GoToWithdrawFromBank();
-				return true;
-			}
+			GoToWithdrawFromBank();
+			return true;
+		}
 
 		Boolean anytrue = false;
 		for(Role r : roles)
@@ -335,17 +357,17 @@ public class PersonAgent extends Agent implements Person
 				anytrue = anytrue || r.pickAndExecuteAnAction();
 			}
 		}
-		
+
 		if(anytrue)
 			return true;
-		
+
 		return false;
 	}
-	
+
 	/*****************************************************************************
 										ACTIONS
 	 ******************************************************************************/
-	
+
 	private void GoToRestaurant()
 	{
 		Status.setNourishment(nourishment.goingToFood);
@@ -356,7 +378,7 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
-		
+
 		//Role terminologies
 		CustomerRole c = new CustomerRole(this.getName());
 		c.setPerson(this);
@@ -369,8 +391,8 @@ public class PersonAgent extends Agent implements Person
 		restaurants.get(0).panel.customers.add(c);*/
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
-		
-		
+
+
 		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 
 		for (Building b: buildings){
@@ -382,7 +404,7 @@ public class PersonAgent extends Agent implements Person
 			}
 		}
 
-		
+
 		/*
 		Restaurant r = PickARestaurant();
 		//Transportation t = ChooseTransportation();
@@ -391,7 +413,7 @@ public class PersonAgent extends Agent implements Person
 		roles.add(c);
 		c.setActivity(true);
 		r.host.msgCheckForASpot(c);*/
-		
+
 		/*
 		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list
 	    TransportationMethod tm = PickOne(r);    //Someone has to do this.
@@ -402,7 +424,7 @@ public class PersonAgent extends Agent implements Person
 	    r.getHost().ImHungry((Customer) c);
 		 */
 	}
-	
+
 	public void GoToWithdrawFromBank()
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
@@ -412,13 +434,13 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
-		
+
 		BankCustomerRole c = new BankCustomerRole(this.getName(), "New Account", 20, money);
 		c.setPerson(this);
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
 		c.test("New Account", 20);
-		
+
 		for (Building b: buildings){
 			if (b.getType() == buildingType.bank){
 				Bank r = (Bank) b;
@@ -426,19 +448,19 @@ public class PersonAgent extends Agent implements Person
 				r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
 			}
 		}
-		
-		
-		
+
+
+
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
-	
-	
-	
+
+
+
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
-		
+
 	}
 
-	
+
 }
