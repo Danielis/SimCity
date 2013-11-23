@@ -22,11 +22,7 @@ public class Apartment {
 	public HousingGui gui;
 	public HousingPanel panel;
 	public String name; //Name of the restaurant
-<<<<<<< HEAD
-    //public Location location;
-=======
-   
->>>>>>> 890eafdbd3a7418cd76b4caa8932853c4886eb7d
+
     public LandlordAgent landlord;
     public List<HousingWorkerAgent> workers = new ArrayList<HousingWorkerAgent>();
     public List<HousingCustomerAgent> tenants = new ArrayList<HousingCustomerAgent>();

@@ -212,6 +212,7 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 
+
 	public void msgLeavingRestaurant(Role r, double balance)
 	{
 		print("Got the message that I left the restaurant");
