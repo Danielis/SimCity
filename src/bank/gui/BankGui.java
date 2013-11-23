@@ -85,27 +85,27 @@ public class BankGui extends JFrame implements ActionListener {
         
 //CUSTOMER PANEL INFORMATION
         Dimension infoDimCustomer = new Dimension(WINDOWX, (int) (WINDOWY * .12));
-        customerInformationPanel = new JPanel();
-        customerInformationPanel.setPreferredSize(infoDimCustomer);
-        customerInformationPanel.setMinimumSize(infoDimCustomer);
-        customerInformationPanel.setMaximumSize(infoDimCustomer);
-        customerInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
+        setCustomerInformationPanel(new JPanel());
+        getCustomerInformationPanel().setPreferredSize(infoDimCustomer);
+        getCustomerInformationPanel().setMinimumSize(infoDimCustomer);
+        getCustomerInformationPanel().setMaximumSize(infoDimCustomer);
+        getCustomerInformationPanel().setBorder(BorderFactory.createTitledBorder("Customers"));
        
-        customerStateCheckBox = new JCheckBox();
-        customerStateCheckBox.setVisible(false);
-        customerStateCheckBox.addActionListener(this);
+        setCustomerStateCheckBox(new JCheckBox());
+        getCustomerStateCheckBox().setVisible(false);
+        getCustomerStateCheckBox().addActionListener(this);
         
         
       
         
-        customerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
+        getCustomerInformationPanel().setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
-        customerInformationPanel.add(infoCustomerLabel);
-        customerInformationPanel.add(customerStateCheckBox);
-        customerInformationPanel.add(amountInput);
-        customerInformationPanel.add(transactionList);
+        getCustomerInformationPanel().add(infoCustomerLabel);
+        getCustomerInformationPanel().add(getCustomerStateCheckBox());
+        getCustomerInformationPanel().add(amountInput);
+        getCustomerInformationPanel().add(transactionList);
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
@@ -128,7 +128,7 @@ public class BankGui extends JFrame implements ActionListener {
         waiterInformationPanel.add(waiterON);
         waiterInformationPanel.add(waiterOFF);
         RestaurantPortion.add(restPanel, BorderLayout.NORTH);
-        InformationPanel.add(customerInformationPanel, BorderLayout.NORTH);
+        InformationPanel.add(getCustomerInformationPanel(), BorderLayout.NORTH);
         ButtonPanel.setLayout(new BorderLayout());
         InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
         InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
@@ -148,26 +148,26 @@ public class BankGui extends JFrame implements ActionListener {
      * @param temp customer (or waiter) object
      */
     public void updateCustomerInformationPanel(BankCustomer temp) {
-        customerStateCheckBox.setVisible(true);
+        getCustomerStateCheckBox().setVisible(true);
         currentCustomer = temp;
         BankCustomer customer = temp;
-        customerStateCheckBox.setText("Start?");
-        customerStateCheckBox.setSelected(customer.getGui().isHungry());
-        customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
+        getCustomerStateCheckBox().setText("Start?");
+        getCustomerStateCheckBox().setSelected(customer.getGui().isHungry());
+        getCustomerStateCheckBox().setEnabled(!customer.getGui().isHungry());
         transactionList.setSelectedIndex(0);
         transactionList.addActionListener(this);
         
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + customer.getName() + " </pre></html>");
-        customerInformationPanel.validate();
+        getCustomerInformationPanel().validate();
     }
     public void updateLastCustomer()
     {
     	if (currentCustomer != null)
     	{
-	        customerStateCheckBox.setSelected(currentCustomer.getGui().isHungry());
-	        customerStateCheckBox.setEnabled(!currentCustomer.getGui().isHungry());
-	        customerInformationPanel.validate();
+	        getCustomerStateCheckBox().setSelected(currentCustomer.getGui().isHungry());
+	        getCustomerStateCheckBox().setEnabled(!currentCustomer.getGui().isHungry());
+	        getCustomerInformationPanel().validate();
     	}
     }
     public void updateLastWaiter()
@@ -192,11 +192,11 @@ public class BankGui extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
     
-        if (e.getSource() == customerStateCheckBox) 
+        if (e.getSource() == getCustomerStateCheckBox()) 
         {
             BankCustomerRole c = (BankCustomerRole) currentCustomer;
-            c.getGui().setAction(transactionList.getSelectedItem().toString(), amountInput.getText());
-            customerStateCheckBox.setEnabled(false);
+            c.getGui().setAction();
+            getCustomerStateCheckBox().setEnabled(false);
         }
 //        if (e.getSource() == transactionList)
 //        {
@@ -244,10 +244,22 @@ public class BankGui extends JFrame implements ActionListener {
         BankCustomer cust = currentCustomer;
         if (c.equals(cust)) 
         {
-            customerStateCheckBox.setEnabled(true);
-            customerStateCheckBox.setSelected(false);
+            getCustomerStateCheckBox().setEnabled(true);
+            getCustomerStateCheckBox().setSelected(false);
         }
 }
+	public JPanel getCustomerInformationPanel() {
+		return customerInformationPanel;
+	}
+	public void setCustomerInformationPanel(JPanel customerInformationPanel) {
+		this.customerInformationPanel = customerInformationPanel;
+	}
+	public JCheckBox getCustomerStateCheckBox() {
+		return customerStateCheckBox;
+	}
+	public void setCustomerStateCheckBox(JCheckBox customerStateCheckBox) {
+		this.customerStateCheckBox = customerStateCheckBox;
+	}
 
     /**
      * Main routine to get gui started

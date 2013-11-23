@@ -23,6 +23,7 @@ import roles.Role;
 
 
 
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -43,7 +44,7 @@ public class PersonAgent extends Agent implements Person
 	//Variable
 	Restaurant currentRestaurant; //Restaurant that the person chooses
 	PersonGui gui = null;
-	double money;
+	double money = 500;
 	String name;
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
@@ -252,6 +253,18 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 	
+
+	public void msgLeavingBank(BankCustomerRole r, double balance) {
+		print("Left bank.");
+		money = balance;
+	    r.setActivity(false);
+	    Status.setLocation(location.outside);
+	    Status.setDestination(destination.outside);
+	    gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		roles.remove(r);
+	    stateChanged();
+	}
 	/*
 	//Work
 	public void msgGoToWork(Role r){
@@ -399,17 +412,24 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		
-		BankCustomerRole c = new BankCustomerRole(this.getName());
+		BankCustomerRole c = new BankCustomerRole(this.getName(), "New Account", 20, money);
 		c.setPerson(this);
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
+		c.test("New Account", 20);
 		banks.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
 		banks.get(0).panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
 		
+		
+		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
+	
+	
 	
 	private Restaurant PickARestaurant()
 	{
 		return restaurants.get(0); //Only my restaurant is in here right now
 	}
+
+	
 }

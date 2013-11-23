@@ -76,9 +76,9 @@ public class ListPanel extends JPanel implements ActionListener {
         	topPart_customer.add(name, BorderLayout.NORTH);
             addCustomerButton.addActionListener(this);
             topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
-            //customerHungryCheckBox.addActionListener(this);
-           //topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
-            //customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
+            customerHungryCheckBox.addActionListener(this);
+           topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
+            customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
             viewForCustomer.setLayout(new BoxLayout((Container) viewForCustomer, BoxLayout.Y_AXIS));
             customerPane.setViewportView(viewForCustomer);
             bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
@@ -110,7 +110,7 @@ public class ListPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addCustomerButton) 
         {
-            addCustomer(nameFieldForCustomer.getText());
+           // addCustomer(nameFieldForCustomer.getText());
         }
         else if (e.getSource() == addWaiterButton)
         {
@@ -200,7 +200,7 @@ public class ListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForCustomer.add(button);
             viewForCustomer.add(button);
-            restPanel.addCustomer(name);
+           // restPanel.addCustomer(name);
             restPanel.showCustomerInfo(name);
             validate();
            
@@ -246,7 +246,7 @@ public class ListPanel extends JPanel implements ActionListener {
         	{
         		customerHungryCheckBox.setSelected(false);
         		BankCustomer c = currentCustomer;
-        		//c.getGui().setHungry();
+        		c.getGui().setAction();
         	}
     }
     

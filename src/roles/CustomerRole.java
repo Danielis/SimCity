@@ -477,7 +477,7 @@ public class CustomerRole extends Role implements Customer {
 		state = myState.finished;
 		customerGui.setNotHungry();
 		//NEW LINE
-		System.out.println(myPerson);
+		//System.out.println(myPerson);
 		this.myPerson.msgLeavingRestaurant(this);
 	}
 	

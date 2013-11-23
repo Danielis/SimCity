@@ -24,7 +24,7 @@ public class CustomerTest extends TestCase
           
             
             host = new MockHost("host");
-            cust = new BankCustomerRole("customer");
+          //  cust = new BankCustomerRole("customer");
             teller = new MockTeller("teller");
             
     }  

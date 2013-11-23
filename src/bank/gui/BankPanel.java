@@ -138,7 +138,6 @@ public class BankPanel extends JPanel {
     {
 		BankCustomer c = customer;	
 		CustomerGui g = new CustomerGui(c, gui);
-		System.out.println("gui: " + g);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);
 		c.setGui(g);
@@ -147,18 +146,17 @@ public class BankPanel extends JPanel {
 		//c.startThread();
     }
     
-    public void addCustomer(String name) 
-    {
-    	System.out.println("est: ");
-		BankCustomerRole c = new BankCustomerRole(name);	
-		CustomerGui g = new CustomerGui(c, gui);
-		gui.animationPanel.addGui(g);
-		c.setHost(host);
-		c.setGui(g);
-		c.setAnimPanel(gui.animationPanel);
-		customers.add(c);
-		c.startThread();
-    }
+//    public void addCustomer(String name) 
+//    {
+//		BankCustomerRole c = new BankCustomerRole(name);	
+//		CustomerGui g = new CustomerGui(c, gui);
+//		gui.animationPanel.addGui(g);
+//		c.setHost(host);
+//		c.setGui(g);
+//		c.setAnimPanel(gui.animationPanel);
+//		customers.add(c);
+//		c.startThread();
+//    }
     
     public void addTeller(String name) 
     {
