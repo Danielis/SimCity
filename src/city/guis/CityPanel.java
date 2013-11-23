@@ -10,6 +10,7 @@ import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
+import roles.Building;
 import roles.Restaurant;
 
 import javax.imageio.ImageIO;
@@ -44,12 +45,9 @@ public class CityPanel extends JPanel {
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
-    public Vector<Restaurant> restaurants = new Vector<Restaurant>();
-    public Vector<Bank> banks = new Vector<Bank>();
+    public Vector<Building> buildings = new Vector<Building>();
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     private CityListPanel personPanel = new CityListPanel(this, "People");
     private JPanel group = new JPanel();
@@ -124,21 +122,13 @@ public class CityPanel extends JPanel {
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
-		p.setRestaurants(restaurants);
-		p.setBanks(banks);
+		
+		p.setBuildings(buildings);
 		people.add(p);
 		p.startThread();
     }
     
-    public void setRestaurants(Vector<Restaurant> res)
-    {
-    	restaurants = res;
-    }
-    
-    public void setBanks(Vector<Bank> res)
-    {
-    	banks = res;
-    }
+ 
     
     public void pause()
     {
@@ -154,4 +144,8 @@ public class CityPanel extends JPanel {
     {
     	//gui.updateLastPerson();
     }
+
+	public void setBuildings(Vector<Building> buildings2) {
+		buildings = buildings2;
+	}
 }

@@ -1,10 +1,10 @@
 package roles;
 
-public class Location {
+public class Coordinate {
 	int x;
 	int y;
 	
-	public Location(int a, int b)
+	public Coordinate(int a, int b)
 	{
 		x = a;
 		y = b;

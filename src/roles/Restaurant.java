@@ -11,12 +11,13 @@ import restaurant.ProducerConsumerMonitor;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
 
-public class Restaurant {
+public class Restaurant extends Building{
 	public RestaurantGui gui;
 	public RestaurantPanel panel;
 	public String name; //Name of the restaurant
-    public Location location;
+    public Coordinate location;
     public ProducerConsumerMonitor theMonitor;
+   
     
     //public CookAgent cook;
     //public CashierAgent cashier;
@@ -29,6 +30,7 @@ public class Restaurant {
     	this.gui = gui;
     	this.panel = gui.restPanel;
     	this.name = name;
+    	type = buildingType.restaurant;
         gui.setTitle(name);
         gui.setVisible(true);
         gui.setResizable(false);

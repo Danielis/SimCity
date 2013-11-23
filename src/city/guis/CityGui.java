@@ -9,11 +9,13 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+import roles.Building;
 import roles.Restaurant;
 import housing.guis.HousingGui;
 import bank.Bank;
 import bank.gui.BankGui;
 import city.PersonAgent;
+
 
 
 
@@ -37,9 +39,10 @@ public class CityGui extends JFrame implements ActionListener {
 	
 	
 	//Lists
-	public Vector<Restaurant> restaurants = new Vector<Restaurant>();
-	public Vector<Bank> banks = new Vector<Bank>();
+	//public Vector<Restaurant> restaurants = new Vector<Restaurant>();
+	//public Vector<Bank> banks = new Vector<Bank>();
 	
+	public Vector<Building> buildings = new Vector<Building>();
 	//Java Structure
 	public JFrame animationFrame = new JFrame("Restaurant Animation");
 	
@@ -83,8 +86,9 @@ public class CityGui extends JFrame implements ActionListener {
     	setBounds(25, 25, WINDOWX+700, WINDOWY+150);
  
         setLayout(new BorderLayout());
-        cityPanel.setRestaurants(restaurants);
-        cityPanel.setBanks(banks);
+       // cityPanel.setRestaurants(restaurants);
+        //cityPanel.setBanks(banks);
+        cityPanel.setBuildings(buildings);
         
         //Set the layouts of the panels
         RestaurantPortion.setLayout(new BorderLayout());
@@ -263,14 +267,14 @@ public class CityGui extends JFrame implements ActionListener {
     		RestaurantGui rg = new RestaurantGui();
     		Restaurant r = new Restaurant(rg, name);
     		rg.setRestaurant(r);
-    		restaurants.add(r);
+    		buildings.add(r);
     	}
     }
     
     public void createBank(String name)
     {
     	Bank b = new Bank(new BankGui(), name);
-    	banks.add(b);
+    	buildings.add(b);
     }
     
     //Set Person Enabled

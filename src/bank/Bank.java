@@ -4,14 +4,15 @@ import java.util.*;
 
 import javax.swing.JFrame;
 
-import roles.Location;
+import roles.Building;
+import roles.Coordinate;
 import bank.Bank.Account;
 import bank.gui.BankGui;
 import bank.gui.BankPanel;
 
 
 
-public class Bank {
+public class Bank extends Building{
 	double balance;
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
@@ -20,11 +21,12 @@ public class Bank {
 	public BankGui gui;
 	public BankPanel panel;
 	public String name; //Name of the restaurant
-    public Location location;
+    public Coordinate location;
 	
 	public Bank(BankGui gui, String name){
+		//super();
 		balance = 50000;
-		
+		type = buildingType.bank;
 		this.gui = gui;
     	this.panel = gui.restPanel;
     	gui.restPanel.setBank(this);
