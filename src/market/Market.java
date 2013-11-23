@@ -2,14 +2,25 @@ package market;
 
 import java.util.*;
 
+import javax.swing.JFrame;
 
-public class Market {
+import market.gui.*;
+import roles.Building;
+
+public class Market extends Building {
 	double balance;
 	List <Item> inventory = new ArrayList<Item>();
 	int idIncr = 0;
-	
-	public Market(){
+	String name;
+	public Market(String n, MarketGui gui){
 		balance = 5000;
+		name = n;
+		
+    	gui.restPanel.setMarket(this);
+        gui.setTitle(name);
+        gui.setVisible(true);
+        gui.setResizable(false);
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		inventory.add(new Item("Steak", 0, 13));
 		inventory.add(new Item("Salad", 100, 3));

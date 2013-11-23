@@ -252,6 +252,14 @@ public class PersonAgent extends Agent implements Person
 		roles.remove(r);
 	    stateChanged();
 	}
+	
+	public void msgGoToMarket()
+	{
+		print("Going to market");
+		Status.setDestination(destination.market);
+	    gui.setPresent(false);
+	    stateChanged();
+	}
 	/*
 	//Work
 	public void msgGoToWork(Role r){
@@ -316,6 +324,10 @@ public class PersonAgent extends Agent implements Person
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
 				GoToWithdrawFromBank();
+				return true;
+			}
+		if (Status.getDestination() == destination.bank) {
+				GoToMarket();
 				return true;
 			}
 
@@ -384,7 +396,7 @@ public class PersonAgent extends Agent implements Person
 		BankCustomerRole c = new BankCustomerRole(this.getName(), "New Account", 20, money);
 		c.setPerson(this);
 		roles.add(c);
-		this.roles.get(0).setActivity(true);
+		c.setActivity(true);
 		c.test("New Account", 20);
 		
 		synchronized(buildings)
@@ -393,12 +405,36 @@ public class PersonAgent extends Agent implements Person
 				if (b.getType() == buildingType.bank){
 					Bank r = (Bank) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+					r.panel.customerPanel.addCustomer((BankCustomer) c);
 				}
 			}
 		}
 		
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
+	}
+	
+	void GoToMarket(){
+		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.market);
+		gui.setPresent(false);
+		
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), "New Account", 20, money);
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.market){
+					Market r = (Market) b;
+					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addCustomer((BankCustomer) c);
+				}
+			}
+		}
 	}
 
 	public void setBuildings(Vector<Building> buildings) {

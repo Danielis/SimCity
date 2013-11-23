@@ -152,6 +152,13 @@ public class PersonGui implements Gui{
 		setPresent(true);
 	}
 	
+	public void setShop(Boolean b)
+	{
+		this.needsmoney = b;
+		agent.msgGoToMarket();
+		setPresent(true);
+	}
+	
 	public boolean needsMoney()
 	{
 		return needsmoney;

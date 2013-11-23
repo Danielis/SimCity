@@ -36,9 +36,9 @@ public class MarketPanel extends JPanel {
     private JPanel group = new JPanel();
         
     
-    
+    private Market market;
     private MarketGui gui; //reference to main gui
-    Market b = new Market();
+    Market b;// = new Market();
     
     public MarketPanel(MarketGui gui) {
         this.gui = gui;
@@ -192,4 +192,8 @@ public class MarketPanel extends JPanel {
     	gui.updateLastCustomer();
     	gui.updateLastWaiter();
     }
+
+	public void setMarket(Market market) {
+		this.market = market;
+	}
 }
