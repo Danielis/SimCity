@@ -2,6 +2,7 @@ package housing;
 
 import java.util.concurrent.Semaphore;
 
+import city.guis.PersonGui;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
 import housing.interfaces.HousingCustomer;
@@ -55,8 +56,8 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 
 	//booleans to track loan needs and repairs
 	private Boolean needsLoan;
-	private Boolean houseNeedsRepairs;
-	private Boolean hungry;
+	public Boolean houseNeedsRepairs;
+	public Boolean hungry;
 
 	//-----------------------------------------------
 	//------------------Messages---------------------
@@ -165,6 +166,10 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
 		System.out.println("Done Eating.");
+	}
+
+	public HousingCustomerGui getGui() {
+		return gui;
 	}
 
 

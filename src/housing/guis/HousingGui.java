@@ -8,6 +8,7 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+import housing.HousingCustomerAgent;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,9 +44,10 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JLabel infoCustomerLabel;
 	private JLabel infoWaiterLabel;
 
-	private JCheckBox customerStateCheckBox;
+	private JCheckBox tenantHungryBox;
+	private JCheckBox tenantRepairBox;
 
-	private PersonAgent currentPerson;
+	private HousingCustomerAgent currentTenant;
 	private WaiterAgent currentWaiter;
 
 	private JButton pauseButton;
@@ -95,16 +97,23 @@ public class HousingGui extends JFrame implements ActionListener {
 		tenantInformationPanel.setMaximumSize(infoDimCustomer);
 		tenantInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
 
-		customerStateCheckBox = new JCheckBox();
-		customerStateCheckBox.setVisible(false);
-		customerStateCheckBox.addActionListener(this);
+		tenantHungryBox = new JCheckBox();
+		tenantHungryBox.setVisible(true);
+		tenantHungryBox.addActionListener(this);
+		tenantHungryBox.setText("Hungry");
+		tenantRepairBox = new JCheckBox();
+		tenantRepairBox.setVisible(true);
+		tenantRepairBox.addActionListener(this);
+		tenantRepairBox.setText("Repair");
 
 		tenantInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
 
 		infoCustomerLabel = new JLabel(); 
 		infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
 		tenantInformationPanel.add(infoCustomerLabel);
-		tenantInformationPanel.add(customerStateCheckBox);
+		tenantInformationPanel.add(tenantHungryBox);
+		tenantInformationPanel.add(tenantRepairBox);
+
 
 		//WAITER PANEL INFORMATION
 		Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
@@ -149,29 +158,27 @@ public class HousingGui extends JFrame implements ActionListener {
 	 *
 	 * @param temp customer (or waiter) object
 	 */
-	public void updatePersonInformationPanel(PersonAgent temp) {
-		customerStateCheckBox.setVisible(true);
-		currentPerson = temp;
-		PersonAgent person = temp;
-		customerStateCheckBox.setText("Hungry?");
-		customerStateCheckBox.setSelected(person.getGui().isHungry());
-		customerStateCheckBox.setEnabled(!person.getGui().isHungry());
+	public void updateTenantInformationPanel(HousingCustomerAgent temp) {
+		//customerStateCheckBox.setVisible(true);
+		currentTenant = temp;
+		//HousingCustomerAgent tenant = temp;
+		//customerStateCheckBox.setText("Hungry?");
+		//customerStateCheckBox.setSelected(currentTenant.getGui().isHungry());
+		//customerStateCheckBox.setEnabled(!currentTenant.getGui().isHungry());
 		infoCustomerLabel.setText(
-				"<html><pre>     Name: " + person.getName() + " </pre></html>");
+				"<html><pre>     Name: " + currentTenant.name + " </pre></html>");
 		tenantInformationPanel.validate();
 	}
 	public void updateLastCustomer()
 	{
-		if (currentPerson != null)
+		if (currentTenant != null)
 		{
-			customerStateCheckBox.setSelected(currentPerson.getGui().isHungry());
-			customerStateCheckBox.setEnabled(!currentPerson.getGui().isHungry());
+			tenantHungryBox.setSelected(currentTenant.hungry);
+			tenantHungryBox.setEnabled(!currentTenant.hungry);
+			tenantRepairBox.setSelected(currentTenant.houseNeedsRepairs);
+			tenantRepairBox.setEnabled(!currentTenant.houseNeedsRepairs);
 			tenantInformationPanel.validate();
 		}
-	}
-	public void updateLastWaiter()
-	{
-		//empty
 	}
 
 	public void updateWaiterInformationPanel(WaiterAgent person) {
@@ -189,11 +196,17 @@ public class HousingGui extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == customerStateCheckBox) 
+		if (e.getSource() == tenantHungryBox) 
 		{
-			PersonAgent c = (PersonAgent) currentPerson;
-			c.getGui().setHungry();
-			customerStateCheckBox.setEnabled(false);
+			HousingCustomerAgent c = currentTenant;
+			c.EatAtHome();;
+			tenantHungryBox.setEnabled(false);
+		}
+		if (e.getSource() == tenantRepairBox) 
+		{
+			HousingCustomerAgent c = currentTenant;
+			c.MyHouseNeedsRepairs();
+			tenantRepairBox.setEnabled(false);
 		}
 		if (e.getSource() == pauseButton)
 		{
@@ -230,12 +243,14 @@ public class HousingGui extends JFrame implements ActionListener {
 	 *
 	 * @param c reference to the customer
 	 */
-	public void setCustomerEnabled(PersonAgent p) {
-		PersonAgent per = currentPerson;
-		if (p.equals(per)) 
+	public void setCustomerEnabled(HousingCustomerAgent p) {
+		HousingCustomerAgent ten = currentTenant;
+		if (p.equals(ten)) 
 		{
-			customerStateCheckBox.setEnabled(true);
-			customerStateCheckBox.setSelected(false);
+			tenantHungryBox.setEnabled(true);
+			tenantHungryBox.setSelected(false);
+			tenantRepairBox.setEnabled(true);
+			tenantRepairBox.setSelected(false);
 		}
 	}
 

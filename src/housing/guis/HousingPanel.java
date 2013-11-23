@@ -37,7 +37,7 @@ public class HousingPanel extends JPanel {
 	public HousingCustomerAgent tenant;
 	private HousingWorkerAgent worker;
         
-    private Vector<HousingCustomerAgent> people = new Vector<HousingCustomerAgent>();
+    private Vector<HousingCustomerAgent> tenants = new Vector<HousingCustomerAgent>();
 
     private JPanel restLabel = new JPanel();
     private HousingListPanel tenantPanel = new HousingListPanel(this, "People");
@@ -102,19 +102,16 @@ public class HousingPanel extends JPanel {
      */
     public void showTenantInfo(String name)
     {
-        for (int i = 0; i < people.size(); i++) {
-        	
-            HousingCustomerAgent temp = people.get(i);
-            if (temp.getName() == name)
-            {
-                tenantPanel.updatePerson(temp);
-               // gui.updatePersonInformationPanel(temp);
-                tenantPanel.updatePerson(temp);
-            }
-        }
+		System.out.println("Name sent to show info: " + name);
+    	for (HousingCustomerAgent temp:tenants) {
+    		System.out.println("Name pulled from tenant: " + temp.name);
+    		if (temp.name.equals(name))
+    		{
+    			tenantPanel.updateTenant(temp);
+    			gui.updateTenantInformationPanel(temp);
+    		}
+    	}
     }
-    
-   
 
     /**
      * Adds a customer or waiter to the appropriate list
@@ -132,6 +129,8 @@ public class HousingPanel extends JPanel {
         p.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		tenant = p;
+		tenants.add(tenant);
+		System.out.println("Entry in tenants has name: " + tenants.get(0).name);
 		tenant.startThread();
     }
     
