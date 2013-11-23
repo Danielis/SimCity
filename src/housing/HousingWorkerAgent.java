@@ -92,7 +92,6 @@ public class HousingWorkerAgent extends Agent {
 	//------------------------------------------------------
 	//-----------------Scheduler-----------------------------
 	//------------------------------------------------------
-
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 		for(Job job:myJobs) {
