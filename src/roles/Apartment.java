@@ -18,7 +18,7 @@ import restaurant.CashierAgent;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
 
-public class Apartment {
+public class Apartment extends Building{
 	public HousingGui gui;
 	public HousingPanel panel;
 	public String name; //Name of the restaurant

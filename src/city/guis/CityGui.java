@@ -9,12 +9,14 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+import roles.Apartment;
 import roles.Building;
 import roles.Restaurant;
 import housing.guis.HousingGui;
 import bank.Bank;
 import bank.gui.BankGui;
 import city.PersonAgent;
+
 
 
 
@@ -41,6 +43,7 @@ public class CityGui extends JFrame implements ActionListener {
 	//Lists
 	//public Vector<Restaurant> restaurants = new Vector<Restaurant>();
 	//public Vector<Bank> banks = new Vector<Bank>();
+	//public Vector<Apartment> apartments = new Vector<Apartment>();
 	
 	public Vector<Building> buildings = new Vector<Building>();
 	//Java Structure
@@ -275,6 +278,12 @@ public class CityGui extends JFrame implements ActionListener {
     {
     	Bank b = new Bank(new BankGui(), name);
     	buildings.add(b);
+    }
+    
+    //apartment creation
+    public void createApartment(String name) {
+    	Apartment a = new Apartment(new HousingGui(), name);
+    	buildings.add(a);
     }
     
     //Set Person Enabled
