@@ -1,8 +1,8 @@
-package bank.gui;
+package market.gui;
 
-import bank.CustomerAgent;
-import bank.TellerAgent;
-import bank.HostAgent;
+import market.MarketCustomerAgent;
+import market.MarketTellerAgent;
+import market.MarketHostAgent;
 
 import javax.swing.*;
 
@@ -12,17 +12,17 @@ import java.awt.event.*;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class BankGui extends JFrame implements ActionListener {
+public class MarketGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
 	
 	JFrame animationFrame = new JFrame("Restaurant Animation");
-	BankAnimationPanel animationPanel = new BankAnimationPanel();
+	MarketAnimationPanel animationPanel = new MarketAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
 	
  
-    public BankPanel restPanel = new BankPanel(this);
+    public MarketPanel restPanel = new MarketPanel(this);
     
     /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;
@@ -42,8 +42,8 @@ public class BankGui extends JFrame implements ActionListener {
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
-    private CustomerAgent currentCustomer;
-    private TellerAgent currentWaiter;
+    private MarketCustomerAgent currentCustomer;
+    private MarketTellerAgent currentWaiter;
 
     private JButton pauseButton;
     private JButton refreshButton;
@@ -55,7 +55,7 @@ public class BankGui extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public BankGui() {
+    public MarketGui() {
         int WINDOWX = 600;
         int WINDOWY = 500;
         
@@ -146,10 +146,10 @@ public class BankGui extends JFrame implements ActionListener {
      *
      * @param person customer (or waiter) object
      */
-    public void updateCustomerInformationPanel(CustomerAgent person) {
+    public void updateCustomerInformationPanel(MarketCustomerAgent person) {
         customerStateCheckBox.setVisible(true);
         currentCustomer = person;
-        CustomerAgent customer = person;
+        MarketCustomerAgent customer = person;
         customerStateCheckBox.setText("Start?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
@@ -174,11 +174,11 @@ public class BankGui extends JFrame implements ActionListener {
     	//empty
     }
     
-    public void updateWaiterInformationPanel(TellerAgent person) {
+    public void updateWaiterInformationPanel(MarketTellerAgent person) {
     	waiterON.setVisible(true);
     	waiterOFF.setVisible(true);
         currentWaiter = person;
-        TellerAgent waiter = person;
+        MarketTellerAgent waiter = person;
     	infoWaiterLabel.setText(
                 "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
         waiterInformationPanel.validate();
@@ -193,7 +193,7 @@ public class BankGui extends JFrame implements ActionListener {
     
         if (e.getSource() == customerStateCheckBox) 
         {
-            CustomerAgent c = (CustomerAgent) currentCustomer;
+            MarketCustomerAgent c = (MarketCustomerAgent) currentCustomer;
             c.getGui().setAction(transactionList.getSelectedItem().toString(), amountInput.getText());
             customerStateCheckBox.setEnabled(false);
         }
@@ -203,12 +203,12 @@ public class BankGui extends JFrame implements ActionListener {
 //        }
         if (e.getSource() == waiterON)
         {
-        	TellerAgent w = currentWaiter;
+        	MarketTellerAgent w = currentWaiter;
         	w.getGui().AskForBreak();
         }
         if (e.getSource() == waiterOFF)
         {
-        	TellerAgent w = currentWaiter;
+        	MarketTellerAgent w = currentWaiter;
         	w.getGui().AskGoOffBreak();
         }
       
@@ -239,8 +239,8 @@ public class BankGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
-        CustomerAgent cust = currentCustomer;
+    public void setCustomerEnabled(MarketCustomerAgent c) {
+        MarketCustomerAgent cust = currentCustomer;
         if (c.equals(cust)) 
         {
             customerStateCheckBox.setEnabled(true);

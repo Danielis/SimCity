@@ -88,6 +88,16 @@ public class PersonAgent extends Agent implements Person
 			return nour;
 		}
 		
+		public void setMoneyStatus(bankStatus state)
+		{
+			bank = state;
+		}
+		
+		public bankStatus getMoneyStatus()
+		{
+			return bank;
+		}
+		
 		public void setLocation(location state)
 		{
 			loc = state;
@@ -200,6 +210,7 @@ public class PersonAgent extends Agent implements Person
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
 	    Status.setNourishment(nourishment.Hungry);
+	    Status.setDestination(destination.restaurant);
 	    gui.setPresent(false);
 	    stateChanged();
 	}
@@ -215,6 +226,15 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('A');
+		roles.remove(r);
+	    stateChanged();
+	}
+	
+	public void msgGoToBank()
+	{
+		Status.setDestination(destination.bank);
+		Status.setMoneyStatus(bankStatus.withdraw);
+	    gui.setPresent(false);
 	    stateChanged();
 	}
 	
@@ -279,6 +299,11 @@ public class PersonAgent extends Agent implements Person
 			GoToRestaurant();
 			return true;
 		}
+		if (Status.getMoneyStatus() == bankStatus.withdraw &&
+				Status.getDestination() == destination.bank) {
+				GoToWithdrawFromBank();
+				return true;
+			}
 
 		Boolean anytrue = false;
 		for(Role r : roles)
@@ -348,6 +373,19 @@ public class PersonAgent extends Agent implements Person
 	    c.active = T;
 	    r.getHost().ImHungry((Customer) c);
 		 */
+	}
+	
+	public void GoToWithdrawFromBank()
+	{
+		Status.setMoneyStatus(bankStatus.goingToBank);
+		gui.DoGoToCheckpoint('A');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+		
+		/* to do Bank stuff here */
 	}
 	
 	private Restaurant PickARestaurant()
