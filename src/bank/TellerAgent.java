@@ -9,7 +9,7 @@ import bank.Bank;
 import bank.Bank.Account;
 import bank.Bank.Loan;
 import bank.Bank.loanState;
-import bank.CustomerAgent.customerPurpose;
+import bank.BankCustomerRole.customerPurpose;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -85,7 +85,7 @@ public class TellerAgent extends Agent implements Teller {
 //CLASSES/ENUMS**********************************************
 		
 	private class Transaction{
-	    public Transaction(Loan loan2, double amount2, transactionType type, CustomerAgent c) {
+	    public Transaction(Loan loan2, double amount2, transactionType type, BankCustomerRole c) {
 	    	loan = loan2;
 			amount = amount2;
 			this.type = type;
@@ -93,7 +93,7 @@ public class TellerAgent extends Agent implements Teller {
 			this.c = c;
 	    }
 	    
-		public Transaction(Account acct, double amount2, transactionType type, CustomerAgent c) {
+		public Transaction(Account acct, double amount2, transactionType type, BankCustomerRole c) {
 		account = acct;
 		amount = amount2;
 		this.type = type;
@@ -101,7 +101,7 @@ public class TellerAgent extends Agent implements Teller {
 		this.c = c;
 		}
 		
-		public Transaction(double amount2, transactionType t, CustomerAgent c) {
+		public Transaction(double amount2, transactionType t, BankCustomerRole c) {
 		amount = amount2;
 		type = t;
 		this.c = c;
@@ -110,7 +110,7 @@ public class TellerAgent extends Agent implements Teller {
 		
 		
 		
-		public Transaction(CustomerAgent c2) {
+		public Transaction(BankCustomerRole c2) {
 		c = c2;
 		status = transactionStatus.noLoan;
 		}
@@ -122,13 +122,13 @@ public class TellerAgent extends Agent implements Teller {
 	    Loan loan;
 	    transactionType type;
 	    transactionStatus status;
-	    CustomerAgent c;
+	    BankCustomerRole c;
 	}
 	enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
 	enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
 
 private class MyCustomer{
-	    CustomerAgent c;
+	    BankCustomerRole c;
 	}
 
 	
@@ -139,13 +139,13 @@ public enum myState
 
 //MESSAGES****************************************************
 
-public void IWantAccount(CustomerAgent c, double amount){
+public void IWantAccount(BankCustomerRole c, double amount){
     Account acct = bank.createAccount(c);
     transactions.add(new Transaction(acct, amount, transactionType.newAccount, c));
     stateChanged();
 }
 
-public void DepositMoney(CustomerAgent c, int accountID, double amount){
+public void DepositMoney(BankCustomerRole c, int accountID, double amount){
 	print("Looking for account...");
 	for (Account a : bank.accounts){
 		if (a.c == c){
@@ -163,7 +163,7 @@ public void DepositMoney(CustomerAgent c, int accountID, double amount){
 	
 }
 
-public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
+public void WithdrawMoney(BankCustomerRole c, int accountID, double amount){
 	for (Account a : bank.accounts){
 		if (a.c == c){
 			Account acct = a;
@@ -178,13 +178,13 @@ public void WithdrawMoney(CustomerAgent c, int accountID, double amount){
 	stateChanged();
 }
 
-public void IWantLoan(CustomerAgent c, double amount){
+public void IWantLoan(BankCustomerRole c, double amount){
     Loan loan = bank.createLoan(c, amount);
     transactions.add(new Transaction(loan, amount, transactionType.newLoan, c));
     stateChanged();
 }
 
-public void PayMyLoan(CustomerAgent c, double amount){
+public void PayMyLoan(BankCustomerRole c, double amount){
     for (Loan l : bank.loans){
 		if (l.c == c){
 			transactions.add(new Transaction(l, amount, transactionType.loanPayment, c));
@@ -431,7 +431,7 @@ public void PayMyLoan(CustomerAgent c, double amount){
 		host.msgIdLikeToGoOnBreak(this);
 	}
 	
-	private Boolean HasGoodCredit(CustomerAgent c){
+	private Boolean HasGoodCredit(BankCustomerRole c){
 		Boolean hasLoan = false;
 		Boolean goodAccount = true;
 		

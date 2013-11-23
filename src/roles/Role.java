@@ -52,7 +52,8 @@ public class Role //why doesnt this extend agent?
 	
 	public String getName()
 	{
-		return myPerson.getName();
+		//return myPerson.getName();
+		return "test";
 	}
 	
     protected void print(String msg) {

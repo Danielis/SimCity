@@ -1,9 +1,10 @@
 package bank.gui;
 
 import bank.Bank;
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.HostAgent;
 import bank.TellerAgent;
+import bank.interfaces.BankCustomer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,18 +28,18 @@ public class BankPanel extends JPanel {
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
+    private Vector<BankCustomer> customers = new Vector<BankCustomer>();
     private Vector<TellerAgent> waiters = new Vector<TellerAgent>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Tellers");
     private JPanel group = new JPanel();
         
     
     
     private BankGui gui; //reference to main gui
-    Bank b = new Bank();
+    Bank b;
     
     public BankPanel(BankGui gui) {
         this.gui = gui;
@@ -104,7 +105,7 @@ public class BankPanel extends JPanel {
     public void showCustomerInfo(String name)
     {
         for (int i = 0; i < customers.size(); i++) {
-            CustomerAgent temp = customers.get(i);
+            BankCustomer temp = customers.get(i);
             if (temp.getName() == name)
             {
                 customerPanel.updateCustomer(temp);
@@ -133,11 +134,26 @@ public class BankPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
+    public void addCustomer(BankCustomer customer) 
+    {
+		BankCustomer c = customer;	
+		CustomerGui g = new CustomerGui(c, gui);
+		System.out.println("gui: " + g);
+		gui.animationPanel.addGui(g);
+		c.setHost(host);
+		c.setGui(g);
+		c.setAnimPanel(gui.animationPanel);
+		customers.add(c);
+		//c.startThread();
+    }
+    
     public void addCustomer(String name) 
     {
-		CustomerAgent c = new CustomerAgent(name, host);	
+    	System.out.println("est: ");
+		BankCustomerRole c = new BankCustomerRole(name);	
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
+		c.setHost(host);
 		c.setGui(g);
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
@@ -163,7 +179,7 @@ public class BankPanel extends JPanel {
     {
     	host.pauseAgent();
  
-    	for (CustomerAgent c : customers)
+    	for (BankCustomer c : customers)
     	{
     		c.pauseAgent();
     	}
@@ -177,7 +193,7 @@ public class BankPanel extends JPanel {
     {
     	host.resumeAgent();
     
-    	for (CustomerAgent c : customers)
+    	for (BankCustomer c : customers)
     	{
     		c.resumeAgent();
     	}
@@ -192,4 +208,9 @@ public class BankPanel extends JPanel {
     	gui.updateLastCustomer();
     	gui.updateLastWaiter();
     }
+
+	public void setBank(Bank bank) {
+		this.b = bank;
+		
+	}
 }

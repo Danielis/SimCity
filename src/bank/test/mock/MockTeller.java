@@ -1,7 +1,7 @@
 package bank.test.mock;
 import java.util.List;
 
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.interfaces.Teller;
 
 
@@ -16,15 +16,15 @@ public class MockTeller extends Mock implements Teller {
         }
 
 		
-		public void IWantAccount(CustomerAgent c, double amount) {}
+		public void IWantAccount(BankCustomerRole c, double amount) {}
 		
-		public void DepositMoney(CustomerAgent c, int accountID, double amount) {}
+		public void DepositMoney(BankCustomerRole c, int accountID, double amount) {}
 		
-		public void WithdrawMoney(CustomerAgent c, int accountID, double amount) {}
+		public void WithdrawMoney(BankCustomerRole c, int accountID, double amount) {}
 		
-		public void IWantLoan(CustomerAgent c, double amount) {}
+		public void IWantLoan(BankCustomerRole c, double amount) {}
 		
-		public void PayMyLoan(CustomerAgent c, double amount) {}
+		public void PayMyLoan(BankCustomerRole c, double amount) {}
 
 		public void IAmLeaving() {}
 	

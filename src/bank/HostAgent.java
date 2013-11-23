@@ -5,7 +5,7 @@ import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
 import bank.interfaces.Host;
 import bank.TellerAgent;
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -81,11 +81,11 @@ public class HostAgent extends Agent implements Host {
 		
 		public class MyCustomer{
 			
-			public MyCustomer(CustomerAgent c) {
+			public MyCustomer(BankCustomerRole c) {
 				this.c = c;
 				this.s = customerState.waiting;
 			}
-			CustomerAgent c;
+			BankCustomerRole c;
 			customerState s;
 		}
 		enum customerState {waiting, done};
@@ -93,7 +93,7 @@ public class HostAgent extends Agent implements Host {
 
 //MESSAGES****************************************************
 
-	public void IWantService(CustomerAgent c){
+	public void IWantService(BankCustomerRole c){
     customers.add(new MyCustomer(c));
     updateCustpost();
     stateChanged();
@@ -219,7 +219,7 @@ public class HostAgent extends Agent implements Host {
 
 //ACTIONS********************************************************
 	
-	private void RemoveCustomer(CustomerAgent mc)
+	private void RemoveCustomer(BankCustomerRole mc)
 	{
 		customers.remove(mc);
 	}

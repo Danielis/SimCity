@@ -3,7 +3,7 @@ package bank.test.mock;
 
 import java.util.List;
 
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.TellerAgent;
 import bank.interfaces.*;
 
@@ -17,7 +17,7 @@ public class MockHost extends Mock implements Host {
             log = new EventLog();
     }
 
-	public void IWantService(CustomerAgent c) {
+	public void IWantService(BankCustomerRole c) {
 	}
 
 	public void msgNewTeller(TellerAgent t) {

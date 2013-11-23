@@ -6,12 +6,19 @@ import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
 import restaurant.interfaces.Customer;
 import agent.Agent;
+import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
+import bank.Bank;
+import bank.interfaces.BankCustomer;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
+
+
+
+
 
 
 
@@ -29,6 +36,8 @@ public class PersonAgent extends Agent implements Person
 	//Lists: Roles, Restaurants
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	Vector<Restaurant> restaurants = new Vector<Restaurant>(); //City Gui won't let me implement Lists
+	Vector<Bank> banks = new Vector<Bank>(); //City Gui won't let me implement Lists
+	
 	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 	
 	//Variable
@@ -139,6 +148,11 @@ public class PersonAgent extends Agent implements Person
 	public void setRestaurants(Vector<Restaurant> res)
 	{
 		restaurants = res;
+	}
+	
+	public void setBanks(Vector<Bank> res)
+	{
+		banks = res;
 	}
 	
 	public void addRole(Role r)
@@ -379,13 +393,19 @@ public class PersonAgent extends Agent implements Person
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
 		gui.DoGoToCheckpoint('A');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		
-		/* to do Bank stuff here */
+		BankCustomerRole c = new BankCustomerRole(this.getName());
+		c.setPerson(this);
+		roles.add(c);
+		this.roles.get(0).setActivity(true);
+		banks.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		banks.get(0).panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+		
 	}
 	
 	private Restaurant PickARestaurant()

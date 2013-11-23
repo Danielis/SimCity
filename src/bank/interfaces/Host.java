@@ -1,10 +1,10 @@
 package bank.interfaces;
 
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.TellerAgent;
 
 public interface Host {
-	public void IWantService(CustomerAgent c);
+	public void IWantService(BankCustomerRole c);
 		public void msgNewTeller(TellerAgent t);
 		public void IAmFree(TellerAgent tell);
 		public void msgIdLikeToGoOnBreak(TellerAgent t);

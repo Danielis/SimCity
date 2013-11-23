@@ -11,7 +11,7 @@ import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
 import roles.Restaurant;
 import housing.guis.HousingGui;
-import roles.Bank;
+import bank.Bank;
 import bank.gui.BankGui;
 import city.PersonAgent;
 
@@ -84,6 +84,7 @@ public class CityGui extends JFrame implements ActionListener {
  
         setLayout(new BorderLayout());
         cityPanel.setRestaurants(restaurants);
+        cityPanel.setBanks(banks);
         
         //Set the layouts of the panels
         RestaurantPortion.setLayout(new BorderLayout());
@@ -277,11 +278,11 @@ public class CityGui extends JFrame implements ActionListener {
 	      CityGui gui = new CityGui();
 	      gui.setVisible(true);
 	      
-	      MarketGui gui4 = new MarketGui();
-          gui4.setTitle("Market");
-          gui4.setVisible(true);
-          gui4.setResizable(false);
-          gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);   
+//	      MarketGui gui4 = new MarketGui();
+//          gui4.setTitle("Market");
+//          gui4.setVisible(true);
+//          gui4.setResizable(false);
+//          gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);   
     }
     
 

@@ -177,7 +177,7 @@ public class RestaurantPanel extends JPanel {
 		c.setHost(host);
 		c.setCashier(cashier);
 		c.setGui(g);
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
     }

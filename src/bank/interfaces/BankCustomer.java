@@ -1,10 +1,16 @@
 package bank.interfaces;
 
 
-import bank.TellerAgent;
+import javax.swing.Icon;
 
-public interface Customer 
+import bank.TellerAgent;
+import bank.gui.BankAnimationPanel;
+import bank.gui.CustomerGui;
+
+public interface BankCustomer 
 {
+	
+	public BankAnimationPanel copyOfAnimPanel = null;
 
 public abstract void 	msgWantsTransaction(String type, double temp);
 
@@ -33,6 +39,30 @@ public abstract void	HereIsPartialWithdrawal(double amount);
 public abstract void	NoMoney();
 
 public abstract void 	WantAccount();
+
+public abstract String getName();
+
+public void WaitForAnimation();
+
+public void DoneWithAnimation();
+
+public abstract void setHost(bank.HostAgent host);
+
+
+public abstract void setGui(CustomerGui g);
+
+public abstract void setAnimPanel(BankAnimationPanel animationPanel);
+
+public abstract CustomerGui getGui();
+
+public abstract void startThread();
+
+public abstract void pauseAgent();
+
+public abstract void resumeAgent();
+
+
+
 	
 
 }

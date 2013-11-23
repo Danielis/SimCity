@@ -15,6 +15,7 @@ import roles.Restaurant;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import bank.Bank;
 import city.PersonAgent;
 
 import java.awt.*;
@@ -44,6 +45,7 @@ public class CityPanel extends JPanel {
     int waiterindex = 0; 		//To assign waiters individual locations
     
     public Vector<Restaurant> restaurants = new Vector<Restaurant>();
+    public Vector<Bank> banks = new Vector<Bank>();
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
     
     private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
@@ -123,6 +125,7 @@ public class CityPanel extends JPanel {
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setRestaurants(restaurants);
+		p.setBanks(banks);
 		people.add(p);
 		p.startThread();
     }
@@ -130,6 +133,11 @@ public class CityPanel extends JPanel {
     public void setRestaurants(Vector<Restaurant> res)
     {
     	restaurants = res;
+    }
+    
+    public void setBanks(Vector<Bank> res)
+    {
+    	banks = res;
     }
     
     public void pause()

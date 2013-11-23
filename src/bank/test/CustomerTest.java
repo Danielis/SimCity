@@ -1,6 +1,6 @@
 package bank.test;
 
-import bank.CustomerAgent;
+import bank.BankCustomerRole;
 import bank.TellerAgent;
 import bank.test.mock.*;
 import junit.framework.TestCase;
@@ -15,7 +15,7 @@ public class CustomerTest extends TestCase
     //these are instantiated for each test separately via the setUp() method.
 	MockTeller teller;
     MockHost host;
-    CustomerAgent cust;
+    BankCustomerRole cust;
     
     
     public void setUp() throws Exception{
@@ -24,7 +24,7 @@ public class CustomerTest extends TestCase
           
             
             host = new MockHost("host");
-            cust = new CustomerAgent("customer", host);
+            cust = new BankCustomerRole("customer");
             teller = new MockTeller("teller");
             
     }  
