@@ -12,9 +12,13 @@ import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
 import bank.interfaces.BankCustomer;
+import roles.Building;
+import roles.Building.buildingType;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
+
+
 
 
 
@@ -36,8 +40,8 @@ public class PersonAgent extends Agent implements Person
 	
 	//Lists: Roles, Restaurants
 	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
-	Vector<Restaurant> restaurants = new Vector<Restaurant>(); //City Gui won't let me implement Lists
-	Vector<Bank> banks = new Vector<Bank>(); //City Gui won't let me implement Lists
+	Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
+
 	
 	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 	
@@ -146,15 +150,6 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	******************************************************************************/
 	
-	public void setRestaurants(Vector<Restaurant> res)
-	{
-		restaurants = res;
-	}
-	
-	public void setBanks(Vector<Bank> res)
-	{
-		banks = res;
-	}
 	
 	public void addRole(Role r)
 	{
@@ -209,7 +204,7 @@ public class PersonAgent extends Agent implements Person
 	//Housing
 	//Passes an inactive role which contains location and otherinfo needed later
 	public void msgGoToHome(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don't need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don’t need to add role.
 	    Status.setHouse(houseStatus.goingHome);
 	    stateChanged();
 	}
@@ -231,7 +226,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	public void msgLeavingRestaurant(Role r){
-		print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
+	//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
 	    r.setActivity(false);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
@@ -268,7 +263,7 @@ public class PersonAgent extends Agent implements Person
 	/*
 	//Work
 	public void msgGoToWork(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
 	    Status.setWork(workStatus.goingToWork);
 	    stateChanged();
 	}
@@ -283,7 +278,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Banks
 	public void goToBank(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
 	    Status.setBank(bankStatus.goingToBank);
 	    stateChanged();
 	}
@@ -297,7 +292,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	//Markets
 	public void goToMarket(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don’t need to add role.
 	    Status.setMarket(marketStatus.goingToMarket);
 	    stateChanged();
 	}
@@ -377,10 +372,16 @@ public class PersonAgent extends Agent implements Person
 		
 		
 		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
-		restaurants.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
-		//restaurants.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		restaurants.get(0).panel.customerPanel.addCustomer((Customer)roles.get(0));
+
+		for (Building b: buildings){
+			print(" type: " + b.getType() + " n: ");
+			if (b.getType() == buildingType.restaurant){
+				Restaurant r = (Restaurant) b;
+				r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+				r.panel.customerPanel.addCustomer((Customer)roles.get(0));
+			}
+		}
+
 		
 		/*
 		Restaurant r = PickARestaurant();
@@ -417,8 +418,15 @@ public class PersonAgent extends Agent implements Person
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
 		c.test("New Account", 20);
-		banks.get(0).panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		banks.get(0).panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+		
+		for (Building b: buildings){
+			if (b.getType() == buildingType.bank){
+				Bank r = (Bank) b;
+				r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+				r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+			}
+		}
+		
 		
 		
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
@@ -426,9 +434,10 @@ public class PersonAgent extends Agent implements Person
 	
 	
 	
-	private Restaurant PickARestaurant()
-	{
-		return restaurants.get(0); //Only my restaurant is in here right now
+
+	public void setBuildings(Vector<Building> buildings) {
+		this.buildings = buildings;
+		
 	}
 
 	
