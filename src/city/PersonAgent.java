@@ -226,7 +226,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	public void msgLeavingRestaurant(Role r){
-		print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
+	//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
 	    r.setActivity(false);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);

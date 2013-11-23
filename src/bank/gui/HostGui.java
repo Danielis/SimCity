@@ -85,7 +85,7 @@ public void updatePosition() {
     }
     
     public void setSpeechBubble(String temp){
-		System.out.println("setting");
+		//System.out.println("setting");
 		speechBubbleLoc= new Coordinate(position.x - 10, position.y - 53);
 		showSpeechBubble = true;
 		temp = "/resources/bankSprites/speech/" + temp +".png";

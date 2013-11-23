@@ -162,6 +162,10 @@ public class HostAgent extends Agent implements Host {
 								return true;
 							}
 						}
+						if (myTellers.size() == 0){
+							NoTellers(c);
+							return true;
+						}
 					}
 				}
 			}
@@ -219,6 +223,10 @@ public class HostAgent extends Agent implements Host {
 
 //ACTIONS********************************************************
 	
+	private void NoTellers(MyCustomer c){
+		c.c.BankIsClosed();
+		customers.remove(c);
+	}
 	private void RemoveCustomer(BankCustomerRole mc)
 	{
 		customers.remove(mc);

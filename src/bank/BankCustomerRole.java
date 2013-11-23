@@ -88,18 +88,24 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 //MESSAGES*************************************************
 
+	public void BankIsClosed(){
+		state = bankCustomerState.done;
+		//customerGui.setSpeechBubble("oksadcust");
+		stateChanged();
+	}
+	
 	public void NoLoan() {
 	state = bankCustomerState.done;	
 	stateChanged();
 	}
 	
 	public void test(String type, double temp){
-		
+		state = bankCustomerState.outside;
 		stateChanged();
 	}
 	
 public void msgWantsTransaction(){
-		
+		state = bankCustomerState.outside;
 		print("rec msg");
 		stateChanged();
 	}
@@ -192,7 +198,7 @@ public void WantAccount(){
 //SCHEDULER*************************************************
 	public boolean pickAndExecuteAnAction() 
 	{
-		//print("reached sched");
+		print("reached sched");
 		if (state == bankCustomerState.outside){
 			GoToBank();
 			return true;
@@ -223,6 +229,7 @@ public void WantAccount(){
 
 //ACTIONS*************************************************
 
+	
 private void GoToBank() {
 		print("Going to bank");
 		getCustomerGui().DoGoToWaitingRoom();
@@ -336,26 +343,26 @@ private void GiveRequest(){
 
 private void LeaveBank(){
 		print("Thank you. I now have $" + balance);
-		t.IAmLeaving();
+		if (t != null){
+			t.IAmLeaving();
 
 		if (t.getTableNum() == 1){
 			getCustomerGui().DoGoToWaitingRoom();
-			getCustomerGui().DoExitRestaurant();
 		}
 		else if (t.getTableNum() == 2){
 			getCustomerGui().DoGoToTopMiddle();
 			getCustomerGui().DoGoToTopLeft();
 			getCustomerGui().DoGoToBotLeft();
 			getCustomerGui().DoGoToWaitingRoom();
-			getCustomerGui().DoExitRestaurant();
 		}
 		else if (t.getTableNum() == 3){
 			getCustomerGui().DoGoToTopRight();
 			getCustomerGui().DoGoToBotRight();
 			getCustomerGui().DoGoToWaitingRoom();
-			getCustomerGui().DoExitRestaurant();
+		}
 		}
 		
+		getCustomerGui().DoExitRestaurant();
 		
 	    state = bankCustomerState.exited;  
 	    customerGui.setDone();
