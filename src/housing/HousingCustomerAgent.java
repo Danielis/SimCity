@@ -125,7 +125,6 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		return false;
 	}
 
-	
 	//------------------------------------------------
 	//----------------Actions-------------------------
 	//------------------------------------------------
