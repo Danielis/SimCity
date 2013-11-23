@@ -3,7 +3,7 @@ package roles;
 import agent.StringUtil;
 import city.PersonAgent;
 
-public class Role
+public class Role //why doesnt this extend agent?
 {
 	public PersonAgent myPerson;
 	public Boolean active;
