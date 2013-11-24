@@ -205,7 +205,7 @@ public class MarketCustomerGui implements Gui{
 	public void finishedTransaction()
 	{
 		isBusy = false;
-		//setPresent(false);
+		setPresent(false);
 	}
 	public boolean isHungry() {
 		return isBusy;

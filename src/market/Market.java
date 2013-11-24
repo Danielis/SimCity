@@ -76,6 +76,15 @@ public class Market extends Building {
 		}
 		return 0;
 	}
+
+
+	public boolean DoesStock(String item) {
+		for (Item i : inventory){
+			if (i.name.equals(item))
+				return true;
+		}
+		return false;
+	}
 	
 
 }

@@ -212,7 +212,7 @@ private void AskForAssistance(){
 }
 
 private void GiveRequest(){
-	print("I want to order this...");
+	print("I want to order " + quantityWanted + " of " + item);
 	state = marketCustomerState.waiting;
 	t.GiveOrder(this, item, quantityWanted);
 }

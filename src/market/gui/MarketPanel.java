@@ -196,6 +196,6 @@ public class MarketPanel extends JPanel {
     }
 
 	public void setMarket(Market market) {
-		this.market = market;
+		this.b = market;
 	}
 }

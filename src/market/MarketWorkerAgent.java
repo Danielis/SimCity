@@ -220,7 +220,7 @@ public enum myState
 //ACTIONS********************************************************
 
 	private void CheckInventory(MyOrder o){
-		if (MarketDoesStock(o.item)){
+		if (market.DoesStock(o.item)){
 			if(market.Amount(o.item) >= o.quantity)
 				GivePrice(o);
 			else if(market.Amount(o.item) > 0){
@@ -234,14 +234,15 @@ public enum myState
 				o.c.OutOfStock();
 			}
 		}
-			
+		else{
+			print("We do not stock " + o.item);
+			o.s = orderState.done;
+			o.c.OutOfStock();
+		}
 	}
 	
 	
-	private boolean MarketDoesStock(String item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	private void GivePrice(MyOrder o){
 		o.price = market.calculatePrice(o.item, o.quantity);
 		print("Your order costs $" + o.price);
