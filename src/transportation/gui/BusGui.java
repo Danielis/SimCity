@@ -1,7 +1,7 @@
-package city.guis;
+package transportation.gui;
 
 import restaurant.gui.Gui;
-import transportation.gui.BusStopGui.Coordinate;
+import transportation.BusAgent;
 
 import java.io.*;
 import java.awt.*;
@@ -14,22 +14,21 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import city.PersonAgent;
+import city.guis.CityGui;
 
-public class PersonGui implements Gui{
+public class BusGui implements Gui{
 	
 	//variables
 	private boolean isPresent = false;
-	
 	private boolean isHungry = false;
-	private boolean needsmoney = false;
 	private boolean goingSomewhere = false;
 	
 	//finals
-	//private final int customerSize = 20;
+	private final int customerSize = 20;
 	private final int deltadivider = 100;
 
 	//self agent
-	private PersonAgent agent = null;
+	private BusAgent agent = null;
 
 	//private HostAgent host;
 	CityGui gui;
@@ -46,19 +45,17 @@ public class PersonGui implements Gui{
 	Coordinate cashier;
 	Coordinate waitingroom;
 	
-	BufferedImage imgTrainer;
+	BufferedImage imgBus;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-	public PersonGui(PersonAgent c, CityGui gui2){
+	public BusGui(BusAgent c, CityGui gui2){
         
         try
         {
-        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+        	imgBus = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
-		
-		System.out.println("Got to the persongui constructor");
 		
 		agent = c;
 		this.gui = gui2;
@@ -68,8 +65,9 @@ public class PersonGui implements Gui{
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
 		
-		outside = new Coordinate(700, 250);
-    	position = new Coordinate(700, 250);
+		
+		outside = new Coordinate(100, 100);
+    	position = new Coordinate(100, 100);
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -113,16 +111,18 @@ public class PersonGui implements Gui{
 
             if (position.x == destination.x && position.y == destination.y)
             {
+            	System.out.println(agent.getName() + "Destination reached");
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
             }
+            agent.msgBusGuiMoved();
     	}
 	}
 
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
+		newG.drawImage(imgBus, position.x, position.y, agent.CityAnimPanel);
 	}
 
 	
@@ -130,43 +130,15 @@ public class PersonGui implements Gui{
 		return isPresent;
 	}
 	
-	public void setHungry() {
-		isHungry = true;
-		agent.msgGoToRestaurant();
-		setPresent(true);
-	}
-	
-	public void setNotHungry()
-	{
-		isHungry = false;
-		setPresent(false);
-	}
-	
-	public boolean isHungry() {
-		return isHungry;
-	}
-	
-	public void setNeedsMoney(Boolean b)
-	{
-		this.needsmoney = b;
-		agent.msgGoToBank();
-		setPresent(true);
-	}
-	
-	public void setShop(Boolean b)
-	{
-		this.needsmoney = b;
-		agent.msgGoToMarket();
-		setPresent(true);
-	}
-	
-	public boolean needsMoney()
-	{
-		return needsmoney;
-	}
-
 	public void setPresent(boolean p) {
 		isPresent = p;
+	}
+	
+	public void DoGoToPlace()
+	{
+        goingSomewhere = true;
+        destination = checkpointA;
+        agent.WaitForAnimation();
 	}
 	
 	public void DoGoToCheckpoint(char a)
@@ -180,28 +152,39 @@ public class PersonGui implements Gui{
 	      else if(a == 'B' || a == 'b')
           {
               goingSomewhere = true;
-              destination = checkpointB;
-              agent.WaitForAnimation();
+                  destination = checkpointB;
+                  agent.WaitForAnimation();
           }
 	      else if(a == 'C' || a == 'c')
           {
               goingSomewhere = true;
-              destination = checkpointC;
-              agent.WaitForAnimation();
+                  destination = checkpointC;
+                  agent.WaitForAnimation();
           }
 	      else if(a == 'D' || a == 'd')
           {
               goingSomewhere = true;
-              destination = checkpointD;
-              agent.WaitForAnimation();
+                  destination = checkpointD;
+                  agent.WaitForAnimation();
           }
 	}
-	public void DoGoToLocation(int X,int Y){
-		goingSomewhere = true;
-		setPresent(true);
-		this.destination.x = X;
-		this.destination.y = Y;
-		agent.WaitForAnimation();
+	
+	public void NextStop(){
+		if(this.position.x == checkpointA.x && this.position.y == checkpointA.y){
+			this.DoGoToCheckpoint('B');
+		}
+		else if(this.position.x == checkpointB.x && this.position.y == checkpointB.y){
+			this.DoGoToCheckpoint('A');
+		}
+		else if(this.position.x == checkpointC.x && this.position.y == checkpointC.y){
+
+		}
+		else if(this.position.x == checkpointD.x && this.position.y == checkpointD.y){
+
+		}
+		else
+			this.DoGoToCheckpoint('A');
+			
 	}
 	public int getXPosition(){
 		return this.position.x;

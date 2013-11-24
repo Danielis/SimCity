@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import restaurant.HostAgent;
 import restaurant.gui.Gui;
+import transportation.gui.BusGui;
+import transportation.gui.BusStopGui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -73,12 +75,19 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 
             for(Gui gui : guis) {
                     if (gui.isPresent()) {
-                           gui.draw(images);
+                    	gui.draw(images);
                     }
             }
     }
     public void addGui(PersonGui gui) {
-            guis.add(gui);
+    	guis.add(gui);
+    }
+
+    public void addGui(BusGui gui) {
+    	guis.add(gui);
+    }
+    public void addGui(BusStopGui gui) {
+    	guis.add(gui);
     }
 
 }

@@ -9,6 +9,7 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+
 import roles.Building;
 import roles.Restaurant;
 import housing.guis.HousingGui;
@@ -17,6 +18,13 @@ import bank.gui.BankGui;
 import market.Market;
 import market.gui.MarketGui;
 import city.PersonAgent;
+
+
+import transportation.BusAgent;
+import transportation.BusStopAgent;
+import transportation.TransportationCompanyAgent;
+import transportation.gui.BusGui;
+import transportation.gui.BusStopGui;
 
 
 
@@ -74,12 +82,20 @@ public class CityGui extends JFrame implements ActionListener {
     //Functionality buttons
     private JButton pauseButton;
     private JButton refreshButton;
+
+//    private JPanel ButtonPanel;
+ //   private JButton MrKrabsButton;
+  //  private ImageIcon MrKrabs;
+   // private JButton RamsayButton;
+    //private ImageIcon Ramsay;
+       
     Boolean isPaused = false;
     
     //CONSTRUCTOR
     public CityGui() {
         int WINDOWX = 500;
         int WINDOWY = 500;
+
         
         //Set the City Gui's specifications
        	this.setVisible(true);
@@ -144,6 +160,7 @@ public class CityGui extends JFrame implements ActionListener {
         add(cityAnimationPanel, BorderLayout.CENTER);
         add(RestaurantPortion, BorderLayout.EAST);
         
+
         //City Element Creation
         createRestaurant("Norman's Restaurant", "Norman");
         createBank("Aleena's Bank");
@@ -188,7 +205,6 @@ public class CityGui extends JFrame implements ActionListener {
 			public void mouseExited(MouseEvent arg0) {}
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
-
 
         });   
     }
@@ -313,13 +329,47 @@ public class CityGui extends JFrame implements ActionListener {
         }
 }
     
-   //Main Function - Sets up the program
+    //Main Function - Sets up the program
     public static void main(String[] args) 
     {    	  	
-	      CityGui gui = new CityGui();
-	      gui.setVisible(true);
-	      
-	       }
-    
+    	CityGui gui = new CityGui();
+    	gui.setVisible(true);
+    	
+    	
+    	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+        
+    }
+    /**
+     * Main routine to get gui started
 
+    public static void main(String[] args) {    
+        RestaurantGui gui2 = new RestaurantGui();
+        gui2.setTitle("Norman's Restaurant");
+        gui2.setVisible(true);
+        gui2.setResizable(false);
+        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+
+        CityGui gui = new CityGui();
+        gui.cityPanel.setRestPanel(gui2.restPanel);
+        gui.setTitle("Team 05's City");
+        gui.setVisible(true);
+        gui.setResizable(false);
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Commands to run stuff for testing code for bus system 
+
+        gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+
+        /*
+        BankGui gui3 = new BankGui();
+        gui3.setTitle("Aleena's Bank");
+        gui3.setVisible(true);
+        gui3.setResizable(false);
+        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+
+
+    }
+     */
 }
