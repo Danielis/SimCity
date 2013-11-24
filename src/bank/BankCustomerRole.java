@@ -42,11 +42,11 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	Boolean isHappy = true;
 	
 	//Constructor
-	public BankCustomerRole(String name, String type, int i, double money){
+	public BankCustomerRole(String name, String type, double bankAmount, double money){
 		super();
 		this.name = name;
 		state = bankCustomerState.outside;
-		amount = i;
+		amount = bankAmount;
 		balance = money;
 		
 		if (type.equals("New Account"))
@@ -90,7 +90,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 
 	public void BankIsClosed(){
 		state = bankCustomerState.done;
-		//customerGui.setSpeechBubble("oksadcust");
+		isHappy = false;
 		stateChanged();
 	}
 	

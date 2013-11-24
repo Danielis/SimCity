@@ -145,10 +145,10 @@ public class PersonGui implements Gui{
 		return isHungry;
 	}
 	
-	public void setNeedsMoney(Boolean b)
+	public void setNeedsMoney(Boolean b, String purpose, double amt)
 	{
 		this.needsmoney = b;
-		agent.msgGoToBank();
+		agent.msgGoToBank(purpose, amt);
 		setPresent(true);
 	}
 	

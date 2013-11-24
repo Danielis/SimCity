@@ -20,6 +20,7 @@ import roles.Role;
 import market.*;
 import market.interfaces.MarketCustomer;
 
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -49,6 +50,12 @@ public class PersonAgent extends Agent implements Person
 
 	public CityAnimationPanel copyOfCityAnimPanel;	
 	public RestaurantPanel restPanel;
+	
+	
+	String bankPurpose;
+	double bankAmount;
+	
+	
 
 
 	public PersonAgent(String name){
@@ -276,8 +283,10 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-	public void msgGoToBank()
+	public void msgGoToBank(String purpose, double amt)
 	{
+		bankPurpose = purpose;
+		bankAmount = amt;
 		print("Going to bank");
 		Status.setDestination(destination.bank);
 		Status.setMoneyStatus(bankStatus.withdraw);
@@ -480,7 +489,7 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
-		BankCustomerRole c = new BankCustomerRole(this.getName(), "New Account", 20, money);
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

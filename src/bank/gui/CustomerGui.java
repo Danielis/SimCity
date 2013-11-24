@@ -177,9 +177,9 @@ public class CustomerGui implements Gui{
 	{
 		//System.out.println("draw called");
 		Graphics2D newG = (Graphics2D)g;
-		//if (isPresent)
-			//newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
-		newG.drawImage(imgTrainer, 20, 20, agent.copyOfAnimPanel);
+		if (isPresent)
+			newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
+		//newG.drawImage(imgTrainer, 20, 20, agent.copyOfAnimPanel);
 
 
 		if (showSpeechBubble){
