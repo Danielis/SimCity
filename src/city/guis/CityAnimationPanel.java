@@ -37,6 +37,8 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 	BufferedImage cloud2;
 	BufferedImage cloud3;
 	
+	int ticker = 0;
+	
     public class Coordinate
     {
     	int x;
@@ -93,8 +95,10 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 
     public void paintComponent(Graphics g) {
 
+    		//if (ticker % 5 == 0)
     		updateClouds();
 
+    		//ticker++;
     		Graphics2D images = (Graphics2D)g;
     	
     		Graphics2D City = (Graphics2D)g;
@@ -133,9 +137,9 @@ public class CityAnimationPanel extends JPanel implements ActionListener
     
     public void updateClouds()
     {
-    	c_position1.x -= 2;
+    	c_position1.x -= 1;
     	c_position2.x -= 3;
-    	c_position3.x -= 4;
+    	c_position3.x -= 2;
 		if (c_position1.x < -300)
 		{
 			c_position1.x = 800;

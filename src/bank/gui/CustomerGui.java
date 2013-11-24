@@ -33,7 +33,7 @@ public class CustomerGui implements Gui{
 	//self agent
 	private BankCustomer agent = null;
 	
-	int move;
+	int move = 0;
 
 	//private HostAgent host;
 	BankGui gui;
@@ -60,7 +60,7 @@ public class CustomerGui implements Gui{
 	Coordinate speechBubbleLoc;
 	
 
-	String direct;
+	String direct = "up";
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -102,51 +102,52 @@ public class CustomerGui implements Gui{
         	if (position.x > destination.x){
                 position.x -= (1 + deltax/deltadivider);
                 direct = "left";
-                setImage();
+                setImage(false);
                 move++;
             }
             else if (position.y < destination.y){
                 position.y += (1 + deltay/deltadivider);
                 direct = "down";
-                setImage();
+                setImage(false);
                 move++;
             }
             else if (position.y > destination.y){
                 position.y -= (1 + deltay/deltadivider);
                 direct = "up";
-                setImage();
+                setImage(false);
                 move++;
             }
             else if (position.x < destination.x){
                 position.x += (1 + deltax/deltadivider);
                 direct = "right";
-                setImage();
+                setImage(false);
                 move++;
             }
 
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;
-            	setUpImage();
+            	setImage(true);
             	agent.DoneWithAnimation();
             }
             
     	}
 	}
 	
-	private void setImage(){
+	private void setImage(Boolean noMove){
 		String start = "/resources/bankSprites/";
 		String mid = direct;
 		String num = "0";
-		String end = "left.png";
-		if (move < 30)
-			num = "1";
-        else if (move < 60)
+		String end = ".png";
+		if (move >= 50 || noMove){
+			num = "0";
+			move = 0;
+		}
+        else if (move < 25)
         	num = "2";
-        else if (move >= 60){
-        	num = "0";
-        	move = 0;
-        }
+        else if (move < 50)
+        	num = "1";
+    
        
 		String collapse = start + mid + num + end;
 		 try
