@@ -50,6 +50,8 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
     int HOST_X = 80+5;
     int HOST_Y = 30-10;
     
+    private BufferedImage imgRestaurant;
+    
     //private Image bufferImage;
     //private Dimension bufferSize;
 
@@ -60,7 +62,11 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
     	setSize(WINDOWX_ANIM, WINDOWY_ANIM);
         setVisible(true);
         
-        //bufferSize = this.getSize();
+        try
+	       {
+			 imgRestaurant = ImageIO.read(getClass().getResource("/resources/restaurant.png"));
+	       } catch (IOException e ) {}
+        
         
     	Timer timer = new Timer(20, this );
     	timer.start();
@@ -71,7 +77,7 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
 	}
 
     public void paintComponent(Graphics g) {
-    	
+
         Graphics2D carpet = (Graphics2D)g;
         Graphics2D entrance = (Graphics2D)g;
         Graphics2D waitingcarpet = (Graphics2D)g;
@@ -147,6 +153,9 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
         g3.fillRect(350, TABLES_Y, TABLESIZE, TABLESIZE);
         g4.setColor(brown);
         g4.fillRect(450, TABLES_Y, TABLESIZE, TABLESIZE);
+        
+    	Graphics2D Res = (Graphics2D)g;
+    	Res.drawImage(imgRestaurant, 0, 0, this);
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {

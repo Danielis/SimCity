@@ -22,6 +22,8 @@ public class CookGui implements Gui{
 	private boolean goingSomewhere = false;
 	private boolean isPresent = true;
 	
+	private int movementTicker = 0;
+	
 	//finals
 	private final int cookSize = 20;
 	private final int deltadivider = 100;
@@ -44,9 +46,16 @@ public class CookGui implements Gui{
 	BufferedImage imgChicken;
 	BufferedImage imgSalad;
 	BufferedImage imgPizza;
+	
+	BufferedImage imgCook;
 
 	public CookGui(CookAgent c, RestaurantGui gui)
 	{
+		try
+        {
+        	imgCook = ImageIO.read(getClass().getResource("/resources/cook.png"));
+        } catch (IOException e ) {}
+		
         try
         {
         	imgSteak = ImageIO.read(getClass().getResource("/resources/steak.png"));
@@ -70,10 +79,10 @@ public class CookGui implements Gui{
         
 		agent = c;
 		this.gui = gui;
-		position = new Coordinate(450,125);
+		position = new Coordinate(450,110);
     	fridge = new Coordinate(370, 65);
     	grill = new Coordinate(540,85);
-    	platingarea = new Coordinate(450,125);  	
+    	platingarea = new Coordinate(450,10);  	
     	
     	destination = platingarea;
 
@@ -95,6 +104,28 @@ public class CookGui implements Gui{
     		y = b;
     	}
     }
+    
+    private void setAnim1() {
+		 try
+	       {
+			 imgCook = ImageIO.read(getClass().getResource("/resources/cook_1.png"));
+	       } catch (IOException e ) {}
+	}
+	
+	private void setAnim2() {
+		 try
+	       {
+			 imgCook = ImageIO.read(getClass().getResource("/resources/cook_2.png"));
+	       } catch (IOException e ) {}
+	}
+	
+	private void setDefault() {
+		 try
+	       {
+			 imgCook = ImageIO.read(getClass().getResource("/resources/cook.png"));
+	       } catch (IOException e ) {}
+	}
+    
 	public void updatePosition() {
 		if (goingSomewhere)
     	{
@@ -107,14 +138,39 @@ public class CookGui implements Gui{
         	if (deltay < 0) deltay *= -1;
         	
             if (position.x < destination.x)
+            {
                 position.x += (1 + deltax/deltadivider);
+                movementTicker++;
+            }
             else if (position.x > destination.x)
+            {
                 position.x -= (1 + deltax/deltadivider);
+                movementTicker++;
+            }
 
             if (position.y < destination.y)
+            {
                 position.y += (1 + deltay/deltadivider);
+                movementTicker++;
+            }
             else if (position.y > destination.y)
+            {
                 position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
+            }
+            
+            if (movementTicker < 30)
+            {
+            	setAnim1();
+            }
+            else if (movementTicker < 60)
+            {
+            	setAnim2();
+            }
+            else if (movementTicker >= 60)
+            {
+            	movementTicker = 0;
+            }
             
 
             if (position.x == destination.x && position.y == destination.y)
@@ -123,14 +179,17 @@ public class CookGui implements Gui{
             	agent.DoneWithAnimation();
             }
     	}
+		else
+			setDefault();
 	}
 
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		Color cookColor = new Color(193, 218, 214);
-		newG.setColor(cookColor);
-		newG.fillRect(position.x, position.y, cookSize, cookSize);
+		//Color cookColor = new Color(193, 218, 214);
+		//newG.setColor(cookColor);
+		//newG.fillRect(position.x, position.y, cookSize, cookSize);
+		newG.drawImage(imgCook, position.x, position.y, agent.copyOfAnimPanel);
 		
 		Graphics2D graphic = (Graphics2D)g;
 		Coordinate temp_c = new Coordinate(390,145);
