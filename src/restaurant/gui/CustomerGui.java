@@ -118,6 +118,29 @@ public class CustomerGui implements Gui{
     		y = b;
     	}
     }
+    
+//	private void setAnim1() {
+//		 try
+//	        {
+//	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/customer_1.png"));
+//	        } catch (IOException e ) {}
+//	}
+//
+//	private void setAnim2() {
+//		 try
+//	        {
+//	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/customer_2.png"));
+//	        } catch (IOException e ) {}
+//	}
+//
+//	private void setDefault() {
+//		 try
+//	        {
+//	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/customer.png"));
+//	        } catch (IOException e ) {}
+//		
+//	}
+
 	public void updatePosition() {
 		if (goingSomewhere)
     	{

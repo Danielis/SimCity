@@ -2,6 +2,7 @@ package restaurant;
 
 import agent.Agent;
 import agent.RestaurantMenu;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
 import roles.Restaurant;
@@ -19,6 +20,8 @@ public class WaiterAgent extends Agent implements Waiter {
 	public CookAgent cook;
 	public Cashier cashier;
 	public WaiterGui waiterGui;
+	
+	public RestaurantAnimationPanel copyOfAnimPanel;
 	
 	//List of foods remaining
 	public List<Boolean> foodsAvailable = new ArrayList<Boolean>();
@@ -62,6 +65,11 @@ public class WaiterAgent extends Agent implements Waiter {
 		{
 			foodsAvailable.add(temp.get(i));
 		}
+	}
+	
+	public void setAnimPanel(RestaurantAnimationPanel panel)
+	{
+		copyOfAnimPanel = panel;
 	}
 	
 	public void setHost(HostAgent host) {

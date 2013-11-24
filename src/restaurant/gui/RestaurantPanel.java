@@ -207,6 +207,7 @@ public class RestaurantPanel extends JPanel
 			gui.animationPanel.addGui(g);
 			w.setHost(host);
 			host.msgNewWaiter(w);
+			w.setAnimPanel(gui.animationPanel);
 			w.setCook(cook);
 			w.setCashier(cashier);
 			w.setGui(g);
@@ -218,6 +219,7 @@ public class RestaurantPanel extends JPanel
 			WaiterGui g = new WaiterGui(w, gui, waiterindex);
 			gui.animationPanel.addGui(g);
 			w.setHost(host);
+			w.setAnimPanel(gui.animationPanel);
 			host.msgNewWaiter(w);
 			w.setCook(cook);
 			w.setCashier(cashier);
