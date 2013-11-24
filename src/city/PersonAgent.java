@@ -112,6 +112,16 @@ public class PersonAgent extends Agent implements Person
 			return bank;
 		}
 		
+		public void setHousingStatus(houseStatus state)
+		{
+			house = state;
+		}
+		
+		public houseStatus getHousingStatus()
+		{
+			return house;
+		}
+		
 		public void setLocation(location state)
 		{
 			loc = state;
@@ -134,15 +144,15 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	//Enum States
-	enum nourishment{notHungry,Hungry,goingToFood} // may not need goingToFood
-	enum location{outside,home,restaurant,bank,market,transportation,work}
-	enum destination{outside,home,restaurant,bank,market,transportation,work}
-	enum workStatus{notWorking,working,onBreak,goingToWork}
-	enum bankStatus{nothing,withdraw,deposit,owe,goingToBank}
-	enum houseStatus{notHome,home,noHome,goingHome} //no home may be used for deadbeats
-	enum marketStatus{nothing,buying,waiting}
+	enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
+	enum location		{outside,home,restaurant,bank,market,transportation,work}
+	enum destination	{outside,home,restaurant,bank,market,transportation,work}
+	enum workStatus		{notWorking,working,onBreak,goingToWork}
+	enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
+	enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
+	enum marketStatus	{nothing,buying,waiting}
 	enum transportStatus{nothing, walking,car,bus}
-	enum morality{good,bad} // may be used for theifs later on for non-norms
+	enum morality		{good,bad} // may be used for theifs later on for non-norms
 	//other potentials: rent, 
 
 	
@@ -199,23 +209,28 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
-	
-	/*
+
 	//Housing
-	//Passes an inactive role which contains location and otherinfo needed later
 	public void msgGoToHome(Role r){
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don’t need to add role.
-	    Status.setHouse(houseStatus.goingHome);
+	    Status.setHousingStatus(houseStatus.goingHome);
+	    Status.setDestination(destination.home);
+	    gui.setPresent(false);
 	    stateChanged();
 	}
+	
 	public void msgLeavingHome(Role r){
-	    r.setInactive();
-	    Status.setLoc(location.outside);
-	    Status.setDes(destination.outside);
-	    Status.setHouse(houseStatus.notHome);
-	    gui.isVisible();
+	    r.setActivity(false);
+	    Status.setLocation(location.outside);
+	    Status.setDestination(destination.outside);
+	    Status.setNourishment(nourishment.notHungry);
+	    gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('A');
+		roles.remove(r);
 	    stateChanged();
-	}*/
+	}
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
@@ -226,8 +241,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	public void msgLeavingRestaurant(Role r){
-	//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
-	    r.setActivity(false);
+		r.setActivity(false);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setNourishment(nourishment.notHungry);
