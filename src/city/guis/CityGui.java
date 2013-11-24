@@ -17,11 +17,6 @@ import bank.Bank;
 import bank.gui.BankGui;
 import city.PersonAgent;
 
-
-
-
-
-
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -67,6 +62,7 @@ public class CityGui extends JFrame implements ActionListener {
     //Useful Checkboxes
     private JCheckBox personHungryCheckBox;
     private JCheckBox personNeedsMoneyCheckBox;
+    private JCheckBox personHousingCheckBox;
 
     //Copy of the current person
     private PersonAgent currentPerson;
@@ -119,18 +115,26 @@ public class CityGui extends JFrame implements ActionListener {
         personInformationPanel.setMinimumSize(infoDimCustomer);
         personInformationPanel.setMaximumSize(infoDimCustomer);
         personInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
+        
         personHungryCheckBox = new JCheckBox();
         personHungryCheckBox.setVisible(false);
         personHungryCheckBox.addActionListener(this);
+        
         personNeedsMoneyCheckBox = new JCheckBox();
         personNeedsMoneyCheckBox.setVisible(false);
         personNeedsMoneyCheckBox.addActionListener(this);
-        personInformationPanel.setLayout(new BorderLayout());
+        
+        personHousingCheckBox = new JCheckBox();
+        personHousingCheckBox.setVisible(false);
+        personHousingCheckBox.addActionListener(this);
+        
+        personInformationPanel.setLayout(new GridLayout(0,1,1,1));
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
-        personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
-        personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
-        personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.SOUTH);
+        personInformationPanel.add(infoCustomerLabel);
+        personInformationPanel.add(personHungryCheckBox);
+        personInformationPanel.add(personNeedsMoneyCheckBox);
+        personInformationPanel.add(personHousingCheckBox);
         RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
         InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
@@ -143,6 +147,7 @@ public class CityGui extends JFrame implements ActionListener {
         //City Element Creation
         createRestaurant("Norman's Restaurant", "Norman");
         createBank("Aleena's Bank");
+        createApartment("The Chris Apartment Complex");
         
         //Mouse Listener for the coordinates
         cityAnimationPanel.addMouseListener(new MouseListener() {
@@ -302,11 +307,13 @@ public class CityGui extends JFrame implements ActionListener {
 	      CityGui gui = new CityGui();
 	      gui.setVisible(true);
 	      
+	      /*
 	      MarketGui gui4 = new MarketGui();
           gui4.setTitle("Market");
           gui4.setVisible(true);
           gui4.setResizable(false);
           gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);   
+          */
     }
     
 

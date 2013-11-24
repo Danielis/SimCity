@@ -6,6 +6,7 @@ import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
+import housing.interfaces.HousingCustomer;
 
 import javax.swing.*;
 
@@ -34,7 +35,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	private List<JButton> listForWorkers = new ArrayList<JButton>();
 	private JButton addPersonButton = new JButton("Add");
 	private JTextField nameFieldForPerson = new JTextField("");
-	private HousingCustomerAgent currentTenant;
+	private HousingCustomer currentTenant;
 	private HousingCustomerAgent lastPersonClicked;
 	private HousingWorkerAgent currentWorker;
 
@@ -108,6 +109,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	 * @param name name of new person
 	 */
 
+	/*
 	public void addTenant(String name) {
 		if (name != null) {
 			JButton button = new JButton(name);
@@ -125,6 +127,23 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			housingPanel.showTenantInfo(name);
 			validate();
 		}
+	}*/
+	
+	public void addTenant(HousingCustomer c) {
+			JButton button = new JButton(c.getName());
+			button.setBackground(Color.white);
+			Dimension paneSize = personPane.getSize();
+			Dimension buttonSize = new Dimension(paneSize.width - 20,
+					(int) (paneSize.height / 10));
+			button.setPreferredSize(buttonSize);
+			button.setMinimumSize(buttonSize);
+			button.setMaximumSize(buttonSize);
+			button.addActionListener(this);
+			listForTenants.add(button);
+			viewForTenant.add(button);
+			housingPanel.addTenant(c, (listForTenants.size()-1));
+			housingPanel.showTenantInfo(c);
+			validate();
 	}
 	
 	public void addWorker(String name) {
@@ -156,7 +175,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 
 	//this is where I got to.  When a button is pressed, this method is invoked.  
 	//need two checkboxes.  one for broken stuff, one for eating
-	public void updateTenant(HousingCustomerAgent temp)
+	public void updateTenant(HousingCustomer temp)
 	{
 		currentTenant = temp;
 	}

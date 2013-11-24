@@ -1,6 +1,7 @@
 package housing.guis;
 
 import housing.HousingCustomerAgent;
+import housing.interfaces.HousingCustomer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -24,7 +25,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	private final int deltadivider = 100;
 
 	//self agent
-	private HousingCustomerAgent agent = null;
+	private HousingCustomer agent = null;
 
 	//private HostAgent host;
 	HousingGui gui;
@@ -42,7 +43,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	//images
 	//List of tables
 
-	public HousingCustomerGui(HousingCustomerAgent c, HousingGui gui3, int n){
+	public HousingCustomerGui(HousingCustomer c, HousingGui gui3, int n){
 
 		roomIndex = n;
 

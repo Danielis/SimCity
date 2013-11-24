@@ -12,6 +12,7 @@ import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
 import bank.interfaces.BankCustomer;
+import roles.Apartment;
 import roles.Building;
 import roles.Building.buildingType;
 import roles.CustomerRole;
@@ -26,6 +27,9 @@ import roles.Role;
 
 
 
+
+
+import housing.HousingCustomerRole;
 
 
 //Utility Imports
@@ -212,7 +216,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Housing
 	public void msgGoToHome(Role r){
-	    Status.setHousingStatus(houseStatus.goingHome);
+	    Status.setHousingStatus(houseStatus.needsToGo);
 	    Status.setDestination(destination.home);
 	    gui.setPresent(false);
 	    stateChanged();
@@ -220,15 +224,15 @@ public class PersonAgent extends Agent implements Person
 	
 	public void msgLeavingHome(Role r){
 	    r.setActivity(false);
+		roles.remove(r);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
-	    Status.setNourishment(nourishment.notHungry);
+	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
 		gui.DoGoToCheckpoint('D');
-		gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
-		roles.remove(r);
+//		gui.DoGoToCheckpoint('C');
+//		gui.DoGoToCheckpoint('B');
+//		gui.DoGoToCheckpoint('A');
 	    stateChanged();
 	}
 
@@ -330,17 +334,28 @@ public class PersonAgent extends Agent implements Person
 	@Override
 	protected boolean pickAndExecuteAnAction() {
 		
+		//If you're hungry and outside, go to the restaurant. Preliminary.
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 			Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
 		}
+		
+		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
 				GoToWithdrawFromBank();
 				return true;
 			}
 
+		//If for any reason you need to go home, go home.
+		if (Status.getHousingStatus() == houseStatus.needsToGo &&
+				Status.getDestination() == destination.home)
+		{
+			GoHomeToDoX();
+			return true;
+		}
+		
 		Boolean anytrue = false;
 		for(Role r : roles)
 		{
@@ -359,6 +374,37 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										ACTIONS
 	 ******************************************************************************/
+	
+	private void GoHomeToDoX()
+	{
+		Status.setHousingStatus(houseStatus.goingHome);
+		//Transportation t = ChooseTransportation();
+		gui.DoGoToCheckpoint('A');
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('C');
+		gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.home);
+		gui.setPresent(false);
+		
+		//Role terminologies
+		HousingCustomerRole c = new HousingCustomerRole(this.getName());
+		c.setPerson(this);
+		roles.add(c);
+		this.roles.get(0).setActivity(true);
+		
+		
+		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
+
+		for (Building b: buildings){
+			print(" type: " + b.getType() + " n: ");
+			if (b.getType() == buildingType.housingComplex){
+				Apartment a = (Apartment) b;
+				//a.panel.housingPanel.customerHungryCheckBox.setSelected(true);
+				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0));
+				r.panel.customerPanel.addCustomer((Customer)roles.get(0));
+			}
+		}
+	}
 	
 	private void GoToRestaurant()
 	{
@@ -440,9 +486,6 @@ public class PersonAgent extends Agent implements Person
 				r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
 			}
 		}
-		
-		
-		
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
 	

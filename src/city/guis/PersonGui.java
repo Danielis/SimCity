@@ -38,6 +38,7 @@ public class PersonGui implements Gui{
 	Coordinate checkpointB;
 	Coordinate checkpointC;
 	Coordinate checkpointD;
+	Coordinate checkpointHouse;
 	
 	Coordinate position;
 	Coordinate destination;
@@ -66,6 +67,7 @@ public class PersonGui implements Gui{
 		checkpointB = new Coordinate(395,125);
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
+		checkpointHouse = new Coordinate(536,473);
 		
 		outside = new Coordinate(700, 250);
     	position = new Coordinate(700, 250);
@@ -161,11 +163,19 @@ public class PersonGui implements Gui{
 		isPresent = p;
 	}
 	
+	public void DoGoToHouse()
+	{
+		System.out.println("Going home.");
+		goingSomewhere = true;
+		destination = checkpointHouse;
+		agent.WaitForAnimation();
+		
+	}
+	
 	public void DoGoToCheckpoint(char a)
 	{
 	      if(a == 'A' || a == 'a')
           {
-	    	  System.out.println("Got here E");
               goingSomewhere = true;
               destination = checkpointA;
               agent.WaitForAnimation();

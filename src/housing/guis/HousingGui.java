@@ -37,7 +37,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JCheckBox tenantHungryBox;
 	private JCheckBox tenantRepairBox;
 
-	private HousingCustomerAgent currentTenant;
+	private HousingCustomer currentTenant;
 	private HousingWorkerAgent currentWorker;
 
 	private JButton pauseButton;
@@ -140,7 +140,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	 *
 	 * @param temp customer (or waiter) object
 	 */
-	public void updateTenantInformationPanel(HousingCustomerAgent temp) {
+	public void updateTenantInformationPanel(HousingCustomer temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentTenant = temp;
 		tenantHungryBox.setSelected(currentTenant.hungry);
