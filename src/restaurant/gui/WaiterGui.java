@@ -138,19 +138,23 @@ public class WaiterGui implements Gui {
             if (position.x < destination.x)
             {
                 position.x += (1 + deltax/deltadivider);
+   			 	movementTicker++;
             }
             else if (position.x > destination.x)
             {
                 position.x -= (1 + deltax/deltadivider);
+   			 	movementTicker++;	
             }
 
             if (position.y < destination.y)
             {
                 position.y += (1 + deltay/deltadivider);
+                movementTicker++;
             }
             else if (position.y > destination.y)
             {
                 position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
             }
             
             if (movementTicker < 30)
