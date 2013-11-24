@@ -21,12 +21,38 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 {
     private final int WINDOWX_ANIM = 934;
     private final int WINDOWY_ANIM = 645;
+ 
     
     int RESTAURANT_X = 50;
     int RESTAURANT_Y = 100;
     int RESTAURANT_SIZE = 50;
     
     Image CityMap;
+    
+	Coordinate c_position1;
+	Coordinate c_position2;
+	Coordinate c_position3;
+	
+	BufferedImage cloud1;
+	BufferedImage cloud2;
+	BufferedImage cloud3;
+	
+    public class Coordinate
+    {
+    	int x;
+    	int y;
+    	
+    	Coordinate()
+    	{
+    		x = 0;
+    		y = 0;
+    	}
+    	Coordinate(int a, int b)
+    	{
+    		x = a;
+    		y = b;
+    	}
+    }
 
     private List<Gui> guis = new ArrayList<Gui>();
 
@@ -38,7 +64,24 @@ public class CityAnimationPanel extends JPanel implements ActionListener
             {
             	CityMap = ImageIO.read(getClass().getResource("/resources/CityMap3.png"));
             } catch (IOException e ) {}
-
+            
+            try
+            {
+            	cloud1 = ImageIO.read(getClass().getResource("/resources/cloud.png"));
+            } catch (IOException e ) {}
+            try
+            {
+            	cloud2 = ImageIO.read(getClass().getResource("/resources/cloud.png"));
+            } catch (IOException e ) {}
+            try
+            {
+            	cloud3 = ImageIO.read(getClass().getResource("/resources/cloud.png"));
+            } catch (IOException e ) {}
+            
+    		c_position1 = new Coordinate(50,50);
+    		c_position2 = new Coordinate(200,250);
+    		c_position3 = new Coordinate(450,450);
+            
             Timer timer = new Timer(20, this );
             timer.start();
          
@@ -49,6 +92,8 @@ public class CityAnimationPanel extends JPanel implements ActionListener
     }
 
     public void paintComponent(Graphics g) {
+
+    		updateClouds();
 
     		Graphics2D images = (Graphics2D)g;
     	
@@ -63,6 +108,14 @@ public class CityAnimationPanel extends JPanel implements ActionListener
             Color backgroundColor = new Color(167, 92, 86);
 
     		City.drawImage(CityMap, 0, 0, this);
+	
+			Graphics2D c1 = (Graphics2D)g;
+			Graphics2D c2 = (Graphics2D)g;
+			Graphics2D c3 = (Graphics2D)g;
+			
+			c1.drawImage(cloud1, c_position1.x, c_position1.y, this);
+			c2.drawImage(cloud2, c_position2.x, c_position2.y, this);
+			c3.drawImage(cloud3, c_position3.x, c_position3.y, this);
 
     		
             for(Gui gui : guis) {
@@ -77,6 +130,28 @@ public class CityAnimationPanel extends JPanel implements ActionListener
                     }
             }
     }
+    
+    public void updateClouds()
+    {
+    	c_position1.x -= 2;
+    	c_position2.x -= 3;
+    	c_position3.x -= 4;
+		if (c_position1.x < -300)
+		{
+			c_position1.x = 800;
+		}
+		
+		if (c_position2.x < -300)
+		{
+			c_position2.x = 800;
+		}
+		
+		if (c_position3.x < -300)
+		{
+			c_position3.x = 800;
+		}
+    }
+    
     public void addGui(PersonGui gui) {
             guis.add(gui);
     }

@@ -43,6 +43,7 @@ public class PersonGui implements Gui{
 	
 	Coordinate position;
 	Coordinate destination;
+	
 	Coordinate outside;
 	Coordinate cashier;
 	Coordinate waitingroom;
@@ -58,6 +59,7 @@ public class PersonGui implements Gui{
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
+       
 		
 		//System.out.println("Got to the persongui constructor");
 		
@@ -68,6 +70,9 @@ public class PersonGui implements Gui{
 		checkpointB = new Coordinate(395,125);
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
+		
+
+		
 		
 		outside = new Coordinate(700, 250);
     	position = new Coordinate(700, 250);
@@ -117,6 +122,7 @@ public class PersonGui implements Gui{
 	public void updatePosition() {
 		if (goingSomewhere)
     	{			
+			
         	int deltax = destination.x - position.x;
         	int deltay = destination.y - position.y;
         	
