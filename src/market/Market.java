@@ -31,7 +31,12 @@ public class Market extends Building {
 		inventory.add(new Item("Steak", 0, 13));
 		inventory.add(new Item("Salad", 100, 3));
 		inventory.add(new Item("Chicken", 100, 9));
-		inventory.add(new Item("Pizza", 100, 4));
+		inventory.add(new Item("Chicken", 100, 9));
+		inventory.add(new Item("Eggs", 100, .5));
+		inventory.add(new Item("Milk", 100, 4));
+		inventory.add(new Item("Flour", 100, 3));
+		inventory.add(new Item("Juice", 100, 6));
+		inventory.add(new Item("Pasta", 100, 3));
 		inventory.add(new Item("Car", 20, 20000)); // lol
 	}
 	

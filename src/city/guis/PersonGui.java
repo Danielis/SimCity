@@ -57,7 +57,7 @@ public class PersonGui implements Gui{
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
 		
-		System.out.println("Got to the persongui constructor");
+		//System.out.println("Got to the persongui constructor");
 		
 		agent = c;
 		this.gui = gui2;

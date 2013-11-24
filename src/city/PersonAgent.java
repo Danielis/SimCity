@@ -135,6 +135,27 @@ public class PersonAgent extends Agent implements Person
 			quantity = q;
 		}
 	}
+	
+	public void addItem(List<Item> inv, String item, int q){
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity += q;
+				print("I now have " + i.quantity + " " + i.type);
+				return;
+			}
+		}
+		inv.add(new Item(item, q));
+		print("I now have " + q + " " + item);
+	}
+	
+	public void removeItem(List<Item> inv, String item, int q){
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity -= q;
+				print("I now have " + i.quantity + " " + i.type);
+			}
+		}
+	}
 
 	//Enum States
 	enum nourishment{notHungry,Hungry,goingToFood} // may not need goingToFood
@@ -289,6 +310,7 @@ public class PersonAgent extends Agent implements Person
 	public void msgLeavingMarket(MarketCustomerRole r, double balance, String item, int quantRec) {
 		print("Left market.");
 		money = balance;
+		addItem(inventory, item, quantRec);
 		r.setActivity(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);

@@ -275,7 +275,7 @@ public enum myState
 	}
 	
 	private void GiveItems(MyOrder o){
-		print(" here is ur order");
+		print("Here is your order: " + o.quantity + " of " + o.item);
 		o.s = orderState.done;
 		o.c.HereIsOrder(o.item, o.quantity);
 	}

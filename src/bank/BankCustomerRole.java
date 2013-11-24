@@ -106,7 +106,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 public void msgWantsTransaction(){
 		state = bankCustomerState.outside;
-		print("rec msg");
+		//print("rec msg");
 		stateChanged();
 	}
 
@@ -198,7 +198,7 @@ public void WantAccount(){
 //SCHEDULER*************************************************
 	public boolean pickAndExecuteAnAction() 
 	{
-		print("reached sched");
+	//	print("reached sched");
 		if (state == bankCustomerState.outside){
 			GoToBank();
 			return true;
