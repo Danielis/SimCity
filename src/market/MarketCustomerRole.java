@@ -53,11 +53,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		state = marketCustomerState.outside;
 	}
 	
-	public MarketCustomerRole(String name, String item, int quant, double money) {
+	public MarketCustomerRole(String name, String item, double marketQuantity, double money) {
 		super();
 		this.name = name;
 		this.item = item;
-		quantityWanted = quant;
+		quantityWanted = (int) marketQuantity;
 		balance = money;
 		state = marketCustomerState.outside;
 	}

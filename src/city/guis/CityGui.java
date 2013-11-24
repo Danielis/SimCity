@@ -81,7 +81,6 @@ public class CityGui extends JFrame implements ActionListener {
 
     //Useful Checkboxes
     private JCheckBox personHungryCheckBox;
-    private JCheckBox personWantsToShop;
     
     //Copy of the current person
     private PersonAgent currentPerson;
@@ -100,13 +99,13 @@ public class CityGui extends JFrame implements ActionListener {
     private JPanel bankPanel = new JPanel();
     private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
     private JComboBox transactionList = new JComboBox(transactions);
-    private JButton bankGo = new JButton("Bank");
+    private JButton bankGo = new JButton("Go");
     private JTextField amountInput = new JTextField("");
     
     private JPanel marketPanel = new JPanel();
     String[] marketTransactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
     JComboBox marketList = new JComboBox(marketTransactions);
-    private JButton marketGo = new JButton("Market");
+    private JButton marketGo = new JButton("Go");
     private JTextField marketQ = new JTextField("");
    
     
@@ -116,11 +115,11 @@ public class CityGui extends JFrame implements ActionListener {
     JComboBox housingList = new JComboBox(housingOptions);
     String[] foodOptions = { "Pasta", "Chicken", "Eggs" };
     JComboBox foodList = new JComboBox(foodOptions);
-    private JButton housingGo = new JButton("Housing");
+    private JButton housingGo = new JButton("Go");
     
     
     private JPanel restaurantPanel = new JPanel(); 
-    private JButton restaurantGo = new JButton("Restaurant");
+    private JButton restaurantGo = new JButton("Go");
     
     
     // ************ END FUNCTION PANEL *********************
@@ -129,6 +128,9 @@ public class CityGui extends JFrame implements ActionListener {
     public CityGui() {
         int WINDOWX = 500;
         int WINDOWY = 500;
+        
+        
+ 
         
         //Set the City Gui's specifications
        	this.setVisible(true);
@@ -215,7 +217,8 @@ public class CityGui extends JFrame implements ActionListener {
 		housingPanel.setLayout(new FlowLayout());
 		housingPanel.setBorder(housingTitle);
 		housingPanel.add(housingList);
-		housingPanel.add(foodList);
+		//housingPanel.add(foodList);
+		foodList.setEnabled(false);
 		housingPanel.add(housingGo);
 		
 			
@@ -224,13 +227,12 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
 		
-		
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
 		restaurantGo.addActionListener(this);
 		
-		
+		housingList.addActionListener(this);
         
         
         
@@ -251,9 +253,6 @@ public class CityGui extends JFrame implements ActionListener {
         personHungryCheckBox = new JCheckBox();
         personHungryCheckBox.setVisible(false);
         personHungryCheckBox.addActionListener(this);
-        personWantsToShop = new JCheckBox();
-        personWantsToShop.setVisible(false);
-        personWantsToShop.addActionListener(this);
         personInformationPanel.setLayout(new BorderLayout());
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
@@ -262,7 +261,6 @@ public class CityGui extends JFrame implements ActionListener {
         
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
         personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
-        personInformationPanel.add(personWantsToShop, BorderLayout.SOUTH);
         RestaurantPortion.add(cityPanel, BorderLayout.EAST);
         RestaurantPortion.add(functionPanel, BorderLayout.CENTER);
         
@@ -339,17 +337,16 @@ public class CityGui extends JFrame implements ActionListener {
 
     public void updatePersonInformationPanel(PersonAgent temp) {
         personHungryCheckBox.setVisible(true);
-        personWantsToShop.setVisible(true);
         currentPerson = temp;
         PersonAgent person = temp;
         personHungryCheckBox.setText("Hungry?");
-        personWantsToShop.setText("Shop?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
-        personWantsToShop.setSelected(person.getGui().needsMoney());
-        personWantsToShop.setEnabled(!person.getGui().needsMoney());
+        silenceButtons();
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
+
+		
         personInformationPanel.validate();
     }
     
@@ -361,27 +358,28 @@ public class CityGui extends JFrame implements ActionListener {
 	        personHungryCheckBox.setSelected(currentPerson.getGui().isHungry());
 	        personHungryCheckBox.setEnabled(!currentPerson.getGui().isHungry());
 	      
-	        personWantsToShop.setSelected(currentPerson.getGui().needsMoney());
-	        personWantsToShop.setEnabled(!currentPerson.getGui().needsMoney());
+	        
+	        silenceButtons();
+	        
 	        personInformationPanel.validate();
     	}
     }
     
+    private void silenceButtons(){
+    	bankGo.setEnabled(!currentPerson.getGui().getBusy());
+   	 	marketGo.setEnabled(!currentPerson.getGui().getBusy());
+        housingGo.setEnabled(!currentPerson.getGui().getBusy());
+        restaurantGo.setEnabled(!currentPerson.getGui().getBusy());
+    }
     //Action Listener
     public void actionPerformed(ActionEvent e) {
     
-        if (e.getSource() == personHungryCheckBox) 
+    	if (currentPerson != null){
+        if (e.getSource() == restaurantGo) 
         {
             PersonAgent c = (PersonAgent) currentPerson;
             c.getGui().setHungry();
-            personHungryCheckBox.setEnabled(false);
-        }
-       
-        if (e.getSource() == personWantsToShop)
-        {
-        	PersonAgent c = (PersonAgent) currentPerson;
-        	c.getGui().setShop(true);
-        	personWantsToShop.setEnabled(false);
+            silenceButtons();
         }
         if (e.getSource() == bankGo)
         {
@@ -390,18 +388,50 @@ public class CityGui extends JFrame implements ActionListener {
         
 	        	String purpose = transactionList.getSelectedItem().toString();
 	        	
-	        	if (purpose.equals("New Account"))
+	        	if (purpose.equals("New Account")){
 	        		c.getGui().setNeedsMoney(true, purpose, 0);
+	        	}
 	        	else if (!amountInput.getText().isEmpty()){
 	        		String amtTemp = amountInput.getText();
 		        	double amt = Double.parseDouble(amtTemp);
 		        	amt = Math.round(amt * 100) / 100.0d;
 	        		c.getGui().setNeedsMoney(true, purpose, amt);
 	        	}
+	        	silenceButtons();
+        }
+        if (e.getSource() == housingGo)
+        {
         	
-        	//bankGo.setEnabled(false);
+        		PersonAgent c = (PersonAgent) currentPerson;
+        		String purpose = housingList.getSelectedItem().toString();
+	        	//c.getGui().HOUSING CALL(true, purpose);
+	        	//silenceButtons();
         }
         
+        if (e.getSource() == marketGo)
+        {
+        	
+        	PersonAgent c = (PersonAgent) currentPerson;
+        
+        	if (!marketQ.getText().isEmpty()){
+        		String item = marketList.getSelectedItem().toString();
+        		String quantityStr = marketQ.getText();
+	        	double quantity = Double.parseDouble(quantityStr);
+	        	quantity = Math.round(quantity * 1) / 1d;
+	        	c.getGui().setShop(true, item, quantity);
+        	}
+        	
+	        	silenceButtons();
+        }
+        
+        if (e.getSource() == marketList)
+        {
+        	if (marketList.getSelectedItem().toString().equals("Cook")){
+        		foodList.setEnabled(true);
+        	}
+        	if (marketList.getSelectedIndex() == 2)
+        		foodList.setEnabled(true);
+        }
         if (e.getSource() == pauseButton)
         {
         	if (isPaused)
@@ -421,6 +451,7 @@ public class CityGui extends JFrame implements ActionListener {
         {
         	cityPanel.refresh();
         }
+    	}
     }
     
     //Resturant Creation
@@ -454,6 +485,7 @@ public class CityGui extends JFrame implements ActionListener {
         {
             personHungryCheckBox.setEnabled(true);
             personHungryCheckBox.setSelected(false);
+            silenceButtons();
         }
 }
     

@@ -21,6 +21,8 @@ import market.*;
 import market.interfaces.MarketCustomer;
 
 
+
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -52,7 +54,8 @@ public class PersonAgent extends Agent implements Person
 	public RestaurantPanel restPanel;
 	
 	
-	String bankPurpose;
+	String bankPurpose, marketPurpose;
+	double marketQuantity;
 	double bankAmount;
 	
 	
@@ -299,6 +302,7 @@ public class PersonAgent extends Agent implements Person
 		print("Left bank.");
 		money = balance;
 		r.setActivity(false);
+		gui.setBusy(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
@@ -307,8 +311,10 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 	
-	public void msgGoToMarket()
+	public void msgGoToMarket(String purpose, double quantity)
 	{
+		marketPurpose = purpose;
+		marketQuantity = quantity;
 		print("Going to market");
 		Status.setDestination(destination.market);
 		Status.market = marketStatus.buying;
@@ -321,10 +327,12 @@ public class PersonAgent extends Agent implements Person
 		money = balance;
 		addItem(inventory, item, quantRec);
 		r.setActivity(false);
+		gui.setBusy(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
 		gui.DoGoToCheckpoint('D');
+		gui.setBusy(false);
 		roles.remove(r);
 		stateChanged();
 	}
@@ -521,7 +529,7 @@ public class PersonAgent extends Agent implements Person
 		print("At market entrance");
 		gui.setPresent(false);
 		
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), "Eggs", 4, money);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, money);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
