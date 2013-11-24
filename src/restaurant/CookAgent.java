@@ -21,7 +21,7 @@ public class CookAgent extends Agent {
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	public List<Foods> inventory = Collections.synchronizedList(new ArrayList<Foods>());
 	List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
-	
+		
 	//Variables
 	private String name;
 	Timer timer;
@@ -108,6 +108,11 @@ public class CookAgent extends Agent {
 	public void setMarkets(MarketAgent m)
 	{
 		markets.add(new MyMarket(m));
+	}
+	
+	public void setAnimPanel(RestaurantAnimationPanel panel)
+	{
+		copyOfAnimPanel = panel;
 	}
 	
 	public void setGui(CookGui g) {

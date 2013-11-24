@@ -80,13 +80,13 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 	private class MyOrder{
 	    String item;
 	    orderState s;
-	    MarketCustomerAgent c;
+	    MarketCustomerRole c;
 	    int quantity;
 	    double price;
 	    Boolean delivery;
 	   // Building b; //only if delivery == true
 	    
-	    MyOrder(MarketCustomerAgent c, String i, int q){
+	    MyOrder(MarketCustomerRole c, String i, int q){
 	    	item = i;
 	    	this.c = c;
 	    	quantity = q;
@@ -100,7 +100,7 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 	
 
 private class MyCustomer{
-	    MarketCustomerAgent c;
+	MarketCustomerRole c;
 	}
 
 	
@@ -111,12 +111,12 @@ public enum myState
 
 //MESSAGES****************************************************
 
-	public void GiveOrder(MarketCustomerAgent c, String item, int q){
+	public void GiveOrder(MarketCustomerRole c, String item, int q){
 		myOrders.add(new MyOrder(c, item, q));
 		stateChanged();
 	}
 	
-	public void GivePayment(MarketCustomerAgent c, double amount){
+	public void GivePayment(MarketCustomerRole c, double amount){
 		for (MyOrder o : myOrders){
 			if (o.c == c && o.s != orderState.done){
 				market.balance += amount;
@@ -126,7 +126,7 @@ public enum myState
 		}
 	}
 	
-	public void PleaseFulfill(MarketCustomerAgent c){
+	public void PleaseFulfill(MarketCustomerRole c){
 		for (MyOrder o : myOrders){
 			if (o.c == c && o.s != orderState.done){
 				o.s = orderState.readyFulfill;
@@ -220,22 +220,29 @@ public enum myState
 //ACTIONS********************************************************
 
 	private void CheckInventory(MyOrder o){
-		if(market.Amount(o.item) >= o.quantity)
-			GivePrice(o);
-		else if(market.Amount(o.item) > 0){
-			print("We only have enough for partial order...");
-			o.quantity = market.Amount(o.item);
-			GivePrice(o);
+		if (market.DoesStock(o.item)){
+			if(market.Amount(o.item) >= o.quantity)
+				GivePrice(o);
+			else if(market.Amount(o.item) > 0){
+				print("We only have enough for partial order...");
+				o.quantity = market.Amount(o.item);
+				GivePrice(o);
+			}
+			else{
+				print("We are out of stock of " + o.item);
+				o.s = orderState.done;
+				o.c.OutOfStock();
+			}
 		}
 		else{
-			print("We are out of stock of " + o.item);
+			print("We do not stock " + o.item);
 			o.s = orderState.done;
 			o.c.OutOfStock();
 		}
-			
 	}
 	
 	
+
 	private void GivePrice(MyOrder o){
 		o.price = market.calculatePrice(o.item, o.quantity);
 		print("Your order costs $" + o.price);
@@ -268,7 +275,7 @@ public enum myState
 	}
 	
 	private void GiveItems(MyOrder o){
-		print(" here is ur order");
+		print("Here is your order: " + o.quantity + " of " + o.item);
 		o.s = orderState.done;
 		o.c.HereIsOrder(o.item, o.quantity);
 	}

@@ -1,6 +1,10 @@
 package city;
 
 //Package Imports
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
@@ -10,6 +14,7 @@ import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
+
 import bank.Bank;
 import bank.interfaces.BankCustomer;
 import roles.Building;
@@ -17,6 +22,15 @@ import roles.Building.buildingType;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
+import market.*;
+import market.interfaces.MarketCustomer;
+
+
+
+
+import city.guis.PersonGui.Coordinate; //trans: added for trans
+import transportation.BusStopAgent; // needed for BusStop variable
+
 
 //Utility Imports
 import java.util.*;
@@ -44,16 +58,29 @@ public class PersonAgent extends Agent implements Person
 	String name;
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
+	public Semaphore busSemaphore = new Semaphore(0, true);
 
-	public CityAnimationPanel copyOfCityAnimPanel;	
+	public CityAnimationPanel CityAnimPanel;	
 	public RestaurantPanel restPanel;
+	
+	
+	String bankPurpose, marketPurpose;
+	double marketQuantity;
+	double bankAmount;
+	
+	
 
-
+	BusStopAgent destinationStop;//trans: added
+	BusStopAgent curStop;//trans: addded
+	boolean goingToStop;//trans: added can be made to work with bus States instead
+	boolean gettingoff;//trans: added can be made to work with bus States instead
+	
 	public PersonAgent(String name){
 		this.name = name;
 		System.out.println("Added person " + name);
-
-	}
+	}	
+	
+	//Class Declarations
 
 	/*****************************************************************************
 										CLASSES
@@ -133,6 +160,27 @@ public class PersonAgent extends Agent implements Person
 			quantity = q;
 		}
 	}
+	
+	public void addItem(List<Item> inv, String item, int q){
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity += q;
+				print("I now have " + i.quantity + " " + i.type);
+				return;
+			}
+		}
+		inv.add(new Item(item, q));
+		print("I now have " + q + " " + item);
+	}
+	
+	public void removeItem(List<Item> inv, String item, int q){
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity -= q;
+				print("I now have " + i.quantity + " " + i.type);
+			}
+		}
+	}
 
 	//Enum States
 	enum nourishment{notHungry,Hungry,goingToFood} // may not need goingToFood
@@ -173,7 +221,7 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void setAnimationPanel(CityAnimationPanel panel) {
-		copyOfCityAnimPanel = panel;
+		CityAnimPanel = panel;
 	}
 
 	public PersonGui getGui() {
@@ -207,7 +255,23 @@ public class PersonAgent extends Agent implements Person
 	{
 		this.animSemaphore.release();
 	}
-
+	
+	public void WaitForBus() // trans: leaving in just in case will delete if bus integration doesn't use this, which it shouldn't
+	{
+		try
+		{
+			this.busSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithBus()// trans: leaving in just in case will delete if bus integration doesn't use this, which it shouldn't
+	{
+		this.busSemaphore.release();
+	}
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
@@ -216,7 +280,11 @@ public class PersonAgent extends Agent implements Person
 	//Housing
 	//Passes an inactive role which contains location and otherinfo needed later
 	public void msgGoToHome(Role r){
+<<<<<<< HEAD
 	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don't need to add role.
+=======
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don�t need to add role.
+>>>>>>> Transportation
 	    Status.setHouse(houseStatus.goingHome);
 	    stateChanged();
 	}
@@ -253,8 +321,10 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-	public void msgGoToBank()
+	public void msgGoToBank(String purpose, double amt)
 	{
+		bankPurpose = purpose;
+		bankAmount = amt;
 		print("Going to bank");
 		Status.setDestination(destination.bank);
 		Status.setMoneyStatus(bankStatus.withdraw);
@@ -262,22 +332,76 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 
-
 	public void msgLeavingBank(BankCustomerRole r, double balance) {
 		print("Left bank.");
 		money = balance;
 		r.setActivity(false);
+		gui.setBusy(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
 		gui.DoGoToCheckpoint('D');
+		roles.remove(r);
+	}
+	//Transportation
+	
+	public void msgAtBusStop(){
+		//this.DoneWithBus(); // msgBusStopReached() should release agent to do other actions
+		gettingoff = true;
+		print(this.name + "Going to Restaurant now since I reached bus Stop");
+		stateChanged();
+	}
+	public void msgGoToStop(BusStopAgent curStop,BusStopAgent dest){
+		print("Person going to STOP");
+		this.curStop = curStop;
+		this.destinationStop = dest;
+		this.goingToStop = true;
+		stateChanged();
+	}
+	public void setDestinationStop(BusStopAgent P){
+		this.destinationStop = P;
+	}
+	public BusStopAgent getDestinationBusStop(){
+		return this.destinationStop;
+	}
+	
+	public void setPosition(int X, int Y){
+		gui.setPosition(X,Y);
+	}
+	
+	public void msgGoToMarket(String purpose, double quantity)
+	{
+		marketPurpose = purpose;
+		marketQuantity = quantity;
+		print("Going to market");
+		Status.setDestination(destination.market);
+		Status.market = marketStatus.buying;
+	    gui.setPresent(false);
+	    stateChanged();
+	}
+	
+	public void msgLeavingMarket(MarketCustomerRole r, double balance, String item, int quantRec) {
+		print("Left market.");
+		money = balance;
+		addItem(inventory, item, quantRec);
+		r.setActivity(false);
+		gui.setBusy(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		gui.setBusy(false);
 		roles.remove(r);
 		stateChanged();
 	}
 	/*
 	//Work
 	public void msgGoToWork(Role r){
+<<<<<<< HEAD
 	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
+=======
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don�t need to add role.
+>>>>>>> Transportation
 	    Status.setWork(workStatus.goingToWork);
 	    stateChanged();
 	}
@@ -292,7 +416,11 @@ public class PersonAgent extends Agent implements Person
 
 	//Banks
 	public void goToBank(Role r){
+<<<<<<< HEAD
 	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
+=======
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don�t need to add role.
+>>>>>>> Transportation
 	    Status.setBank(bankStatus.goingToBank);
 	    stateChanged();
 	}
@@ -306,7 +434,11 @@ public class PersonAgent extends Agent implements Person
 	}
 	//Markets
 	public void goToMarket(Role r){
+<<<<<<< HEAD
 	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
+=======
+	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don�t need to add role.
+>>>>>>> Transportation
 	    Status.setMarket(marketStatus.goingToMarket);
 	    stateChanged();
 	}
@@ -319,8 +451,6 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 	 */
-	//Transportation
-
 	//Figure out how we are going to incorporate Bus,Car and walking into SimCity
 
 	/*****************************************************************************
@@ -329,7 +459,15 @@ public class PersonAgent extends Agent implements Person
 
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-
+		//Not exactly sure where this next bit of code has to go or when it will be called
+		// it is called when a person needs to go to work and the SimCity has determined that it has to
+		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
+		if(goingToStop){
+			ActionGoToBusStop();
+		}
+		if(gettingoff){
+			GoToRestaurant();
+		}
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 				Status.getLocation() == location.outside) {
 			GoToRestaurant();
@@ -337,9 +475,14 @@ public class PersonAgent extends Agent implements Person
 		}
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
-			GoToWithdrawFromBank();
-			return true;
-		}
+				GoToWithdrawFromBank();
+				return true;
+			}
+		if (Status.getDestination() == destination.market &&
+				Status.market == marketStatus.buying) {
+				GoToMarket();
+				return true;
+			}
 
 		Boolean anytrue = false;
 		synchronized(roles)
@@ -363,7 +506,6 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										ACTIONS
 	 ******************************************************************************/
-
 	private void GoToRestaurant()
 	{
 		print("Going to restaurant");
@@ -372,6 +514,9 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
+
+		gettingoff = false; // state change which will be Bus State
+		
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -419,6 +564,14 @@ public class PersonAgent extends Agent implements Person
 		 */
 
 	}
+	private void ActionGoToBusStop(){
+		goingToStop = false;
+		gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+		gui.setPresent(false);
+		curStop.msgImAtStop(this);
+		//WaitForBus();
+	
+	}
 
 	public void GoToWithdrawFromBank()
 	{
@@ -430,10 +583,10 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
-		BankCustomerRole c = new BankCustomerRole(this.getName(), "New Account", 20, money);
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
 		c.setPerson(this);
 		roles.add(c);
-		this.roles.get(0).setActivity(true);
+		c.setActivity(true);
 		c.test("New Account", 20);
 
 		
@@ -441,20 +594,48 @@ public class PersonAgent extends Agent implements Person
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank){
+					print("found b");
 					Bank r = (Bank) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer)roles.get(0));
+					r.panel.customerPanel.addCustomer((BankCustomer) c);
 				}
 			}
 		}
 		
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
+	
+	void GoToMarket(){
+		Status.market = marketStatus.waiting;
+		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.market);
+		print("At market entrance");
+		gui.setPresent(false);
+		
+		//MarketCustomerRole c = new MarketCustomerRole(this.getName(), "New Account", 20, money);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, money);
+
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.market){
+					print("found market");
+					Market r = (Market) b;
+					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addCustomer((MarketCustomer) c);
+					r.gui.customerStateCheckBox.setSelected(true);
+				}
+			}
+		}
+	}
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
-
 	}
-
-
 }

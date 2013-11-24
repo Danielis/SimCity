@@ -16,7 +16,7 @@ public class MarketAgent extends Agent implements Market {
 	public List<Foods> inventory = Collections.synchronizedList(new ArrayList<Foods>());
 	
 	//Statics
-	static final int numItems = 1;		//Num of items initialized with
+	static final int numItems = 10;		//Num of items initialized with
 	//EDIT HERE*******************************************
 	static final int orderTime = 5;		//Time it takes to complete an order
 	//EDIT HERE*******************************************

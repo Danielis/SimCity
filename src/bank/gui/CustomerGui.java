@@ -33,7 +33,7 @@ public class CustomerGui implements Gui{
 	//self agent
 	private BankCustomer agent = null;
 	
-	
+	int move = 0;
 
 	//private HostAgent host;
 	BankGui gui;
@@ -59,6 +59,8 @@ public class CustomerGui implements Gui{
 	Boolean showSpeechBubble = false;
 	Coordinate speechBubbleLoc;
 	
+
+	String direct = "up";
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -99,31 +101,63 @@ public class CustomerGui implements Gui{
         	
         	if (position.x > destination.x){
                 position.x -= (1 + deltax/deltadivider);
-                setLeftImage();
+                direct = "left";
+                setImage(false);
+                move++;
             }
             else if (position.y < destination.y){
                 position.y += (1 + deltay/deltadivider);
-                setDownImage();
+                direct = "down";
+                setImage(false);
+                move++;
             }
             else if (position.y > destination.y){
                 position.y -= (1 + deltay/deltadivider);
-                setUpImage();
+                direct = "up";
+                setImage(false);
+                move++;
             }
             else if (position.x < destination.x){
                 position.x += (1 + deltax/deltadivider);
-                setRightImage();
+                direct = "right";
+                setImage(false);
+                move++;
             }
 
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;
-            	setUpImage();
+            	setImage(true);
             	agent.DoneWithAnimation();
             }
+            
     	}
+	}
+	
+	private void setImage(Boolean noMove){
+		String start = "/resources/bankSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (move >= 50 || noMove){
+			num = "0";
+			move = 0;
+		}
+        else if (move < 25)
+        	num = "2";
+        else if (move < 50)
+        	num = "1";
+    
+       
+		String collapse = start + mid + num + end;
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
 	}
 
 	private void setLeftImage() {
+		//String temp = Integer.toString(i);
 		 try
 	        {
 	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/left.png"));
@@ -175,10 +209,11 @@ public class CustomerGui implements Gui{
 
 	public void draw(Graphics2D g) 
 	{
-		
+		//System.out.println("draw called");
 		Graphics2D newG = (Graphics2D)g;
 		if (isPresent)
 			newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
+		//newG.drawImage(imgTrainer, 20, 20, agent.copyOfAnimPanel);
 
 
 		if (showSpeechBubble){

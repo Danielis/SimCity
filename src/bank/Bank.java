@@ -31,7 +31,7 @@ public class Bank extends Building{
     	this.panel = gui.restPanel;
     	gui.restPanel.setBank(this);
         gui.setTitle(name);
-        gui.setVisible(true);
+        gui.setVisible(false);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

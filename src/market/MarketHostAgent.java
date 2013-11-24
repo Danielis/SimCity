@@ -6,7 +6,7 @@ import market.gui.MarketAnimationPanel;
 import market.gui.MarketHostGui;
 import market.interfaces.MarketHost;
 import market.MarketWorkerAgent;
-import market.MarketCustomerAgent;
+import market.MarketCustomerRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -82,11 +82,11 @@ public class MarketHostAgent extends Agent implements MarketHost {
 		
 		public class MyCustomer{
 			
-			public MyCustomer(MarketCustomerAgent c) {
+			public MyCustomer(MarketCustomerRole c) {
 				this.c = c;
 				this.s = customerState.waiting;
 			}
-			MarketCustomerAgent c;
+			MarketCustomerRole c;
 			customerState s;
 		}
 		enum customerState {waiting, done};
@@ -94,7 +94,7 @@ public class MarketHostAgent extends Agent implements MarketHost {
 
 //MESSAGES****************************************************
 
-	public void IWantService(MarketCustomerAgent c){
+	public void IWantService(MarketCustomerRole c){
     customers.add(new MyCustomer(c));
     updateCustpost();
     stateChanged();
@@ -228,7 +228,7 @@ public class MarketHostAgent extends Agent implements MarketHost {
 		customers.remove(c);
 	}
 	
-	private void RemoveCustomer(MarketCustomerAgent mc)
+	private void RemoveCustomer(MarketCustomerRole mc)
 	{
 		customers.remove(mc);
 	}
@@ -271,5 +271,7 @@ public class MarketHostAgent extends Agent implements MarketHost {
        // 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
        // }
 }
+
+	
 }
 

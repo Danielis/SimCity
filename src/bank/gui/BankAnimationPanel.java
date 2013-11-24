@@ -67,7 +67,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         bufferSize = this.getSize();
         
     	Timer timer = new Timer(20, this );
-    	timer.start();
+    	//timer.start(); //commenting out so that only city runs
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -142,8 +142,6 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-            
-            	
             	gui.draw(cashier);
             	gui.draw(host);
             }

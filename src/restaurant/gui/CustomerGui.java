@@ -29,6 +29,8 @@ public class CustomerGui implements Gui{
 	private final int deltadivider = 100;
 	private final int starting_X = 150;
 	private final int table_divider = 100;
+	
+	private int movementTicker = 0;
 
 	//self agent
 	private Customer agent = null;
@@ -118,6 +120,30 @@ public class CustomerGui implements Gui{
     		y = b;
     	}
     }
+    
+	private void setAnim1()
+	{
+		 try
+	     {
+			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_1.png"));
+	     } catch (IOException e ) {}
+	}
+	
+	private void setAnim2() {
+		 try
+	     {
+			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
+	     } catch (IOException e ) {}
+	}
+	
+	private void setDefault() {
+		 try
+	     {
+			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+	     } catch (IOException e ) {}
+		
+	}
+
 	public void updatePosition() {
 		if (goingSomewhere)
     	{
@@ -125,29 +151,56 @@ public class CustomerGui implements Gui{
     		//I thought of it myself :D
     		//EC PLS
 			
-        	int deltax = destination.x - position.x;
+			int deltax = destination.x - position.x;
         	int deltay = destination.y - position.y;
         	
         	if (deltax < 0) deltax *= -1;
         	if (deltay < 0) deltay *= -1;
         	
             if (position.x < destination.x)
+            {
                 position.x += (1 + deltax/deltadivider);
+                movementTicker++;
+            }
             else if (position.x > destination.x)
+            {
                 position.x -= (1 + deltax/deltadivider);
+                movementTicker++;
+            }
 
             if (position.y < destination.y)
+            {
                 position.y += (1 + deltay/deltadivider);
+                movementTicker++;
+            }
             else if (position.y > destination.y)
+            {
                 position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
+            }
             
-
+            if (movementTicker < 30)
+            {
+            	setAnim1();
+            }
+            else if (movementTicker < 60)
+            {
+            	setAnim2();
+            }
+            else if (movementTicker >= 60)
+            {
+            	movementTicker = 0;
+            }
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
             }
     	}
+		else
+		{
+			setDefault();
+		}
 	}
 
 	public void draw(Graphics2D g) 

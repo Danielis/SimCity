@@ -1,8 +1,6 @@
 package market.gui;
 
 
-import market.MarketCustomerAgent;
-import market.MarketWorkerAgent;
 import market.MarketHostAgent;
 import market.gui.Coordinate;
 

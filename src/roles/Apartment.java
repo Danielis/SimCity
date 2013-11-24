@@ -38,7 +38,7 @@ public class Apartment {
     	this.panel = gui.housingPanel;
     	this.name = name;
         gui.setTitle(name);
-        gui.setVisible(true);
+        gui.setVisible(false);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
