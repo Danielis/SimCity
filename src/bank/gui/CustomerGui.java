@@ -33,7 +33,7 @@ public class CustomerGui implements Gui{
 	//self agent
 	private BankCustomer agent = null;
 	
-	
+	int move;
 
 	//private HostAgent host;
 	BankGui gui;
@@ -59,6 +59,8 @@ public class CustomerGui implements Gui{
 	Boolean showSpeechBubble = false;
 	Coordinate speechBubbleLoc;
 	
+
+	String direct;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -99,19 +101,27 @@ public class CustomerGui implements Gui{
         	
         	if (position.x > destination.x){
                 position.x -= (1 + deltax/deltadivider);
-                setLeftImage();
+                direct = "left";
+                setImage();
+                move++;
             }
             else if (position.y < destination.y){
                 position.y += (1 + deltay/deltadivider);
-                setDownImage();
+                direct = "down";
+                setImage();
+                move++;
             }
             else if (position.y > destination.y){
                 position.y -= (1 + deltay/deltadivider);
-                setUpImage();
+                direct = "up";
+                setImage();
+                move++;
             }
             else if (position.x < destination.x){
                 position.x += (1 + deltax/deltadivider);
-                setRightImage();
+                direct = "right";
+                setImage();
+                move++;
             }
 
             if (position.x == destination.x && position.y == destination.y)
@@ -120,10 +130,33 @@ public class CustomerGui implements Gui{
             	setUpImage();
             	agent.DoneWithAnimation();
             }
+            
     	}
+	}
+	
+	private void setImage(){
+		String start = "/resources/bankSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = "left.png";
+		if (move < 30)
+			num = "1";
+        else if (move < 60)
+        	num = "2";
+        else if (move >= 60){
+        	num = "0";
+        	move = 0;
+        }
+       
+		String collapse = start + mid + num + end;
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
 	}
 
 	private void setLeftImage() {
+		//String temp = Integer.toString(i);
 		 try
 	        {
 	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/left.png"));
