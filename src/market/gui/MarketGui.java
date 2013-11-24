@@ -1,8 +1,9 @@
 package market.gui;
 
-import market.MarketCustomerAgent;
+import market.MarketCustomerRole;
 import market.MarketWorkerAgent;
 import market.MarketHostAgent;
+import market.interfaces.MarketCustomer;
 
 import javax.swing.*;
 
@@ -42,7 +43,7 @@ public class MarketGui extends JFrame implements ActionListener {
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
-    private MarketCustomerAgent currentCustomer;
+    private MarketCustomer currentCustomer;
     private MarketWorkerAgent currentWaiter;
 
     private JButton pauseButton;
@@ -144,12 +145,12 @@ public class MarketGui extends JFrame implements ActionListener {
      * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
      *
-     * @param person customer (or waiter) object
+     * @param temp customer (or waiter) object
      */
-    public void updateCustomerInformationPanel(MarketCustomerAgent person) {
+    public void updateCustomerInformationPanel(MarketCustomer temp) {
         customerStateCheckBox.setVisible(true);
-        currentCustomer = person;
-        MarketCustomerAgent customer = person;
+        currentCustomer = temp;
+        MarketCustomer customer = temp;
         customerStateCheckBox.setText("Start?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
@@ -193,7 +194,7 @@ public class MarketGui extends JFrame implements ActionListener {
     
         if (e.getSource() == customerStateCheckBox) 
         {
-            MarketCustomerAgent c = (MarketCustomerAgent) currentCustomer;
+        	MarketCustomerRole c = (MarketCustomerRole) currentCustomer;
             c.getGui().setAction(transactionList.getSelectedItem().toString(), amountInput.getText());
             customerStateCheckBox.setEnabled(false);
         }
@@ -239,8 +240,8 @@ public class MarketGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(MarketCustomerAgent c) {
-        MarketCustomerAgent cust = currentCustomer;
+    public void setCustomerEnabled(MarketCustomerRole c) {
+    	MarketCustomer cust = currentCustomer;
         if (c.equals(cust)) 
         {
             customerStateCheckBox.setEnabled(true);

@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.swing.JFrame;
 
+import bank.gui.BankPanel;
 import market.gui.*;
 import roles.Building;
 
@@ -12,16 +13,21 @@ public class Market extends Building {
 	List <Item> inventory = new ArrayList<Item>();
 	int idIncr = 0;
 	String name;
+	public MarketGui gui;
+	public MarketPanel panel;
+
 	public Market(String n, MarketGui gui){
 		balance = 5000;
 		name = n;
-		
+		this.gui = gui;
+		this.panel = gui.restPanel;
     	gui.restPanel.setMarket(this);
         gui.setTitle(name);
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
+    	type = buildingType.market;
 		inventory.add(new Item("Steak", 0, 13));
 		inventory.add(new Item("Salad", 100, 3));
 		inventory.add(new Item("Chicken", 100, 9));

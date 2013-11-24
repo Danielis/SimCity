@@ -17,6 +17,8 @@ import roles.Building.buildingType;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
+import market.*;
+import market.interfaces.MarketCustomer;
 
 //Utility Imports
 import java.util.*;
@@ -279,6 +281,7 @@ public class PersonAgent extends Agent implements Person
 	{
 		print("Going to market");
 		Status.setDestination(destination.market);
+		Status.market = marketStatus.buying;
 	    gui.setPresent(false);
 	    stateChanged();
 	}
@@ -348,7 +351,8 @@ public class PersonAgent extends Agent implements Person
 				GoToWithdrawFromBank();
 				return true;
 			}
-		if (Status.getDestination() == destination.bank) {
+		if (Status.getDestination() == destination.market &&
+				Status.market == marketStatus.buying) {
 				GoToMarket();
 				return true;
 			}
@@ -453,6 +457,7 @@ public class PersonAgent extends Agent implements Person
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank){
+					print("found b");
 					Bank r = (Bank) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
 					r.panel.customerPanel.addCustomer((BankCustomer) c);
@@ -464,14 +469,16 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	void GoToMarket(){
+		Status.market = marketStatus.waiting;
 		gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.market);
+		print("At market entrance");
 		gui.setPresent(false);
 		
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), "New Account", 20, money);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), "Eggs", 4, money);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
@@ -479,9 +486,10 @@ public class PersonAgent extends Agent implements Person
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.market){
+					print("found market");
 					Market r = (Market) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
+					r.panel.customerPanel.addCustomer((MarketCustomer) c);
 				}
 			}
 		}

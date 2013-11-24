@@ -8,12 +8,14 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import roles.Role;
+
 
 //Customer Agent
 //It still is a finite state machine, instead of events it still uses the state enum.
 //I used this design from the designs drawn from class.
 
-public class MarketCustomerAgent extends Agent implements MarketCustomer {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//To show icon
 	public enum iconState
@@ -44,15 +46,21 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 	
 	
 	//Constructor
-	public MarketCustomerAgent(String name, MarketHost h){
+	public MarketCustomerRole(String name, MarketHost h){
 		super();
 		this.name = name;
 		this.h = h;
 		state = marketCustomerState.outside;
-		amountOwed = 400;
 	}
-
+	
+	public MarketCustomerRole(String name, String string, int i, double money) {
+		super();
+		this.name = name;
+		state = marketCustomerState.outside;
+	}
 //UTILITIES**************************************************
+
+	
 
 	private Boolean enoughBalance(){
 		if (amountOwed > balance){
@@ -135,7 +143,7 @@ public void HereIsOrder(String i, int q){
 
 	
 //SCHEDULER*************************************************
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		//print("reached sched");
 		if (state == marketCustomerState.outside){
@@ -340,6 +348,15 @@ private void LeaveMarket(){
 
 	public void setCustomerGui(MarketCustomerGui customerGui) {
 		this.customerGui = customerGui;
+	}
+	
+	public String getName(){
+		return name;
+	}
+
+	@Override
+	public void setHost(MarketHostAgent host) {
+		this.h = host;
 	}
 
 	

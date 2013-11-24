@@ -2,7 +2,7 @@ package market.interfaces;
 
 import java.util.List;
 
-import market.MarketCustomerAgent;
+import market.MarketCustomerRole;
 
 public interface MarketWorker 
 {
@@ -12,11 +12,11 @@ public interface MarketWorker
 	public void msgSetOnBreak();
 	public void msgBreakGranted(Boolean permission);
 	public int getTableNum();
-	public void GiveOrder(MarketCustomerAgent marketCustomerAgent, String item,
+	public void GiveOrder(MarketCustomerRole marketCustomerAgent, String item,
 			int quantityWanted);
-	public void GivePayment(MarketCustomerAgent marketCustomerAgent,
+	public void GivePayment(MarketCustomerRole marketCustomerAgent,
 			double amountOwed);
-	public void PleaseFulfill(MarketCustomerAgent marketCustomerAgent);
+	public void PleaseFulfill(MarketCustomerRole marketCustomerAgent);
 		
 		
 

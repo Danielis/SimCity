@@ -133,7 +133,7 @@ public class CityGui extends JFrame implements ActionListener {
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
         personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
-        personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.SOUTH);
+        personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.WEST);
         personInformationPanel.add(personWantsToShop, BorderLayout.SOUTH);
         RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
         InformationPanel.add(personInformationPanel, BorderLayout.NORTH);

@@ -80,13 +80,13 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 	private class MyOrder{
 	    String item;
 	    orderState s;
-	    MarketCustomerAgent c;
+	    MarketCustomerRole c;
 	    int quantity;
 	    double price;
 	    Boolean delivery;
 	   // Building b; //only if delivery == true
 	    
-	    MyOrder(MarketCustomerAgent c, String i, int q){
+	    MyOrder(MarketCustomerRole c, String i, int q){
 	    	item = i;
 	    	this.c = c;
 	    	quantity = q;
@@ -100,7 +100,7 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 	
 
 private class MyCustomer{
-	    MarketCustomerAgent c;
+	MarketCustomerRole c;
 	}
 
 	
@@ -111,12 +111,12 @@ public enum myState
 
 //MESSAGES****************************************************
 
-	public void GiveOrder(MarketCustomerAgent c, String item, int q){
+	public void GiveOrder(MarketCustomerRole c, String item, int q){
 		myOrders.add(new MyOrder(c, item, q));
 		stateChanged();
 	}
 	
-	public void GivePayment(MarketCustomerAgent c, double amount){
+	public void GivePayment(MarketCustomerRole c, double amount){
 		for (MyOrder o : myOrders){
 			if (o.c == c && o.s != orderState.done){
 				market.balance += amount;
@@ -126,7 +126,7 @@ public enum myState
 		}
 	}
 	
-	public void PleaseFulfill(MarketCustomerAgent c){
+	public void PleaseFulfill(MarketCustomerRole c){
 		for (MyOrder o : myOrders){
 			if (o.c == c && o.s != orderState.done){
 				o.s = orderState.readyFulfill;

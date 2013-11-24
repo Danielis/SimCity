@@ -1,9 +1,10 @@
 package market.gui;
 
 import market.Market;
-import market.MarketCustomerAgent;
+import market.MarketCustomerRole;
 import market.MarketHostAgent;
 import market.MarketWorkerAgent;
+import market.interfaces.MarketCustomer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,11 +28,11 @@ public class MarketPanel extends JPanel {
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
-    private Vector<MarketCustomerAgent> customers = new Vector<MarketCustomerAgent>();
+    private Vector<MarketCustomer> customers = new Vector<MarketCustomer>();
     private Vector<MarketWorkerAgent> waiters = new Vector<MarketWorkerAgent>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Tellers");
     private JPanel group = new JPanel();
         
@@ -99,13 +100,13 @@ public class MarketPanel extends JPanel {
      * will be shown
      *
      * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
+     * @param string name of person
      */
-    public void showCustomerInfo(String name)
+    public void showCustomerInfo(String inp)
     {
         for (int i = 0; i < customers.size(); i++) {
-            MarketCustomerAgent temp = customers.get(i);
-            if (temp.getName() == name)
+        	MarketCustomer temp = customers.get(i);
+            if (temp.getName() == inp)
             {
                 customerPanel.updateCustomer(temp);
                 gui.updateCustomerInformationPanel(temp);
@@ -131,11 +132,11 @@ public class MarketPanel extends JPanel {
      * Adds a customer or waiter to the appropriate list
      *
      * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
+     * @param c2 name of person
      */
-    public void addCustomer(String name) 
+    public void addCustomer(MarketCustomer c) 
     {
-		MarketCustomerAgent c = new MarketCustomerAgent(name, host);	
+    	c.setHost(host);
 		MarketCustomerGui g = new MarketCustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setGui(g);
@@ -163,7 +164,7 @@ public class MarketPanel extends JPanel {
     {
     	host.pauseAgent();
  
-    	for (MarketCustomerAgent c : customers)
+    	for (MarketCustomer c : customers)
     	{
     		c.pauseAgent();
     	}
@@ -177,7 +178,7 @@ public class MarketPanel extends JPanel {
     {
     	host.resumeAgent();
     
-    	for (MarketCustomerAgent c : customers)
+    	for (MarketCustomer c : customers)
     	{
     		c.resumeAgent();
     	}

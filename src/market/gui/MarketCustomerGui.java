@@ -1,9 +1,10 @@
 package market.gui;
 
-import market.MarketCustomerAgent;
-import market.MarketCustomerAgent.iconState;
+import market.MarketCustomerRole;
+//import market.MarketCustomerAgent.iconState;
 import market.MarketHostAgent;
 import market.gui.Coordinate;
+import market.interfaces.MarketCustomer;
 
 import java.io.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class MarketCustomerGui implements Gui{
 	private final int table_divider = 127;
 
 	//self agent
-	private MarketCustomerAgent agent = null;
+	private MarketCustomer agent = null;
 	
 	
 
@@ -63,7 +64,7 @@ public class MarketCustomerGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
  
     
-	public MarketCustomerGui(MarketCustomerAgent c, MarketGui gui){
+	public MarketCustomerGui(MarketCustomer c, MarketGui gui){
 		for (int i = 0; i < 5; i++)
 		{
 			tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
