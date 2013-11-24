@@ -28,9 +28,15 @@ import city.PersonAgent;
 
 
 
+
+
+
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import market.gui.MarketGui;
 
@@ -75,8 +81,6 @@ public class CityGui extends JFrame implements ActionListener {
 
     //Useful Checkboxes
     private JCheckBox personHungryCheckBox;
-    private JCheckBox personNeedsMoneyCheckBox;
-    private JCheckBox personWantsToShop;
     
     //Copy of the current person
     private PersonAgent currentPerson;
@@ -89,34 +93,33 @@ public class CityGui extends JFrame implements ActionListener {
     
     
     // ************ START FUNCTION PANEL *********************
-   
+    
+
     
     private JPanel bankPanel = new JPanel();
-    private JLabel bankLabel = new JLabel(); 
     private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
     private JComboBox transactionList = new JComboBox(transactions);
-    private JButton bankGo = new JButton("Bank");
+    private JButton bankGo = new JButton("Go");
     private JTextField amountInput = new JTextField("");
     
     private JPanel marketPanel = new JPanel();
-    private JLabel marketLabel = new JLabel(); 
     String[] marketTransactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
     JComboBox marketList = new JComboBox(marketTransactions);
-    private JButton marketGo = new JButton("Market");
+    private JButton marketGo = new JButton("Go");
     private JTextField marketQ = new JTextField("");
+   
     
+   
     private JPanel housingPanel = new JPanel();
-    private JLabel housingLabel = new JLabel(); 
     String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
     JComboBox housingList = new JComboBox(housingOptions);
     String[] foodOptions = { "Pasta", "Chicken", "Eggs" };
     JComboBox foodList = new JComboBox(foodOptions);
-    private JButton housingGo = new JButton("Housing");
+    private JButton housingGo = new JButton("Go");
     
     
-    private JPanel restaurantPanel = new JPanel();
-    private JLabel restaurantLabel = new JLabel(); 
-    private JButton restaurantGo = new JButton("Restaurant");
+    private JPanel restaurantPanel = new JPanel(); 
+    private JButton restaurantGo = new JButton("Go");
     
     
     // ************ END FUNCTION PANEL *********************
@@ -125,6 +128,9 @@ public class CityGui extends JFrame implements ActionListener {
     public CityGui() {
         int WINDOWX = 500;
         int WINDOWY = 500;
+        
+        
+ 
         
         //Set the City Gui's specifications
        	this.setVisible(true);
@@ -146,14 +152,14 @@ public class CityGui extends JFrame implements ActionListener {
         buttonPanel.setLayout(new BorderLayout());
         
         //Set Dimension for RestaurantPortion
-        Dimension restDim2 = new Dimension(170, (int) (43 * .86));
+        Dimension restDim2 = new Dimension(280, (int) (43 * .86));
         functionPanel.setPreferredSize(restDim2);
         functionPanel.setMinimumSize(restDim2);
         functionPanel.setMaximumSize(restDim2);
        
         
         //Set Dimension for CityPanel
-        Dimension restDim = new Dimension(400, (int) (WINDOWY * .86));
+        Dimension restDim = new Dimension(250, (int) (WINDOWY * .86));
         cityPanel.setPreferredSize(restDim);
         cityPanel.setMinimumSize(restDim);
         cityPanel.setMaximumSize(restDim);
@@ -185,37 +191,48 @@ public class CityGui extends JFrame implements ActionListener {
 		
 		
 		//functionPanel.add(personPanel);
+        
+        Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        TitledBorder bankTitle = BorderFactory.createTitledBorder(loweredetched, "Bank");
+        
 		functionPanel.add(bankPanel);
 		bankPanel.setLayout(new FlowLayout());
+		bankPanel.setBorder(bankTitle);
 		amountInput.setColumns(10);
 		bankPanel.add(amountInput);
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
 		
-		
+		TitledBorder marketTitle = BorderFactory.createTitledBorder(loweredetched, "Market");
 		functionPanel.add(marketPanel);
 		marketPanel.setLayout(new FlowLayout());
+		marketPanel.setBorder(marketTitle);
 		marketQ.setColumns(10);
 		marketPanel.add(marketQ);
 		marketPanel.add(marketList);
 		marketPanel.add(marketGo);
 		
-		
+		TitledBorder housingTitle = BorderFactory.createTitledBorder(loweredetched, "Housing");
 		functionPanel.add(housingPanel);
 		housingPanel.setLayout(new FlowLayout());
+		housingPanel.setBorder(housingTitle);
 		housingPanel.add(housingList);
-		housingPanel.add(foodList);
+		//housingPanel.add(foodList);
+		foodList.setEnabled(false);
 		housingPanel.add(housingGo);
 		
 			
-	    
+		TitledBorder restTitle = BorderFactory.createTitledBorder(loweredetched, "Restaurant");
 		functionPanel.add(restaurantPanel);
+		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
 		
+		bankGo.addActionListener(this);
+		marketGo.addActionListener(this);
+		housingGo.addActionListener(this);
+		restaurantGo.addActionListener(this);
 		
-		
-		
-		
+		housingList.addActionListener(this);
         
         
         
@@ -236,12 +253,6 @@ public class CityGui extends JFrame implements ActionListener {
         personHungryCheckBox = new JCheckBox();
         personHungryCheckBox.setVisible(false);
         personHungryCheckBox.addActionListener(this);
-        personNeedsMoneyCheckBox = new JCheckBox();
-        personNeedsMoneyCheckBox.setVisible(false);
-        personNeedsMoneyCheckBox.addActionListener(this);
-        personWantsToShop = new JCheckBox();
-        personWantsToShop.setVisible(false);
-        personWantsToShop.addActionListener(this);
         personInformationPanel.setLayout(new BorderLayout());
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
@@ -250,16 +261,14 @@ public class CityGui extends JFrame implements ActionListener {
         
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
         personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
-        personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.WEST);
-        personInformationPanel.add(personWantsToShop, BorderLayout.SOUTH);
         RestaurantPortion.add(cityPanel, BorderLayout.EAST);
-        RestaurantPortion.add(functionPanel, BorderLayout.WEST);
+        RestaurantPortion.add(functionPanel, BorderLayout.CENTER);
         
       
         
         
         //InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
-        cityPanel.add(InformationPanel, BorderLayout.SOUTH);
+       // cityPanel.add(InformationPanel, BorderLayout.SOUTH);
         buttonPanel.add(pauseButton, BorderLayout.CENTER);
         buttonPanel.add(refreshButton, BorderLayout.EAST);
         RestaurantPortion.add(personInformationPanel, BorderLayout.SOUTH);
@@ -328,21 +337,16 @@ public class CityGui extends JFrame implements ActionListener {
 
     public void updatePersonInformationPanel(PersonAgent temp) {
         personHungryCheckBox.setVisible(true);
-        personNeedsMoneyCheckBox.setVisible(true);
-        personWantsToShop.setVisible(true);
         currentPerson = temp;
         PersonAgent person = temp;
         personHungryCheckBox.setText("Hungry?");
-        personNeedsMoneyCheckBox.setText("Needs Money?");
-        personWantsToShop.setText("Shop?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
-        personNeedsMoneyCheckBox.setSelected(person.getGui().needsMoney());
-        personNeedsMoneyCheckBox.setEnabled(!person.getGui().needsMoney());
-        personWantsToShop.setSelected(person.getGui().needsMoney());
-        personWantsToShop.setEnabled(!person.getGui().needsMoney());
+        silenceButtons();
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
+
+		
         personInformationPanel.validate();
     }
     
@@ -353,34 +357,80 @@ public class CityGui extends JFrame implements ActionListener {
     	{
 	        personHungryCheckBox.setSelected(currentPerson.getGui().isHungry());
 	        personHungryCheckBox.setEnabled(!currentPerson.getGui().isHungry());
-	        personNeedsMoneyCheckBox.setSelected(currentPerson.getGui().needsMoney());
-	        personNeedsMoneyCheckBox.setEnabled(!currentPerson.getGui().needsMoney());
-	        personWantsToShop.setSelected(currentPerson.getGui().needsMoney());
-	        personWantsToShop.setEnabled(!currentPerson.getGui().needsMoney());
+	      
+	        
+	        silenceButtons();
+	        
 	        personInformationPanel.validate();
     	}
     }
     
+    private void silenceButtons(){
+    	bankGo.setEnabled(!currentPerson.getGui().getBusy());
+   	 	marketGo.setEnabled(!currentPerson.getGui().getBusy());
+        housingGo.setEnabled(!currentPerson.getGui().getBusy());
+        restaurantGo.setEnabled(!currentPerson.getGui().getBusy());
+    }
     //Action Listener
     public void actionPerformed(ActionEvent e) {
     
-        if (e.getSource() == personHungryCheckBox) 
+    	if (currentPerson != null){
+        if (e.getSource() == restaurantGo) 
         {
             PersonAgent c = (PersonAgent) currentPerson;
             c.getGui().setHungry();
-            personHungryCheckBox.setEnabled(false);
+            silenceButtons();
         }
-        if (e.getSource() == personNeedsMoneyCheckBox)
+        if (e.getSource() == bankGo)
         {
+        	
         	PersonAgent c = (PersonAgent) currentPerson;
-        	c.getGui().setNeedsMoney(true);
-        	personNeedsMoneyCheckBox.setEnabled(false);
+        
+	        	String purpose = transactionList.getSelectedItem().toString();
+	        	
+	        	if (purpose.equals("New Account")){
+	        		c.getGui().setNeedsMoney(true, purpose, 0);
+	        	}
+	        	else if (!amountInput.getText().isEmpty()){
+	        		String amtTemp = amountInput.getText();
+		        	double amt = Double.parseDouble(amtTemp);
+		        	amt = Math.round(amt * 100) / 100.0d;
+	        		c.getGui().setNeedsMoney(true, purpose, amt);
+	        	}
+	        	silenceButtons();
         }
-        if (e.getSource() == personWantsToShop)
+        if (e.getSource() == housingGo)
         {
+        	
+        		PersonAgent c = (PersonAgent) currentPerson;
+        		String purpose = housingList.getSelectedItem().toString();
+	        	//c.getGui().HOUSING CALL(true, purpose);
+	        	//silenceButtons();
+        }
+        
+        if (e.getSource() == marketGo)
+        {
+        	
         	PersonAgent c = (PersonAgent) currentPerson;
-        	c.getGui().setShop(true);
-        	personWantsToShop.setEnabled(false);
+        
+        	if (!marketQ.getText().isEmpty()){
+        		String item = marketList.getSelectedItem().toString();
+        		String quantityStr = marketQ.getText();
+	        	double quantity = Double.parseDouble(quantityStr);
+	        	quantity = Math.round(quantity * 1) / 1d;
+	        	c.getGui().setShop(true, item, quantity);
+        	}
+        	
+	        	silenceButtons();
+        }
+        
+        if (e.getSource() == marketList)
+        {
+        	if (marketList.getSelectedItem().toString().equals("Cook")){
+        		foodList.setEnabled(true);
+        	}
+        	if (marketList.getSelectedIndex() == 2)
+        		foodList.setEnabled(true);
         }
         if (e.getSource() == pauseButton)
         {
@@ -401,6 +451,7 @@ public class CityGui extends JFrame implements ActionListener {
         {
         	cityPanel.refresh();
         }
+    	}
     }
     
     //Resturant Creation
@@ -434,6 +485,7 @@ public class CityGui extends JFrame implements ActionListener {
         {
             personHungryCheckBox.setEnabled(true);
             personHungryCheckBox.setSelected(false);
+            silenceButtons();
         }
 }
     
