@@ -80,9 +80,9 @@ public class CookGui implements Gui{
 		agent = c;
 		this.gui = gui;
 		position = new Coordinate(450,110);
-    	fridge = new Coordinate(370, 65);
-    	grill = new Coordinate(540,85);
-    	platingarea = new Coordinate(450,10);  	
+    	fridge = new Coordinate(370, 55);
+    	grill = new Coordinate(535,75);
+    	platingarea = new Coordinate(450,110);  	
     	
     	destination = platingarea;
 
@@ -192,7 +192,7 @@ public class CookGui implements Gui{
 		newG.drawImage(imgCook, position.x, position.y, agent.copyOfAnimPanel);
 		
 		Graphics2D graphic = (Graphics2D)g;
-		Coordinate temp_c = new Coordinate(390,145);
+		Coordinate temp_c = new Coordinate(390,135);
 		int x = temp_c.x;
 		int y = temp_c.y;
 		
