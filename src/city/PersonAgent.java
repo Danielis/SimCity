@@ -22,6 +22,11 @@ import roles.Building.buildingType;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
+import market.*;
+import market.interfaces.MarketCustomer;
+
+
+
 
 import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
@@ -57,6 +62,13 @@ public class PersonAgent extends Agent implements Person
 
 	public CityAnimationPanel CityAnimPanel;	
 	public RestaurantPanel restPanel;
+	
+	
+	String bankPurpose, marketPurpose;
+	double marketQuantity;
+	double bankAmount;
+	
+	
 
 	BusStopAgent destinationStop;//trans: added
 	BusStopAgent curStop;//trans: addded
@@ -146,6 +158,27 @@ public class PersonAgent extends Agent implements Person
 		public Item(String t, int q) {
 			type = t;
 			quantity = q;
+		}
+	}
+	
+	public void addItem(List<Item> inv, String item, int q){
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity += q;
+				print("I now have " + i.quantity + " " + i.type);
+				return;
+			}
+		}
+		inv.add(new Item(item, q));
+		print("I now have " + q + " " + item);
+	}
+	
+	public void removeItem(List<Item> inv, String item, int q){
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity -= q;
+				print("I now have " + i.quantity + " " + i.type);
+			}
 		}
 	}
 
@@ -288,8 +321,10 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-	public void msgGoToBank()
+	public void msgGoToBank(String purpose, double amt)
 	{
+		bankPurpose = purpose;
+		bankAmount = amt;
 		print("Going to bank");
 		Status.setDestination(destination.bank);
 		Status.setMoneyStatus(bankStatus.withdraw);
@@ -301,6 +336,7 @@ public class PersonAgent extends Agent implements Person
 		print("Left bank.");
 		money = balance;
 		r.setActivity(false);
+		gui.setBusy(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
@@ -333,12 +369,30 @@ public class PersonAgent extends Agent implements Person
 		gui.setPosition(X,Y);
 	}
 	
-	public void msgGoToMarket()
+	public void msgGoToMarket(String purpose, double quantity)
 	{
+		marketPurpose = purpose;
+		marketQuantity = quantity;
 		print("Going to market");
 		Status.setDestination(destination.market);
+		Status.market = marketStatus.buying;
 	    gui.setPresent(false);
 	    stateChanged();
+	}
+	
+	public void msgLeavingMarket(MarketCustomerRole r, double balance, String item, int quantRec) {
+		print("Left market.");
+		money = balance;
+		addItem(inventory, item, quantRec);
+		r.setActivity(false);
+		gui.setBusy(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		gui.setBusy(false);
+		roles.remove(r);
+		stateChanged();
 	}
 	/*
 	//Work
@@ -424,7 +478,8 @@ public class PersonAgent extends Agent implements Person
 				GoToWithdrawFromBank();
 				return true;
 			}
-		if (Status.getDestination() == destination.bank) {
+		if (Status.getDestination() == destination.market &&
+				Status.market == marketStatus.buying) {
 				GoToMarket();
 				return true;
 			}
@@ -528,7 +583,7 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
-		BankCustomerRole c = new BankCustomerRole(this.getName(), "New Account", 20, money);
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
@@ -539,6 +594,7 @@ public class PersonAgent extends Agent implements Person
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank){
+					print("found b");
 					Bank r = (Bank) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
 					r.panel.customerPanel.addCustomer((BankCustomer) c);
@@ -550,14 +606,18 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	void GoToMarket(){
+		Status.market = marketStatus.waiting;
 		gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.market);
+		print("At market entrance");
 		gui.setPresent(false);
 		
-		/*MarketCustomerRole c = new MarketCustomerRole(this.getName(), "New Account", 20, money);
+		//MarketCustomerRole c = new MarketCustomerRole(this.getName(), "New Account", 20, money);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, money);
+
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
@@ -565,18 +625,17 @@ public class PersonAgent extends Agent implements Person
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.market){
+					print("found market");
 					Market r = (Market) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
+					r.panel.customerPanel.addCustomer((MarketCustomer) c);
+					r.gui.customerStateCheckBox.setSelected(true);
 				}
 			}
-		}*/
+		}
 	}
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
-
 	}
-
-
 }

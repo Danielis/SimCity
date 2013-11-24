@@ -8,10 +8,13 @@ import restaurant.gui.CustomerGui.Coordinate;
 
 import java.io.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import agent.RestaurantMenu;
 
@@ -24,6 +27,8 @@ public class WaiterGui implements Gui {
 	private final int starting_X = 150;
 	private final int table_divider = 100;
 	
+	private int movementTicker = 0;
+	
 	int index; //used for unique locations
 
     private WaiterAgent agent = null;
@@ -31,6 +36,8 @@ public class WaiterGui implements Gui {
 
     Boolean isPresent;
     Boolean onBreak = false;
+    
+    BufferedImage imgWaiter;
     
     Coordinate position;
     Coordinate destination;
@@ -49,6 +56,11 @@ public class WaiterGui implements Gui {
     	
     	setPresent(true);
     	isPresent = true;
+    	
+        try
+        {
+        	imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_stand.png"));
+        } catch (IOException e ) {}
     	
         this.agent = w;
     	this.gui = gui;
@@ -87,6 +99,28 @@ public class WaiterGui implements Gui {
     	}
     }
     
+	private void setAnim1() {
+		 try
+	       {
+			 imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_1.png"));
+	       } catch (IOException e ) {}
+	}
+	
+	private void setAnim2() {
+		 try
+	       {
+			 imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_2.png"));
+	       } catch (IOException e ) {}
+	}
+	
+	private void setDefault() {
+		 try
+	       {
+			 imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_stand.png"));
+	       } catch (IOException e ) {}
+		
+	}
+    
     public void updatePosition() {
     	
     	if (goingSomewhere)
@@ -102,15 +136,39 @@ public class WaiterGui implements Gui {
         	if (deltay < 0) deltay *= -1;
         	
             if (position.x < destination.x)
+            {
                 position.x += (1 + deltax/deltadivider);
+   			 	movementTicker++;
+            }
             else if (position.x > destination.x)
+            {
                 position.x -= (1 + deltax/deltadivider);
+   			 	movementTicker++;	
+            }
 
             if (position.y < destination.y)
+            {
                 position.y += (1 + deltay/deltadivider);
+                movementTicker++;
+            }
             else if (position.y > destination.y)
+            {
                 position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
+            }
             
+            if (movementTicker < 30)
+            {
+            	setAnim1();
+            }
+            else if (movementTicker < 60)
+            {
+            	setAnim2();
+            }
+            else if (movementTicker >= 60)
+            {
+            	movementTicker = 0;
+            }
 
             if (position.x == destination.x && position.y == destination.y)
             {
@@ -118,13 +176,19 @@ public class WaiterGui implements Gui {
             	agent.DoneWithAnimation();
             }
     	}
+    	else
+    	{
+    		setDefault();
+    	}
     	
     }
 
     public void draw(Graphics2D g) {
-    	Color waiterColor = new Color(193, 218, 214);
-        g.setColor(waiterColor);
-        g.fillRect(position.x, position.y, waiterSize, waiterSize);
+    	//Color waiterColor = new Color(193, 218, 214);
+        //g.setColor(waiterColor);
+    	Graphics2D me = (Graphics2D)g;
+        //g.fillRect(position.x, position.y, waiterSize, waiterSize);
+    	me.drawImage(this.imgWaiter, position.x, position.y, agent.copyOfAnimPanel);
     }
     
     public void AskForBreak()

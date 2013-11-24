@@ -8,12 +8,14 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import roles.Role;
+
 
 //Customer Agent
 //It still is a finite state machine, instead of events it still uses the state enum.
 //I used this design from the designs drawn from class.
 
-public class MarketCustomerAgent extends Agent implements MarketCustomer {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	//To show icon
 	public enum iconState
@@ -28,7 +30,7 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 	marketCustomerState state;
 	public MarketAnimationPanel copyOfAnimPanel; // for gui
 	MarketWorker t;
-	double balance = 1000;
+	double balance = 0;
 	
 	private MarketCustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
@@ -38,21 +40,30 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 	Boolean isHappy = true;
 	
 	String item;
-	int quantityWanted;
-	int quantityReceived; 
+	int quantityWanted = 0;
+	int quantityReceived = 0; 
 	double amountOwed;
 	
 	
 	//Constructor
-	public MarketCustomerAgent(String name, MarketHost h){
+	public MarketCustomerRole(String name, MarketHost h){
 		super();
 		this.name = name;
 		this.h = h;
 		state = marketCustomerState.outside;
-		amountOwed = 400;
 	}
-
+	
+	public MarketCustomerRole(String name, String item, double marketQuantity, double money) {
+		super();
+		this.name = name;
+		this.item = item;
+		quantityWanted = (int) marketQuantity;
+		balance = money;
+		state = marketCustomerState.outside;
+	}
 //UTILITIES**************************************************
+
+	
 
 	private Boolean enoughBalance(){
 		if (amountOwed > balance){
@@ -81,10 +92,8 @@ public class MarketCustomerAgent extends Agent implements MarketCustomer {
 		stateChanged();
 	}
 	
-public void msgWantsToBuy(String type, int temp){ //called from gui
-		item = type;
+public void msgWantsToBuy(){ //called from gui
 		state = marketCustomerState.outside;
-		quantityWanted = temp;
 		stateChanged();
 	}
 
@@ -135,9 +144,9 @@ public void HereIsOrder(String i, int q){
 
 	
 //SCHEDULER*************************************************
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
-		//print("reached sched");
+		//print("reached sched, state: " + state);
 		if (state == marketCustomerState.outside){
 			GoToMarket();
 			return true;
@@ -204,7 +213,7 @@ private void AskForAssistance(){
 }
 
 private void GiveRequest(){
-	print("I want to order this...");
+	print("I want to order " + quantityWanted + " of " + item);
 	state = marketCustomerState.waiting;
 	t.GiveOrder(this, item, quantityWanted);
 }
@@ -264,8 +273,8 @@ private void LeaveMarket(){
 		}
 		getCustomerGui().DoExitRestaurant();
 	    state = marketCustomerState.exited;  
-	    
-	    getCustomerGui().finishedTransaction();
+	    this.myPerson.msgLeavingMarket(this, balance, item, quantityReceived);
+	    customerGui.finishedTransaction();
 }
 	
 	
@@ -340,6 +349,15 @@ private void LeaveMarket(){
 
 	public void setCustomerGui(MarketCustomerGui customerGui) {
 		this.customerGui = customerGui;
+	}
+	
+	public String getName(){
+		return name;
+	}
+
+	@Override
+	public void setHost(MarketHostAgent host) {
+		this.h = host;
 	}
 
 	

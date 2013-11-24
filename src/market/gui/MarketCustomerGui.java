@@ -1,9 +1,10 @@
 package market.gui;
 
-import market.MarketCustomerAgent;
-import market.MarketCustomerAgent.iconState;
+import market.MarketCustomerRole;
+//import market.MarketCustomerAgent.iconState;
 import market.MarketHostAgent;
 import market.gui.Coordinate;
+import market.interfaces.MarketCustomer;
 
 import java.io.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class MarketCustomerGui implements Gui{
 	private final int table_divider = 127;
 
 	//self agent
-	private MarketCustomerAgent agent = null;
+	private MarketCustomer agent = null;
 	
 	
 
@@ -63,7 +64,7 @@ public class MarketCustomerGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
  
     
-	public MarketCustomerGui(MarketCustomerAgent c, MarketGui gui){
+	public MarketCustomerGui(MarketCustomer c, MarketGui gui){
 		for (int i = 0; i < 5; i++)
 		{
 			tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
@@ -86,6 +87,7 @@ public class MarketCustomerGui implements Gui{
 	public void updatePosition() {
 		if (goingSomewhere)
     	{
+			
     		//Do you like my Delta Movement System?
     		//I thought of it myself :D
     		//EC PLS
@@ -153,7 +155,7 @@ public class MarketCustomerGui implements Gui{
 	}
 	
 	public void setSpeechBubble(String temp){
-		System.out.println("setting");
+	//	System.out.println("setting");
 		speechBubbleLoc= new Coordinate(position.x - 10, position.y + 7);
 		showSpeechBubble = true;
 		temp = "/resources/bankSprites/speech/" + temp +".png";
@@ -174,7 +176,7 @@ public class MarketCustomerGui implements Gui{
 
 	public void draw(Graphics2D g) 
 	{
-		
+		//System.out.println("draw called");
 		Graphics2D newG = (Graphics2D)g;
 		if (isPresent)
 			newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
@@ -190,19 +192,20 @@ public class MarketCustomerGui implements Gui{
 		return isPresent;
 	}
 	
-	public void setAction(String type, String amount) {
+	public void setAction() {
 		isBusy = true;
-		double temp = Double.parseDouble(amount);
-		temp =  Math.round(temp * 100) / 100.0d;
-		int temp2 = (int) temp;
-		agent.msgWantsToBuy(type, temp2);
 		setPresent(true);
+//		double temp = Double.parseDouble(amount);
+//		temp =  Math.round(temp * 100) / 100.0d;
+//		int temp2 = (int) temp;
+		//System.out.println("set act");
+		agent.msgWantsToBuy();
 	}
 	
 	public void finishedTransaction()
 	{
 		isBusy = false;
-		//setPresent(false);
+		setPresent(false);
 	}
 	public boolean isHungry() {
 		return isBusy;
@@ -215,7 +218,7 @@ public class MarketCustomerGui implements Gui{
 	public void DoGoToSeat(int tableNum)
 	{
     	goingSomewhere = true;
-		System.out.println(agent.getName() + " is going to table " + tableNum);
+		System.out.println(agent.getName() + " is going to worker " + tableNum);
 		int i_temp = tableNum -1;
 		Coordinate c_temp = tables.get(i_temp);
 		destination = new Coordinate(c_temp.x+15, c_temp.y-15);

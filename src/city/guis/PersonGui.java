@@ -23,10 +23,13 @@ public class PersonGui implements Gui{
 	private boolean isHungry = false;
 	private boolean needsmoney = false;
 	private boolean goingSomewhere = false;
+	private boolean isBusy = false;
 	
 	//finals
 	//private final int customerSize = 20;
 	private final int deltadivider = 100;
+	
+	int movementTicker = 0;
 
 	//self agent
 	private PersonAgent agent = null;
@@ -42,6 +45,7 @@ public class PersonGui implements Gui{
 	
 	Coordinate position;
 	Coordinate destination;
+	
 	Coordinate outside;
 	Coordinate cashier;
 	Coordinate waitingroom;
@@ -57,8 +61,9 @@ public class PersonGui implements Gui{
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
         } catch (IOException e ) {}
+       
 		
-		System.out.println("Got to the persongui constructor");
+		//System.out.println("Got to the persongui constructor");
 		
 		agent = c;
 		this.gui = gui2;
@@ -67,6 +72,9 @@ public class PersonGui implements Gui{
 		checkpointB = new Coordinate(395,125);
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
+		
+
+		
 		
 		outside = new Coordinate(700, 250);
     	position = new Coordinate(700, 250);
@@ -91,9 +99,32 @@ public class PersonGui implements Gui{
     		y = b;
     	}
     }
+    
+    private void setAnim1() {
+		 try
+	       {
+			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_1.png"));
+	       } catch (IOException e ) {}
+	}
+	
+	private void setAnim2() {
+		 try
+	       {
+			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
+	       } catch (IOException e ) {}
+	}
+	
+	private void setDefault() {
+		 try
+	       {
+			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+	       } catch (IOException e ) {}
+	}
+	
 	public void updatePosition() {
 		if (goingSomewhere)
     	{			
+			
         	int deltax = destination.x - position.x;
         	int deltay = destination.y - position.y;
         	
@@ -101,15 +132,40 @@ public class PersonGui implements Gui{
         	if (deltay < 0) deltay *= -1;
         	
             if (position.x < destination.x)
+            {
                 position.x += (1 + deltax/deltadivider);
+                movementTicker++;
+            }
             else if (position.x > destination.x)
+            {
                 position.x -= (1 + deltax/deltadivider);
+                movementTicker++;
+            }
 
             if (position.y < destination.y)
+            {
                 position.y += (1 + deltay/deltadivider);
-            else if (position.y > destination.y)
-                position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
+            }
             
+            else if (position.y > destination.y)
+            {
+                position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
+            }
+            
+            if (movementTicker < 30)
+            {
+            	setAnim1();
+            }
+            else if (movementTicker < 60)
+            {
+            	setAnim2();
+            }
+            else if (movementTicker >= 60)
+            {
+            	movementTicker = 0;
+            }
 
             if (position.x == destination.x && position.y == destination.y)
             {
@@ -117,6 +173,10 @@ public class PersonGui implements Gui{
             	agent.DoneWithAnimation();
             }
     	}
+		else
+		{
+			setDefault();
+		}
 	}
 
 	public void draw(Graphics2D g) 
@@ -134,30 +194,42 @@ public class PersonGui implements Gui{
 		isHungry = true;
 		agent.msgGoToRestaurant();
 		setPresent(true);
+		setBusy(true);
+	}
+	
+	public void setBusy(Boolean x){
+		isBusy = x;
+	}
+	
+	public Boolean getBusy(){
+		return isBusy;
 	}
 	
 	public void setNotHungry()
 	{
 		isHungry = false;
 		setPresent(false);
+		setBusy(false);
 	}
 	
 	public boolean isHungry() {
 		return isHungry;
 	}
 	
-	public void setNeedsMoney(Boolean b)
+	public void setNeedsMoney(Boolean b, String purpose, double amt)
 	{
 		this.needsmoney = b;
-		agent.msgGoToBank();
+		agent.msgGoToBank(purpose, amt);
 		setPresent(true);
+		setBusy(true);
 	}
 	
-	public void setShop(Boolean b)
+	public void setShop(Boolean b, String item, double quantity)
 	{
 		this.needsmoney = b;
-		agent.msgGoToMarket();
+		agent.msgGoToMarket(item, quantity);
 		setPresent(true);
+		setBusy(true);
 	}
 	
 	public boolean needsMoney()
