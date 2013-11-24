@@ -151,18 +151,21 @@ public class CustomerGui implements Gui{
     		//I thought of it myself :D
     		//EC PLS
 			
-        	int deltax = destination.x - position.x;
+			int deltax = destination.x - position.x;
         	int deltay = destination.y - position.y;
+        	
+        	if (deltax < 0) deltax *= -1;
+        	if (deltay < 0) deltay *= -1;
         	
             if (position.x < destination.x)
             {
                 position.x += (1 + deltax/deltadivider);
-   			 	movementTicker++;
+                movementTicker++;
             }
             else if (position.x > destination.x)
             {
                 position.x -= (1 + deltax/deltadivider);
-   			 	movementTicker++;	
+                movementTicker++;
             }
 
             if (position.y < destination.y)
@@ -195,7 +198,9 @@ public class CustomerGui implements Gui{
             }
     	}
 		else
+		{
 			setDefault();
+		}
 	}
 
 	public void draw(Graphics2D g) 
