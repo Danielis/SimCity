@@ -31,7 +31,7 @@ public class CityListPanel extends JPanel implements ActionListener {
     private JButton addPersonButton = new JButton("Add");
     private JTextField nameFieldForPerson = new JTextField("");
     private JCheckBox personHungryCheckBox = new JCheckBox("Make Hungry");
-    private JCheckBox personNeedsMoneyCheckBox = new JCheckBox("Make Withdrawal");
+    //private JCheckBox personNeedsMoneyCheckBox = new JCheckBox("Make Withdrawal");
     private PersonAgent currentPerson;
 
     private PersonAgent lastPersonClicked;
@@ -106,23 +106,18 @@ public class CityListPanel extends JPanel implements ActionListener {
     public void updatePersonInfoPanel(PersonAgent p) {
     	this.lastPersonClicked = p;
        	personHungryCheckBox.setVisible(true);
-       	this.personNeedsMoneyCheckBox.setVisible(true);
         currentPerson = p;
         PersonAgent person = p;
         personHungryCheckBox.setText("Hungry?");
         personHungryCheckBox.setSelected(person.getGui().isHungry());
         personHungryCheckBox.setEnabled(!person.getGui().isHungry());
-        this.personNeedsMoneyCheckBox.setSelected(person.getGui().needsMoney());
-        this.personNeedsMoneyCheckBox.setEnabled(!person.getGui().needsMoney());
 
     }
     public void updatePersonPanel()
     {
         personHungryCheckBox.setSelected(lastPersonClicked.getGui().isHungry());
         personHungryCheckBox.setEnabled(!lastPersonClicked.getGui().isHungry());
-        this.personNeedsMoneyCheckBox.setSelected(lastPersonClicked.getGui().needsMoney());
-        this.personNeedsMoneyCheckBox.setEnabled(!lastPersonClicked.getGui().needsMoney());
-    }
+      }
    
    
     public void updatePerson(PersonAgent person)
@@ -134,11 +129,6 @@ public class CityListPanel extends JPanel implements ActionListener {
         		PersonAgent p = currentPerson;
         		p.getGui().setHungry();
         	}
-        	if (personNeedsMoneyCheckBox.isSelected())
-        	{
-        		personNeedsMoneyCheckBox.setSelected(false);
-        		PersonAgent p = currentPerson;
-        		p.getGui().setNeedsMoney(true);
-        	}
+        	
     }
 }

@@ -22,6 +22,7 @@ public class PersonGui implements Gui{
 	private boolean isHungry = false;
 	private boolean needsmoney = false;
 	private boolean goingSomewhere = false;
+	private boolean isBusy = false;
 	
 	//finals
 	//private final int customerSize = 20;
@@ -192,30 +193,42 @@ public class PersonGui implements Gui{
 		isHungry = true;
 		agent.msgGoToRestaurant();
 		setPresent(true);
+		setBusy(true);
+	}
+	
+	public void setBusy(Boolean x){
+		isBusy = x;
+	}
+	
+	public Boolean getBusy(){
+		return isBusy;
 	}
 	
 	public void setNotHungry()
 	{
 		isHungry = false;
 		setPresent(false);
+		setBusy(false);
 	}
 	
 	public boolean isHungry() {
 		return isHungry;
 	}
 	
-	public void setNeedsMoney(Boolean b)
+	public void setNeedsMoney(Boolean b, String purpose, double amt)
 	{
 		this.needsmoney = b;
-		agent.msgGoToBank();
+		agent.msgGoToBank(purpose, amt);
 		setPresent(true);
+		setBusy(true);
 	}
 	
-	public void setShop(Boolean b)
+	public void setShop(Boolean b, String item, double quantity)
 	{
 		this.needsmoney = b;
-		agent.msgGoToMarket();
+		agent.msgGoToMarket(item, quantity);
 		setPresent(true);
+		setBusy(true);
 	}
 	
 	public boolean needsMoney()
