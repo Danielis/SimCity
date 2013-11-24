@@ -9,14 +9,19 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
+import restaurant.interfaces.Customer;
+import roles.Apartment;
 import roles.Building;
 import roles.Restaurant;
+import roles.Building.buildingType;
 import housing.guis.HousingGui;
 import bank.Bank;
 import bank.gui.BankGui;
 import market.Market;
 import market.gui.MarketGui;
 import city.PersonAgent;
+
+
 
 
 
@@ -292,27 +297,47 @@ public class CityGui extends JFrame implements ActionListener {
           
             
             if ((x<159) && (y<85) && (x>0) && (y>0)){
-                  BankGui gui3 = new BankGui();
-                  gui3.setTitle("Aleena's Bank");
-                  gui3.setVisible(true);
-                  gui3.setResizable(false);
-                  gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
+            	
+            	for (Building b: buildings){
+    				if (b.getType() == buildingType.bank){
+    					Bank r = (Bank) b;
+    					r.gui.setVisible(true);
+    				}
+    			}
+//                  BankGui gui3 = new BankGui();
+//                  gui3.setTitle("Aleena's Bank");
+//                  gui3.setVisible(true);
+//                  gui3.setResizable(false);
+//                  gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
             }
             
             if ((x<314) && (y<468) && (x>210) && (y>370)){
+            	for (Building b: buildings){
+    				if (b.getType() == buildingType.restaurant){
+    					Restaurant r = (Restaurant) b;
+    					r.gui.setVisible(true);
+    				}
+    			}
+            	/*
              RestaurantGui gui2 = new RestaurantGui();
               gui2.setTitle("Norman's Restaurant");
               gui2.setVisible(true);
               gui2.setResizable(false);
-              gui2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
+              gui2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   */
             }
             
             if ((x<603) && (y<261) && (x>530) && (y>202)){
-            	HousingGui gui4 = new HousingGui();
-        		gui4.setTitle("Housing View");
-        		gui4.setVisible(true);
-        		gui4.setResizable(false);
-        		gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);  
+//            	for (Building b: buildings){
+//    				if (b.getType() == buildingType.housingComplex){
+//    					Apartment r = (Apartment) b;
+//    					b.gui.setVisible(true);
+//    				}
+//    			}
+//            	HousingGui gui4 = new HousingGui();
+//        		gui4.setTitle("Housing View");
+//        		gui4.setVisible(true);
+//        		gui4.setResizable(false);
+//        		gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);  
                }
             
             }
