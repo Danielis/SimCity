@@ -62,6 +62,9 @@ public class CityGui extends JFrame implements ActionListener {
     private JPanel InformationPanel;
     private JPanel buttonPanel;
     private JLabel infoCustomerLabel;
+    
+    private JPanel functionPanel;
+    private JLabel functionPanelL;
 
     //Useful Checkboxes
     private JCheckBox personHungryCheckBox;
@@ -100,6 +103,9 @@ public class CityGui extends JFrame implements ActionListener {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BorderLayout());
         
+        functionPanel = new JPanel();
+        functionPanel.setLayout(new BorderLayout());
+        
         //Set Dimension for CityPanel
         Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .86));
         cityPanel.setPreferredSize(restDim);
@@ -131,16 +137,25 @@ public class CityGui extends JFrame implements ActionListener {
         personInformationPanel.setLayout(new BorderLayout());
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
+        
+        
+        
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
         personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
         personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.WEST);
         personInformationPanel.add(personWantsToShop, BorderLayout.SOUTH);
-        RestaurantPortion.add(cityPanel, BorderLayout.NORTH);
-        InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
-        RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
+        RestaurantPortion.add(cityPanel, BorderLayout.WEST);
+        RestaurantPortion.add(functionPanel, BorderLayout.EAST);
+        
+        functionPanelL = new JLabel(); 
+        functionPanelL.setText("<html><p><p>function panel</p></p></html>");
+        functionPanel.add(functionPanelL, BorderLayout.NORTH);
+        
+        //InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
+        cityPanel.add(InformationPanel, BorderLayout.SOUTH);
         buttonPanel.add(pauseButton, BorderLayout.CENTER);
         buttonPanel.add(refreshButton, BorderLayout.EAST);
-        RestaurantPortion.add(buttonPanel, BorderLayout.SOUTH);
+        RestaurantPortion.add(personInformationPanel, BorderLayout.SOUTH);
         add(cityAnimationPanel, BorderLayout.CENTER);
         add(RestaurantPortion, BorderLayout.EAST);
         
