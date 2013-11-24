@@ -199,7 +199,7 @@ public class MarketCustomerGui implements Gui{
 //		temp =  Math.round(temp * 100) / 100.0d;
 //		int temp2 = (int) temp;
 		//System.out.println("set act");
-		agent.msgWantsToBuy("Steak", 34);
+		agent.msgWantsToBuy();
 	}
 	
 	public void finishedTransaction()

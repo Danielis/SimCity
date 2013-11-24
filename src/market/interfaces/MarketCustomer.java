@@ -21,7 +21,7 @@ public interface MarketCustomer
 
 	void DoneWithAnimation();
 
-	void msgWantsToBuy(String type, int temp2);
+	void msgWantsToBuy();
 
 	void WaitForAnimation();
 

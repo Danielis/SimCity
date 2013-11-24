@@ -285,6 +285,18 @@ public class PersonAgent extends Agent implements Person
 	    gui.setPresent(false);
 	    stateChanged();
 	}
+	
+	public void msgLeavingMarket(MarketCustomerRole r, double balance, String item, int quantRec) {
+		print("Left market.");
+		money = balance;
+		r.setActivity(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		gui.setPresent(true);
+		gui.DoGoToCheckpoint('D');
+		roles.remove(r);
+		stateChanged();
+	}
 	/*
 	//Work
 	public void msgGoToWork(Role r){

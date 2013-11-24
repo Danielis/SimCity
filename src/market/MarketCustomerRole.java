@@ -30,7 +30,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	marketCustomerState state;
 	public MarketAnimationPanel copyOfAnimPanel; // for gui
 	MarketWorker t;
-	double balance = 1000;
+	double balance = 0;
 	
 	private MarketCustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
@@ -40,8 +40,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	Boolean isHappy = true;
 	
 	String item;
-	int quantityWanted;
-	int quantityReceived; 
+	int quantityWanted = 0;
+	int quantityReceived = 0; 
 	double amountOwed;
 	
 	
@@ -53,9 +53,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		state = marketCustomerState.outside;
 	}
 	
-	public MarketCustomerRole(String name, String string, int i, double money) {
+	public MarketCustomerRole(String name, String item, int quant, double money) {
 		super();
 		this.name = name;
+		this.item = item;
+		quantityWanted = quant;
+		balance = money;
 		state = marketCustomerState.outside;
 	}
 //UTILITIES**************************************************
@@ -89,10 +92,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		stateChanged();
 	}
 	
-public void msgWantsToBuy(String type, int temp){ //called from gui
-		item = type;
+public void msgWantsToBuy(){ //called from gui
 		state = marketCustomerState.outside;
-		quantityWanted = temp;
 		stateChanged();
 	}
 
@@ -272,8 +273,8 @@ private void LeaveMarket(){
 		}
 		getCustomerGui().DoExitRestaurant();
 	    state = marketCustomerState.exited;  
-	    
-	    getCustomerGui().finishedTransaction();
+	    this.myPerson.msgLeavingMarket(this, balance, item, quantityReceived);
+	    customerGui.finishedTransaction();
 }
 	
 	
