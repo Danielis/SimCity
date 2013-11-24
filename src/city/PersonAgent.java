@@ -532,8 +532,5 @@ public class PersonAgent extends Agent implements Person
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
-
 	}
-
-
 }
