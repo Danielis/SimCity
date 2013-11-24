@@ -24,6 +24,10 @@ import city.PersonAgent;
 
 
 
+
+
+
+
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -85,22 +89,34 @@ public class CityGui extends JFrame implements ActionListener {
     
     
     // ************ START FUNCTION PANEL *********************
-    
-    private JPanel personPanel = new JPanel();
-    private JLabel personLabel = new JLabel(); 
+   
     
     private JPanel bankPanel = new JPanel();
     private JLabel bankLabel = new JLabel(); 
+    private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
+    private JComboBox transactionList = new JComboBox(transactions);
+    private JButton bankGo = new JButton("Bank");
+    private JTextField amountInput = new JTextField("");
     
     private JPanel marketPanel = new JPanel();
     private JLabel marketLabel = new JLabel(); 
+    String[] marketTransactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
+    JComboBox marketList = new JComboBox(marketTransactions);
+    private JButton marketGo = new JButton("Market");
+    private JTextField marketQ = new JTextField("");
     
     private JPanel housingPanel = new JPanel();
     private JLabel housingLabel = new JLabel(); 
+    String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
+    JComboBox housingList = new JComboBox(housingOptions);
+    String[] foodOptions = { "Pasta", "Chicken", "Eggs" };
+    JComboBox foodList = new JComboBox(foodOptions);
+    private JButton housingGo = new JButton("Housing");
+    
     
     private JPanel restaurantPanel = new JPanel();
     private JLabel restaurantLabel = new JLabel(); 
-    
+    private JButton restaurantGo = new JButton("Restaurant");
     
     
     // ************ END FUNCTION PANEL *********************
@@ -152,28 +168,54 @@ public class CityGui extends JFrame implements ActionListener {
    // ************ START FUNCTION PANEL *********************
         functionPanel.setLayout(new GridLayout(0,1));
         functionPanelL = new JLabel(); 
-        functionPanelL.setText("<html>function panel</html>");
-        functionPanel.add(functionPanelL, BorderLayout.NORTH);
+        //functionPanelL.setText("<html>function panel</html>");
+        //functionPanel.add(functionPanelL, BorderLayout.NORTH);
         
-        personLabel.setText("<html>person</html>");
-		bankLabel.setText("bank");
-		marketLabel.setText("market");
-		housingLabel.setText("housing");
-		restaurantLabel.setText("rest");
-		personPanel.add(personLabel);
-		bankPanel.add(bankLabel);
-		marketPanel.add(marketLabel);
-		housingPanel.add(housingLabel);
-		restaurantPanel.add(restaurantLabel);
+       
+		//bankLabel.setText("bank");
+		//marketLabel.setText("market");
+		//housingLabel.setText("housing");
+		//restaurantLabel.setText("rest");
+		//bankPanel.add(bankLabel);
+		//marketPanel.add(marketLabel);
+		//housingPanel.add(housingLabel);
+		//restaurantPanel.add(restaurantLabel);
 	    
 	    //functionPanel.setLayout(new FlowLayout());
 		
-		functionPanel.add(pauseButton);
-		functionPanel.add(personPanel);
+		
+		//functionPanel.add(personPanel);
 		functionPanel.add(bankPanel);
+		bankPanel.setLayout(new FlowLayout());
+		amountInput.setColumns(10);
+		bankPanel.add(amountInput);
+		bankPanel.add(transactionList);
+		bankPanel.add(bankGo);
+		
+		
 		functionPanel.add(marketPanel);
+		marketPanel.setLayout(new FlowLayout());
+		marketQ.setColumns(10);
+		marketPanel.add(marketQ);
+		marketPanel.add(marketList);
+		marketPanel.add(marketGo);
+		
+		
 		functionPanel.add(housingPanel);
+		housingPanel.setLayout(new FlowLayout());
+		housingPanel.add(housingList);
+		housingPanel.add(foodList);
+		housingPanel.add(housingGo);
+		
+			
+	    
 		functionPanel.add(restaurantPanel);
+		restaurantPanel.add(restaurantGo);
+		
+		
+		
+		
+		
         
         
         
@@ -190,7 +232,7 @@ public class CityGui extends JFrame implements ActionListener {
         personInformationPanel.setPreferredSize(infoDimCustomer);
         personInformationPanel.setMinimumSize(infoDimCustomer);
         personInformationPanel.setMaximumSize(infoDimCustomer);
-        personInformationPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
+        personInformationPanel.setBorder(BorderFactory.createTitledBorder("Citizens"));
         personHungryCheckBox = new JCheckBox();
         personHungryCheckBox.setVisible(false);
         personHungryCheckBox.addActionListener(this);
@@ -211,7 +253,7 @@ public class CityGui extends JFrame implements ActionListener {
         personInformationPanel.add(personNeedsMoneyCheckBox, BorderLayout.WEST);
         personInformationPanel.add(personWantsToShop, BorderLayout.SOUTH);
         RestaurantPortion.add(cityPanel, BorderLayout.EAST);
-        RestaurantPortion.add(functionPanel, BorderLayout.CENTER);
+        RestaurantPortion.add(functionPanel, BorderLayout.WEST);
         
       
         
