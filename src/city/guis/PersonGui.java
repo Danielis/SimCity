@@ -21,6 +21,8 @@ public class PersonGui implements Gui{
 	
 	private boolean isHungry = false;
 	private boolean needsmoney = false;
+	private boolean goingHome = false;
+	
 	private boolean goingSomewhere = false;
 	
 	//finals
@@ -152,6 +154,18 @@ public class PersonGui implements Gui{
 		this.needsmoney = b;
 		agent.msgGoToBank();
 		setPresent(true);
+	}
+	
+	public void setNeedsHome(Boolean b)
+	{
+		this.goingHome = b;
+		agent.msgGoToHome();
+		setPresent(true);
+	}
+	
+	public boolean getNeedsHome()
+	{
+		return this.goingHome;
 	}
 	
 	public boolean needsMoney()

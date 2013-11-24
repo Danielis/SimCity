@@ -74,8 +74,9 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addPersonButton)  {
 			if(type.equals("Tenants")) {
+				/*
 				System.out.println("The type is " + this.type);
-				addTenant(nameFieldForPerson.getText());
+				addTenant(nameFieldForPerson.getText());*/
 			}
 			else{
 				System.out.println("The type is " + this.type);
@@ -83,9 +84,6 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			}
 		}
 		else {
-			// Isn't the second for loop more beautiful?
-			/*for (int i = 0; i < list.size(); i++) {
-                JButton temp = list.get(i);*/
 			for (JButton temp1: listForTenants){
 				if (e.getSource() == temp1)
 				{
@@ -142,7 +140,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			listForTenants.add(button);
 			viewForTenant.add(button);
 			housingPanel.addTenant(c, (listForTenants.size()-1));
-			housingPanel.showTenantInfo(c);
+			housingPanel.showTenantInfo(c.getName());
 			validate();
 	}
 	

@@ -9,6 +9,7 @@ import javax.swing.Icon;
 public interface HousingCustomer {
 
 	boolean hungry = false;
+	boolean houseNeedsRepairs = false;
 
 	public abstract void HereIsChange(double d);
 
@@ -25,6 +26,10 @@ public interface HousingCustomer {
 	public abstract void setGui(HousingCustomerGui g);
 
 	public abstract void setLandlord(LandlordAgent landlord);
+
+	public abstract void EatAtHome();
+
+	public abstract void MyHouseNeedsRepairs();
 
 
 }

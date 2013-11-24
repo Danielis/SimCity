@@ -18,19 +18,10 @@ import roles.Building.buildingType;
 import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
-
-
-
-
-
-
-
-
-
-
-
 import housing.HousingCustomerRole;
 
+
+import housing.interfaces.HousingCustomer;
 
 //Utility Imports
 import java.util.*;
@@ -215,7 +206,7 @@ public class PersonAgent extends Agent implements Person
 	 ******************************************************************************/
 
 	//Housing
-	public void msgGoToHome(Role r){
+	public void msgGoToHome(){
 	    Status.setHousingStatus(houseStatus.needsToGo);
 	    Status.setDestination(destination.home);
 	    gui.setPresent(false);
@@ -229,7 +220,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('A');
 //		gui.DoGoToCheckpoint('C');
 //		gui.DoGoToCheckpoint('B');
 //		gui.DoGoToCheckpoint('A');
@@ -250,10 +241,10 @@ public class PersonAgent extends Agent implements Person
 	    Status.setDestination(destination.outside);
 	    Status.setNourishment(nourishment.notHungry);
 	    gui.setPresent(true);
-		gui.DoGoToCheckpoint('D');
-		gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
 		roles.remove(r);
 	    stateChanged();
 	}
@@ -379,10 +370,7 @@ public class PersonAgent extends Agent implements Person
 	{
 		Status.setHousingStatus(houseStatus.goingHome);
 		//Transportation t = ChooseTransportation();
-		gui.DoGoToCheckpoint('A');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToHouse();
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
 		
@@ -391,17 +379,12 @@ public class PersonAgent extends Agent implements Person
 		c.setPerson(this);
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
-		
-		
-		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 
 		for (Building b: buildings){
 			print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				Apartment a = (Apartment) b;
-				//a.panel.housingPanel.customerHungryCheckBox.setSelected(true);
 				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0));
-				r.panel.customerPanel.addCustomer((Customer)roles.get(0));
 			}
 		}
 	}
@@ -420,13 +403,6 @@ public class PersonAgent extends Agent implements Person
 		//Role terminologies
 		CustomerRole c = new CustomerRole(this.getName());
 		c.setPerson(this);
-		/*c.setHost(restaurants.get(0).panel.host);
-		c.setCashier(restaurants.get(0).panel.cashier);
-		CustomerGui gui1 = new CustomerGui(c, restaurants.get(0).gui);
-		c.setGui(gui1);
-		restaurants.get(0).gui.animationPanel.addGui(gui1);
-		c.setAnimPanel(restaurants.get(0).gui.animationPanel);
-		restaurants.get(0).panel.customers.add(c);*/
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
 		
@@ -441,35 +417,15 @@ public class PersonAgent extends Agent implements Person
 				r.panel.customerPanel.addCustomer((Customer)roles.get(0));
 			}
 		}
-
-		
-		/*
-		Restaurant r = PickARestaurant();
-		//Transportation t = ChooseTransportation();
-		//DoGoTo(r.location, t);
-		CustomerRole c = new CustomerRole(this.getName());
-		roles.add(c);
-		c.setActivity(true);
-		r.host.msgCheckForASpot(c);*/
-		
-		/*
-		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list
-	    TransportationMethod tm = PickOne(r);    //Someone has to do this.
-	    DoGoTo(r.location, tm);                  //It's probably more complicated than this.
-	    Role c = SimCity201.CustomerFactory(r.customerRole); 
-	    roles.add(c);
-	    c.active = T;
-	    r.getHost().ImHungry((Customer) c);
-		 */
 	}
 	
 	public void GoToWithdrawFromBank()
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
-		//gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		
