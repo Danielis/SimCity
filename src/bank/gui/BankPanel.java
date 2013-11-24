@@ -136,7 +136,7 @@ public class BankPanel extends JPanel {
      */
     public void addCustomer(BankCustomer c) 
     {
-    	System.out.println("bankpanel addcust");
+    	//System.out.println("bankpanel addcust");
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);

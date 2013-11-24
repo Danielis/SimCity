@@ -490,6 +490,7 @@ public class PersonAgent extends Agent implements Person
 					Market r = (Market) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
 					r.panel.customerPanel.addCustomer((MarketCustomer) c);
+					r.gui.customerStateCheckBox.setSelected(true);
 				}
 			}
 		}

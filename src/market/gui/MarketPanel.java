@@ -142,7 +142,8 @@ public class MarketPanel extends JPanel {
 		c.setGui(g);
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
-		c.startThread();
+		c.getGui().setAction();
+		//c.startThread();
     }
     
     public void addTeller(String name) 

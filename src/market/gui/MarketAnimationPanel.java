@@ -142,7 +142,6 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
             
-            	
             	gui.draw(cashier);
             	gui.draw(host);
             }

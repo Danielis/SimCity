@@ -34,7 +34,7 @@ public class MarketGui extends JFrame implements ActionListener {
     private JLabel infoCustomerLabel;
     private JLabel infoWaiterLabel;
 
-    private JCheckBox customerStateCheckBox;
+    public JCheckBox customerStateCheckBox;
     private JTextField amountInput = new JTextField("");
     
     String[] transactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
@@ -195,7 +195,7 @@ public class MarketGui extends JFrame implements ActionListener {
         if (e.getSource() == customerStateCheckBox) 
         {
         	MarketCustomerRole c = (MarketCustomerRole) currentCustomer;
-            c.getGui().setAction(transactionList.getSelectedItem().toString(), amountInput.getText());
+            c.getGui().setAction();
             customerStateCheckBox.setEnabled(false);
         }
 //        if (e.getSource() == transactionList)

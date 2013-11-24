@@ -145,7 +145,7 @@ public void HereIsOrder(String i, int q){
 //SCHEDULER*************************************************
 	public boolean pickAndExecuteAnAction() 
 	{
-		//print("reached sched");
+		//print("reached sched, state: " + state);
 		if (state == marketCustomerState.outside){
 			GoToMarket();
 			return true;
