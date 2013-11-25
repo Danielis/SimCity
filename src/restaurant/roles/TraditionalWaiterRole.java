@@ -1,7 +1,9 @@
-package restaurant;
+package restaurant.roles;
 
 import agent.Agent;
 import agent.RestaurantMenu;
+import restaurant.CustomerState;
+import restaurant.MyCustomer;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
 
@@ -10,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Waiter Agent
-public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
+public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	
 	//Lists and Other Agents
 
@@ -24,7 +26,7 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public TraditionalWaiterAgent()
+	public TraditionalWaiterRole()
 	{
 		super();
 		this.name = "Default Daniel";
@@ -35,7 +37,7 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 			foodsAvailable.add(true);
 		}
 	}
-	public TraditionalWaiterAgent(String name) {
+	public TraditionalWaiterRole(String name) {
 		super();
 
 		this.name = name;
@@ -73,7 +75,7 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{		
 		try
 		{

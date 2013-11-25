@@ -37,9 +37,9 @@ public interface Customer
 	
 	public void DoneWithAnimation();
 
-	public abstract void setHost(HostAgent host);
+	public abstract void setHost(Host host);
 
-	public abstract void setCashier(CashierAgent cashier);
+	public abstract void setCashier(Cashier cashier);
 
 	public abstract void setGui(CustomerGui g);
 

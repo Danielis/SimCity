@@ -5,6 +5,7 @@ import java.util.Vector;
 import restaurant.CookAgent.state;
 import restaurant.interfaces.Cook;
 import restaurant.interfaces.Waiter;
+import restaurant.roles.ModernWaiterRole;
  
 public class ProducerConsumerMonitor extends Object {
     private final int N = 15;
@@ -73,9 +74,9 @@ public class ProducerConsumerMonitor extends Object {
     	public int table;
     	
     	//Constructor
-    	Ticket(WaiterAgent newWaiter, Cook cook, String newChoice, int newTable)
+    	public Ticket(Waiter waiter, Cook cook, String newChoice, int newTable)
     	{
-    		w = newWaiter;
+    		w = waiter;
     		this.c = cook;
     		choice = newChoice;
     		table = newTable;
