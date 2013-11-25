@@ -54,7 +54,7 @@ public class PersonAgent extends Agent implements Person
 	PersonGui gui = null;
 	public double money = 500;
 	String name;
-	PersonStatus Status = new PersonStatus();
+	public PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public Semaphore busSemaphore = new Semaphore(0, true);
 
@@ -142,7 +142,7 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										CLASSES
 	 ******************************************************************************/
-	class PersonStatus
+	public class PersonStatus
 	{
 		nourishment nour;
 		location loc;
