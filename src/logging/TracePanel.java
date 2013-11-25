@@ -43,232 +43,232 @@ import javax.swing.text.StyledDocument;
  */
 public class TracePanel extends JScrollPane implements AlertListener {
 
-        private static final long serialVersionUID = 5643932617391465416L;
-        private JTextPane traceTextPane;
+	private static final long serialVersionUID = 5643932617391465416L;
+	private JTextPane traceTextPane;
 
-        private List<Alert> newAlerts = Collections.synchronizedList(new ArrayList<Alert>());
-        private Set<AlertLevel> visibleLevels = Collections.synchronizedSet(EnumSet.allOf(AlertLevel.class));
-        private Set<AlertTag> visibleTags = Collections.synchronizedSet(EnumSet.noneOf(AlertTag.class));
+	private List<Alert> newAlerts = Collections.synchronizedList(new ArrayList<Alert>());
+	private Set<AlertLevel> visibleLevels = Collections.synchronizedSet(EnumSet.allOf(AlertLevel.class));
+	private Set<AlertTag> visibleTags = Collections.synchronizedSet(EnumSet.noneOf(AlertTag.class));
 
-        Dimension size;
-        Style errorStyle;
-        Style warningStyle;
-        Style infoStyle;
-        Style defaultStyle;
+	Dimension size;
+	Style errorStyle;
+	Style warningStyle;
+	Style infoStyle;
+	Style defaultStyle;
 
-        public TracePanel() {
-                super();
-                this.setBorder(new BevelBorder(EtchedBorder.LOWERED));
-                this.size = new Dimension(500, 100);
-                traceTextPane = new JTextPane();
-                traceTextPane.setEditable(false);
-                traceTextPane.setPreferredSize(size);
-                // this.add(traceTextPane);
-                this.setViewportView(traceTextPane);
+	public TracePanel() {
+		super();
+		this.setBorder(new BevelBorder(EtchedBorder.LOWERED));
+		this.size = new Dimension(500, 100);
+		traceTextPane = new JTextPane();
+		traceTextPane.setEditable(false);
+		traceTextPane.setPreferredSize(size);
+		this.add(traceTextPane);
+		this.setViewportView(traceTextPane);
 
-                this.setPreferredSize(size);
-                this.setEnabled(true);
+		this.setPreferredSize(size);
+		this.setEnabled(true);
 
-                //Set up the styled doc and styles to use for printing
-                StyledDocument styledDoc = traceTextPane.getStyledDocument();
+		//Set up the styled doc and styles to use for printing
+		StyledDocument styledDoc = traceTextPane.getStyledDocument();
 
-                // Create a style object and then set the style attributes
-                errorStyle = styledDoc.addStyle("ErrorStyle", null);
-                warningStyle = styledDoc.addStyle("WarningStyle", null);
-                infoStyle = styledDoc.addStyle("InfoStyle", null);
-                defaultStyle = styledDoc.addStyle("DefaultStyle", null);
+				// Create a style object and then set the style attributes
+				errorStyle = styledDoc.addStyle("ErrorStyle", null);
+				warningStyle = styledDoc.addStyle("WarningStyle", null);
+				infoStyle = styledDoc.addStyle("InfoStyle", null);
+				defaultStyle = styledDoc.addStyle("DefaultStyle", null);
 
-                // Error
-                StyleConstants.setForeground(errorStyle, Color.red);
+				// Error
+				StyleConstants.setForeground(errorStyle, Color.red);
 
-                // Warning
-                StyleConstants.setForeground(warningStyle, Color.yellow);
-                //TODO: This looks ugly and is only so we could actually read the text... change it!
-                //And maybe change font color or panel background color or something...
-                StyleConstants.setBackground(warningStyle, Color.black);
+				// Warning
+				StyleConstants.setForeground(warningStyle, Color.yellow);
+				//TODO: This looks ugly and is only so we could actually read the text... change it!
+				//And maybe change font color or panel background color or something...
+				StyleConstants.setBackground(warningStyle, Color.black);
 
-                // Info
-                StyleConstants.setForeground(infoStyle, Color.blue);
+				// Info
+				StyleConstants.setForeground(infoStyle, Color.blue);
 
-                // Default
-                StyleConstants.setForeground(defaultStyle, Color.black);
+				// Default
+				StyleConstants.setForeground(defaultStyle, Color.black);
 
 
-                //Set the default visible levels, redundant with the EnumSet declaration above
-                visibleLevels.add(AlertLevel.MESSAGE);
-                visibleLevels.add(AlertLevel.ERROR);
-                visibleLevels.add(AlertLevel.WARNING);
-                visibleLevels.add(AlertLevel.INFO);
-                visibleLevels.add(AlertLevel.DEBUG);
-                
-                //Sets up the TracePanel to automatically be tied with the AlertLog.
-                AlertLog.getInstance().addAlertListener(this);
-        }
+				//Set the default visible levels, redundant with the EnumSet declaration above
+				visibleLevels.add(AlertLevel.MESSAGE);
+				visibleLevels.add(AlertLevel.ERROR);
+				visibleLevels.add(AlertLevel.WARNING);
+				visibleLevels.add(AlertLevel.INFO);
+				visibleLevels.add(AlertLevel.DEBUG);
 
-        
-        /**
-         * Determines if a given alert should be displayed based on all of the currently enabled {@link AlertLevel}
-         * and {@link AlertTag} parameters.
-         * @param alert The alert to check.
-         * @return true if the alert should be visible, false otherwise.
-         * 
-         * @see {@link #showAlertsWithLevel(AlertLevel)}
-         * @see {@link #hideAlertsWithLevel(AlertLevel)}
-         * @see {@link #showAlertsWithTag(AlertTag)}
-         * @see {@link #hideAlertsWithTag(AlertTag)}
-         */
-        private boolean isAlertVisible(Alert alert) {
-                if(visibleLevels.contains(alert.level) && visibleTags.contains(alert.tag)) {
-                        return true;
-                } else {
-                        return false;
-                }
-        }
+				//Sets up the TracePanel to automatically be tied with the AlertLog.
+				AlertLog.getInstance().addAlertListener(this);
+	}
 
-        /**
-         * Updates the trace panel to include all new messages from the log, 
-         */
-        private void updateTracePanel() {
-                synchronized (newAlerts) {
-                        for (Alert alert : newAlerts) {
-                                try {
-                                        if(!isAlertVisible(alert)) {        //If not visible, skip this alert in the loop
-                                                continue;
-                                        }
 
-                                        //Pick a style to print with
-                                        Style styleToPrint = null;
-                                        switch (alert.level) {
-                                        case ERROR:
-                                                styleToPrint = errorStyle;
-                                                break;
-                                        case WARNING:
-                                                styleToPrint = warningStyle;
-                                                break;
-                                        case INFO:
-                                                styleToPrint = infoStyle;
-                                                break;
-                                        default:
-                                                styleToPrint = defaultStyle;
-                                                break;
-                                        }
+	/**
+	 * Determines if a given alert should be displayed based on all of the currently enabled {@link AlertLevel}
+	 * and {@link AlertTag} parameters.
+	 * @param alert The alert to check.
+	 * @return true if the alert should be visible, false otherwise.
+	 * 
+	 * @see {@link #showAlertsWithLevel(AlertLevel)}
+	 * @see {@link #hideAlertsWithLevel(AlertLevel)}
+	 * @see {@link #showAlertsWithTag(AlertTag)}
+	 * @see {@link #hideAlertsWithTag(AlertTag)}
+	 */
+	private boolean isAlertVisible(Alert alert) {
+		if(visibleLevels.contains(alert.level) && visibleTags.contains(alert.tag)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-                                        //Insert the alert into the panel's document
-                                        int endPosition = traceTextPane.getDocument().getEndPosition().getOffset();
-                                        traceTextPane.getStyledDocument().insertString(endPosition, alert.toString() + "\n", styleToPrint);
-                                        
-                                } catch (BadLocationException e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                        newAlerts.clear();        //We've dealt with the new alerts, so remove them form the new alerts list.
-                }
-        }
+	/**
+	 * Updates the trace panel to include all new messages from the log, 
+	 */
+	private void updateTracePanel() {
+		synchronized (newAlerts) {
+			for (Alert alert : newAlerts) {
+				try {
+					if(!isAlertVisible(alert)) {        //If not visible, skip this alert in the loop
+						continue;
+					}
+					System.out.println("Alert is visible!");
+					//Pick a style to print with
+					Style styleToPrint = null;
+					switch (alert.level) {
+					case ERROR:
+						styleToPrint = errorStyle;
+						break;
+					case WARNING:
+						styleToPrint = warningStyle;
+						break;
+					case INFO:
+						styleToPrint = infoStyle;
+						break;
+					default:
+						styleToPrint = defaultStyle;
+						break;
+					}
 
-        /**
-         * Filters the trace panel according to Level and Tag and only displays those which have been enabled.
-         */
-        private void filterTracePanel() {
-                try {
-                        traceTextPane.getStyledDocument().remove(0, traceTextPane.getStyledDocument().getLength());        //Removes the whole document
-                } catch (BadLocationException e) {
-                        e.printStackTrace();
-                }
-                
-                List<Alert> alerts = AlertLog.getInstance().getAlerts();        //Get all the alerts from the log
-                Collections.sort(alerts);                                                                        //Sort them (they end up sorted by timestamp)
-                for(Alert alert:alerts) {
-                        if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
-                                newAlerts.add(alert);
-                                //System.out.println("Adding Alert: " + alert.name + alert.level + alert.tag);
-                        }
-                }
+					//Insert the alert into the panel's document
+					int endPosition = traceTextPane.getDocument().getEndPosition().getOffset();
+					traceTextPane.getStyledDocument().insertString(endPosition, alert.toString() + "\n", styleToPrint);
 
-                updateTracePanel();        //update the panel to now reflect the correct alerts
-        }
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+			}
+			newAlerts.clear();        //We've dealt with the new alerts, so remove them form the new alerts list.
+		}
+	}
 
-        /**
-         * Makes Alerts with a given {@link AlertLevel} show up in the trace panel.
-         * @param level The level whose alerts you do want to see.
-         */
-        public void showAlertsWithLevel(AlertLevel level) {
-                this.visibleLevels.add(level);
-                filterTracePanel();
-        }
-        /**
-         * Makes Alerts with a given {@link AlertLevel} not show up in the trace panel.
-         * @param level The level whose alerts you don't want to see.
-         */
-        public void hideAlertsWithLevel(AlertLevel level) {
-                this.visibleLevels.remove(level);
-                filterTracePanel();
-        }
+	/**
+	 * Filters the trace panel according to Level and Tag and only displays those which have been enabled.
+	 */
+	private void filterTracePanel() {
+		try {
+			traceTextPane.getStyledDocument().remove(0, traceTextPane.getStyledDocument().getLength());        //Removes the whole document
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 
-        /**
-         * Makes Alerts with a given {@link AlertTag} show up in the trace panel.
-         * @param tag The tag whose alerts you do want to see.
-         */
-        public void showAlertsWithTag(AlertTag tag) {
-                this.visibleTags.add(tag);
-                filterTracePanel();
-        }
+		List<Alert> alerts = AlertLog.getInstance().getAlerts();        //Get all the alerts from the log
+		Collections.sort(alerts);                                                                        //Sort them (they end up sorted by timestamp)
+		for(Alert alert:alerts) {
+			if(visibleTags.contains(alert.tag) && visibleLevels.contains(alert.level)) {
+				newAlerts.add(alert);
+				//System.out.println("Adding Alert: " + alert.name + alert.level + alert.tag);
+			}
+		}
 
-        /**
-         * Makes Alerts with a given {@link AlertTag} not show up in the trace panel.
-         * @param tag The tag whose alerts you don't want to see.
-         */
-        public void hideAlertsWithTag(AlertTag tag) {
-                this.visibleTags.remove(tag);
-                filterTracePanel();
-        }
-        
-        /**
-         * Enables Alerts to be displayed for all Tag values in {@link AlertTag}.
-         * Convenience method.
-         */
-        public void showAlertsForAllTags() {
-                visibleTags = Collections.synchronizedSet(EnumSet.allOf(AlertTag.class));
-        }
-        
-        /**
-         * Enables Alerts to be displayed for all Level values in {@link AlertLevel}.
-         * Convenience method.
-         */
-        public void showAlertsForAllLevels() {
-                visibleLevels = Collections.synchronizedSet(EnumSet.allOf(AlertLevel.class));
-        }
+		updateTracePanel();        //update the panel to now reflect the correct alerts
+	}
 
-        /**
-         * Adds a new {@link Alert} to the trace panel.
-         * @param alert The alert that is being added.
-         */
-        public void addNewAlert(Alert alert) {
-                //This should make it only scroll down if we are already at the bottom.  Like a scroll lock kinda thing.
-                boolean scrollDown = (this.getVerticalScrollBar().getValue() + this
-                                .getVerticalScrollBar().getVisibleAmount()) == this
-                                .getVerticalScrollBar().getMaximum();
+	/**
+	 * Makes Alerts with a given {@link AlertLevel} show up in the trace panel.
+	 * @param level The level whose alerts you do want to see.
+	 */
+	public void showAlertsWithLevel(AlertLevel level) {
+		this.visibleLevels.add(level);
+		filterTracePanel();
+	}
+	/**
+	 * Makes Alerts with a given {@link AlertLevel} not show up in the trace panel.
+	 * @param level The level whose alerts you don't want to see.
+	 */
+	public void hideAlertsWithLevel(AlertLevel level) {
+		this.visibleLevels.remove(level);
+		filterTracePanel();
+	}
 
-                //add the new alert and update the panel to show it
-                newAlerts.add(alert);
-                updateTracePanel();
+	/**
+	 * Makes Alerts with a given {@link AlertTag} show up in the trace panel.
+	 * @param tag The tag whose alerts you do want to see.
+	 */
+	public void showAlertsWithTag(AlertTag tag) {
+		this.visibleTags.add(tag);
+		filterTracePanel();
+	}
 
-                //JScrollBar bar = this.getVerticalScrollBar();
-                // bar.setValue(bar.getMaximum() + bar.getVisibleAmount());
+	/**
+	 * Makes Alerts with a given {@link AlertTag} not show up in the trace panel.
+	 * @param tag The tag whose alerts you don't want to see.
+	 */
+	public void hideAlertsWithTag(AlertTag tag) {
+		this.visibleTags.remove(tag);
+		filterTracePanel();
+	}
 
-                //Should snap the trace panel to the bottom when a new thing is added (makes it so you don't have to scroll down manually as new stuff gets added in)
-                if (scrollDown) {
-                        Document d = this.traceTextPane.getDocument();
-                        this.traceTextPane.select(d.getLength(), d.getLength());
-                        // this.getVerticalScrollBar().setValue(
-                        // this.getVerticalScrollBar().getMaximum()
-                        // + this.getVerticalScrollBar().getVisibleAmount());
-                }
-        }
+	/**
+	 * Enables Alerts to be displayed for all Tag values in {@link AlertTag}.
+	 * Convenience method.
+	 */
+	public void showAlertsForAllTags() {
+		visibleTags = Collections.synchronizedSet(EnumSet.allOf(AlertTag.class));
+	}
 
-        /** {@inheritDoc} */
-        @Override
-        public void alertOccurred(Alert alert) {
-                addNewAlert(alert);
-        }
+	/**
+	 * Enables Alerts to be displayed for all Level values in {@link AlertLevel}.
+	 * Convenience method.
+	 */
+	public void showAlertsForAllLevels() {
+		visibleLevels = Collections.synchronizedSet(EnumSet.allOf(AlertLevel.class));
+	}
+
+	/**
+	 * Adds a new {@link Alert} to the trace panel.
+	 * @param alert The alert that is being added.
+	 */
+	public void addNewAlert(Alert alert) {
+		//This should make it only scroll down if we are already at the bottom.  Like a scroll lock kinda thing.
+		boolean scrollDown = (this.getVerticalScrollBar().getValue() + this
+				.getVerticalScrollBar().getVisibleAmount()) == this
+				.getVerticalScrollBar().getMaximum();
+
+		//add the new alert and update the panel to show it
+		newAlerts.add(alert);
+		updateTracePanel();
+
+		//JScrollBar bar = this.getVerticalScrollBar();
+		// bar.setValue(bar.getMaximum() + bar.getVisibleAmount());
+
+		//Should snap the trace panel to the bottom when a new thing is added (makes it so you don't have to scroll down manually as new stuff gets added in)
+		if (scrollDown) {
+			Document d = this.traceTextPane.getDocument();
+			this.traceTextPane.select(d.getLength(), d.getLength());
+			// this.getVerticalScrollBar().setValue(
+			// this.getVerticalScrollBar().getMaximum()
+			// + this.getVerticalScrollBar().getVisibleAmount());
+		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void alertOccurred(Alert alert) {
+		addNewAlert(alert);
+	}
 
 }
