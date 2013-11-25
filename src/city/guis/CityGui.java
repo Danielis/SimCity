@@ -21,6 +21,7 @@ import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TracePanel;
+import logging.TrackerGui;
 import market.Market;
 import market.gui.MarketGui;
 import city.PersonAgent;
@@ -29,6 +30,7 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
+
 
 
 
@@ -529,18 +531,9 @@ public class CityGui extends JFrame implements ActionListener {
     	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
         gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
         
-        JFrame trackerFrame = new JFrame("Tracker");
-        trackerFrame.setSize(new Dimension(500,100));
-        trackerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        trackerFrame.setResizable(false);
-        trackerFrame.setVisible(true);
+        TrackerGui trackerWindow = new TrackerGui();
         
-        TracePanel tracker = new TracePanel();
-        trackerFrame.getContentPane().add(tracker);
-        tracker.setVisible(true);
-        tracker.showAlertsForAllLevels();
-        tracker.showAlertsForAllTags();
-        tracker.alertOccurred(new Alert(AlertLevel.ERROR, AlertTag.GENERAL_CITY, "me", "test message", new Date()));
+        
     }
     /**
      * Main routine to get gui started
