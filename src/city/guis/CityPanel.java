@@ -51,7 +51,7 @@ public class CityPanel extends JPanel {
     int waiterindex = 0; 		//To assign waiters individual locations
     
     public Vector<Building> buildings = new Vector<Building>();
-    private Vector<PersonAgent> people = new Vector<PersonAgent>();
+    public Vector<PersonAgent> people = new Vector<PersonAgent>();
     
 
     private CityListPanel personPanel = new CityListPanel(this, "People");
@@ -155,10 +155,10 @@ public class CityPanel extends JPanel {
     }
     
 	//Adds a person to the city
-    public void addPerson(String name) 
+    public void addPerson(String name, String job, String wealth) 
     {
     	System.out.println("Got here A");
-		PersonAgent p = new PersonAgent(name);
+		PersonAgent p = new PersonAgent(name, job, wealth);
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
@@ -262,7 +262,7 @@ public class CityPanel extends JPanel {
     }
     
     public void sendPersonToStop(){ //Trans: should be done by person AI 
-    	this.personPanel.addPerson("TestPerson");
+    	this.personPanel.addPerson("TestPerson", "None", "Average");
     	PersonAgent testPerson = people.lastElement();
     	testPerson.transportationStatusBus();
     	testPerson.msgGoToRestaurant();

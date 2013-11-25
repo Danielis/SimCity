@@ -39,10 +39,43 @@ public class CityListPanel extends JPanel implements ActionListener {
     private CityPanel cityPanel;
     String type;
 
+    
+    
+    // ********** person creation panel
+    
+    JPanel newCreation = new JPanel();
+    
+    String[] jobOptions = { "None", "Market Worker", "Market Host", "Restaurant Host", "Cook", "Waiter", "Cashier", "Bank Host", "Teller", "Landlord", "Repairman", "Crook" };
+    JComboBox jobList = new JComboBox(jobOptions);
+   
+    String[] wealthLevels = { "Average", "Wealthy", "Poor" };
+    JComboBox wealthList = new JComboBox(wealthLevels);
+    
+  //  JCheckBox takesBusCheckBox = new JCheckBox("Takes Bus?");
+    
+    // ************* end person creation panel
+    
+    
+    
+    
+    
+    
+    
     //CONSTRUCTOR
     public CityListPanel(CityPanel rp, String type) {
         cityPanel = rp;
         this.type = type;
+        
+        
+        
+        // ***** new ppl creation panel
+        newCreation.setLayout(new FlowLayout());
+        newCreation.add(jobList);
+        newCreation.add(wealthList);
+        //newCreation.add(takesBusCheckBox);
+        
+        //****** end new ppl creation panel
+        
 
         //setLayout(new GridLayout(0,1,1,1));
         topPart_person.setLayout(new BorderLayout());
@@ -55,6 +88,8 @@ public class CityListPanel extends JPanel implements ActionListener {
     	topPart_person.add(name, BorderLayout.NORTH);
         addPersonButton.addActionListener(this);
         topPart_person.add(nameFieldForPerson, BorderLayout.CENTER);
+        topPart_person.add(newCreation, BorderLayout.SOUTH);
+        
         //customerHungryCheckBox.addActionListener(this);
         //topPart_person.add(personHungryCheckBox, BorderLayout.SOUTH);
        // personHungryCheckBox.setMinimumSize(new Dimension(250,100));
@@ -70,7 +105,9 @@ public class CityListPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addPersonButton) 
         {
-        	addPerson(nameFieldForPerson.getText());
+    		String job = jobList.getSelectedItem().toString();
+    		String wealth = wealthList.getSelectedItem().toString();
+        	addPerson(nameFieldForPerson.getText(), job, wealth);
         }
         else {
         	for (JButton temp1:listForPeople){
@@ -83,7 +120,7 @@ public class CityListPanel extends JPanel implements ActionListener {
     }
 
     //Add Person to the List
-    public void addPerson(String name) {
+    public void addPerson(String name, String job, String wealth) {
         if (name != null) {
             JButton button = new JButton(name);
             button.setBackground(Color.white);
@@ -97,7 +134,7 @@ public class CityListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForPeople.add(button);
             viewForPerson.add(button);
-            cityPanel.addPerson(name);
+            cityPanel.addPerson(name, job, wealth);
             cityPanel.showPersonInfo(name);
             validate();
         }

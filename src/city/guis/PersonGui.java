@@ -22,6 +22,8 @@ public class PersonGui implements Gui{
 	
 	private boolean isHungry = false;
 	private boolean needsmoney = false;
+	private boolean goingHome = false;
+	
 	private boolean goingSomewhere = false;
 	private boolean isBusy = false;
 	
@@ -42,6 +44,7 @@ public class PersonGui implements Gui{
 	Coordinate checkpointB;
 	Coordinate checkpointC;
 	Coordinate checkpointD;
+
 	Coordinate checkpointE; 
 	Coordinate checkpointF; 
 	Coordinate checkpointG; 
@@ -50,6 +53,8 @@ public class PersonGui implements Gui{
 	Coordinate checkpointJ; 
 	Coordinate checkpointK;
 	
+	Coordinate checkpointHouse;
+
 	
 	Coordinate position;
 	Coordinate destination;
@@ -58,7 +63,7 @@ public class PersonGui implements Gui{
 	Coordinate cashier;
 	Coordinate waitingroom;
 	
-	BufferedImage imgTrainer;
+	public BufferedImage imgTrainer;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -76,6 +81,7 @@ public class PersonGui implements Gui{
 		agent = c;
 		this.gui = gui2;
 		
+
 		checkpointA = new Coordinate(257,474);//restaurant
 		checkpointB = new Coordinate(385,474);//bottom street corner  
 		checkpointC = new Coordinate(385,362);//middle lower street corner
@@ -87,6 +93,11 @@ public class PersonGui implements Gui{
 		checkpointI = new Coordinate(319,90);//Apartments
 		checkpointJ = new Coordinate(73,106);//in front of bank
 		checkpointK = new Coordinate(73,74);//Bank
+		checkpointA = new Coordinate(395,250);
+		checkpointB = new Coordinate(395,125);
+		checkpointC = new Coordinate(320,125);
+		checkpointD = new Coordinate(320,100);
+		checkpointHouse = new Coordinate(536,473);
 		
 		
 		outside = new Coordinate(700, 250);
@@ -245,6 +256,18 @@ public class PersonGui implements Gui{
 		setBusy(true);
 	}
 	
+	public void setNeedsHome(Boolean b)
+	{
+		this.goingHome = b;
+		agent.msgGoToHome();
+		setPresent(true);
+	}
+	
+	public boolean getNeedsHome()
+	{
+		return this.goingHome;
+	}
+	
 	public boolean needsMoney()
 	{
 		return needsmoney;
@@ -252,6 +275,15 @@ public class PersonGui implements Gui{
 
 	public void setPresent(boolean p) {
 		isPresent = p;
+	}
+	
+	public void DoGoToHouse()
+	{
+		System.out.println("Going home.");
+		goingSomewhere = true;
+		destination = checkpointHouse;
+		agent.WaitForAnimation();
+		
 	}
 	
 	public void DoGoToCheckpoint(char a)

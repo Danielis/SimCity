@@ -67,7 +67,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         bufferSize = this.getSize();
         
     	Timer timer = new Timer(20, this );
-    	//timer.start(); //commenting out so that only city runs
+    	timer.start(); //commenting out so that only city runs
     }
 
 	public void actionPerformed(ActionEvent e) {

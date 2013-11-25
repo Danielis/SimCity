@@ -9,42 +9,28 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
-
-
 import restaurant.interfaces.Customer;
 import roles.Apartment;
-
 import roles.Building;
 import roles.Restaurant;
 import roles.Building.buildingType;
 import housing.guis.HousingGui;
 import bank.Bank;
 import bank.gui.BankGui;
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+import logging.TracePanel;
+import logging.TrackerGui;
 import market.Market;
 import market.gui.MarketGui;
 import city.PersonAgent;
-
-
 import transportation.BusAgent;
 import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import city.TimeManager;
 
 //Import Java utilities
 import javax.imageio.ImageIO;
@@ -52,26 +38,22 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import market.gui.MarketGui;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Vector;
 
 
 public class CityGui extends JFrame implements ActionListener {
 	
 	
-	//Lists
-	//public Vector<Restaurant> restaurants = new Vector<Restaurant>();
-	//public Vector<Bank> banks = new Vector<Bank>();
-	
+	//Buildings
 	public Vector<Building> buildings = new Vector<Building>();
+	
 	//Java Structure
 	public JFrame animationFrame = new JFrame("Restaurant Animation");
 	
@@ -93,9 +75,6 @@ public class CityGui extends JFrame implements ActionListener {
    // private JPanel functionPanel;
     private JPanel functionPanel = new JPanel();
     private JLabel functionPanelL;
-
-    //Useful Checkboxes
-    private JCheckBox personHungryCheckBox;
     
     //Copy of the current person
     private PersonAgent currentPerson;
@@ -103,12 +82,6 @@ public class CityGui extends JFrame implements ActionListener {
     //Functionality buttons
     private JButton pauseButton;
     private JButton refreshButton;
-
-//    private JPanel ButtonPanel;
- //   private JButton MrKrabsButton;
-  //  private ImageIcon MrKrabs;
-   // private JButton RamsayButton;
-    //private ImageIcon Ramsay;
        
     Boolean isPaused = false;
     
@@ -151,10 +124,6 @@ public class CityGui extends JFrame implements ActionListener {
         int WINDOWX = 500;
         int WINDOWY = 500;
 
-        
-        
- 
-        
         //Set the City Gui's specifications
        	this.setVisible(true);
         setTitle("Team 05's City");
@@ -201,11 +170,10 @@ public class CityGui extends JFrame implements ActionListener {
         //functionPanel.add(functionPanelL, BorderLayout.NORTH);
         
        
-		//bankLabel.setText("bank");
 		//marketLabel.setText("market");
 		//housingLabel.setText("housing");
 		//restaurantLabel.setText("rest");
-		//bankPanel.add(bankLabel);
+		//bankPanel.add(functionPanelL);
 		//marketPanel.add(marketLabel);
 		//housingPanel.add(housingLabel);
 		//restaurantPanel.add(restaurantLabel);
@@ -273,9 +241,6 @@ public class CityGui extends JFrame implements ActionListener {
         personInformationPanel.setMinimumSize(infoDimCustomer);
         personInformationPanel.setMaximumSize(infoDimCustomer);
         personInformationPanel.setBorder(BorderFactory.createTitledBorder("Citizens"));
-        personHungryCheckBox = new JCheckBox();
-        personHungryCheckBox.setVisible(false);
-        personHungryCheckBox.addActionListener(this);
         personInformationPanel.setLayout(new BorderLayout());
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
@@ -283,7 +248,6 @@ public class CityGui extends JFrame implements ActionListener {
         
         
         personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
-        personInformationPanel.add(personHungryCheckBox, BorderLayout.CENTER);
         RestaurantPortion.add(cityPanel, BorderLayout.EAST);
         RestaurantPortion.add(functionPanel, BorderLayout.CENTER);
         
@@ -305,61 +269,78 @@ public class CityGui extends JFrame implements ActionListener {
         createRestaurant("Norman's Restaurant", "Norman");
         createBank("Aleena's Bank");
         createMarket("Aleena's Market");
+        createApartment("The Chris Apartment Complex");
         
         //Mouse Listener for the coordinates
-        cityAnimationPanel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            int x=e.getX();
-            int y=e.getY();
-            System.out.println(x+","+y);//these co-ords are relative to the component
-          
-            
-            if ((x<159) && (y<85) && (x>0) && (y>0)){
-            	
-            	for (Building b: buildings){
-    				if (b.getType() == buildingType.bank){
-    					Bank r = (Bank) b;
-    					r.gui.setVisible(true);
-    				}
-    			}
-//                  BankGui gui3 = new BankGui();
-//                  gui3.setTitle("Aleena's Bank");
-//                  gui3.setVisible(true);
-//                  gui3.setResizable(false);
-//                  gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
-            }
-            
-            if ((x<314) && (y<468) && (x>210) && (y>370)){
-            	for (Building b: buildings){
-    				if (b.getType() == buildingType.restaurant){
-    					Restaurant r = (Restaurant) b;
-    					r.gui.setVisible(true);
-    				}
-    			}
-            	/*
-             RestaurantGui gui2 = new RestaurantGui();
-              gui2.setTitle("Norman's Restaurant");
-              gui2.setVisible(true);
-              gui2.setResizable(false);
-              gui2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   */
-            }
-            
-            if ((x<603) && (y<261) && (x>530) && (y>202)){
-//            	for (Building b: buildings){
-//    				if (b.getType() == buildingType.housingComplex){
-//    					Apartment r = (Apartment) b;
-//    					b.gui.setVisible(true);
-//    				}
-//    			}
-//            	HousingGui gui4 = new HousingGui();
-//        		gui4.setTitle("Housing View");
-//        		gui4.setVisible(true);
-//        		gui4.setResizable(false);
-//        		gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);  
-               }
-            
-            }
+		cityAnimationPanel.addMouseListener(new MouseListener() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+			    int x=e.getX();
+			    int y=e.getY();
+			    System.out.println(x+","+y);//these co-ords are relative to the component
+			  
+			    
+			    for (PersonAgent p : cityPanel.people)
+			    {
+			    	if (p.getGui().isPresent())
+			    	{
+				    	int xmin, ymin, xmax, ymax, xmintest, xmaxtest, ymintest, ymaxtest;
+				    	
+				    	xmin = p.getBound_leftx();
+				    	xmax = p.getBound_rightx();
+				    	ymin = p.getBound_topy();
+				    	ymax = p.getBound_boty();
+				    	
+				    	xmintest = p.getGui().getXPosition()-30;
+				    	xmaxtest = p.getGui().getXPosition()+30;
+				    	ymintest = p.getGui().getYPosition()-30;
+				    	ymaxtest = p.getGui().getYPosition()+30;;
+				    	
+				    	 if ((x<xmaxtest) && (y<ymaxtest) && (x>xmin) && (y>ymin))
+				    	 {
+				    		 System.out.println("Calling function.");
+				    		 createFrame(p);
+				    	 }
+			    	}
+			    }
+			    
+			    if ((x<159) && (y<85) && (x>0) && (y>0)){
+			    	
+			    	for (Building b: buildings){
+						if (b.getType() == buildingType.bank){
+							Bank r = (Bank) b;
+							r.gui.setVisible(true);
+						}
+					}   
+			    }
+			    
+			    if ((x<314) && (y<468) && (x>210) && (y>370)){
+			    	for (Building b: buildings){
+						if (b.getType() == buildingType.restaurant){
+							Restaurant r = (Restaurant) b;
+							r.gui.setVisible(true);
+						}
+					}
+			    }
+			    
+			    if ((x<398) && (y<85) && (x>257) && (y>0)){
+			    	for (Building b: buildings){
+						if (b.getType() == buildingType.housingComplex){
+							Apartment r = (Apartment) b;
+							r.gui.setVisible(true);
+						}
+					}
+			    }
+			    
+			    if ((x<315) && (y<258) && (x>258) && (y>212)){
+		         	for (Building b: buildings){
+		 				if (b.getType() == buildingType.market){
+		 					Market r = (Market) b;
+		 					r.gui.setVisible(true);
+		 				}
+		 			} 
+			    }
+		}	
 
 			public void mouseEntered(MouseEvent e) {}
 			public void mouseExited(MouseEvent arg0) {}
@@ -379,12 +360,8 @@ public class CityGui extends JFrame implements ActionListener {
     //Update the information Panel
 
     public void updatePersonInformationPanel(PersonAgent temp) {
-        personHungryCheckBox.setVisible(true);
         currentPerson = temp;
         PersonAgent person = temp;
-        personHungryCheckBox.setText("Hungry?");
-        personHungryCheckBox.setSelected(person.getGui().isHungry());
-        personHungryCheckBox.setEnabled(!person.getGui().isHungry());
         silenceButtons();
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + person.getName() + " </pre></html>");
@@ -398,12 +375,7 @@ public class CityGui extends JFrame implements ActionListener {
     {
     	if (currentPerson != null)
     	{
-	        personHungryCheckBox.setSelected(currentPerson.getGui().isHungry());
-	        personHungryCheckBox.setEnabled(!currentPerson.getGui().isHungry());
-	      
-	        
 	        silenceButtons();
-	        
 	        personInformationPanel.validate();
     	}
     }
@@ -475,6 +447,12 @@ public class CityGui extends JFrame implements ActionListener {
         	if (marketList.getSelectedIndex() == 2)
         		foodList.setEnabled(true);
         }
+//        if (e.getSource() == personHousingCheckBox)
+//        {
+//        	PersonAgent c = (PersonAgent) currentPerson;
+//        	c.getGui().setNeedsHome(true);
+//        	personHousingCheckBox.setEnabled(false);
+        }
         if (e.getSource() == pauseButton)
         {
         	if (isPaused)
@@ -494,7 +472,11 @@ public class CityGui extends JFrame implements ActionListener {
         {
         	cityPanel.refresh();
         }
-    	}
+    }
+    
+    public void createFrame(PersonAgent p)
+    {
+    	PersonFrame f = new PersonFrame(p);
     }
     
     //Resturant Creation
@@ -520,14 +502,18 @@ public class CityGui extends JFrame implements ActionListener {
     	Market b = new Market(name, new MarketGui());
     	buildings.add(b);
     }
+
+    //apartment creation
+    public void createApartment(String name) {
+    	Apartment a = new Apartment(name, new HousingGui());
+    	buildings.add(a);
+    }
     
     //Set Person Enabled
     public void setPersonEnabled(PersonAgent p) {
         PersonAgent per = currentPerson;
         if (p.equals(per)) 
         {
-            personHungryCheckBox.setEnabled(true);
-            personHungryCheckBox.setSelected(false);
             silenceButtons();
         }
 }
@@ -538,10 +524,13 @@ public class CityGui extends JFrame implements ActionListener {
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
-    	
+
+
     	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
         gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+
         
+        TrackerGui trackerWindow = new TrackerGui();
     }
     /**
      * Main routine to get gui started
