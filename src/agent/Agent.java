@@ -46,6 +46,10 @@ public abstract class Agent {
     {
     	print(stateChange.availablePermits()+"");
     }
+    // Was going to be used to increase efficiency of TransportCompany so that it's stateChanged() semaphore isn't always overloaded with permits.
+    public void clearSemaphore(){
+    	this.stateChange.drainPermits();
+    }
     
     /**
      * The simulated action code
