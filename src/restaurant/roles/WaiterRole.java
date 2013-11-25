@@ -1,20 +1,26 @@
-package restaurant;
+package restaurant.roles;
 
-import agent.Agent;
-import agent.RestaurantMenu;
-import restaurant.gui.RestaurantAnimationPanel;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.*;
-import roles.Restaurant;
-import restaurant.MyCustomer;
-import restaurant.CustomerAgent;
-
-import java.awt.Menu;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
-//Waiter Agent
-public class WaiterAgent extends Agent implements Waiter {
+import restaurant.CookAgent;
+import restaurant.HostAgent;
+import restaurant.MyCustomer;
+import restaurant.CustomerState;
+import restaurant.WaiterAgent.myState;
+import restaurant.gui.RestaurantAnimationPanel;
+import restaurant.gui.WaiterGui;
+import restaurant.interfaces.Cashier;
+import restaurant.interfaces.Customer;
+import restaurant.interfaces.Waiter;
+import roles.Restaurant;
+import roles.Role;
+import agent.RestaurantMenu;
+
+public class WaiterRole extends Role implements Waiter
+{
 	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
@@ -41,7 +47,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public WaiterAgent()
+	public WaiterRole()
 	{
 		super();
 		this.name = "Default Daniel";
@@ -53,7 +59,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			foodsAvailable.add(true);
 		}
 	}
-	public WaiterAgent(String name, Restaurant rest) {
+	public WaiterRole(String name, Restaurant rest) {
 		super();
 		this.rest = rest;
 		this.name = name;
@@ -108,7 +114,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 
 //CLASSES/ENUMS**********************************************
-
+	
 	public enum myState
 	{
 		none, wantBreak, askedForBreak, onBreak
@@ -238,7 +244,7 @@ public class WaiterAgent extends Agent implements Waiter {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{		
 		try
 		{
@@ -408,4 +414,3 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 
 }
-

@@ -8,6 +8,7 @@ import restaurant.gui.CookGui;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.WaiterGui;
+import restaurant.interfaces.Waiter;
 import restaurant.MarketAgent;
 import roles.Restaurant;
 
@@ -125,10 +126,10 @@ public class CookAgent extends Agent {
 	
 	public class myIcon
 	{
-		public WaiterAgent w;
+		public Waiter w;
 		public iconState state;
 		
-		myIcon(WaiterAgent newW, iconState newState)
+		myIcon(Waiter newW, iconState newState)
 		{
 			w = newW;
 			state = newState;
@@ -178,13 +179,13 @@ public class CookAgent extends Agent {
 	}
 	private class Order
 	{
-		WaiterAgent w;
+		Waiter w;
 		String choice;
 		int table;
 		state s;
 		
 		//Constructor
-		Order(WaiterAgent newWaiter, String newChoice, int newTable)
+		Order(Waiter newWaiter, String newChoice, int newTable)
 		{
 			w = newWaiter;
 			choice = newChoice;
@@ -193,7 +194,7 @@ public class CookAgent extends Agent {
 		}
 		
 		//Class Methods
-		WaiterAgent getWaiter()
+		Waiter getWaiter()
 		{
 			return w;
 		}
@@ -248,7 +249,7 @@ public class CookAgent extends Agent {
 
 //MESSAGES****************************************************
 
-	public void msgTakingItem(WaiterAgent w)
+	public void msgTakingItem(Waiter w)
 	{
 		synchronized(icons)
 		{
@@ -266,7 +267,7 @@ public class CookAgent extends Agent {
 	public void msgNotEmpty(){
 		stateChanged();
 	}
-	public void msgHereIsAnOrder(WaiterAgent w, String choice, int table)
+	public void msgHereIsAnOrder(Waiter w, String choice, int table)
 	{
 		orders.add(new Order(w, choice, table));
 		print("Received order to prepare " + choice);
@@ -599,7 +600,7 @@ public class CookAgent extends Agent {
 		cookGui.DoGoToPlatingArea();
 		print("The order of " + o.choice + " has been plated.");
 		o.w.msgOrderIsReady(o.choice,  o.table);
-		WaiterAgent newW = o.w;
+		Waiter newW = o.w;
 		icons.add(new myIcon(newW, iconMap.get(o.choice)));
 		orders.remove(o);
 	}

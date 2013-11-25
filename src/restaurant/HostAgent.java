@@ -3,6 +3,8 @@ package restaurant;
 import agent.Agent;
 import restaurant.gui.HostGui;
 import restaurant.interfaces.Customer;
+import restaurant.interfaces.Waiter;
+import restaurant.roles.WaiterRole;
 import restaurant.WaiterAgent;
 import restaurant.CustomerAgent;
 
@@ -157,12 +159,12 @@ public class HostAgent extends Agent {
 		//MyWaiter Class
 		private class MyWaiter
 		{
-			WaiterAgent w;
+			Waiter w;
 			int numCustomersServing;
 			Boolean isOnBreak = false;
 			waiterState state;
 			
-			MyWaiter(WaiterAgent newWaiter, int num, Boolean b)
+			MyWaiter(Waiter newWaiter, int num, Boolean b)
 			{
 				w = newWaiter;
 				numCustomersServing = num;
@@ -170,7 +172,7 @@ public class HostAgent extends Agent {
 				state = waiterState.none;
 			}
 			
-			WaiterAgent getWaiter()
+			Waiter getWaiter()
 			{
 				return w;
 			}
@@ -188,7 +190,7 @@ public class HostAgent extends Agent {
 
 //MESSAGES****************************************************
 
-	public void msgNewWaiter(WaiterAgent w)
+	public void msgNewWaiter(Waiter w)
 	{
 		waiters.add(new MyWaiter(w, 0, false));	
 		stateChanged();
@@ -234,7 +236,7 @@ public class HostAgent extends Agent {
 		}
 	}
 
-	public void msgTableIsFree(WaiterAgent w, int tableNum) {		
+	public void msgTableIsFree(Waiter w, int tableNum) {		
 		//Find the table that is free
 		for (Table table : tables) {
 			if (table.getTableNumber() == tableNum) {
@@ -246,12 +248,12 @@ public class HostAgent extends Agent {
 		}
 	}
 	
-	public void msgIdLikeToGoOnBreak(WaiterAgent w)
+	public void msgIdLikeToGoOnBreak(Waiter waiter)
 	{
-		print("Received message that " + w.getName() + " wants to go on break.");
+		print("Received message that " + waiter.getName() + " wants to go on break.");
 		for (MyWaiter mw : waiters)
 		{
-			if (mw.w == w)
+			if (mw.w == waiter)
 			{
 				mw.state = waiterState.wantsBreak;
 				stateChanged();
@@ -259,16 +261,16 @@ public class HostAgent extends Agent {
 		}
 	}
 	
-	public void msgIdLikeToGetOffBreak(WaiterAgent w)
+	public void msgIdLikeToGetOffBreak(Waiter agent)
 	{
-		print("Received message that " + w.getName() + " wants to go off break.");
+		print("Received message that " + agent.getName() + " wants to go off break.");
 		for (MyWaiter mw : waiters)
 		{
-			if (mw.w == w)
+			if (mw.w == agent)
 			{
 				if (mw.isOnBreak == false)
 				{
-					print(w.getName() + " is already off break.");
+					print(agent.getName() + " is already off break.");
 				}
 				mw.isOnBreak = false;
 				mw.state = waiterState.none;
@@ -422,7 +424,7 @@ public class HostAgent extends Agent {
 		mc.c.msgRestaurantIsFull(b);
 	}
 
-	private void DeLoad(WaiterAgent w)
+	private void DeLoad(Waiter w)
 	{
 		synchronized(waiters)
 		{

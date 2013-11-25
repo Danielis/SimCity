@@ -1,10 +1,11 @@
 package restaurant.gui;
 
 import restaurant.HostAgent;
+import restaurant.MyCustomer;
 import restaurant.WaiterAgent;
-import restaurant.WaiterAgent.MyCustomer;
 import restaurant.WaiterAgent.myState;
 import restaurant.gui.CustomerGui.Coordinate;
+import restaurant.interfaces.Waiter;
 
 import java.io.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class WaiterGui implements Gui {
 	
 	int index; //used for unique locations
 
-    private WaiterAgent agent = null;
+    private Waiter agent = null;
     RestaurantGui gui;
 
     Boolean isPresent;
@@ -52,7 +53,7 @@ public class WaiterGui implements Gui {
     
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-    public WaiterGui(WaiterAgent w, RestaurantGui gui, int in) {
+    public WaiterGui(Waiter w, RestaurantGui gui, int in) {
     	
     	setPresent(true);
     	isPresent = true;
@@ -207,14 +208,14 @@ public class WaiterGui implements Gui {
 	
 	public void setOnBreak() 
 	{
-		//agent.msgSetOnBreak();
-		agent.isOnBreak = true;
+		agent.msgSetOnBreak();
+		//agent.isOnBreak = true;
 	}
 	
 	public void setOffBreak()
 	{
-		//agent.msgSetOffBreak();
-		agent.isOnBreak = false;
+		agent.msgSetOffBreak();
+		//agent.isOnBreak = false;
 	}
 	
 	public boolean isOnBreak() {
