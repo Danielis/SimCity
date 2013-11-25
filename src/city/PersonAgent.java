@@ -9,6 +9,7 @@ import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
 import restaurant.interfaces.Customer;
+import restaurant.roles.CustomerRole;
 import agent.Agent;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
@@ -19,7 +20,6 @@ import bank.interfaces.*;
 import roles.Apartment;
 import roles.Building;
 import roles.Building.buildingType;
-import roles.CustomerRole;
 import roles.Restaurant;
 import roles.Role;
 import market.*;
@@ -30,6 +30,7 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
 
 
 //Utility Imports

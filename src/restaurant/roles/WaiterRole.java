@@ -12,9 +12,7 @@ import restaurant.CustomerState;
 import restaurant.WaiterAgent.myState;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import restaurant.interfaces.*;
 import roles.Restaurant;
 import roles.Role;
 import agent.RestaurantMenu;
@@ -24,8 +22,8 @@ public class WaiterRole extends Role implements Waiter
 	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	public HostAgent host;
-	public CookAgent cook;
+	public Host host;
+	public Cook cook;
 	public Cashier cashier;
 	public WaiterGui waiterGui;
 	
@@ -135,7 +133,7 @@ public class WaiterRole extends Role implements Waiter
 		/*
 		print(this.name + " wants a break.");
 		state = myState.wantBreak;
-		stateChanged();*/
+		myPerson.stateChanged();*/
 		isOnBreak = true;
 	}
 	
@@ -159,7 +157,7 @@ public class WaiterRole extends Role implements Waiter
 	{
 		myCustomers.add(new MyCustomer(c, table, CustomerState.waiting, null));
 		print("Got message to sit customer " + c.getName());
-		stateChanged();
+		myPerson.stateChanged();
 	}
 
 	public void msgReadyToOrder(Customer c) 
@@ -168,7 +166,7 @@ public class WaiterRole extends Role implements Waiter
 			if (mc.c == c) {
 				mc.s = CustomerState.readyToOrder;
 				print("Received message that " + c.getName() + " wants to order.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -180,7 +178,7 @@ public class WaiterRole extends Role implements Waiter
 				mc.s = CustomerState.finishedOrdering;
 				mc.choice = choice;
 				print("Received message that " + c.getName() + "'s order is " + choice);
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -192,7 +190,7 @@ public class WaiterRole extends Role implements Waiter
 				recalculateInventory(foods);
 				mc.s = CustomerState.reordering;
 				print("Received message that we are out of " + choice + ".");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -203,7 +201,7 @@ public class WaiterRole extends Role implements Waiter
 			if (mc.table == table) {
 				mc.s = CustomerState.orderReady;
 				print("Received message that " + choice + " is ready.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -225,7 +223,7 @@ public class WaiterRole extends Role implements Waiter
 			if (mc.c == c) {
 				mc.s = CustomerState.needsCheck;
 				print("Received message that customer " + c.getName() + " needs a check.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -236,7 +234,7 @@ public class WaiterRole extends Role implements Waiter
 			if (mc.c == c) {
 				mc.s = CustomerState.leaving;
 				print("Received message that customer " + c.getName() + " is leaving.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}

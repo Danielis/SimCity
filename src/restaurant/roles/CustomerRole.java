@@ -1,10 +1,11 @@
-package roles;
+package restaurant.roles;
 
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CustomerGui;
 import restaurant.interfaces.*;
+import roles.Role;
 import agent.Agent;
 import agent.RestaurantMenu;
 
@@ -34,8 +35,8 @@ public class CustomerRole extends Role implements Customer {
 	Timer timer;								//Timer Class
 	public int mySeat;							//Seat Number, for mapping
 	private CustomerGui customerGui;			//GUI Class
-	private HostAgent host;						//Host
-	private CashierAgent cashier;				//Cashier
+	private Host host;						//Host
+	private Cashier cashier;				//Cashier
 	private Waiter waiter;						//Waiter
 	private myState state = myState.none;		//State
 	private float myMoney = initialMoney;		//Money
@@ -77,7 +78,7 @@ public class CustomerRole extends Role implements Customer {
 		copyOfAnimPanel = panel;
 	}
 	//Set the host
-	public void setHost(HostAgent host) {
+	public void setHost(Host host) {
 		this.host = host;
 	}
 	
@@ -85,7 +86,7 @@ public class CustomerRole extends Role implements Customer {
 		this.waiter = waiter;
 	}
 	
-	public void setCashier(CashierAgent cashier){
+	public void setCashier(Cashier cashier){
 		this.cashier = cashier;
 	}
 

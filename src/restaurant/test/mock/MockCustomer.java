@@ -78,12 +78,12 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void setHost(HostAgent host) {
+	public void setHost(Host host) {
 		//
 	}
 
 	@Override
-	public void setCashier(CashierAgent cashier) {
+	public void setCashier(Cashier cashier) {
 		//
 	}
 

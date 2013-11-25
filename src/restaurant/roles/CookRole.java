@@ -1,7 +1,8 @@
-package restaurant;
+package restaurant.roles;
 
 import agent.Agent;
 import restaurant.CustomerAgent.iconState;
+import restaurant.ProducerConsumerMonitor;
 import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CookGui;
@@ -12,12 +13,13 @@ import restaurant.interfaces.Cook;
 import restaurant.interfaces.Waiter;
 import restaurant.MarketAgent;
 import roles.Restaurant;
+import roles.Role;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Cook Agent
-public class CookAgent extends Agent implements Cook{
+public class CookRole extends Role implements Cook {
 	
 	//Lists
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -56,7 +58,7 @@ public class CookAgent extends Agent implements Cook{
 	};
 
 	//Constructor
-	public CookAgent(String name) {
+	public CookRole(String name) {
 		super();
 		this.name = name;
 		
@@ -362,7 +364,7 @@ public class CookAgent extends Agent implements Cook{
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		try
 		{
@@ -625,12 +627,6 @@ public class CookAgent extends Agent implements Cook{
            //try{sleep(1000);}
           // catch(InterruptedException ex){};
        }
-       
-      
-       
-
-	
-	
 	
 	public void WaitForAnimation()
 	{
