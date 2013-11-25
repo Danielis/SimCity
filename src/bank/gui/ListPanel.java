@@ -170,15 +170,15 @@ public class ListPanel extends JPanel implements ActionListener {
             JButton button = new JButton(host.getName());
             button.setBackground(Color.white);
 
-            Dimension paneSize = customerPane.getSize();
+            Dimension paneSize = waiterPane.getSize();
             Dimension buttonSize = new Dimension(paneSize.width - 20,
                     (int) (paneSize.height / 10));
             button.setPreferredSize(buttonSize);
             button.setMinimumSize(buttonSize);
             button.setMaximumSize(buttonSize);
             button.addActionListener(this);
-            listForCustomer.add(button);
-            viewForCustomer.add(button);
+            listForWaiter.add(button);
+            viewForWaiter.add(button);
             restPanel.addHost(host);
             validate();
            
