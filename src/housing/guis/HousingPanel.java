@@ -125,6 +125,7 @@ public class HousingPanel extends JPanel {
 
     /**
      * Adds a customer or waiter to the appropriate list
+     * @param homePurpose 
      *
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
@@ -146,10 +147,11 @@ public class HousingPanel extends JPanel {
 		tenant.startThread();
     }*/
     
-    public void addTenant(HousingCustomer c, int n) 
+    public void addTenant(HousingCustomer c, int n, String homePurpose) 
     {
 		//HousingCustomerAgent p = new HousingCustomerAgent(name);
     	HousingCustomer hc = c;
+    	c.setPurpose(homePurpose);
 		HousingCustomerGui g = new HousingCustomerGui(hc, gui, n);
 		gui.housingAnimationPanel.addGui(g);
 		hc.setGui(g);

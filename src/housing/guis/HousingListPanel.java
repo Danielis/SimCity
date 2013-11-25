@@ -103,6 +103,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	 * If the add button is pressed, this function creates
 	 * a spot for it in the scroll pane, and tells the restaurant panel
 	 * to add a new person.
+	 * @param homePurpose 
 	 *
 	 * @param name name of new person
 	 */
@@ -127,7 +128,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 		}
 	}*/
 	
-	public void addTenant(HousingCustomer c) {
+	public void addTenant(HousingCustomer c, String homePurpose) {
 			JButton button = new JButton(c.getName());
 			button.setBackground(Color.white);
 			Dimension paneSize = personPane.getSize();
@@ -139,7 +140,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			button.addActionListener(this);
 			listForTenants.add(button);
 			viewForTenant.add(button);
-			housingPanel.addTenant(c, (listForTenants.size()-1));
+			housingPanel.addTenant(c, (listForTenants.size()-1), homePurpose);
 			housingPanel.showTenantInfo(c.getName());
 			validate();
 	}
