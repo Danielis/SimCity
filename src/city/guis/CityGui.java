@@ -9,38 +9,27 @@ import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
-
-
 import restaurant.interfaces.Customer;
 import roles.Apartment;
-
 import roles.Building;
 import roles.Restaurant;
 import roles.Building.buildingType;
 import housing.guis.HousingGui;
 import bank.Bank;
 import bank.gui.BankGui;
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+import logging.TracePanel;
+import logging.TrackerGui;
 import market.Market;
 import market.gui.MarketGui;
 import city.PersonAgent;
-
-
 import transportation.BusAgent;
 import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -61,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Vector;
 
 
@@ -537,9 +527,14 @@ cityAnimationPanel.addMouseListener(new MouseListener() {
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
-    	
+
+
     	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-    	gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+
+        
+        TrackerGui trackerWindow = new TrackerGui();
+        
         
     }
     /**
