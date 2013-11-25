@@ -386,6 +386,7 @@ public class CityGui extends JFrame implements ActionListener {
    	 	marketGo.setEnabled(!currentPerson.getGui().getBusy());
         housingGo.setEnabled(!currentPerson.getGui().getBusy());
         restaurantGo.setEnabled(!currentPerson.getGui().getBusy());
+        workGo.setEnabled(!currentPerson.getGui().getBusy());
     }
     //Action Listener
     public void actionPerformed(ActionEvent e) {

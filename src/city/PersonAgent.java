@@ -711,10 +711,7 @@ public class PersonAgent extends Agent implements Person
 		Status.setWorkStatus(workStatus.goingToWork);
 		gui.DoGoToCheckpoint('D');
 		// TODO
-		//if (jobType == jobType.)
-		
-		
-		
+	
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		
