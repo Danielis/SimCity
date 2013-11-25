@@ -3,6 +3,7 @@ package restaurant;
 import agent.Agent;
 import restaurant.CookAgent.state;
 import restaurant.gui.HostGui;
+import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Cook;
 import restaurant.interfaces.Market;
 import restaurant.CookAgent;
@@ -24,7 +25,7 @@ public class MarketAgent extends Agent implements Market {
 
 	//Variables
 	private Cook cook;					//Copy of cook
-	private CashierAgent cashier;
+	private Cashier cashier;
 	private String name;					//Name of the market
 	private Timer timer;					//A timer	
 	private float account;					//How much money the market has
@@ -101,8 +102,8 @@ public class MarketAgent extends Agent implements Market {
 		cook = c;
 	}
 	
-	public void setCashier(CashierAgent c){
-		cashier = c;
+	public void setCashier(Cashier cashier2){
+		cashier = cashier2;
 	}
 	
 //UTILITIES**************************************************
