@@ -13,6 +13,7 @@ import restaurant.interfaces.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import city.PersonAgent;
 import agent.Agent;
 
 import java.awt.*;
@@ -28,6 +29,8 @@ import java.util.Vector;
  */
 public class RestaurantPanel extends JPanel 
 {
+	
+	//PersonAgent p1, p2, p3, p4, p5;
     //Host, cook, waiters and customers
     public Host host = new HostAgent("Oprah");
     public HostGui hostGui = new HostGui(host);
@@ -57,6 +60,11 @@ public class RestaurantPanel extends JPanel
     private RestaurantGui gui; //reference to main gui
 
     public RestaurantPanel(RestaurantGui gui) {
+    	//Tentative work plan for the future.
+    	//Create P1-P5
+    	//Create Roles for P1-P5. 
+    	//Send the to the restaurant.
+    	
         this.gui = gui;
         cookGui = new CookGui(cook, gui);
         host.setGui(hostGui);
@@ -218,7 +226,8 @@ public class RestaurantPanel extends JPanel
 			waiters.add(w);
 			w.startThread();
 		}
-		else{
+		else
+		{
 			TraditionalWaiterAgent w = new TraditionalWaiterAgent(name);	
 			WaiterGui g = new WaiterGui(w, gui, waiterindex);
 			gui.animationPanel.addGui(g);
@@ -231,9 +240,6 @@ public class RestaurantPanel extends JPanel
 			waiters.add(w);
 			w.startThread();
 		}
-		
-		
-    	
     }
     
     public void pause()
