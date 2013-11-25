@@ -3,6 +3,7 @@ package city.guis;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import city.TimeManager;
 import restaurant.HostAgent;
 import restaurant.gui.Gui;
 import transportation.gui.BusGui;
@@ -135,6 +136,10 @@ public class CityAnimationPanel extends JPanel implements ActionListener
                     	gui.draw(images);
                     }
             }
+            g.setColor(Color.BLACK);
+            g.drawString(TimeManager.getInstance().TimeStr(), 520, 615);
+            
+            
     }
     
     public void updateClouds()

@@ -30,7 +30,7 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
-import market.gui.MarketGui;
+import city.TimeManager;
 
 //Import Java utilities
 import javax.imageio.ImageIO;
@@ -173,11 +173,10 @@ public class CityGui extends JFrame implements ActionListener {
         //functionPanel.add(functionPanelL, BorderLayout.NORTH);
         
        
-		//bankLabel.setText("bank");
 		//marketLabel.setText("market");
 		//housingLabel.setText("housing");
 		//restaurantLabel.setText("rest");
-		//bankPanel.add(bankLabel);
+		//bankPanel.add(functionPanelL);
 		//marketPanel.add(marketLabel);
 		//housingPanel.add(housingLabel);
 		//restaurantPanel.add(restaurantLabel);

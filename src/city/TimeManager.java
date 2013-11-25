@@ -12,6 +12,12 @@ public class TimeManager {
 	private int milliInDay = 1440000;
 	private int milliInHour = 60000;
 	
+	private int seconds;
+	private int minutes;
+	private int hours;
+	private int days;
+	private int weeks;
+	
 	TimeManager(){
 	}
 
@@ -29,29 +35,74 @@ public class TimeManager {
 	    return currentTime - simStartTime;
 	}
 	
-	public int returnWeek(){
-		return (int) (getCurrentSimTime() % milliInWeek);
+	public String TimeStr(){
+		updateTime();
+		String sec, min, hrs, day;
+		sec = Integer.toString(seconds);
+		if (seconds < 10)
+			sec = "0" + sec;
+		min = Integer.toString(minutes);
+		if (minutes < 10)
+			min = "0" + min;
+		hrs = Integer.toString(hours);
+		if (hours < 10)
+			hrs = "0" + hrs;
+		day = dayString();
+		return day + " " + hrs + ":" + min + ":" + sec;
+	}
+	
+	public void updateTime(){
+		int mil = (int) getCurrentSimTime();
+		
+		seconds = (mil / 1) | 0;
+		mil -= seconds * 1;
+	
+		minutes = (seconds / 60) | 0;
+		seconds -= minutes * 60;
+	
+		hours = (minutes / 60) | 0;
+		minutes -= hours * 60;
+	
+		days = (hours / 24) | 0;
+		hours -= days * 24;
+	
+		weeks = (days / 7) | 0;
+		days -= weeks * 7;
+		
+		if (days % 7 == 0)
+			dayOfWeek = Day.monday;
+		if (days % 7 == 1)
+			dayOfWeek = Day.tuesday;
+		if (days % 7 == 2)
+			dayOfWeek = Day.wednesday;
+		if (days % 7 == 3)
+			dayOfWeek = Day.thursday;
+		if (days % 7 == 4)
+			dayOfWeek = Day.friday;
+		if (days % 7 == 5)
+			dayOfWeek = Day.saturday;
+		if (days % 7 == 6)
+			dayOfWeek = Day.sunday;
 	}
 	
 	
-	public Day returnDay(){
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 0)) == 0)
-			return Day.monday;
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 1)) == 0)
-			return Day.tuesday;
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 2)) == 0)
-			return Day.wednesday;
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 3)) == 0)
-			return Day.thursday;
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 4)) == 0)
-			return Day.friday;
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 5)) == 0)
-			return Day.saturday;
-		if (getCurrentSimTime() % (returnWeek() * milliInWeek + (milliInDay * 6)) == 0)
-			return Day.sunday;
-		return null;
+	public String dayString(){
+		if (dayOfWeek == Day.monday)
+			return "Monday";
+		if (dayOfWeek == Day.tuesday)
+			return "Tuesday";
+		if (dayOfWeek == Day.wednesday)
+			return "Wednesday";
+		if (dayOfWeek == Day.thursday)
+			return "Thursday";
+		if (dayOfWeek == Day.friday)
+			return "Friday";
+		if (dayOfWeek == Day.saturday)
+			return "Saturday";
+		if (dayOfWeek == Day.sunday)
+			return "Sunday";
+		return "Error";
 	}
-	
 	
 }
 
