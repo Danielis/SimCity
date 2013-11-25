@@ -394,13 +394,24 @@ public class PersonAgent extends Agent implements Person
 	public void closestCheckpoint(){
 		double C;
 		char P = 'G';
-		C = checkPointDistance(385,474); // Assign G
-		if ( C > checkPointDistance(385,282))
-			C = checkPointDistance(385,282);//assign D
-		if ( C > checkPointDistance(385,362))
+		C = checkPointDistance(385,106); // Assign G
+		print("C is " + C + " My current check C is: " + checkPointDistance(385,278) + "  P is " + P);
+		if ( C > checkPointDistance(385,278)){
+			C = checkPointDistance(385,278);//assign D
+			P = 'D';
+		}
+		print("C is " + C + " My current check C is: " + checkPointDistance(385,362) + "  P is " + P);
+		if ( C > checkPointDistance(385,362)){
 			C = checkPointDistance(385,362);//assign C
-		if ( C > checkPointDistance(385,474))
+		P = 'C';
+		}
+		print("C is " + C + " My current check C is: " + checkPointDistance(385,474) + "  P is " + P);
+		if ( C > checkPointDistance(385,474)){
 			C = checkPointDistance(385,474);//assign B
+			P = 'B';
+		}
+		print("C is " + C + "  P is " + P);
+		print("Going To Point " + P);
 		gui.DoGoToCheckpoint(P);
 	}
 	/** checkPointDistance(int x, int y) is mainly used in closestCheckPoint() to determine where a person should go to begin their journey somewhere
@@ -427,7 +438,7 @@ public class PersonAgent extends Agent implements Person
 		homePurpose = purpose;
 	    Status.setHousingStatus(houseStatus.needsToGo);
 	    Status.setDestination(destination.home);
-	    gui.setPresent(false);
+	    gui.setPresent(true);
 	    stateChanged();
 	}
 	
@@ -438,7 +449,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
-		gui.DoGoToCheckpoint('A');
+//		gui.DoGoToCheckpoint('A');
 //		gui.DoGoToCheckpoint('C');
 //		gui.DoGoToCheckpoint('B');
 //		gui.DoGoToCheckpoint('A');
@@ -450,7 +461,7 @@ public class PersonAgent extends Agent implements Person
 		print("Called msgGoToRestaurant");
 		Status.setNourishment(nourishment.Hungry);
 		Status.setDestination(destination.restaurant);
-		gui.setPresent(false);
+		gui.setPresent(true);
 		stateChanged();
 	}
 
@@ -467,22 +478,24 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('A');
 		// however will make person just go home or where housing will be /////////////////////////////////////
-		if(Status.getTransportationStatus() == transportStatus.bus){
-			curStop = this.closestBusStop();
-			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
-			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
-			gui.setPresent(false);
-			curStop.msgImAtStop(this);
-			this.WaitForBus();
-		}
-		else
-			this.closestCheckpoint();
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('H');
-		gui.DoGoToCheckpoint('I');
-		this.Status.setLocation(location.restaurant);
-		gui.setPresent(false);
-		////////////////////////////////////////////////////////////////////////////////////////////////////////
+//		if(Status.getTransportationStatus() == transportStatus.bus){
+//			curStop = this.closestBusStop();
+//			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+//			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+//			gui.setPresent(false);
+//			curStop.msgImAtStop(this);
+//			this.WaitForBus();
+//		}
+//		else{
+//			this.closestCheckpoint();
+//		}
+		// commented out since AI should handle things after the customer goes out of retaurant, may be go home as default if nothing is called
+//		gui.DoGoToCheckpoint('G');
+//		gui.DoGoToCheckpoint('H');
+//		gui.DoGoToCheckpoint('I');
+//		this.Status.setLocation(location.restaurant);
+//		gui.setPresent(false);
+//		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		roles.remove(r);
 		stateChanged();
@@ -496,7 +509,7 @@ public class PersonAgent extends Agent implements Person
 		print("Going to bank");
 		Status.setDestination(destination.bank);
 		Status.setMoneyStatus(bankStatus.withdraw);
-		gui.setPresent(false);
+		gui.setPresent(true);
 		stateChanged();
 	}
 
@@ -548,7 +561,7 @@ public class PersonAgent extends Agent implements Person
 		print("Going to market");
 		Status.setDestination(destination.market);
 		Status.market = marketStatus.buying;
-	    gui.setPresent(false);
+	    gui.setPresent(true);
 	    stateChanged();
 	}
 	
@@ -561,7 +574,7 @@ public class PersonAgent extends Agent implements Person
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
-		gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('D');
 		gui.setBusy(false);
 		roles.remove(r);
 		stateChanged();
@@ -633,6 +646,17 @@ public class PersonAgent extends Agent implements Person
 	{
 		Status.setHousingStatus(houseStatus.goingHome);
 		//Transportation t = ChooseTransportation();
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(3); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('L');
 		gui.DoGoToHouse();
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
@@ -657,9 +681,12 @@ public class PersonAgent extends Agent implements Person
 		print("Going to restaurant");
 		Status.setNourishment(nourishment.goingToFood);
 		//Transportation t = ChooseTransportation();
-		//gui.DoGoToCheckpoint('A');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('C');
+		gui.setPresent(true);
+//		gui.DoGoToCheckpoint('A');
+//		closestCheckpoint();
+//		gui.DoGoToCheckpoint('G');
+//		gui.DoGoToCheckpoint('H');
+//		gui.DoGoToCheckpoint('I');
 		if(Status.getTransportationStatus() == transportStatus.bus){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
@@ -669,7 +696,8 @@ public class PersonAgent extends Agent implements Person
 			this.WaitForBus();
 		}
 		else
-			this.closestCheckpoint();
+			closestCheckpoint();
+		
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('A');
 		this.Status.setLocation(location.restaurant);
@@ -704,7 +732,19 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('D');
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('G');
+		gui.DoGoToCheckpoint('J');
+		gui.DoGoToCheckpoint('K');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
@@ -731,9 +771,20 @@ public class PersonAgent extends Agent implements Person
 	
 	void GoToMarket(){
 		Status.market = marketStatus.waiting;
-		gui.DoGoToCheckpoint('A');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('C');
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(1); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		
+		gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('E');
+		gui.DoGoToCheckpoint('F');
 		//gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.market);
 		print("At market entrance");

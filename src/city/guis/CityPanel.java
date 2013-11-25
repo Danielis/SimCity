@@ -265,7 +265,10 @@ public class CityPanel extends JPanel {
     	this.personPanel.addPerson("TestPerson", "None", "Average");
     	PersonAgent testPerson = people.lastElement();
     	testPerson.transportationStatusBus();
-    	testPerson.msgGoToRestaurant();
+    	//testPerson.msgGoToRestaurant();
+    	testPerson.msgGoToBank("Deposit", 50);
+    	//testPerson.msgGoToHome("Sleep");
+    	//testPerson.msgGoToMarket("Buy", 1);
     }
     
     public void setRestPanel(RestaurantPanel panel)
