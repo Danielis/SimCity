@@ -37,7 +37,7 @@ public class PersonFrame extends JFrame{
 		infoPanel.setLayout(new BorderLayout());
 		
 		//nameLabel = new JLabel("Name: " + p.getName());
-		moneyLabel = new JLabel("Money: " + p.money+"");
+		moneyLabel = new JLabel("Money: " + p.cash+"");
 		inventoryLabel = new JLabel("Inventory: " + "Test String");
 		imgLabel = new JLabel(imgTrainer);
 		locationLabel = new JLabel("Going: " + p.Status.getDestination());

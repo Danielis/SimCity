@@ -21,7 +21,7 @@ public class PersonGui implements Gui{
 	private boolean isPresent = true;
 	
 	private boolean isHungry = false;
-	private boolean needsmoney = false;
+	//private boolean needsmoney = false;
 	private boolean goingHome = false;
 	private boolean isWorking = false;
 	
@@ -248,7 +248,7 @@ public class PersonGui implements Gui{
 	
 	public void setNeedsMoney(Boolean b, String purpose, double amt)
 	{
-		this.needsmoney = b;
+		//this.needsmoney = b;
 		agent.msgGoToBank(purpose, amt);
 		setPresent(true);
 		setBusy(true);
@@ -264,7 +264,7 @@ public class PersonGui implements Gui{
 	
 	public void setShop(Boolean b, String item, double quantity)
 	{
-		this.needsmoney = b;
+		//this.needsmoney = b;
 		agent.msgGoToMarket(item, quantity);
 		setPresent(true);
 		setBusy(true);
@@ -275,10 +275,10 @@ public class PersonGui implements Gui{
 		return this.goingHome;
 	}
 	
-	public boolean needsMoney()
-	{
-		return needsmoney;
-	}
+//	public boolean needsMoney()
+//	{
+//		return needsmoney;
+//	}
 
 	public void setPresent(boolean p) {
 		isPresent = p;

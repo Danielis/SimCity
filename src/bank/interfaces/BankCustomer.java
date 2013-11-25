@@ -17,11 +17,9 @@ public abstract void	WantsToDo(String visitPurpose, int quantity);
 
 public abstract void	GoToTeller(Teller t);
 
-public abstract void	AccountCreated();
 
 public abstract void	MoneySuccesfullyDeposited();
 
-public abstract void	LoanCreated(double temp);
 
 public abstract void	CannotCreateLoan();
 

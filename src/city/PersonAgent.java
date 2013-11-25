@@ -4,6 +4,7 @@ package city;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
@@ -16,6 +17,9 @@ import restaurant.gui.CustomerGui;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
+import bank.Bank.Account;
+import bank.Bank.Loan;
+import bank.Bank.loanState;
 import bank.interfaces.*;
 import roles.Apartment;
 import roles.Building;
@@ -30,6 +34,9 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
+
+
 
 
 
@@ -55,11 +62,13 @@ public class PersonAgent extends Agent implements Person
 
 	//Variable
 	PersonGui gui = null;
-	public double money = 500;
+	public double cash = 500;
 	String name;
 	public PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public Semaphore busSemaphore = new Semaphore(0, true);
+	List <Account> accounts = new ArrayList<Account>();
+	List <Loan> loans = new ArrayList<Loan>();
 
 	public CityAnimationPanel CityAnimPanel;	
 	public RestaurantPanel restPanel;
@@ -88,7 +97,7 @@ public class PersonAgent extends Agent implements Person
 		Coordinate location;
 		
 	}
-	enum JobType {none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
+	enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
 	Job job;
 	
 	enum WealthLevel {average, wealthy, poor}
@@ -104,23 +113,58 @@ public class PersonAgent extends Agent implements Person
 	public PersonAgent(String name, String j, String wealth){
 		this.name = name;
 		job = new Job(parseJob(j));
-		
 		wealthLevel = parseWealth(wealth);
-		money = setWealth();
+		cash = setWealth();
 		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
 	}	
 	
 	private double setWealth() {
-		if (wealthLevel.equals("Average"))
-			return 35000;
-		else if (wealthLevel.equals("Wealthy")){
-			inventory.add(new Item("Car", 1));
+		if (wealthLevel.equals(WealthLevel.average)){
+			addItem(inventory, "Car", 0, 1);
+			return 25000;
+		}
+		else if (wealthLevel.equals(WealthLevel.wealthy)){
+			addItem(inventory, "Car", 1, 0);
 			return 50000;
 		}
-		else if (wealthLevel.equals("Poor"))
+		else if (wealthLevel.equals(WealthLevel.poor)){
+			addItem(inventory, "Car", 0, 1);
 			return 2000;
+		}
 		else
 			return 35000;
+	}
+	
+
+
+	private double getCashThresholdUp(){
+		if (wealthLevel == WealthLevel.average)
+			return 150;
+		else if (wealthLevel == WealthLevel.wealthy)
+			return 250;
+		else if (wealthLevel == WealthLevel.poor)
+			return 75;
+		return 0;
+	}
+	
+	private double getCashThresholdLow(){
+		if (wealthLevel == WealthLevel.average)
+			return 20;
+		else if (wealthLevel == WealthLevel.wealthy)
+			return 50;
+		else if (wealthLevel == WealthLevel.poor)
+			return 5;
+		return 0;
+	}
+	
+	private double getMoneyThreshold(){
+		if (wealthLevel == WealthLevel.average)
+			return 1000;
+		else if (wealthLevel == WealthLevel.wealthy)
+			return 1000;
+		else if (wealthLevel == WealthLevel.poor)
+			return 1000;
+		return 0;
 	}
 
 	private WealthLevel parseWealth(String wealth) {
@@ -138,7 +182,9 @@ public class PersonAgent extends Agent implements Person
 
 	private JobType parseJob(String job) {
 	
-	if (job.equals("None"))
+	if (job.equals("No AI"))
+			return JobType.noAI;	
+	else if (job.equals("None"))
 		return JobType.none;
 	else if (job.equals("Market Worker"))
 		return JobType.marketWorker;
@@ -264,11 +310,20 @@ public class PersonAgent extends Agent implements Person
 	class Item {
 		String type;
 		int quantity;
-		public Item(String t, int q) {
+		int threshold;
+		public Item(String t, int q, int th) {
 			type = t;
 			quantity = q;
+			threshold = th;
 		}
+		
+	public void setThreshold(int q){
+			threshold = q;
+		}
+		
 	}
+	
+	
 	
 	public void addItem(List<Item> inv, String item, int q){
 		for (Item i : inv){
@@ -278,8 +333,21 @@ public class PersonAgent extends Agent implements Person
 				return;
 			}
 		}
-		inv.add(new Item(item, q));
+		inv.add(new Item(item, q, 0));
 		print("I now have " + q + " " + item);
+	}
+	
+	private void addItem(List<Item> inv, String item, int q, int j) {
+		for (Item i : inv){
+			if (i.type.equals(item)){
+				i.quantity += q;
+				print("I now have " + i.quantity + " " + i.type);
+				return;
+			}
+		}
+		inv.add(new Item(item, q, j));
+		print("I now have " + q + " " + item);
+		
 	}
 	
 	public void removeItem(List<Item> inv, String item, int q){
@@ -552,7 +620,7 @@ public class PersonAgent extends Agent implements Person
 
 	public void msgLeavingBank(BankCustomerRole r, double balance) {
 		print("Left bank.");
-		money = balance;
+		cash = balance;
 		r.setActivity(false);
 		gui.setBusy(false);
 		Status.setLocation(location.outside);
@@ -562,6 +630,14 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('D');
 		roles.remove(r);
 		stateChanged();
+	}
+	
+	public void msgNewAccount(BankCustomerRole bankCustomerRole, Account acct) {
+		accounts.add(acct);
+	}
+	
+	public void msgNewLoan(BankCustomerRole bankCustomerRole, Loan loan) {
+		loans.add(loan);
 	}
 	//Transportation
 	
@@ -604,7 +680,7 @@ public class PersonAgent extends Agent implements Person
 	
 	public void msgLeavingMarket(MarketCustomerRole r, double balance, String item, int quantRec) {
 		print("Left market.");
-		money = balance;
+		cash = balance;
 		addItem(inventory, item, quantRec);
 		r.setActivity(false);
 		gui.setBusy(false);
@@ -625,6 +701,7 @@ public class PersonAgent extends Agent implements Person
 
 	@Override
 	protected boolean pickAndExecuteAnAction() {
+		
 		//Not exactly sure where this next bit of code has to go or when it will be called
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
@@ -644,7 +721,7 @@ public class PersonAgent extends Agent implements Person
 		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
-				GoToWithdrawFromBank();
+				GoToBank();
 				return true;
 			}
 		if (Status.getDestination() == destination.market &&
@@ -661,6 +738,61 @@ public class PersonAgent extends Agent implements Person
 			return true;
 		}
 		
+if (!gui.getBusy() && job.type != JobType.noAI){	
+	
+	if(job.type != JobType.noAI && job.type != JobType.none){
+		GoToWork();
+		return true;
+	}
+//		if (time > workStart && time < workEnd){
+//		GoToWork();
+//		return true;
+//	}
+	
+	if(needsBankTransaction()){
+		GoToBank();
+		return true;
+	}
+	
+	if(needsToBuy()){
+		GoToMarket();
+		return true;
+	}
+		
+		
+}
+
+//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
+//	if (Hungry()){
+//		Boolean restaurant;
+//		if (wealthLevel == WealthLevel.wealthy)
+//			restaurant = 70% chance
+//		else
+//			restaurant = 10% chance
+//
+//		if (restaurant)
+//			GoToRestaurant();
+//			return true;
+//		else{
+//			homePurpose = "Cook";
+//			GoHomeToDoX();
+//			return true;
+//		} 
+//	}
+//	if (OwesRent()){
+//		homePurpose = "Pay Rent";
+//		GoHomeToDoX();
+//		return true;
+//	}
+//	if (AptBroken()){
+//		homePurpose = "Call for Repair";
+//		GoHomeToDoX();
+//		return true;
+//	}
+
+		
+	
+	
 		Boolean anytrue = false;
 		synchronized(roles)
 		{
@@ -677,6 +809,70 @@ public class PersonAgent extends Agent implements Person
 		if(anytrue)
 			return true;
 
+		if (!gui.getBusy() && job.type != JobType.noAI){	
+		homePurpose = "Sleep";
+		GoHomeToDoX();
+		}
+		return false;	
+	}
+
+	private boolean needsToBuy() {
+		if (inventory.size() > 0){
+			for (Item i : inventory){
+				print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
+				if(i.quantity < i.threshold){
+					marketPurpose = i.type;
+					marketQuantity = i.threshold - i.quantity;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean needsBankTransaction() {
+		if (hasLoan() && cash > getCashThresholdUp()){
+			bankPurpose = "Pay Loan";
+			bankAmount = cash - getCashThresholdUp();
+			return true;
+		}
+		if (cash > getCashThresholdUp() && hasCar()){
+			bankPurpose = "Deposit";
+			bankAmount = cash - getCashThresholdUp();
+			return true;
+		}
+		if (cash < getCashThresholdLow()){
+			bankPurpose = "Withdraw";
+			bankAmount = getCashThresholdLow() - cash;
+			return true;
+		}
+		if (getTotalMoney() < getMoneyThreshold()){
+			bankPurpose = "Take Loan";
+			bankAmount = getMoneyThreshold() - getTotalMoney();
+			return true;
+		}
+		
+		if (accounts.size() == 0){
+			bankPurpose = "New Account";
+			return true;
+		}
+		return false;
+	}
+
+	private double getTotalMoney() {
+		double temp = cash;
+		for (Account a : accounts){
+			temp += a.getBalance();
+		}
+		return temp;
+	}
+
+	private boolean hasLoan() {
+		for(Loan l :loans){
+			if (l.s != loanState.paid){
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -686,6 +882,9 @@ public class PersonAgent extends Agent implements Person
 
 	private void GoHomeToDoX()
 	{
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going home to " + homePurpose);
 		Status.setHousingStatus(houseStatus.goingHome);
 		//Transportation t = ChooseTransportation();
 		gui.DoGoToHouse();
@@ -707,8 +906,11 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 	
-	private void GoToWork()
-	{
+
+	private void GoToWork(){
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to work as " + job.type);
 		Status.setWorkStatus(workStatus.goingToWork);
 		gui.DoGoToCheckpoint('D');
 		// TODO
@@ -760,6 +962,8 @@ public class PersonAgent extends Agent implements Person
 	
 	private void GoToRestaurant()
 	{
+		gui.setPresent(true);
+		gui.setBusy(true);
 		print("Going to restaurant");
 		Status.setNourishment(nourishment.goingToFood);
 		//Transportation t = ChooseTransportation();
@@ -782,7 +986,7 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 
 		//Role terminologies
-		CustomerRole c = new CustomerRole(this.getName(), money);
+		CustomerRole c = new CustomerRole(this.getName(), cash);
 		c.setPerson(this);
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
@@ -804,18 +1008,21 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 
-	public void GoToWithdrawFromBank()
+	public void GoToBank()
 	{
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to bank to " + bankPurpose);
 		Status.setMoneyStatus(bankStatus.goingToBank);
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
-		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		c.test("New Account", 20);
+		//c.test("New Account", 20);
 
 		
 		synchronized(buildings)
@@ -833,6 +1040,9 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	void GoToMarket(){
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
 		Status.market = marketStatus.waiting;
 		gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
@@ -842,8 +1052,7 @@ public class PersonAgent extends Agent implements Person
 		print("At market entrance");
 		gui.setPresent(false);
 		
-		//MarketCustomerRole c = new MarketCustomerRole(this.getName(), "New Account", 20, money);
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, money);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
 
 		c.setPerson(this);
 		roles.add(c);

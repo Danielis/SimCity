@@ -329,8 +329,9 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	private void Deposit(Transaction t){
 		waiterGui.setSpeechBubble("thnxteller");
 		print("Depositing $" + t.amount + " into account #" + t.account.id);
-	    t.account.balance += t.amount;
-	    print("New account balance is $" + t.account.balance);
+	    t.account.setBalance(t.account.getBalance()
+				+ t.amount);
+	    print("New account balance is $" + t.account.getBalance());
 	    bank.balance += t.amount;
 	    print("New bank cash balance is $" + bank.balance);
 	    t.status = transactionStatus.resolved;
@@ -341,21 +342,22 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 
 	private void Withdraw(Transaction t){
 		t.status = transactionStatus.resolved;
-	    if (t.account.balance >= t.amount){
+	    if (t.account.getBalance() >= t.amount){
 	    	waiterGui.setSpeechBubble("withdrawteller");
 	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
-	        t.account.balance -= t.amount;
-	        print("New account balance is $" + t.account.balance);
+	        t.account.setBalance(t.account.getBalance()
+					- t.amount);
+	        print("New account balance is $" + t.account.getBalance());
 	        bank.balance -= t.amount;
 	        print("New bank cash balance is $" + bank.balance);
 	        t.c.HereIsWithdrawal(t.amount);
 	    }
-	    else if (t.account.balance > 0){
+	    else if (t.account.getBalance() > 0){
 	    	waiterGui.setSpeechBubble("withdrawteller");
-	    	double temp = t.account.balance;
+	    	double temp = t.account.getBalance();
 	    	print("You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id);
-	        t.account.balance -= temp;
-	        print("New account balance is $" + t.account.balance);
+	        t.account.setBalance(t.account.getBalance() - temp);
+	        print("New account balance is $" + t.account.getBalance());
 	        bank.balance -= temp;
 	        print("New bank cash balance is $" + bank.balance);
 	        t.c.HereIsPartialWithdrawal(temp);
@@ -372,12 +374,13 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	   	waiterGui.setSpeechBubble("newacctteller");
 	    
 		print("Creating new account...");
-	    t.account.balance += t.amount;
+	    t.account.setBalance(t.account.getBalance()
+				+ t.amount);
 	    bank.balance += t.amount;
 	    bank.accounts.add(t.account);
 	    t.status = transactionStatus.resolved;
-	    t.account.c.AccountCreated();
-	    print("Your new account ID is " + t.account.id + " with balance of $" + t.account.balance);
+	    t.account.c.AccountCreated(t.account);
+	    print("Your new account ID is " + t.account.id + " with balance of $" + t.account.getBalance());
 	    print("Bank cash balance is $" + bank.balance);
 	}
 
@@ -389,7 +392,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	    	print("Created loan. Here is $" + t.amount + ". You owe $" + t.loan.balanceOwed);
 	    	bank.loans.add(t.loan);
 	    	bank.balance -= t.amount;
-	        t.loan.c.LoanCreated(t.amount);
+	        t.loan.c.LoanCreated(t.amount, t.loan);
 	        print("Bank cash balance is $" + bank.balance);
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){

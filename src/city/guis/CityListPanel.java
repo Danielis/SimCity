@@ -45,7 +45,7 @@ public class CityListPanel extends JPanel implements ActionListener {
     
     JPanel newCreation = new JPanel();
     
-    String[] jobOptions = { "None", "Market Worker", "Market Host", "Restaurant Host", "Cook", "Waiter", "Cashier", "Bank Host", "Teller", "Landlord", "Repairman", "Crook" };
+    String[] jobOptions = { "No AI", "None", "Market Worker", "Market Host", "Restaurant Host", "Cook", "Waiter", "Cashier", "Bank Host", "Teller", "Landlord", "Repairman", "Crook" };
     JComboBox jobList = new JComboBox(jobOptions);
    
     String[] wealthLevels = { "Average", "Wealthy", "Poor" };
