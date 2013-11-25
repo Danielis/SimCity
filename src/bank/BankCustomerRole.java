@@ -26,7 +26,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//EDIT HERE******************************
 	
 //VARIABLES*************************************************
-	Host h;
+	BankHost h;
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
 	Teller t;
@@ -445,9 +445,11 @@ private void LeaveBank(){
 		this.customerGui = customerGui;
 	}
 
-	public void setHost(HostAgent host) {
+	public void setHost(BankHost host) {
 		this.h = host;
 	}
+
+	
 
 	
 }

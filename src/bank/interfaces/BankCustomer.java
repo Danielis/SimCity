@@ -46,7 +46,7 @@ public void WaitForAnimation();
 
 public void DoneWithAnimation();
 
-public abstract void setHost(bank.HostAgent host);
+public abstract void setHost(BankHost host);
 
 
 public abstract void setGui(CustomerGui g);

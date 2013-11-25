@@ -394,12 +394,12 @@ public class CityGui extends JFrame implements ActionListener {
         if (e.getSource() == restaurantGo) 
         {
             PersonAgent c = (PersonAgent) currentPerson;
-            c.getGui().setWork();
+            c.getGui().setHungry();
             silenceButtons();
         }
         if (e.getSource() == workGo){
         	 PersonAgent c = (PersonAgent) currentPerson;
-             c.getGui().setHungry();
+             c.getGui().setWork();
              silenceButtons();
         }
         if (e.getSource() == bankGo)

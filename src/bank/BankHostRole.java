@@ -1,9 +1,10 @@
 package bank;
 
 import agent.Agent;
+import roles.Role;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
-import bank.interfaces.Host;
+import bank.interfaces.*;
 import bank.TellerAgent;
 import bank.BankCustomerRole;
 
@@ -11,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Host Agent
-public class HostAgent extends Agent implements Host {
+public class BankHostRole extends Role implements BankHost {
 	
 		
 	//Lists
@@ -25,7 +26,7 @@ public class HostAgent extends Agent implements Host {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
 //CONSTRUCTOR
-	public HostAgent(String name) {
+	public BankHostRole(String name) {
 		super();
 		this.name = name;
 	}
@@ -149,7 +150,7 @@ public class HostAgent extends Agent implements Host {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		try
 		{
 			synchronized(customers)
@@ -270,5 +271,8 @@ public class HostAgent extends Agent implements Host {
        // 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
        // }
 }
+	
+	
+
 }
 

@@ -3,7 +3,7 @@ package bank.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import bank.HostAgent;
+import bank.BankHostRole;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

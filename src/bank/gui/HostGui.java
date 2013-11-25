@@ -1,9 +1,9 @@
 package bank.gui;
 
 
+import bank.interfaces.*;
 import bank.BankCustomerRole;
 import bank.TellerAgent;
-import bank.HostAgent;
 import bank.gui.Coordinate;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 
 public class HostGui implements Gui {
 
-    private HostAgent agent = null;
+    private BankHost agent = null;
     BufferedImage imgTrainer;
     Boolean goingSomewhere = false;
     Coordinate position;
@@ -30,9 +30,11 @@ public class HostGui implements Gui {
 	Coordinate speechBubbleLoc;
     
     private final int deltadivider = 100;
+    BankGui gui;
     
-    public HostGui(HostAgent agent) {
+    public HostGui(BankHost agent, BankGui gui) {
         this.agent = agent;
+        this.gui = gui;
         try
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/host.png"));

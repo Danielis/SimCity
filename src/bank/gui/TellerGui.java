@@ -1,6 +1,6 @@
 package bank.gui;
 
-import bank.HostAgent;
+import bank.BankHostRole;
 import bank.TellerAgent;
 
 import java.awt.*;

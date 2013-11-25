@@ -15,7 +15,7 @@ import restaurant.gui.CustomerGui;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
-import bank.interfaces.BankCustomer;
+import bank.interfaces.*;
 import roles.Apartment;
 import roles.Building;
 import roles.Building.buildingType;
@@ -28,9 +28,9 @@ import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
 import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
-
-
+import bank.*;
 import transportation.TransportationCompanyAgent;
+
 
 //Utility Imports
 import java.util.*;
@@ -456,7 +456,7 @@ public class PersonAgent extends Agent implements Person
 	 ******************************************************************************/
 
 	public void msgGoToWork() {
-		print("Called msgGoToRestaurant");
+		print("Called msgGoToWork");
 		if (job != null && job.type != JobType.none)
 			Status.setDestination(destination.work);
 		gui.setPresent(false);
@@ -623,8 +623,8 @@ public class PersonAgent extends Agent implements Person
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
 		if (Status.getWork() == workStatus.notWorking &&
-				Status.getLocation() == location.outside) {
-			print("Scheduler realized the person wants to go to Restaurant");
+				Status.getDestination() == destination.work) {
+			print("Scheduler realized the person wants to go to work");
 			GoToWork();
 			return true;
 		}
@@ -703,7 +703,7 @@ public class PersonAgent extends Agent implements Person
 	private void GoToWork(){
 		Status.setWorkStatus(workStatus.goingToWork);
 		gui.DoGoToCheckpoint('D');
-		
+		// TODO
 		//if (jobType == jobType.)
 		
 		
@@ -714,8 +714,8 @@ public class PersonAgent extends Agent implements Person
 		Role c = null;
 	
 		
-		//if (job.type == JobType.bankHost)
-			//c = new BankHostRole(this.getName());
+		if (job.type == JobType.bankHost)
+			c = new BankHostRole(this.getName());
 		
 		c.setPerson(this);
 		roles.add(c);
@@ -729,8 +729,8 @@ public class PersonAgent extends Agent implements Person
 				if (b.getType() == buildingType.bank){
 					print("found b");
 					Bank r = (Bank) b;
-					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
+					//r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addHost((BankHost) c);
 				}
 			}
 		}

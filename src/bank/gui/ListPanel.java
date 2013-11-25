@@ -1,13 +1,13 @@
 package bank.gui;
 
 import bank.BankCustomerRole;
-import bank.HostAgent;
+import bank.BankHostRole;
 import bank.TellerAgent;
 
 import javax.swing.*;
 
 import roles.Role;
-import bank.interfaces.BankCustomer;
+import bank.interfaces.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -165,6 +165,27 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }
     
+    public void addHost(BankHost host) {
+        if (host != null) {
+            JButton button = new JButton(host.getName());
+            button.setBackground(Color.white);
+
+            Dimension paneSize = customerPane.getSize();
+            Dimension buttonSize = new Dimension(paneSize.width - 20,
+                    (int) (paneSize.height / 10));
+            button.setPreferredSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            button.addActionListener(this);
+            listForCustomer.add(button);
+            viewForCustomer.add(button);
+            restPanel.addHost(host);
+            validate();
+           
+        }
+    }
+    
+    
     public void addCustomer(BankCustomer customer) {
         if (customer != null) {
             JButton button = new JButton(customer.getName());
@@ -185,6 +206,8 @@ public class ListPanel extends JPanel implements ActionListener {
            
         }
     }
+    
+   
     
     public void addCustomer(String name) {
         if (name != null) {
