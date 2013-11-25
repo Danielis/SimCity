@@ -163,7 +163,7 @@ public class CityPanel extends JPanel {
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
-		
+		p.setMetro(metro);
 		p.setBuildings(buildings);
 		people.add(p);
 		p.startThread();
@@ -172,23 +172,37 @@ public class CityPanel extends JPanel {
     public void createBusSystem() //Trans: Once AI and adding implementations are done, we can make this just an addBus or addStop function
     {
         System.out.println("Got to create bus system");
+        //Buses
         BusAgent B = new BusAgent("Bus1");
         BusGui Bg = new BusGui(B,gui);
         gui.cityAnimationPanel.addGui(Bg);
         B.setCompany(metro);
         B.setGui(Bg);
-        Bg.setPosition(395,250);
+        Bg.setPosition(435,300);//395,125);
         Bg.setPresent(true);
         B.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBus(B);
         B.startThread();
         
+        BusAgent B2 = new BusAgent("Bus2");
+        BusGui B2g = new BusGui(B2,gui);
+        gui.cityAnimationPanel.addGui(B2g);
+        B2.setCompany(metro);
+        B2.setGui(B2g);
+        B2g.setPosition(395,300);//435,500);
+        B2g.setPresent(true);
+        B2.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBus(B2);
+        B2.startThread();
+        
+        
+        //BusStops
         BusStopAgent S = new BusStopAgent("BusStop1");
         BusStopGui Sg = new BusStopGui(S,gui);
         gui.cityAnimationPanel.addGui(Sg);
         S.setCompany(metro);
         S.setGui(Sg);
-        Sg.setPosition(395,250);
+        Sg.setPosition(395,125);
         S.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S);
         Sg.setPresent(true);
@@ -198,18 +212,60 @@ public class CityPanel extends JPanel {
         BusStopGui S2g = new BusStopGui(S2,gui);
         gui.cityAnimationPanel.addGui(S2g);
         S2.setGui(S2g);
-        S2g.setPosition(395,125);
+        S2g.setPosition(395,300);
         S2.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S2);
         S2g.setPresent(true);
         S2.startThread();
+        
+        BusStopAgent S3 = new BusStopAgent("BusStop3");
+        BusStopGui S3g = new BusStopGui(S3,gui);
+        gui.cityAnimationPanel.addGui(S3g);
+        S3.setGui(S3g);
+        S3g.setPosition(395,500);
+        S3.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S3);
+        S3g.setPresent(true);
+        S3.startThread();
+        
+        BusStopAgent S4 = new BusStopAgent("BusStop4");
+        BusStopGui S4g = new BusStopGui(S4,gui);
+        gui.cityAnimationPanel.addGui(S4g);
+        S4.setGui(S4g);
+        S4g.setPosition(435,500);
+        S4.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S4);
+        S4g.setPresent(true);
+        S4.startThread();
+        
+        BusStopAgent S5 = new BusStopAgent("BusStop5");
+        BusStopGui S5g = new BusStopGui(S5,gui);
+        gui.cityAnimationPanel.addGui(S5g);
+        S5.setGui(S5g);
+        S5g.setPosition(435,300);
+        S5.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S5);
+        S5g.setPresent(true);
+        S5.startThread();
+        
+        BusStopAgent S6 = new BusStopAgent("BusStop6");
+        BusStopGui S6g = new BusStopGui(S6,gui);
+        gui.cityAnimationPanel.addGui(S6g);
+        S6.setGui(S6g);
+        S6g.setPosition(435,125);
+        S6.setAnimationPanel(gui.cityAnimationPanel);
+        metro.addBusStop(S6);
+        S6g.setPresent(true);
+        S6.startThread();
+        
        
     }
     
     public void sendPersonToStop(){ //Trans: should be done by person AI 
     	this.personPanel.addPerson("TestPerson", "None", "Average");
     	PersonAgent testPerson = people.lastElement();
-    	testPerson.msgGoToStop(metro.stops.get(0), metro.stops.get(1));
+    	testPerson.transportationStatusBus();
+    	testPerson.msgGoToRestaurant();
     }
     
     public void setRestPanel(RestaurantPanel panel)

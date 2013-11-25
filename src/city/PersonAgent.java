@@ -30,6 +30,8 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 
 
+import transportation.TransportationCompanyAgent;
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -74,8 +76,8 @@ public class PersonAgent extends Agent implements Person
 	
 	BusStopAgent destinationStop;//trans: added
 	BusStopAgent curStop;//trans: addded
-	boolean goingToStop;//trans: added can be made to work with bus States instead
-	boolean gettingoff;//trans: added can be made to work with bus States instead
+	
+	TransportationCompanyAgent metro;
 	
 	public PersonAgent(String name, String job, String wealth){
 		this.name = name;
@@ -179,7 +181,12 @@ public class PersonAgent extends Agent implements Person
 		{
 			return nour;
 		}
-
+		public void setTransportationStatus(transportStatus state){
+			trans = state;
+		}
+		public transportStatus getTransportationStatus(){
+			return trans;
+		}
 		public void setMoneyStatus(bankStatus state)
 		{
 			bank = state;
@@ -360,6 +367,58 @@ public class PersonAgent extends Agent implements Person
 	{
 		this.busSemaphore.release();
 	}
+	public void setMetro(TransportationCompanyAgent m){
+		this.metro = m;
+	}
+	/** closestBusStop()
+	 *  Will return the closest BusStopAgent to the Person so that they can travel to the destination stop determined by the action they are trying to do
+	 */
+	public BusStopAgent closestBusStop(){
+		BusStopAgent B = metro.stops.get(0);
+		double C = checkBusStopDistance(metro.stops.get(0));
+		for(int i=1;i<metro.stops.size();i++){
+			if(C > checkBusStopDistance(metro.stops.get(i))){
+				C = checkBusStopDistance(metro.stops.get(i)); 
+				B = metro.stops.get(i);
+			}
+		}
+		return B;
+	}
+	public double checkBusStopDistance(BusStopAgent x){
+		int A = Math.abs( this.getGui().getXPosition() - x.getGui().getXPosition());
+		int B = Math.abs( this.getGui().getYPosition() - x.getGui().getYPosition());
+		double C = Math.sqrt(A*A + B*B);
+		return C;
+	}
+	/** ClosestCheckpoint() will move gui to closest checkpoint G,D,C,B
+	 * 
+	 */
+	public void closestCheckpoint(){
+		double C;
+		char P = 'G';
+		C = checkPointDistance(385,474); // Assign G
+		if ( C > checkPointDistance(385,282))
+			C = checkPointDistance(385,282);//assign D
+		if ( C > checkPointDistance(385,362))
+			C = checkPointDistance(385,362);//assign C
+		if ( C > checkPointDistance(385,474))
+			C = checkPointDistance(385,474);//assign B
+		gui.DoGoToCheckpoint(P);
+	}
+	/** checkPointDistance(int x, int y) is mainly used in closestCheckPoint() to determine where a person should go to begin their journey somewhere
+	 * 
+	 */
+	public double checkPointDistance(int x, int y){
+		int A = Math.abs( this.getGui().getXPosition() - x);
+		int B = Math.abs( this.getGui().getYPosition() - y);
+		double C = Math.sqrt(A*A + B*B);
+		return C;
+	}
+	// This next function is used in my TestPerson but will later be used to change the person's transportStatus from the Gui so that they
+	// are as Aleena put it Lazy or Athletic, could be random at the start of creation or a click button like Hungry
+	public void transportationStatusBus(){
+		this.Status.setTransportationStatus(transportStatus.bus);
+	}
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
@@ -390,6 +449,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
+		print("Called msgGoToRestaurant");
 		Status.setNourishment(nourishment.Hungry);
 		Status.setDestination(destination.restaurant);
 		gui.setPresent(false);
@@ -403,10 +463,29 @@ public class PersonAgent extends Agent implements Person
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
 		gui.setPresent(true);
-		gui.DoGoToCheckpoint('D');
-		gui.DoGoToCheckpoint('C');
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
+		//Commenting out since AI should handle movement after the person gets out of restaurant
+		//gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
+		// however will make person just go home or where housing will be /////////////////////////////////////
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			this.closestCheckpoint();
+		gui.DoGoToCheckpoint('G');
+		gui.DoGoToCheckpoint('H');
+		gui.DoGoToCheckpoint('I');
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		roles.remove(r);
 		stateChanged();
 
@@ -429,26 +508,30 @@ public class PersonAgent extends Agent implements Person
 		r.setActivity(false);
 		gui.setBusy(false);
 		Status.setLocation(location.outside);
-		Status.setDestination(destination.outside);
+		Status.setDestination(destination.outside); 
 		gui.setPresent(true);
-		gui.DoGoToCheckpoint('D');
+		//Commenting out since AI should handle movement after leaving bank
+		//gui.DoGoToCheckpoint('D');
 		roles.remove(r);
+		stateChanged();
 	}
 	//Transportation
 	
+	
 	public void msgAtBusStop(){
-		//this.DoneWithBus(); // msgBusStopReached() should release agent to do other actions
-		gettingoff = true;
-		print(this.name + "Going to Restaurant now since I reached bus Stop");
-		stateChanged();
+		this.DoneWithBus(); // msgBusStopReached() should release agent to do other actions
 	}
+	/* removed since Person does not need to be told to go to stop just go to Restaurant or Market or so forth
 	public void msgGoToStop(BusStopAgent curStop,BusStopAgent dest){
+	 
 		print("Person going to STOP");
 		this.curStop = curStop;
 		this.destinationStop = dest;
+		this.Status.setTransportationStatus(transportStatus.goingToBusStop);
 		this.goingToStop = true;
 		stateChanged();
 	}
+	*/
 	public void setDestinationStop(BusStopAgent P){
 		this.destinationStop = P;
 	}
@@ -497,16 +580,10 @@ public class PersonAgent extends Agent implements Person
 		//Not exactly sure where this next bit of code has to go or when it will be called
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
-		if(goingToStop){
-			ActionGoToBusStop();
-		}
-		if(gettingoff){
-			GoToRestaurant();
-		}
-		
 		//If you're hungry and outside, go to the restaurant. Preliminary.
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 				Status.getLocation() == location.outside) {
+			print("Scheduler realized the person wants to go to Restaurant");
 			GoToRestaurant();
 			return true;
 		}
@@ -585,10 +662,18 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
-
-		gettingoff = false; // state change which will be Bus State
-		
-		gui.DoGoToCheckpoint('D');
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			this.closestCheckpoint();
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('A');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
@@ -613,15 +698,6 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
-	}
-	
-	private void ActionGoToBusStop(){
-		goingToStop = false;
-		gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
-		gui.setPresent(false);
-		curStop.msgImAtStop(this);
-		//WaitForBus();
-	
 	}
 
 	public void GoToWithdrawFromBank()

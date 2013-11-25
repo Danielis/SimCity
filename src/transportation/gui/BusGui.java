@@ -1,4 +1,4 @@
-package transportation.gui;
+ package transportation.gui;
 
 import restaurant.gui.Gui;
 import transportation.BusAgent;
@@ -38,6 +38,8 @@ public class BusGui implements Gui{
 	Coordinate checkpointB;
 	Coordinate checkpointC;
 	Coordinate checkpointD;
+	Coordinate checkpointE;
+	Coordinate checkpointF;
 	
 	Coordinate position;
 	Coordinate destination;
@@ -60,10 +62,12 @@ public class BusGui implements Gui{
 		agent = c;
 		this.gui = gui2;
 		
-		checkpointA = new Coordinate(395,250);
-		checkpointB = new Coordinate(395,125);
-		checkpointC = new Coordinate(320,125);
-		checkpointD = new Coordinate(320,100);
+		checkpointA = new Coordinate(395,125);
+		checkpointB = new Coordinate(395,300);
+		checkpointC = new Coordinate(395,500);
+		checkpointD = new Coordinate(435,500);
+		checkpointE = new Coordinate(435,300);
+		checkpointF = new Coordinate(435,125);
 		
 		
 		outside = new Coordinate(100, 100);
@@ -89,14 +93,39 @@ public class BusGui implements Gui{
     		y = b;
     	}
     }
+    
 	public void updatePosition() {
 		if (goingSomewhere)
-    	{			
+    	{	
         	int deltax = destination.x - position.x;
-        	int deltay = destination.y - position.y;
+        	int deltay = destination.y - position.y;        
         	
-        	if (deltax < 0) deltax *= -1;
-        	if (deltay < 0) deltay *= -1;
+        	if (deltax < 0){
+        		deltax *= -1;
+        		 try
+        	        {
+        			 imgBus = ImageIO.read(getClass().getResource("/resources/lbus.png"));
+        	        } catch (IOException e ) {}
+        	}
+        	else if(deltax > 0){
+        		 try
+     	        {
+     			 imgBus = ImageIO.read(getClass().getResource("/resources/rbus.png"));
+     	        } catch (IOException e ) {}
+        	}
+        	if (deltay < 0){
+        		deltay *= -1;
+        		 try
+        	        {
+        			 imgBus = ImageIO.read(getClass().getResource("/resources/ubus.png"));
+        	        } catch (IOException e ) {}
+        	}
+        	else if(deltay > 0){
+        		try
+    	        {
+    			 imgBus = ImageIO.read(getClass().getResource("/resources/dbus.png"));
+    	        } catch (IOException e ) {}
+        	}
         	
             if (position.x < destination.x)
                 position.x += (1 + deltax/deltadivider);
@@ -111,7 +140,7 @@ public class BusGui implements Gui{
 
             if (position.x == destination.x && position.y == destination.y)
             {
-            	System.out.println(agent.getName() + "Destination reached");
+//            	System.out.println(agent.getName() + "Destination reached");
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
             }
@@ -167,6 +196,18 @@ public class BusGui implements Gui{
                   destination = checkpointD;
                   agent.WaitForAnimation();
           }
+	      else if(a == 'E' || a == 'e')
+          {
+              goingSomewhere = true;
+                  destination = checkpointE;
+                  agent.WaitForAnimation();
+          }
+	      else if(a == 'F' || a == 'f')
+          {
+              goingSomewhere = true;
+                  destination = checkpointF;
+                  agent.WaitForAnimation();
+          }
 	}
 	
 	public void NextStop(){
@@ -174,13 +215,19 @@ public class BusGui implements Gui{
 			this.DoGoToCheckpoint('B');
 		}
 		else if(this.position.x == checkpointB.x && this.position.y == checkpointB.y){
-			this.DoGoToCheckpoint('A');
+			this.DoGoToCheckpoint('C');
 		}
 		else if(this.position.x == checkpointC.x && this.position.y == checkpointC.y){
-
+			this.DoGoToCheckpoint('D');
 		}
 		else if(this.position.x == checkpointD.x && this.position.y == checkpointD.y){
-
+			this.DoGoToCheckpoint('E');
+		}
+		else if(this.position.x == checkpointE.x && this.position.y == checkpointE.y){
+			this.DoGoToCheckpoint('F');
+		}
+		else if(this.position.x == checkpointF.x && this.position.y == checkpointF.y){
+			this.DoGoToCheckpoint('A');
 		}
 		else
 			this.DoGoToCheckpoint('A');
