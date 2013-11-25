@@ -5,6 +5,7 @@ package housing.guis;
 import restaurant.WaiterAgent;
 import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
+import housing.interfaces.HousingCustomer;
 
 import javax.swing.*;
 
@@ -37,7 +38,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JCheckBox tenantHungryBox;
 	private JCheckBox tenantRepairBox;
 
-	private HousingCustomerAgent currentTenant;
+	private HousingCustomer currentTenant;
 	private HousingWorkerAgent currentWorker;
 
 	private JButton pauseButton;
@@ -140,7 +141,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	 *
 	 * @param temp customer (or waiter) object
 	 */
-	public void updateTenantInformationPanel(HousingCustomerAgent temp) {
+	public void updateTenantInformationPanel(HousingCustomer temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentTenant = temp;
 		tenantHungryBox.setSelected(currentTenant.hungry);
@@ -148,7 +149,7 @@ public class HousingGui extends JFrame implements ActionListener {
 		tenantRepairBox.setSelected(currentTenant.houseNeedsRepairs);
 		tenantRepairBox.setEnabled(!currentTenant.houseNeedsRepairs);
 		infoCustomerLabel.setText(
-				"<html><pre>     Name: " + currentTenant.name + " </pre></html>");
+				"<html><pre>     Name: " + currentTenant.getName() + " </pre></html>");
 		tenantInformationPanel.validate();
 	}
 	public void updateWorkerInformationPanel(HousingWorkerAgent temp) {
@@ -190,13 +191,13 @@ public class HousingGui extends JFrame implements ActionListener {
 
 		if (e.getSource() == tenantHungryBox) 
 		{
-			HousingCustomerAgent c = currentTenant;
-			c.EatAtHome();;
+			HousingCustomer c = currentTenant;
+			c.EatAtHome();
 			tenantHungryBox.setEnabled(false);
 		}
 		if (e.getSource() == tenantRepairBox) 
 		{
-			HousingCustomerAgent c = currentTenant;
+			HousingCustomer c = currentTenant;
 			c.MyHouseNeedsRepairs();
 			tenantRepairBox.setEnabled(false);
 		}
@@ -230,7 +231,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	 * @param c reference to the customer
 	 */
 	public void setCustomerEnabled(HousingCustomerAgent p) {
-		HousingCustomerAgent ten = currentTenant;
+		HousingCustomer ten = currentTenant;
 		if (p.equals(ten)) 
 		{
 			tenantHungryBox.setEnabled(true);

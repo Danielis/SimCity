@@ -12,6 +12,7 @@ import restaurant.gui.RestaurantGui;
 import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
 import housing.LandlordAgent;
+import housing.interfaces.HousingCustomer;
 import housing.interfaces.Landlord;
 
 import javax.imageio.ImageIO;
@@ -34,15 +35,15 @@ public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
 	public LandlordAgent landlord = new LandlordAgent();
-	public HousingCustomerAgent tenant;
+	public HousingCustomer tenant;
 	private HousingWorkerAgent worker;
         
-    private Vector<HousingCustomerAgent> tenants = new Vector<HousingCustomerAgent>();
+    private Vector<HousingCustomer> tenants = new Vector<HousingCustomer>();
     private Vector<HousingWorkerAgent> workers = new Vector<HousingWorkerAgent>();
     
     private JPanel restLabel = new JPanel();
-    private HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
-    private HousingListPanel workerPanel = new HousingListPanel(this, "Workers");
+    public HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
+    public HousingListPanel workerPanel = new HousingListPanel(this, "Workers");
     private JPanel group = new JPanel();
         
     
@@ -103,8 +104,8 @@ public class HousingPanel extends JPanel {
      */
     public void showTenantInfo(String name)
     {
-    	for (HousingCustomerAgent temp:tenants) {
-    		if (temp.name.equals(name))
+    	for (HousingCustomer temp:tenants) {
+    		if (temp.getName().equals(name))
     		{
     			tenantPanel.updateTenant(temp);
     			gui.updateTenantInformationPanel(temp);
@@ -128,6 +129,8 @@ public class HousingPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
 */
+    
+    /*
     public void addTenant(String name, int n) 
     {
 		HousingCustomerAgent p = new HousingCustomerAgent(name);
@@ -141,6 +144,22 @@ public class HousingPanel extends JPanel {
 		tenants.add(tenant);
 		System.out.println("Entry in tenants has name: " + tenants.get(0).name);
 		tenant.startThread();
+    }*/
+    
+    public void addTenant(HousingCustomer c, int n) 
+    {
+		//HousingCustomerAgent p = new HousingCustomerAgent(name);
+    	HousingCustomer hc = c;
+		HousingCustomerGui g = new HousingCustomerGui(hc, gui, n);
+		gui.housingAnimationPanel.addGui(g);
+		hc.setGui(g);
+        landlord.addCustomer(hc);
+        hc.setLandlord(landlord);
+    	//p.setAnimationPanel(gui.cityAnimationPanel);
+		tenant = hc;
+		tenants.add(tenant);
+		System.out.println("Entry in tenants has name: " + tenants.get(0).getName());
+		//tenant.startThread();
     }
     
     public void addWorker(String name) 

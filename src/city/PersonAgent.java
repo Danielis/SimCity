@@ -16,6 +16,7 @@ import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
 import bank.interfaces.BankCustomer;
+import roles.Apartment;
 import roles.Building;
 import roles.Building.buildingType;
 import roles.CustomerRole;
@@ -23,15 +24,10 @@ import roles.Restaurant;
 import roles.Role;
 import market.*;
 import market.interfaces.MarketCustomer;
-
-
-
-
 import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
-
-
-
+import housing.HousingCustomerRole;
+import housing.interfaces.HousingCustomer;
 
 
 //Utility Imports
@@ -192,6 +188,16 @@ public class PersonAgent extends Agent implements Person
 			return bank;
 		}
 
+		public void setHousingStatus(houseStatus state)
+		{
+			house = state;
+		}
+		
+		public houseStatus getHousingStatus()
+		{
+			return house;
+		}
+		
 		public void setLocation(location state)
 		{
 			loc = state;
@@ -244,15 +250,15 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	//Enum States
-	enum nourishment{notHungry,Hungry,goingToFood} // may not need goingToFood
-	enum location{outside,home,restaurant,bank,market,transportation,work}
-	enum destination{outside,home,restaurant,bank,market,transportation,work}
-	enum workStatus{notWorking,working,onBreak,goingToWork}
-	enum bankStatus{nothing,withdraw,deposit,owe,goingToBank}
-	enum houseStatus{notHome,home,noHome,goingHome} //no home may be used for deadbeats
-	enum marketStatus{nothing,buying,waiting}
+	enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
+	enum location		{outside,home,restaurant,bank,market,transportation,work}
+	enum destination	{outside,home,restaurant,bank,market,transportation,work}
+	enum workStatus		{notWorking,working,onBreak,goingToWork}
+	enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
+	enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
+	enum marketStatus	{nothing,buying,waiting}
 	enum transportStatus{nothing, walking,car,bus}
-	enum morality{good,bad} // may be used for theifs later on for non-norms
+	enum morality		{good,bad} // may be used for theifs later on for non-norms
 	//other potentials: rent, 
 
 
@@ -356,26 +362,28 @@ public class PersonAgent extends Agent implements Person
 	 								 MESSAGES
 	 ******************************************************************************/
 
-	/*
+
 	//Housing
-	//Passes an inactive role which contains location and otherinfo needed later
-	public void msgGoToHome(Role r){
-<<<<<<< HEAD
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don't need to add role.
-=======
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is     required. Otherwise don�t need to add role.
->>>>>>> Transportation
-	    Status.setHouse(houseStatus.goingHome);
+	public void msgGoToHome(){
+	    Status.setHousingStatus(houseStatus.needsToGo);
+	    Status.setDestination(destination.home);
+	    gui.setPresent(false);
 	    stateChanged();
 	}
+	
 	public void msgLeavingHome(Role r){
-	    r.setInactive();
-	    Status.setLoc(location.outside);
-	    Status.setDes(destination.outside);
-	    Status.setHouse(houseStatus.notHome);
-	    gui.isVisible();
+	    r.setActivity(false);
+		roles.remove(r);
+	    Status.setLocation(location.outside);
+	    Status.setDestination(destination.outside);
+	    Status.setHousingStatus(houseStatus.notHome);
+	    gui.setPresent(true);
+		gui.DoGoToCheckpoint('A');
+//		gui.DoGoToCheckpoint('C');
+//		gui.DoGoToCheckpoint('B');
+//		gui.DoGoToCheckpoint('A');
 	    stateChanged();
-	}*/
+	}
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
@@ -474,63 +482,7 @@ public class PersonAgent extends Agent implements Person
 		roles.remove(r);
 		stateChanged();
 	}
-	/*
-	//Work
-	public void msgGoToWork(Role r){
-<<<<<<< HEAD
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
-=======
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don�t need to add role.
->>>>>>> Transportation
-	    Status.setWork(workStatus.goingToWork);
-	    stateChanged();
-	}
-	public void msgLeavingWork(Role r){
-	    r.setInactive();
-	    Status.setLoc(location.outside);
-	    Status.setDes(destination.outside);
-	    Status.setWork(workStatus.notWorking);
-	    gui.isVisible();
-	    stateChanged();
-	}
-
-	//Banks
-	public void goToBank(Role r){
-<<<<<<< HEAD
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
-=======
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don�t need to add role.
->>>>>>> Transportation
-	    Status.setBank(bankStatus.goingToBank);
-	    stateChanged();
-	}
-	public void leavingBank(Role r){
-	    r.setInactive();
-	    Status.setLoc(location.outside);
-	    Status.setDes(destination.outside);
-	    Status.setBank(bankStatus.nothing);
-	    gui.isVisible();
-	    stateChanged();
-	}
-	//Markets
-	public void goToMarket(Role r){
-<<<<<<< HEAD
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don't need to add role.
-=======
-	    //Utility function which checks myRoles to see if Role already exists will choose if add(r) is required. Otherwise don�t need to add role.
->>>>>>> Transportation
-	    Status.setMarket(marketStatus.goingToMarket);
-	    stateChanged();
-	}
-	public void leavingMarket(Role r){
-	    r.setInactive();
-	    Status.setLoc(location.outside);
-	    Status.setDes(destination.outside);
-	    Status.setMarket(marketStatus.nothing);
-	    gui.isVisible();
-	    stateChanged();
-	}
-	 */
+	
 	//Figure out how we are going to incorporate Bus,Car and walking into SimCity
 
 	/*****************************************************************************
@@ -548,11 +500,15 @@ public class PersonAgent extends Agent implements Person
 		if(gettingoff){
 			GoToRestaurant();
 		}
+		
+		//If you're hungry and outside, go to the restaurant. Preliminary.
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 				Status.getLocation() == location.outside) {
 			GoToRestaurant();
 			return true;
 		}
+		
+		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
 				GoToWithdrawFromBank();
@@ -564,6 +520,14 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 
+		//If for any reason you need to go home, go home.
+		if (Status.getHousingStatus() == houseStatus.needsToGo &&
+				Status.getDestination() == destination.home)
+		{
+			GoHomeToDoX();
+			return true;
+		}
+		
 		Boolean anytrue = false;
 		synchronized(roles)
 		{
@@ -586,6 +550,30 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										ACTIONS
 	 ******************************************************************************/
+
+	private void GoHomeToDoX()
+	{
+		Status.setHousingStatus(houseStatus.goingHome);
+		//Transportation t = ChooseTransportation();
+		gui.DoGoToHouse();
+		this.Status.setLocation(location.home);
+		gui.setPresent(false);
+		
+		//Role terminologies
+		HousingCustomerRole c = new HousingCustomerRole(this.getName());
+		c.setPerson(this);
+		roles.add(c);
+		this.roles.get(0).setActivity(true);
+
+		for (Building b: buildings){
+			print(" type: " + b.getType() + " n: ");
+			if (b.getType() == buildingType.housingComplex){
+				Apartment a = (Apartment) b;
+				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0));
+			}
+		}
+	}
+	
 	private void GoToRestaurant()
 	{
 		print("Going to restaurant");
@@ -622,28 +610,8 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
-
-
-		/*
-		Restaurant r = PickARestaurant();
-		//Transportation t = ChooseTransportation();
-		//DoGoTo(r.location, t);
-		CustomerRole c = new CustomerRole(this.getName());
-		roles.add(c);
-		c.setActivity(true);
-		r.host.msgCheckForASpot(c);*/
-
-		/*
-		Restaurant r = restaurants.ChooseOne() ; //restaurants comes from the contact list
-	    TransportationMethod tm = PickOne(r);    //Someone has to do this.
-	    DoGoTo(r.location, tm);                  //It's probably more complicated than this.
-	    Role c = SimCity201.CustomerFactory(r.customerRole); 
-	    roles.add(c);
-	    c.active = T;
-	    r.getHost().ImHungry((Customer) c);
-		 */
-
 	}
+	
 	private void ActionGoToBusStop(){
 		goingToStop = false;
 		gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -656,10 +624,10 @@ public class PersonAgent extends Agent implements Person
 	public void GoToWithdrawFromBank()
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
-		//gui.DoGoToCheckpoint('D');
+		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
@@ -681,7 +649,6 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
-		
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
 	
