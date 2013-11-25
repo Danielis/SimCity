@@ -102,7 +102,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	public void setGui(WaiterGui gui) {
 		waiterGui = gui;
 	}
-	
+
 	public WaiterGui getGui() {
 		return waiterGui;
 	}

@@ -4,9 +4,11 @@ import java.awt.image.ImageObserver;
 import java.util.List;
 
 import restaurant.gui.RestaurantAnimationPanel;
+import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
 import restaurant.HostAgent;
 import restaurant.CustomerState;
+import restaurant.WaiterAgent;
 
 public interface Waiter 
 {
@@ -44,5 +46,9 @@ public interface Waiter
 	public abstract void DoneWithAnimation();
 
 	public abstract void WaitForAnimation();
+
+	public abstract WaiterGui getGui();
+
+	public abstract void resumeAgent();
 
 }

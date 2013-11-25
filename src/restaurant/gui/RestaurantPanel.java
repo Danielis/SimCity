@@ -8,7 +8,7 @@ import restaurant.CookAgent;
 import restaurant.MarketAgent;
 import restaurant.TraditionalWaiterAgent;
 import restaurant.WaiterAgent;
-import restaurant.interfaces.Customer;
+import restaurant.interfaces.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,9 +29,9 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel 
 {
     //Host, cook, waiters and customers
-    public HostAgent host = new HostAgent("Oprah");
+    public Host host = new HostAgent("Oprah");
     public HostGui hostGui = new HostGui(host);
-    public CashierAgent cashier = new CashierAgent("Squidward");
+    public Cashier cashier = new CashierAgent("Squidward");
     public MarketAgent market1 = new MarketAgent("Market 1");
     public MarketAgent market2 = new MarketAgent("Market 2");
     public MarketAgent market3 = new MarketAgent("Market 3");
@@ -258,7 +258,7 @@ public class RestaurantPanel extends JPanel
     	{
     		c.resumeAgent();
     	}
-    	for (WaiterAgent w : waiters)
+    	for (Waiter w : waiters)
     	{
     		w.resumeAgent();
     	}

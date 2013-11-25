@@ -4,6 +4,7 @@ import java.util.List;
 import restaurant.HostAgent;
 import restaurant.CustomerState;
 import restaurant.MyCustomer;
+import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
@@ -83,6 +84,18 @@ public class MockWaiter extends Mock implements Waiter {
 
 		@Override
 		public void WaitForAnimation() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public WaiterGui getGui() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void resumeAgent() {
 			// TODO Auto-generated method stub
 			
 		}
