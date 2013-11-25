@@ -742,14 +742,13 @@ public class PersonAgent extends Agent implements Person
 			c.setActivity(true);
 			r.panel.customerPanel.addHost((BankHost) c);
 		}
-//		if (job.type == JobType.teller){
-//			c = new TellerRole(this.getName());
-//			c.setPerson(this);
-//			roles.add(c);
-//			c.setActivity(true);
-//			//r.addTeller(c);
-//			r.panel.customerPanel.addTeller((Teller) c);
-//		}
+		if (job.type == JobType.teller){
+			c = new TellerRole(this.getName());
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+			r.panel.customerPanel.addTeller((Teller) c);
+		}
 		
 		
 		
