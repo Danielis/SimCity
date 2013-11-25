@@ -127,21 +127,21 @@ public class MarketCustomerGui implements Gui{
 	private void setLeftImage() {
 		 try
 	        {
-	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/left.png"));
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/left1.png"));
 	        } catch (IOException e ) {}
 	}
 
 	private void setRightImage() {
 		 try
 	        {
-	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/right.png"));
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/right1.png"));
 	        } catch (IOException e ) {}
 	}
 
 	private void setDownImage() {
 		 try
 	        {
-	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/down.png"));
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/down1.png"));
 	        } catch (IOException e ) {}
 		
 	}
@@ -149,7 +149,7 @@ public class MarketCustomerGui implements Gui{
 	private void setUpImage() {
 		 try
 	        {
-	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/up.png"));
+	        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/up1.png"));
 	        } catch (IOException e ) {}
 		
 	}

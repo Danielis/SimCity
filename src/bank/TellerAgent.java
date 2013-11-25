@@ -50,6 +50,7 @@ public class TellerAgent extends Agent implements Teller {
 		super();
 		this.name = name;
 		this.tableNum = index;
+		//print("initialized teller");
 	}
 	
 

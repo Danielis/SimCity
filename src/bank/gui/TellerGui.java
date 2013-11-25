@@ -116,10 +116,12 @@ public class TellerGui implements Gui {
        // g.fillRect(position.x, position.y, waiterSize, waiterSize);
     	Graphics2D newG = (Graphics2D)g;
         newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
-
+      
+        //System.out.println("X: "+ homeposition.x + " Y: " + homeposition.y);
+        
         if (showSpeechBubble){
 			newG.drawImage(speechBubble, speechBubbleLoc.x, speechBubbleLoc.y, agent.copyOfAnimPanel);
-		//System.out.println("x: " + speechBubbleLoc.x + " y: " + speechBubbleLoc.y);
+		
         }
     }
     

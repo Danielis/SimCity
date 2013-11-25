@@ -534,7 +534,7 @@ public class PersonAgent extends Agent implements Person
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
-				print(" type: " + b.getType() + " n: ");
+				//print(" type: " + b.getType() + " n: ");
 				if (b.getType() == buildingType.restaurant){
 					Restaurant r = (Restaurant) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
