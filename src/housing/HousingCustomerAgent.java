@@ -176,5 +176,11 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 		return gui;
 	}
 
+	@Override
+	public void setPurpose(String homePurpose) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

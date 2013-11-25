@@ -31,5 +31,7 @@ public interface HousingCustomer {
 
 	public abstract void MyHouseNeedsRepairs();
 
+	public abstract void setPurpose(String homePurpose);
+
 
 }

@@ -18,11 +18,12 @@ import city.PersonAgent;
 public class PersonGui implements Gui{
 	
 	//variables
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	
 	private boolean isHungry = false;
 	private boolean needsmoney = false;
 	private boolean goingHome = false;
+	private boolean isWorking = false;
 	
 	private boolean goingSomewhere = false;
 	private boolean isBusy = false;
@@ -44,7 +45,17 @@ public class PersonGui implements Gui{
 	Coordinate checkpointB;
 	Coordinate checkpointC;
 	Coordinate checkpointD;
+
+	Coordinate checkpointE; 
+	Coordinate checkpointF; 
+	Coordinate checkpointG; 
+	Coordinate checkpointH; 
+	Coordinate checkpointI; 
+	Coordinate checkpointJ; 
+	Coordinate checkpointK;
+	
 	Coordinate checkpointHouse;
+
 	
 	Coordinate position;
 	Coordinate destination;
@@ -71,13 +82,23 @@ public class PersonGui implements Gui{
 		agent = c;
 		this.gui = gui2;
 		
+
+		checkpointA = new Coordinate(257,474);//restaurant
+		checkpointB = new Coordinate(385,474);//bottom street corner  
+		checkpointC = new Coordinate(385,362);//middle lower street corner
+		checkpointD = new Coordinate(385,282);//middle higher street corner
+		checkpointE = new Coordinate(283,282);//in front of market
+		checkpointF = new Coordinate(283,265);//Market
+		checkpointG = new Coordinate(185,106);//Top street corner
+		checkpointH = new Coordinate(319,106);//in front of Apartments
+		checkpointI = new Coordinate(319,90);//Apartments
+		checkpointJ = new Coordinate(73,106);//in front of bank
+		checkpointK = new Coordinate(73,74);//Bank
 		checkpointA = new Coordinate(395,250);
 		checkpointB = new Coordinate(395,125);
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
-		
-
 		
 		
 		outside = new Coordinate(700, 250);
@@ -200,7 +221,12 @@ public class PersonGui implements Gui{
 		setPresent(true);
 		setBusy(true);
 	}
-	
+	public void setWork() {
+		isWorking = true;
+		agent.msgGoToWork();
+		setPresent(true);
+		setBusy(true);
+	}
 	public void setBusy(Boolean x){
 		isBusy = x;
 	}
@@ -228,19 +254,20 @@ public class PersonGui implements Gui{
 		setBusy(true);
 	}
 	
+
+	public void setNeedsHome(boolean b, String purpose) {
+		this.goingHome = b;
+		agent.msgGoToHome(purpose);
+		setPresent(true);
+		setBusy(true);
+	}
+	
 	public void setShop(Boolean b, String item, double quantity)
 	{
 		this.needsmoney = b;
 		agent.msgGoToMarket(item, quantity);
 		setPresent(true);
 		setBusy(true);
-	}
-	
-	public void setNeedsHome(Boolean b)
-	{
-		this.goingHome = b;
-		agent.msgGoToHome();
-		setPresent(true);
 	}
 	
 	public boolean getNeedsHome()
@@ -292,6 +319,48 @@ public class PersonGui implements Gui{
               destination = checkpointD;
               agent.WaitForAnimation();
           }
+	      else if(a == 'E' || a == 'E')
+          {
+              goingSomewhere = true;
+              destination = checkpointE;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'F' || a == 'f')
+          {
+              goingSomewhere = true;
+              destination = checkpointF;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'G' || a == 'g')
+          {
+              goingSomewhere = true;
+              destination = checkpointG;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'H' || a == 'h')
+          {
+              goingSomewhere = true;
+              destination = checkpointH;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'I' || a == 'i')
+          {
+              goingSomewhere = true;
+              destination = checkpointI;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'J' || a == 'j')
+          {
+              goingSomewhere = true;
+              destination = checkpointJ;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'K' || a == 'k')
+          {
+              goingSomewhere = true;
+              destination = checkpointK;
+              agent.WaitForAnimation();
+          }
 	}
 	public void DoGoToLocation(int X,int Y){
 		goingSomewhere = true;
@@ -310,4 +379,7 @@ public class PersonGui implements Gui{
 		this.position.x = X;
 		this.position.y = Y;
 	}
+
+	
+
 }
