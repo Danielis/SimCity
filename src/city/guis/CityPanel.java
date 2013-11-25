@@ -155,10 +155,10 @@ public class CityPanel extends JPanel {
     }
     
 	//Adds a person to the city
-    public void addPerson(String name) 
+    public void addPerson(String name, String job, String wealth) 
     {
     	System.out.println("Got here A");
-		PersonAgent p = new PersonAgent(name);
+		PersonAgent p = new PersonAgent(name, job, wealth);
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
@@ -207,7 +207,7 @@ public class CityPanel extends JPanel {
     }
     
     public void sendPersonToStop(){ //Trans: should be done by person AI 
-    	this.personPanel.addPerson("TestPerson");
+    	this.personPanel.addPerson("TestPerson", "None", "Average");
     	PersonAgent testPerson = people.lastElement();
     	testPerson.msgGoToStop(metro.stops.get(0), metro.stops.get(1));
     }

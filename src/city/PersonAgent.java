@@ -14,7 +14,6 @@ import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
-
 import bank.Bank;
 import bank.interfaces.BankCustomer;
 import roles.Building;
@@ -30,6 +29,9 @@ import market.interfaces.MarketCustomer;
 
 import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
+
+
+
 
 
 //Utility Imports
@@ -68,19 +70,78 @@ public class PersonAgent extends Agent implements Person
 	double marketQuantity;
 	double bankAmount;
 	
+	enum JobType {none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
+	enum WealthLevel {average, wealthy, poor}
 	
-
+	JobType jobType;
+	WealthLevel wealthLevel;
+	
 	BusStopAgent destinationStop;//trans: added
 	BusStopAgent curStop;//trans: addded
 	boolean goingToStop;//trans: added can be made to work with bus States instead
 	boolean gettingoff;//trans: added can be made to work with bus States instead
 	
-	public PersonAgent(String name){
+	public PersonAgent(String name, String job, String wealth){
 		this.name = name;
-		System.out.println("Added person " + name);
+		jobType = parseJob(job);
+		wealthLevel = parseWealth(wealth);
+		money = setWealth();
+		System.out.println("Added person " + name + " with job type " + jobType + " and wealth level: " + wealthLevel);
 	}	
 	
+	private double setWealth() {
+		if (wealthLevel.equals("Average"))
+			return 35000;
+		else if (wealthLevel.equals("Wealthy"))
+			return 50000;
+		else if (wealthLevel.equals("Poor"))
+			return 2000;
+		else
+			return 35000;
+	}
+
+	private WealthLevel parseWealth(String wealth) {
+		if (wealth.equals("Average"))
+			return wealthLevel.average;
+		else if (wealth.equals("Wealthy"))
+			return wealthLevel.wealthy;
+		else if (wealth.equals("Poor"))
+			return wealthLevel.poor;
+		else
+			return null;
+	}
+
 	//Class Declarations
+
+	private JobType parseJob(String job) {
+	
+	if (job.equals("None"))
+		return jobType.none;
+	else if (job.equals("Market Worker"))
+		return jobType.marketWorker;
+	else if (job.equals("Market Host"))
+		return jobType.marketHost;
+	else if (job.equals("Bank Host"))
+		return jobType.bankHost;
+	else if (job.equals("Teller"))
+		return jobType.teller;
+	else if (job.equals("Restaurant Host"))
+		return jobType.restHost;
+	else if (job.equals("Cook"))
+		return jobType.cook;
+	else if (job.equals("Cashier"))
+		return jobType.cashier;
+	else if (job.equals("Waiter"))
+		return jobType.waiter;
+	else if (job.equals("Landlord"))
+		return jobType.landLord;
+	else if (job.equals("Repairman"))
+		return jobType.repairman;
+	else if (job.equals("Crook"))
+		return jobType.crook;
+	else
+		return null;
+	}
 
 	/*****************************************************************************
 										CLASSES
