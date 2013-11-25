@@ -50,7 +50,7 @@ public class PersonGui implements Gui{
 	Coordinate cashier;
 	Coordinate waitingroom;
 	
-	BufferedImage imgTrainer;
+	public BufferedImage imgTrainer;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();

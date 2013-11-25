@@ -51,7 +51,7 @@ public class CityPanel extends JPanel {
     int waiterindex = 0; 		//To assign waiters individual locations
     
     public Vector<Building> buildings = new Vector<Building>();
-    private Vector<PersonAgent> people = new Vector<PersonAgent>();
+    public Vector<PersonAgent> people = new Vector<PersonAgent>();
     
 
     private CityListPanel personPanel = new CityListPanel(this, "People");

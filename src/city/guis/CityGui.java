@@ -30,10 +30,7 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
-
-
-
-
+import market.gui.MarketGui;
 
 //Import Java utilities
 import javax.imageio.ImageIO;
@@ -41,9 +38,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import market.gui.MarketGui;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -57,11 +51,9 @@ import java.util.Vector;
 public class CityGui extends JFrame implements ActionListener {
 	
 	
-	//Lists
-	//public Vector<Restaurant> restaurants = new Vector<Restaurant>();
-	//public Vector<Bank> banks = new Vector<Bank>();
-	
+	//Buildings
 	public Vector<Building> buildings = new Vector<Building>();
+	
 	//Java Structure
 	public JFrame animationFrame = new JFrame("Restaurant Animation");
 	
@@ -93,12 +85,6 @@ public class CityGui extends JFrame implements ActionListener {
     //Functionality buttons
     private JButton pauseButton;
     private JButton refreshButton;
-
-//    private JPanel ButtonPanel;
- //   private JButton MrKrabsButton;
-  //  private ImageIcon MrKrabs;
-   // private JButton RamsayButton;
-    //private ImageIcon Ramsay;
        
     Boolean isPaused = false;
     

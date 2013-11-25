@@ -199,6 +199,25 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	 ******************************************************************************/
 
+	public int getBound_leftx()
+	{
+		return gui.getXPosition() - gui.imgTrainer.getWidth()/2;
+	}
+	
+	public int getBound_rightx()
+	{
+		return gui.getXPosition() + gui.imgTrainer.getWidth()/2;
+	}
+	
+	public int getBound_topy()
+	{
+		return gui.getYPosition() - gui.imgTrainer.getMinTileY()/2;
+	}
+	
+	public int getBound_boty()
+	{
+		return gui.getYPosition() + gui.imgTrainer.getMinTileY()/2;
+	}
 
 	public void addRole(Role r)
 	{
