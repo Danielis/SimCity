@@ -716,28 +716,43 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 		
 		Role c = null;
-	
+		Bank r;
+		if (job.type == JobType.bankHost || job.type == JobType.teller){
+			
 		
-		if (job.type == JobType.bankHost)
-			c = new BankHostRole(this.getName());
-		
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
-		
-		
-
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank){
 					print("found b");
-					Bank r = (Bank) b;
-					//r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addHost((BankHost) c);
+					r = (Bank) b;
+					
 				}
 			}
 		}
+		}
+		
+		if (job.type == JobType.bankHost){
+			c = new BankHostRole(this.getName());
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.teller){
+			c = new TellerRole(this.getName());
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+			r.addTeller(c);
+			r.panel.customerPanel.addTeller((BankHost) c);
+		}
+		
+		
+		
+		
+
+		
 	}
 	
 	

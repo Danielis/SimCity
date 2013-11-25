@@ -2,7 +2,6 @@ package bank.gui;
 
 import bank.BankCustomerRole;
 import bank.BankHostRole;
-import bank.TellerAgent;
 
 import javax.swing.*;
 
@@ -44,10 +43,10 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addWaiterButton = new JButton("Add");
     private JTextField nameFieldForWaiter = new JTextField("");
     private JCheckBox waiterBreakCheckBox = new JCheckBox("Set Breaks Below");
-    private TellerAgent currentWaiter;
+    private Teller currentWaiter;
     
     private BankCustomerRole lastCustomerClicked;
-    private TellerAgent lastWaiterClicked;
+    private Teller lastWaiterClicked;
 
     //GENERAL STUFF
     private BankPanel restPanel;
@@ -244,7 +243,7 @@ public class ListPanel extends JPanel implements ActionListener {
         customerHungryCheckBox.setSelected(lastCustomerClicked.getGui().isHungry());
         customerHungryCheckBox.setEnabled(!lastCustomerClicked.getGui().isHungry());
     }
-    public void updateWaiterInfoPanel(TellerAgent person)
+    public void updateWaiterInfoPanel(Teller person)
     {
     	/*
     	this.lastWaiterClicked = person;
@@ -274,7 +273,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     
     
-    public void updateWaiter(TellerAgent person)
+    public void updateWaiter(Teller person)
     {
     	
     	/*currentWaiter = person;

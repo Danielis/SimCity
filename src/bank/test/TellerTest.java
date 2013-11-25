@@ -1,7 +1,8 @@
 package bank.test;
 
-import bank.TellerAgent;
+
 import bank.test.mock.*;
+import bank.interfaces.*;
 import junit.framework.TestCase;
 /**
  * 
@@ -12,7 +13,7 @@ import junit.framework.TestCase;
 public class TellerTest extends TestCase
 {
     //these are instantiated for each test separately via the setUp() method.
-    TellerAgent teller;
+	Teller teller;
     MockHost host;
     MockCustomer cust;
     
@@ -21,7 +22,7 @@ public class TellerTest extends TestCase
             super.setUp();                
             System.out.println("SET UP");
             
-            teller = new TellerAgent();
+         //   teller = new Teller();
             host = new MockHost("host");
             cust = new MockCustomer("customer");
             

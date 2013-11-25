@@ -2,6 +2,7 @@ package bank.test.mock;
 import java.util.List;
 
 import bank.BankCustomerRole;
+import bank.gui.TellerGui;
 import bank.interfaces.Teller;
 
 
@@ -37,5 +38,26 @@ public class MockTeller extends Mock implements Teller {
 
 		public int getTableNum() {
 			return 0;}
+
+
+		@Override
+		public void WaitForAnimation() {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void DoneWithAnimation() {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public TellerGui getGui() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
 }

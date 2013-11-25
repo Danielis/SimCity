@@ -5,7 +5,6 @@ import roles.Role;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
 import bank.interfaces.*;
-import bank.TellerAgent;
 import bank.BankCustomerRole;
 
 import java.util.*;
@@ -71,11 +70,11 @@ public class BankHostRole extends Role implements BankHost {
 //CLASSES****************************************************
 		public class MyTeller{
 			
-			public MyTeller(TellerAgent t2) {
+			public MyTeller(Teller t2) {
 				this.t = t2;
 				this.s = tellerState.free;
 			}
-			TellerAgent t;
+			Teller t;
 			tellerState s;
 		}
 		enum tellerState {free, busy, wantsBreak, onBreak};
@@ -100,13 +99,13 @@ public class BankHostRole extends Role implements BankHost {
     stateChanged();
 	}
 		
-	public void msgNewTeller(TellerAgent t)
+	public void msgNewTeller(Teller t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
 	}
 	
-	public void IAmFree(TellerAgent tell){
+	public void IAmFree(Teller tell){
 		//print("received msg free");
 		for(MyTeller t: myTellers){
 			if (t.t == tell){
@@ -117,7 +116,7 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	
 	
-	public void msgIdLikeToGoOnBreak(TellerAgent t)
+	public void msgIdLikeToGoOnBreak(Teller t)
 	{
 		print("Received message that " + t.getName() + " wants to go on break.");
 		for (MyTeller mw : myTellers)
@@ -130,7 +129,7 @@ public class BankHostRole extends Role implements BankHost {
 		}
 	}
 	
-	public void msgIdLikeToGetOffBreak(TellerAgent t)
+	public void msgIdLikeToGetOffBreak(Teller t)
 	{
 		print("Received message that " + t.getName() + " wants to go off break.");
 		for (MyTeller mw : myTellers)
@@ -271,6 +270,8 @@ public class BankHostRole extends Role implements BankHost {
        // 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
        // }
 }
+
+	
 	
 	
 

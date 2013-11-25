@@ -3,7 +3,6 @@ package bank.interfaces;
 
 import javax.swing.Icon;
 
-import bank.TellerAgent;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 
