@@ -88,8 +88,10 @@ public class PersonAgent extends Agent implements Person
 	private double setWealth() {
 		if (wealthLevel.equals("Average"))
 			return 35000;
-		else if (wealthLevel.equals("Wealthy"))
+		else if (wealthLevel.equals("Wealthy")){
+			inventory.add(new Item("Car", 1));
 			return 50000;
+		}
 		else if (wealthLevel.equals("Poor"))
 			return 2000;
 		else
