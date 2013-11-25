@@ -33,7 +33,7 @@ public class Bank extends Building{
         gui.setTitle(name);
         gui.setVisible(false);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
 	

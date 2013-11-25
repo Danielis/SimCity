@@ -127,10 +127,6 @@ public class CityGui extends JFrame implements ActionListener {
         int WINDOWX = 500;
         int WINDOWY = 500;
 
-        
-        
- 
-        
         //Set the City Gui's specifications
        	this.setVisible(true);
         setTitle("Team 05's City");
@@ -284,51 +280,75 @@ public class CityGui extends JFrame implements ActionListener {
         createApartment("Chris' Apartments");
         
         //Mouse Listener for the coordinates
-cityAnimationPanel.addMouseListener(new MouseListener() {
-    @Override
-    public void mouseClicked(MouseEvent e) {
-	    int x=e.getX();
-	    int y=e.getY();
-	    System.out.println(x+","+y);//these co-ords are relative to the component
-	  
-	    
-	    if ((x<159) && (y<85) && (x>0) && (y>0)){
-	    	
-	    	for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					Bank r = (Bank) b;
-					r.gui.setVisible(true);
-				}
-			}   
-	    }
-	    
-	    if ((x<314) && (y<468) && (x>210) && (y>370)){
-	    	for (Building b: buildings){
-				if (b.getType() == buildingType.restaurant){
-					Restaurant r = (Restaurant) b;
-					r.gui.setVisible(true);
-				}
-			}
-	    }
-	    
-	    if ((x<398) && (y<85) && (x>257) && (y>0)){
-	    	for (Building b: buildings){
-				if (b.getType() == buildingType.housingComplex){
-					Apartment r = (Apartment) b;
-					r.gui.setVisible(true);
-				}
-			}
-	    }
-	    
-	    if ((x<315) && (y<258) && (x>258) && (y>212)){
-         	for (Building b: buildings){
- 				if (b.getType() == buildingType.market){
- 					Market r = (Market) b;
- 					r.gui.setVisible(true);
- 				}
- 			} 
-	    }
-}
+		cityAnimationPanel.addMouseListener(new MouseListener() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+			    int x=e.getX();
+			    int y=e.getY();
+			    System.out.println(x+","+y);//these co-ords are relative to the component
+			  
+			    
+			    for (PersonAgent p : cityPanel.people)
+			    {
+			    	if (p.getGui().isPresent())
+			    	{
+				    	int xmin, ymin, xmax, ymax, xmintest, xmaxtest, ymintest, ymaxtest;
+				    	
+				    	xmin = p.getBound_leftx();
+				    	xmax = p.getBound_rightx();
+				    	ymin = p.getBound_topy();
+				    	ymax = p.getBound_boty();
+				    	
+				    	xmintest = p.getGui().getXPosition()-30;
+				    	xmaxtest = p.getGui().getXPosition()+30;
+				    	ymintest = p.getGui().getYPosition()-30;
+				    	ymaxtest = p.getGui().getYPosition()+30;;
+				    	
+				    	 if ((x<xmaxtest) && (y<ymaxtest) && (x>xmin) && (y>ymin))
+				    	 {
+				    		 System.out.println("Calling function.");
+				    		 createFrame(p);
+				    	 }
+			    	}
+			    }
+			    
+			    if ((x<159) && (y<85) && (x>0) && (y>0)){
+			    	
+			    	for (Building b: buildings){
+						if (b.getType() == buildingType.bank){
+							Bank r = (Bank) b;
+							r.gui.setVisible(true);
+						}
+					}   
+			    }
+			    
+			    if ((x<314) && (y<468) && (x>210) && (y>370)){
+			    	for (Building b: buildings){
+						if (b.getType() == buildingType.restaurant){
+							Restaurant r = (Restaurant) b;
+							r.gui.setVisible(true);
+						}
+					}
+			    }
+			    
+			    if ((x<398) && (y<85) && (x>257) && (y>0)){
+			    	for (Building b: buildings){
+						if (b.getType() == buildingType.housingComplex){
+							Apartment r = (Apartment) b;
+							r.gui.setVisible(true);
+						}
+					}
+			    }
+			    
+			    if ((x<315) && (y<258) && (x>258) && (y>212)){
+		         	for (Building b: buildings){
+		 				if (b.getType() == buildingType.market){
+		 					Market r = (Market) b;
+		 					r.gui.setVisible(true);
+		 				}
+		 			} 
+			    }
+		}	
 
 			public void mouseEntered(MouseEvent e) {}
 			public void mouseExited(MouseEvent arg0) {}
@@ -464,6 +484,11 @@ cityAnimationPanel.addMouseListener(new MouseListener() {
         	cityPanel.refresh();
         }
     	}
+    }
+    
+    public void createFrame(PersonAgent p)
+    {
+    	PersonFrame f = new PersonFrame(p);
     }
     
     //Resturant Creation
