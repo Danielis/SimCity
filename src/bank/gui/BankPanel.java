@@ -4,8 +4,6 @@ import bank.Bank;
 import bank.BankCustomerRole;
 import bank.BankHostRole;
 import bank.interfaces.*;
-import bank.TellerAgent;
-import bank.interfaces.BankCustomer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,7 +28,7 @@ public class BankPanel extends JPanel {
     int waiterindex = 0; 		//To assign waiters individual locations
     
     private Vector<BankCustomer> customers = new Vector<BankCustomer>();
-    private Vector<TellerAgent> waiters = new Vector<TellerAgent>();
+    private Vector<Teller> waiters = new Vector<Teller>();
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -114,7 +112,7 @@ public class BankPanel extends JPanel {
     public void showWaiterInfo(String name) 
     {
         for (int i = 0; i < waiters.size(); i++) {
-            TellerAgent temp = waiters.get(i);
+        	Teller temp = waiters.get(i);
             if (temp.getName() == name)
             {
                 waiterPanel.updateWaiter(temp);
@@ -152,6 +150,24 @@ public class BankPanel extends JPanel {
 		this.host = host;
 	}
     
+    public void addTeller(Teller c) 
+    {
+		
+		Teller w = c;	
+		b.addTeller(w);
+		c.setTableNum(b.getTellerNunmber()); 
+		TellerGui g = new TellerGui(w, gui, b.getTellerNunmber());
+		w.setBank(b);
+		gui.animationPanel.addGui(g);
+		w.setHost(host);  
+		w.setAnimPanel(gui.animationPanel);
+		host.msgNewTeller(w); 
+		w.setGui(g);
+		waiters.add(w);
+		//w.startThread();
+    }
+    
+    
 //    public void addCustomer(String name) 
 //    {
 //		BankCustomerRole c = new BankCustomerRole(name);	
@@ -164,48 +180,8 @@ public class BankPanel extends JPanel {
 //		c.startThread();
 //    }
     
-    public void addTeller(String name) 
-    {
-		waiterindex++;
-    	TellerAgent w = new TellerAgent(name, waiterindex);	
-		TellerGui g = new TellerGui(w, gui, waiterindex);
-		w.setBank(b);
-		gui.animationPanel.addGui(g);
-		//w.setHost(host);  TODO HOST
-		w.setAnimPanel(gui.animationPanel);
-		//host.msgNewTeller(w);  TODO HOST
-		w.setGui(g);
-		waiters.add(w);
-		w.startThread();
-    }
-    
-    public void pause()
-    {
-    	//host.pauseAgent();  TODO HOST
- 
-    	for (BankCustomer c : customers)
-    	{
-    		c.pauseAgent();
-    	}
-    	for (TellerAgent w : waiters)
-    	{
-    		w.pauseAgent();
-    	}
-    }
-    
-    public void resume()
-    {
-    	// host.resumeAgent();  TODO HOST
-    
-    	for (BankCustomer c : customers)
-    	{
-    		c.resumeAgent();
-    	}
-    	for (TellerAgent w : waiters)
-    	{
-    		w.resumeAgent();
-    	}
-    }
+  
+   
 
     public void refresh()
     {

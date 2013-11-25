@@ -3,7 +3,6 @@ package bank.gui;
 
 import bank.interfaces.*;
 import bank.BankCustomerRole;
-import bank.TellerAgent;
 import bank.gui.Coordinate;
 
 import java.awt.*;

@@ -1,9 +1,8 @@
 package bank.gui;
 
 import bank.BankCustomerRole;
-import bank.TellerAgent;
 import bank.BankHostRole;
-import bank.interfaces.BankCustomer;
+import bank.interfaces.*;
 
 import javax.swing.*;
 
@@ -44,7 +43,7 @@ public class BankGui extends JFrame implements ActionListener {
     private JButton waiterOFF = new JButton("Go Off Break");
 
     private BankCustomer currentCustomer;
-    private TellerAgent currentWaiter;
+    private Teller currentWaiter;
 
     private JButton pauseButton;
     private JButton refreshButton;
@@ -175,11 +174,11 @@ public class BankGui extends JFrame implements ActionListener {
     	//empty
     }
     
-    public void updateWaiterInformationPanel(TellerAgent person) {
+    public void updateWaiterInformationPanel(Teller person) {
     	waiterON.setVisible(true);
     	waiterOFF.setVisible(true);
         currentWaiter = person;
-        TellerAgent waiter = person;
+        Teller waiter = person;
     	infoWaiterLabel.setText(
                 "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
         waiterInformationPanel.validate();
@@ -202,32 +201,9 @@ public class BankGui extends JFrame implements ActionListener {
 //        {
 //        	restPanel.refresh();
 //        }
-        if (e.getSource() == waiterON)
-        {
-        	TellerAgent w = currentWaiter;
-        	w.getGui().AskForBreak();
-        }
-        if (e.getSource() == waiterOFF)
-        {
-        	TellerAgent w = currentWaiter;
-        	w.getGui().AskGoOffBreak();
-        }
+     
       
-        if (e.getSource() == pauseButton)
-        {
-        	if (isPaused)
-        	{
-        		pauseButton.setText("PAUSE");
-        		restPanel.resume();
-        		isPaused = false;
-        	}
-        	else if(isPaused == false)
-        	{
-        		pauseButton.setText("RESUME");
-        		restPanel.pause();
-        		isPaused = true;
-        	}
-        }
+       
         if (e.getSource() == refreshButton)
         {
         	restPanel.refresh();

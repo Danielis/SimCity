@@ -1,6 +1,7 @@
 package bank;
 
 import agent.Agent;
+import roles.Role;
 import agent.RestaurantMenu;
 import bank.gui.BankAnimationPanel;
 import bank.gui.TellerGui;
@@ -15,7 +16,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Waiter Agent
-public class TellerAgent extends Agent implements Teller {
+public class TellerRole extends Role implements Teller {
 	
 	//Lists and Other Agents
 	double balance;
@@ -39,22 +40,23 @@ public class TellerAgent extends Agent implements Teller {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public TellerAgent()
+	public TellerRole()
 	{
 		super();
 		this.name = "Default Daniel";
 		print("initialized teller");
 		
 	}
-	public TellerAgent(String name, int index) {
+	public TellerRole(String name) {
 		super();
 		this.name = name;
-		this.tableNum = index;
 		//print("initialized teller");
 	}
 	
-
 //UTILITIES***************************************************
+	public void setTableNum(int index){
+		tableNum = index;
+	}
 	
 	public void setHost(BankHost host) {
 		this.host = host;
@@ -243,7 +245,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{		
 		try
 		{

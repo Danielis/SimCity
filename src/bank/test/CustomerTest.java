@@ -1,7 +1,6 @@
 package bank.test;
 
 import bank.BankCustomerRole;
-import bank.TellerAgent;
 import bank.test.mock.*;
 import junit.framework.TestCase;
 /**
