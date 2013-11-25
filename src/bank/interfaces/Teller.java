@@ -1,9 +1,12 @@
 package bank.interfaces;
 
 import java.awt.image.ImageObserver;
+
 import bank.gui.*;
+
 import java.util.List;
 
+import bank.Bank;
 import bank.BankCustomerRole;
 
 public interface Teller 
@@ -25,6 +28,11 @@ public interface Teller
 	public void WaitForAnimation();
 	public void DoneWithAnimation();
 	public TellerGui getGui();
+	public void setBank(Bank b);
+	public void setAnimPanel(BankAnimationPanel animationPanel);
+	public void setGui(TellerGui g);
+	public void setTableNum(int tellerNunmber);
+	public void setHost(BankHost host2);
 		
 		
 

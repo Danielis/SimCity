@@ -716,7 +716,7 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 		
 		Role c = null;
-		Bank r;
+		Bank r = null;
 		if (job.type == JobType.bankHost || job.type == JobType.teller){
 			
 		
@@ -744,8 +744,8 @@ public class PersonAgent extends Agent implements Person
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
-			r.addTeller(c);
-			r.panel.customerPanel.addTeller((BankHost) c);
+			//r.addTeller(c);
+			r.panel.customerPanel.addTeller((Teller) c);
 		}
 		
 		

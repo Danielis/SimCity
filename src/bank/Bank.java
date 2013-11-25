@@ -41,8 +41,12 @@ public class Bank extends Building{
 	
 	public void addTeller(Teller t){
 		workingTellers.add(t);
+		numTellersWorking ++;
 	}
 	
+	public int getTellerNunmber(){
+		return numTellersWorking;
+	}
 	
 	public class Account {
 		int id; // auto increment

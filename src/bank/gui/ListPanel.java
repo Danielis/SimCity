@@ -113,7 +113,7 @@ public class ListPanel extends JPanel implements ActionListener {
         }
         else if (e.getSource() == addWaiterButton)
         {
-        	addTeller(nameFieldForWaiter.getText());
+        	//addTeller(nameFieldForWaiter.getText());
         }
         else {
         	// Isn't the second for loop more beautiful?
@@ -141,12 +141,12 @@ public class ListPanel extends JPanel implements ActionListener {
      * a spot for it in the scroll pane, and tells the restaurant panel
      * to add a new person.
      *
-     * @param name name of new person
+     * @param c name of new person
      */
     
-    public void addTeller(String name) {
-        if (name != null) {
-            JButton button = new JButton(name);
+    public void addTeller(Teller c) {
+        if (c != null) {
+            JButton button = new JButton(c.getName());
             button.setBackground(Color.white);
 
             Dimension paneSize = waiterPane.getSize();
@@ -158,8 +158,8 @@ public class ListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForWaiter.add(button);
             viewForWaiter.add(button);
-            restPanel.addTeller(name);
-            restPanel.showWaiterInfo(name);
+            restPanel.addTeller(c);
+            restPanel.showWaiterInfo(c.getName());
             validate();
         }
     }

@@ -4,7 +4,6 @@ import bank.Bank;
 import bank.BankCustomerRole;
 import bank.BankHostRole;
 import bank.interfaces.*;
-import bank.interfaces.BankCustomer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -151,19 +150,21 @@ public class BankPanel extends JPanel {
 		this.host = host;
 	}
     
-    public void addTeller(String name) 
+    public void addTeller(Teller c) 
     {
-		waiterindex++;
-		Teller w = new Teller(name, waiterindex);	
-		TellerGui g = new TellerGui(w, gui, waiterindex);
+		
+		Teller w = c;	
+		b.addTeller(w);
+		c.setTableNum(b.getTellerNunmber()); 
+		TellerGui g = new TellerGui(w, gui, b.getTellerNunmber());
 		w.setBank(b);
 		gui.animationPanel.addGui(g);
-		//w.setHost(host);  TODO HOST
+		w.setHost(host);  
 		w.setAnimPanel(gui.animationPanel);
-		//host.msgNewTeller(w);  TODO HOST
+		host.msgNewTeller(w); 
 		w.setGui(g);
 		waiters.add(w);
-		w.startThread();
+		//w.startThread();
     }
     
     
