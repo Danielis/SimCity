@@ -56,7 +56,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Variable
 	PersonGui gui = null;
-	double money = 500;
+	public double money = 500;
 	String name;
 	PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
