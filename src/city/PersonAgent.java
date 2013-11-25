@@ -56,7 +56,7 @@ public class PersonAgent extends Agent implements Person
 	PersonGui gui = null;
 	public double money = 500;
 	String name;
-	PersonStatus Status = new PersonStatus();
+	public PersonStatus Status = new PersonStatus();
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public Semaphore busSemaphore = new Semaphore(0, true);
 
@@ -168,7 +168,7 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 										CLASSES
 	 ******************************************************************************/
-	class PersonStatus
+	public class PersonStatus
 	{
 		nourishment nour;
 		location loc;
@@ -498,12 +498,20 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void msgLeavingRestaurant(Role r, float myMoney){
-		//	print("GOT HERE!!!!!!!!!!!!!!!!!!!!");
 		r.setActivity(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
 		gui.setPresent(true);
+		
+//		for (Building b: buildings){
+//			print(" type: " + b.getType() + " n: ");
+//			if (b.getType() == buildingType.restaurant){
+//				Restaurant a = (Restaurant) b;
+//				a.panel.removeCustomer((Customer)r);
+//			}
+//		}
+		
 		//Commenting out since AI should handle movement after the person gets out of restaurant
 		//gui.DoGoToCheckpoint('D');
 		//gui.DoGoToCheckpoint('C');
@@ -524,9 +532,7 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToCheckpoint('H');
 		gui.DoGoToCheckpoint('I');
 		this.Status.setLocation(location.restaurant);
-		gui.setPresent(false);
-		////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+		gui.setPresent(false);		
 		roles.remove(r);
 		stateChanged();
 

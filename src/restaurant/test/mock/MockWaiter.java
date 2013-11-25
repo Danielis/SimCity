@@ -1,6 +1,7 @@
 package restaurant.test.mock;
 import java.util.List;
 
+import restaurant.HostAgent;
 import restaurant.WaiterAgent.CustomerState;
 import restaurant.WaiterAgent.MyCustomer;
 import restaurant.interfaces.Cashier;
@@ -9,6 +10,7 @@ import restaurant.interfaces.Waiter;
 
 public class MockWaiter extends Mock implements Waiter {
 
+		public HostAgent host;
         public Cashier cashier;
         public EventLog log;
 

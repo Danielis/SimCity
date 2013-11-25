@@ -184,6 +184,10 @@ public class RestaurantPanel extends JPanel
 		customers.add(c);
     }
     
+    public void removeCustomer(Customer customer)
+    {
+    	customers.remove(customer);
+    }
     public void addCustomer(String name) 
     {
 		Customer c = new CustomerAgent(name);
