@@ -50,7 +50,7 @@ public class PersonFrame extends JFrame{
 		this.add(imgLabel, BorderLayout.NORTH);
 		this.add(infoPanel, BorderLayout.CENTER);
 		
-		this.setBounds(0, 100, 100, 100);
+		this.setBounds(860, 550, 100, 100);
         setTitle("Person Agent");
         setVisible(true);
         setResizable(false);
