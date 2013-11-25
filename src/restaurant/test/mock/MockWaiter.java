@@ -2,8 +2,8 @@ package restaurant.test.mock;
 import java.util.List;
 
 import restaurant.HostAgent;
-import restaurant.WaiterAgent.CustomerState;
-import restaurant.WaiterAgent.MyCustomer;
+import restaurant.CustomerState;
+import restaurant.MyCustomer;
 import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
@@ -74,4 +74,16 @@ public class MockWaiter extends Mock implements Waiter {
     	{
     		log.add(new LoggedEvent("Received msgCheckIsComputed from cashier. Amount = " + owed));
     	}
+
+		@Override
+		public void DoneWithAnimation() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void WaitForAnimation() {
+			// TODO Auto-generated method stub
+			
+		}
 }
