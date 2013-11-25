@@ -248,19 +248,20 @@ public class PersonGui implements Gui{
 		setBusy(true);
 	}
 	
+
+	public void setNeedsHome(boolean b, String purpose) {
+		this.goingHome = b;
+		agent.msgGoToHome(purpose);
+		setPresent(true);
+		setBusy(true);
+	}
+	
 	public void setShop(Boolean b, String item, double quantity)
 	{
 		this.needsmoney = b;
 		agent.msgGoToMarket(item, quantity);
 		setPresent(true);
 		setBusy(true);
-	}
-	
-	public void setNeedsHome(Boolean b)
-	{
-		this.goingHome = b;
-		agent.msgGoToHome();
-		setPresent(true);
 	}
 	
 	public boolean getNeedsHome()
@@ -372,4 +373,5 @@ public class PersonGui implements Gui{
 		this.position.x = X;
 		this.position.y = Y;
 	}
+
 }

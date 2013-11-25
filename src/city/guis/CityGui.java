@@ -419,7 +419,7 @@ public class CityGui extends JFrame implements ActionListener {
         	
         		PersonAgent c = (PersonAgent) currentPerson;
         		String purpose = housingList.getSelectedItem().toString();
-	        	//c.getGui().HOUSING CALL(true, purpose);
+	        	c.getGui().setNeedsHome(true, purpose);
 	        	//silenceButtons();
         }
         
@@ -526,8 +526,8 @@ public class CityGui extends JFrame implements ActionListener {
     	
 
 
-    	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+    //	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+      //  gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
         
         TrackerGui trackerWindow = new TrackerGui();

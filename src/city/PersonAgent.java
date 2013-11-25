@@ -64,7 +64,7 @@ public class PersonAgent extends Agent implements Person
 	public RestaurantPanel restPanel;
 	
 	
-	String bankPurpose, marketPurpose;
+	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity;
 	double bankAmount;
 	
@@ -423,7 +423,8 @@ public class PersonAgent extends Agent implements Person
 
 
 	//Housing
-	public void msgGoToHome(){
+	public void msgGoToHome(String purpose){
+		homePurpose = purpose;
 	    Status.setHousingStatus(houseStatus.needsToGo);
 	    Status.setDestination(destination.home);
 	    gui.setPresent(false);
@@ -646,7 +647,7 @@ public class PersonAgent extends Agent implements Person
 			print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				Apartment a = (Apartment) b;
-				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0));
+				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0), homePurpose);
 			}
 		}
 	}

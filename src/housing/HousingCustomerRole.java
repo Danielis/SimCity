@@ -17,6 +17,9 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
 	//constructor
+	
+	
+	
 	public HousingCustomerRole(String name2) {
 		name = name2;
 		balance = 10000;
@@ -125,9 +128,9 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			GetFood();
 			return true;
 		}
-		if(!gui.goingSomewhere) {
+		//if(!gui.goingSomewhere) {
 			gui.DoGoToBed();
-		}
+		//}
 		return false;
 	}
 
@@ -180,6 +183,19 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 
 	public HousingCustomerGui getGui() {
 		return gui;
+	}
+
+	@Override
+	public void setPurpose(String homePurpose) {
+
+		//if (homePurpose.equals("Pay Loan"))
+			//needsLoan = true;
+		if (homePurpose.equals("Call for Repair"))
+			houseNeedsRepairs = true;
+		if (homePurpose.equals("Cook"))
+			hungry = true;
+		//if (homePurpose.equals("Sleep"))
+		//	hungry = true;
 	}
 
 
