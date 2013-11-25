@@ -297,7 +297,7 @@ public class CityGui extends JFrame implements ActionListener {
 				    	ymintest = p.getGui().getYPosition()-30;
 				    	ymaxtest = p.getGui().getYPosition()+30;;
 				    	
-				    	 if ((x<xmaxtest) && (y<ymaxtest) && (x>xmin) && (y>ymin))
+				    	 if ((x<xmaxtest) && (y<ymaxtest) && (x>xmintest) && (y>ymintest))
 				    	 {
 				    		 System.out.println("Opening Person Frame.");
 				    		 createFrame(p);
