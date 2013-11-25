@@ -204,6 +204,20 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }
     
+    public void removeCustomer(Customer customer)
+    {
+    	for(JButton b : listForCustomer)
+    	{
+    		if(b.getText() == customer.getName())
+    		{
+    			listForCustomer.remove(b);
+    			viewForCustomer.remove(b);
+    		}
+    	}
+    	restPanel.removeCustomer(customer);
+    	validate();
+    }
+    
     
     public void updateCustomerInfoPanel(Customer person) {
     	this.lastCustomerClicked = person;
