@@ -18,7 +18,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	public HostAgent host;
+	public Host host;
 	public CookAgent cook;
 	public Cashier cashier;
 	public WaiterGui waiterGui;
@@ -74,7 +74,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		copyOfAnimPanel = panel;
 	}
 	
-	public void setHost(HostAgent host) {
+	public void setHost(Host host) {
 		this.host = host;
 	}
 	

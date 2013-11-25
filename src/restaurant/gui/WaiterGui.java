@@ -75,7 +75,7 @@ public class WaiterGui implements Gui {
     	homeposition = new Coordinate(index * 40 + 200, 190);
     	destination = homeposition;
     	
-    	for (int i = 0; i < HostAgent.NTABLES; i++)
+    	for (int i = 0; i < 4; i++)
     	{
     		tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
     	}

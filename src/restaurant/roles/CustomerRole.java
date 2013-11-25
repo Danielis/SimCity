@@ -1,10 +1,11 @@
-package roles;
+package restaurant.roles;
 
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CustomerGui;
 import restaurant.interfaces.*;
+import roles.Role;
 import agent.Agent;
 import agent.RestaurantMenu;
 

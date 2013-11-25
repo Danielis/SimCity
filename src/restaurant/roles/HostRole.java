@@ -1,16 +1,20 @@
-package restaurant;
+package restaurant.roles;
 
-import agent.Agent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+
+import restaurant.HostAgent.customerState;
+import restaurant.HostAgent.waiterState;
 import restaurant.gui.HostGui;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
+import roles.Role;
 
-import java.util.*;
-import java.util.concurrent.Semaphore;
-
-//Host Agent
-public class HostAgent extends Agent implements Host {
+public class HostRole extends Role implements Host{
 	public int NTABLES = 4;
 		
 	//Lists
@@ -24,7 +28,7 @@ public class HostAgent extends Agent implements Host {
 	public HostGui hostGui = null;
 
 //CONSTRUCTOR
-	public HostAgent(String name) {
+	public HostRole(String name) {
 		super();
 
 		this.name = name;
@@ -278,7 +282,7 @@ public class HostAgent extends Agent implements Host {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		try
 		{
 			synchronized(customers)
