@@ -2,7 +2,7 @@ package bank.gui;
 
 import bank.BankCustomerRole;
 import bank.BankCustomerRole.iconState;
-import bank.HostAgent;
+import bank.BankHostRole;
 import bank.gui.Coordinate;
 import bank.interfaces.BankCustomer;
 

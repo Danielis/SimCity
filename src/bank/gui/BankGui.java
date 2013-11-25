@@ -2,7 +2,7 @@ package bank.gui;
 
 import bank.BankCustomerRole;
 import bank.TellerAgent;
-import bank.HostAgent;
+import bank.BankHostRole;
 import bank.interfaces.BankCustomer;
 
 import javax.swing.*;

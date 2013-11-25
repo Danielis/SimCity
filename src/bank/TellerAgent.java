@@ -24,7 +24,7 @@ public class TellerAgent extends Agent implements Teller {
 	
 	public BankAnimationPanel copyOfAnimPanel;
 	
-	public HostAgent host;
+	public BankHost host;
 	public TellerGui waiterGui;
 	
 	//Variables
@@ -56,7 +56,7 @@ public class TellerAgent extends Agent implements Teller {
 
 //UTILITIES***************************************************
 	
-	public void setHost(HostAgent host) {
+	public void setHost(BankHost host) {
 		this.host = host;
 	}
 	

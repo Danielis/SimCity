@@ -2,7 +2,8 @@ package bank.gui;
 
 import bank.Bank;
 import bank.BankCustomerRole;
-import bank.HostAgent;
+import bank.BankHostRole;
+import bank.interfaces.*;
 import bank.TellerAgent;
 import bank.interfaces.BankCustomer;
 
@@ -23,8 +24,8 @@ import java.util.Vector;
 public class BankPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Oprah");
-    private HostGui hostGui = new HostGui(host);
+    private BankHost host = null;
+    //private HostGui hostGui = new HostGui(host);
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
@@ -43,16 +44,11 @@ public class BankPanel extends JPanel {
     
     public BankPanel(BankGui gui) {
         this.gui = gui;
-        host.setGui(hostGui);
-        host.setAnimPanel(gui.animationPanel);
         
-       
-       
-        gui.animationPanel.addGui(hostGui);
-        
-       
-        
-        host.startThread();
+//        host.setGui(hostGui);
+//        host.setAnimPanel(gui.animationPanel); TODO HOST
+//        gui.animationPanel.addGui(hostGui);
+//        host.startThread();
         
         
         setLayout(new GridLayout(1, 2, 20, 20));
@@ -139,12 +135,22 @@ public class BankPanel extends JPanel {
     	//System.out.println("bankpanel addcust");
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
-		c.setHost(host);
+		c.setHost(host);  
 		c.setGui(g);
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
 		//c.startThread();
     }
+    
+    public void addHost(BankHost host) {
+    	System.out.println("bankpanel addhost");
+		// TODO Auto-generated method stub
+		HostGui g = new HostGui(host, gui);
+		gui.animationPanel.addGui(g);
+		host.setGui(g);
+		host.setAnimPanel(gui.animationPanel);
+		this.host = host;
+	}
     
 //    public void addCustomer(String name) 
 //    {
@@ -165,9 +171,9 @@ public class BankPanel extends JPanel {
 		TellerGui g = new TellerGui(w, gui, waiterindex);
 		w.setBank(b);
 		gui.animationPanel.addGui(g);
-		w.setHost(host);
+		//w.setHost(host);  TODO HOST
 		w.setAnimPanel(gui.animationPanel);
-		host.msgNewTeller(w);
+		//host.msgNewTeller(w);  TODO HOST
 		w.setGui(g);
 		waiters.add(w);
 		w.startThread();
@@ -175,7 +181,7 @@ public class BankPanel extends JPanel {
     
     public void pause()
     {
-    	host.pauseAgent();
+    	//host.pauseAgent();  TODO HOST
  
     	for (BankCustomer c : customers)
     	{
@@ -189,7 +195,7 @@ public class BankPanel extends JPanel {
     
     public void resume()
     {
-    	host.resumeAgent();
+    	// host.resumeAgent();  TODO HOST
     
     	for (BankCustomer c : customers)
     	{
@@ -211,4 +217,6 @@ public class BankPanel extends JPanel {
 		this.b = bank;
 		
 	}
+
+	
 }
