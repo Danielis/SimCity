@@ -5,6 +5,7 @@ import restaurant.CookAgent.iconState;
 import restaurant.CookAgent.myIcon;
 import restaurant.HostAgent;
 import restaurant.WaiterAgent;
+import restaurant.interfaces.Cook;
 
 import java.io.*;
 import java.awt.*;
@@ -29,7 +30,7 @@ public class CookGui implements Gui{
 	private final int deltadivider = 100;
 
 	//self agent
-	private CookAgent agent = null;
+	private Cook agent = null;
 
 	//private HostAgent host;
 	RestaurantGui gui;

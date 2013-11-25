@@ -3,6 +3,7 @@ package restaurant;
 import agent.Agent;
 import restaurant.CookAgent.state;
 import restaurant.gui.HostGui;
+import restaurant.interfaces.Cook;
 import restaurant.interfaces.Market;
 import restaurant.CookAgent;
 
@@ -22,7 +23,7 @@ public class MarketAgent extends Agent implements Market {
 	//EDIT HERE*******************************************
 
 	//Variables
-	private CookAgent cook;					//Copy of cook
+	private Cook cook;					//Copy of cook
 	private CashierAgent cashier;
 	private String name;					//Name of the market
 	private Timer timer;					//A timer	

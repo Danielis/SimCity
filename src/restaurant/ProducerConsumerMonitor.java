@@ -65,10 +65,10 @@ public class ProducerConsumerMonitor extends Object {
     
     public class Ticket
     {
-    	WaiterAgent w;
-    	String choice;
-    	CookAgent c;
-    	int table;
+    	public WaiterAgent w;
+    	public String choice;
+    	public CookAgent c;
+    	public int table;
     	
     	//Constructor
     	Ticket(WaiterAgent newWaiter, CookAgent c, String newChoice, int newTable)

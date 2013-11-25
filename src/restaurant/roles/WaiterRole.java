@@ -12,9 +12,7 @@ import restaurant.CustomerState;
 import restaurant.WaiterAgent.myState;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Waiter;
+import restaurant.interfaces.*;
 import roles.Restaurant;
 import roles.Role;
 import agent.RestaurantMenu;
@@ -24,8 +22,8 @@ public class WaiterRole extends Role implements Waiter
 	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	public HostAgent host;
-	public CookAgent cook;
+	public Host host;
+	public Cook cook;
 	public Cashier cashier;
 	public WaiterGui waiterGui;
 	
