@@ -100,7 +100,7 @@ public class LandlordAgent extends Agent {
 		stateChanged();
 	}
 
-	public void HereIsRent(HousingCustomerAgent inhabitant, double amount){
+	public void HereIsRent(HousingCustomer inhabitant, double amount){
 		for(Payment p: payments) {
 			if(p.inhabitant == inhabitant) {
 				balance += amount;
@@ -112,7 +112,7 @@ public class LandlordAgent extends Agent {
 		stateChanged();
 	}
 
-	public void MyHouseNeedsRepairs(HousingCustomerAgent p){
+	public void MyHouseNeedsRepairs(HousingCustomer p){
 		for(HousingComplex c: complexes) {
 			for(HousingCustomer h: c.inhabitants) {
 				if(h == p) {

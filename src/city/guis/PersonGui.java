@@ -22,6 +22,8 @@ public class PersonGui implements Gui{
 	
 	private boolean isHungry = false;
 	private boolean needsmoney = false;
+	private boolean goingHome = false;
+	
 	private boolean goingSomewhere = false;
 	private boolean isBusy = false;
 	
@@ -42,6 +44,7 @@ public class PersonGui implements Gui{
 	Coordinate checkpointB;
 	Coordinate checkpointC;
 	Coordinate checkpointD;
+	Coordinate checkpointHouse;
 	
 	Coordinate position;
 	Coordinate destination;
@@ -72,6 +75,7 @@ public class PersonGui implements Gui{
 		checkpointB = new Coordinate(395,125);
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
+		checkpointHouse = new Coordinate(536,473);
 		
 
 		
@@ -232,6 +236,18 @@ public class PersonGui implements Gui{
 		setBusy(true);
 	}
 	
+	public void setNeedsHome(Boolean b)
+	{
+		this.goingHome = b;
+		agent.msgGoToHome();
+		setPresent(true);
+	}
+	
+	public boolean getNeedsHome()
+	{
+		return this.goingHome;
+	}
+	
 	public boolean needsMoney()
 	{
 		return needsmoney;
@@ -239,6 +255,15 @@ public class PersonGui implements Gui{
 
 	public void setPresent(boolean p) {
 		isPresent = p;
+	}
+	
+	public void DoGoToHouse()
+	{
+		System.out.println("Going home.");
+		goingSomewhere = true;
+		destination = checkpointHouse;
+		agent.WaitForAnimation();
+		
 	}
 	
 	public void DoGoToCheckpoint(char a)
