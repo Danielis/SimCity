@@ -68,34 +68,7 @@ public class CityPanel extends JPanel {
 
     public CityPanel(CityGui gui) {
         this.gui = gui;
-        //cookGui = new CookGui(cook, gui);
-        host.setGui(hostGui);
-        cook.setGui(cookGui);
-        
-        iconOwner = new ImageIcon(getClass().getResource("/resources/menu_header.png"));
-        picOwner = new JLabel(iconOwner);
-        iconMenu = new ImageIcon(getClass().getResource("/resources/menu.png"));
-        picMenu = new JLabel(iconMenu);
-        
-        market1.startThread();
-        market2.startThread();
-        market3.startThread();
-        
-        market1.setCashier(cashier);
-        market2.setCashier(cashier);
-        market3.setCashier(cashier);
-        
-        market1.setCook(cook);
-        market2.setCook(cook);
-        market3.setCook(cook);
-        
-        cook.setMarkets(market1);
-        cook.setMarkets(market2);
-        cook.setMarkets(market3);
-        
-        host.startThread();
-        cashier.startThread();
-        cook.startThread();
+
         metro.startThread();
         
         /*
@@ -131,6 +104,8 @@ public class CityPanel extends JPanel {
         //placing error to mark place
         
         //B.getGui().DoGoToCheckpoint('a'); // This makes 2 frames not show?
+        
+        //PersonAgent p1 = new PersonAgent("P1", "")
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));

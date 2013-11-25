@@ -30,7 +30,7 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel 
 {
 	
-	//PersonAgent p1, p2, p3, p4, p5;
+	PersonAgent p1, p2, p3, p4, p5;
     //Host, cook, waiters and customers
     public Host host = new HostAgent("Oprah");
     public HostGui hostGui = new HostGui(host);

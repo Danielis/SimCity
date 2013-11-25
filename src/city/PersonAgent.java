@@ -707,7 +707,8 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 	
-	private void GoToWork(){
+	private void GoToWork()
+	{
 		Status.setWorkStatus(workStatus.goingToWork);
 		gui.DoGoToCheckpoint('D');
 		// TODO
@@ -723,30 +724,32 @@ public class PersonAgent extends Agent implements Person
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
+				if (b.getType() == buildingType.bank)
+				{
 					print("found b");
 					r = (Bank) b;
 					
 				}
 			}
 		}
-		}
+	}
 		
-		if (job.type == JobType.bankHost){
+		if (job.type == JobType.bankHost)
+		{
 			c = new BankHostRole(this.getName());
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
 			r.panel.customerPanel.addHost((BankHost) c);
 		}
-		if (job.type == JobType.teller){
-			c = new TellerRole(this.getName());
-			c.setPerson(this);
-			roles.add(c);
-			c.setActivity(true);
-			//r.addTeller(c);
-			r.panel.customerPanel.addTeller((Teller) c);
-		}
+//		if (job.type == JobType.teller){
+//			c = new TellerRole(this.getName());
+//			c.setPerson(this);
+//			roles.add(c);
+//			c.setActivity(true);
+//			//r.addTeller(c);
+//			r.panel.customerPanel.addTeller((Teller) c);
+//		}
 		
 		
 		
