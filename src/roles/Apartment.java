@@ -18,7 +18,7 @@ import restaurant.CashierAgent;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
 
-public class Apartment {
+public class Apartment extends Building{
 	public HousingGui gui;
 	public HousingPanel panel;
 	public String name; //Name of the restaurant
@@ -32,8 +32,9 @@ public class Apartment {
     //public String customerRole; //value is something like "Restaurant1CustomerRole"
     //public String type;
     
-    public Apartment(HousingGui gui, String name)
+    public Apartment(String name, HousingGui gui)
     {
+    	type = buildingType.housingComplex;
     	this.gui = gui;
     	this.panel = gui.housingPanel;
     	this.name = name;
@@ -41,5 +42,8 @@ public class Apartment {
         gui.setVisible(false);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        
+
     }
 }

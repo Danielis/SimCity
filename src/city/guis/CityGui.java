@@ -295,61 +295,54 @@ public class CityGui extends JFrame implements ActionListener {
         createRestaurant("Norman's Restaurant", "Norman");
         createBank("Aleena's Bank");
         createMarket("Aleena's Market");
+        createApartment("Chris' Apartments");
         
         //Mouse Listener for the coordinates
-        cityAnimationPanel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            int x=e.getX();
-            int y=e.getY();
-            System.out.println(x+","+y);//these co-ords are relative to the component
-          
-            
-            if ((x<159) && (y<85) && (x>0) && (y>0)){
-            	
-            	for (Building b: buildings){
-    				if (b.getType() == buildingType.bank){
-    					Bank r = (Bank) b;
-    					r.gui.setVisible(true);
-    				}
-    			}
-//                  BankGui gui3 = new BankGui();
-//                  gui3.setTitle("Aleena's Bank");
-//                  gui3.setVisible(true);
-//                  gui3.setResizable(false);
-//                  gui3.setDefaultCloseOperation(HIDE_ON_CLOSE);   
-            }
-            
-            if ((x<314) && (y<468) && (x>210) && (y>370)){
-            	for (Building b: buildings){
-    				if (b.getType() == buildingType.restaurant){
-    					Restaurant r = (Restaurant) b;
-    					r.gui.setVisible(true);
-    				}
-    			}
-            	/*
-             RestaurantGui gui2 = new RestaurantGui();
-              gui2.setTitle("Norman's Restaurant");
-              gui2.setVisible(true);
-              gui2.setResizable(false);
-              gui2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   */
-            }
-            
-            if ((x<603) && (y<261) && (x>530) && (y>202)){
-//            	for (Building b: buildings){
-//    				if (b.getType() == buildingType.housingComplex){
-//    					Apartment r = (Apartment) b;
-//    					b.gui.setVisible(true);
-//    				}
-//    			}
-//            	HousingGui gui4 = new HousingGui();
-//        		gui4.setTitle("Housing View");
-//        		gui4.setVisible(true);
-//        		gui4.setResizable(false);
-//        		gui4.setDefaultCloseOperation(HIDE_ON_CLOSE);  
-               }
-            
-            }
+cityAnimationPanel.addMouseListener(new MouseListener() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+	    int x=e.getX();
+	    int y=e.getY();
+	    System.out.println(x+","+y);//these co-ords are relative to the component
+	  
+	    
+	    if ((x<159) && (y<85) && (x>0) && (y>0)){
+	    	
+	    	for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					Bank r = (Bank) b;
+					r.gui.setVisible(true);
+				}
+			}   
+	    }
+	    
+	    if ((x<314) && (y<468) && (x>210) && (y>370)){
+	    	for (Building b: buildings){
+				if (b.getType() == buildingType.restaurant){
+					Restaurant r = (Restaurant) b;
+					r.gui.setVisible(true);
+				}
+			}
+	    }
+	    
+	    if ((x<398) && (y<85) && (x>257) && (y>0)){
+	    	for (Building b: buildings){
+				if (b.getType() == buildingType.housingComplex){
+					Apartment r = (Apartment) b;
+					r.gui.setVisible(true);
+				}
+			}
+	    }
+	    
+	    if ((x<315) && (y<258) && (x>258) && (y>212)){
+         	for (Building b: buildings){
+ 				if (b.getType() == buildingType.market){
+ 					Market r = (Market) b;
+ 					r.gui.setVisible(true);
+ 				}
+ 			} 
+	    }
+}
 
 			public void mouseEntered(MouseEvent e) {}
 			public void mouseExited(MouseEvent arg0) {}
@@ -511,6 +504,12 @@ public class CityGui extends JFrame implements ActionListener {
     	buildings.add(b);
     }
     
+    public void createApartment(String name)
+    {
+    	Apartment b = new Apartment(name, new HousingGui());
+    	buildings.add(b);
+    }
+    
     //Set Person Enabled
     public void setPersonEnabled(PersonAgent p) {
         PersonAgent per = currentPerson;
@@ -528,8 +527,10 @@ public class CityGui extends JFrame implements ActionListener {
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
+
     	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
         gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+
         
         TrackerGui trackerWindow = new TrackerGui();
         
