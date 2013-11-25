@@ -6,6 +6,7 @@ import java.util.List;
 
 import restaurant.MarketAgent;
 import restaurant.CookAgent.myIcon;
+import restaurant.ProducerConsumerMonitor;
 
 public interface Cook {
 
@@ -22,5 +23,9 @@ public interface Cook {
 	public abstract void DoneWithAnimation();
 
 	public abstract void WaitForAnimation();
+
+	public abstract void msgNotEmpty();
+
+	public abstract void msgHereIsMonitor(ProducerConsumerMonitor theMonitor);
 
 }

@@ -19,7 +19,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	public Host host;
-	public CookAgent cook;
+	public Cook cook;
 	public Cashier cashier;
 	public WaiterGui waiterGui;
 	
