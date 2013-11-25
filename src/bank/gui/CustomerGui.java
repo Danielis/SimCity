@@ -227,7 +227,6 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void setAction() {
-		System.out.println("customergui reched setaction");
 		isBusy = true;
 		//int temp = Integer.parseInt(amount);
 		agent.msgWantsTransaction();

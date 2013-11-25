@@ -155,6 +155,7 @@ public class HousingPanel extends JPanel {
 		HousingCustomerGui g = new HousingCustomerGui(hc, gui, n);
 		gui.housingAnimationPanel.addGui(g);
 		hc.setGui(g);
+		g.setAction();
         landlord.addCustomer(hc);
         hc.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);

@@ -33,5 +33,11 @@ public interface HousingCustomer {
 
 	public abstract void setPurpose(String homePurpose);
 
+	public abstract void msgDoSomething();
+
+	public abstract void DoneWithAnimation();
+
+	public abstract void WaitForAnimation();
+
 
 }

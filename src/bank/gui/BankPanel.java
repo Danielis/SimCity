@@ -135,6 +135,7 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g);
 		c.setHost(host);  
 		c.setGui(g);
+		g.setAction();
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
 		//c.startThread();

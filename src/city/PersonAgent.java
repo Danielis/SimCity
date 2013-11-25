@@ -898,12 +898,42 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		this.roles.get(0).setActivity(true);
 
 		for (Building b: buildings){
-			print(" type: " + b.getType() + " n: ");
+			//print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				Apartment a = (Apartment) b;
 				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0), homePurpose);
 			}
 		}
+	}
+
+	public void GoToBank()
+	{
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to bank to " + bankPurpose);
+		Status.setMoneyStatus(bankStatus.goingToBank);
+		gui.DoGoToCheckpoint('D');
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		//c.test("New Account", 20);
+
+		
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					//print("found b");
+					Bank r = (Bank) b;
+					r.panel.customerPanel.addCustomer((BankCustomer) c);
+				}
+			}
+		}
+		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
 	
 
@@ -928,7 +958,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank)
 				{
-					print("found b");
+					//print("found b");
 					r = (Bank) b;
 					
 				}
@@ -1008,36 +1038,6 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		}
 	}
 
-	public void GoToBank()
-	{
-		gui.setPresent(true);
-		gui.setBusy(true);
-		print("Going to bank to " + bankPurpose);
-		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToCheckpoint('D');
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
-
-		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
-		//c.test("New Account", 20);
-
-		
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					print("found b");
-					Bank r = (Bank) b;
-					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
-				}
-			}
-		}
-		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
-	}
 	
 	void GoToMarket(){
 		gui.setPresent(true);
@@ -1061,7 +1061,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.market){
-					print("found market");
+					//print("found market");
 					Market r = (Market) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
 					r.panel.customerPanel.addCustomer((MarketCustomer) c);
