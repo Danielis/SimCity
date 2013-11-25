@@ -68,10 +68,31 @@ public class PersonAgent extends Agent implements Person
 	double marketQuantity;
 	double bankAmount;
 	
+	
+	public class Job{
+		
+		public Job(JobType parseJob) {
+			type = parseJob;
+//			if (type == JobType.marketWorker || type == JobType.marketHost)
+//				location =;
+//			else if (type == JobType.bankHost || type == JobType.teller)
+//				location =;
+//			else if (type == JobType.restHost || type == JobType.cook || type == JobType.cashier || type == JobType.waiter)
+//				location =;
+//			else if (type == JobType.landLord || type == JobType.repairman)
+//				location =;
+			
+		}
+		JobType type;
+		Coordinate location;
+		
+	}
 	enum JobType {none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
+	Job job;
+	
 	enum WealthLevel {average, wealthy, poor}
 	
-	JobType jobType;
+	
 	WealthLevel wealthLevel;
 	
 	BusStopAgent destinationStop;//trans: added
@@ -79,12 +100,13 @@ public class PersonAgent extends Agent implements Person
 	
 	TransportationCompanyAgent metro;
 	
-	public PersonAgent(String name, String job, String wealth){
+	public PersonAgent(String name, String j, String wealth){
 		this.name = name;
-		jobType = parseJob(job);
+		job = new Job(parseJob(j));
+		
 		wealthLevel = parseWealth(wealth);
 		money = setWealth();
-		System.out.println("Added person " + name + " with job type " + jobType + " and wealth level: " + wealthLevel);
+		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
 	}	
 	
 	private double setWealth() {
@@ -116,29 +138,29 @@ public class PersonAgent extends Agent implements Person
 	private JobType parseJob(String job) {
 	
 	if (job.equals("None"))
-		return jobType.none;
+		return JobType.none;
 	else if (job.equals("Market Worker"))
-		return jobType.marketWorker;
+		return JobType.marketWorker;
 	else if (job.equals("Market Host"))
-		return jobType.marketHost;
+		return JobType.marketHost;
 	else if (job.equals("Bank Host"))
-		return jobType.bankHost;
+		return JobType.bankHost;
 	else if (job.equals("Teller"))
-		return jobType.teller;
+		return JobType.teller;
 	else if (job.equals("Restaurant Host"))
-		return jobType.restHost;
+		return JobType.restHost;
 	else if (job.equals("Cook"))
-		return jobType.cook;
+		return JobType.cook;
 	else if (job.equals("Cashier"))
-		return jobType.cashier;
+		return JobType.cashier;
 	else if (job.equals("Waiter"))
-		return jobType.waiter;
+		return JobType.waiter;
 	else if (job.equals("Landlord"))
-		return jobType.landLord;
+		return JobType.landLord;
 	else if (job.equals("Repairman"))
-		return jobType.repairman;
+		return JobType.repairman;
 	else if (job.equals("Crook"))
-		return jobType.crook;
+		return JobType.crook;
 	else
 		return null;
 	}
@@ -170,6 +192,10 @@ public class PersonAgent extends Agent implements Person
 			market = marketStatus.nothing;
 			trans = transportStatus.nothing;
 			moral = morality.good;
+		}
+		
+		public void setWorkStatus(workStatus state) {
+			work = state;
 		}
 
 		public void setNourishment(nourishment state)
@@ -226,6 +252,12 @@ public class PersonAgent extends Agent implements Person
 		{
 			return des;
 		}
+
+		public workStatus getWork() {
+			return work;
+		}
+
+		
 	}
 
 	class Item {
@@ -423,6 +455,15 @@ public class PersonAgent extends Agent implements Person
 	 								 MESSAGES
 	 ******************************************************************************/
 
+	public void msgGoToWork() {
+		print("Called msgGoToRestaurant");
+		if (job != null && job.type != JobType.none)
+			Status.setDestination(destination.work);
+		gui.setPresent(false);
+		stateChanged();
+	}
+	
+	
 
 	//Housing
 	public void msgGoToHome(String purpose){
@@ -581,13 +622,18 @@ public class PersonAgent extends Agent implements Person
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
+		if (Status.getWork() == workStatus.notWorking &&
+				Status.getLocation() == location.outside) {
+			print("Scheduler realized the person wants to go to Restaurant");
+			GoToWork();
+			return true;
+		}
 		if (Status.getNourishmnet() == nourishment.Hungry &&
 				Status.getLocation() == location.outside) {
 			print("Scheduler realized the person wants to go to Restaurant");
 			GoToRestaurant();
 			return true;
 		}
-		
 		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
@@ -654,6 +700,43 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 	
+	private void GoToWork(){
+		Status.setWorkStatus(workStatus.goingToWork);
+		gui.DoGoToCheckpoint('D');
+		
+		//if (jobType == jobType.)
+		
+		
+		
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+		
+		Role c = null;
+	
+		
+		//if (job.type == JobType.bankHost)
+			//c = new BankHostRole(this.getName());
+		
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		
+		
+
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					print("found b");
+					Bank r = (Bank) b;
+					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addCustomer((BankCustomer) c);
+				}
+			}
+		}
+	}
+	
+	
 	private void GoToRestaurant()
 	{
 		print("Going to restaurant");
@@ -703,9 +786,6 @@ public class PersonAgent extends Agent implements Person
 	public void GoToWithdrawFromBank()
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		//gui.DoGoToCheckpoint('A');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('C');
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
@@ -764,4 +844,6 @@ public class PersonAgent extends Agent implements Person
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
 	}
+
+
 }

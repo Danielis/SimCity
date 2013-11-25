@@ -2,7 +2,7 @@ package roles;
 
 public class Building {
 
-	Coordinate entrance;
+	public Coordinate entrance;
 	Coordinate topLeft;
 	Coordinate topRight;
 	Coordinate botLeft;

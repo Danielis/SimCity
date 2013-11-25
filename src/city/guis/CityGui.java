@@ -116,6 +116,7 @@ public class CityGui extends JFrame implements ActionListener {
     private JPanel restaurantPanel = new JPanel(); 
     private JButton restaurantGo = new JButton("Go");
     
+    private JButton workGo = new JButton("Work");
     
     // ************ END FUNCTION PANEL *********************
     
@@ -217,12 +218,12 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.add(restaurantPanel);
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
-		
+		restaurantPanel.add(workGo);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
 		restaurantGo.addActionListener(this);
-		
+		workGo.addActionListener(this);
 		housingList.addActionListener(this);
         
         
@@ -393,8 +394,13 @@ public class CityGui extends JFrame implements ActionListener {
         if (e.getSource() == restaurantGo) 
         {
             PersonAgent c = (PersonAgent) currentPerson;
-            c.getGui().setHungry();
+            c.getGui().setWork();
             silenceButtons();
+        }
+        if (e.getSource() == workGo){
+        	 PersonAgent c = (PersonAgent) currentPerson;
+             c.getGui().setHungry();
+             silenceButtons();
         }
         if (e.getSource() == bankGo)
         {
@@ -526,7 +532,7 @@ public class CityGui extends JFrame implements ActionListener {
     	
 
 
-    //	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+    	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
       //  gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
         
