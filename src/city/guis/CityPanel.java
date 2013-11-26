@@ -239,7 +239,7 @@ public class CityPanel extends JPanel {
     public void sendPersonToStop(){ //Trans: should be done by person AI 
     	this.personPanel.addPerson("TestPerson", "None", "Wealthy");
     	PersonAgent testPerson = people.lastElement();
-    	//testPerson.transportationStatusBus();
+    	testPerson.transportationStatusBus();
     	testPerson.msgGoToRestaurant();
     	//testPerson.msgGoToBank("Deposit", 50);
     	//testPerson.msgGoToHome("Sleep");

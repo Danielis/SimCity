@@ -493,7 +493,7 @@ public class PersonAgent extends Agent implements Person
 	public boolean hasCar() {
 		synchronized(inventory){
 			for(Item i:inventory) {
-				if(i.equals("Car")) {
+				if(i.type.equals("Car") && i.quantity>0) {
 					return true;
 				}
 			}
