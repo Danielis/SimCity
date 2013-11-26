@@ -206,7 +206,7 @@ public class PersonAgent extends Agent implements Person
 	private double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
 			addItem(inventory, "Car", 0, 1);
-			return 25000;
+			return 15000;
 		}
 		else if (wealthLevel.equals(WealthLevel.wealthy)){
 			addItem(inventory, "Car", 1, 0);
@@ -912,7 +912,7 @@ if (job.type == JobType.noAI){
 			return true;
 		}
 		if (Status.getNourishmnet() == nourishment.Hungry &&
-				Status.getLocation() == location.outside) {
+				Status.getLocation() == location.outside && CheckRestOpen()) {
 			print("Scheduler realized the person wants to go to Restaurant");
 			GoToRestaurant();
 			return true;
@@ -1026,18 +1026,44 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 //				GoHomeToDoX();
 		}
 		return false;	
+
+	}
+
+	
+	
+	private boolean CheckRestOpen() {
+		print("I need to go to the restaurant!");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the restaurant!", new Date()));
+		Restaurant r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.restaurant){
+					//print("found b");
+					r = (Restaurant) b;
+				}
+			}
+		}
+		if(r.isOpen())
+			return true;
+		else{
+			print("Aww.. restaurant is closed :(");	
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Aww... restaurant is closed :(", new Date()));
+
+			return false;
+		}
 	}
 
 	private void GoEat() {
 		Boolean restaurant = false;
-		int num = (int)(Math.random() * ((10 - 0) + 0));
-		if (wealthLevel == WealthLevel.wealthy && num <= 7){
-				restaurant = true;
+		if (!CheckRestOpen()){
+			int num = (int)(Math.random() * ((10 - 0) + 0));
+			if (wealthLevel == WealthLevel.wealthy && num <= 7){
+					restaurant = true;
+			}
+			else if (num <=3){
+					restaurant = true;
+			}
 		}
-		else if (num <=3){
-				restaurant = true;
-		}
-		//restaurant = true; //TODO
 		if (restaurant){
 			GoToRestaurant();
 		}
@@ -1050,6 +1076,8 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	private boolean isHungry() {
 		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
 			print("Hmm... I'm hungry. I better eat soon");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
+			
 			return true;
 		}
 		else
@@ -1057,7 +1085,24 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WalkAimlessly() {
-		gui.DoGoToCheckpoint('I');
+		if (hasCar() && wealthLevel.equals(WealthLevel.average)){
+			gui.DoGoToLocation(18, 529);
+			gui.DoGoToLocation(617, 529);
+		}
+		else if (hasCar()){
+			gui.DoGoToLocation(24, 138);
+			gui.DoGoToLocation(375, 138);
+		}
+		else if (wealthLevel.equals(WealthLevel.average)){
+			gui.DoGoToLocation(24, 332);
+			gui.DoGoToLocation(375, 332);
+		}
+		else{
+			gui.DoGoToLocation(24, 267);
+			gui.DoGoToLocation(375, 267);
+		}
+
+		stateChanged();
 	}
 
 	private boolean noRoleActive() {
@@ -1114,7 +1159,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		if (inventory.size() > 0){
 			for (Item i : inventory){
 				//print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
-				if(i.quantity < i.threshold){
+				if(i.quantity < i.threshold && canAfford(i)){
 					marketPurpose = i.type;
 					marketQuantity = i.threshold - i.quantity;
 					return true;
@@ -1122,6 +1167,13 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 			}
 		}
 		return false;
+	}
+	
+	private boolean canAfford(Item i){
+		if (i.type == "Car")
+			return (cash > 20000);
+		else
+			return true;
 	}
 
 	private boolean needsBankTransaction() {

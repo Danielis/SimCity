@@ -545,7 +545,7 @@ public class HostRole extends Role implements Host{
 	{
 		myState = WorkState.leaving;
 		print("HostRole: Called to leave work.");
-		//myPerson.msgLeftWork(this, balance);
+		myPerson.msgLeftWork(this, balance);
 	}
 
 }

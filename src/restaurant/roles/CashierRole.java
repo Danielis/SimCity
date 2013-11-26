@@ -368,7 +368,7 @@ public class CashierRole extends Role implements Cashier{
 		myState = WorkState.leaving;
 		print("CashierRole: Called to leave work.");
 		//STUB
-		//myPerson.msgLeftWork(this, this.mymoney);
+		myPerson.msgLeftWork(this, this.mymoney);
 	}
 	
 	private float RoundToTwoDigits(float a)

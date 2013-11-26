@@ -203,7 +203,7 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	{
 		myWorkState = WorkState.leaving;
 		print("ModernWaiterRole: Called to leave work.");
-		//STUB: myPerson.msgLeftWork(this, this.balance);
+		myPerson.msgLeftWork(this, this.balance);
 	}
 }
 

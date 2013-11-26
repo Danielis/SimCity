@@ -136,7 +136,7 @@ public class BankPanel extends JPanel {
      */
     public void addCustomer(BankCustomer c) 
     {
-        gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Customer Added", new Date()));
+     //   gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Customer Added", new Date()));
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);  
@@ -148,7 +148,7 @@ public class BankPanel extends JPanel {
     }
     
     public void addHost(BankHost host) {
-        gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Host Added", new Date()));
+       // gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Host Added", new Date()));
 		// TODO Auto-generated method stub
 		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
@@ -161,7 +161,7 @@ public class BankPanel extends JPanel {
     
     public void addTeller(Teller c) 
     {
-        gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Teller Added", new Date()));
+    	// gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Teller Added", new Date()));
 		Teller w = c;	
 		b.addTeller(w);
 		c.setTableNum(b.setTableNum()); 

@@ -701,7 +701,7 @@ public class CookRole extends Role implements Cook
 	{
 		myState = WorkState.leaving;
 		print("CookRole: Called to leave work.");
-		//STUB: myPerson.msgLeftWork(this, this.accountBalance);
+		myPerson.msgLeftWork(this, this.accountBalance);
 	}
 }
 

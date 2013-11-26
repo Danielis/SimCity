@@ -65,9 +65,9 @@ public class MarketPanel extends JPanel {
         add(restLabel);
         add(group);
         
-        this.addTeller("Teller 1");
-    	this.addTeller("Teller 2");
-    	this.addTeller("Teller 3");
+        this.addTeller("Clerk 1");
+    	this.addTeller("Clerk 2");
+    	this.addTeller("Clerk 3");
     }
 
     /**
