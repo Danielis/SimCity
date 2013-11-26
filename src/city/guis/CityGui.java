@@ -30,7 +30,9 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
+import city.Clock;
 import city.TimeManager;
+
 
 //Import Java utilities
 import javax.imageio.ImageIO;
@@ -38,6 +40,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -85,6 +88,8 @@ public class CityGui extends JFrame implements ActionListener {
        
     Boolean isPaused = false;
     
+    private Clock clock = new Clock();
+    
     
     
     // ************ START FUNCTION PANEL *********************
@@ -122,6 +127,10 @@ public class CityGui extends JFrame implements ActionListener {
     
     //CONSTRUCTOR
     public CityGui() {
+    	
+    	clock.startThread();
+    	clock.setPeople(cityPanel.people);
+    	
         int WINDOWX = 500;
         int WINDOWY = 500;
 

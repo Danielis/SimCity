@@ -601,6 +601,32 @@ public class PersonAgent extends Agent implements Person
 	 								 MESSAGES
 	 ******************************************************************************/
 
+	public void msgWakeUp() {
+		stateChanged();
+	}
+	
+	public void msgLeaveHome() {
+		
+		for (Role r : roles){
+			if (r.active){
+			r = (HousingCustomerRole) r;
+			r.msgLeaveHouse();
+			}
+		}
+		
+//		for (Role r : roles){
+//				if (r.active){
+//				r.setActivity(false);
+//				roles.remove(r);
+//			    Status.setLocation(location.outside);
+//			    Status.setDestination(destination.outside);
+//			    Status.setHousingStatus(houseStatus.notHome);
+//			    gui.setPresent(true);
+//			}
+//		}
+		stateChanged();	
+	}
+	
 	public void msgGoToWork() {
 		print("Called msgGoToWork");
 		if (job != null && job.type != JobType.none)
@@ -1343,6 +1369,10 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	public void setPersonList(Vector<PersonAgent> people) {
 		this.people = people;
 	}
+
+	
+
+
 
 
 }
