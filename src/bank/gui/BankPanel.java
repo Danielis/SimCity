@@ -160,7 +160,7 @@ public class BankPanel extends JPanel {
 		Teller w = c;	
 		b.addTeller(w);
 		//c.setTableNum(b.getTellerTableNunmber()); 
-		TellerGui g = new TellerGui(w, gui, b.getTellerTableNumber(w));
+		TellerGui g = new TellerGui(w, gui, b.setTableNum());
 		w.setBank(b);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);  

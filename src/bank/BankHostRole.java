@@ -102,9 +102,9 @@ public class BankHostRole extends Role implements BankHost {
 		}
 		
 	public void IWantService(BankCustomerRole c){
-    customers.add(new MyCustomer(c));
-    updateCustpost();
-    stateChanged();
+	    customers.add(new MyCustomer(c));
+	    updateCustpost();
+	    stateChanged();
 	}
 		
 	public void msgNewTeller(Teller t)
