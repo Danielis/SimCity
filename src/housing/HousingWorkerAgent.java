@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import logging.TrackerGui;
 import agent.Agent;
 import housing.LandlordAgent.HousingComplex;
 import housing.guis.HousingAnimationPanel;
@@ -21,6 +22,7 @@ public class HousingWorkerAgent extends Agent {
 	private Semaphore waitingForAnimation = new Semaphore(0);
 	private HousingAnimationPanel animationPanel;
 	private HousingWorkerGui gui;
+	public TrackerGui trackingWindow;
 	private class Job{
 		HousingComplex c;
 		double bill;
@@ -43,6 +45,10 @@ public class HousingWorkerAgent extends Agent {
 		this.name = name1;
 		System.out.println("Housing Worker Created.");
 		balance = 0;
+	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
 	}
 
 	public void setLandlord(LandlordAgent l) {

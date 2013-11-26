@@ -15,6 +15,8 @@ import bank.BankCustomerRole.customerPurpose;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.TrackerGui;
+
 //Waiter Agent
 public class TellerRole extends Role implements Teller {
 	
@@ -38,6 +40,7 @@ public class TellerRole extends Role implements Teller {
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
+	private TrackerGui trackingWindow;
 	
 	//Constructors
 	public TellerRole()
@@ -54,6 +57,11 @@ public class TellerRole extends Role implements Teller {
 	}
 	
 //UTILITIES***************************************************
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
+	
 	public void setTableNum(int index){
 		tableNum = index;
 	}

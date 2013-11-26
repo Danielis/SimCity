@@ -156,7 +156,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 					//Insert the alert into the panel's document
 					int endPosition = traceTextPane.getDocument().getEndPosition().getOffset();
 					traceTextPane.getStyledDocument().insertString(endPosition, alert.toString() + "\n", styleToPrint);
-
+					System.out.println(alert.toString());
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}

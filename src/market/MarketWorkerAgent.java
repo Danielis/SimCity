@@ -2,6 +2,7 @@ package market;
 
 import agent.Agent;
 import agent.RestaurantMenu;
+import logging.TrackerGui;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketTellerGui;
 import market.interfaces.*;
@@ -32,6 +33,8 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
+
+	public TrackerGui trackingWindow;
 	
 	//Constructors
 	public MarketWorkerAgent()
@@ -50,6 +53,9 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 
 //UTILITIES***************************************************
 	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
 	public void setHost(MarketHostAgent host) {
 		this.host = host;
 	}

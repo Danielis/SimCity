@@ -2,6 +2,7 @@ package housing;
 
 import java.util.concurrent.Semaphore;
 
+import logging.TrackerGui;
 import roles.Role;
 import city.guis.PersonGui;
 import housing.guis.HousingAnimationPanel;
@@ -17,9 +18,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
 	//constructor
-	
-	
-	
 	public HousingCustomerRole(String name2, double b) {
 		name = name2;
 		balance = b;
@@ -28,6 +26,11 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		hungry = false;
 		System.out.println("Housing Customer created.");
 	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
+
 
 	public void setLandlord(LandlordAgent landlord2) {
 		landlord = landlord2;
@@ -63,6 +66,8 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	public Boolean houseNeedsRepairs;
 	public Boolean hungry;
 	private Boolean leave = false;
+
+	public TrackerGui trackingWindow;
 
 	public String getName()
 	{

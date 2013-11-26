@@ -3,6 +3,7 @@ package bank.interfaces;
 
 import javax.swing.Icon;
 
+import logging.TrackerGui;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 
@@ -58,8 +59,6 @@ public abstract void pauseAgent();
 
 public abstract void resumeAgent();
 
-
-
-	
+public abstract void setTrackerGui(TrackerGui t);
 
 }

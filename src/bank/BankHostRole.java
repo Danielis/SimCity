@@ -10,6 +10,8 @@ import bank.BankCustomerRole;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.TrackerGui;
+
 //Host Agent
 public class BankHostRole extends Role implements BankHost {
 	
@@ -24,6 +26,8 @@ public class BankHostRole extends Role implements BankHost {
 
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
+	
+	public TrackerGui trackingWindow;
 //CONSTRUCTOR
 	public BankHostRole(String name) {
 		super();
@@ -31,6 +35,10 @@ public class BankHostRole extends Role implements BankHost {
 	}
 
 //UTILITIES************************************************************
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
 	
 	public String getMaitreDName() {
 		return name;

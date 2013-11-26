@@ -13,7 +13,12 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Vector;
+
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -130,7 +135,7 @@ public class BankPanel extends JPanel {
      */
     public void addCustomer(BankCustomer c) 
     {
-    	//System.out.println("bankpanel addcust");
+        gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Customer Added", new Date()));
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);  
@@ -142,7 +147,7 @@ public class BankPanel extends JPanel {
     }
     
     public void addHost(BankHost host) {
-    	System.out.println("bankpanel addhost");
+        gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Host Added", new Date()));
 		// TODO Auto-generated method stub
 		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
@@ -153,7 +158,7 @@ public class BankPanel extends JPanel {
     
     public void addTeller(Teller c) 
     {
-		
+        gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Teller Added", new Date()));
 		Teller w = c;	
 		b.addTeller(w);
 		c.setTableNum(b.getTellerNunmber()); 
@@ -181,9 +186,6 @@ public class BankPanel extends JPanel {
 //		c.startThread();
 //    }
     
-  
-   
-
     public void refresh()
     {
     	gui.updateLastCustomer();
@@ -192,7 +194,6 @@ public class BankPanel extends JPanel {
 
 	public void setBank(Bank bank) {
 		this.b = bank;
-		
 	}
 
 	

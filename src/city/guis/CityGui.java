@@ -133,8 +133,7 @@ public class CityGui extends JFrame implements ActionListener {
     // ************ END FUNCTION PANEL *********************
     
     //CONSTRUCTOR
-    public CityGui() {
-    	
+    public CityGui() {  
     	clock.startThread();
     	clock.setPeople(cityPanel.people);
     	
@@ -289,9 +288,8 @@ public class CityGui extends JFrame implements ActionListener {
         RestaurantPortion.add(personInformationPanel, BorderLayout.SOUTH);
         add(cityAnimationPanel);
         add(RestaurantPortion);
-      
-       
-        
+ 
+    	trackingWindow = new TrackerGui();
 
         //City Element Creation
         createRestaurant("Norman's Restaurant", "Norman");
@@ -375,7 +373,7 @@ public class CityGui extends JFrame implements ActionListener {
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
 
-        });   
+        });  
     }
     
     /**
@@ -536,7 +534,9 @@ public class CityGui extends JFrame implements ActionListener {
     
     public void createBank(String name)
     {
-    	Bank b = new Bank(new BankGui(), name);
+    	BankGui bg = new BankGui();
+    	Bank b = new Bank(bg, name);
+    	bg.setTrackerGui(trackingWindow);
     	buildings.add(b);
     }
     
@@ -563,17 +563,16 @@ public class CityGui extends JFrame implements ActionListener {
     
     //Main Function - Sets up the program
     public static void main(String[] args) 
-    {    	  	
+    {    	
+    	
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
 
-    	trackingWindow = new TrackerGui();
+
 
     	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
      //   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
-
-
 
     }
 }

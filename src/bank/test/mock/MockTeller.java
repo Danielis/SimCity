@@ -1,6 +1,7 @@
 package bank.test.mock;
 import java.util.List;
 
+import logging.TrackerGui;
 import bank.Bank;
 import bank.BankCustomerRole;
 import bank.gui.BankAnimationPanel;
@@ -95,6 +96,12 @@ public class MockTeller extends Mock implements Teller {
 		@Override
 		public void setHost(BankHost host2) {
 			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void setTrackerGui(TrackerGui t) {
 			
 		}
 

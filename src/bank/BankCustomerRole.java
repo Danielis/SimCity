@@ -8,6 +8,7 @@ import bank.interfaces.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.TrackerGui;
 import roles.Role;
 
 //Customer Agent
@@ -44,6 +45,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	Boolean isHappy = true;
 	
+	public TrackerGui trackingWindow;
+
 	//Constructor
 	public BankCustomerRole(String name, String type, double bankAmount, double money){
 		super();
@@ -76,6 +79,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
 	}
 	
 	private Boolean enoughBalance(){

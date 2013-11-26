@@ -1,10 +1,15 @@
 package bank;
 
 import java.util.*;
+
 import bank.interfaces.*;
 
 import javax.swing.JFrame;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+import logging.TrackerGui;
 import roles.Building;
 import roles.Coordinate;
 import bank.Bank.Account;
@@ -26,6 +31,8 @@ public class Bank extends Building{
     public Coordinate location;
     public int numTellersWorking = 0;
     public BankHostRole host;
+    
+	public TrackerGui trackingWindow;
 	
 	public Bank(BankGui gui, String name){
 		//super();

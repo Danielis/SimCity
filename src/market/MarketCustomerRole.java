@@ -1,5 +1,6 @@
 package market;
 
+import logging.TrackerGui;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketCustomerGui;
 import market.interfaces.*;
@@ -43,6 +44,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	int quantityWanted = 0;
 	int quantityReceived = 0; 
 	double amountOwed;
+	public TrackerGui trackingWindow;
 	
 	
 	//Constructor
@@ -63,7 +65,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 //UTILITIES**************************************************
 
-	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
 
 	private Boolean enoughBalance(){
 		if (amountOwed > balance){
