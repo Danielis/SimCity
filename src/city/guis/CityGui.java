@@ -34,9 +34,6 @@ import city.Clock;
 import city.Scenario;
 import city.TimeManager;
 
-
-
-
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -105,11 +102,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 	private Clock clock = new Clock();
 
-
-
 	// ************ START FUNCTION PANEL *********************
-
-
 
 	private JPanel bankPanel = new JPanel();
 	private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
@@ -123,15 +116,12 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton marketGo = new JButton("Go");
 	private JTextField marketQ = new JTextField("");
 
-
-
 	private JPanel housingPanel = new JPanel();
 	String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
 	JComboBox housingList = new JComboBox(housingOptions);
 	String[] foodOptions = { "Pasta", "Chicken", "Eggs" };
 	JComboBox foodList = new JComboBox(foodOptions);
 	private JButton housingGo = new JButton("Go");
-
 
 	private JPanel restaurantPanel = new JPanel(); 
 	private JButton restaurantGo = new JButton("Go");

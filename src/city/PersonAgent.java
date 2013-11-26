@@ -71,18 +71,16 @@ public class PersonAgent extends Agent implements Person
 	 								VARIABLES
 	 ******************************************************************************/
 
-	//Lists: Roles, Restaurants
-	List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
-	Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
+	 //Lists: Roles, Restaurants
+	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
+	public Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
 
 	//Inventory List
-	List<Item> inventory = Collections.synchronizedList(new ArrayList<Item>());
+	public List<Item> inventory = Collections.synchronizedList(new ArrayList<Item>());
 
 	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
 
-	
 	public TrackerGui trackingWindow;
-
 
 	//Variable
 	PersonGui gui = null;
