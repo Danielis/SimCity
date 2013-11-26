@@ -88,5 +88,8 @@ public class Role
 		// TODO Auto-generated method stub
 		
 	}
+	public void msgGetPaid() {
+		// TODO Have each role as person in charge for cash
+	}
 
 }

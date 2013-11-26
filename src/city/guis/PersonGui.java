@@ -198,13 +198,13 @@ public class PersonGui implements Gui{
     				deltay *= -1;
     				try
     				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
     				} catch (IOException e ) {}
     			}
     			else if(deltay > 0){
     				try
     				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
     				} catch (IOException e ) {}
     			}
     		}

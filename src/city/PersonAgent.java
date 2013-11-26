@@ -618,7 +618,13 @@ public class PersonAgent extends Agent implements Person
 	public void msgWakeUp() {
 		stateChanged();
 	}
-	
+	 public void msgGetPaid() {
+		 for (Role r : roles){
+			 if (r.active){
+				 r.msgGetPaid();
+			 }
+		 }
+	 }
 	//TODO ADD THIS MSG TO ALL WORKER ROLES
 	public void msgLeaveWork() {
 		for (Role r : roles){
@@ -1066,7 +1072,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setBusy(true);
 		print("Going home to " + homePurpose);
 		Status.setHousingStatus(houseStatus.goingHome);
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1116,7 +1122,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		Status.setMoneyStatus(bankStatus.goingToBank);
 
 	//	gui.DoGoToLocation(80,76);
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1165,7 +1171,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	
 	
 	private void WorkAtApartment() {
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1196,7 +1202,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 	private void WorkAtRest() {
 
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1248,7 +1254,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WorkAtBank() {
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1307,7 +1313,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 
 //		TODO
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1351,7 +1357,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
 	
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1399,7 +1405,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
 		Status.market = marketStatus.waiting;
 
-		if(Status.getTransportationStatus() == transportStatus.bus){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(1); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
