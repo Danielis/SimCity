@@ -183,4 +183,10 @@ public class BusAgent extends Agent implements Bus
 		nextStop = false;
 		gui.NextStop();
 	}
+
+	@Override
+	public void msgImAtStop(BusStop busStop) {
+		// TODO Auto-generated method stub
+		
+	}
 }

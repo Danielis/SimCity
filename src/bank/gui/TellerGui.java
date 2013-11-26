@@ -30,7 +30,7 @@ public class TellerGui implements Gui {
     private Teller agent = null;
     BankGui gui;
 
-    Boolean isPresent;
+    Boolean isPresent = true;
     Boolean onBreak = false;
     
     Coordinate position;
@@ -195,5 +195,12 @@ public class TellerGui implements Gui {
 		//System.out.println(agent.getName() + " is going to the waiting room");
 		destination = homeposition;
 		agent.WaitForAnimation();
+	}
+
+	public void setDone()
+	{
+		isPresent = false;
+		//goingSomewhere = true;
+		//destination = leavePos;
 	}
 }

@@ -61,5 +61,7 @@ public interface Waiter
 	public abstract void setGui(WaiterGui g);
 
 	public abstract void pauseAgent();
+
+	public abstract void msgLeaveWork();
 	
 }

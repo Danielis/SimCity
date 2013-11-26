@@ -98,7 +98,7 @@ public class TransportationCompanyAgent extends Agent implements TransportationC
 	 ******************************************************************************/
 	
 	@Override
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		// This function checks bus and busStops to see if they are in the same position, Calls Bus msg that they are at stop
 		Check(); // no need to return true since every time buses move they call this function which is fine because as long as they move they should be checked
 		//super.clearSemaphore(); // potentially risky move but since this is called all the time since Buses move all the time it is done so that the pickandexecute doesn't always run unless a bus calls on it. Otherwise, this would run if the buses suddenly stopped moving due to past calls by multiple buses.

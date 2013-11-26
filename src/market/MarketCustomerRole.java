@@ -369,6 +369,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	public void setHost(MarketHostAgent host) {
 		this.h = host;
 	}
-}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	}
 
 

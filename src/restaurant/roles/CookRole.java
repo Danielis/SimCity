@@ -19,7 +19,10 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Cook Agent
-public class CookRole extends Role implements Cook {
+public class CookRole extends Role implements Cook 
+{
+
+	public WorkState myState = WorkState.none;
 	
 	//Lists
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -29,6 +32,7 @@ public class CookRole extends Role implements Cook {
 	//Variables
 	private String name;
 	Timer timer;
+	double accountBalance = 0;
 
 	//How many items the cook starts with
 	static final int numItemsInInventory = 5;
@@ -58,10 +62,11 @@ public class CookRole extends Role implements Cook {
 	};
 
 	//Constructor
-	public CookRole(String name) {
+	public CookRole(String name, double cash) {
 		super();
 		this.name = name;
 		
+		accountBalance = cash;
 		
 		//Set the timer
 		timer = new Timer();
@@ -252,6 +257,12 @@ public class CookRole extends Role implements Cook {
 
 //MESSAGES****************************************************
 
+	public void msgLeaveWork()
+	{
+		myState = WorkState.needToLeave;
+		stateChanged();
+	}
+	
 	public void msgTakingItem(Waiter w)
 	{
 		synchronized(icons)
@@ -445,6 +456,17 @@ public class CookRole extends Role implements Cook {
 			if (theMonitor != null && theMonitor.getCount() > 0){
 				TakeTicket();
 				return true;
+			}
+			
+			if (myState == WorkState.needToLeave)
+			{
+				//if there's no customers in the restaurant and the cook has no orders
+				if(rest.panel.host.canLeave() && 
+						this.orders.size() == 0 && 
+						noItemsOrdered())
+				{
+					LeaveWork();
+				}
 			}
 	
 			return false;
@@ -640,6 +662,21 @@ public class CookRole extends Role implements Cook {
         }
 	}
 	
+	public boolean noItemsOrdered()
+	{
+		int counter = 0;
+		for(int i = 0; i<inventory.size(); i++)
+		{
+			if(inventory.get(i).state == OrderState.none ||
+					inventory.get(i).state == OrderState.ordered)
+				counter++;
+		}
+		if (counter == 4)
+			return true;
+		else 
+			return false;
+	}
+	
 	public void DoneWithAnimation()
 	{
 		this.animSemaphore.release();
@@ -657,6 +694,14 @@ public class CookRole extends Role implements Cook {
 
 	public void msgHereIsMonitor(ProducerConsumerMonitor theMonitor2) {
 		theMonitor = theMonitor2;
+	}
+
+	
+	public void LeaveWork()
+	{
+		myState = WorkState.leaving;
+		print("CookRole: Called to leave work.");
+		myPerson.msgLeftWork(this, this.accountBalance);
 	}
 }
 

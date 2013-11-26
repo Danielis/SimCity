@@ -2,6 +2,10 @@ package housing;
 
 import java.util.Date;
 import java.util.Random;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import java.util.concurrent.Semaphore;
 
 import logging.Alert;
@@ -10,6 +14,7 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import roles.Role;
 import city.PersonAgent;
+import city.PersonAgent.Item;
 import city.guis.PersonGui;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
@@ -24,13 +29,14 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
 	//constructor
-	public HousingCustomerRole(String name2, double b) {
+	public HousingCustomerRole(String name2, double b, List<Item> inventory) {
 		name = name2;
 		balance = b;
 		needsLoan = false;
 		houseNeedsRepairs = false;
 		hungry = false;
 		System.out.println("Housing Customer created.");
+		this.inventory = inventory;
 	}
 	
 	public PersonAgent getPerson() {
@@ -66,17 +72,19 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	//landlord agent for the customer
 	private LandlordAgent landlord;
-
+	Boolean leavingHouse = false;
 	//how much money owned/owed 
 	double balance;
 	double bill;
 
+	Timer timer= new Timer();
 	//booleans to track loan needs and repairs
 	private Boolean needsLoan;
 	public Boolean houseNeedsRepairs;
 	public Boolean hungry;
 	private Boolean leave = false;
-
+	private Boolean sleep = false;
+	 List<Item> inventory;
 	public TrackerGui trackingWindow;
 
 	public String getName()
@@ -89,47 +97,44 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------------------------------------
 	//arriving at house
 	
-	public void msgLeaveHouse() {
-		leave = true;
-		myPerson.stateChanged();
-	}
+
 	
 	public void enteringHouse() {
 
 	}
 	public void msgDoSomething() {
 		//print("dosmth");
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  rent bill
 	public void HereIsRentBill(double amount){
 		bill = amount;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  change from rent bill
 	public void HereIsChange(double amount){
 		balance += amount;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  rent is paid
 	public void RentIsPaid(){
 		bill = 0;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  money is still owed
 	public void YouStillOwe(double amount){
 		needsLoan = true;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//going be set into action by the user or a criminal or something.  
 	public void MyHouseNeedsRepairs(){
 		houseNeedsRepairs = true;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//eat at home message
 	public void EatAtHome() {
 		hungry = true;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 
 	//--------------------------------------------------------
@@ -138,31 +143,51 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		System.out.println("Tenant scheduler.");
-		if(leave){
-			LeaveApartment();
-			return true;
+//		if(leave){
+//			LeaveApartment();
+//			return true;
+//		}
+		if(sleep){
+			GoToSleep();
+			return false;
+			//return true;
 		}
-		if (needsLoan){
+		else if (needsLoan){
 			TakeOutLoan();
 			return true;
 		}
-		if (houseNeedsRepairs){
+		else if (houseNeedsRepairs){
 			CallLandlordRepairs();
 			return true;
 		}
-		if (bill > 0){
+		else if (bill > 0){
 			PayBill();
 			return true;
 		}
-		if(hungry) {
+		else if(hungry) {
 			GetFood();
 			return true;
 		}
-		//if(!gui.goingSomewhere) {
-			gui.DoGoToThreshold();
-			gui.DoGoToBed();
-		//}
+		else
+			LeaveApartment();
 		return false;
+	}
+
+	private void GoToSleep() {
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();
+		sleep = false;
+		timer.schedule(new TimerTask()
+		{
+			public void run()
+			{
+				
+				print("Woke up!");
+				stateChanged();
+			}
+		}, 5000);
+		
+		
 	}
 
 	//------------------------------------------------
@@ -187,8 +212,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			System.out.println("This is all I have.  I'm out of money.");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "This is all I have.  I'm out of money", new Date()));
 		}
-		gui.DoGoToThreshold();
-		gui.DoGoToBed();
 	}
 	private void CallLandlordRepairs(){
 		print("Calling landlord");
@@ -199,6 +222,8 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		landlord.MyHouseNeedsRepairs(this);
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();	
+		System.out.println("Tenant: called landlord for repairs.");
+
 		}
 
 	private void TakeOutLoan(){
@@ -206,6 +231,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		needsLoan = false;
 		System.out.println("Went to bank.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Went to bank", new Date()));
+		balance += 1000;
 	}
 	private void GetFood() {
 		print("Going to cook food.");
@@ -241,7 +267,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		leave = false;
 		gui.DoWalkOut();
 		gui.setDone();
-		this.myPerson.msgLeavingHome(this, balance);
+		myPerson.msgLeavingHome(this, balance);
 	}
 
 	public HousingCustomerGui getGui() {
@@ -251,14 +277,14 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public void setPurpose(String homePurpose) {
 
-		//if (homePurpose.equals("Pay Loan"))
-			//needsLoan = true;
+		if (homePurpose.equals("Pay Loan"))
+			bill = 30;
 		if (homePurpose.equals("Call for Repair"))
 			houseNeedsRepairs = true;
 		if (homePurpose.equals("Cook")) //TODO
 			hungry = true;
-		//if (homePurpose.equals("Sleep"))
-		//	hungry = true;
+		if (homePurpose.equals("Sleep"))
+			sleep = true;
 	}
 
 	public void DoneWithAnimation()
@@ -276,6 +302,17 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
         } catch (Exception e) {
             print("Unexpected exception caught in Agent thread:", e);
         }
+	}
+
+	public void msgLeaveHome() {
+		leave = true;
+		stateChanged();
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

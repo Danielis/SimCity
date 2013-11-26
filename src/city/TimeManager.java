@@ -56,8 +56,8 @@ public class TimeManager {
 	public void updateTime(){
 		int mil = (int) getCurrentSimTime();
 		
-		seconds = (mil / 1) | 0;
-		mil -= seconds * 1;
+		seconds = (mil / 2) | 0;
+		mil -= seconds * 2;
 	
 		minutes = (seconds / 60) | 0;
 		seconds -= minutes * 60;

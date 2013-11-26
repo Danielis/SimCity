@@ -3,7 +3,11 @@ package bank.test.mock;
 
 import java.util.List;
 
+
 import logging.TrackerGui;
+
+import bank.Bank;
+
 import bank.BankCustomerRole;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
@@ -22,10 +26,11 @@ public class MockHost extends Mock implements BankHost {
 	public void IWantService(BankCustomerRole c) {
 	}
 
-	public void msgNewTeller(Teller t) {
-	}
-
 	public void IAmFree(Teller tell) {		
+	}
+	
+	public void addMe (Teller t){
+		
 	}
 
 	public void msgIdLikeToGoOnBreak(Teller t) {
@@ -58,6 +63,22 @@ public class MockHost extends Mock implements BankHost {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public void setTellers(List<Teller> tellers) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setBank(Bank b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
 
 
 

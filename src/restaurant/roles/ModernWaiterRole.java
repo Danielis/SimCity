@@ -12,9 +12,10 @@ import java.util.concurrent.Semaphore;
 
 //Waiter Agent
 public class ModernWaiterRole extends WaiterRole implements Waiter {
-	
+		
+	public WorkState myWorkState = WorkState.none;
 	//Lists and Other Agents
-
+	double balance = 0;
 	//List of foods remaining
     private int itemCount = 0;
     
@@ -27,10 +28,11 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public ModernWaiterRole()
+	public ModernWaiterRole(String string, Restaurant r, double cash)
 	{
 		super();
-		this.name = "Default Daniel";
+		this.name = string;
+		balance = cash;
 		
 		//set all items of food available
 		for (int i = 0; i<4; i++)
@@ -48,6 +50,12 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	}
 
 //MESSAGES****************************************************
+	
+	public void msgLeaveWork()
+	{
+		myWorkState = WorkState.needToLeave;
+		stateChanged();
+	}
 	
 	public void msgHereIsMyOrder(Customer c, String choice)
 	{
@@ -141,6 +149,15 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 				AskForBreak();
 				return true;
 			}
+			
+			if (myWorkState == WorkState.needToLeave)
+			{
+				if(rest.panel.host.canLeave())
+				{
+					LeaveWork();
+					return true;
+				}
+			}
 			waiterGui.DoGoToHomePosition();
 			return false;
 		}
@@ -181,11 +198,12 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
         cook.msgHereIsMonitor(theMonitor);
         return data;
     }
-    
 	
-
-
-   
-
+	public void LeaveWork()
+	{
+		myWorkState = WorkState.leaving;
+		print("ModernWaiterRole: Called to leave work.");
+		myPerson.msgLeftWork(this, this.balance);
+	}
 }
 

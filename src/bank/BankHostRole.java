@@ -26,7 +26,8 @@ public class BankHostRole extends Role implements BankHost {
 	//Other Variables
 	private String name;
 	public HostGui hostGui = null;
-
+	double balance = 0;
+	Bank bank;
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
 
@@ -34,7 +35,12 @@ public class BankHostRole extends Role implements BankHost {
 	public BankHostRole(String name) {
 		super();
 		this.name = name;
+		tellTellers();
 	}
+	private void tellTellers() {
+		
+	}
+	Boolean leave = false;
 
 	//UTILITIES************************************************************
 
@@ -98,15 +104,22 @@ public class BankHostRole extends Role implements BankHost {
 	enum customerState {waiting, done};
 
 
-	//MESSAGES****************************************************
 
+//MESSAGES****************************************************
+	@Override
+	public void msgLeaveWork() {
+			bank.removeMe(this);
+			leave = true;
+			stateChanged();
+		}
+		
 	public void IWantService(BankCustomerRole c){
-		customers.add(new MyCustomer(c));
-		updateCustpost();
-		stateChanged();
+	    customers.add(new MyCustomer(c));
+	    updateCustpost();
+	    stateChanged();
 	}
 
-	public void msgNewTeller(Teller t)
+	public void addMe(Teller t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
@@ -219,6 +232,8 @@ public class BankHostRole extends Role implements BankHost {
 			}
 			//print("reached gui call");
 			hostGui.DoGoToHomePosition();
+			if (leave)
+				LeaveWork();
 			return false;
 		}
 
@@ -228,9 +243,18 @@ public class BankHostRole extends Role implements BankHost {
 		}
 	}
 
-	//ACTIONS********************************************************
-
+//ACTIONS********************************************************
+	
+	private void LeaveWork() {
+		bank.Leaving();
+		hostGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
 	private void NoTellers(MyCustomer c){
+		print("Sorry the bank is closed");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankHostRole","Sorry the bank is closed", new Date()));
+
 		c.c.BankIsClosed();
 		customers.remove(c);
 	}
@@ -280,6 +304,19 @@ public class BankHostRole extends Role implements BankHost {
 		// 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
 		// }
 	}
+
+
+	@Override
+	public void setBank(Bank b) {
+		bank = b;
+	}
+
+
+	public void setTellers(List<Teller> tellers) {
+		for (Teller t : tellers)
+			myTellers.add(new MyTeller(t));
+	}
+
 
 
 }

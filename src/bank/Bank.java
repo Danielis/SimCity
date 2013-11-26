@@ -22,17 +22,18 @@ public class Bank extends Building{
 	double balance;
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
-	List <Teller> workingTellers = new ArrayList<Teller>();
+	private List <Teller> workingTellers = new ArrayList<Teller>();
+//	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 	int idIncr = 0;
 	
 	public BankGui gui;
 	public BankPanel panel;
 	public String name; //Name of the restaurant
     public Coordinate location;
-    public int numTellersWorking = 0;
     public BankHostRole host;
     
 	public TrackerGui trackingWindow;
+    int tableLastAssigned = 0;
 	
 	public Bank(BankGui gui, String name){
 		//super();
@@ -42,22 +43,106 @@ public class Bank extends Building{
     	this.panel = gui.restPanel;
     	gui.restPanel.setBank(this);
         gui.setTitle(name);
-        gui.setVisible(false);
+        gui.setVisible(true);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gui.setAlwaysOnTop(true);
+        gui.setAlwaysOnTop(false);
+        gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
+	
+	
+//	class TellerTable{
+//		Teller t;
+//		int num;
+//		Boolean occupied = false;
+//		
+//		public TellerTable(int i){
+//			System.out.println("added table " + i);
+//			num = i;
+//		}
+//		
+////		public void addTeller(Teller t){
+////			this.t = t;
+////			occupied = true;
+////		}
+//		
+//		public Boolean getOccupied(){
+//			return occupied;
+//		}
+//		
+//	}
+	
+	
 	
 	public void addTeller(Teller t){
 		workingTellers.add(t);
-		numTellersWorking ++;
 	}
 	
+	public void imLeaving(Teller t){
+		workingTellers.remove(t);
+	}
+	
+	
+	public int setTableNum(){
+		assignTable();
+		return tableLastAssigned;
+	}
+	
+	public void tellTellers(BankHost h){
+		for (Teller t: workingTellers){
+			t.setHost(h);
+		}
+	}
+	
+	public void assignTable(){
+		tableLastAssigned++;
+		if (tableLastAssigned > 3)
+			tableLastAssigned = 1;
+	}
+	
+	public int setTable(){
+		return (workingTellers.size());
+	}
+	
+	
+	
+//	private void setOccupied(Teller t) {
+//		int i = getUnoccupiedTableNumber();
+//		setTableOccupied(i);
+//		t.setTableNum(i); 
+//	}
+
 	public Boolean isOpen(){
 		return (host != null);
 	}
-	public int getTellerNunmber(){
-		return numTellersWorking;
-	}
+	
+//	public int getUnoccupiedTableNumber(){
+//		for(TellerTable t : tellerTables){
+//			if (!t.getOccupied()){
+//				System.out.println("unoccupd table " + t.num);
+//				return t.num;
+//			}
+//		}
+//		return 0;
+//	}
+//	
+//	public int setTellerTableNumber(Teller x){
+//		for(TellerTable t : tellerTables){
+//			if (t == x){
+//				System.out.println("get table " + t.num);
+//				t.occupied = true;
+//				return t.num;
+//			}
+//		}
+//		return 0;
+//	}
+//	
+//	public void setTableOccupied(int x){
+//		for(TellerTable t : tellerTables){
+//			if (t.num == x)
+//				t.occupied = true;
+//		}
+//	}
 	
 	public List<Teller> getTellers(){
 		return workingTellers;
@@ -115,6 +200,24 @@ public class Bank extends Building{
 	public Loan createLoan(BankCustomerRole c, double amount) {
 		Loan loan = new Loan(c, amount);
 		return loan;
+	}
+
+	public void Leaving() {
+		host = null;
+	}
+
+	public void removeMe(BankHostRole b) {
+		workingTellers.remove(b);
+	}
+
+
+	public List <Teller> getWorkingTellers() {
+		return workingTellers;
+	}
+
+
+	public void setWorkingTellers(List <Teller> workingTellers) {
+		this.workingTellers = workingTellers;
 	}
 
 	

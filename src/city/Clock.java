@@ -1,6 +1,8 @@
 package city;
 
 import java.util.*;
+import roles.*;
+import housing.*;
 
 import city.PersonAgent.location;
 import city.TimeManager.Day;
@@ -11,6 +13,8 @@ String name = "Clock";
 List<PersonAgent> people = new ArrayList<PersonAgent>();
 Day msgWakeLastSent = Day.thursday;
 Day msgHomeLastSent = Day.thursday;
+Day msgPayLastSent = Day.thursday;
+Day LastChecked = Day.monday;
 	@Override
 	
 	
@@ -18,8 +22,18 @@ Day msgHomeLastSent = Day.thursday;
 		if (WakeUp() && DayOverWake())
 			msgPeopleWake();
 		if (GoHome() && DayOverHome())
-			msgPeopleGoHome();
+			msgStopWorking();
+		if (NewDay())
+			print("It is now " + TimeManager.getInstance().dayString());
 		return true;
+	}
+
+	private boolean NewDay() {
+		if (LastChecked != TimeManager.getInstance().getDay()){
+			LastChecked = TimeManager.getInstance().getDay();
+			return true;
+		}
+		return false;
 	}
 
 	private boolean DayOverWake() {
@@ -31,7 +45,7 @@ Day msgHomeLastSent = Day.thursday;
 	}
 	
 	private Boolean GoHome(){
-		return (TimeManager.getInstance().getHour() == 18);
+		return (TimeManager.getInstance().getHour() + 1 == 20);
 	}
 
 	private void msgPeopleWake() {
@@ -40,22 +54,37 @@ Day msgHomeLastSent = Day.thursday;
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.home){
-				p.msgLeaveHome();
+				for (Role r : p.roles){
+					HousingCustomerRole x = (HousingCustomerRole) r;
+					x.msgLeaveHome();
+				}
 			}
 		}
 		
 	}
 
-	private void msgPeopleGoHome() {
+	private void msgStopWorking() {
 		msgHomeLastSent = TimeManager.getInstance().getDay();
-		print("6PM. TIME TO GO HOME!");
+		print("8PM. TIME TO GO HOME!");
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.work){
-				p.msgLeaveWork();
+				for (Role r : p.roles)
+					r.msgLeaveWork();
 			}
 		}
 		
+	}
+	
+	private void msgPeoplePayOut() {
+		msgPayLastSent = TimeManager.getInstance().getDay();
+		print("12PM. Time to get paid!");
+		for( PersonAgent p : people){
+			p.msgWakeUp();
+			if(p.Status.getLocation() == location.work){
+				p.msgGetPaid();
+			}
+		}
 	}
 	
 	private boolean WakeUp() {

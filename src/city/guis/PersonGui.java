@@ -105,11 +105,11 @@ public class PersonGui implements Gui{
 		checkpointHouse = new Coordinate(536,473);
 		
 
-		checkpointA = new Coordinate(395,250);
-		checkpointB = new Coordinate(395,125);
-		checkpointC = new Coordinate(320,125);
-		checkpointD = new Coordinate(320,100);
-		checkpointHouse = new Coordinate(329,88);
+		//checkpointA = new Coordinate(395,250);
+		//checkpointB = new Coordinate(395,125);
+		//checkpointC = new Coordinate(320,125);
+		//checkpointD = new Coordinate(320,100);
+		//checkpointHouse = new Coordinate(329,88);
 		Coordinate bank = new Coordinate(80,74);
 
 		
@@ -198,13 +198,13 @@ public class PersonGui implements Gui{
     				deltay *= -1;
     				try
     				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
     				} catch (IOException e ) {}
     			}
     			else if(deltay > 0){
     				try
     				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
     				} catch (IOException e ) {}
     			}
     		}

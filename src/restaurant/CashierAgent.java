@@ -3,8 +3,10 @@ package restaurant;
 import java.math.*;
 
 import agent.Agent;
-import restaurant.gui.HostGui;
+import restaurant.gui.CookGui;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
+import restaurant.gui.CashierGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -14,6 +16,12 @@ public class CashierAgent extends Agent implements Cashier {
 	
 	//Statics
 	private static float initialBalance = 500.0f;
+	
+	public RestaurantAnimationPanel copyOfAnimPanel;
+	public CashierGui CashierGui = null;
+	public Semaphore animSemaphore = new Semaphore(0, true);
+	
+	public CashierGui cashierGui;
 	
 	//Lists
 	List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
@@ -62,6 +70,15 @@ public class CashierAgent extends Agent implements Cashier {
 	}
 	
 //UTILITIES**************************************************
+	
+	public void setGui(CashierGui g) {
+		cashierGui = g;
+	}
+	
+	public CashierGui getGui(){
+		return cashierGui;
+	}
+	
 	
 	//GETTERS
 	public List<MyCheck> getChecks() {
@@ -321,6 +338,34 @@ public class CashierAgent extends Agent implements Cashier {
 		a = Math.round(a*100f);
 		a = a/100f;
 		return a;
+	}
+	
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
+
+	@Override
+	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+		this.copyOfAnimPanel = animationPanel;	
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

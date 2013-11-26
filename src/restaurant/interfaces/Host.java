@@ -1,10 +1,15 @@
 package restaurant.interfaces;
 
+import java.awt.image.ImageObserver;
+
 import restaurant.CustomerAgent;
 import restaurant.TraditionalWaiterAgent;
 import restaurant.gui.HostGui;
+import restaurant.gui.RestaurantAnimationPanel;
 
 public interface Host {
+
+	public RestaurantAnimationPanel copyOfAnimPanel = null;
 
 	public abstract void msgCheckForASpot(Customer customer);
 
@@ -23,5 +28,15 @@ public interface Host {
 	public abstract void pauseAgent();
 
 	public abstract void msgNewWaiter(Waiter w);
+
+	public abstract void WaitForAnimation();
+	
+	public abstract void DoneWithAnimation();
+
+	public abstract void setAnimPanel(RestaurantAnimationPanel animationPanel);
+
+	public abstract boolean canLeave();
+
+	public abstract void msgLeaveWork();
 
 }

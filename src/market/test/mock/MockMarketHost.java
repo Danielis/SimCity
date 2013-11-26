@@ -6,18 +6,19 @@ import java.util.List;
 import agent.RestaurantMenu;
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;
 
-public class MockBus extends Mock implements Customer {
+public class MockMarketHost extends Mock implements Customer {
 
     public Cashier cashier;
     public EventLog log;
 
-    public MockBus(String name) 
+    public MockMarketHost(String name) 
     {
             super(name);
             log = new EventLog();
@@ -116,6 +117,12 @@ public class MockBus extends Mock implements Customer {
 	@Override
 	public void resumeAgent() {
 		//
+	}
+
+	@Override
+	public void setRestaurant(Restaurant r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -32,7 +32,7 @@ public class TellerRole extends Role implements Teller {
 	
 	public BankHost host;
 	public TellerGui waiterGui;
-	
+	Boolean leave = false;
 	//Variables
 	private int tableNum;
 	private String name;
@@ -50,7 +50,7 @@ public class TellerRole extends Role implements Teller {
 		super();
 		this.name = "Default Daniel";
 		print("initialized teller");
-		
+		//host.addMe(this);
 	}
 	public TellerRole(String name) {
 		super();
@@ -125,7 +125,7 @@ public class TellerRole extends Role implements Teller {
 		}
 
 
-
+		
 		double amount;
 	    Account account;
 	    Loan loan;
@@ -147,6 +147,13 @@ public enum myState
 }
 
 //MESSAGES****************************************************
+
+@Override
+public void msgLeaveWork() {
+	leave = true;
+	stateChanged();
+}
+
 
 public void IWantAccount(BankCustomerRole c, double amount){
     Account acct = bank.createAccount(c);
@@ -281,6 +288,8 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 				return true;
 			}
 			waiterGui.DoGoToHomePosition();
+			if (leave && canLeave())
+				LeaveWork();
 			return false;
 		}
 		catch(ConcurrentModificationException e)
@@ -290,8 +299,23 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 		}
 	}
 
+private boolean canLeave() {
+	for (Transaction t : transactions){
+		if (t.status == transactionStatus.noAccount || t.status == transactionStatus.unresolved || t.status == transactionStatus.noLoan)
+			return false;
+	}
+	return true;
+	
+}
 //ACTIONS********************************************************
-
+	
+	private void LeaveWork() {
+		bank.imLeaving(this);
+		waiterGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
+	
 	private void HandleNoLoan(Transaction t){
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You do not have a loan here", new Date()));
 		print("You do not have a loan here.");
@@ -515,6 +539,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	public void setBank(Bank b) {
 		this.bank = b;
 	}
+	
 
 }
 
