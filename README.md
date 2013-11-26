@@ -65,12 +65,12 @@ Aleena
   + Although AI is turned off, they will still wander the streets if they have nothing to do
 
 #### What doesn't work
-  + We did not make a 'house' system, but made an 'apartment' system.
+  + We have an apartment system as a living system. Reserving housing for v2.
   + Landlords do not automatically collect rent. The housing system for this interaction was built correctly (by Chris), but it was not integrated in time for v1 (by team).
   + Employees are not paid yet.
-  + Market was half integrated: customers can enter and leave, but employees work entire time. *
+  + Market is complete but not integrated for city functionality: customers can enter and leave, but employees work entire time.*
   + People go to sleep and instantly wake up. (integration issue)
-  + Housing workers always work, do not yet follow work shifts.
+  + The housing worker role is static right now.
   + When restaurant workers leave, their GUI is not removed.
 
 * We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. Again we are a small team, but please take a look at our long, extended and committed history on github.
