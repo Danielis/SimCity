@@ -105,11 +105,11 @@ public class PersonGui implements Gui{
 		checkpointHouse = new Coordinate(536,473);
 		
 
-		checkpointA = new Coordinate(395,250);
-		checkpointB = new Coordinate(395,125);
-		checkpointC = new Coordinate(320,125);
-		checkpointD = new Coordinate(320,100);
-		checkpointHouse = new Coordinate(329,88);
+		//checkpointA = new Coordinate(395,250);
+		//checkpointB = new Coordinate(395,125);
+		//checkpointC = new Coordinate(320,125);
+		//checkpointD = new Coordinate(320,100);
+		//checkpointHouse = new Coordinate(329,88);
 		Coordinate bank = new Coordinate(80,74);
 
 		

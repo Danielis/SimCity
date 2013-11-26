@@ -1,5 +1,15 @@
 package transportation.Interfaces;
 
-public interface Bus {
+import city.PersonAgent;
+import transportation.BusStopAgent;
+import transportation.gui.BusGui;
 
+public interface Bus {
+	
+	
+	
+	public BusGui getGui();
+
+	
+	public void msgImAtStop(BusStop busStop);
 }
