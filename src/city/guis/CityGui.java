@@ -30,7 +30,11 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
+import city.Clock;
+import city.Scenario;
 import city.TimeManager;
+
+
 
 //Import Java utilities
 import javax.imageio.ImageIO;
@@ -38,6 +42,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -85,6 +90,8 @@ public class CityGui extends JFrame implements ActionListener {
        
     Boolean isPaused = false;
     
+    private Clock clock = new Clock();
+    
     
     
     // ************ START FUNCTION PANEL *********************
@@ -103,7 +110,7 @@ public class CityGui extends JFrame implements ActionListener {
     private JButton marketGo = new JButton("Go");
     private JTextField marketQ = new JTextField("");
    
-    
+ 
    
     private JPanel housingPanel = new JPanel();
     String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
@@ -116,12 +123,19 @@ public class CityGui extends JFrame implements ActionListener {
     private JPanel restaurantPanel = new JPanel(); 
     private JButton restaurantGo = new JButton("Go");
     
+    private JPanel otherFunction = new JPanel(); 
+    private JButton busGo = new JButton("Bus");
+    private JButton scen1 = new JButton("Scenario 1");
     private JButton workGo = new JButton("Work");
     
     // ************ END FUNCTION PANEL *********************
     
     //CONSTRUCTOR
     public CityGui() {
+    	
+    	clock.startThread();
+    	clock.setPeople(cityPanel.people);
+    	
         int WINDOWX = 500;
         int WINDOWY = 500;
 
@@ -184,6 +198,7 @@ public class CityGui extends JFrame implements ActionListener {
 		
 		//functionPanel.add(personPanel);
         
+        
         Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         TitledBorder bankTitle = BorderFactory.createTitledBorder(loweredetched, "Bank");
         
@@ -218,7 +233,17 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.add(restaurantPanel);
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
-		restaurantPanel.add(workGo);
+		
+		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
+		functionPanel.add(otherFunction);
+		otherFunction.setLayout(new FlowLayout());
+		otherFunction.setBorder(funct);
+		otherFunction.add(workGo);
+		otherFunction.add(busGo);
+		otherFunction.add(scen1);
+		
+		busGo.addActionListener(this);
+		scen1.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -390,7 +415,15 @@ public class CityGui extends JFrame implements ActionListener {
     }
     //Action Listener
     public void actionPerformed(ActionEvent e) {
-    
+    	 if (e.getSource() == busGo){
+         	this.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+         	this.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+         	busGo.setEnabled(false);
+        }
+    	 if (e.getSource() == scen1){
+    		Scenario.getInstance().CallScenario1(this.cityPanel);
+          	scen1.setEnabled(false);
+         }
     	if (currentPerson != null){
         if (e.getSource() == restaurantGo) 
         {
@@ -403,6 +436,7 @@ public class CityGui extends JFrame implements ActionListener {
              c.getGui().setWork();
              silenceButtons();
         }
+       
         if (e.getSource() == bankGo)
         {
         	
@@ -531,9 +565,10 @@ public class CityGui extends JFrame implements ActionListener {
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
+//TODO marker so i can turn this off and on
+    	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+     //   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
-    	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 
         

@@ -114,7 +114,20 @@ public class PersonGui implements Gui{
 
 		
 		outside = new Coordinate(700, 250);
-    	position = new Coordinate(700, 250);
+		
+		
+		
+		Random x = new Random();
+    	int y1=x.nextInt(500-50) + 50;
+    	
+		Random r = new Random();
+    	int x1=r.nextInt(500-50) + 50;
+		
+    	position = new Coordinate(x1, y1);
+    	
+    	
+    	
+    	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
