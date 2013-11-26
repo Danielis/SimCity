@@ -149,8 +149,8 @@ public class CityGui extends JFrame implements ActionListener {
 
 	public CityGui() 
 	{
-		this.setAlwaysOnTop(true);
-		this.setAlwaysOnTop(false);
+		//this.setAlwaysOnTop(true);
+		//this.setAlwaysOnTop(false);
 
 		clock.startThread();
 		clock.setPeople(cityPanel.people);
@@ -318,7 +318,6 @@ public class CityGui extends JFrame implements ActionListener {
 		createBank("Aleena's Bank");
 		createMarket("Aleena's Market");
 		createApartment("The Chris Apartment Complex");
-
 
 		this.setAlwaysOnTop(true);
 		this.setAutoRequestFocus(false);
@@ -691,9 +690,9 @@ public class CityGui extends JFrame implements ActionListener {
 	//Main Function - Sets up the program
 	public static void main(String[] args) 
 	{    
+		trackingWindow = new TrackerGui();
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
-		trackingWindow = new TrackerGui();
 
 
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
