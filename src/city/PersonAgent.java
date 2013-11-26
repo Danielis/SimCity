@@ -89,7 +89,7 @@ public class PersonAgent extends Agent implements Person
 	public CityAnimationPanel CityAnimPanel;
 	Timer timer = new Timer();
 	
-	private long timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
+	private long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
@@ -188,6 +188,12 @@ public class PersonAgent extends Agent implements Person
 		wealthLevel = parseWealth(wealth);
 		cash = setWealth();
 		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
+		double time = TimeManager.getInstance().getCurrentSimTime();
+		
+		int num = (int)(Math.random() * ((60000 - 30000) + 30000));
+		print(" " +num);
+		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
+		print(" " + timeSinceLastAte);
 	}	
 	
 	private double setWealth() {
@@ -899,6 +905,11 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		}
 	}
 	
+	if (isHungry()){
+		GoEat();
+		return true;
+	}
+	
 	if(needsBankTransaction() && CheckBankOpen()){
 		GoToBank();
 		return true;
@@ -908,14 +919,12 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		GoToMarket();
 		return true;
 	}	
+	
+
 		
 }
 
 //TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
-	if (isHungry()){
-		GoEat();
-		return true;
-	}
 //	if (OwesRent()){
 //		homePurpose = "Pay Rent";
 //		GoHomeToDoX();
@@ -968,7 +977,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		else if (num <=3){
 				restaurant = true;
 		}
-		restaurant = true; //TODO
+		//restaurant = true; //TODO
 		if (restaurant){
 			GoToRestaurant();
 		}
@@ -979,7 +988,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private boolean isHungry() {
-		if (timeSinceLastAte + 20000 > TimeManager.getInstance().getCurrentSimTime()){
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
 			print("Hmm... I'm hungry. I better eat soon");
 			return true;
 		}
