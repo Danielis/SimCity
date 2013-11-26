@@ -691,9 +691,10 @@ public class CityGui extends JFrame implements ActionListener {
 	//Main Function - Sets up the program
 	public static void main(String[] args) 
 	{    
-		trackingWindow = new TrackerGui();
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
+		trackingWindow = new TrackerGui();
+
 
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city

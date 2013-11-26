@@ -28,8 +28,9 @@ public class TrackerGui implements ActionListener {
 
 	public TrackerGui() {
 		//creates window
-		trackerFrame = new JFrame("Tracker");
-		trackerFrame.setSize(new Dimension(600,250));
+		trackerFrame = new JFrame("Tracker - Choose a tag to filter - Move/Resize as desired");
+		trackerFrame.setLocation(700, 50);
+		trackerFrame.setSize(new Dimension(550,250));
 		trackerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		trackerFrame.setResizable(true);
 		trackerFrame.setVisible(true);
@@ -42,12 +43,12 @@ public class TrackerGui implements ActionListener {
 		tracker.showAlertsForAllLevels();
 		tracker.showAlertsForAllTags();
 
-		cityButton = new JButton("City Tag");
-		bankButton = new JButton("Bank Tag");
-		restButton = new JButton("Restaurant Tag");
-		marketButton = new JButton("Market Tag");
-		houseButton = new JButton("Housing Tag");
-		allButton = new JButton("All Tags");
+		cityButton = new JButton("City");
+		bankButton = new JButton("Bank");
+		restButton = new JButton("Restaurant");
+		marketButton = new JButton("Market");
+		houseButton = new JButton("Housing");
+		allButton = new JButton("All");
 
 		cityButton.addActionListener(this);
 		bankButton.addActionListener(this);
