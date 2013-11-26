@@ -13,6 +13,7 @@ import bank.interfaces.Teller;
 public class MockTeller extends Mock implements Teller {
 
         public EventLog log;
+		public Bank bank;
 
         public MockTeller(String name) 
         {

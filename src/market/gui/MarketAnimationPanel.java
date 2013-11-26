@@ -59,7 +59,7 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         
         try
         {
-        	BankMap = ImageIO.read(getClass().getResource("/resources/bankbg.png"));
+        	BankMap = ImageIO.read(getClass().getResource("/resources/marketbg.png"));
         } catch (IOException e ) {}
 
         

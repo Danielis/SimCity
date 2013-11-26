@@ -1,7 +1,10 @@
 package bank.test;
 
 import bank.BankCustomerRole;
+import bank.BankCustomerRole.customerPurpose;
 import bank.test.mock.*;
+import bank.Bank.*;
+import bank.Bank;
 import junit.framework.TestCase;
 /**
  * 
@@ -13,6 +16,7 @@ public class CustomerTest extends TestCase
 {
     //these are instantiated for each test separately via the setUp() method.
 	MockTeller teller;
+	Bank b;
     MockHost host;
     BankCustomerRole cust;
     
@@ -23,24 +27,34 @@ public class CustomerTest extends TestCase
           
             
             host = new MockHost("host");
-          //  cust = new BankCustomerRole("customer");
             teller = new MockTeller("teller");
+            
+            teller.bank = b;
+          
             
     }  
     
-    //TEST 1 - WAITER GIVES CHECK, CUSTOMER PAYS (NORMAL)
+    //TEST 1 - CREATE ACCOUNT SCENARIO, normative
     public void test1_NormalCustomerScenario() throws Exception{
         	System.out.println("TEST 1");
 
             //SET UP SHOULD RUN BEFORE THIS FIRST TEST
     	
     		//SET UP SCENARIO
+            cust = new BankCustomerRole("customer", "New Account", 1500, 2500);
+        	cust.h = host; 
+        	host.IWantService(cust);
+        	Account acct = null;
+        	
+        	assertTrue("Customer should have a balance of 2500", cust.getBalance() == 2500);
+        	assertTrue("Customer should want to deposit 1500 into new account", cust.getBankAmount() == 1500);
+        	assertTrue("Customer should have a purpose to create a new account", cust.getPurpose() == customerPurpose.createAccount);
+        	//cust.AccountCreated(null);
+        //	assertTrue("Customer should have run an action", cust.pickAndExecuteAnAction());
         	
         	
         	
-//            customer.cashier = cashier; //You can do almost anything in a unit test. 
-//            waiter.cashier = cashier;
-//            
+        	//            
 //            //PRECONDITIONS
 //            assertEquals("Cashier should have 0 checks in it. It doesn't.", cashier.getChecks().size(), 0);
 //            
