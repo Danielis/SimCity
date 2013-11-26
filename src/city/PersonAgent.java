@@ -609,8 +609,9 @@ public class PersonAgent extends Agent implements Person
 		
 		for (Role r : roles){
 			if (r.active){
-			r = (HousingCustomerRole) r;
-			r.msgLeaveHouse();
+			HousingCustomerRole x = (HousingCustomerRole) r;
+			x.msgLeaveHouse();
+			// TODO
 			}
 		}
 		
@@ -646,17 +647,14 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 	
-	public void msgLeavingHome(Role r){
+	public void msgLeavingHome(Role r, double balance){
+		cash = balance;
 	    r.setActivity(false);
 		roles.remove(r);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
-//		gui.DoGoToCheckpoint('A');
-//		gui.DoGoToCheckpoint('C');
-//		gui.DoGoToCheckpoint('B');
-//		gui.DoGoToCheckpoint('A');
 	    stateChanged();
 	}
 
@@ -1056,7 +1054,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setPresent(false);
 		
 		//Role terminologies
-		HousingCustomerRole c = new HousingCustomerRole(this.getName());
+		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

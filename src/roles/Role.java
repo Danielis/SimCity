@@ -76,4 +76,5 @@ public class Role //why doesnt this extend agent?
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }

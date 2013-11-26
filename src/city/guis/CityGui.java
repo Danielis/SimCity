@@ -108,7 +108,7 @@ public class CityGui extends JFrame implements ActionListener {
     private JButton marketGo = new JButton("Go");
     private JTextField marketQ = new JTextField("");
    
-    
+ 
    
     private JPanel housingPanel = new JPanel();
     String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
@@ -121,6 +121,8 @@ public class CityGui extends JFrame implements ActionListener {
     private JPanel restaurantPanel = new JPanel(); 
     private JButton restaurantGo = new JButton("Go");
     
+    private JPanel otherFunction = new JPanel(); 
+    private JButton busGo = new JButton("Bus");
     private JButton workGo = new JButton("Work");
     
     // ************ END FUNCTION PANEL *********************
@@ -227,7 +229,15 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.add(restaurantPanel);
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
-		restaurantPanel.add(workGo);
+		
+		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
+		functionPanel.add(otherFunction);
+		otherFunction.setLayout(new FlowLayout());
+		otherFunction.setBorder(funct);
+		otherFunction.add(workGo);
+		otherFunction.add(busGo);
+		
+		busGo.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -399,7 +409,11 @@ public class CityGui extends JFrame implements ActionListener {
     }
     //Action Listener
     public void actionPerformed(ActionEvent e) {
-    
+    	 if (e.getSource() == busGo){
+         	this.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+         	this.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+         	busGo.setEnabled(false);
+        }
     	if (currentPerson != null){
         if (e.getSource() == restaurantGo) 
         {
@@ -412,6 +426,7 @@ public class CityGui extends JFrame implements ActionListener {
              c.getGui().setWork();
              silenceButtons();
         }
+       
         if (e.getSource() == bankGo)
         {
         	
@@ -540,9 +555,9 @@ public class CityGui extends JFrame implements ActionListener {
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
-
+//TODO marker so i can turn this off and on
     	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-        //gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+     //   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 
         
