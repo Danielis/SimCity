@@ -17,7 +17,7 @@
 |  2  | Chris Daniels                | chdaniel@usc.edu      | @[chrisdaniels9](https://github.com/chrisdaniels9) |                |
 |  3  | Daniel Silva                 | danielis@usc.edu      | @[danielis](https://github.com/danielis)           |                |
 |  4  | Victor Sherman               | vsherman@usc.edu      | @[vicss103](https://github.com/vicss)              |                |
-|  5  | Aleena Byrne                 | aleenaby@usc.edu      | @[aleenabyrne](https://github.com/aleenabyrne)     |   Team Leader   |
+|  5  | Aleena Byrne                 | aleenaby@usc.edu      | @[aleenabyrne](https://github.com/aleenabyrne)     |   Team Leader  |
 
 ####Team Meetings
 |       Meeting       |           Time           |      Location      |
@@ -67,10 +67,10 @@ Aleena
 #### What doesn't work
   + We did not make a 'house' system, but made an 'apartment' system.
   + Landlords do not automatically collect rent. The housing system for this interaction was built correctly (by Chris), but it was not integrated in time for v1 (by team).
-  + Employees are not paid (?)
+  + Employees are not paid yet.
   + Market was half integrated: customers can enter and leave, but employees work entire time. *
   + People go to sleep and instantly wake up. (integration issue)
   + Housing workers always work, do not yet follow work shifts.
   + When restaurant workers leave, their GUI is not removed.
 
-* We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation", but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration.
+* We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. Again we are a small team, but please take a look at our long, extended and committed history on github.
