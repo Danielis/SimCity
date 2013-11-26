@@ -102,6 +102,7 @@ public class PersonAgent extends Agent implements Person
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
+
 	public class Job{
 		JobType type;
 		Coordinate location;
@@ -406,8 +407,9 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public class Item {
-		public String type;
-		public int quantity;
+		String type;
+		int quantity;
+
 		int threshold;
 		public Item(String t, int q, int th) {
 			type = t;
@@ -418,6 +420,16 @@ public class PersonAgent extends Agent implements Person
 	public void setThreshold(int q){
 			threshold = q;
 		}
+	public String getType() {
+		return type;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void removeItem() {
+		quantity--;
+	}
+	
 		
 	}
 	
@@ -476,6 +488,10 @@ public class PersonAgent extends Agent implements Person
 
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
+	}
+	
+	public List<Item> getInvetory() {
+		return inventory;
 	}
 	
 	public int getBound_leftx()
@@ -1157,7 +1173,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 
 	private Boolean CheckBankOpen() {
 		print("I need to go to the bank!");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the bank!", new Date()));
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to the bank!", new Date()));
 		Bank r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){
@@ -1171,7 +1187,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 			return true;
 		else{
 			print("Aww.. bank is closed :(");	
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Aww... bank is closed :(", new Date()));
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
 
 			return false;
 		}
@@ -1267,6 +1283,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going home to " + homePurpose);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going home to " + homePurpose, new Date()));
 		Status.setHousingStatus(houseStatus.goingHome);
 		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
@@ -1289,6 +1306,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		//Role terminologies
 		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory);
 		c.setPerson(this);
+		c.setTrackerGui(trackingWindow);
 		roles.add(c);
 		c.setActivity(true);
 
@@ -1315,6 +1333,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to bank to " + bankPurpose, new Date()));
 		Status.setMoneyStatus(bankStatus.goingToBank);
 
 	//	gui.DoGoToLocation(80,76);
@@ -1353,6 +1372,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to work as " + job.type);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to work as " + job.type, new Date()));
 		Status.setWorkStatus(workStatus.goingToWork);
 		
 		
@@ -1535,6 +1555,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to restaurant");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
 
@@ -1628,6 +1649,8 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to market to buy " + marketQuantity + " of " + marketPurpose, new Date()));
+
 		Status.market = marketStatus.waiting;
 
 		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
@@ -1649,10 +1672,12 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		gui.setPresent(false);
 		this.Status.setLocation(location.market);
 		print("At market entrance");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "At market entrance", new Date()));
+
 		gui.setPresent(false);
 		
 		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
-		
+		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

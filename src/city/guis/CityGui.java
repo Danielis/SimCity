@@ -91,7 +91,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JLabel functionPanelL;
 
 	private JLabel quant;
-	
+
 	//Copy of the current person
 	private PersonAgent currentPerson;
 
@@ -104,7 +104,7 @@ public class CityGui extends JFrame implements ActionListener {
 	public static TrackerGui trackingWindow;
 
 	private Clock clock = new Clock();
-	
+
 
 
 	// ************ START FUNCTION PANEL *********************
@@ -201,7 +201,7 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.setLayout(new GridLayout(0,1));
 		functionPanelL = new JLabel(); 
 		functionPanelL.setText("Amount ($):");
-		
+
 
 		quant = new JLabel(); 
 		quant.setText("Quantity:");
@@ -267,7 +267,7 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(busGo);
 		otherFunction.add(scen1);
 		otherFunction.add(noAIGo);
-		
+
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
 		bankGo.addActionListener(this);
@@ -311,8 +311,6 @@ public class CityGui extends JFrame implements ActionListener {
 		add(cityAnimationPanel);
 		add(RestaurantPortion);
 
-
-		trackingWindow = new TrackerGui();
 
 
 		//City Element Creation
@@ -539,41 +537,41 @@ public class CityGui extends JFrame implements ActionListener {
 			if (e.getSource() == bankGo)
 			{
 
-//				PersonAgent c = (PersonAgent) currentPerson;
-//
-//				String purpose = transactionList.getSelectedItem().toString();
-//
-//				if (purpose.equals("New Account")){
-//					c.getGui().setNeedsMoney(true, purpose, 0);
-//				}
-//				else if (!amountInput.getText().isEmpty()){
-//					String amtTemp = amountInput.getText();
-//					double amt = Double.parseDouble(amtTemp);
-//					amt = Math.round(amt * 100) / 100.0d;
-//					c.getGui().setNeedsMoney(true, purpose, amt);
-//				}
-//				silenceButtons();
+				//                                PersonAgent c = (PersonAgent) currentPerson;
+				//
+				//                                String purpose = transactionList.getSelectedItem().toString();
+				//
+				//                                if (purpose.equals("New Account")){
+					//                                        c.getGui().setNeedsMoney(true, purpose, 0);
+					//                                }
+				//                                else if (!amountInput.getText().isEmpty()){
+				//                                        String amtTemp = amountInput.getText();
+				//                                        double amt = Double.parseDouble(amtTemp);
+				//                                        amt = Math.round(amt * 100) / 100.0d;
+				//                                        c.getGui().setNeedsMoney(true, purpose, amt);
+				//                                }
+				//                                silenceButtons();
 
-	        	Restaurant temp;
-	        	for (Building b: buildings)
-	        	{
-	        		if(b.getType() == buildingType.restaurant)
-	        		{
-	        			temp = (Restaurant)b;
-	        			System.out.println(temp.panel.host);
-	        			if (temp.panel.host != null)
-	        				temp.panel.host.msgLeaveWork();
-	        			System.out.println(temp.panel.cook);
-	        			if (temp.panel.cook != null)
-	        				temp.panel.cook.msgLeaveWork();
-	        			System.out.println(temp.panel.cashier);
-	        			if (temp.panel.cashier != null)
-	        				temp.panel.cashier.msgLeaveWork();
-	        			System.out.println(temp.panel.waiters.get(0));
-	        			if (temp.panel.waiters.get(0) != null)
-	        				temp.panel.waiters.get(0).msgLeaveWork();
-	        		}
-	        	}
+				Restaurant temp;
+				for (Building b: buildings)
+				{
+					if(b.getType() == buildingType.restaurant)
+					{
+						temp = (Restaurant)b;
+						System.out.println(temp.panel.host);
+						if (temp.panel.host != null)
+							temp.panel.host.msgLeaveWork();
+						System.out.println(temp.panel.cook);
+						if (temp.panel.cook != null)
+							temp.panel.cook.msgLeaveWork();
+						System.out.println(temp.panel.cashier);
+						if (temp.panel.cashier != null)
+							temp.panel.cashier.msgLeaveWork();
+						System.out.println(temp.panel.waiters.get(0));
+						if (temp.panel.waiters.get(0) != null)
+							temp.panel.waiters.get(0).msgLeaveWork();
+					}
+				}
 
 			}
 			if (e.getSource() == housingGo)
@@ -612,10 +610,10 @@ public class CityGui extends JFrame implements ActionListener {
 			}
 			//        if (e.getSource() == personHousingCheckBox)
 			//        {
-			//        	PersonAgent c = (PersonAgent) currentPerson;
-			//        	c.getGui().setNeedsHome(true);
-			//        	personHousingCheckBox.setEnabled(false);
-			//        	}
+			//                PersonAgent c = (PersonAgent) currentPerson;
+			//                c.getGui().setNeedsHome(true);
+			//                personHousingCheckBox.setEnabled(false);
+			//                }
 			if (e.getSource() == pauseButton)
 			{
 				if (isPaused)
@@ -659,19 +657,25 @@ public class CityGui extends JFrame implements ActionListener {
 
 	public void createBank(String name)
 	{
-		Bank b = new Bank(new BankGui(), name);
+		BankGui bg = new BankGui();
+		bg.setTrackerGui(trackingWindow);
+		Bank b = new Bank(bg, name);
 		buildings.add(b);
 	}
 
 	public void createMarket(String name)
 	{
-		Market b = new Market(name, new MarketGui());
+		MarketGui mg = new MarketGui();
+		Market b = new Market(name, mg);
+		mg.setTrackerGui(trackingWindow);
 		buildings.add(b);
 	}
 
 	//apartment creation
 	public void createApartment(String name) {
-		Apartment a = new Apartment(name, new HousingGui());
+		HousingGui hg = new HousingGui();
+		Apartment a = new Apartment(name, hg);
+		hg.setTrackerGui(trackingWindow);
 		buildings.add(a);
 	}
 
@@ -686,10 +690,10 @@ public class CityGui extends JFrame implements ActionListener {
 
 	//Main Function - Sets up the program
 	public static void main(String[] args) 
-	{    	  	
+	{    
+		trackingWindow = new TrackerGui();
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
-		trackingWindow = new TrackerGui();
 
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city

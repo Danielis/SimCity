@@ -1,15 +1,5 @@
 package housing.guis;
 
-import restaurant.CustomerAgent;
-import restaurant.CashierAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import restaurant.MarketAgent;
-import restaurant.gui.CookGui;
-import restaurant.gui.HostGui;
-import restaurant.gui.RestaurantGui;
-import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
 import housing.LandlordAgent;
 import housing.interfaces.HousingCustomer;
@@ -58,6 +48,7 @@ public class HousingPanel extends JPanel {
         group.add(tenantPanel);
         group.add(workerPanel);
 
+        landlord.setTrackerGui(gui.trackingWindow);
         landlord.startThread();
         addWorker("Worker");
         
@@ -176,6 +167,7 @@ public class HousingPanel extends JPanel {
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		worker = p;
 		workers.add(worker);
+		worker.setTrackerGui(gui.trackingWindow);
 		worker.startThread();
     }
     

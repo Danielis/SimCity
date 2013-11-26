@@ -1,12 +1,19 @@
 package housing;
 
+import java.util.Date;
+import java.util.Random;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import roles.Role;
+import city.PersonAgent;
 import city.PersonAgent.Item;
 import city.guis.PersonGui;
 import housing.guis.HousingAnimationPanel;
@@ -30,6 +37,10 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		hungry = false;
 		System.out.println("Housing Customer created.");
 		this.inventory = inventory;
+	}
+	
+	public PersonAgent getPerson() {
+		return myPerson;
 	}
 	
 	public void setTrackerGui(TrackerGui t) {
@@ -184,54 +195,70 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//------------------------------------------------
 	private void PayBill(){
 		print("Going to pay bill");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Going to pay bill", new Date()));
+
 		gui.DoGoToLandlord();
 		if (balance > bill){
 			balance -= bill;
 			landlord.HereIsRent(this, bill);
 			bill = 0;
 			System.out.println("Bill paid in full.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Bill paid in full", new Date()));
 		}
 		else{
 			landlord.HereIsRent(this, balance);
 			bill -= balance;
 			balance = 0;
 			System.out.println("This is all I have.  I'm out of money.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "This is all I have.  I'm out of money", new Date()));
 		}
 	}
 	private void CallLandlordRepairs(){
-		print("Going to call landlord");
+		print("Calling landlord");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Calling landlord", new Date()));
 		gui.DoGoToThreshold();
 		gui.DoGoToPhone();
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();	
 		System.out.println("Tenant: called landlord for repairs.");
+
 		}
 
 	private void TakeOutLoan(){
 		//GoToBank(); //stub;
 		needsLoan = false;
 		System.out.println("Went to bank.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Went to bank", new Date()));
 		balance += 1000;
 	}
 	private void GetFood() {
-		print("Going to cook.");
-		
+		print("Going to cook food.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Going to cook food", new Date()));
 	//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
-		
-		for (Item i : inventory){
-			if (i.type != "Car"){
-				i.quantity -= 1;
-				print("Ate " + i.type);
-				break;
-			}
-		}
-		
+		PickItem();
 		gui.DoGoToTable();
 		hungry = false;
 		gui.DoGoToKitchen();
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Done Eating", new Date()));
 		System.out.println("Done Eating.");
+	}
+	private void PickItem() {
+		Random i = new Random();
+		int j = i.nextInt(myPerson.getInvetory().size());
+		if(myPerson.getInvetory().get(j).getType().equals("Car")) {
+			PickItem();
+		}
+		else {
+			myPerson.getInvetory().get(j).removeItem();
+			System.out.println("Consumed " + myPerson.getInvetory().get(j).getType());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Consumed " + myPerson.getInvetory().get(j).getType(), new Date()));
+		}
 	}
 	
 	private void LeaveApartment(){

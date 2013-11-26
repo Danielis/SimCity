@@ -156,14 +156,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		isPresent = p;
 	}
 
-	public void DoExitRestaurant()
-	{
-		goingSomewhere = true;
-		//System.out.println(agent.getName() + " is leaving.");
-		destination = outside;
-		//agent.WaitForAnimation();
-	}
-
 	public void DoGoToPhone() {
 		goingSomewhere = true;
 		destination = new Coordinate(250, 50);
@@ -173,12 +165,12 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 	public void DoGoToThreshold() {
 		goingSomewhere = true;
-		destination = new Coordinate(475,20 + (100*roomIndex));
+		destination = new Coordinate(475, 20 + (100*(roomIndex/5)));
 		agent.WaitForAnimation();
 	}
 	public void DoGoToBed() {
 		goingSomewhere = true;
-		destination = new Coordinate(600, 100 + (100*roomIndex));
+		destination = new Coordinate(525 + (roomIndex % 5), 100 + (100*(roomIndex/5)));
 		agent.WaitForAnimation();
 	}
 
