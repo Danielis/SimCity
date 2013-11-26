@@ -26,6 +26,7 @@ public class MarketPanel extends JPanel {
     private MarketHostAgent host = new MarketHostAgent("Oprah");
     private MarketHostGui hostGui = new MarketHostGui(host);
     
+    
     int waiterindex = 0; 		//To assign waiters individual locations
     
     private Vector<MarketCustomer> customers = new Vector<MarketCustomer>();
@@ -45,8 +46,7 @@ public class MarketPanel extends JPanel {
         this.gui = gui;
         host.setGui(hostGui);
         host.setAnimPanel(gui.animationPanel);
-        
-       
+    
        
         gui.animationPanel.addGui(hostGui);
         
@@ -64,6 +64,10 @@ public class MarketPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
+        
+        this.addTeller("Teller 1");
+    	this.addTeller("Teller 2");
+    	this.addTeller("Teller 3");
     }
 
     /**
@@ -151,7 +155,7 @@ public class MarketPanel extends JPanel {
 		waiterindex++;
     	MarketWorkerAgent w = new MarketWorkerAgent(name, waiterindex);	
 		MarketTellerGui g = new MarketTellerGui(w, gui, waiterindex);
-		w.setMarket(b);
+		
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
 		w.setAnimPanel(gui.animationPanel);
@@ -197,5 +201,9 @@ public class MarketPanel extends JPanel {
 
 	public void setMarket(Market market) {
 		this.b = market;
+		
+		for (MarketWorkerAgent t: waiters){
+			t.setMarket(b);
+		}
 	}
 }

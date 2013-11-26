@@ -525,6 +525,33 @@ public class PersonAgent extends Agent implements Person
 	 								 MESSAGES
 	 ******************************************************************************/
 
+	public void msgWakeUp() {
+		stateChanged();
+	}
+	
+	public void msgLeaveHome() {
+		
+		for (Role r : roles){
+			if (r.active){
+			HousingCustomerRole x = (HousingCustomerRole) r;
+			x.msgLeaveHouse();
+			// TODO
+			}
+		}
+		
+//		for (Role r : roles){
+//				if (r.active){
+//				r.setActivity(false);
+//				roles.remove(r);
+//			    Status.setLocation(location.outside);
+//			    Status.setDestination(destination.outside);
+//			    Status.setHousingStatus(houseStatus.notHome);
+//			    gui.setPresent(true);
+//			}
+//		}
+		stateChanged();	
+	}
+
 	public void msgGoToWork() {
 		print("Called msgGoToWork");
 		if (job != null && job.type != JobType.none)
@@ -544,14 +571,15 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 	
-	public void msgLeavingHome(Role r){
+	public void msgLeavingHome(Role r, double balance){
+		cash = balance;
 	    r.setActivity(false);
 		roles.remove(r);
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
-		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('A');
 //		gui.DoGoToCheckpoint('C');
 //		gui.DoGoToCheckpoint('B');
 //		gui.DoGoToCheckpoint('A');
@@ -888,12 +916,24 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		print("Going home to " + homePurpose);
 		Status.setHousingStatus(houseStatus.goingHome);
 		//Transportation t = ChooseTransportation();
-		gui.DoGoToHouse();
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		
+		gui.DoGoToCheckpoint('H');
+		gui.DoGoToCheckpoint('I');
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
 		
 		//Role terminologies
-		HousingCustomerRole c = new HousingCustomerRole(this.getName());
+		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash);
 		c.setPerson(this);
 		roles.add(c);
 		this.roles.get(0).setActivity(true);
@@ -913,7 +953,20 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToCheckpoint('D');
+		
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('G');
+		gui.DoGoToCheckpoint('J');
+		gui.DoGoToCheckpoint('K');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 
@@ -923,14 +976,75 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		c.setActivity(true);
 		//c.test("New Account", 20);
 
+		if (job.type == JobType.bankHost || job.type == JobType.teller){
+			WorkAtBank();
+		}
+		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
+			WorkAtRest();
+		}
+		if (job.type == JobType.landLord || job.type == JobType.repairman){
+			WorkAtApartment();
+		}
 		
+		
+	}
+	
+	
+	private void WorkAtApartment() {
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('H');
+		gui.DoGoToCheckpoint('I');
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.home);
+		gui.setPresent(false);
+		if (job.type == JobType.landLord)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.repairman)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+	}
+
+	private void WorkAtRest() {
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+
+			closestCheckpoint();
+		
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('A');
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		Role c = null;
+		//Restaurant r = null;
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank){
 					//print("found b");
-					Bank r = (Bank) b;
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
+					Restaurant r = (Restaurant) b;
+					r.panel.customerPanel.addCustomer((Customer) c);
 				}
 			}
 		}
@@ -948,7 +1062,25 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 	
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
-		
+	}
+	
+	private void WorkAtBank() {
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('G');
+		gui.DoGoToCheckpoint('J');
+		gui.DoGoToCheckpoint('K');
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
 		Role c = null;
 		Bank r = null;
 		if (job.type == JobType.bankHost || job.type == JobType.teller){
@@ -1001,6 +1133,12 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		//gui.DoGoToCheckpoint('A');
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
+//		gui.setPresent(true);
+//		gui.DoGoToCheckpoint('A');
+//		closestCheckpoint();
+//		gui.DoGoToCheckpoint('G');
+//		gui.DoGoToCheckpoint('H');
+//		gui.DoGoToCheckpoint('I');
 		if(Status.getTransportationStatus() == transportStatus.bus){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6

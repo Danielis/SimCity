@@ -114,7 +114,20 @@ public class PersonGui implements Gui{
 
 		
 		outside = new Coordinate(700, 250);
-    	position = new Coordinate(700, 250);
+		
+		
+		
+		Random x = new Random();
+    	int y1=x.nextInt(500-50) + 50;
+    	
+		Random r = new Random();
+    	int x1=r.nextInt(500-50) + 50;
+		
+    	position = new Coordinate(x1, y1);
+    	
+    	
+    	
+    	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -144,31 +157,58 @@ public class PersonGui implements Gui{
 	       } catch (IOException e ) {}
 	}
 	
-	private void setAnim2() {
-		 try
-	       {
-			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
-	       } catch (IOException e ) {}
-	}
-	
-	private void setDefault() {
-		 try
-	       {
-			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
-	       } catch (IOException e ) {}
-	}
-	
-	public void updatePosition() {
-		if (goingSomewhere)
+    private void setAnim2() {
+    	try
+    	{
+    		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
+    	} catch (IOException e ) {}
+    }
+
+    private void setDefault() {
+    	try
+    	{
+    		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+    	} catch (IOException e ) {}
+    }
+
+    public void updatePosition() {
+    	if (goingSomewhere)
     	{			
-			
-        	int deltax = destination.x - position.x;
-        	int deltay = destination.y - position.y;
-        	
-        	if (deltax < 0) deltax *= -1;
-        	if (deltay < 0) deltay *= -1;
-        	
-        	
+
+    		int deltax = destination.x - position.x;
+    		int deltay = destination.y - position.y;
+
+    		if (deltax < 0) deltax *= -1;
+    		if (deltay < 0) deltay *= -1;
+    		if(agent.hasCar()){
+    			if (deltax < 0){
+    				deltax *= -1;
+    				try
+    				{
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
+    				} catch (IOException e ) {}
+    			}
+    			else if(deltax > 0){
+    				try
+    				{
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
+    				} catch (IOException e ) {}
+    			}
+    			if (deltay < 0){
+    				deltay *= -1;
+    				try
+    				{
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
+    				} catch (IOException e ) {}
+    			}
+    			else if(deltay > 0){
+    				try
+    				{
+    					imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
+    				} catch (IOException e ) {}
+    			}
+    		}
+
             if (position.x < destination.x)
             {
                 position.x += (1 + deltax/deltadivider);
@@ -191,20 +231,20 @@ public class PersonGui implements Gui{
                 position.y -= (1 + deltay/deltadivider);
                 movementTicker++;
             }
-            
-            if (movementTicker < 30)
-            {
-            	setAnim1();
+            if(!agent.hasCar()){
+            	if (movementTicker < 30)
+            	{
+            		setAnim1();
+            	}
+            	else if (movementTicker < 60)
+            	{
+            		setAnim2();
+            	}
+            	else if (movementTicker >= 60)
+            	{
+            		movementTicker = 0;
+            	}
             }
-            else if (movementTicker < 60)
-            {
-            	setAnim2();
-            }
-            else if (movementTicker >= 60)
-            {
-            	movementTicker = 0;
-            }
-
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;

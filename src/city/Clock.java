@@ -25,9 +25,9 @@ Day msgLastSent = Day.thursday;
 
 	private void msgPeople() {
 		msgLastSent = TimeManager.getInstance().getDay();
+		print("5AM. TIME TO WAKE UP!");
 		for (PersonAgent p : people){
-			print("5AM. TIME TO WAKE UP!");
-			//p.msgWakeUp();
+			p.msgWakeUp();
 			if (p.Status.getLocation() == location.home){
 				//p.msgLeaveHome();
 			}
@@ -41,6 +41,10 @@ Day msgLastSent = Day.thursday;
 
 	public void setPeople(Vector<PersonAgent> people2) {
 		people = people2;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 }
