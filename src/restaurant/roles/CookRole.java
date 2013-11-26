@@ -3,6 +3,7 @@ package restaurant.roles;
 import agent.Agent;
 import restaurant.CustomerAgent.iconState;
 import restaurant.ProducerConsumerMonitor;
+import restaurant.Restaurant;
 import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CookGui;
@@ -12,7 +13,6 @@ import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cook;
 import restaurant.interfaces.Waiter;
 import restaurant.MarketAgent;
-import roles.Restaurant;
 import roles.Role;
 
 import java.util.*;

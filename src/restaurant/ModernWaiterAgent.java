@@ -4,7 +4,6 @@ package restaurant;
 import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.interfaces.*;
 import restaurant.roles.ModernWaiterRole;
-import roles.Restaurant;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

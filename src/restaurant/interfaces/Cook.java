@@ -7,6 +7,7 @@ import java.util.List;
 import restaurant.MarketAgent;
 import restaurant.CookAgent.myIcon;
 import restaurant.ProducerConsumerMonitor;
+import restaurant.gui.CookGui;
 
 public interface Cook {
 
@@ -27,5 +28,15 @@ public interface Cook {
 	public abstract void msgNotEmpty();
 
 	public abstract void msgHereIsMonitor(ProducerConsumerMonitor theMonitor);
+
+	public abstract void setGui(CookGui cookGui);
+
+	public abstract void setMarkets(MarketAgent market1);
+
+	public abstract void startThread();
+
+	public abstract void pauseAgent();
+	
+	public abstract void resumeAgent();
 
 }

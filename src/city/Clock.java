@@ -27,9 +27,9 @@ Day msgLastSent = Day.thursday;
 		msgLastSent = TimeManager.getInstance().getDay();
 		for (PersonAgent p : people){
 			print("5AM. TIME TO WAKE UP!");
-			p.msgWakeUp();
+			//p.msgWakeUp();
 			if (p.Status.getLocation() == location.home){
-				p.msgLeaveHome();
+				//p.msgLeaveHome();
 			}
 		}
 		

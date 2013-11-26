@@ -3,6 +3,7 @@ package city.guis;
 
 //Import other packages
 import restaurant.CustomerAgent;
+import restaurant.Restaurant;
 //import bank.gui.BankGui;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
@@ -12,7 +13,6 @@ import restaurant.gui.RestaurantGui;
 import restaurant.interfaces.Customer;
 import roles.Apartment;
 import roles.Building;
-import roles.Restaurant;
 import roles.Building.buildingType;
 import housing.guis.HousingGui;
 import bank.Bank;
@@ -32,6 +32,7 @@ import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
 import city.Clock;
 import city.TimeManager;
+
 
 
 //Import Java utilities

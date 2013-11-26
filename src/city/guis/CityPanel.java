@@ -3,6 +3,7 @@ package city.guis;
 import restaurant.CustomerAgent;
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import restaurant.MarketAgent;
@@ -11,7 +12,6 @@ import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
 import roles.Building;
-import roles.Restaurant;
 //adding transportation
 import transportation.*;
 import transportation.gui.BusGui;

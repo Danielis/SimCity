@@ -38,6 +38,7 @@ public class BankPanel extends JPanel {
     
     
     private BankGui gui; //reference to main gui
+    
     Bank b;
     
     public BankPanel(BankGui gui) {
