@@ -1,5 +1,6 @@
 package housing;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import logging.TrackerGui;
@@ -198,12 +199,24 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
+		PickItem();
 		gui.DoGoToTable();
 		hungry = false;
 		gui.DoGoToKitchen();
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
 		System.out.println("Done Eating.");
+	}
+	private void PickItem() {
+		Random i = new Random();
+		int j = i.nextInt(myPerson.getInvetory().size());
+		if(myPerson.getInvetory().get(j).getType().equals("Car")) {
+			PickItem();
+		}
+		else {
+			myPerson.getInvetory().get(j).removeItem();
+			System.out.println("Consumed " + myPerson.getInvetory().get(j).getType());
+		}
 	}
 	
 	private void LeaveApartment(){

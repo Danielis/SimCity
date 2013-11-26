@@ -18,7 +18,8 @@ public class TrackerGui {
 	    trackerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    trackerFrame.setResizable(true);
 	    trackerFrame.setVisible(true);
-
+	    trackerFrame.setAlwaysOnTop(true);
+	    
 	    //creates tracker panel.  
 	    tracker = new TracePanel(this);
         trackerFrame.getContentPane().add(tracker);

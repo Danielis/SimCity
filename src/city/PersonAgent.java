@@ -97,7 +97,7 @@ public class PersonAgent extends Agent implements Person
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
-	
+
 	public class Job{
 		JobType type;
 		Coordinate location;
@@ -383,7 +383,7 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 
-	class Item {
+	public class Item {
 		String type;
 		int quantity;
 		int threshold;
@@ -396,6 +396,16 @@ public class PersonAgent extends Agent implements Person
 	public void setThreshold(int q){
 			threshold = q;
 		}
+	public String getType() {
+		return type;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void removeItem() {
+		quantity--;
+	}
+	
 		
 	}
 	
@@ -454,6 +464,10 @@ public class PersonAgent extends Agent implements Person
 
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
+	}
+	
+	public List<Item> getInvetory() {
+		return inventory;
 	}
 	
 	public int getBound_leftx()
