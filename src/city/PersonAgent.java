@@ -1457,6 +1457,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		{
 			HostRole c = new HostRole(this.getName(), this.cash);
 			r.panel.addHost((HostRole) c);
+			c.setTrackerGui(trackingWindow);
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
@@ -1467,6 +1468,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 			r.panel.addCook((CookRole) c);
 			c.setPerson(this);
 			c.setRestaurant(r);
+			c.setTrackerGui(trackingWindow);
 			roles.add(c);
 			c.setActivity(true);
 		}
@@ -1475,6 +1477,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 			r.panel.addCashier((CashierRole) c);
 			c.setPerson(this);
 			c.setRestaurant(r);
+			c.setTrackerGui(trackingWindow);
 			roles.add(c);
 			c.setActivity(true);
 		}
@@ -1485,6 +1488,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 				ModernWaiterRole c = new ModernWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((ModernWaiterRole) c);
 				c.setPerson(this);
+				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);
 			}
@@ -1493,6 +1497,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r);
 				r.panel.addWaiter((TraditionalWaiterRole) c);
 				c.setPerson(this);
+				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);
 			}

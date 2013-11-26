@@ -12,6 +12,10 @@ import java.awt.Menu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+
 //Waiter Agent
 public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	
@@ -165,6 +169,8 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	protected void PlaceOrder(MyCustomer mc)
 	{
 		print("Placing the order for " + mc.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "TraditionalWaiterRole", "Placing the order for " + mc.choice, new Date()));
+
 		waiterGui.DoGoToCook();
 		mc.s = CustomerState.hasOrdered;		
 		cook.msgHereIsAnOrder(this, mc.choice, mc.table);
@@ -174,6 +180,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	{
 		myWorkState = WorkState.leaving;
 		print("TraditionalWaiterRole: Called to leave work.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "TraditionalWaiterRole", "Called to leave work.", new Date()));
 		myPerson.msgLeftWork(this, 0);
 	}
 

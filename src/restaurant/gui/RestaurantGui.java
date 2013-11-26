@@ -15,6 +15,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+
+import logging.TrackerGui;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -58,6 +60,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
     public Restaurant restaurant;
     
     Boolean isPaused = false;
+    
+	public TrackerGui trackingWindow;
     /**
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
@@ -261,6 +265,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
 }
 	public void setRestaurant(Restaurant r) {
 		restaurant = r;
+	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
 	}
 
     /**

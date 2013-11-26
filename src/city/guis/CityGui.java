@@ -650,6 +650,7 @@ public class CityGui extends JFrame implements ActionListener {
 		{
 			RestaurantGui rg = new RestaurantGui();
 			Restaurant r = new Restaurant(rg, name);
+			rg.setTrackerGui(trackingWindow);
 			rg.setRestaurant(r);
 			buildings.add(r);
 		}
