@@ -188,6 +188,7 @@ public class PersonAgent extends Agent implements Person
 	BusStopAgent curStop;//trans: addded
 	
 	TransportationCompanyAgent metro;
+	double timeSinceLastSlept;
 	
 	public PersonAgent(String name, String j, String wealth){
 		this.name = name;
@@ -198,9 +199,10 @@ public class PersonAgent extends Agent implements Person
 		double time = TimeManager.getInstance().getCurrentSimTime();
 		
 		int num = (int)(Math.random() * ((30000 - 10000) + 10000));
-		//print(" " +num);
 		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
-		//print(" " + timeSinceLastAte);
+		int num2 = (int)(Math.random() * ((30000 - 10000) + 10000));
+		timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime() - num2; // sets random time for ate, before added
+		
 	}	
 	
 	private double setWealth() {
@@ -977,6 +979,10 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		return true;
 	}	
 	
+	if(isTired()){
+		GoToSleep();
+		return true;
+	}
 
 		
 }
@@ -1040,6 +1046,11 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 	
 	
+	private void GoToSleep() {
+		homePurpose = "Sleep";
+		GoHomeToDoX();
+	}
+
 	private boolean CheckRestOpen() {
 		print("I need to go to the restaurant!");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the restaurant!", new Date()));
@@ -1089,6 +1100,17 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
 			print("Hmm... I'm hungry. I better eat soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
+			
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	private boolean isTired() {
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastSlept > 60000){
+			print("Hmm... I'm tired. I better sleep soon");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm tired. I better sleep soon", new Date()));
 			
 			return true;
 		}
