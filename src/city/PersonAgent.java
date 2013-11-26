@@ -1090,6 +1090,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		//Role terminologies
 		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash);
 		c.setPerson(this);
+		c.setTrackerGui(trackingWindow);
 		roles.add(c);
 		c.setActivity(true);
 
@@ -1349,7 +1350,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setPresent(false);
 		
 		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
-		
+		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

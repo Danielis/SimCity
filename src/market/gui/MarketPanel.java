@@ -23,14 +23,14 @@ import java.util.Vector;
 public class MarketPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private MarketHostAgent host = new MarketHostAgent("Oprah");
+    MarketHostAgent host = new MarketHostAgent("Oprah");
     private MarketHostGui hostGui = new MarketHostGui(host);
     
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
     private Vector<MarketCustomer> customers = new Vector<MarketCustomer>();
-    private Vector<MarketWorkerAgent> waiters = new Vector<MarketWorkerAgent>();
+    public Vector<MarketWorkerAgent> waiters = new Vector<MarketWorkerAgent>();
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -51,7 +51,6 @@ public class MarketPanel extends JPanel {
         gui.animationPanel.addGui(hostGui);
         
        
-        
         host.startThread();
         
         
@@ -155,7 +154,6 @@ public class MarketPanel extends JPanel {
 		waiterindex++;
     	MarketWorkerAgent w = new MarketWorkerAgent(name, waiterindex);	
 		MarketTellerGui g = new MarketTellerGui(w, gui, waiterindex);
-		
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
 		w.setAnimPanel(gui.animationPanel);

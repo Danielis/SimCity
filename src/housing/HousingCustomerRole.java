@@ -1,8 +1,12 @@
 package housing;
 
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import roles.Role;
 import city.PersonAgent;
@@ -166,29 +170,33 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//------------------------------------------------
 	private void PayBill(){
 		print("Going to pay bill");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Going to pay bill", new Date()));
+
 		gui.DoGoToLandlord();
 		if (balance > bill){
 			balance -= bill;
 			landlord.HereIsRent(this, bill);
 			bill = 0;
 			System.out.println("Bill paid in full.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Bill paid in full", new Date()));
 		}
 		else{
 			landlord.HereIsRent(this, balance);
 			bill -= balance;
 			balance = 0;
 			System.out.println("This is all I have.  I'm out of money.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "This is all I have.  I'm out of money", new Date()));
 		}
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
 	}
 	private void CallLandlordRepairs(){
-		print("Going to call landlord");
+		print("Calling landlord");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Calling landlord", new Date()));
 		gui.DoGoToThreshold();
 		gui.DoGoToPhone();
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
-		System.out.println("Tenant: called landlord for repairs.");
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();	
 		}
@@ -197,10 +205,11 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		//GoToBank(); //stub;
 		needsLoan = false;
 		System.out.println("Went to bank.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Went to bank", new Date()));
 	}
 	private void GetFood() {
-		print("Going to cook.");
-		
+		print("Going to cook food.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Going to cook food", new Date()));
 	//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
@@ -210,6 +219,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		gui.DoGoToKitchen();
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Done Eating", new Date()));
 		System.out.println("Done Eating.");
 	}
 	private void PickItem() {
@@ -221,6 +231,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		else {
 			myPerson.getInvetory().get(j).removeItem();
 			System.out.println("Consumed " + myPerson.getInvetory().get(j).getType());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Consumed " + myPerson.getInvetory().get(j).getType(), new Date()));
 		}
 	}
 	

@@ -1,5 +1,8 @@
 package market;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketCustomerGui;
@@ -193,6 +196,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void GoToMarket() {
 		print("Going to market");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Going to market", new Date()));
 		getCustomerGui().DoGoToWaitingRoom();
 		state = marketCustomerState.entered;
 	}
@@ -200,6 +204,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private void TellHost(){
 		// DoEnterBank();
 		print("I want service");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "I want service", new Date()));
 		state = marketCustomerState.waiting;
 		h.IWantService(this);
 	}
@@ -218,18 +223,22 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void GiveRequest(){
 		print("I want to order " + quantityWanted + " of " + item);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "I want to order " + quantityWanted + " of " + item, new Date()));
 		state = marketCustomerState.waiting;
 		t.GiveOrder(this, item, quantityWanted);
 	}
 
 	private void PriceGood(){
 		print("That price is good!");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "That price is good!", new Date()));
 		state = marketCustomerState.waiting;
 		t.PleaseFulfill(this);
 	}
 
 	private void GivePayment(){
 		print("Here is payment of $" + amountOwed);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Here is payment of $" + amountOwed, new Date()));
+
 		balance -= amountOwed;
 		state = marketCustomerState.waiting;
 		t.GivePayment(this, amountOwed);
@@ -254,6 +263,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void LeaveMarket(){
 		print("Thank you. I now have $" + balance);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Thank you. I now have $" + balance, new Date()));
 		if (t != null){
 			t.IAmLeaving();
 			if (t.getTableNum() == 1){
@@ -283,7 +293,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private void WalkToTeller() 
 	{
 		print("Directed to teller.");
-
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Directed to teller.", new Date()));
 		if (t.getTableNum() == 1){
 			getCustomerGui().DoGoToSeat(t.getTableNum());
 		}

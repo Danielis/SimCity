@@ -4,10 +4,14 @@ import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import city.PersonAgent;
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
 
@@ -185,11 +189,14 @@ public class LandlordAgent extends Agent {
 		t.s = ticketStatus.assigned;
 		t.w.p.GoRepair(t.complex);
 		System.out.println("Landlord: Ticket assigned.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Assigned", new Date()));
+
 	}
 
 	private void SendBill(Payment p){
 		p.s = paymentState.issued;
 		p.inhabitant.HereIsRentBill(p.amountOwed);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Bill sent to tenant", new Date()));
 		System.out.println("Landlord: Bill sent to tenant.");
 	}
 
@@ -201,16 +208,19 @@ public class LandlordAgent extends Agent {
 			p.amountPaid = p.amountOwed;
 			p.inhabitant.RentIsPaid();
 			System.out.println("Landlord: Money received, change is owed.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Money received.  Change is owed", new Date()));
 		}
 		else if (p.amountOwed == 0){
 			p.s = paymentState.completed;
 			p.inhabitant.RentIsPaid();
 			System.out.println("Landlord: Money received, no change is owed.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Money received.  No change is owed", new Date()));
 		}
 		else{
 			p.s = paymentState.issued;
 			p.inhabitant.YouStillOwe(p.amountOwed - p.amountPaid);
 			System.out.println("Landlord: Money is still owed.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Money is still owed.", new Date()));
 		}
 	}
 
@@ -220,10 +230,12 @@ public class LandlordAgent extends Agent {
 			t.s = ticketStatus.paid;
 			t.w.p.HereIsMoney(t.complex, t.bill);
 			System.out.println("Landlord: Ticket being paid.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Being paid", new Date()));
 		}
 		else{
 			//TakeOutLoan(t.bill); //stub
 			System.out.println("Landlord: Loan needed.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Loan needed", new Date()));
 		}
 	}
 

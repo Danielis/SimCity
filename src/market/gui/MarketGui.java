@@ -1,5 +1,6 @@
 package market.gui;
 
+import logging.TrackerGui;
 import market.MarketCustomerRole;
 import market.MarketWorkerAgent;
 import market.MarketHostAgent;
@@ -52,6 +53,7 @@ public class MarketGui extends JFrame implements ActionListener {
 
     
     Boolean isPaused = false;
+	public TrackerGui trackingWindow;
     /**
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
@@ -140,6 +142,14 @@ public class MarketGui extends JFrame implements ActionListener {
         add(animationPanel, BorderLayout.CENTER);
         add(RestaurantPortion, BorderLayout.EAST);
 
+    }
+    
+    public void setTrackerGui(TrackerGui t) {
+    	trackingWindow = t;
+    	restPanel.host.setTrackerGui(trackingWindow);
+    	for(MarketWorkerAgent w:restPanel.waiters) {
+    		w.setTrackerGui(trackingWindow);
+    	}
     }
     /**
      * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and

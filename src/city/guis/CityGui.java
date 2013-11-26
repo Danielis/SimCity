@@ -542,13 +542,17 @@ public class CityGui extends JFrame implements ActionListener {
     
     public void createMarket(String name)
     {
-    	Market b = new Market(name, new MarketGui());
+    	MarketGui mg = new MarketGui();
+    	mg.setTrackerGui(trackingWindow);
+    	Market b = new Market(name, mg);
     	buildings.add(b);
     }
 
     //apartment creation
     public void createApartment(String name) {
-    	Apartment a = new Apartment(name, new HousingGui());
+    	HousingGui hg = new HousingGui();
+    	Apartment a = new Apartment(name, hg);
+    	hg.setTrackerGui(trackingWindow);
     	buildings.add(a);
     }
     
