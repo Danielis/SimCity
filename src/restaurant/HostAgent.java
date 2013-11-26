@@ -307,9 +307,9 @@ public class HostAgent extends Agent implements Host {
 						}
 						
 						//If we are full, tell him we are
-						if (counter == tables.size())
+						if (counter == tables.size() || waiters.size() == 0)
 						{
-							print("Telling customer restaurant is full");
+							print("Telling customer restaurant is full or there are no waiters");
 							TellCustomerWhetherFull(mc, true);
 							return true;
 						}

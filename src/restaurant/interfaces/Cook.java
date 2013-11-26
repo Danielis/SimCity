@@ -8,6 +8,7 @@ import restaurant.MarketAgent;
 import restaurant.CookAgent.myIcon;
 import restaurant.ProducerConsumerMonitor;
 import restaurant.gui.CookGui;
+import restaurant.gui.RestaurantAnimationPanel;
 
 public interface Cook {
 
@@ -38,5 +39,7 @@ public interface Cook {
 	public abstract void pauseAgent();
 	
 	public abstract void resumeAgent();
+
+	public abstract void setAnimPanel(RestaurantAnimationPanel animationPanel);
 
 }
