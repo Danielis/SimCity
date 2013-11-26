@@ -13,6 +13,7 @@ String name = "Clock";
 List<PersonAgent> people = new ArrayList<PersonAgent>();
 Day msgWakeLastSent = Day.thursday;
 Day msgHomeLastSent = Day.thursday;
+Day msgPayLastSent = Day.thursday;
 	@Override
 	
 	
@@ -62,6 +63,17 @@ Day msgHomeLastSent = Day.thursday;
 			}
 		}
 		
+	}
+	
+	private void msgPeoplePayOut() {
+		msgPayLastSent = TimeManager.getInstance().getDay();
+		print("12PM. Time to get payed!");
+		for( PersonAgent p : people){
+			p.msgWakeUp();
+			if(p.Status.getLocation() == location.work){
+				p.msgGetPaid();
+			}
+		}
 	}
 	
 	private boolean WakeUp() {

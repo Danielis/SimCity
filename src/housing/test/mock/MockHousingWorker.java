@@ -8,12 +8,12 @@ import restaurant.WaiterAgent;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;
 
-public class MockBusStop extends Mock implements Market {
+public class MockHousingWorker extends Mock implements Market {
 
     public Cashier cashier;
     public EventLog log;
 
-    public MockBusStop(String name) 
+    public MockHousingWorker(String name) 
     {
             super(name);
             log = new EventLog();
