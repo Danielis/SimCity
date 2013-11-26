@@ -1,5 +1,7 @@
 package housing;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import logging.TrackerGui;
@@ -25,6 +27,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		houseNeedsRepairs = false;
 		hungry = false;
 		System.out.println("Housing Customer created.");
+
 	}
 	
 	public void setTrackerGui(TrackerGui t) {
@@ -61,6 +64,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	double balance;
 	double bill;
 
+	Timer timer= new Timer();
 	//booleans to track loan needs and repairs
 	private Boolean needsLoan;
 	public Boolean houseNeedsRepairs;
@@ -131,28 +135,46 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 //			return true;
 //		}
 		if(sleep){
-			gui.DoGoToThreshold();
-			gui.DoGoToBed();
+			GoToSleep();
+			return false;
+			//return true;
 		}
-		if (needsLoan){
+		else if (needsLoan){
 			TakeOutLoan();
 			return true;
 		}
-		if (houseNeedsRepairs){
+		else if (houseNeedsRepairs){
 			CallLandlordRepairs();
 			return true;
 		}
-		if (bill > 0){
+		else if (bill > 0){
 			PayBill();
 			return true;
 		}
-		if(hungry) {
+		else if(hungry) {
 			GetFood();
 			return true;
 		}
-		
-		LeaveApartment();
+		else
+			LeaveApartment();
 		return false;
+	}
+
+	private void GoToSleep() {
+		gui.DoGoToThreshold();
+		gui.DoGoToBed();
+		sleep = false;
+		timer.schedule(new TimerTask()
+		{
+			public void run()
+			{
+				
+				print("Woke up!");
+				stateChanged();
+			}
+		}, 5000);
+		
+		
 	}
 
 	//------------------------------------------------
@@ -217,14 +239,14 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public void setPurpose(String homePurpose) {
 
-		//if (homePurpose.equals("Pay Loan"))
-			//needsLoan = true;
+		if (homePurpose.equals("Pay Loan"))
+			bill = 30;
 		if (homePurpose.equals("Call for Repair"))
 			houseNeedsRepairs = true;
 		if (homePurpose.equals("Cook")) //TODO
 			hungry = true;
-		//if (homePurpose.equals("Sleep"))
-		//	hungry = true;
+		if (homePurpose.equals("Sleep"))
+			sleep = true;
 	}
 
 	public void DoneWithAnimation()

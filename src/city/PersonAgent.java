@@ -96,7 +96,7 @@ public class PersonAgent extends Agent implements Person
 	Timer timer = new Timer();
 	public int waiterindex = 0;
 	
-	
+	private long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
@@ -195,6 +195,12 @@ public class PersonAgent extends Agent implements Person
 		wealthLevel = parseWealth(wealth);
 		cash = setWealth();
 		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
+		double time = TimeManager.getInstance().getCurrentSimTime();
+		
+		int num = (int)(Math.random() * ((60000 - 30000) + 30000));
+		print(" " +num);
+		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
+		print(" " + timeSinceLastAte);
 	}	
 	
 	private double setWealth() {
@@ -947,6 +953,11 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		}
 	}
 	
+	if (isHungry()){
+		GoEat();
+		return true;
+	}
+	
 	if(needsBankTransaction() && CheckBankOpen()){
 		GoToBank();
 		return true;
@@ -956,26 +967,12 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		GoToMarket();
 		return true;
 	}	
+	
+
 		
 }
 
 //TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
-//	if (Hungry()){
-//		Boolean restaurant;
-//		if (wealthLevel == WealthLevel.wealthy)
-//			restaurant = 70% chance
-//		else
-//			restaurant = 10% chance
-//
-//		if (restaurant)
-//			GoToRestaurant();
-//			return true;
-//		else{
-//			homePurpose = "Cook";
-//			GoHomeToDoX();
-//			return true;
-//		} 
-//	}
 //	if (OwesRent()){
 //		homePurpose = "Pay Rent";
 //		GoHomeToDoX();
@@ -1029,6 +1026,34 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 //				GoHomeToDoX();
 		}
 		return false;	
+	}
+
+	private void GoEat() {
+		Boolean restaurant = false;
+		int num = (int)(Math.random() * ((10 - 0) + 0));
+		if (wealthLevel == WealthLevel.wealthy && num <= 7){
+				restaurant = true;
+		}
+		else if (num <=3){
+				restaurant = true;
+		}
+		//restaurant = true; //TODO
+		if (restaurant){
+			GoToRestaurant();
+		}
+		else{
+			homePurpose = "Cook";
+			GoHomeToDoX();
+		} 
+	}
+
+	private boolean isHungry() {
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
+			print("Hmm... I'm hungry. I better eat soon");
+			return true;
+		}
+		else
+			return false;
 	}
 
 	private void WalkAimlessly() {

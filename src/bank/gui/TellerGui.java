@@ -30,7 +30,7 @@ public class TellerGui implements Gui {
     private Teller agent = null;
     BankGui gui;
 
-    Boolean isPresent;
+    Boolean isPresent = true;
     Boolean onBreak = false;
     
     Coordinate position;
