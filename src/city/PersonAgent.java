@@ -5,6 +5,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
@@ -14,12 +17,14 @@ import restaurant.roles.CustomerRole;
 import agent.Agent;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
+import city.TimeManager.Day;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
 import bank.Bank.Account;
 import bank.Bank.Loan;
 import bank.Bank.loanState;
+import bank.BankHostRole;
 import bank.interfaces.*;
 import roles.Apartment;
 import roles.Building;
@@ -34,6 +39,11 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
+
+
+
+
 
 
 
@@ -69,32 +79,88 @@ public class PersonAgent extends Agent implements Person
 	public Semaphore busSemaphore = new Semaphore(0, true);
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
-
-	public CityAnimationPanel CityAnimPanel;	
-	public RestaurantPanel restPanel;
+	List <PersonAgent> people = new ArrayList<PersonAgent>();
+	public CityAnimationPanel CityAnimPanel;
+	Timer timer = new Timer();
 	
 	
 	String bankPurpose, marketPurpose, homePurpose;
-	double marketQuantity;
-	double bankAmount;
+	double marketQuantity, bankAmount;
 	
 	
 	public class Job{
+		JobType type;
+		Coordinate location;
+		static final int timeStart = 8;
+		static final int timeEnd = 20;
+		List <Day> daysWorking = new ArrayList<Day>();
 		
 		public Job(JobType parseJob) {
 			type = parseJob;
-//			if (type == JobType.marketWorker || type == JobType.marketHost)
-//				location =;
-//			else if (type == JobType.bankHost || type == JobType.teller)
-//				location =;
-//			else if (type == JobType.restHost || type == JobType.cook || type == JobType.cashier || type == JobType.waiter)
-//				location =;
-//			else if (type == JobType.landLord || type == JobType.repairman)
-//				location =;
+			//if (type == JobType.marketWorker || type == JobType.marketHost){
+			//	timeStart = 8;
+			//	timeEnd
+			//}
+			if (type == JobType.bankHost || type == JobType.restHost){
+				//timeStart = 8; 
+				//timeEnd = 4;
+			}
+			else if (type == JobType.teller || type == JobType.cook || type == JobType.cashier || type == JobType.waiter){
+				//timeStart = 9;
+				//timeEnd = 5;
+			}
+			else if (type == JobType.landLord || type == JobType.repairman){
+				//timeStart = 8;
+				//timeEnd = 4;
+			}
 			
+			assignWorkDay(parseJob);
 		}
-		JobType type;
-		Coordinate location;
+		
+		
+		
+		private void assignWorkDay(JobType parseJob) {
+			
+				daysWorking.add(Day.monday);
+				daysWorking.add(Day.tuesday);
+				daysWorking.add(Day.wednesday);
+				daysWorking.add(Day.thursday);
+				daysWorking.add(Day.friday);
+			if (type != JobType.bankHost && type != JobType.teller){
+				daysWorking.add(Day.saturday);
+				daysWorking.add(Day.sunday);
+			}
+			
+//			int sameJob = 0;
+//			for (PersonAgent p : people){
+//				if (p.job.type == parseJob){
+//					sameJob++;
+//				}
+//			}
+//			if (sameJob % 2 == 0)
+//				assignWorkSet(1);
+//			else
+//				assignWorkSet(2);
+//			
+		}
+
+//		private void assignWorkSet(int i) {
+//			if (i == 1){
+//				if (type == JobType.bankHost || type == JobType.teller){
+//					daysWorking.add(Day.monday);
+//					daysWorking.add(Day.wednesday);
+//					daysWorking.add(Day.friday);
+//				}
+//			}
+//			else{
+//				if (type == JobType.bankHost || type == JobType.teller){
+//					daysWorking.add(Day.tuesday);
+//					daysWorking.add(Day.wednesday);
+//					daysWorking.add(Day.friday);
+//				}
+//			}
+//		}
+		
 		
 	}
 	enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
@@ -183,7 +249,7 @@ public class PersonAgent extends Agent implements Person
 	private JobType parseJob(String job) {
 	
 	if (job.equals("No AI"))
-			return JobType.noAI;	
+		return JobType.noAI;	
 	else if (job.equals("None"))
 		return JobType.none;
 	else if (job.equals("Market Worker"))
@@ -721,7 +787,7 @@ public class PersonAgent extends Agent implements Person
 		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
 				Status.getDestination() == destination.bank) {
-				GoToBank();
+				ForceGoToBank();
 				return true;
 			}
 		if (Status.getDestination() == destination.market &&
@@ -738,27 +804,32 @@ public class PersonAgent extends Agent implements Person
 			return true;
 		}
 		
-if (!gui.getBusy() && job.type != JobType.noAI){	
-	
-	if(job.type != JobType.noAI && job.type != JobType.none){
-		GoToWork();
-		return true;
-	}
-//		if (time > workStart && time < workEnd){
+if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working){	
+
+	// UNCOMMENT THIS SECTION IF YOU WANT EVERYONE TO AUTOMATICALLY GO TO WORK FROM INITIATION ***********************************************************************
+//	if(job.type != JobType.noAI && job.type != JobType.none){
 //		GoToWork();
 //		return true;
 //	}
 	
+	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 1) && TimeManager.getInstance().getHour() < Job.timeEnd){
+		for (Day d : job.daysWorking){
+			if (d == TimeManager.getInstance().getDay()){
+				GoToWork();
+				return true;
+			}
+		}
+	}
+	
 	if(needsBankTransaction()){
-		GoToBank();
-		return true;
+		CheckBankOpen();
+		//return true;
 	}
 	
 	if(needsToBuy()){
 		GoToMarket();
 		return true;
-	}
-		
+	}	
 		
 }
 
@@ -814,6 +885,50 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		GoHomeToDoX();
 		}
 		return false;	
+	}
+
+	private void CheckBankOpen() {
+		print("I need to go to the bank!");
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					//print("found b");
+					r = (Bank) b;
+				}
+			}
+		}
+		if(r.isOpen())
+			GoToBank(r);
+		else
+			print("Aww.. bank is closed :(");	
+	}
+
+	private void ForceGoToBank() {
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					//print("found b");
+					r = (Bank) b;
+				}
+			}
+		}
+		if(r.isOpen())
+			GoToBank(r);
+	}
+
+	private void DelayGoToWork() {
+		int num = (int)(Math.random() * ((5 - 0) + 1));
+		num *= 1000;
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{				
+				GoToWork();
+			}
+		}, num);
+		
 	}
 
 	private boolean needsToBuy() {
@@ -906,7 +1021,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		}
 	}
 
-	public void GoToBank()
+	public void GoToBank(Bank r)
 	{
 		gui.setPresent(true);
 		gui.setBusy(true);
@@ -914,26 +1029,13 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		Status.setMoneyStatus(bankStatus.goingToBank);
 		gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.bank);
+		
 		gui.setPresent(false);
-
 		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		//c.test("New Account", 20);
-
-		
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					//print("found b");
-					Bank r = (Bank) b;
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
-				}
-			}
-		}
-		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
+		r.panel.customerPanel.addCustomer((BankCustomer) c);
 	}
 	
 
@@ -942,11 +1044,6 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		gui.setBusy(true);
 		print("Going to work as " + job.type);
 		Status.setWorkStatus(workStatus.goingToWork);
-		gui.DoGoToCheckpoint('D');
-		// TODO
-	
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
 		
 		
 		if (job.type == JobType.bankHost || job.type == JobType.teller){
@@ -955,13 +1052,36 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
 			WorkAtRest();
 		}
+		if (job.type == JobType.landLord || job.type == JobType.repairman){
+			WorkAtApartment();
+		}
 		
-
 		
 	}
 	
 	
+	private void WorkAtApartment() {
+		gui.DoGoToCheckpoint('D');
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.home);
+		gui.setPresent(false);
+		if (job.type == JobType.landLord)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.repairman)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+	}
+
 	private void WorkAtRest() {
+		gui.DoGoToCheckpoint('D');
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
 		Role c = null;
 		Restaurant r = null;
 		synchronized(buildings)
@@ -977,19 +1097,19 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		//TODO: PLEASE ADD ADD HOST, COOK, CASHIER, WAITER FUNCTIONS HERE:
 		if (job.type == JobType.restHost)
 		{
-			c = new RestaurantHostRole(this.getName());
+//			c = new RestaurantHostRole(this.getName());
 //			r.panel.customerPanel.addHost((BankHost) c);
 		}
 		if (job.type == JobType.cook){
-			c = new CookRole(this.getName());
+//			c = new CookRole(this.getName());
 //			r.panel.customerPanel.addTeller((Teller) c);
 		}
 		if (job.type == JobType.cashier){
-			c = new CashierRole(this.getName());
+//			c = new CashierRole(this.getName());
 //			r.panel.customerPanel.addTeller((Teller) c);
 		}
 		if (job.type == JobType.waiter){
-			c = new WaiterRole(this.getName());
+//			c = new WaiterRole(this.getName());
 //			r.panel.customerPanel.addTeller((Teller) c);
 		}
 		c.setPerson(this);
@@ -998,6 +1118,10 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 	}
 
 	private void WorkAtBank() {
+		gui.DoGoToCheckpoint('D');
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
 		Role c = null;
 		Bank r = null;
 		synchronized(buildings)
@@ -1011,9 +1135,10 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		}
 	
 		
-		if (job.type == JobType.bankHost)
+		if (job.type == JobType.bankHost && r.host == null)
 		{
 			c = new BankHostRole(this.getName());
+			r.host = (BankHostRole) c;
 			r.panel.customerPanel.addHost((BankHost) c);
 		}
 		if (job.type == JobType.teller){
@@ -1105,6 +1230,10 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
+	}
+
+	public void setPersonList(Vector<PersonAgent> people) {
+		this.people = people;
 	}
 
 
