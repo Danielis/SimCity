@@ -948,58 +948,90 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		
-		Role c = null;
-		Bank r = null;
+		
 		if (job.type == JobType.bankHost || job.type == JobType.teller){
-			
-		
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank)
-				{
-					//print("found b");
-					r = (Bank) b;
-					
-				}
-			}
+			WorkAtBank();
 		}
-	}
-		
-		if (job.type == JobType.bankHost)
-		{
-			c = new BankHostRole(this.getName());
-			c.setPerson(this);
-			roles.add(c);
-			c.setActivity(true);
-			r.panel.customerPanel.addHost((BankHost) c);
+		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
+			WorkAtRest();
 		}
-		if (job.type == JobType.teller){
-			c = new TellerRole(this.getName());
-			c.setPerson(this);
-			roles.add(c);
-			c.setActivity(true);
-			r.panel.customerPanel.addTeller((Teller) c);
-		}
-		
-		
-		
 		
 
 		
 	}
 	
 	
+	private void WorkAtRest() {
+		Role c = null;
+		Restaurant r = null;
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank)
+				{
+					r = (Restaurant) b;
+				}
+			}
+		}
+
+		//TODO: PLEASE ADD ADD HOST, COOK, CASHIER, WAITER FUNCTIONS HERE:
+		if (job.type == JobType.restHost)
+		{
+			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.cook){
+			c = new CookRole(this.getName());
+//			r.panel.customerPanel.addTeller((Teller) c);
+		}
+		if (job.type == JobType.cashier){
+			c = new CashierRole(this.getName());
+//			r.panel.customerPanel.addTeller((Teller) c);
+		}
+		if (job.type == JobType.waiter){
+			c = new WaiterRole(this.getName());
+//			r.panel.customerPanel.addTeller((Teller) c);
+		}
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+	}
+
+	private void WorkAtBank() {
+		Role c = null;
+		Bank r = null;
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank)
+				{
+					r = (Bank) b;
+				}
+			}
+		}
+	
+		
+		if (job.type == JobType.bankHost)
+		{
+			c = new BankHostRole(this.getName());
+			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.teller){
+			c = new TellerRole(this.getName());
+			r.panel.customerPanel.addTeller((Teller) c);
+		}
+
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+	}
+
 	private void GoToRestaurant()
 	{
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to restaurant");
 		Status.setNourishment(nourishment.goingToFood);
-		//Transportation t = ChooseTransportation();
-		//gui.DoGoToCheckpoint('A');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('C');
 		if(Status.getTransportationStatus() == transportStatus.bus){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
