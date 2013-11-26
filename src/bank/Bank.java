@@ -1,6 +1,7 @@
 package bank;
 
 import java.util.*;
+
 import bank.interfaces.*;
 
 import javax.swing.JFrame;
@@ -50,6 +51,10 @@ public class Bank extends Building{
 	}
 	public int getTellerNunmber(){
 		return numTellersWorking;
+	}
+	
+	public List<Teller> getTellers(){
+		return workingTellers;
 	}
 	
 	public class Account {

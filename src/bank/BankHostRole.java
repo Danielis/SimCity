@@ -271,7 +271,11 @@ public class BankHostRole extends Role implements BankHost {
        // }
 }
 
-	
+
+	public void setTellers(List<Teller> tellers){
+		for (Teller t : tellers)
+		myTellers.add(new MyTeller(t));	
+	}
 	
 	
 

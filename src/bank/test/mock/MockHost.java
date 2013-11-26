@@ -58,6 +58,12 @@ public class MockHost extends Mock implements BankHost {
 		
 	}
 
+	@Override
+	public void setTellers(List<Teller> tellers) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 

@@ -149,6 +149,7 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g);
 		host.setGui(g);
 		host.setAnimPanel(gui.animationPanel);
+		host.setTellers(b.getTellers());
 		this.host = host;
 	}
     

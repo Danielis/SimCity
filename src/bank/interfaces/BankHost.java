@@ -1,6 +1,7 @@
 package bank.interfaces;
 
 import java.awt.image.ImageObserver;
+import java.util.List;
 
 import javax.swing.Icon;
 
@@ -23,4 +24,5 @@ public interface BankHost {
 		public abstract void setAnimPanel(BankAnimationPanel animationPanel);
 		public abstract String getName();
 		public abstract void setGui(HostGui g);
+		public void setTellers(List<Teller> tellers);
 }
