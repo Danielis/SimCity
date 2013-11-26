@@ -604,6 +604,28 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 	
+	//TODO ADD THIS MSG TO ALL WORKER ROLES
+	public void msgLeaveWork() {
+		for (Role r : roles){
+			if (r.active){
+			r.msgLeaveWork();
+			// TODO
+			}
+		}
+		
+//		for (Role r : roles){
+//				if (r.active){
+//				r.setActivity(false);
+//				roles.remove(r);
+//			    Status.setLocation(location.outside);
+//			    Status.setDestination(destination.outside);
+//			    Status.setHousingStatus(houseStatus.notHome);
+//			    gui.setPresent(true);
+//			}
+//		}
+		stateChanged();	
+	}
+
 	public void msgLeaveHome() {
 		
 		for (Role r : roles){

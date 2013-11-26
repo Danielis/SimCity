@@ -77,4 +77,9 @@ public class Role //why doesnt this extend agent?
 		return false;
 	}
 
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
