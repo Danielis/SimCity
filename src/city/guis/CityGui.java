@@ -532,8 +532,8 @@ public class CityGui extends JFrame implements ActionListener {
     	gui.setVisible(true);
     	
 
-    	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-        //gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+    	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 
         
