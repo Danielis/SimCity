@@ -159,8 +159,8 @@ public class BankPanel extends JPanel {
 		
 		Teller w = c;	
 		b.addTeller(w);
-		c.setTableNum(b.getTellerNunmber()); 
-		TellerGui g = new TellerGui(w, gui, b.getTellerNunmber());
+		//c.setTableNum(b.getTellerTableNunmber()); 
+		TellerGui g = new TellerGui(w, gui, b.getTellerTableNumber(w));
 		w.setBank(b);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);  

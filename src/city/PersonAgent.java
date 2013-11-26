@@ -607,7 +607,7 @@ public class PersonAgent extends Agent implements Person
 	
 	public void msgLeftWork(Role r, double balance) {
 		print("Left work");
-		cash = balance;
+		cash += balance; //pay
 	    r.setActivity(false);
 	    gui.setBusy(false);
 		roles.remove(r);

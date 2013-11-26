@@ -251,9 +251,15 @@ private void GoToBank() {
 	
 private void TellHost(){
 	   // DoEnterBank();
+		if (h != null){
 		print("I want service");
 	    state = bankCustomerState.waiting;
 	    h.IWantService(this);
+		}
+		else{
+			print("Nobody is here... (what bad security!)");
+			LeaveBank();
+		}
 }
 
 private void AskForAssistance(){
@@ -354,7 +360,7 @@ private void GiveRequest(){
 
 
 private void LeaveBank(){
-		print("Thank you. I now have $" + balance);
+		print("I have $" + balance);
 		if (t != null){
 			t.IAmLeaving();
 

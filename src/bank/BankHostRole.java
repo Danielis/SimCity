@@ -96,6 +96,7 @@ public class BankHostRole extends Role implements BankHost {
 //MESSAGES****************************************************
 	@Override
 	public void msgLeaveWork() {
+			bank.removeMe(this);
 			leave = true;
 			stateChanged();
 		}

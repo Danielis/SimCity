@@ -19,14 +19,15 @@ public class Bank extends Building{
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
 	List <Teller> workingTellers = new ArrayList<Teller>();
+	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 	int idIncr = 0;
 	
 	public BankGui gui;
 	public BankPanel panel;
 	public String name; //Name of the restaurant
     public Coordinate location;
-    public int numTellersWorking = 0;
     public BankHostRole host;
+    
 	
 	public Bank(BankGui gui, String name){
 		//super();
@@ -39,18 +40,72 @@ public class Bank extends Building{
         gui.setVisible(false);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        TellerTable table1 = new TellerTable(1);
+        TellerTable table2 = new TellerTable(2);
+        TellerTable table3 = new TellerTable(3);
 	}
+	
+	
+	class TellerTable{
+		Teller t;
+		int num;
+		Boolean occupied = false;
+		
+		public TellerTable(int i){
+			num = i;
+		}
+		
+		public void addTeller(Teller t){
+			this.t = t;
+			occupied = true;
+		}
+		
+		public Boolean getOccupied(){
+			return occupied;
+		}
+		
+	}
+	
+	
 	
 	public void addTeller(Teller t){
 		workingTellers.add(t);
-		numTellersWorking ++;
+		setOccupied(t);
+		
 	}
 	
+	private void setOccupied(Teller t) {
+		int i = getUnoccupiedTableNumber();
+		setTableOccupied(i);
+		t.setTableNum(i); 
+	}
+
 	public Boolean isOpen(){
 		return (host != null);
 	}
-	public int getTellerNunmber(){
-		return numTellersWorking;
+	
+	public int getUnoccupiedTableNumber(){
+		for(TellerTable t : tellerTables){
+			if (!t.getOccupied())
+				return t.num;
+		}
+		return 0;
+	}
+	
+	public int getTellerTableNumber(Teller x){
+		for(TellerTable t : tellerTables){
+			if (t == x)
+				return t.num;
+		}
+		return 0;
+	}
+	
+	public void setTableOccupied(int x){
+		for(TellerTable t : tellerTables){
+			if (t.num == x)
+				t.occupied = true;
+		}
 	}
 	
 	public List<Teller> getTellers(){
@@ -113,6 +168,10 @@ public class Bank extends Building{
 
 	public void Leaving() {
 		host = null;
+	}
+
+	public void removeMe(BankHostRole b) {
+		workingTellers.remove(b);
 	}
 
 	

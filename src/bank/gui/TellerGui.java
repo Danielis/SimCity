@@ -196,4 +196,11 @@ public class TellerGui implements Gui {
 		destination = homeposition;
 		agent.WaitForAnimation();
 	}
+
+	public void setDone()
+	{
+		isPresent = false;
+		//goingSomewhere = true;
+		//destination = leavePos;
+	}
 }

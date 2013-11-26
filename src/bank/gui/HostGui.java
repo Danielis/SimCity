@@ -128,7 +128,5 @@ public void updatePosition() {
 		isPresent = false;
 		goingSomewhere = true;
 		destination = leavePos;
-	//	isBusy = false;
-	//	setPresent(false);
 	}
 }
