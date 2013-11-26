@@ -10,12 +10,15 @@ import bank.BankCustomerRole;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 
 //Host Agent
 public class BankHostRole extends Role implements BankHost {
-	
-		
+
+
 	//Lists
 	List<MyCustomer> customers = new ArrayList<MyCustomer>();
 	Collection<MyTeller> myTellers = new ArrayList<MyTeller>();
@@ -26,20 +29,16 @@ public class BankHostRole extends Role implements BankHost {
 
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
-	
-	public TrackerGui trackingWindow;
-//CONSTRUCTOR
+
+	//CONSTRUCTOR
 	public BankHostRole(String name) {
 		super();
 		this.name = name;
 	}
 
-//UTILITIES************************************************************
-	
-	public void setTrackerGui(TrackerGui t) {
-		trackingWindow = t;
-	}
-	
+	//UTILITIES************************************************************
+
+
 	public String getMaitreDName() {
 		return name;
 	}
@@ -47,7 +46,7 @@ public class BankHostRole extends Role implements BankHost {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setGui(HostGui gui) {
 		hostGui = gui;
 	}
@@ -65,54 +64,54 @@ public class BankHostRole extends Role implements BankHost {
 		{
 			animSemaphore.acquire();		
 		} catch (InterruptedException e) {
-            // no action - expected when stopping or when deadline changed
-        } catch (Exception e) {
-            print("Unexpected exception caught in Agent thread:", e);
-        }
+			// no action - expected when stopping or when deadline changed
+		} catch (Exception e) {
+			print("Unexpected exception caught in Agent thread:", e);
+		}
 	}
 	public void setAnimPanel(BankAnimationPanel panel)
 	{
 		copyOfAnimPanel = panel;
 	}
-	
-//CLASSES****************************************************
-		public class MyTeller{
-			
-			public MyTeller(Teller t2) {
-				this.t = t2;
-				this.s = tellerState.free;
-			}
-			Teller t;
-			tellerState s;
-		}
-		enum tellerState {free, busy, wantsBreak, onBreak};
-		
-		public class MyCustomer{
-			
-			public MyCustomer(BankCustomerRole c) {
-				this.c = c;
-				this.s = customerState.waiting;
-			}
-			BankCustomerRole c;
-			customerState s;
-		}
-		enum customerState {waiting, done};
-	
 
-//MESSAGES****************************************************
+	//CLASSES****************************************************
+	public class MyTeller{
+
+		public MyTeller(Teller t2) {
+			this.t = t2;
+			this.s = tellerState.free;
+		}
+		Teller t;
+		tellerState s;
+	}
+	enum tellerState {free, busy, wantsBreak, onBreak};
+
+	public class MyCustomer{
+
+		public MyCustomer(BankCustomerRole c) {
+			this.c = c;
+			this.s = customerState.waiting;
+		}
+		BankCustomerRole c;
+		customerState s;
+	}
+	enum customerState {waiting, done};
+
+
+	//MESSAGES****************************************************
 
 	public void IWantService(BankCustomerRole c){
-    customers.add(new MyCustomer(c));
-    updateCustpost();
-    stateChanged();
+		customers.add(new MyCustomer(c));
+		updateCustpost();
+		stateChanged();
 	}
-		
+
 	public void msgNewTeller(Teller t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
 	}
-	
+
 	public void IAmFree(Teller tell){
 		//print("received msg free");
 		for(MyTeller t: myTellers){
@@ -122,8 +121,8 @@ public class BankHostRole extends Role implements BankHost {
 			}
 		}
 	}
-	
-	
+
+
 	public void msgIdLikeToGoOnBreak(Teller t)
 	{
 		print("Received message that " + t.getName() + " wants to go on break.");
@@ -136,7 +135,7 @@ public class BankHostRole extends Role implements BankHost {
 			}
 		}
 	}
-	
+
 	public void msgIdLikeToGetOffBreak(Teller t)
 	{
 		print("Received message that " + t.getName() + " wants to go off break.");
@@ -155,8 +154,8 @@ public class BankHostRole extends Role implements BankHost {
 	}
 
 
-//SCHEDULER****************************************************
-	
+	//SCHEDULER****************************************************
+
 	public boolean pickAndExecuteAnAction() {
 		try
 		{
@@ -177,8 +176,8 @@ public class BankHostRole extends Role implements BankHost {
 					}
 				}
 			}
-			
-			
+
+
 			synchronized(myTellers)
 			{
 				//Check if waiter can go on break
@@ -222,15 +221,15 @@ public class BankHostRole extends Role implements BankHost {
 			hostGui.DoGoToHomePosition();
 			return false;
 		}
-		
+
 		catch (ConcurrentModificationException e)
 		{ 
 			return false; 
 		}
 	}
 
-//ACTIONS********************************************************
-	
+	//ACTIONS********************************************************
+
 	private void NoTellers(MyCustomer c){
 		c.c.BankIsClosed();
 		customers.remove(c);
@@ -239,27 +238,29 @@ public class BankHostRole extends Role implements BankHost {
 	{
 		customers.remove(mc);
 	}
-	
+
 	private void assignCustomer(MyCustomer c, MyTeller t){
 		print("Customer go to teller " + t.t.getTableNum());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankHostRole", "Customer go to teller " + t.t.getTableNum(), new Date()));
 		if (t.t.getTableNum() == 1)
 			hostGui.setSpeechBubble("host_1");
 		if (t.t.getTableNum() == 2)
 			hostGui.setSpeechBubble("host_2");
 		if (t.t.getTableNum() == 3)
 			hostGui.setSpeechBubble("host_3");
-		
+
 		// c.s = customerState.done;
 		customers.remove(0);
-	    t.s = tellerState.busy;
-	    c.c.GoToTeller(t.t);
+		t.s = tellerState.busy;
+		c.c.GoToTeller(t.t);
 	}
 
-	
+
 	private void GrantBreak(MyTeller mw, Boolean b)
 	{
 		if (b == true)
 		{
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankHostRole", "Granting break for " + mw.t.getName() + " when customers are done. Will stop sending him customers.", new Date()));
 			print("Granting break for " + mw.t.getName() + " when customers are done. Will stop sending him customers.");
 			mw.s = tellerState.onBreak;
 			mw.t.msgBreakGranted(true);
@@ -267,21 +268,18 @@ public class BankHostRole extends Role implements BankHost {
 		else if (!b)
 		{
 			print("Break rejected for " + mw.t.getName());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankHostRole", "Break rejected for " + mw.t.getName(), new Date()));
 			mw.s = tellerState.free;
 			mw.t.msgBreakGranted(false);
 		}
 	}
-	
+
 	public void updateCustpost(){
 		//print("called update custp os");
-       // for (int i =0; i <customers.size(); i++){
-       // 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
-       // }
-}
-
-	
-	
-	
+		// for (int i =0; i <customers.size(); i++){
+		// 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
+		// }
+	}
 
 }
 

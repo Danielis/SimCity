@@ -33,10 +33,7 @@ public interface Teller
 	public void setAnimPanel(BankAnimationPanel animationPanel);
 	public void setGui(TellerGui g);
 	public void setTableNum(int tellerNunmber);
-	public void setHost(BankHost host2);
-	
-	public abstract void setTrackerGui(TrackerGui t);
-		
+	public void setHost(BankHost host2);		
 		
 
 }

@@ -146,6 +146,7 @@ public class CityPanel extends JPanel {
 		p.setMetro(metro);
 		p.setBuildings(buildings);
 		people.add(p);
+		p.setTrackerGui(gui.trackingWindow);
 		p.startThread();
     }
     

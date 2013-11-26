@@ -59,6 +59,5 @@ public abstract void pauseAgent();
 
 public abstract void resumeAgent();
 
-public abstract void setTrackerGui(TrackerGui t);
 
 }

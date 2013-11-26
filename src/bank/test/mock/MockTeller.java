@@ -100,9 +100,4 @@ public class MockTeller extends Mock implements Teller {
 		}
 
 
-		@Override
-		public void setTrackerGui(TrackerGui t) {
-			
-		}
-
 }

@@ -25,5 +25,4 @@ public interface BankHost {
 		public abstract String getName();
 		public abstract void setGui(HostGui g);
 		
-		public abstract void setTrackerGui(TrackerGui t);
 }

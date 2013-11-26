@@ -15,6 +15,9 @@ import bank.BankCustomerRole.customerPurpose;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 
 //Waiter Agent
@@ -40,7 +43,6 @@ public class TellerRole extends Role implements Teller {
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
-	private TrackerGui trackingWindow;
 	
 	//Constructors
 	public TellerRole()
@@ -57,11 +59,7 @@ public class TellerRole extends Role implements Teller {
 	}
 	
 //UTILITIES***************************************************
-	
-	public void setTrackerGui(TrackerGui t) {
-		trackingWindow = t;
-	}
-	
+
 	public void setTableNum(int index){
 		tableNum = index;
 	}
@@ -295,6 +293,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 //ACTIONS********************************************************
 
 	private void HandleNoLoan(Transaction t){
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You do not have a loan here", new Date()));
 		print("You do not have a loan here.");
 		t.status = transactionStatus.resolved;
 		t.c.NoLoan();
@@ -304,11 +303,13 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 		//print("handling no account");
 		if (t.type == transactionType.deposit){
 			print("You do not have an account at this bank. Would you like to create one?");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You do not have an account at this bank.  Would you like to create one?", new Date()));
 			t.status = transactionStatus.waiting;
 			t.c.WantAccount();
 		}
 		if (t.type == transactionType.withdrawal){
 			print("You do not have an account at this bank. Would you like to create one for future withdrawals?");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You do not have an account at this bank.  Would you like to create one for future withdrawrals?", new Date()));
 			t.status = transactionStatus.waiting;
 			t.amount = 0;
 			t.c.WantAccount();
@@ -317,6 +318,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	
 	private void HandleTransaction(Transaction t){
 		print("Looking into transaction...");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Looking into transaction...", new Date()));
 		if (t.type == transactionType.deposit){
 			Deposit(t);
 		}
@@ -337,10 +339,13 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	private void Deposit(Transaction t){
 		waiterGui.setSpeechBubble("thnxteller");
 		print("Depositing $" + t.amount + " into account #" + t.account.id);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Depositing $" + t.amount + " into account #" + t.account.id, new Date()));
 	    t.account.setBalance(t.account.getBalance()
 				+ t.amount);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.account.getBalance(), new Date()));
 	    print("New account balance is $" + t.account.getBalance());
 	    bank.balance += t.amount;
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New bank cash balance is $" + bank.balance, new Date()));	    
 	    print("New bank cash balance is $" + bank.balance);
 	    t.status = transactionStatus.resolved;
 	    
@@ -353,26 +358,33 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	    if (t.account.getBalance() >= t.amount){
 	    	waiterGui.setSpeechBubble("withdrawteller");
 	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Withdrawing $" + t.amount + " from account #" + t.account.id, new Date()));	    
 	        t.account.setBalance(t.account.getBalance()
 					- t.amount);
 	        print("New account balance is $" + t.account.getBalance());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.account.getBalance(), new Date()));	    	        
 	        bank.balance -= t.amount;
 	        print("New bank cash balance is $" + bank.balance);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New bank cash balance is $" + bank.balance, new Date()));	    	        
 	        t.c.HereIsWithdrawal(t.amount);
 	    }
 	    else if (t.account.getBalance() > 0){
 	    	waiterGui.setSpeechBubble("withdrawteller");
 	    	double temp = t.account.getBalance();
 	    	print("You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id, new Date()));	    	        
 	        t.account.setBalance(t.account.getBalance() - temp);
 	        print("New account balance is $" + t.account.getBalance());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.account.getBalance(), new Date()));	    	        
 	        bank.balance -= temp;
 	        print("New bank cash balance is $" + bank.balance);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New bank cash balance is $" + bank.balance, new Date()));	    	        
 	        t.c.HereIsPartialWithdrawal(temp);
 	    }
 	    else{
 	    	waiterGui.setSpeechBubble("banknomoney");
 	    	print("You do not have any money in that account.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You do not have any money in that account", new Date()));	    	        
 	        t.c.NoMoney();
 	    }  
 	}
@@ -382,6 +394,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	   	waiterGui.setSpeechBubble("newacctteller");
 	    
 		print("Creating new account...");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Creating new account...", new Date()));	    	        
 	    t.account.setBalance(t.account.getBalance()
 				+ t.amount);
 	    bank.balance += t.amount;
@@ -389,7 +402,9 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	    t.status = transactionStatus.resolved;
 	    t.account.c.AccountCreated(t.account);
 	    print("Your new account ID is " + t.account.id + " with balance of $" + t.account.getBalance());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Your new account ID is " + t.account.id + " with balance of $" + t.account.getBalance(), new Date()));	    	        
 	    print("Bank cash balance is $" + bank.balance);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Bank cash balance is $" + bank.balance, new Date()));	    	        
 	}
 
 	private void CreateLoan(Transaction t){
@@ -398,19 +413,23 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	    if (HasGoodCredit(t.loan.c) && EnoughFunds(t.loan.balanceOwed)){ //stub function to see if bank has enough funds
 	    	waiterGui.setSpeechBubble("loanteller");
 	    	print("Created loan. Here is $" + t.amount + ". You owe $" + t.loan.balanceOwed);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Created loan. Here is $" + t.amount + ". You owe $" + t.loan.balanceOwed, new Date()));	    	        
 	    	bank.loans.add(t.loan);
 	    	bank.balance -= t.amount;
 	        t.loan.c.LoanCreated(t.amount, t.loan);
 	        print("Bank cash balance is $" + bank.balance);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Bank cash balance is $" + bank.balance, new Date()));	    	        
 	    }
 	    else if (HasGoodCredit(t.loan.c) && !EnoughFunds(t.loan.balanceOwed)){
 	    	waiterGui.setSpeechBubble("banknomoney");
 	    	print("Sorry we do not have enough money");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Sorry we do not have enough money", new Date()));	    	        
 	        t.loan.c.CannotCreateLoan();
 	    }
 	    else { // bad credit
 	    	waiterGui.setSpeechBubble("noloanteller");
 	    	print("Your credit is not good enough");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Your credit is not good enough", new Date()));	    	        
 	        t.loan.c.CreditNotGoodEnough();
 	    }
 	}
@@ -422,6 +441,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	    if (t.loan.balancePaid >= t.loan.balanceOwed){
 	    	waiterGui.setSpeechBubble("thnxteller");
 	    	print("Your loan is paid off!");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Your loan is paid off!", new Date()));	    	        
 	        t.loan.s = loanState.paid;
 	        double change = t.loan.balancePaid - t.loan.balanceOwed;
 	        t.loan.c.YourLoanIsPaidOff(change);
@@ -429,18 +449,21 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	    else{
 	    	waiterGui.setSpeechBubble("stilloweloanteller");
 	    	print("You still owe $" + (t.loan.balanceOwed - t.loan.balancePaid));
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You still owe $" + (t.loan.balanceOwed - t.loan.balancePaid), new Date()));	    	        
 	        t.loan.c.YouStillOwe(t.loan.balanceOwed - t.loan.balancePaid, t.loan.dayCreated - t.loan.dayOwed);
 	    }
 	}
 	
 	private void TellHostFree(){
 		print("I am ready for next customer.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "I am ready for next customer", new Date()));	    	        
 		host.IAmFree(this);
 	}
 	
 	private void AskForBreak()
 	{
 		print("Asking host for a break");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Asking host for a break", new Date()));	    	        
 		state = myState.askedForBreak;
 		host.msgIdLikeToGoOnBreak(this);
 	}
@@ -452,6 +475,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 		for (Loan l : bank.loans){
 			if (l.c == c && l.s != loanState.paid){
 				print("Customer already has a loan to pay off.");
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Customer already has a loan to pay off", new Date()));	    	        
 				return false;
 			}
 		}

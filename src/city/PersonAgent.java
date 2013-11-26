@@ -31,6 +31,10 @@ import roles.Building;
 import roles.Building.buildingType;
 import roles.Restaurant;
 import roles.Role;
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+import logging.TrackerGui;
 import market.*;
 import market.interfaces.MarketCustomer;
 import city.guis.PersonGui.Coordinate; //trans: added for trans
@@ -39,6 +43,10 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
+
+
+
 
 
 
@@ -68,6 +76,9 @@ public class PersonAgent extends Agent implements Person
 	List<Item> inventory = Collections.synchronizedList(new ArrayList<Item>());
 
 	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
+
+	
+	public TrackerGui trackingWindow;
 
 
 	//Variable
@@ -442,6 +453,10 @@ public class PersonAgent extends Agent implements Person
 									 UTILITIES
 	 ******************************************************************************/
 
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
+	
 	public int getBound_leftx()
 	{
 		return gui.getXPosition() - gui.imgTrainer.getWidth()/2;
@@ -936,6 +951,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 	private Boolean CheckBankOpen() {
 		print("I need to go to the bank!");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the bank!", new Date()));
 		Bank r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){
@@ -949,6 +965,8 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 			return true;
 		else{
 			print("Aww.. bank is closed :(");	
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Aww... bank is closed :(", new Date()));
+
 			return false;
 		}
 	}
@@ -1107,6 +1125,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
+		c.setTrackerGui(trackingWindow);
 		r.panel.customerPanel.addCustomer((BankCustomer) c);
 	}
 	
@@ -1248,11 +1267,13 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		if (job.type == JobType.bankHost && r.host == null)
 		{
 			c = new BankHostRole(this.getName());
+			c.setTrackerGui(trackingWindow);
 			r.host = (BankHostRole) c;
 			r.panel.customerPanel.addHost((BankHost) c);
 		}
 		if (job.type == JobType.teller){
 			c = new TellerRole(this.getName());
+			c.setTrackerGui(trackingWindow);
 			r.panel.customerPanel.addTeller((Teller) c);
 		}
 
@@ -1394,7 +1415,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setPresent(false);
 		
 		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
-
+		
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

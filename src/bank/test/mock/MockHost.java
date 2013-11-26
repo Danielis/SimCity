@@ -59,13 +59,5 @@ public class MockHost extends Mock implements BankHost {
 		
 	}
 
-	@Override
-	public void setTrackerGui(TrackerGui t) {
-		
-	}
-
-	
-
-
 
 }

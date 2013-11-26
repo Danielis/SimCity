@@ -8,6 +8,9 @@ import bank.interfaces.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import roles.Role;
 
@@ -45,7 +48,6 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	Boolean isHappy = true;
 	
-	public TrackerGui trackingWindow;
 
 	//Constructor
 	public BankCustomerRole(String name, String type, double bankAmount, double money){
@@ -79,10 +81,6 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			return true;
 		}
 		return false;
-	}
-	
-	public void setTrackerGui(TrackerGui t) {
-		trackingWindow = t;
 	}
 	
 	private Boolean enoughBalance(){
@@ -251,6 +249,7 @@ public void WantAccount(){
 	
 private void GoToBank() {
 		print("Going to bank");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "Going to bank", new Date()));
 		getCustomerGui().DoGoToWaitingRoom();
 		state = bankCustomerState.entered;
 		
@@ -259,14 +258,13 @@ private void GoToBank() {
 private void TellHost(){
 	   // DoEnterBank();
 		print("I want service");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I want service", new Date()));
 	    state = bankCustomerState.waiting;
 	    h.IWantService(this);
 }
 
 private void AskForAssistance(){
 	state = bankCustomerState.waiting;
-	
-	
 
     if (purpose == customerPurpose.createAccount){
     	customerGui.setSpeechBubble("newacctq");
@@ -321,10 +319,15 @@ private void GiveRequest(){
 		
 		
 	    if (purpose == customerPurpose.createAccount){
-	    	if (amount > 0)
-	    	print("I would like to create an account and deposit $" + amount);
-	    	else
-	    	print("I would like to create an account.");
+	    	if (amount > 0) {
+		    	print("I would like to create an account and deposit $" + amount);
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to create an account and deposit $" + amount, new Date()));
+	    	}
+	    	else {
+		    	print("I would like to create an account.");
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to create an account", new Date()));
+
+	    	}
 	    	if (reduceBalance()){
 	    		t.IWantAccount(this, amount);
 	    	}
@@ -332,36 +335,37 @@ private void GiveRequest(){
 	    
 	    if (purpose == customerPurpose.withdraw){
 	    	print("I would like to withdraw $" + amount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to withdraw $" + amount, new Date()));
 	        t.WithdrawMoney(this, accountID, amount);
 	    }
 	    
 	    if (purpose == customerPurpose.deposit){
 	    	print("I would like to deposit $" + amount);
-	    	
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to deposit $" + amount, new Date()));
 	    	if (enoughBalance())
 	    		t.DepositMoney(this, accountID, amount);
 	    }
 	    
 	    if (purpose == customerPurpose.takeLoan){
 	    	print("I would like to take out a loan of $" + amount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to take out a loan of $" + amount, new Date()));
 	        t.IWantLoan(this, amount);
 	    }
 	    
 	    if (purpose == customerPurpose.payLoan){
 	    	print("I would like to payback $" + amount + " of my loan");
-	        
+	    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to payback $" + amount + " of my loan", new Date()));
 	    	if (reduceBalance())
 	    		t.PayMyLoan(this, amount);
 	    }
-
-
-	    
+ 
 	}
 
 
 
 private void LeaveBank(){
 		print("Thank you. I now have $" + balance);
+    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "Thank you. I now have $" + balance, new Date()));
 		if (t != null){
 			t.IAmLeaving();
 
@@ -399,7 +403,7 @@ private void LeaveBank(){
 	private void WalkToTeller() 
 	{
 		print("Directed to teller.");
-		
+    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "Directed to teller", new Date()));
 		if (t.getTableNum() == 1){
 		getCustomerGui().DoGoToSeat(t.getTableNum());
 		}
@@ -471,11 +475,6 @@ private void LeaveBank(){
 	public void setHost(BankHost host) {
 		this.h = host;
 	}
-
-
-
-	
-
 	
 }
 
