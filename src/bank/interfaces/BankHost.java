@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
+import bank.Bank;
 import bank.BankCustomerRole;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
@@ -25,4 +26,5 @@ public interface BankHost {
 		public abstract String getName();
 		public abstract void setGui(HostGui g);
 		public void setTellers(List<Teller> tellers);
+		public void setBank(Bank b);
 }

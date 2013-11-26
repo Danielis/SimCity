@@ -3,7 +3,7 @@ package roles;
 import agent.StringUtil;
 import city.PersonAgent;
 
-public class Role //why doesnt this extend agent?
+public abstract class Role //why doesnt this extend agent?
 {
 	public PersonAgent myPerson;
 	public Boolean active;
@@ -77,9 +77,8 @@ public class Role //why doesnt this extend agent?
 		return false;
 	}
 
-	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void msgLeaveWork();
+
+	
 
 }

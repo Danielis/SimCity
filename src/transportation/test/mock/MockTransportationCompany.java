@@ -4,9 +4,12 @@ import java.util.List;
 import restaurant.HostAgent;
 import restaurant.CustomerState;
 import restaurant.MyCustomer;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cashier;
+import restaurant.interfaces.Cook;
 import restaurant.interfaces.Customer;
+import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
 
 public class MockTransportationCompany extends Mock implements Waiter {
@@ -96,6 +99,42 @@ public class MockTransportationCompany extends Mock implements Waiter {
 
 		@Override
 		public void resumeAgent() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setHost(Host host) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setCook(Cook cook) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setCashier(Cashier cashier) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setGui(WaiterGui g) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void pauseAgent() {
 			// TODO Auto-generated method stub
 			
 		}

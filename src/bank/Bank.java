@@ -111,6 +111,10 @@ public class Bank extends Building{
 		return loan;
 	}
 
+	public void Leaving() {
+		host = null;
+	}
+
 	
 }
 

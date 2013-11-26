@@ -147,6 +147,7 @@ public class BankPanel extends JPanel {
 		// TODO Auto-generated method stub
 		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
+		host.setBank(b);
 		host.setGui(g);
 		host.setAnimPanel(gui.animationPanel);
 		host.setTellers(b.getTellers());
@@ -164,7 +165,7 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g);
 		w.setHost(host);  
 		w.setAnimPanel(gui.animationPanel);
-		host.msgNewTeller(w); 
+		//host.msgNewTeller(w); 
 		w.setGui(g);
 		waiters.add(w);
 		//w.startThread();

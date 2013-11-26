@@ -465,6 +465,12 @@ private void LeaveBank(){
 		this.h = host;
 	}
 
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 	

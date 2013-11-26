@@ -543,5 +543,11 @@ public class CustomerRole extends Role implements Customer {
 		this.animSemaphore.release();
 	}
 
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

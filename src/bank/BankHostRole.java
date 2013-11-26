@@ -21,7 +21,8 @@ public class BankHostRole extends Role implements BankHost {
 	//Other Variables
 	private String name;
 	public HostGui hostGui = null;
-
+	double balance = 0;
+	Bank bank;
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
 //CONSTRUCTOR
@@ -29,6 +30,7 @@ public class BankHostRole extends Role implements BankHost {
 		super();
 		this.name = name;
 	}
+	Boolean leave = false;
 
 //UTILITIES************************************************************
 	
@@ -92,7 +94,12 @@ public class BankHostRole extends Role implements BankHost {
 	
 
 //MESSAGES****************************************************
-
+	@Override
+	public void msgLeaveWork() {
+			leave = true;
+			stateChanged();
+		}
+		
 	public void IWantService(BankCustomerRole c){
     customers.add(new MyCustomer(c));
     updateCustpost();
@@ -212,6 +219,8 @@ public class BankHostRole extends Role implements BankHost {
 			}
 			//print("reached gui call");
 			hostGui.DoGoToHomePosition();
+			if (leave)
+				LeaveWork();
 			return false;
 		}
 		
@@ -223,6 +232,13 @@ public class BankHostRole extends Role implements BankHost {
 
 //ACTIONS********************************************************
 	
+	private void LeaveWork() {
+		bank.Leaving();
+		hostGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
+
 	private void NoTellers(MyCustomer c){
 		c.c.BankIsClosed();
 		customers.remove(c);
@@ -276,8 +292,13 @@ public class BankHostRole extends Role implements BankHost {
 		for (Teller t : tellers)
 		myTellers.add(new MyTeller(t));	
 	}
-	
-	
+
+	@Override
+	public void setBank(Bank b) {
+		bank = b;
+	}
+
+
 
 }
 

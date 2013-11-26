@@ -483,6 +483,11 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	public void setBank(Bank b) {
 		this.bank = b;
 	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
 
