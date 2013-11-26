@@ -5,21 +5,30 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import restaurant.CashierAgent.CheckState;
 import restaurant.CashierAgent.MyCheck;
 import restaurant.CashierAgent.MyPayment;
 import restaurant.CashierAgent.PaymentState;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Market;
-import restaurant.interfaces.Waiter;
+import restaurant.Restaurant;
+import restaurant.gui.CashierGui;
+import restaurant.gui.HostGui;
+import restaurant.gui.RestaurantAnimationPanel;
+import restaurant.interfaces.*;
 import roles.Role;
 
 public class CashierRole extends Role implements Cashier{
 	
+	Restaurant r;
+	
+	public WorkState myState = WorkState.none;
 	//Statics
 	private static float initialBalance = 500.0f;
+	
+	public RestaurantAnimationPanel copyOfAnimPanel;
+	public CashierGui cashierGui = null;
+	public Semaphore animSemaphore = new Semaphore(0, true);
 	
 	//Lists
 	List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
@@ -28,15 +37,17 @@ public class CashierRole extends Role implements Cashier{
 	
 	//Variables
 	private String name = "Squidward";
+	private double mymoney;
 	private float account;
 	
 	//Other
 	private Map<String, Float> prices = new HashMap<String, Float>();
 	
 	//Constructor
-	public CashierRole(String name) {
+	public CashierRole(String name, double cash) {
 		super();
 		this.name = name;
+		
 		
 		//Map name to foods
 		prices.put("Steak",  15.99f);
@@ -48,6 +59,7 @@ public class CashierRole extends Role implements Cashier{
 			owes.add(0f);
 		
 		account = initialBalance; //Starting account balance for cashier
+		mymoney = cash;
 	}
 
 	public String getMaitreDName() {
@@ -68,6 +80,14 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 //UTILITIES**************************************************
+	
+	public void setGui(CashierGui g) {
+		cashierGui = g;
+	}
+	
+	public CashierGui getGui(){
+		return cashierGui;
+	}
 	
 	//GETTERS
 	public List<MyCheck> getChecks() {
@@ -135,6 +155,12 @@ public class CashierRole extends Role implements Cashier{
 
 //MESSAGES****************************************************
 
+	public void msgLeaveWork()
+	{
+		myState = WorkState.needToLeave;
+		stateChanged();
+	}
+	
 	public void msgHereIsACheck(Waiter newW, Customer newC, String newChoice)
 	{
 		print("Received message to compute check.");
@@ -235,6 +261,21 @@ public class CashierRole extends Role implements Cashier{
 				}
 			}
 		}
+		
+		if (myState == WorkState.needToLeave)
+		{
+			//Check if there's no host
+			System.out.println("Checks: " + checks.size() + "/Payments: " + payments.size());
+			if
+				(
+					checks.size() == 0 &&
+					payments.size() == 0
+				)
+			{
+				LeaveWork();
+			}
+		}
+		
 		return false;
 	}
 
@@ -322,11 +363,49 @@ public class CashierRole extends Role implements Cashier{
 		}
 	}
 	
+	public void LeaveWork()
+	{
+		myState = WorkState.leaving;
+		print("CashierRole: Called to leave work.");
+		//STUB
+		//myPerson.msgLeftWork(this, this.mymoney);
+	}
+	
 	private float RoundToTwoDigits(float a)
 	{
 		a = Math.round(a*100f);
 		a = a/100f;
 		return a;
 	}
+	
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
+
+	@Override
+	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+		this.copyOfAnimPanel = animationPanel;
+		
+	}
+	
+	public void setRestaurant(Restaurant r)
+	{
+		this.r = r;
+	}
+	
+	
 }
 

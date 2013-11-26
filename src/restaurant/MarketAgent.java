@@ -18,7 +18,7 @@ public class MarketAgent extends Agent implements Market {
 	public List<Foods> inventory = Collections.synchronizedList(new ArrayList<Foods>());
 	
 	//Statics
-	static final int numItems = 10;		//Num of items initialized with
+	static final int numItems = 100;		//Num of items initialized with
 	//EDIT HERE*******************************************
 	static final int orderTime = 5;		//Time it takes to complete an order
 	//EDIT HERE*******************************************
@@ -80,10 +80,10 @@ public class MarketAgent extends Agent implements Market {
 		}
 		else
 		{
-			inventory.add(new Foods("Steak", 0, 100, foodstate.none));
-			inventory.add(new Foods("Chicken", 1, 100, foodstate.none));
-			inventory.add(new Foods("Salad", 2, 100, foodstate.none));
-			inventory.add(new Foods("Pizza", 3, 100, foodstate.none));
+			inventory.add(new Foods("Steak", 0, 1000, foodstate.none));
+			inventory.add(new Foods("Chicken", 1, 1000, foodstate.none));
+			inventory.add(new Foods("Salad", 2, 1000, foodstate.none));
+			inventory.add(new Foods("Pizza", 3, 1000, foodstate.none));
 		}
 		
 		timer = new Timer();

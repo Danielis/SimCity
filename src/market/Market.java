@@ -1,5 +1,6 @@
 package market;
 
+import java.awt.Frame;
 import java.util.*;
 
 import javax.swing.JFrame;
@@ -23,9 +24,12 @@ public class Market extends Building {
 		this.panel = gui.restPanel;
     	gui.restPanel.setMarket(this);
         gui.setTitle(name);
-        gui.setVisible(false);
+        gui.setVisible(true);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gui.setAlwaysOnTop(true);
+        gui.setAlwaysOnTop(false);
+        gui.setState(Frame.NORMAL);
+        gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     	type = buildingType.market;
 		inventory.add(new Item("Steak", 0, 13));

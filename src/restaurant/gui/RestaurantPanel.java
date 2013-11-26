@@ -32,20 +32,24 @@ public class RestaurantPanel extends JPanel
 {
 	Restaurant r;
 	
+	public Host host;
+	public Cook cook;
+	public Cashier cashier;
+    public Vector<Customer> customers = new Vector<Customer>();
+    public Vector<Waiter> waiters = new Vector<Waiter>();
+	
     //Host, cook, waiters and customers
-    public Host host = new HostAgent("Oprah");
-    public HostGui hostGui = new HostGui(host);
-    public Cashier cashier = new CashierAgent("Squidward");
+    //public Host host = new HostAgent("Oprah");
+    //public HostGui hostGui = new HostGui(host);
+    //public Cashier cashier = new CashierAgent("Squidward");
     public MarketAgent market1 = new MarketAgent("Market 1");
     public MarketAgent market2 = new MarketAgent("Market 2");
     public MarketAgent market3 = new MarketAgent("Market 3");
-    public Cook cook = new CookAgent("Gordon Ramsay");
-    public CookGui cookGui;
+    //public Cook cook = new CookAgent("Gordon Ramsay");
+    //public CookGui cookGui;
     
     int waiterindex = 0; 		//To assign waiters individual locations
-    
-    public Vector<Customer> customers = new Vector<Customer>();
-    public Vector<Waiter> waiters = new Vector<Waiter>();
+
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -61,43 +65,39 @@ public class RestaurantPanel extends JPanel
     private RestaurantGui gui; //reference to main gui
 
     public RestaurantPanel(RestaurantGui gui) {
-    	//Tentative work plan for the future.
-    	//Create P1-P5
-    	//Create Roles for P1-P5. 
-    	//Send the to the restaurant.
     	
         this.gui = gui;
-        cookGui = new CookGui(cook, gui);
-        host.setGui(hostGui);
-        cook.setGui(cookGui);
+        //cookGui = new CookGui(cook, gui);
+        //host.setGui(hostGui);
+        //cook.setGui(cookGui);
         
         iconOwner = new ImageIcon(getClass().getResource("/resources/menu_header.png"));
         picOwner = new JLabel(iconOwner);
         iconMenu = new ImageIcon(getClass().getResource("/resources/menu.png"));
         picMenu = new JLabel(iconMenu);
        
-        gui.animationPanel.addGui(hostGui);
-        gui.animationPanel.addGui(cookGui);
+        //gui.animationPanel.addGui(hostGui);
+        //gui.animationPanel.addGui(cookGui);
         
         market1.startThread();
         market2.startThread();
         market3.startThread();
         
-        market1.setCashier(cashier);
-        market2.setCashier(cashier);
-        market3.setCashier(cashier);
+        //market1.setCashier(cashier);
+        //market2.setCashier(cashier);
+        //market3.setCashier(cashier);
         
-        market1.setCook(cook);
-        market2.setCook(cook);
-        market3.setCook(cook);
+        //market1.setCook(cook);
+        //market2.setCook(cook);
+        //market3.setCook(cook);
         
-        cook.setMarkets(market1);
-        cook.setMarkets(market2);
-        cook.setMarkets(market3);
+        //cook.setMarkets(market1);
+        //cook.setMarkets(market2);
+        //cook.setMarkets(market3);
         
-        host.startThread();
-        cashier.startThread();
-        cook.startThread();
+        //host.startThread();
+        //cashier.startThread();
+        //cook.startThread();
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
@@ -176,15 +176,17 @@ public class RestaurantPanel extends JPanel
 
     /**
      * Adds a customer or waiter to the appropriate list
+     * @param r 
      *
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
-    public void addCustomer(Customer customer) 
+    public void addCustomer(Customer customer, Restaurant r) 
     {
 		Customer c = customer;
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
+		c.setRestaurant(r);
 		c.setHost(host);
 		c.setCashier(cashier);
 		c.setGui(g);
@@ -211,7 +213,6 @@ public class RestaurantPanel extends JPanel
     
     public void addWaiter(Waiter w) 
     {
-		waiterindex++;
 //		if (waiterindex % 2 == 0){
 //			//Waiter w = new ModernWaiterAgent(w.getName(), gui.restaurant);	
 //			WaiterGui g = new WaiterGui(w, gui, waiterindex);
@@ -232,7 +233,8 @@ public class RestaurantPanel extends JPanel
 			gui.animationPanel.addGui(g);
 			w.setHost(host);
 			w.setAnimPanel(gui.animationPanel);
-			host.msgNewWaiter(w);
+			if (host != null)
+				host.msgNewWaiter(w);
 			w.setCook(cook);
 			w.setCashier(cashier);
 			w.setGui(g);
@@ -309,30 +311,58 @@ public class RestaurantPanel extends JPanel
     
     public void addHost(Host host) {
     	System.out.println("Added host");
-		// TODO Auto-generated method stub
-		HostGui g = new HostGui(host);
+		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
 		host.setGui(g);
-		//host.setAnimPanel(gui.animationPanel);
+		host.setAnimPanel(gui.animationPanel);
 		this.host = host;
+		
+		for (int i = 0; i<this.waiters.size(); i++)
+		{
+			waiters.get(0).setHost(host);
+		}
 	}
     
     public void addCashier(Cashier cashier)
     {
     	System.out.println("Added cashier");
-    	//cashier has no gui right now
+    	CashierGui g = new CashierGui(cashier, gui);
+    	cashier.setGui(g);
+    	cashier.setAnimPanel(gui.animationPanel);
+    	gui.animationPanel.addGui(g);
     	this.cashier = cashier;
+    	
+    	market1.setCashier(cashier);
+    	market2.setCashier(cashier);
+    	market3.setCashier(cashier);
+    	
+		for (int i = 0; i<this.waiters.size(); i++)
+		{
+			waiters.get(0).setCashier(cashier);
+		}
     }
     
     public void addCook(Cook cook)
     {
-       	System.out.println("Added host");
+       	System.out.println("Added cook");
 		// TODO Auto-generated method stub
 		CookGui g = new CookGui(cook, gui);
 		gui.animationPanel.addGui(g);
 		cook.setGui(g);
 		cook.setAnimPanel(gui.animationPanel);
 		this.cook = cook;
+		
+		cook.setMarkets(market1);
+		cook.setMarkets(market2);
+		cook.setMarkets(market3);
+		this.market1.setCook(cook);
+		this.market2.setCook(cook);
+		this.market3.setCook(cook);
+		
+		for (int i = 0; i<this.waiters.size(); i++)
+		{
+			waiters.get(0).setCook(cook);
+		}
     }
     
     public void refresh()

@@ -2,6 +2,7 @@ package restaurant;
 
 import agent.Agent;
 import restaurant.gui.HostGui;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
@@ -12,7 +13,13 @@ import java.util.concurrent.Semaphore;
 //Host Agent
 public class HostAgent extends Agent implements Host {
 	public int NTABLES = 4;
-		
+	
+	boolean workersCanLeave = false;
+	
+	public RestaurantAnimationPanel copyOfAnimPanel;
+	public HostGui hostGui = null;
+	public Semaphore animSemaphore = new Semaphore(0, true);
+
 	//Lists
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
@@ -21,7 +28,6 @@ public class HostAgent extends Agent implements Host {
 	//Other Variables
 	private String name;
 	//private Semaphore atTable = new Semaphore(0,true); for GUI
-	public HostGui hostGui = null;
 
 //CONSTRUCTOR
 	public HostAgent(String name) {
@@ -463,6 +469,41 @@ public class HostAgent extends Agent implements Host {
 			mw.isOnBreak = false;
 			mw.w.msgBreakGranted(false);
 		}
+	}
+
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
+
+	@Override
+	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+		this.copyOfAnimPanel = animationPanel;
+		
+	}
+
+	@Override
+	public boolean canLeave()
+	{
+		return workersCanLeave;
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

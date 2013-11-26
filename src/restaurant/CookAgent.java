@@ -28,13 +28,13 @@ public class CookAgent extends Agent implements Cook{
 	Timer timer;
 
 	//How many items the cook starts with
-	static final int numItemsInInventory = 5;
+	static final int numItemsInInventory = 100;
 	
 	//How many items the cook orders when he's low
-	static final int numItemsToOrder = 2;
+	static final int numItemsToOrder = 20;
 	
 	//The threshhold required for the cook to order
-	static final int numIntemsForThreshhold = 4;
+	static final int numIntemsForThreshhold = 80;
 	
 	//Variables
 	private Map<String, Foods> foods = new HashMap<String, Foods>();
@@ -660,6 +660,12 @@ public class CookAgent extends Agent implements Cook{
 
 	public void msgHereIsMonitor(ProducerConsumerMonitor theMonitor2) {
 		theMonitor = theMonitor2;
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

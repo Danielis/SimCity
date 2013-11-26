@@ -2,6 +2,9 @@ package restaurant.roles;
 
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
+import restaurant.CustomerAgent.iconState;
+import restaurant.CustomerAgent.myState;
+import restaurant.Restaurant;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.CustomerGui;
 import restaurant.interfaces.*;
@@ -52,6 +55,8 @@ public class CustomerRole extends Role implements Customer {
 	
 	//List of foods available
 	private List<Boolean> foodOptions = new ArrayList<Boolean>();
+
+	private Restaurant restaurant;
 	
 	//Constructor
 	public CustomerRole(String name, double balance){
@@ -241,10 +246,17 @@ public class CustomerRole extends Role implements Customer {
 
 	private void GoToRestaurant() 
 	{
-		//print("Going to restaurant");
-		this.customerGui.DoGoToWaitingRoom();
-		host.msgCheckForASpot(this);
-		state = myState.waitingForASpot;
+		if (restaurant.isOpen())
+		{
+			print("Going to restaurant");
+			this.customerGui.DoGoToWaitingRoom();
+			host.msgCheckForASpot(this);
+			state = myState.waitingForASpot;
+		}
+		else
+		{
+			LeaveBecauseClosed();
+		}
 	}
 	
 	private void DecideToGo()
@@ -468,6 +480,14 @@ public class CustomerRole extends Role implements Customer {
 		Leave();
 
 	}
+	private void LeaveBecauseClosed()
+	{
+		icon = iconState.none;
+		print("Leaving because the restaurant is closed.");
+		customerGui.setNotHungry();
+		state = myState.finished;
+		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
+	}
 	
 	private void Leave()
 	{
@@ -541,6 +561,12 @@ public class CustomerRole extends Role implements Customer {
 	public void DoneWithAnimation()
 	{
 		this.animSemaphore.release();
+	}
+
+	@Override
+	public void setRestaurant(Restaurant r) {
+		this.restaurant = r;
+		
 	}
 
 }

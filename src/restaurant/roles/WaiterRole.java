@@ -19,7 +19,6 @@ import agent.RestaurantMenu;
 
 public class WaiterRole extends Role implements Waiter
 {
-	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	public Host host;
@@ -48,7 +47,6 @@ public class WaiterRole extends Role implements Waiter
 	public WaiterRole()
 	{
 		super();
-		this.name = "Default Daniel";
 		print("initialized waiter");
 		
 		//set all items of food available
@@ -409,6 +407,12 @@ public class WaiterRole extends Role implements Waiter
 	public void DoneWithAnimation()
 	{
 		animSemaphore.release();
+	}
+
+
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

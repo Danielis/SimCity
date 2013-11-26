@@ -405,6 +405,11 @@ public class WaiterAgent extends Agent implements Waiter {
 	{
 		animSemaphore.release();
 	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
 

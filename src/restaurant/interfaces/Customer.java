@@ -6,6 +6,7 @@ import java.util.List;
 import restaurant.CashierAgent;
 import restaurant.CustomerAgent.iconState;
 import restaurant.HostAgent;
+import restaurant.Restaurant;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
@@ -52,5 +53,7 @@ public interface Customer
 	public abstract void pauseAgent();
 
 	public abstract void resumeAgent();
+
+	public abstract void setRestaurant(Restaurant r);
 
 }

@@ -4,6 +4,7 @@ import agent.Agent;
 import agent.RestaurantMenu;
 import restaurant.CustomerState;
 import restaurant.MyCustomer;
+import restaurant.Restaurant;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
 
@@ -14,22 +15,17 @@ import java.util.concurrent.Semaphore;
 //Waiter Agent
 public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	
-	//Lists and Other Agents
-
-	//List of foods remaining
-	
-	//Variables
-	
-	//Menu
+	public WorkState myWorkState = WorkState.none;
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public TraditionalWaiterRole()
+	public TraditionalWaiterRole(String string, Restaurant r)
 	{
 		super();
-		this.name = "Default Daniel";
+		this.rest = r;
+		this.name = string;
 		
 		//set all items of food available
 		for (int i = 0; i<4; i++)
@@ -47,6 +43,12 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 
 //MESSAGES****************************************************
 
+	public void msgLeaveWork()
+	{
+		myWorkState = WorkState.needToLeave;
+		stateChanged();
+	}
+	
 	public void msgHereIsMyOrder(Customer c, String choice)
 	{
 		for (MyCustomer mc: myCustomers) {
@@ -139,6 +141,15 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 				AskForBreak();
 				return true;
 			}
+			
+			if (myWorkState == WorkState.needToLeave)
+			{
+				if(rest.panel.host.canLeave())
+				{
+					LeaveWork();
+					return true;
+				}
+			}
 			waiterGui.DoGoToHomePosition();
 			return false;
 		}
@@ -158,5 +169,13 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		mc.s = CustomerState.hasOrdered;		
 		cook.msgHereIsAnOrder(this, mc.choice, mc.table);
 	}
+	
+	public void LeaveWork()
+	{
+		myWorkState = WorkState.leaving;
+		print("TraditionalWaiterRole: Called to leave work.");
+		//STUB: myPerson.msgLeftWork(this, this.balance);
+	}
+
 }
 

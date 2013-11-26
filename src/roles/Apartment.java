@@ -38,8 +38,10 @@ public class Apartment extends Building{
     	this.name = name;
     	type = buildingType.housingComplex;
         gui.setTitle(name);
-        gui.setVisible(false);
+        gui.setVisible(true);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gui.setAlwaysOnTop(true);
+        gui.setAlwaysOnTop(false);
+        gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 }
