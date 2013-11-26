@@ -22,15 +22,19 @@ public class Scenario {
 	}
 	
 public void CallScenario1(CityPanel c){
-		c.addPerson("Bank Host", "Bank Host", "Wealthy");
+		c.addPerson("Bank Host", "Bank Host", "Average");
 		c.addPerson("Teller 1", "Teller", "Average");
-		c.addPerson("Teller 2", "Teller", "Poor");
+		c.addPerson("Teller 2", "Teller", "Wealthy");
 		c.addPerson("Teller 3", "Teller", "Poor");
 		c.addPerson("Chef", "Cook", "Average");
 		c.addPerson("Waiter 1", "Waiter", "Average");
-		c.addPerson("Waiter 2", "Waiter", "Average");
+		c.addPerson("Waiter 2", "Waiter", "Wealthy");
 		c.addPerson("Cashier", "Cashier", "Poor");
-		c.addPerson("Restaurant Host", "Restaurant Host", "Wealthy");
+		c.addPerson("Restaurant Host", "Restaurant Host", "Average");
 		c.addPerson("Jobless Joe", "None", "Average");
+		c.addPerson("Jobless Smith", "None", "Average");
+		c.addPerson("Jobless Betty", "None", "Wealthy");
+		c.addPerson("Jobless Alex", "None", "Average");
+		c.addPerson("Jobless Sally", "None", "Wealthy");
 	}
 }

@@ -288,7 +288,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 				return true;
 			}
 			waiterGui.DoGoToHomePosition();
-			if (leave)
+			if (leave && canLeave())
 				LeaveWork();
 			return false;
 		}
@@ -299,10 +299,18 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 		}
 	}
 
+private boolean canLeave() {
+	for (Transaction t : transactions){
+		if (t.status == transactionStatus.noAccount || t.status == transactionStatus.unresolved || t.status == transactionStatus.noLoan)
+			return false;
+	}
+	return true;
+	
+}
 //ACTIONS********************************************************
 	
 	private void LeaveWork() {
-		bank.Leaving();
+		bank.imLeaving(this);
 		waiterGui.setDone();
 		myPerson.msgLeftWork(this, balance);
 		

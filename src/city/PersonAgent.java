@@ -197,10 +197,10 @@ public class PersonAgent extends Agent implements Person
 		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
 		double time = TimeManager.getInstance().getCurrentSimTime();
 		
-		int num = (int)(Math.random() * ((60000 - 30000) + 30000));
-		print(" " +num);
+		int num = (int)(Math.random() * ((30000 - 10000) + 10000));
+		//print(" " +num);
 		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
-		print(" " + timeSinceLastAte);
+		//print(" " + timeSinceLastAte);
 	}	
 	
 	private double setWealth() {
@@ -209,7 +209,7 @@ public class PersonAgent extends Agent implements Person
 			return 15000;
 		}
 		else if (wealthLevel.equals(WealthLevel.wealthy)){
-			addItem(inventory, "Car", 1, 0);
+			addItem(inventory, "Car", 0, 1);
 			return 50000;
 		}
 		else if (wealthLevel.equals(WealthLevel.poor)){
@@ -944,7 +944,7 @@ if (job.type == JobType.noAI){
 //print("at work, should be anything be work" + Status.getWork());
 if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 //	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
-	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (4) && TimeManager.getInstance().getHour() < Job.timeEnd){
+	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
 		for (Day d : job.daysWorking){
 			if (d == TimeManager.getInstance().getDay()){
 				GoToWork();

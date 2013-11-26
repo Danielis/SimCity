@@ -14,6 +14,7 @@ List<PersonAgent> people = new ArrayList<PersonAgent>();
 Day msgWakeLastSent = Day.thursday;
 Day msgHomeLastSent = Day.thursday;
 Day msgPayLastSent = Day.thursday;
+Day LastChecked = Day.monday;
 	@Override
 	
 	
@@ -22,7 +23,17 @@ Day msgPayLastSent = Day.thursday;
 			msgPeopleWake();
 		if (GoHome() && DayOverHome())
 			msgStopWorking();
+		if (NewDay())
+			print("It is now " + TimeManager.getInstance().dayString());
 		return true;
+	}
+
+	private boolean NewDay() {
+		if (LastChecked != TimeManager.getInstance().getDay()){
+			LastChecked = TimeManager.getInstance().getDay();
+			return true;
+		}
+		return false;
 	}
 
 	private boolean DayOverWake() {
@@ -54,7 +65,7 @@ Day msgPayLastSent = Day.thursday;
 
 	private void msgStopWorking() {
 		msgHomeLastSent = TimeManager.getInstance().getDay();
-		print("6PM. TIME TO GO HOME!");
+		print("8PM. TIME TO GO HOME!");
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.work){
@@ -67,7 +78,7 @@ Day msgPayLastSent = Day.thursday;
 	
 	private void msgPeoplePayOut() {
 		msgPayLastSent = TimeManager.getInstance().getDay();
-		print("12PM. Time to get payed!");
+		print("12PM. Time to get paid!");
 		for( PersonAgent p : people){
 			p.msgWakeUp();
 			if(p.Status.getLocation() == location.work){
@@ -77,7 +88,7 @@ Day msgPayLastSent = Day.thursday;
 	}
 	
 	private boolean WakeUp() {
-		return (TimeManager.getInstance().getHour() + 1 == 7);
+		return (TimeManager.getInstance().getHour() == 5);
 	}
 
 	public void setPeople(Vector<PersonAgent> people2) {

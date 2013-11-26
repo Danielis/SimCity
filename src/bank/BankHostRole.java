@@ -35,6 +35,10 @@ public class BankHostRole extends Role implements BankHost {
 	public BankHostRole(String name) {
 		super();
 		this.name = name;
+		tellTellers();
+	}
+	private void tellTellers() {
+		
 	}
 	Boolean leave = false;
 

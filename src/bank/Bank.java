@@ -78,16 +78,30 @@ public class Bank extends Building{
 		workingTellers.add(t);
 	}
 	
+	public void imLeaving(Teller t){
+		workingTellers.remove(t);
+	}
+	
 	
 	public int setTableNum(){
 		assignTable();
 		return tableLastAssigned;
 	}
 	
+	public void tellTellers(BankHost h){
+		for (Teller t: workingTellers){
+			t.setHost(h);
+		}
+	}
+	
 	public void assignTable(){
 		tableLastAssigned++;
 		if (tableLastAssigned > 3)
 			tableLastAssigned = 1;
+	}
+	
+	public int setTable(){
+		return (workingTellers.size());
 	}
 	
 	
