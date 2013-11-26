@@ -1040,7 +1040,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		//Transportation t = ChooseTransportation();
 		if(Status.getTransportationStatus() == transportStatus.bus){
 			curStop = this.closestBusStop();
-			destinationStop = metro.stops.get(3); // two is the busStop closest to restaurant top left is 0, top right is 6
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
 			gui.setPresent(false);
 			curStop.msgImAtStop(this);
@@ -1048,8 +1048,9 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		}
 		else
 			closestCheckpoint();
-		gui.DoGoToCheckpoint('L');
-		gui.DoGoToHouse();
+		
+		gui.DoGoToCheckpoint('H');
+		gui.DoGoToCheckpoint('I');
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
 		
@@ -1083,7 +1084,22 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToLocation(80, 74);
+		
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('G');
+		gui.DoGoToCheckpoint('J');
+		gui.DoGoToCheckpoint('K');
+		
+		
 		this.Status.setLocation(location.bank);
 		
 		gui.setPresent(false);
@@ -1117,7 +1133,18 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	
 	
 	private void WorkAtApartment() {
-		gui.DoGoToLocation(329, 88);
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('H');
+		gui.DoGoToCheckpoint('I');
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
@@ -1134,7 +1161,20 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WorkAtRest() {
-		gui.DoGoToLocation(265, 472);
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+
+			closestCheckpoint();
+		
+		gui.DoGoToCheckpoint('B');
+		gui.DoGoToCheckpoint('A');
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -1174,10 +1214,24 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WorkAtBank() {
-		gui.DoGoToLocation(80,74);
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			closestCheckpoint();
+		gui.DoGoToCheckpoint('G');
+		gui.DoGoToCheckpoint('J');
+		gui.DoGoToCheckpoint('K');
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
+		
+		
 		Role c = null;
 		Bank r = null;
 		synchronized(buildings)
@@ -1215,7 +1269,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		Status.setNourishment(nourishment.goingToFood);
 
 		//Transportation t = ChooseTransportation();
-		gui.setPresent(true);
+//		gui.setPresent(true);
 //		gui.DoGoToCheckpoint('A');
 //		closestCheckpoint();
 //		gui.DoGoToCheckpoint('G');
@@ -1236,10 +1290,8 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('A');
-			this.closestCheckpoint();
-		//gui.DoGoToCheckpoint('B');
-		gui.DoGoToLocation(265, 472);
-
+		
+			
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 

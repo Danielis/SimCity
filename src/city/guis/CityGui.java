@@ -574,5 +574,6 @@ public class CityGui extends JFrame implements ActionListener {
      //   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 
+
     }
 }
