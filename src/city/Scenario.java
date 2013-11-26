@@ -29,11 +29,16 @@ public void CallScenario1(CityPanel c){
 		c.addPerson("Chef", "Cook", "Average");
 		c.addPerson("Waiter 1", "Waiter", "Average");
 		c.addPerson("Waiter 2", "Waiter", "Wealthy");
-		c.addPerson("Cashier", "Cashier", "Poor");
+		c.addPerson("Cashier", "Cashier", "Average");
 		c.addPerson("Restaurant Host", "Restaurant Host", "Average");
 		c.addPerson("Jobless Joe", "None", "Average");
-		c.addPerson("Jobless Smith", "None", "Average");
+		c.addPerson("Jobless Smith", "None", "Wealthy");
+		c.addPerson("Jobless Smith", "None", "Wealthy");
 		c.addPerson("Jobless Betty", "None", "Wealthy");
+		c.addPerson("Jobless Alex", "None", "Average");
+		c.addPerson("Jobless Alex", "None", "Poor");
+		c.addPerson("Jobless Alex", "None", "Average");
+		c.addPerson("Jobless Alex", "None", "Poor");
 		c.addPerson("Jobless Alex", "None", "Average");
 		c.addPerson("Jobless Sally", "None", "Wealthy");
 	}

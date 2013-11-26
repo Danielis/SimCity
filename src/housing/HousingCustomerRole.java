@@ -1,11 +1,13 @@
 package housing;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import logging.TrackerGui;
 import roles.Role;
+import city.PersonAgent.Item;
 import city.guis.PersonGui;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
@@ -20,14 +22,14 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
 	//constructor
-	public HousingCustomerRole(String name2, double b) {
+	public HousingCustomerRole(String name2, double b, List<Item> inventory) {
 		name = name2;
 		balance = b;
 		needsLoan = false;
 		houseNeedsRepairs = false;
 		hungry = false;
 		System.out.println("Housing Customer created.");
-
+		this.inventory = inventory;
 	}
 	
 	public void setTrackerGui(TrackerGui t) {
@@ -71,7 +73,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	public Boolean hungry;
 	private Boolean leave = false;
 	private Boolean sleep = false;
-
+	 List<Item> inventory;
 	public TrackerGui trackingWindow;
 
 	public String getName()
@@ -217,6 +219,15 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
+		
+		for (Item i : inventory){
+			if (i.type != "Car"){
+				i.quantity -= 1;
+				print("Ate " + i.type);
+				break;
+			}
+		}
+		
 		gui.DoGoToTable();
 		hungry = false;
 		gui.DoGoToKitchen();

@@ -32,9 +32,8 @@ public class Market extends Building {
         gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     	type = buildingType.market;
-		inventory.add(new Item("Steak", 0, 13));
+		inventory.add(new Item("Steak", 100, 13));
 		inventory.add(new Item("Salad", 100, 3));
-		inventory.add(new Item("Chicken", 100, 9));
 		inventory.add(new Item("Chicken", 100, 9));
 		inventory.add(new Item("Eggs", 100, .5));
 		inventory.add(new Item("Milk", 100, 4));

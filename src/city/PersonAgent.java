@@ -206,14 +206,23 @@ public class PersonAgent extends Agent implements Person
 	private double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
 			addItem(inventory, "Car", 0, 1);
+			addItem(inventory, "Steak", 5, 5);
+			addItem(inventory, "Pasta", 5, 5);
+			addItem(inventory, "Milk", 1, 1);
 			return 15000;
 		}
 		else if (wealthLevel.equals(WealthLevel.wealthy)){
 			addItem(inventory, "Car", 0, 1);
+			addItem(inventory, "Steak", 5, 8);
+			addItem(inventory, "Chicken", 8, 8);
+			addItem(inventory, "Milk", 10, 2);
 			return 50000;
 		}
 		else if (wealthLevel.equals(WealthLevel.poor)){
 			addItem(inventory, "Car", 0, 1);
+			addItem(inventory, "Eggs", 5, 3);
+			addItem(inventory, "Pasta", 3, 3);
+			addItem(inventory, "Milk", 0, 1);
 			return 2000;
 		}
 		else
@@ -392,9 +401,9 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 
-	class Item {
-		String type;
-		int quantity;
+	public class Item {
+		public String type;
+		public int quantity;
 		int threshold;
 		public Item(String t, int q, int th) {
 			type = t;
@@ -1055,15 +1064,18 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 	private void GoEat() {
 		Boolean restaurant = false;
-		if (!CheckRestOpen()){
+		if (CheckRestOpen()){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
-			if (wealthLevel == WealthLevel.wealthy && num <= 7){
+			if (wealthLevel == WealthLevel.wealthy && num <= 9){
 					restaurant = true;
 			}
-			else if (num <=3){
+			else if (num <=7){
 					restaurant = true;
 			}
 		}
+		else
+			restaurant = false;
+		
 		if (restaurant){
 			GoToRestaurant();
 		}
@@ -1251,7 +1263,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setPresent(false);
 		
 		//Role terminologies
-		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash);
+		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
