@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import restaurant.HostAgent.customerState;
 import restaurant.HostAgent.waiterState;
 import restaurant.gui.HostGui;
@@ -484,6 +488,7 @@ public class HostRole extends Role implements Host{
 		print(w.w.getName() + " is the least busy, handling " + w.getNumCustomersServing() + " customers." );
 		w.numCustomersServing++;
 		print("Assigning " + mc.c.getName() + " to " + t + " and waiter " + w.w.getName() );
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "HostRole", "Assigning " + mc.c.getName() + " to " + t + " and waiter " + w.w.getName(), new Date()));
 		w.w.msgSitAtTable(mc.c, t.tableNumber);
 		customers.remove(mc);
 	}
@@ -493,6 +498,7 @@ public class HostRole extends Role implements Host{
 		if (b == true)
 		{
 			print("Granting break for " + mw.w.getName() + " when customers are done. Will stop sending him customers.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "HostRole", "Granting break for " + mw.w.getName() + " when customers are done. Will stop sending him customers.", new Date()));
 			mw.state = waiterState.onbreak;
 			mw.isOnBreak = true;
 			mw.w.msgBreakGranted(true);
@@ -500,6 +506,7 @@ public class HostRole extends Role implements Host{
 		else if (b == false)
 		{
 			print("Break rejected for " + mw.w.getName());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "HostRole", "Break rejected for " + mw.w.getName(), new Date()));
 			mw.state = waiterState.none;
 			mw.isOnBreak = false;
 			mw.w.msgBreakGranted(false);

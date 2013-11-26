@@ -10,6 +10,10 @@ import restaurant.interfaces.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+
 //Waiter Agent
 public class ModernWaiterRole extends WaiterRole implements Waiter {
 		
@@ -175,12 +179,16 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	protected void PlaceTicket(MyCustomer mc)
 	{
 		print("Placing the Ticket for " + mc.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Placing the Ticket for " + mc.choice, new Date()));
 		waiterGui.DoGoToCook();
 		mc.s = CustomerState.hasOrdered;		
 		//cook.msgHereIsAnTicket(this, mc.choice, mc.table);
 		Ticket data = produce_item(this, mc.choice, mc.table);
         print("Placed ticket for table " + data.table
                 + " with order of " + data.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Placed ticket for table " + data.table
+                + " with order of " + data.choice, new Date()));
+
         theMonitor.insert(data);
         
         //try{sleep(1000);}
@@ -195,6 +203,9 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
         itemCount++;
         print("Creating new ticket for table " + data.table
                 + " with order of " + data.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Creating new ticket for table " + data.table
+                + " with order of " + data.choice, new Date()));
+
         cook.msgHereIsMonitor(theMonitor);
         return data;
     }
@@ -203,6 +214,7 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	{
 		myWorkState = WorkState.leaving;
 		print("ModernWaiterRole: Called to leave work.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Called to leave work", new Date()));
 		myPerson.msgLeftWork(this, this.balance);
 	}
 }

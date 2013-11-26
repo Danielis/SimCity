@@ -295,7 +295,19 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 		print("Here is your order: " + o.quantity + " of " + o.item);
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketWorkerAgent.", "Here is your order: " + o.quantity + " of " + o.item, new Date()));
 		o.s = orderState.done;
+		if (o.item == "Steak")
+			waiterGui.setSpeechBubble("heressteak");
+		if (o.item == "Chicken")
+			waiterGui.setSpeechBubble("hereschicken");
+		if (o.item == "Pizza")
+			waiterGui.setSpeechBubble("herespizza");
+		if (o.item == "Salad")
+			waiterGui.setSpeechBubble("heressalad");
+		if (o.item == "Car")
+			waiterGui.setSpeechBubble("herescar");
+		
 		o.c.HereIsOrder(o.item, o.quantity);
+		
 	}
 
 	private void AskForBreak()

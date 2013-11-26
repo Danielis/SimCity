@@ -130,7 +130,6 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 * Updates the trace panel to include all new messages from the log, 
 	 */
 	private void updateTracePanel() {
-		parent.trackerFrame.setAlwaysOnTop(true);
 		synchronized (newAlerts) {
 			for (Alert alert : newAlerts) {
 				try {
@@ -270,6 +269,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	/** {@inheritDoc} */
 	@Override
 	public void alertOccurred(Alert alert) {
+		parent.trackerFrame.setAlwaysOnTop(true);
 		addNewAlert(alert);
 	}
 

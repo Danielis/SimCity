@@ -15,6 +15,10 @@ import agent.RestaurantMenu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+
 //Customer Agent
 //It still is a finite state machine, instead of events it still uses the state enum.
 //I used this design from the designs drawn from class.
@@ -249,6 +253,7 @@ public class CustomerRole extends Role implements Customer {
 		if (restaurant.isOpen())
 		{
 			print("Going to restaurant");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Going to restaurant", new Date()));
 			this.customerGui.DoGoToWaitingRoom();
 			host.msgCheckForASpot(this);
 			state = myState.waitingForASpot;
@@ -268,6 +273,7 @@ public class CustomerRole extends Role implements Customer {
 	private void FollowWaiter() 
 	{
 		print("Being seated. Going to table " + mySeat);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Being seated. Going to table " + mySeat, new Date()));
 		customerGui.DoGoToSeat(mySeat);
 		state = myState.seated;
 		stateChanged();
@@ -276,6 +282,7 @@ public class CustomerRole extends Role implements Customer {
 	private void TellWaiterOrder()
 	{
 		print("Telling waiter I'm ready to order");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Telling waiter I'm ready to order.", new Date()));
 		waiter.msgHereIsMyOrder(this,  choice);
 		state = myState.finishedOrdering;
 		
@@ -283,7 +290,7 @@ public class CustomerRole extends Role implements Customer {
 	private void PickAnOrder()
 	{
 		print("Deciding what to order.");	
-
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Deciding what to order", new Date()));
 		//Out of food case
 		int foodCounter = 4;
 		for (int i = 0; i<foodOptions.size(); i++)
@@ -296,6 +303,7 @@ public class CustomerRole extends Role implements Customer {
 		if (foodCounter == 0)
 		{
 			print("There is no more food in the restaurant. Leaving.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "There's no more food in the restaurant.  Leaving.", new Date()));
 			Leave();
 		}
 		else
@@ -316,6 +324,7 @@ public class CustomerRole extends Role implements Customer {
 				if (aram == 0)
 				{
 					print("I randomly chose that I don't have enough money for anything. I will leave");
+					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I randomly chose that I don't have enough money for anything.  I'll leave", new Date()));
 					Leave();
 					return;
 				}
@@ -327,18 +336,21 @@ public class CustomerRole extends Role implements Customer {
 			if (aram == 1 && imusthavethisitem == false && myMoney < 15.99 && reordering == false)
 			{
 				print("I choose not to limit my options because of how much money I have");
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I choose not to limit my options because of how much money I have.", new Date()));
 			}
 			else if (reordering == false)
 			{
 				if (myMoney < 8.99 && myMoney > 5.99)
 				{
 					print("I only have enough for salad. Picking salad.");
+					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I only have enough for salad. Picking salad.", new Date()));
 					imusthavethisitem = true;
 					choice = "Salad";
 				}
 				else if (myMoney < 10.99 && myMoney > 8.99)
 				{
 					print("I only have enough for salad or pizza.");
+					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I only have enough for salad or pizza", new Date()));
 					imusthavethisitem = true;
 					int a = random.nextInt()%2;
 					if (a<0) a*=-1;
@@ -348,6 +360,7 @@ public class CustomerRole extends Role implements Customer {
 				else if (myMoney < 15.99 && myMoney > 10.99)
 				{
 					print("I don't have enough money for steak. Picking something else.");
+					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I don't have enough for steak", new Date()));
 					imusthavethisitem = true;
 					int a = random.nextInt()%3;
 					if (a<0) a*=-1;
@@ -375,6 +388,7 @@ public class CustomerRole extends Role implements Customer {
 				if(foodOptions.get(index) == false)
 				{
 					print("They don't have the item I want. Going to leave.");
+					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "They don't have what I want.  Leaving.", new Date()));
 					Leave();
 				}
 				//If customer needs that item and they have it
@@ -429,13 +443,14 @@ public class CustomerRole extends Role implements Customer {
 	private void CallWaiter()
 	{
 		print("I am ready to order, calling waiter.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I am ready to order.  Calling waiter.", new Date()));
 		waiter.msgReadyToOrder(this);
 		icon = iconState.question;
 	}
 	private void EatFood() {
 		state = myState.eating;
 		print("Eating my " + choice);
-		
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Eating", new Date()));
 		if (choice.equals("Steak"))
 			icon = iconState.steak;
 		else if (choice.equals("Chicken"))
@@ -457,6 +472,7 @@ public class CustomerRole extends Role implements Customer {
 	{
 		icon = iconState.none;
 		print("Telling waiter I'm finished eating.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Telling waiter I'm done eating.", new Date()));
 		state = myState.waitingForBill;
 		waiter.msgDoneEating(this);
 	}
@@ -465,15 +481,18 @@ public class CustomerRole extends Role implements Customer {
 	{
 		state = myState.paid;
 		print("Going to the cashier to pay");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Going to cashier to pay.", new Date()));
 		customerGui.DoGoToCashier();
 		if (bill > myMoney)
 		{
 			print("I don't have enough money. Giving everything to cashier.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I don't have enough money.  Giving everything.", new Date()));
 			cashier.msgHereIsMyPayment(this, myMoney);
 		}
 		else
 		{
 			print("I have enough money. Paying giving $" + bill + " to cashier.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "I have enough money. Paying giving $" + bill + " to cashier.", new Date()));
 			myMoney -= bill;
 			cashier.msgHereIsMyPayment(this, bill);
 		}
@@ -484,6 +503,7 @@ public class CustomerRole extends Role implements Customer {
 	{
 		icon = iconState.none;
 		print("Leaving because the restaurant is closed.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Leaving because restaurant is closed..", new Date()));
 		customerGui.setNotHungry();
 		state = myState.finished;
 		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
@@ -493,6 +513,7 @@ public class CustomerRole extends Role implements Customer {
 	{
 		icon = iconState.none;
 		print("I'm going to leave the restaurant.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Leaving restaurant.", new Date()));
 		waiter.msgPayingAndLeaving(this);
 		customerGui.DoExitRestaurant();
 		state = myState.finished;
@@ -505,6 +526,7 @@ public class CustomerRole extends Role implements Customer {
 		icon = iconState.none;
 		host.msgIWantFood(this, false);
 		print("I'm going to leave the restaurant.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CustomerRole", "Leaving restaurant.", new Date()));
 		this.customerGui.DoExitRestaurant();
 		state = myState.finished;
 		customerGui.setNotHungry();
