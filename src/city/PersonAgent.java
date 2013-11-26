@@ -59,6 +59,8 @@ import transportation.TransportationCompanyAgent;
 
 
 
+
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -99,7 +101,6 @@ public class PersonAgent extends Agent implements Person
 	private long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
-	
 	
 	public class Job{
 		JobType type;
@@ -189,6 +190,7 @@ public class PersonAgent extends Agent implements Person
 	
 	TransportationCompanyAgent metro;
 	double timeSinceLastSlept;
+	private Boolean noAI;
 	
 	public PersonAgent(String name, String j, String wealth){
 		this.name = name;
@@ -914,7 +916,7 @@ public class PersonAgent extends Agent implements Person
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
 		
-if (job.type == JobType.noAI){	
+if (job.type == JobType.noAI || noAI){	
 	print("sched hit");
 		if (Status.getWork() == workStatus.notWorking &&
 				Status.getDestination() == destination.work) {
@@ -953,7 +955,7 @@ if (job.type == JobType.noAI){
 //print("is gui busy, should be false" + gui.getBusy());
 //print("ai type, should be anything but NOAI" + job.type);
 //print("at work, should be anything be work" + Status.getWork());
-if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
+if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 //	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
 		for (Day d : job.daysWorking){
@@ -1674,6 +1676,10 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 	public void setPersonList(Vector<PersonAgent> people) {
 		this.people = people;
+	}
+
+	public void setAI(Boolean noAI) {
+		this.noAI = noAI;
 	}
 
 }

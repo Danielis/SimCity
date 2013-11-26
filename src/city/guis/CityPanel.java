@@ -58,6 +58,7 @@ public class CityPanel extends JPanel {
     public Vector<Building> buildings = new Vector<Building>();
     public Vector<PersonAgent> people = new Vector<PersonAgent>();
     
+	public Boolean noAI = false;
 
     private CityListPanel personPanel = new CityListPanel(this, "People");
     private JPanel group = new JPanel();
@@ -141,6 +142,7 @@ public class CityPanel extends JPanel {
     	PersonAgent p = new PersonAgent(name, job, wealth);
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);
+		p.setAI(noAI);
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
@@ -275,5 +277,9 @@ public class CityPanel extends JPanel {
 
 	public void setBuildings(Vector<Building> buildings2) {
 		buildings = buildings2;
+	}
+
+	public void setNoAI(boolean b) {
+		noAI = true;
 	}
 }

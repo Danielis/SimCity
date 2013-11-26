@@ -90,6 +90,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private JPanel functionPanel = new JPanel();
 	private JLabel functionPanelL;
 
+	private JLabel quant;
+	
 	//Copy of the current person
 	private PersonAgent currentPerson;
 
@@ -102,7 +104,7 @@ public class CityGui extends JFrame implements ActionListener {
 	public static TrackerGui trackingWindow;
 
 	private Clock clock = new Clock();
-
+	
 
 
 	// ************ START FUNCTION PANEL *********************
@@ -138,6 +140,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton busGo = new JButton("Bus");
 	private JButton scen1 = new JButton("Scenario 1");
 	private JButton workGo = new JButton("Work");
+
+	private JButton noAIGo = new JButton("Turn off all AI");
 
 	// ************ END FUNCTION PANEL *********************
 
@@ -196,7 +200,11 @@ public class CityGui extends JFrame implements ActionListener {
 		// ************ START FUNCTION PANEL *********************
 		functionPanel.setLayout(new GridLayout(0,1));
 		functionPanelL = new JLabel(); 
-		//functionPanelL.setText("<html>function panel</html>");
+		functionPanelL.setText("Amount ($):");
+		
+
+		quant = new JLabel(); 
+		quant.setText("Quantity:");
 		//functionPanel.add(functionPanelL, BorderLayout.NORTH);
 
 
@@ -221,6 +229,7 @@ public class CityGui extends JFrame implements ActionListener {
 		bankPanel.setLayout(new FlowLayout());
 		bankPanel.setBorder(bankTitle);
 		amountInput.setColumns(10);
+		bankPanel.add(functionPanelL);
 		bankPanel.add(amountInput);
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
@@ -230,6 +239,7 @@ public class CityGui extends JFrame implements ActionListener {
 		marketPanel.setLayout(new FlowLayout());
 		marketPanel.setBorder(marketTitle);
 		marketQ.setColumns(10);
+		marketPanel.add(quant);
 		marketPanel.add(marketQ);
 		marketPanel.add(marketList);
 		marketPanel.add(marketGo);
@@ -256,7 +266,8 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(workGo);
 		otherFunction.add(busGo);
 		otherFunction.add(scen1);
-
+		otherFunction.add(noAIGo);
+		
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
 		bankGo.addActionListener(this);
@@ -265,6 +276,7 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantGo.addActionListener(this);
 		workGo.addActionListener(this);
 		housingList.addActionListener(this);
+		noAIGo.addActionListener(this);
 
 
 		// ************ END FUNCTION PANEL *********************
@@ -506,6 +518,10 @@ public class CityGui extends JFrame implements ActionListener {
 		if (e.getSource() == scen1){
 			Scenario.getInstance().CallScenario1(this.cityPanel);
 			scen1.setEnabled(false);
+		}
+		if (e.getSource() == noAIGo){
+			this.cityPanel.setNoAI(true);
+			noAIGo.setEnabled(false);
 		}
 		if (currentPerson != null){
 			if (e.getSource() == restaurantGo) 
