@@ -99,7 +99,7 @@ public class PersonGui implements Gui{
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(329,88);
-		
+		Coordinate bank = new Coordinate(80,74);
 		
 		outside = new Coordinate(700, 250);
     	position = new Coordinate(700, 250);
@@ -379,6 +379,8 @@ public class PersonGui implements Gui{
 		this.position.x = X;
 		this.position.y = Y;
 	}
+
+
 
 	
 

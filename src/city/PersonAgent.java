@@ -930,7 +930,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	private boolean needsToBuy() {
 		if (inventory.size() > 0){
 			for (Item i : inventory){
-				print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
+				//print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
 				if(i.quantity < i.threshold){
 					marketPurpose = i.type;
 					marketQuantity = i.threshold - i.quantity;
@@ -1006,13 +1006,13 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		HousingCustomerRole c = new HousingCustomerRole(this.getName());
 		c.setPerson(this);
 		roles.add(c);
-		this.roles.get(0).setActivity(true);
+		c.setActivity(true);
 
 		for (Building b: buildings){
 			//print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				Apartment a = (Apartment) b;
-				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0), homePurpose);
+				a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
 			}
 		}
 	}
@@ -1172,8 +1172,8 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		CustomerRole c = new CustomerRole(this.getName(), cash);
 		c.setPerson(this);
 		roles.add(c);
-		this.roles.get(0).setActivity(true);
-
+		//this.roles.get(0).setActivity(true);
+		c.setActivity(true);
 
 		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 
@@ -1185,7 +1185,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 				if (b.getType() == buildingType.restaurant){
 					Restaurant r = (Restaurant) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((Customer)roles.get(0));
+					r.panel.customerPanel.addCustomer((Customer) c);
 				}
 			}
 		}
