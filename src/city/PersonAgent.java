@@ -768,6 +768,8 @@ public class PersonAgent extends Agent implements Person
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
+		
+if (job.type == JobType.noAI){		
 		if (Status.getWork() == workStatus.notWorking &&
 				Status.getDestination() == destination.work) {
 			print("Scheduler realized the person wants to go to work");
@@ -782,8 +784,8 @@ public class PersonAgent extends Agent implements Person
 		}
 		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
-				Status.getDestination() == destination.bank) {
-				ForceGoToBank();
+				Status.getDestination() == destination.bank && CheckBankOpen()) {
+				GoToBank();
 				return true;
 			}
 		if (Status.getDestination() == destination.market &&
@@ -799,14 +801,9 @@ public class PersonAgent extends Agent implements Person
 			GoHomeToDoX();
 			return true;
 		}
-		
-if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working){	
+}
 
-	// UNCOMMENT THIS SECTION IF YOU WANT EVERYONE TO AUTOMATICALLY GO TO WORK FROM INITIATION ***********************************************************************
-//	if(job.type != JobType.noAI && job.type != JobType.none){
-//		GoToWork();
-//		return true;
-//	}
+if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 	
 	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 		for (Day d : job.daysWorking){
@@ -817,9 +814,9 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		}
 	}
 	
-	if(needsBankTransaction()){
-		CheckBankOpen();
-		//return true;
+	if(needsBankTransaction() && CheckBankOpen()){
+		GoToBank();
+		return true;
 	}
 	
 	if(needsToBuy()){
@@ -883,7 +880,21 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		return false;	
 	}
 
-	private void CheckBankOpen() {
+	private boolean noRoleActive() {
+		synchronized(roles)
+		{
+			for(Role r : roles)
+			{
+				if(r.active)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private Boolean CheckBankOpen() {
 		print("I need to go to the bank!");
 		Bank r = null;
 		synchronized(buildings) {
@@ -895,24 +906,13 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 			}
 		}
 		if(r.isOpen())
-			GoToBank(r);
-		else
+			return true;
+		else{
 			print("Aww.. bank is closed :(");	
+			return false;
+		}
 	}
 
-	private void ForceGoToBank() {
-		Bank r = null;
-		synchronized(buildings) {
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					//print("found b");
-					r = (Bank) b;
-				}
-			}
-		}
-		if(r.isOpen())
-			GoToBank(r);
-	}
 
 	private void DelayGoToWork() {
 		int num = (int)(Math.random() * ((5 - 0) + 1));
@@ -1017,8 +1017,17 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		}
 	}
 
-	public void GoToBank(Bank r)
+	public void GoToBank()
 	{
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					//print("found b");
+					r = (Bank) b;
+				}
+			}
+		}
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
