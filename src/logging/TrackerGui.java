@@ -30,7 +30,7 @@ public class TrackerGui implements ActionListener {
 		//creates window
 		trackerFrame = new JFrame("Tracker - Choose a tag to filter - Move/Resize as desired");
 		trackerFrame.setLocation(700, 50);
-		trackerFrame.setSize(new Dimension(550,250));
+		trackerFrame.setSize(new Dimension(550,200));
 		trackerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		trackerFrame.setResizable(true);
 		trackerFrame.setVisible(true);
