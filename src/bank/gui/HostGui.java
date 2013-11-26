@@ -21,7 +21,7 @@ public class HostGui implements Gui {
     Coordinate position;
     Coordinate destination;
     Coordinate homeposition;
-    
+    Coordinate leavePos;
     Timer timer = new Timer();
 	BufferedImage speechBubble;
 	
@@ -30,6 +30,7 @@ public class HostGui implements Gui {
     
     private final int deltadivider = 100;
     BankGui gui;
+    Boolean isPresent = true;
     
     public HostGui(BankHost agent, BankGui gui) {
         this.agent = agent;
@@ -40,7 +41,9 @@ public class HostGui implements Gui {
         } catch (IOException e ) {}
     	homeposition = new Coordinate(297, 249);
         position = new Coordinate(homeposition.x, homeposition.y - 20);
+        leavePos = new Coordinate(homeposition.x, homeposition.y -20);
     	destination = homeposition;
+  
     }
 
 public void updatePosition() {
@@ -78,8 +81,11 @@ public void updatePosition() {
     }
     public void draw(Graphics2D g) {
      	Graphics2D newG = (Graphics2D)g;
+     	
+    	if (isPresent){
         newG.drawImage(imgTrainer, position.x, position.y, agent.copyOfAnimPanel);
-   
+    	}
+    	
         if (showSpeechBubble){
 			newG.drawImage(speechBubble, speechBubbleLoc.x, speechBubbleLoc.y, agent.copyOfAnimPanel);
 		}
@@ -115,5 +121,12 @@ public void updatePosition() {
 		//System.out.println(agent.getName() + " is going to the waiting room");
 		destination = homeposition;
 		agent.WaitForAnimation();
+	}
+
+	public void setDone()
+	{
+		isPresent = false;
+		goingSomewhere = true;
+		destination = leavePos;
 	}
 }

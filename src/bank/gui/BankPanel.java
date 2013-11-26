@@ -152,6 +152,7 @@ public class BankPanel extends JPanel {
 		// TODO Auto-generated method stub
 		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
+		host.setBank(b);
 		host.setGui(g);
 		host.setAnimPanel(gui.animationPanel);
 		this.host = host;
@@ -162,13 +163,13 @@ public class BankPanel extends JPanel {
         gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Teller Added", new Date()));
 		Teller w = c;	
 		b.addTeller(w);
-		c.setTableNum(b.getTellerNunmber()); 
-		TellerGui g = new TellerGui(w, gui, b.getTellerNunmber());
+		//c.setTableNum(b.getTellerTableNunmber()); 
+		TellerGui g = new TellerGui(w, gui, b.setTableNum());
 		w.setBank(b);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);  
 		w.setAnimPanel(gui.animationPanel);
-		host.msgNewTeller(w); 
+		//host.msgNewTeller(w); 
 		w.setGui(g);
 		waiters.add(w);
 		//w.startThread();

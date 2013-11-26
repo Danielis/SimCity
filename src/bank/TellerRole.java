@@ -32,7 +32,7 @@ public class TellerRole extends Role implements Teller {
 	
 	public BankHost host;
 	public TellerGui waiterGui;
-	
+	Boolean leave = false;
 	//Variables
 	private int tableNum;
 	private String name;
@@ -125,7 +125,7 @@ public class TellerRole extends Role implements Teller {
 		}
 
 
-
+		
 		double amount;
 	    Account account;
 	    Loan loan;
@@ -147,6 +147,13 @@ public enum myState
 }
 
 //MESSAGES****************************************************
+
+@Override
+public void msgLeaveWork() {
+	leave = true;
+	stateChanged();
+}
+
 
 public void IWantAccount(BankCustomerRole c, double amount){
     Account acct = bank.createAccount(c);
@@ -281,6 +288,8 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 				return true;
 			}
 			waiterGui.DoGoToHomePosition();
+			if (leave)
+				LeaveWork();
 			return false;
 		}
 		catch(ConcurrentModificationException e)
@@ -291,7 +300,14 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	}
 
 //ACTIONS********************************************************
-
+	
+	private void LeaveWork() {
+		bank.Leaving();
+		waiterGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
+	
 	private void HandleNoLoan(Transaction t){
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You do not have a loan here", new Date()));
 		print("You do not have a loan here.");
@@ -515,6 +531,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 	public void setBank(Bank b) {
 		this.bank = b;
 	}
+	
 
 }
 

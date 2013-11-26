@@ -410,5 +410,10 @@ public class WaiterRole extends Role implements Waiter
 	{
 		animSemaphore.release();
 	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

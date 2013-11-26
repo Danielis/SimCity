@@ -468,5 +468,11 @@ public class HostRole extends Role implements Host{
 			mw.w.msgBreakGranted(false);
 		}
 	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

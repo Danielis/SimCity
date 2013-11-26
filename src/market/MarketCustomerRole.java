@@ -364,6 +364,12 @@ private void LeaveMarket(){
 		this.h = host;
 	}
 
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
 

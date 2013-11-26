@@ -56,7 +56,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	//landlord agent for the customer
 	private LandlordAgent landlord;
-
+	Boolean leavingHouse = false;
 	//how much money owned/owed 
 	double balance;
 	double bill;
@@ -79,47 +79,44 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------------------------------------
 	//arriving at house
 	
-	public void msgLeaveHouse() {
-		leave = true;
-		myPerson.stateChanged();
-	}
+
 	
 	public void enteringHouse() {
 
 	}
 	public void msgDoSomething() {
 		//print("dosmth");
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  rent bill
 	public void HereIsRentBill(double amount){
 		bill = amount;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  change from rent bill
 	public void HereIsChange(double amount){
 		balance += amount;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  rent is paid
 	public void RentIsPaid(){
 		bill = 0;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//sent from landlord.  money is still owed
 	public void YouStillOwe(double amount){
 		needsLoan = true;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//going be set into action by the user or a criminal or something.  
 	public void MyHouseNeedsRepairs(){
 		houseNeedsRepairs = true;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 	//eat at home message
 	public void EatAtHome() {
 		hungry = true;
-		myPerson.stateChanged();
+		stateChanged();
 	}
 
 	//--------------------------------------------------------
@@ -148,10 +145,12 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			GetFood();
 			return true;
 		}
-		//if(!gui.goingSomewhere) {
+		if(!leave) {
 			gui.DoGoToThreshold();
 			gui.DoGoToBed();
-		//}
+		}
+		else
+			LeaveApartment();
 		return false;
 	}
 
@@ -212,7 +211,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		leave = false;
 		gui.DoWalkOut();
 		gui.setDone();
-		this.myPerson.msgLeavingHome(this, balance);
+		myPerson.msgLeavingHome(this, balance);
 	}
 
 	public HousingCustomerGui getGui() {
@@ -247,6 +246,17 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
         } catch (Exception e) {
             print("Unexpected exception caught in Agent thread:", e);
         }
+	}
+
+	public void msgLeaveHome() {
+		leave = true;
+		stateChanged();
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
