@@ -98,8 +98,8 @@ public class MarketAgent extends Agent implements Market {
 		return name;
 	}
 	
-	public void setCook(CookAgent c){
-		cook = c;
+	public void setCook(Cook cook2){
+		cook = cook2;
 	}
 	
 	public void setCashier(Cashier cashier2){

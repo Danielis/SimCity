@@ -9,11 +9,11 @@ import restaurant.CookAgent;
 import restaurant.HostAgent;
 import restaurant.MyCustomer;
 import restaurant.CustomerState;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent.myState;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
-import roles.Restaurant;
 import roles.Role;
 import agent.RestaurantMenu;
 
@@ -78,11 +78,11 @@ public class WaiterRole extends Role implements Waiter
 		copyOfAnimPanel = panel;
 	}
 	
-	public void setHost(HostAgent host) {
+	public void setHost(Host host) {
 		this.host = host;
 	}
 	
-	public void setCook(CookAgent cook) {
+	public void setCook(Cook cook) {
 		this.cook = cook;
 	}
 	

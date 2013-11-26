@@ -12,7 +12,6 @@ import restaurant.WaiterAgent;
 
 public interface Waiter 
 {
-	
 	RestaurantAnimationPanel copyOfAnimPanel = null;
 
 	public HostAgent host = null;
@@ -51,4 +50,16 @@ public interface Waiter
 
 	public abstract void resumeAgent();
 
+	public abstract void setHost(Host host);
+
+	public abstract void setAnimPanel(RestaurantAnimationPanel animationPanel);
+
+	public abstract void setCook(Cook cook);
+
+	public abstract void setCashier(Cashier cashier);
+
+	public abstract void setGui(WaiterGui g);
+
+	public abstract void pauseAgent();
+	
 }

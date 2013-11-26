@@ -11,7 +11,6 @@ import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cook;
 import restaurant.interfaces.Waiter;
 import restaurant.MarketAgent;
-import roles.Restaurant;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

@@ -3,6 +3,7 @@ package city.guis;
 import restaurant.CustomerAgent;
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import restaurant.MarketAgent;
@@ -11,7 +12,6 @@ import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
 import roles.Building;
-import roles.Restaurant;
 //adding transportation
 import transportation.*;
 import transportation.gui.BusGui;
@@ -28,7 +28,12 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Vector;
+
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -132,8 +137,8 @@ public class CityPanel extends JPanel {
 	//Adds a person to the city
     public void addPerson(String name, String job, String wealth) 
     {
-    	System.out.println("Got here A");
-		PersonAgent p = new PersonAgent(name, job, wealth);
+    	gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
+    	PersonAgent p = new PersonAgent(name, job, wealth);
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);
 		p.setGui(g);
@@ -146,7 +151,7 @@ public class CityPanel extends JPanel {
     
     public void createBusSystem() //Trans: Once AI and adding implementations are done, we can make this just an addBus or addStop function
     {
-        System.out.println("Got to create bus system");
+    	gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Bus System Created", new Date()));
         //Buses
         BusAgent B = new BusAgent("Bus1");
         BusGui Bg = new BusGui(B,gui);

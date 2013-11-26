@@ -3,6 +3,7 @@ package city.guis;
 
 //Import other packages
 import restaurant.CustomerAgent;
+import restaurant.Restaurant;
 //import bank.gui.BankGui;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
@@ -12,7 +13,6 @@ import restaurant.gui.RestaurantGui;
 import restaurant.interfaces.Customer;
 import roles.Apartment;
 import roles.Building;
-import roles.Restaurant;
 import roles.Building.buildingType;
 import housing.guis.HousingGui;
 import bank.Bank;
@@ -89,6 +89,8 @@ public class CityGui extends JFrame implements ActionListener {
     private JButton refreshButton;
        
     Boolean isPaused = false;
+        
+    public static TrackerGui trackingWindow;
     
     private Clock clock = new Clock();
     
@@ -565,13 +567,13 @@ public class CityGui extends JFrame implements ActionListener {
     	CityGui gui = new CityGui();
     	gui.setVisible(true);
     	
-//TODO marker so i can turn this off and on
+
+    	trackingWindow = new TrackerGui();
+
     	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
      //   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 
 
-        
-        TrackerGui trackerWindow = new TrackerGui();
     }
 }
