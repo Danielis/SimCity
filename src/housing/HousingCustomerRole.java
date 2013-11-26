@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 
 import logging.TrackerGui;
 import roles.Role;
+import city.PersonAgent;
 import city.guis.PersonGui;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
@@ -26,6 +27,10 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		houseNeedsRepairs = false;
 		hungry = false;
 		System.out.println("Housing Customer created.");
+	}
+	
+	public PersonAgent getPerson() {
+		return myPerson;
 	}
 	
 	public void setTrackerGui(TrackerGui t) {

@@ -72,24 +72,44 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.drawImage(wood_floor, 0, 0, this);
 		background.drawImage(kitchen, 0, 0, 288, 241, this);
 		background.drawImage(landlord_office, 300, 0, this);
+		//first row of beds
+		background.drawImage(bed, 525, 100, this);
+		background.drawImage(bed, 550, 100, this);
+		background.drawImage(bed, 575, 100, this);
 		background.drawImage(bed, 600, 100, this);
+		background.drawImage(bed, 625, 100, this);
 		background.drawLine(500, 60, 500, 135);
 		background.drawLine(500, 135, 700, 135);
-		background.drawImage(bed, 600, 200, this);		
-		background.drawLine(500, 170, 500, 235);
+		background.drawImage(bed, 525, 200, this);
+		background.drawImage(bed, 550, 200, this);
+		background.drawImage(bed, 575, 200, this);
+		background.drawImage(bed, 600, 200, this);
+		background.drawImage(bed, 625, 200, this);		background.drawLine(500, 170, 500, 235);
 		background.drawLine(500, 235, 700, 235);
+		background.drawImage(bed, 525, 300, this);
+		background.drawImage(bed, 550, 300, this);
+		background.drawImage(bed, 575, 300, this);
 		background.drawImage(bed, 600, 300, this);
-		background.drawLine(500, 270, 500, 335);
+		background.drawImage(bed, 625, 300, this);		background.drawLine(500, 270, 500, 335);
 		background.drawLine(500, 335, 700, 335);
+		background.drawImage(bed, 525, 400, this);
+		background.drawImage(bed, 550, 400, this);
+		background.drawImage(bed, 575, 400, this);
 		background.drawImage(bed, 600, 400, this);
-		background.drawLine(500, 370, 500, 435);
+		background.drawImage(bed, 625, 400, this);		background.drawLine(500, 370, 500, 435);
 		background.drawLine(500, 435, 700, 435);
+		background.drawImage(bed, 525, 500, this);
+		background.drawImage(bed, 550, 500, this);
+		background.drawImage(bed, 575, 500, this);
 		background.drawImage(bed, 600, 500, this);
-		background.drawLine(500, 470, 500, 535);
+		background.drawImage(bed, 625, 500, this);		background.drawLine(500, 470, 500, 535);
 		background.drawLine(500, 535, 700, 535);
 		background.drawLine(500, 570, 500, 735);
-
-		background.drawImage(bed, 600, 600, this);
+		background.drawImage(bed, 525, 610, this);
+		background.drawImage(bed, 550, 610, this);
+		background.drawImage(bed, 575, 610, this);
+		background.drawImage(bed, 600, 610, this);
+		background.drawImage(bed, 625, 610, this);
 		
 		//BACKGROUND INITIATION
 		for(Gui gui : guis) {

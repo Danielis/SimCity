@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent;
 import logging.TrackerGui;
 import agent.Agent;
 
@@ -59,6 +60,7 @@ public class LandlordAgent extends Agent {
 	private class Payment{
 		HousingComplex complex;
 		HousingCustomer inhabitant;
+		PersonAgent inhabitantPerson;
 		double amountOwed;
 		double amountPaid;
 		paymentState s;
