@@ -25,6 +25,7 @@ public class Bank extends Building{
 	public String name; //Name of the restaurant
     public Coordinate location;
     public int numTellersWorking = 0;
+    public BankHostRole host;
 	
 	public Bank(BankGui gui, String name){
 		//super();
@@ -44,6 +45,9 @@ public class Bank extends Building{
 		numTellersWorking ++;
 	}
 	
+	public Boolean isOpen(){
+		return (host != null);
+	}
 	public int getTellerNunmber(){
 		return numTellersWorking;
 	}

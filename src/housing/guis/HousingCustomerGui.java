@@ -209,7 +209,11 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		agent.msgDoSomething();
 		setPresent(true);
 	}
-	
+	public void DoWalkOut(){
+		goingSomewhere = true;
+		destination = new Coordinate(475, 750);
+		agent.WaitForAnimation();
+	}
 	public void setDone()
 	{
 		isBusy = false;

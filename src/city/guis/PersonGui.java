@@ -53,6 +53,7 @@ public class PersonGui implements Gui{
 	Coordinate checkpointI; 
 	Coordinate checkpointJ; 
 	Coordinate checkpointK;
+	Coordinate checkpointL;
 	
 	Coordinate checkpointHouse;
 
@@ -86,23 +87,47 @@ public class PersonGui implements Gui{
 		checkpointA = new Coordinate(257,474);//restaurant
 		checkpointB = new Coordinate(385,474);//bottom street corner  
 		checkpointC = new Coordinate(385,362);//middle lower street corner
-		checkpointD = new Coordinate(385,282);//middle higher street corner
-		checkpointE = new Coordinate(283,282);//in front of market
-		checkpointF = new Coordinate(283,265);//Market
-		checkpointG = new Coordinate(185,106);//Top street corner
+		checkpointD = new Coordinate(385,275);//middle higher street corner
+		checkpointE = new Coordinate(280,275);//in front of market
+		checkpointF = new Coordinate(280,265);//Market
+		checkpointG = new Coordinate(385,106);//Top street corner
 		checkpointH = new Coordinate(319,106);//in front of Apartments
 		checkpointI = new Coordinate(319,90);//Apartments
 		checkpointJ = new Coordinate(73,106);//in front of bank
 		checkpointK = new Coordinate(73,74);//Bank
+
+		checkpointL = new Coordinate(485,474);
+		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
+//		checkpointA = new Coordinate(395,250);
+//		checkpointB = new Coordinate(395,125);
+//		checkpointC = new Coordinate(320,125);
+//		checkpointD = new Coordinate(320,100);
+		checkpointHouse = new Coordinate(536,473);
+		
+
 		checkpointA = new Coordinate(395,250);
 		checkpointB = new Coordinate(395,125);
 		checkpointC = new Coordinate(320,125);
 		checkpointD = new Coordinate(320,100);
-		checkpointHouse = new Coordinate(536,473);
-		
+		checkpointHouse = new Coordinate(329,88);
+		Coordinate bank = new Coordinate(80,74);
+
 		
 		outside = new Coordinate(700, 250);
-    	position = new Coordinate(700, 250);
+		
+		
+		
+		Random x = new Random();
+    	int y1=x.nextInt(500-50) + 50;
+    	
+		Random r = new Random();
+    	int x1=r.nextInt(500-50) + 50;
+		
+    	position = new Coordinate(x1, y1);
+    	
+    	
+    	
+    	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -155,6 +180,7 @@ public class PersonGui implements Gui{
         	
         	if (deltax < 0) deltax *= -1;
         	if (deltay < 0) deltay *= -1;
+        	
         	
             if (position.x < destination.x)
             {
@@ -361,6 +387,12 @@ public class PersonGui implements Gui{
               destination = checkpointK;
               agent.WaitForAnimation();
           }
+	      else if(a == 'L' || a == 'l')
+          {
+              goingSomewhere = true;
+              destination = checkpointL;
+              agent.WaitForAnimation();
+          }
 	}
 	public void DoGoToLocation(int X,int Y){
 		goingSomewhere = true;
@@ -379,6 +411,8 @@ public class PersonGui implements Gui{
 		this.position.x = X;
 		this.position.y = Y;
 	}
+
+
 
 	
 

@@ -59,6 +59,8 @@ public class MarketCustomerGui implements Gui{
 	Boolean showSpeechBubble = false;
 	Coordinate speechBubbleLoc;
 	
+	String direct = "up";
+	int move = 0;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -87,7 +89,6 @@ public class MarketCustomerGui implements Gui{
 	public void updatePosition() {
 		if (goingSomewhere)
     	{
-			
     		//Do you like my Delta Movement System?
     		//I thought of it myself :D
     		//EC PLS
@@ -100,28 +101,60 @@ public class MarketCustomerGui implements Gui{
         	
         	if (position.x > destination.x){
                 position.x -= (1 + deltax/deltadivider);
-                setLeftImage();
+                direct = "left";
+                setImage(false);
+                move++;
             }
             else if (position.y < destination.y){
                 position.y += (1 + deltay/deltadivider);
-                setDownImage();
+                direct = "down";
+                setImage(false);
+                move++;
             }
             else if (position.y > destination.y){
                 position.y -= (1 + deltay/deltadivider);
-                setUpImage();
+                direct = "up";
+                setImage(false);
+                move++;
             }
             else if (position.x < destination.x){
                 position.x += (1 + deltax/deltadivider);
-                setRightImage();
+                direct = "right";
+                setImage(false);
+                move++;
+
             }
 
             if (position.x == destination.x && position.y == destination.y)
             {
             	goingSomewhere = false;
-            	setUpImage();
+            	setImage(true);
             	agent.DoneWithAnimation();
             }
+            
     	}
+	}
+	
+	private void setImage(Boolean noMove){
+		String start = "/resources/bankSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (move >= 40 || noMove){
+			move = 0;
+			num = "0";
+		}
+        else if (move < 20)
+        	num = "2";
+        else if (move < 40)
+        	num = "1";
+    
+       
+		String collapse = start + mid + num + end;
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
 	}
 
 	private void setLeftImage() {

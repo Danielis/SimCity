@@ -124,18 +124,21 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 			c2.drawImage(cloud2, c_position2.x, c_position2.y, this);
 			c3.drawImage(cloud3, c_position3.x, c_position3.y, this);
 
-    		
+			synchronized(guis){
             for(Gui gui : guis) {
                     if (gui.isPresent()) {
                     	gui.updatePosition();
                     }
             }
-
+			}
+			
+			synchronized(guis){
             for(Gui gui : guis) {
                     if (gui.isPresent()) {
                     	gui.draw(images);
                     }
             }
+			}
             g.setColor(Color.BLACK);
             g.drawString(TimeManager.getInstance().TimeStr(), 520, 615);
             

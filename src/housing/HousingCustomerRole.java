@@ -20,9 +20,9 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	
 	
 	
-	public HousingCustomerRole(String name2) {
+	public HousingCustomerRole(String name2, double b) {
 		name = name2;
-		balance = 10000;
+		balance = b;
 		needsLoan = false;
 		houseNeedsRepairs = false;
 		hungry = false;
@@ -62,6 +62,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	private Boolean needsLoan;
 	public Boolean houseNeedsRepairs;
 	public Boolean hungry;
+	private Boolean leave = false;
 
 	public String getName()
 	{
@@ -72,11 +73,17 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//------------------Messages---------------------
 	//-----------------------------------------------
 	//arriving at house
+	
+	public void msgLeaveHouse() {
+		leave = true;
+		myPerson.stateChanged();
+	}
+	
 	public void enteringHouse() {
 
 	}
 	public void msgDoSomething() {
-		print("dosmth");
+		//print("dosmth");
 		myPerson.stateChanged();
 	}
 	//sent from landlord.  rent bill
@@ -116,6 +123,10 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		System.out.println("Tenant scheduler.");
+		if(leave){
+			LeaveApartment();
+			return true;
+		}
 		if (needsLoan){
 			TakeOutLoan();
 			return true;
@@ -133,6 +144,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			return true;
 		}
 		//if(!gui.goingSomewhere) {
+			gui.DoGoToThreshold();
 			gui.DoGoToBed();
 		//}
 		return false;
@@ -190,7 +202,12 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	}
 	
 	private void LeaveApartment(){
+		houseNeedsRepairs = false;
+		hungry = false;
+		leave = false;
+		gui.DoWalkOut();
 		gui.setDone();
+		this.myPerson.msgLeavingHome(this, balance);
 	}
 
 	public HousingCustomerGui getGui() {
