@@ -132,13 +132,14 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
         
         
                 
-
+       	synchronized(guis){
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+       	}
+    	synchronized(guis){
         for(Gui gui : guis) {
             if (gui.isPresent()) {
             
@@ -146,11 +147,13 @@ public class MarketAnimationPanel extends JPanel implements ActionListener {
             	gui.draw(host);
             }
         }
-        
+    	}
     }
 
     public void addGui(MarketCustomerGui gui) {
+    	synchronized(guis){
         guis.add(gui);
+    	}
     }
     
     public void addGui(MarketTellerGui gui) {

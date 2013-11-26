@@ -5,7 +5,6 @@ import agent.RestaurantMenu;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
-import roles.Restaurant;
 import restaurant.MyCustomer;
 import restaurant.CustomerAgent;
 
@@ -78,7 +77,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		this.host = host;
 	}
 	
-	public void setCook(CookAgent cook) {
+	public void setCook(Cook cook) {
 		this.cook = cook;
 	}
 	

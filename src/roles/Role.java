@@ -81,6 +81,12 @@ public class Role
 
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
+
+	}
+
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

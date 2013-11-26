@@ -3,9 +3,9 @@ package restaurant.roles;
 import restaurant.CustomerState;
 import restaurant.MyCustomer;
 import restaurant.ProducerConsumerMonitor;
+import restaurant.Restaurant;
 import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.interfaces.*;
-import roles.Restaurant;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

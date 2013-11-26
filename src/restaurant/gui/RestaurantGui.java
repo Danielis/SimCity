@@ -1,12 +1,12 @@
 package restaurant.gui;
 
 import restaurant.CustomerAgent;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Waiter;
-import roles.Restaurant;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -214,36 +214,36 @@ public class RestaurantGui extends JFrame implements ActionListener {
         	Waiter w = currentWaiter;
         	w.getGui().AskGoOffBreak();
         }
-        if (e.getSource() == MrKrabsButton)
-        {
-        	this.restPanel.cashier.setBalance(0.0f);
-        	System.out.println("Mr. Krabs has collected all his cash. The cashier is out of money.");
-        }
-        if (e.getSource() == RamsayButton)
-        {
-        	System.out.println("Gordon Ramsay threw a fit and threw all the food away. Inventory is now 0.");
-        	for (int i = 0; i < 4; i++)
-        		this.restPanel.cook.inventory.get(i).amount = 0;
-        }
-        if (e.getSource() == pauseButton)
-        {
-        	if (isPaused)
-        	{
-        		pauseButton.setText("PAUSE");
-        		restPanel.resume();
-        		isPaused = false;
-        	}
-        	else if(isPaused == false)
-        	{
-        		pauseButton.setText("RESUME");
-        		restPanel.pause();
-        		isPaused = true;
-        	}
-        }
-        if (e.getSource() == refreshButton)
-        {
-        	restPanel.refresh();
-        }
+//        if (e.getSource() == MrKrabsButton)
+//        {
+//        	this.restPanel.cashier.setBalance(0.0f);
+//        	System.out.println("Mr. Krabs has collected all his cash. The cashier is out of money.");
+//        }
+//        if (e.getSource() == RamsayButton)
+//        {
+//        	System.out.println("Gordon Ramsay threw a fit and threw all the food away. Inventory is now 0.");
+//        	for (int i = 0; i < 4; i++)
+//        		this.restPanel.cook.inventory.get(i).amount = 0;
+//        }
+//        if (e.getSource() == pauseButton)
+//        {
+//        	if (isPaused)
+//        	{
+//        		pauseButton.setText("PAUSE");
+//        		restPanel.resume();
+//        		isPaused = false;
+//        	}
+//        	else if(isPaused == false)
+//        	{
+//        		pauseButton.setText("RESUME");
+//        		restPanel.pause();
+//        		isPaused = true;
+//        	}
+//        }
+//        if (e.getSource() == refreshButton)
+//        {
+//        	restPanel.refresh();
+//        }
     }
     /**
      * Message sent from a customer gui to enable that customer's

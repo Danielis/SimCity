@@ -50,7 +50,7 @@ public class CookGui implements Gui{
 	
 	BufferedImage imgCook;
 
-	public CookGui(CookAgent c, RestaurantGui gui)
+	public CookGui(Cook cook, RestaurantGui gui)
 	{
 		try
         {
@@ -78,7 +78,7 @@ public class CookGui implements Gui{
         } catch (IOException e ) {}
         
         
-		agent = c;
+		agent = cook;
 		this.gui = gui;
 		position = new Coordinate(450,110);
     	fridge = new Coordinate(370, 55);

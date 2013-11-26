@@ -9,22 +9,33 @@ import agent.Agent;
 public class Clock extends Agent {
 String name = "Clock";
 List<PersonAgent> people = new ArrayList<PersonAgent>();
-Day msgLastSent = Day.thursday;
+Day msgWakeLastSent = Day.thursday;
+Day msgHomeLastSent = Day.thursday;
 	@Override
 	
 	
 	protected boolean pickAndExecuteAnAction() {
-		if (WakeUp() && DayOver())
-			msgPeople();
+		if (WakeUp() && DayOverWake())
+			msgPeopleWake();
+		if (GoHome() && DayOverHome())
+			msgPeopleGoHome();
 		return true;
 	}
 
-	private boolean DayOver() {
-		return (msgLastSent != TimeManager.getInstance().getDay());
+	private boolean DayOverWake() {
+		return (msgWakeLastSent != TimeManager.getInstance().getDay());
+	}
+	
+	private boolean DayOverHome() {
+		return (msgHomeLastSent != TimeManager.getInstance().getDay());
+	}
+	
+	private Boolean GoHome(){
+		return (TimeManager.getInstance().getHour() == 18);
 	}
 
-	private void msgPeople() {
-		msgLastSent = TimeManager.getInstance().getDay();
+	private void msgPeopleWake() {
+		msgWakeLastSent = TimeManager.getInstance().getDay();
 		print("5AM. TIME TO WAKE UP!");
 		for (PersonAgent p : people){
 			p.msgWakeUp();
@@ -35,6 +46,18 @@ Day msgLastSent = Day.thursday;
 		
 	}
 
+	private void msgPeopleGoHome() {
+		msgHomeLastSent = TimeManager.getInstance().getDay();
+		print("6PM. TIME TO GO HOME!");
+		for (PersonAgent p : people){
+			p.msgWakeUp();
+			if (p.Status.getLocation() == location.work){
+				p.msgLeaveWork();
+			}
+		}
+		
+	}
+	
 	private boolean WakeUp() {
 		return (TimeManager.getInstance().getHour() == 5);
 	}

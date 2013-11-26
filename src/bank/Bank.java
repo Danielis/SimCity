@@ -59,6 +59,10 @@ public class Bank extends Building{
 		return numTellersWorking;
 	}
 	
+	public List<Teller> getTellers(){
+		return workingTellers;
+	}
+	
 	public class Account {
 		int id; // auto increment
 	    BankCustomerRole c;

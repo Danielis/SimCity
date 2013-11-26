@@ -1,4 +1,4 @@
-package restaurant.test.mock;
+package transportation.test.mock;
 import java.util.List;
 
 import restaurant.HostAgent;
@@ -12,13 +12,13 @@ import restaurant.interfaces.Customer;
 import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
 
-public class MockWaiter extends Mock implements Waiter {
+public class MockTransportationCompany extends Mock implements Waiter {
 
 		public HostAgent host;
         public Cashier cashier;
         public EventLog log;
 
-        public MockWaiter(String name) 
+        public MockTransportationCompany(String name) 
         {
                 super(name);
                 log = new EventLog();
