@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 public class TrackerGui {
 	
 	JFrame trackerFrame;
-	TracePanel tracker;
+	public TracePanel tracker;
 
 	public TrackerGui() {
 		//creates window
@@ -25,6 +25,7 @@ public class TrackerGui {
         tracker.setVisible(true);
         tracker.showAlertsForAllLevels();
         tracker.showAlertsForAllTags();
+        
         //test message
         tracker.alertOccurred(new Alert(AlertLevel.ERROR, AlertTag.GENERAL_CITY, "chris", "test message", new Date()));
 	}
