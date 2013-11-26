@@ -1,5 +1,7 @@
 package city;
 
+import city.TimeManager.Day;
+
 public class TimeManager {
 	
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
@@ -85,6 +87,11 @@ public class TimeManager {
 			dayOfWeek = Day.sunday;
 	}
 	
+	public int getHour(){
+		updateTime();
+		return hours;
+	}
+	
 	
 	public String dayString(){
 		if (dayOfWeek == Day.monday)
@@ -102,6 +109,12 @@ public class TimeManager {
 		if (dayOfWeek == Day.sunday)
 			return "Sunday";
 		return "Error";
+	}
+
+
+	public Day getDay() {
+		updateTime();
+		return dayOfWeek;
 	}
 	
 }

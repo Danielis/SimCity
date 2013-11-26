@@ -36,6 +36,7 @@ public class CityListPanel extends JPanel implements ActionListener {
 
     private PersonAgent lastPersonClicked;
 
+    
     private CityPanel cityPanel;
     String type;
 

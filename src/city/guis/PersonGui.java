@@ -95,6 +95,7 @@ public class PersonGui implements Gui{
 		checkpointI = new Coordinate(319,90);//Apartments
 		checkpointJ = new Coordinate(73,106);//in front of bank
 		checkpointK = new Coordinate(73,74);//Bank
+
 		checkpointL = new Coordinate(485,474);
 		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
 //		checkpointA = new Coordinate(395,250);
@@ -103,6 +104,14 @@ public class PersonGui implements Gui{
 //		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
 		
+
+		checkpointA = new Coordinate(395,250);
+		checkpointB = new Coordinate(395,125);
+		checkpointC = new Coordinate(320,125);
+		checkpointD = new Coordinate(320,100);
+		checkpointHouse = new Coordinate(329,88);
+		Coordinate bank = new Coordinate(80,74);
+
 		
 		outside = new Coordinate(700, 250);
     	position = new Coordinate(700, 250);
@@ -389,6 +398,8 @@ public class PersonGui implements Gui{
 		this.position.x = X;
 		this.position.y = Y;
 	}
+
+
 
 	
 

@@ -5,21 +5,26 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 import restaurant.CustomerAgent;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantPanel;
 import restaurant.interfaces.Customer;
-//import restaurant.roles.CustomerRole;
+import restaurant.roles.CustomerRole;
 import agent.Agent;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
+import city.TimeManager.Day;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
 import bank.Bank.Account;
 import bank.Bank.Loan;
 import bank.Bank.loanState;
+import bank.BankHostRole;
 import bank.interfaces.*;
 import roles.Apartment;
 import roles.Building;
@@ -34,6 +39,11 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
+
+
+
+
 
 
 
@@ -69,32 +79,88 @@ public class PersonAgent extends Agent implements Person
 	public Semaphore busSemaphore = new Semaphore(0, true);
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
-
-	public CityAnimationPanel CityAnimPanel;	
-	public RestaurantPanel restPanel;
+	List <PersonAgent> people = new ArrayList<PersonAgent>();
+	public CityAnimationPanel CityAnimPanel;
+	Timer timer = new Timer();
 	
 	
 	String bankPurpose, marketPurpose, homePurpose;
-	double marketQuantity;
-	double bankAmount;
+	double marketQuantity, bankAmount;
 	
 	
 	public class Job{
+		JobType type;
+		Coordinate location;
+		static final int timeStart = 8;
+		static final int timeEnd = 20;
+		List <Day> daysWorking = new ArrayList<Day>();
 		
 		public Job(JobType parseJob) {
 			type = parseJob;
-//			if (type == JobType.marketWorker || type == JobType.marketHost)
-//				location =;
-//			else if (type == JobType.bankHost || type == JobType.teller)
-//				location =;
-//			else if (type == JobType.restHost || type == JobType.cook || type == JobType.cashier || type == JobType.waiter)
-//				location =;
-//			else if (type == JobType.landLord || type == JobType.repairman)
-//				location =;
+			//if (type == JobType.marketWorker || type == JobType.marketHost){
+			//	timeStart = 8;
+			//	timeEnd
+			//}
+			if (type == JobType.bankHost || type == JobType.restHost){
+				//timeStart = 8; 
+				//timeEnd = 4;
+			}
+			else if (type == JobType.teller || type == JobType.cook || type == JobType.cashier || type == JobType.waiter){
+				//timeStart = 9;
+				//timeEnd = 5;
+			}
+			else if (type == JobType.landLord || type == JobType.repairman){
+				//timeStart = 8;
+				//timeEnd = 4;
+			}
 			
+			assignWorkDay(parseJob);
 		}
-		JobType type;
-		Coordinate location;
+		
+		
+		
+		private void assignWorkDay(JobType parseJob) {
+			
+				daysWorking.add(Day.monday);
+				daysWorking.add(Day.tuesday);
+				daysWorking.add(Day.wednesday);
+				daysWorking.add(Day.thursday);
+				daysWorking.add(Day.friday);
+			if (type != JobType.bankHost && type != JobType.teller){
+				daysWorking.add(Day.saturday);
+				daysWorking.add(Day.sunday);
+			}
+			
+//			int sameJob = 0;
+//			for (PersonAgent p : people){
+//				if (p.job.type == parseJob){
+//					sameJob++;
+//				}
+//			}
+//			if (sameJob % 2 == 0)
+//				assignWorkSet(1);
+//			else
+//				assignWorkSet(2);
+//			
+		}
+
+//		private void assignWorkSet(int i) {
+//			if (i == 1){
+//				if (type == JobType.bankHost || type == JobType.teller){
+//					daysWorking.add(Day.monday);
+//					daysWorking.add(Day.wednesday);
+//					daysWorking.add(Day.friday);
+//				}
+//			}
+//			else{
+//				if (type == JobType.bankHost || type == JobType.teller){
+//					daysWorking.add(Day.tuesday);
+//					daysWorking.add(Day.wednesday);
+//					daysWorking.add(Day.friday);
+//				}
+//			}
+//		}
+		
 		
 	}
 	enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
@@ -183,7 +249,7 @@ public class PersonAgent extends Agent implements Person
 	private JobType parseJob(String job) {
 	
 	if (job.equals("No AI"))
-			return JobType.noAI;	
+		return JobType.noAI;	
 	else if (job.equals("None"))
 		return JobType.none;
 	else if (job.equals("Market Worker"))
@@ -590,7 +656,29 @@ public class PersonAgent extends Agent implements Person
 //				Restaurant a = (Restaurant) b;
 //				a.panel.removeCustomer((Customer)r);
 //			}
+
 //		}	
+
+//		}
+		
+		//Commenting out since AI should handle movement after the person gets out of restaurant
+		//gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
+		// however will make person just go home or where housing will be /////////////////////////////////////
+		if(Status.getTransportationStatus() == transportStatus.bus){
+			curStop = this.closestBusStop();
+			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
+			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
+			gui.setPresent(false);
+			curStop.msgImAtStop(this);
+			this.WaitForBus();
+		}
+		else
+			this.closestCheckpoint();
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);		
 
 		roles.remove(r);
 		stateChanged();
@@ -677,7 +765,7 @@ public class PersonAgent extends Agent implements Person
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
-		//gui.DoGoToCheckpoint('D');
+
 		gui.setBusy(false);
 		roles.remove(r);
 		stateChanged();
@@ -696,6 +784,8 @@ public class PersonAgent extends Agent implements Person
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
+		
+if (job.type == JobType.noAI){		
 		if (Status.getWork() == workStatus.notWorking &&
 				Status.getDestination() == destination.work) {
 			print("Scheduler realized the person wants to go to work");
@@ -710,7 +800,7 @@ public class PersonAgent extends Agent implements Person
 		}
 		//If you need to withdraw, and your destination is the bank, withdraw
 		if (Status.getMoneyStatus() == bankStatus.withdraw &&
-				Status.getDestination() == destination.bank) {
+				Status.getDestination() == destination.bank && CheckBankOpen()) {
 				GoToBank();
 				return true;
 			}
@@ -727,19 +817,20 @@ public class PersonAgent extends Agent implements Person
 			GoHomeToDoX();
 			return true;
 		}
-		
-if (!gui.getBusy() && job.type != JobType.noAI){	
+}
+
+if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 	
-	if(job.type != JobType.noAI && job.type != JobType.none){
-		GoToWork();
-		return true;
+	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
+		for (Day d : job.daysWorking){
+			if (d == TimeManager.getInstance().getDay()){
+				GoToWork();
+				return true;
+			}
+		}
 	}
-//		if (time > workStart && time < workEnd){
-//		GoToWork();
-//		return true;
-//	}
 	
-	if(needsBankTransaction()){
+	if(needsBankTransaction() && CheckBankOpen()){
 		GoToBank();
 		return true;
 	}
@@ -747,8 +838,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 	if(needsToBuy()){
 		GoToMarket();
 		return true;
-	}
-		
+	}	
 		
 }
 
@@ -806,10 +896,57 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		return false;	
 	}
 
+	private boolean noRoleActive() {
+		synchronized(roles)
+		{
+			for(Role r : roles)
+			{
+				if(r.active)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private Boolean CheckBankOpen() {
+		print("I need to go to the bank!");
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					//print("found b");
+					r = (Bank) b;
+				}
+			}
+		}
+		if(r.isOpen())
+			return true;
+		else{
+			print("Aww.. bank is closed :(");	
+			return false;
+		}
+	}
+
+
+	private void DelayGoToWork() {
+		int num = (int)(Math.random() * ((5 - 0) + 1));
+		num *= 1000;
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{				
+				GoToWork();
+			}
+		}, num);
+		
+	}
+
 	private boolean needsToBuy() {
 		if (inventory.size() > 0){
 			for (Item i : inventory){
-				print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
+				//print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
 				if(i.quantity < i.threshold){
 					marketPurpose = i.type;
 					marketQuantity = i.threshold - i.quantity;
@@ -896,45 +1033,41 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		HousingCustomerRole c = new HousingCustomerRole(this.getName());
 		c.setPerson(this);
 		roles.add(c);
-		this.roles.get(0).setActivity(true);
+		c.setActivity(true);
 
 		for (Building b: buildings){
 			//print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				Apartment a = (Apartment) b;
-				a.panel.tenantPanel.addTenant((HousingCustomer)roles.get(0), homePurpose);
+				a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
 			}
 		}
 	}
 
 	public void GoToBank()
 	{
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank){
+					//print("found b");
+					r = (Bank) b;
+				}
+			}
+		}
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToLocation(80, 74);
 		this.Status.setLocation(location.bank);
+		
 		gui.setPresent(false);
-
 		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		//c.test("New Account", 20);
-
-		
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					//print("found b");
-					Bank r = (Bank) b;
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
-				}
-			}
-		}
-		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
+		r.panel.customerPanel.addCustomer((BankCustomer) c);
 	}
 	
 
@@ -943,60 +1076,120 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		gui.setBusy(true);
 		print("Going to work as " + job.type);
 		Status.setWorkStatus(workStatus.goingToWork);
-		gui.DoGoToCheckpoint('D');
-		// TODO
-	
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
 		
-		Role c = null;
-		Bank r = null;
+		
 		if (job.type == JobType.bankHost || job.type == JobType.teller){
-			
+			WorkAtBank();
+		}
+		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
+			WorkAtRest();
+		}
+		if (job.type == JobType.landLord || job.type == JobType.repairman){
+			WorkAtApartment();
+		}
 		
+		
+	}
+	
+	
+	private void WorkAtApartment() {
+		gui.DoGoToLocation(329, 88);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.home);
+		gui.setPresent(false);
+		if (job.type == JobType.landLord)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.repairman)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+	}
+
+	private void WorkAtRest() {
+		gui.DoGoToLocation(265, 472);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		Role c = null;
+		Restaurant r = null;
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank)
 				{
-					//print("found b");
-					r = (Bank) b;
-					
+					r = (Restaurant) b;
 				}
 			}
 		}
+
+		//TODO: PLEASE ADD ADD HOST, COOK, CASHIER, WAITER FUNCTIONS HERE:
+		if (job.type == JobType.restHost)
+		{
+//			c = new RestaurantHostRole(this.getName());
+//			r.panel.customerPanel.addHost((BankHost) c);
+		}
+		if (job.type == JobType.cook){
+//			c = new CookRole(this.getName());
+//			r.panel.customerPanel.addTeller((Teller) c);
+		}
+		if (job.type == JobType.cashier){
+//			c = new CashierRole(this.getName());
+//			r.panel.customerPanel.addTeller((Teller) c);
+		}
+		if (job.type == JobType.waiter){
+//			c = new WaiterRole(this.getName());
+//			r.panel.customerPanel.addTeller((Teller) c);
+		}
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
 	}
+
+	private void WorkAtBank() {
+		gui.DoGoToLocation(80,74);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+		Role c = null;
+		Bank r = null;
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.bank)
+				{
+					r = (Bank) b;
+				}
+			}
+		}
+	
 		
-		if (job.type == JobType.bankHost)
+		if (job.type == JobType.bankHost && r.host == null)
 		{
 			c = new BankHostRole(this.getName());
-			c.setPerson(this);
-			roles.add(c);
-			c.setActivity(true);
+			r.host = (BankHostRole) c;
 			r.panel.customerPanel.addHost((BankHost) c);
 		}
 		if (job.type == JobType.teller){
 			c = new TellerRole(this.getName());
-			c.setPerson(this);
-			roles.add(c);
-			c.setActivity(true);
 			r.panel.customerPanel.addTeller((Teller) c);
 		}
-		
-		
-		
-		
 
-		
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
 	}
-	
-	
+
 	private void GoToRestaurant()
 	{
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to restaurant");
 		Status.setNourishment(nourishment.goingToFood);
+
 		//Transportation t = ChooseTransportation();
 		gui.setPresent(true);
 //		gui.DoGoToCheckpoint('A');
@@ -1004,6 +1197,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 //		gui.DoGoToCheckpoint('G');
 //		gui.DoGoToCheckpoint('H');
 //		gui.DoGoToCheckpoint('I');
+
 		if(Status.getTransportationStatus() == transportStatus.bus){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
@@ -1013,10 +1207,15 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 			this.WaitForBus();
 		}
 		else
+
 			closestCheckpoint();
 		
 		gui.DoGoToCheckpoint('B');
 		gui.DoGoToCheckpoint('A');
+			this.closestCheckpoint();
+		//gui.DoGoToCheckpoint('B');
+		gui.DoGoToLocation(265, 472);
+
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
@@ -1024,8 +1223,8 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		CustomerRole c = new CustomerRole(this.getName(), cash);
 		c.setPerson(this);
 		roles.add(c);
-		this.roles.get(0).setActivity(true);
-
+		//this.roles.get(0).setActivity(true);
+		c.setActivity(true);
 
 		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 
@@ -1037,7 +1236,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 				if (b.getType() == buildingType.restaurant){
 					Restaurant r = (Restaurant) b;
 					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((Customer)roles.get(0));
+					r.panel.customerPanel.addCustomer((Customer) c);
 				}
 			}
 		}
@@ -1065,8 +1264,9 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		gui.DoGoToCheckpoint('K');
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
-
-		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
+		// Making this bank amount instead from msgBank
+		//BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, 50);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
@@ -1092,6 +1292,7 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		gui.setBusy(true);
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
 		Status.market = marketStatus.waiting;
+
 		if(Status.getTransportationStatus() == transportStatus.bus){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(1); // two is the busStop closest to restaurant top left is 0, top right is 6
@@ -1106,6 +1307,11 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 		gui.DoGoToCheckpoint('D');
 		gui.DoGoToCheckpoint('E');
 		gui.DoGoToCheckpoint('F');
+
+		gui.DoGoToLocation(280, 263);
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('C');
+
 		//gui.DoGoToCheckpoint('D');
 		this.Status.setLocation(location.market);
 		print("At market entrance");
@@ -1132,6 +1338,10 @@ if (!gui.getBusy() && job.type != JobType.noAI){
 
 	public void setBuildings(Vector<Building> buildings) {
 		this.buildings = buildings;
+	}
+
+	public void setPersonList(Vector<PersonAgent> people) {
+		this.people = people;
 	}
 
 
