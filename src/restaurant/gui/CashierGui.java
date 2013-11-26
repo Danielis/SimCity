@@ -10,9 +10,10 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import restaurant.interfaces.Cashier;
 import restaurant.interfaces.Host;
 
-public class HostGui implements Gui{
+public class CashierGui implements Gui{
 	
 	//variables
 	private boolean goingSomewhere = false;
@@ -25,7 +26,7 @@ public class HostGui implements Gui{
 	private final int deltadivider = 100;
 
 	//self agent
-	private Host agent = null;
+	private Cashier agent = null;
 
 	//private HostAgent host;
 	RestaurantGui gui;
@@ -39,19 +40,19 @@ public class HostGui implements Gui{
 	
 	BufferedImage imgHost;
 
-	public HostGui(Host host, RestaurantGui gui)
+	public CashierGui(Cashier cashier, RestaurantGui gui)
 	{
 		try
         {
-        	imgHost = ImageIO.read(getClass().getResource("/resources/host.png"));
+        	imgHost = ImageIO.read(getClass().getResource("/resources/cashier.png"));
         } catch (IOException e ) {}
         
-		agent = host;
+		agent = cashier;
 		this.gui = gui;
-		position = new Coordinate(93,-10);
+		position = new Coordinate(244,-20);
     	fridge = new Coordinate(370, 55);
     	grill = new Coordinate(535,75);
-    	platingarea = new Coordinate(93,10);  	
+    	platingarea = new Coordinate(244,10);  	
     	
     	destination = platingarea;
     	
@@ -79,21 +80,21 @@ public class HostGui implements Gui{
     private void setAnim1() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/host_1.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/cashier_1.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setAnim2() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/host_2.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/cashier_2.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setDefault() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/host.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/cashier.png"));
 	       } catch (IOException e ) {}
 	}
     

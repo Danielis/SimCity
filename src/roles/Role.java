@@ -1,9 +1,10 @@
 package roles;
 
+
 import logging.TrackerGui;
+import restaurant.gui.HostGui;
 import agent.StringUtil;
 import city.PersonAgent;
-
 
 public abstract class Role //why doesnt this extend agent?
 {

@@ -43,13 +43,11 @@ public class Bank extends Building{
     	this.panel = gui.restPanel;
     	gui.restPanel.setBank(this);
         gui.setTitle(name);
-        gui.setVisible(false);
+        gui.setVisible(true);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-       // TellerTable table1 = new TellerTable(1);
-        //TellerTable table2 = new TellerTable(2);
-       // TellerTable table3 = new TellerTable(3);
+        gui.setAlwaysOnTop(true);
+        gui.setAlwaysOnTop(false);
+        gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	

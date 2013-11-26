@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -157,38 +158,51 @@ public class RestaurantAnimationPanel extends JPanel implements ActionListener {
     	Graphics2D Res = (Graphics2D)g;
     	Res.drawImage(imgRestaurant, 0, 0, this);
 
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
+    	try{
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+    	}catch(ConcurrentModificationException e)
+    	{
+    		for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
+    	}
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-            
-            	gui.draw(carpet);
-            	gui.draw(cookcarpet);
-            	gui.draw(waitingcarpet);
-            	gui.draw(grill);
-            	gui.draw(fridge);
-            	gui.draw(g1);
-            	gui.draw(g2);
-            	gui.draw(g3);
-            	gui.draw(g4);
-            	gui.draw(entrance_door);
-            	gui.draw(cook_table);
-            	gui.draw(cashier_table);
-            	gui.draw(host_table);
-            	gui.draw(entrance);
-            	gui.draw(cashier);
-            	gui.draw(host);
+            	gui.draw((Graphics2D)g);
+//            
+//            	gui.draw(carpet);
+//            	gui.draw(cookcarpet);
+//            	gui.draw(waitingcarpet);
+//            	gui.draw(grill);
+//            	gui.draw(fridge);
+//            	gui.draw(g1);
+//            	gui.draw(g2);
+//            	gui.draw(g3);
+//            	gui.draw(g4);
+//            	gui.draw(entrance_door);
+//            	gui.draw(cook_table);
+//            	gui.draw(cashier_table);
+//            	gui.draw(host_table);
+//            	gui.draw(entrance);
+//            	gui.draw(cashier);
+//            	gui.draw(host);
             }
         }
         
     }
-
-    public void addGui(CustomerGui gui) {
-        guis.add(gui);
+    public void addGui(CustomerGui g) {
+        guis.add(g);
+    }
+    
+    public void addGui(CashierGui g) {
+        guis.add(g);
     }
     
     public void addGui(WaiterGui gui) {

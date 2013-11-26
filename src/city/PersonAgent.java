@@ -10,10 +10,19 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 import restaurant.CustomerAgent;
+import restaurant.Restaurant;
+import restaurant.gui.CookGui;
+import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantAnimationPanel;
+import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
+import restaurant.gui.WaiterGui;
+import restaurant.interfaces.Cashier;
+import restaurant.interfaces.Cook;
 import restaurant.interfaces.Customer;
-import restaurant.roles.CustomerRole;
+import restaurant.interfaces.Host;
+import restaurant.interfaces.Waiter;
+import restaurant.roles.*;
 import agent.Agent;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
@@ -42,9 +51,6 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
-
-
-
 
 
 
@@ -88,6 +94,7 @@ public class PersonAgent extends Agent implements Person
 	List <PersonAgent> people = new ArrayList<PersonAgent>();
 	public CityAnimationPanel CityAnimPanel;
 	Timer timer = new Timer();
+	public int waiterindex = 0;
 	
 	
 	String bankPurpose, marketPurpose, homePurpose;
@@ -627,9 +634,32 @@ public class PersonAgent extends Agent implements Person
 		for (Role r : roles){
 			if (r.active){
 				r.msgLeaveWork();
-				// TODO
+				
 			}
 		}
+	}
+//	public void msgLeaveHome() {
+//		
+//		try
+//		{
+//			for (Role r : roles){
+//				if (r.active){
+//				HousingCustomerRole x = (HousingCustomerRole) r;
+//				x.msgLeaveHouse();
+//				// TODO
+//				}
+//			}
+//		} catch (ConcurrentModificationException e)
+//		{
+//			System.out.println("Caught Concurrent Modification error. Catching it and re-running action.");
+//			for (Role r : roles){
+//				if (r.active){
+//				HousingCustomerRole x = (HousingCustomerRole) r;
+//				x.msgLeaveHouse();
+//				// TODO
+//				}
+//			}
+//		}
 		
 		//		for (Role r : roles){
 		//				if (r.active){
@@ -641,8 +671,8 @@ public class PersonAgent extends Agent implements Person
 		//			    gui.setPresent(true);
 		//			}
 		//		}
-		stateChanged();	
-	}
+		//stateChanged();	
+	//}
 
 	public void msgLeftWork(Role r, double balance) {
 		print("Left work");
@@ -740,11 +770,29 @@ public class PersonAgent extends Agent implements Person
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
 		gui.setPresent(true);
-	
-		this.Status.setLocation(location.restaurant);
-		gui.setPresent(false);		
+		
+//		for (Building b: buildings){
+//			print(" type: " + b.getType() + " n: ");
+//			if (b.getType() == buildingType.restaurant){
+//				Restaurant a = (Restaurant) b;
+//				a.panel.removeCustomer((Customer)r);
+//			}
 
-		roles.remove(r);
+//		}	
+
+//		}
+		
+		//Commenting out since AI should handle movement after the person gets out of restaurant
+		//gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('C');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
+		// however will make person just go home or where housing will be /////////////////////////////////////
+		this.Status.setLocation(location.outside);
+		//gui.setPresent(false);		
+
+
+		//roles.remove(r);
 		stateChanged();
 
 	}
@@ -945,11 +993,23 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		Boolean anytrue = false;
 		synchronized(roles)
 		{
-			for(Role r : roles)
-			{
-				if(r.active)
+			try{
+				for(Role r : roles)
 				{
-					anytrue = anytrue || r.pickAndExecuteAnAction();
+					if(r.active)
+					{
+						anytrue = anytrue || r.pickAndExecuteAnAction();
+					}
+				}
+			}catch (ConcurrentModificationException e)
+			{
+				System.out.println("Caught Concurrent Modification error. Catching it and re-running action.");
+				for(Role r : roles)
+				{
+					if(r.active)
+					{
+						anytrue = anytrue || r.pickAndExecuteAnAction();
+					}
 				}
 			}
 		}
@@ -1192,7 +1252,9 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
 		}
+
 		Status.loc = location.work;
+
 		
 	}
 	
@@ -1245,39 +1307,63 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
-		Role c = null;
-//		Restaurant r = null;
-//		synchronized(buildings)
-//		{
-//			for (Building b: buildings){
-//				if (b.getType() == buildingType.bank)
-//				{
-//					r = (Restaurant) b;
-//				}
-//			}
-//		}
+		//Role c = null;
+		Restaurant r = null;
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.restaurant)
+				{
+					r = (Restaurant) b;
+				}
+			}
+		}
 
 		//TODO: PLEASE ADD ADD HOST, COOK, CASHIER, WAITER FUNCTIONS HERE:
 		if (job.type == JobType.restHost)
 		{
-//			c = new RestaurantHostRole(this.getName());
-//			r.panel.customerPanel.addHost((BankHost) c);
+			HostRole c = new HostRole(this.getName(), this.cash);
+			r.panel.addHost((HostRole) c);
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
 		}
+		
 		if (job.type == JobType.cook){
-//			c = new CookRole(this.getName());
-//			r.panel.customerPanel.addTeller((Teller) c);
+			CookRole c = new CookRole(this.getName(), this.cash);
+			r.panel.addCook((CookRole) c);
+			c.setPerson(this);
+			c.setRestaurant(r);
+			roles.add(c);
+			c.setActivity(true);
 		}
 		if (job.type == JobType.cashier){
-//			c = new CashierRole(this.getName());
-//			r.panel.customerPanel.addTeller((Teller) c);
+			CashierRole c = new CashierRole(this.getName(), this.cash);
+			r.panel.addCashier((CashierRole) c);
+			c.setPerson(this);
+			c.setRestaurant(r);
+			roles.add(c);
+			c.setActivity(true);
 		}
 		if (job.type == JobType.waiter){
-//			c = new WaiterRole(this.getName());
-//			r.panel.customerPanel.addTeller((Teller) c);
+			waiterindex++;
+			if (waiterindex % 2 == 0)
+			{
+				ModernWaiterRole c = new ModernWaiterRole(this.getName(), r, this.cash);
+				r.panel.addWaiter((ModernWaiterRole) c);
+				c.setPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+			}
+			else
+			{
+				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r);
+				r.panel.addWaiter((TraditionalWaiterRole) c);
+				c.setPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+			}
 		}
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
 	}
 
 	private void WorkAtBank() {
@@ -1365,18 +1451,17 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
 
-
-//		synchronized(buildings)
-//		{
-//			for (Building b: buildings){
-//				//print(" type: " + b.getType() + " n: ");
-//				if (b.getType() == buildingType.restaurant){
-//					Restaurant r = (Restaurant) b;
-//					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-//					r.panel.customerPanel.addCustomer((Customer) c);
-//				}
-//			}
-//		}
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				//print(" type: " + b.getType() + " n: ");
+				if (b.getType() == buildingType.restaurant){
+					Restaurant r = (Restaurant) b;
+					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+					r.panel.customerPanel.addCustomer((Customer) c, r);
+				}
+			}
+		}
 	}
 
 
@@ -1479,12 +1564,5 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	public void setPersonList(Vector<PersonAgent> people) {
 		this.people = people;
 	}
-
-	
-
-	
-
-
-
 
 }

@@ -42,4 +42,6 @@ public interface Cook {
 
 	public abstract void setAnimPanel(RestaurantAnimationPanel animationPanel);
 
+	public abstract void msgLeaveWork();
+
 }

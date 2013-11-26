@@ -49,6 +49,7 @@ public class CustomerAgent extends Agent implements Customer {
 	
 	//List of foods available
 	private List<Boolean> foodOptions = new ArrayList<Boolean>();
+	private Restaurant restaurant;
 	
 	//Constructor
 	public CustomerAgent(String name){
@@ -239,9 +240,16 @@ public class CustomerAgent extends Agent implements Customer {
 	private void GoToRestaurant() 
 	{
 		print("Going to restaurant");
-		this.customerGui.DoGoToWaitingRoom();
-		host.msgCheckForASpot(this);
-		state = myState.waitingForASpot;
+		if (restaurant.isOpen())
+		{
+			this.customerGui.DoGoToWaitingRoom();
+			host.msgCheckForASpot(this);
+			state = myState.waitingForASpot;
+		}
+		else
+		{
+			this.LeaveBecauseClosed();
+		}
 	}
 	
 	private void DecideToGo()
@@ -466,6 +474,14 @@ public class CustomerAgent extends Agent implements Customer {
 
 	}
 	
+	private void LeaveBecauseClosed()
+	{
+		icon = iconState.none;
+		print("Leaving because the restaurant is closed.");
+		customerGui.setNotHungry();
+		state = myState.finished;
+	}
+	
 	private void Leave()
 	{
 		icon = iconState.none;
@@ -536,6 +552,12 @@ public class CustomerAgent extends Agent implements Customer {
 	public void DoneWithAnimation()
 	{
 		this.animSemaphore.release();
+	}
+
+	@Override
+	public void setRestaurant(Restaurant r) {
+		this.restaurant = r;
+		
 	}
 }
 

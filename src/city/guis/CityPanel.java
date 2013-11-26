@@ -42,14 +42,14 @@ import logging.AlertTag;
 public class CityPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Oprah");
+    /*private HostAgent host = new HostAgent("Oprah");
     private HostGui hostGui = new HostGui(host);
     public CashierAgent cashier = new CashierAgent("Squidward");
     private MarketAgent market1 = new MarketAgent("Market 1");
     private MarketAgent market2 = new MarketAgent("Market 2");
     private MarketAgent market3 = new MarketAgent("Market 3");
     public CookAgent cook = new CookAgent("Gordon Ramsay");
-    private CookGui cookGui;
+    private CookGui cookGui;*/
     public RestaurantPanel restPanel;
     public TransportationCompanyAgent metro = new TransportationCompanyAgent("Metro");
     
