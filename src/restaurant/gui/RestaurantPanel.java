@@ -317,6 +317,24 @@ public class RestaurantPanel extends JPanel
 		this.host = host;
 	}
     
+    public void addCashier(Cashier cashier)
+    {
+    	System.out.println("Added cashier");
+    	//cashier has no gui right now
+    	this.cashier = cashier;
+    }
+    
+    public void addCook(Cook cook)
+    {
+       	System.out.println("Added host");
+		// TODO Auto-generated method stub
+		CookGui g = new CookGui(cook, gui);
+		gui.animationPanel.addGui(g);
+		cook.setGui(g);
+		cook.setAnimPanel(gui.animationPanel);
+		this.cook = cook;
+    }
+    
     public void refresh()
     {
     	gui.updateLastCustomer();
