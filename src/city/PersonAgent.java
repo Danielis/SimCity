@@ -89,7 +89,7 @@ public class PersonAgent extends Agent implements Person
 	public CityAnimationPanel CityAnimPanel;
 	Timer timer = new Timer();
 	
-	
+	private long timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
@@ -912,22 +912,10 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 }
 
 //TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
-//	if (Hungry()){
-//		Boolean restaurant;
-//		if (wealthLevel == WealthLevel.wealthy)
-//			restaurant = 70% chance
-//		else
-//			restaurant = 10% chance
-//
-//		if (restaurant)
-//			GoToRestaurant();
-//			return true;
-//		else{
-//			homePurpose = "Cook";
-//			GoHomeToDoX();
-//			return true;
-//		} 
-//	}
+	if (isHungry()){
+		GoEat();
+		return true;
+	}
 //	if (OwesRent()){
 //		homePurpose = "Pay Rent";
 //		GoHomeToDoX();
@@ -969,6 +957,34 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 //				GoHomeToDoX();
 		}
 		return false;	
+	}
+
+	private void GoEat() {
+		Boolean restaurant = false;
+		int num = (int)(Math.random() * ((10 - 0) + 0));
+		if (wealthLevel == WealthLevel.wealthy && num <= 7){
+				restaurant = true;
+		}
+		else if (num <=3){
+				restaurant = true;
+		}
+		restaurant = true; //TODO
+		if (restaurant){
+			GoToRestaurant();
+		}
+		else{
+			homePurpose = "Cook";
+			GoHomeToDoX();
+		} 
+	}
+
+	private boolean isHungry() {
+		if (timeSinceLastAte + 20000 > TimeManager.getInstance().getCurrentSimTime()){
+			print("Hmm... I'm hungry. I better eat soon");
+			return true;
+		}
+		else
+			return false;
 	}
 
 	private void WalkAimlessly() {
