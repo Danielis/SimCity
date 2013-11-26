@@ -17,7 +17,7 @@ import bank.gui.HostGui;
 public interface BankHost {
 	ImageObserver copyOfAnimPanel = null;
 
-	public void IWantService(BankCustomerRole c);
+	public void IWantService(BankCustomer c);
 		public abstract void addMe(Teller t);
 		public abstract void IAmFree(Teller tell);
 		public abstract void msgIdLikeToGoOnBreak(Teller t);

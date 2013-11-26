@@ -50,6 +50,11 @@ public class Bank extends Building{
         gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
+	public Bank(){
+		balance = 50000;
+		type = buildingType.bank;
+	}
+	
 	
 //	class TellerTable{
 //		Teller t;

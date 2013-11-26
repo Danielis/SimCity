@@ -1,9 +1,11 @@
 package bank.test;
 
 import bank.*;
+import city.*;
 import bank.test.mock.*;
 import bank.interfaces.*;
 import junit.framework.TestCase;
+import bank.Bank;
 /**
  * 
  * This class is a JUnit test class to unit test the CashierAgent's basic interaction
@@ -16,6 +18,8 @@ public class TellerTest extends TestCase
 	TellerRole teller;
     MockHost host;
     MockCustomer cust;
+    PersonAgent per;
+    Bank b;
     
     
     public void setUp() throws Exception{
@@ -26,6 +30,11 @@ public class TellerTest extends TestCase
             host = new MockHost("host");
             cust = new MockCustomer("customer");
             
+            per = new PersonAgent("Person", "None", "Wealthy");     
+            teller.setPerson(per);
+            
+            b = new Bank();
+            teller.setBank(b);
     }  
     
     //TEST 1 - WAITER GIVES CHECK, CUSTOMER PAYS (NORMAL)
@@ -42,8 +51,8 @@ public class TellerTest extends TestCase
         	System.out.println("cust" + cust);
         	teller.IAmLeaving();
         	teller.IWantAccount(cust, 200);
-        	//assertEquals("Teller should have 1 transaction", teller.transactions.size() , 1);
-        	
+        	assertEquals("Teller should have 1 transaction", teller.transactions.size() , 1);
+        	assertTrue("Teller should run action", teller.pickAndExecuteAnAction());
 //            customer.cashier = cashier; //You can do almost anything in a unit test. 
 //            waiter.cashier = cashier;
 //            

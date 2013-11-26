@@ -3,7 +3,9 @@ package bank.test;
 
 import bank.test.mock.*;
 import bank.interfaces.*;
+import bank.*;
 import junit.framework.TestCase;
+import city.*;
 /**
  * 
  * This class is a JUnit test class to unit test the CashierAgent's basic interaction
@@ -13,25 +15,25 @@ import junit.framework.TestCase;
 public class HostTest extends TestCase
 {
     //these are instantiated for each test separately via the setUp() method.
-	Teller teller;
-    MockHost host;
+	MockTeller teller;
+	BankHostRole host;
     MockCustomer cust;
-    
+    PersonAgent per;
     
     public void setUp() throws Exception{
             super.setUp();                
             System.out.println("SET UP");
             
-         //   teller = new Teller();
-            host = new MockHost("host");
+            per = new PersonAgent("Person", "None", "Wealthy");
+            host = new BankHostRole("host");
             cust = new MockCustomer("customer");
-            
+            host.setPerson(per);
     }  
     
     //TEST 1 - WAITER GIVES CHECK, CUSTOMER PAYS (NORMAL)
     public void test1_NormalCustomerScenario() throws Exception{
         	System.out.println("TEST 1");
-
+        	host.IWantService(cust);
             //SET UP SHOULD RUN BEFORE THIS FIRST TEST
     	
     		//SET UP SCENARIO

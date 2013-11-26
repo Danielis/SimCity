@@ -68,5 +68,8 @@ public class MockCustomer extends Mock implements BankCustomer {
 	public  void LoanCreated(double amount, Loan loan){}
 
 	public  void AccountCreated(Account account){}
+	
+	public void BankIsClosed() {
+	}
 
 }
