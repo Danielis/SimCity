@@ -616,7 +616,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
-		gui.DoGoToCheckpoint('A');
+//		gui.DoGoToCheckpoint('A');
 //		gui.DoGoToCheckpoint('C');
 //		gui.DoGoToCheckpoint('B');
 //		gui.DoGoToCheckpoint('A');
@@ -663,9 +663,6 @@ public class PersonAgent extends Agent implements Person
 		}
 		else
 			this.closestCheckpoint();
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('H');
-		gui.DoGoToCheckpoint('I');
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);		
 		roles.remove(r);
@@ -753,7 +750,6 @@ public class PersonAgent extends Agent implements Person
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
-		gui.DoGoToCheckpoint('D');
 		gui.setBusy(false);
 		roles.remove(r);
 		stateChanged();
@@ -812,7 +808,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 //		return true;
 //	}
 	
-	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 1) && TimeManager.getInstance().getHour() < Job.timeEnd){
+	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 		for (Day d : job.daysWorking){
 			if (d == TimeManager.getInstance().getDay()){
 				GoToWork();
@@ -1027,7 +1023,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
 		Status.setMoneyStatus(bankStatus.goingToBank);
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToLocation(80, 74);
 		this.Status.setLocation(location.bank);
 		
 		gui.setPresent(false);
@@ -1061,7 +1057,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	
 	
 	private void WorkAtApartment() {
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToLocation(329, 88);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
@@ -1078,7 +1074,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WorkAtRest() {
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToLocation(265, 472);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -1118,7 +1114,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WorkAtBank() {
-		gui.DoGoToCheckpoint('D');
+		gui.DoGoToLocation(80,74);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
@@ -1167,8 +1163,8 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		}
 		else
 			this.closestCheckpoint();
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		gui.DoGoToLocation(265, 472);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
@@ -1201,7 +1197,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setBusy(true);
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
 		Status.market = marketStatus.waiting;
-		gui.DoGoToCheckpoint('A');
+		gui.DoGoToLocation(280, 263);
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('C');
 		//gui.DoGoToCheckpoint('D');

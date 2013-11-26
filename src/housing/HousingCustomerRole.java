@@ -133,6 +133,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			return true;
 		}
 		//if(!gui.goingSomewhere) {
+			gui.DoGoToThreshold();
 			gui.DoGoToBed();
 		//}
 		return false;
