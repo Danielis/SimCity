@@ -149,7 +149,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 	public CityGui() 
 	{
-		this.setAlwaysOnTop(true);
+		//this.setAlwaysOnTop(true);
 		this.setAlwaysOnTop(false);
 
 		clock.startThread();
@@ -319,9 +319,8 @@ public class CityGui extends JFrame implements ActionListener {
 		createMarket("Aleena's Market");
 		createApartment("The Chris Apartment Complex");
 
-
-		this.setAlwaysOnTop(true);
-		this.setAutoRequestFocus(false);
+		this.setAlwaysOnTop(false);
+		//this.setAutoRequestFocus(false);
 
 		//Mouse Listener for the coordinates
 		cityAnimationPanel.addMouseListener(new MouseListener() 
@@ -695,6 +694,8 @@ public class CityGui extends JFrame implements ActionListener {
 		trackingWindow = new TrackerGui();
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
+		trackingWindow.trackerFrame.setAlwaysOnTop(true);
+
 
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
