@@ -66,6 +66,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	public Boolean houseNeedsRepairs;
 	public Boolean hungry;
 	private Boolean leave = false;
+	private Boolean sleep = false;
 
 	public TrackerGui trackingWindow;
 
@@ -125,9 +126,13 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		System.out.println("Tenant scheduler.");
-		if(leave){
-			LeaveApartment();
-			return true;
+//		if(leave){
+//			LeaveApartment();
+//			return true;
+//		}
+		if(sleep){
+			gui.DoGoToThreshold();
+			gui.DoGoToBed();
 		}
 		if (needsLoan){
 			TakeOutLoan();
@@ -145,12 +150,8 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			GetFood();
 			return true;
 		}
-		if(!leave) {
-			gui.DoGoToThreshold();
-			gui.DoGoToBed();
-		}
-		else
-			LeaveApartment();
+		
+		LeaveApartment();
 		return false;
 	}
 
@@ -172,8 +173,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			balance = 0;
 			System.out.println("This is all I have.  I'm out of money.");
 		}
-		gui.DoGoToThreshold();
-		gui.DoGoToBed();
 	}
 	private void CallLandlordRepairs(){
 		print("Going to call landlord");
@@ -182,14 +181,13 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
 		System.out.println("Tenant: called landlord for repairs.");
-		gui.DoGoToThreshold();
-		gui.DoGoToBed();	
 		}
 
 	private void TakeOutLoan(){
 		//GoToBank(); //stub;
 		needsLoan = false;
 		System.out.println("Went to bank.");
+		balance += 1000;
 	}
 	private void GetFood() {
 		print("Going to cook.");
@@ -200,8 +198,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		gui.DoGoToTable();
 		hungry = false;
 		gui.DoGoToKitchen();
-		gui.DoGoToThreshold();
-		gui.DoGoToBed();
 		System.out.println("Done Eating.");
 	}
 	

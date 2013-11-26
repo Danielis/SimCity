@@ -33,7 +33,7 @@ Day msgHomeLastSent = Day.thursday;
 	}
 	
 	private Boolean GoHome(){
-		return (TimeManager.getInstance().getHour() + 1 == 16);
+		return (TimeManager.getInstance().getHour() + 1 == 20);
 	}
 
 	private void msgPeopleWake() {

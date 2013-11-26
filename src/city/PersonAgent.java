@@ -801,7 +801,6 @@ public class PersonAgent extends Agent implements Person
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		gui.setPresent(true);
-
 		gui.setBusy(false);
 		roles.remove(r);
 		stateChanged();
@@ -821,7 +820,8 @@ public class PersonAgent extends Agent implements Person
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
 		
-if (job.type == JobType.noAI){		
+if (job.type == JobType.noAI){	
+	print("sched hit");
 		if (Status.getWork() == workStatus.notWorking &&
 				Status.getDestination() == destination.work) {
 			print("Scheduler realized the person wants to go to work");
@@ -855,9 +855,13 @@ if (job.type == JobType.noAI){
 		}
 }
 
+//print(" role no active, should be true" + noRoleActive());
+//print("is gui busy, should be false" + gui.getBusy());
+//print("ai type, should be anything but NOAI" + job.type);
+//print("at work, should be anything be work" + Status.getWork());
 if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 //	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
-	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
+	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (4) && TimeManager.getInstance().getHour() < Job.timeEnd){
 		for (Day d : job.daysWorking){
 			if (d == TimeManager.getInstance().getDay()){
 				GoToWork();
@@ -924,12 +928,22 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 		if(anytrue)
 			return true;
-
-		if (!gui.getBusy() && job.type != JobType.noAI){	
-		homePurpose = "Sleep";
-		GoHomeToDoX();
+//TODO
+		//if (!gui.getBusy()  && job.type != JobType.noAI){	//  && job.type != JobType.noAI used to have this
+	//		WalkAimlessly();
+//		homePurpose = "Sleep";
+//		GoHomeToDoX();
+	//	}
+		if (!gui.getBusy() && job.type != JobType.noAI){
+			WalkAimlessly();
+//			homePurpose = "Sleep";
+//				GoHomeToDoX();
 		}
 		return false;	
+	}
+
+	private void WalkAimlessly() {
+		gui.DoGoToCheckpoint('I');
 	}
 
 	private boolean noRoleActive() {
@@ -1355,7 +1369,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.DoGoToCheckpoint('G');
 		gui.DoGoToCheckpoint('J');
 		gui.DoGoToCheckpoint('K');
-		Status.setWorkStatus(workStatus.working);
+		//Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		this.Status.setLocation(location.bank);
@@ -1403,7 +1417,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.DoGoToCheckpoint('D');
 		gui.DoGoToCheckpoint('E');
 		gui.DoGoToCheckpoint('F');
-		Status.setWorkStatus(workStatus.working);
+		//Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		this.Status.setLocation(location.market);

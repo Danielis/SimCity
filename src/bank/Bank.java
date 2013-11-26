@@ -22,7 +22,7 @@ public class Bank extends Building{
 	double balance;
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
-	List <Teller> workingTellers = new ArrayList<Teller>();
+	private List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 	int idIncr = 0;
 	
@@ -196,6 +196,16 @@ public class Bank extends Building{
 
 	public void removeMe(BankHostRole b) {
 		workingTellers.remove(b);
+	}
+
+
+	public List <Teller> getWorkingTellers() {
+		return workingTellers;
+	}
+
+
+	public void setWorkingTellers(List <Teller> workingTellers) {
+		this.workingTellers = workingTellers;
 	}
 
 	

@@ -50,7 +50,7 @@ public class TellerRole extends Role implements Teller {
 		super();
 		this.name = "Default Daniel";
 		print("initialized teller");
-		
+		//host.addMe(this);
 	}
 	public TellerRole(String name) {
 		super();

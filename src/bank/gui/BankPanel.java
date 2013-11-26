@@ -153,6 +153,7 @@ public class BankPanel extends JPanel {
 		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
 		host.setBank(b);
+		host.setTellers(b.getWorkingTellers());
 		host.setGui(g);
 		host.setAnimPanel(gui.animationPanel);
 		this.host = host;
@@ -163,7 +164,7 @@ public class BankPanel extends JPanel {
         gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Teller Added", new Date()));
 		Teller w = c;	
 		b.addTeller(w);
-		//c.setTableNum(b.getTellerTableNunmber()); 
+		c.setTableNum(b.setTableNum()); 
 		TellerGui g = new TellerGui(w, gui, b.setTableNum());
 		w.setBank(b);
 		gui.animationPanel.addGui(g);
