@@ -26,7 +26,7 @@ public class TellerRole extends Role implements Teller {
 	//Lists and Other Agents
 	double balance;
 	List <MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	List <Transaction> transactions = new ArrayList<Transaction>();
+	public List <Transaction> transactions = new ArrayList<Transaction>();
 	
 	public BankAnimationPanel copyOfAnimPanel;
 	
@@ -94,7 +94,7 @@ public class TellerRole extends Role implements Teller {
 //CLASSES/ENUMS**********************************************
 		
 	private class Transaction{
-	    public Transaction(Loan loan2, double amount2, transactionType type, BankCustomerRole c) {
+	    public Transaction(Loan loan2, double amount2, transactionType type, BankCustomer c) {
 	    	loan = loan2;
 			amount = amount2;
 			this.type = type;
@@ -102,7 +102,7 @@ public class TellerRole extends Role implements Teller {
 			this.c = c;
 	    }
 	    
-		public Transaction(Account acct, double amount2, transactionType type, BankCustomerRole c) {
+		public Transaction(Account acct, double amount2, transactionType type, BankCustomer c) {
 		account = acct;
 		amount = amount2;
 		this.type = type;
@@ -110,7 +110,7 @@ public class TellerRole extends Role implements Teller {
 		this.c = c;
 		}
 		
-		public Transaction(double amount2, transactionType t, BankCustomerRole c) {
+		public Transaction(double amount2, transactionType t, BankCustomer c) {
 		amount = amount2;
 		type = t;
 		this.c = c;
@@ -119,7 +119,7 @@ public class TellerRole extends Role implements Teller {
 		
 		
 		
-		public Transaction(BankCustomerRole c2) {
+		public Transaction(BankCustomer c2) {
 		c = c2;
 		status = transactionStatus.noLoan;
 		}
@@ -131,13 +131,13 @@ public class TellerRole extends Role implements Teller {
 	    Loan loan;
 	    transactionType type;
 	    transactionStatus status;
-	    BankCustomerRole c;
+	    BankCustomer c;
 	}
 	enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
 	enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
 
 private class MyCustomer{
-	    BankCustomerRole c;
+	    BankCustomer c;
 	}
 
 	
@@ -155,13 +155,13 @@ public void msgLeaveWork() {
 }
 
 
-public void IWantAccount(BankCustomerRole c, double amount){
+public void IWantAccount(BankCustomer c, double amount){
     Account acct = bank.createAccount(c);
     transactions.add(new Transaction(acct, amount, transactionType.newAccount, c));
     stateChanged();
 }
 
-public void DepositMoney(BankCustomerRole c, int accountID, double amount){
+public void DepositMoney(BankCustomer c, int accountID, double amount){
 	print("Looking for account...");
 	for (Account a : bank.accounts){
 		if (a.c == c){
@@ -179,7 +179,7 @@ public void DepositMoney(BankCustomerRole c, int accountID, double amount){
 	
 }
 
-public void WithdrawMoney(BankCustomerRole c, int accountID, double amount){
+public void WithdrawMoney(BankCustomer c, int accountID, double amount){
 	for (Account a : bank.accounts){
 		if (a.c == c){
 			Account acct = a;
@@ -194,13 +194,13 @@ public void WithdrawMoney(BankCustomerRole c, int accountID, double amount){
 	stateChanged();
 }
 
-public void IWantLoan(BankCustomerRole c, double amount){
+public void IWantLoan(BankCustomer c, double amount){
     Loan loan = bank.createLoan(c, amount);
     transactions.add(new Transaction(loan, amount, transactionType.newLoan, c));
     stateChanged();
 }
 
-public void PayMyLoan(BankCustomerRole c, double amount){
+public void PayMyLoan(BankCustomer c, double amount){
     for (Loan l : bank.loans){
 		if (l.c == c){
 			transactions.add(new Transaction(l, amount, transactionType.loanPayment, c));
@@ -492,7 +492,7 @@ private boolean canLeave() {
 		host.msgIdLikeToGoOnBreak(this);
 	}
 	
-	private Boolean HasGoodCredit(BankCustomerRole c){
+	private Boolean HasGoodCredit(BankCustomer c){
 		Boolean hasLoan = false;
 		Boolean goodAccount = true;
 		

@@ -1,6 +1,6 @@
 package bank.test;
 
-
+import bank.*;
 import bank.test.mock.*;
 import bank.interfaces.*;
 import junit.framework.TestCase;
@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class TellerTest extends TestCase
 {
     //these are instantiated for each test separately via the setUp() method.
-	Teller teller;
+	TellerRole teller;
     MockHost host;
     MockCustomer cust;
     
@@ -22,7 +22,7 @@ public class TellerTest extends TestCase
             super.setUp();                
             System.out.println("SET UP");
             
-         //   teller = new Teller();
+            teller = new TellerRole();
             host = new MockHost("host");
             cust = new MockCustomer("customer");
             
@@ -33,10 +33,16 @@ public class TellerTest extends TestCase
         	System.out.println("TEST 1");
 
             //SET UP SHOULD RUN BEFORE THIS FIRST TEST
-    	
+    	//teller.IWantAccount(cust, 200);
     		//SET UP SCENARIO
         	
        
+        	assertEquals("Teller should have 0 transactions", teller.transactions.size() ,0);
+        	System.out.println("tell" + teller);
+        	System.out.println("cust" + cust);
+        	teller.IAmLeaving();
+        	teller.IWantAccount(cust, 200);
+        	//assertEquals("Teller should have 1 transaction", teller.transactions.size() , 1);
         	
 //            customer.cashier = cashier; //You can do almost anything in a unit test. 
 //            waiter.cashier = cashier;

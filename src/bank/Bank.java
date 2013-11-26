@@ -150,11 +150,11 @@ public class Bank extends Building{
 	
 	public class Account {
 		int id; // auto increment
-	    BankCustomerRole c;
+	    BankCustomer c;
 	    private double balance;
 	    
 	    
-	    public Account(BankCustomerRole c) {
+	    public Account(BankCustomer c) {
 			this.c = c;
 			setBalance(0);
 			id = ++idIncr;
@@ -175,7 +175,7 @@ public class Bank extends Building{
 	}
 	
 	public class Loan {
-		BankCustomerRole c;
+		BankCustomer c;
 	    double balanceOwed;
 	    double balancePaid;
 	    double rate;
@@ -183,7 +183,7 @@ public class Bank extends Building{
 	    int dayOwed;
 	    public loanState s;
 	    
-	    Loan(BankCustomerRole c2, double amount){
+	    Loan(BankCustomer c2, double amount){
 	    c = c2;
 	    rate = 1.08;
 	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
@@ -192,12 +192,12 @@ public class Bank extends Building{
 	}
 	public enum loanState {unpaid, partiallyPaid, paid}
 	
-	public Account createAccount(BankCustomerRole c) {
+	public Account createAccount(BankCustomer c) {
 		Account acct = new Account(c);
 		return acct;
 	}
 
-	public Loan createLoan(BankCustomerRole c, double amount) {
+	public Loan createLoan(BankCustomer c, double amount) {
 		Loan loan = new Loan(c, amount);
 		return loan;
 	}
