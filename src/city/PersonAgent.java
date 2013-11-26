@@ -53,10 +53,6 @@ import transportation.TransportationCompanyAgent;
 
 
 
-
-
-
-
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -618,45 +614,81 @@ public class PersonAgent extends Agent implements Person
 	public void msgWakeUp() {
 		stateChanged();
 	}
-	 public void msgGetPaid() {
+	
+	public void msgGetPaid() {
 		 for (Role r : roles){
 			 if (r.active){
 				 r.msgGetPaid();
 			 }
 		 }
-	 }
+	}
 	//TODO ADD THIS MSG TO ALL WORKER ROLES
 	public void msgLeaveWork() {
 		for (Role r : roles){
 			if (r.active){
-			r.msgLeaveWork();
-			// TODO
+				r.msgLeaveWork();
+				// TODO
 			}
 		}
 		
-//		for (Role r : roles){
-//				if (r.active){
-//				r.setActivity(false);
-//				roles.remove(r);
-//			    Status.setLocation(location.outside);
-//			    Status.setDestination(destination.outside);
-//			    Status.setHousingStatus(houseStatus.notHome);
-//			    gui.setPresent(true);
-//			}
-//		}
+		//		for (Role r : roles){
+		//				if (r.active){
+		//				r.setActivity(false);
+		//				roles.remove(r);
+		//			    Status.setLocation(location.outside);
+		//			    Status.setDestination(destination.outside);
+		//			    Status.setHousingStatus(houseStatus.notHome);
+		//			    gui.setPresent(true);
+		//			}
+		//		}
 		stateChanged();	
 	}
 
-	public void msgLeaveHome() {
+	public void msgLeftWork(Role r, double balance) {
+		print("Left work");
+		cash += balance; //pay
+	    r.setActivity(false);
+	    gui.setBusy(false);
+		roles.remove(r);
+	    Status.setLocation(location.outside);
+	    Status.setDestination(destination.outside);
+	    Status.setHousingStatus(houseStatus.notHome);
+	    gui.setPresent(true);
+	    stateChanged();
+	}
+	
+	public void msgLeavingHome(Role r, double balance){
+		print("Left home");
+		cash = balance;
+	    r.setActivity(false);
+	    gui.setBusy(false);
+		roles.remove(r);
+	    Status.setLocation(location.outside);
+	    Status.setDestination(destination.outside);
+	    Status.setHousingStatus(houseStatus.notHome);
+	    gui.setPresent(true);
+	    stateChanged();
+	}
+
+	//public void msgLeaveHome() {
 		
-		for (Role r : roles){
-			if (r.active){
-			HousingCustomerRole x = (HousingCustomerRole) r;
-			x.msgLeaveHouse();
-			// TODO
-			}
-		}
+//		if (roles.get(0).active){
+//			roles.get(0).setActivity(false);
+//			roles.remove(0);
+//		    Status.setLocation(location.outside);
+//		    Status.setDestination(destination.outside);
+//		    Status.setHousingStatus(houseStatus.notHome);
+//		    gui.setPresent(true);
+//		}
 		
+//		for (Role r : roles){
+//			if (r.active){
+//			HousingCustomerRole x = (HousingCustomerRole) r;
+//			x.msgLeaveHouse();
+//			// TODO
+//			}
+//		}
+//		synchronized(roles){
 //		for (Role r : roles){
 //				if (r.active){
 //				r.setActivity(false);
@@ -665,10 +697,11 @@ public class PersonAgent extends Agent implements Person
 //			    Status.setDestination(destination.outside);
 //			    Status.setHousingStatus(houseStatus.notHome);
 //			    gui.setPresent(true);
-//			}
+			//}
 //		}
-		stateChanged();	
-	}
+//		}
+	//	stateChanged();	
+//	}
 	
 	public void msgGoToWork() {
 		print("Called msgGoToWork");
@@ -689,16 +722,7 @@ public class PersonAgent extends Agent implements Person
 	    stateChanged();
 	}
 	
-	public void msgLeavingHome(Role r, double balance){
-		cash = balance;
-	    r.setActivity(false);
-		roles.remove(r);
-	    Status.setLocation(location.outside);
-	    Status.setDestination(destination.outside);
-	    Status.setHousingStatus(houseStatus.notHome);
-	    gui.setPresent(true);
-	    stateChanged();
-	}
+
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
@@ -710,29 +734,13 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void msgLeavingRestaurant(Role r, float myMoney){
+		cash = myMoney;
 		r.setActivity(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
 		gui.setPresent(true);
-		
-//		for (Building b: buildings){
-//			print(" type: " + b.getType() + " n: ");
-//			if (b.getType() == buildingType.restaurant){
-//				Restaurant a = (Restaurant) b;
-//				a.panel.removeCustomer((Customer)r);
-//			}
-
-//		}	
-
-//		}
-		
-		//Commenting out since AI should handle movement after the person gets out of restaurant
-		//gui.DoGoToCheckpoint('D');
-		//gui.DoGoToCheckpoint('C');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('A');
-		// however will make person just go home or where housing will be /////////////////////////////////////
+	
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);		
 
@@ -740,6 +748,7 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 
 	}
+	
 
 	public void msgGoToBank(String purpose, double amt)
 	{
@@ -760,11 +769,11 @@ public class PersonAgent extends Agent implements Person
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside); 
 		gui.setPresent(true);
-		//Commenting out since AI should handle movement after leaving bank
-		//gui.DoGoToCheckpoint('D');
 		roles.remove(r);
 		stateChanged();
 	}
+	
+
 	
 	public void msgNewAccount(BankCustomerRole bankCustomerRole, Account acct) {
 		accounts.add(acct);
@@ -876,8 +885,8 @@ if (job.type == JobType.noAI){
 }
 
 if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
-	
-	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
+//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
+	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
 		for (Day d : job.daysWorking){
 			if (d == TimeManager.getInstance().getDay()){
 				GoToWork();
@@ -1139,6 +1148,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		
 		this.Status.setLocation(location.bank);
 		
+		if (CheckBankOpen()){
 		gui.setPresent(false);
 		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
 		c.setPerson(this);
@@ -1146,6 +1156,9 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		c.setActivity(true);
 		c.setTrackerGui(trackingWindow);
 		r.panel.customerPanel.addCustomer((BankCustomer) c);
+		}
+		else 
+			stateChanged();
 	}
 	
 
@@ -1165,7 +1178,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
 		}
-		
+		Status.loc = location.work;
 		
 	}
 	
@@ -1452,6 +1465,8 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	public void setPersonList(Vector<PersonAgent> people) {
 		this.people = people;
 	}
+
+	
 
 	
 

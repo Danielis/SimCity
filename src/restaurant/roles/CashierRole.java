@@ -328,5 +328,11 @@ public class CashierRole extends Role implements Cashier{
 		a = a/100f;
 		return a;
 	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

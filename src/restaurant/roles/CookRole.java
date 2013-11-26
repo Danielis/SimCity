@@ -658,5 +658,11 @@ public class CookRole extends Role implements Cook {
 	public void msgHereIsMonitor(ProducerConsumerMonitor theMonitor2) {
 		theMonitor = theMonitor2;
 	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

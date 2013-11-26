@@ -4,7 +4,8 @@ import logging.TrackerGui;
 import agent.StringUtil;
 import city.PersonAgent;
 
-public class Role 
+
+public abstract class Role //why doesnt this extend agent?
 {
 	public PersonAgent myPerson;
 	public Boolean active;
@@ -84,12 +85,12 @@ public class Role
 
 	}
 
-	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
-		
-	}
+
 	public void msgGetPaid() {
 		// TODO Have each role as person in charge for cash
 	}
+	
+	public abstract void msgLeaveWork();	
+
 
 }

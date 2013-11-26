@@ -1,6 +1,8 @@
 package city;
 
 import java.util.*;
+import roles.*;
+import housing.*;
 
 import city.PersonAgent.location;
 import city.TimeManager.Day;
@@ -19,7 +21,7 @@ Day msgPayLastSent = Day.thursday;
 		if (WakeUp() && DayOverWake())
 			msgPeopleWake();
 		if (GoHome() && DayOverHome())
-			msgPeopleGoHome();
+			msgStopWorking();
 		return true;
 	}
 
@@ -32,7 +34,7 @@ Day msgPayLastSent = Day.thursday;
 	}
 	
 	private Boolean GoHome(){
-		return (TimeManager.getInstance().getHour() == 18);
+		return (TimeManager.getInstance().getHour() + 1 == 16);
 	}
 
 	private void msgPeopleWake() {
@@ -41,19 +43,23 @@ Day msgPayLastSent = Day.thursday;
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.home){
-				p.msgLeaveHome();
+				for (Role r : p.roles){
+					HousingCustomerRole x = (HousingCustomerRole) r;
+					x.msgLeaveHome();
+				}
 			}
 		}
 		
 	}
 
-	private void msgPeopleGoHome() {
+	private void msgStopWorking() {
 		msgHomeLastSent = TimeManager.getInstance().getDay();
 		print("6PM. TIME TO GO HOME!");
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.work){
-				p.msgLeaveWork();
+				for (Role r : p.roles)
+					r.msgLeaveWork();
 			}
 		}
 		
@@ -71,7 +77,7 @@ Day msgPayLastSent = Day.thursday;
 	}
 	
 	private boolean WakeUp() {
-		return (TimeManager.getInstance().getHour() == 5);
+		return (TimeManager.getInstance().getHour() + 1 == 7);
 	}
 
 	public void setPeople(Vector<PersonAgent> people2) {

@@ -218,6 +218,5 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	{
 		isBusy = false;
 		setPresent(false);
-		//setPresent(false);
 	}
 }
