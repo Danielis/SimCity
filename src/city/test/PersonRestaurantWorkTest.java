@@ -1,7 +1,11 @@
 package city.test;
 
 import city.*;
+import city.PersonAgent.JobType;
+import city.PersonAgent.WealthLevel;
+import city.guis.CityGui;
 import junit.framework.TestCase;
+import logging.TrackerGui;
 import restaurant.*;
 import restaurant.gui.*;
 import restaurant.roles.*;
@@ -18,6 +22,8 @@ public class PersonRestaurantWorkTest extends TestCase {
 //    MockMarket market2;
 	
 	PersonAgent person;
+	CityGui gui;
+	TrackerGui trackerWindow;
 	Restaurant r;
     
     public void setUp() throws Exception{
@@ -30,12 +36,21 @@ public class PersonRestaurantWorkTest extends TestCase {
         	System.out.println("TEST 1");
         	
         	//Create the variables
-        	person = new PersonAgent("TestPerson", "Restaurant Host", "Average");
+        	//person = new PersonAgent("TestPerson", "Restaurant Host", "Average");
+        	gui = new CityGui();
+    		trackerWindow = new TrackerGui();
+        	gui.cityPanel.addPerson("Test", "Restaurant Host", "Average");
         	r = new Restaurant(new RestaurantGui(), "Test");
-        	r.panel.host = person.roles.
+        	r.panel = new RestaurantPanel(new RestaurantGui());
+        	person.job.type = JobType.noAI;
+        	person.wealthLevel = WealthLevel.average;
+        	assertTrue(person.pickAndExecuteAnAction());
+        	//person.WorkAtRest();
+        	assertFalse(person.pickAndExecuteAnAction());
+        	r = new Restaurant(new RestaurantGui(), "Test");
+        	assertEquals("Person's assigned role should be a hostrole", r.panel.host, person.roles.get(0));
         	
         	
-        	//r.panel = new RestaurantPanel(new RestaurantGui());
         	//r.panel.host = new HostRole("TestHost", 1000);
         	//r.panel.cashier = new CashierRole("TestCashier", 1000);
         	//r.panel.cook = new CookRole("TestCook", 1000);

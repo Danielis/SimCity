@@ -77,9 +77,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Inventory List
 	public List<Item> inventory = Collections.synchronizedList(new ArrayList<Item>());
-
-	//For housing: List<Building> buildings = Collections.synchronizedList(new ArrayList<Building>());
-
+	
 	public TrackerGui trackingWindow;
 
 	//Variable
@@ -102,8 +100,8 @@ public class PersonAgent extends Agent implements Person
 	
 
 	public class Job{
-		JobType type;
-		Coordinate location;
+		public JobType type;
+		public Coordinate location;
 		static final int timeStart = 8;
 		static final int timeEnd = 20;
 		List <Day> daysWorking = new ArrayList<Day>();
@@ -176,13 +174,13 @@ public class PersonAgent extends Agent implements Person
 		
 		
 	}
-	enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
-	Job job;
+	public enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
+	public Job job;
 	
-	enum WealthLevel {average, wealthy, poor}
+	public enum WealthLevel {average, wealthy, poor}
 	
 	
-	WealthLevel wealthLevel;
+	public WealthLevel wealthLevel;
 	
 	BusStopAgent destinationStop;//trans: added
 	BusStopAgent curStop;//trans: addded
@@ -923,101 +921,101 @@ public class PersonAgent extends Agent implements Person
 	 ******************************************************************************/
 
 	@Override
-	protected boolean pickAndExecuteAnAction() {
-		
+	public boolean pickAndExecuteAnAction() {
+
 		//Not exactly sure where this next bit of code has to go or when it will be called
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
-		
-if (job.type == JobType.noAI || noAI){	
-	print("sched hit");
-		if (Status.getWork() == workStatus.notWorking &&
-				Status.getDestination() == destination.work) {
-			print("Scheduler realized the person wants to go to work");
-			GoToWork();
-			return true;
-		}
-		if (Status.getNourishmnet() == nourishment.Hungry &&
-				Status.getLocation() == location.outside && CheckRestOpen()) {
-			print("Scheduler realized the person wants to go to Restaurant");
-			GoToRestaurant();
-			return true;
-		}
-		//If you need to withdraw, and your destination is the bank, withdraw
-		if (Status.getMoneyStatus() == bankStatus.withdraw &&
-				Status.getDestination() == destination.bank && CheckBankOpen()) {
+
+		if (job.type == JobType.noAI || noAI){	
+			print("sched hit");
+			if (Status.getWork() == workStatus.notWorking &&
+					Status.getDestination() == destination.work) {
+				print("Scheduler realized the person wants to go to work");
+				GoToWork();
+				return true;
+			}
+			if (Status.getNourishmnet() == nourishment.Hungry &&
+					Status.getLocation() == location.outside && CheckRestOpen()) {
+				print("Scheduler realized the person wants to go to Restaurant");
+				GoToRestaurant();
+				return true;
+			}
+			//If you need to withdraw, and your destination is the bank, withdraw
+			if (Status.getMoneyStatus() == bankStatus.withdraw &&
+					Status.getDestination() == destination.bank && CheckBankOpen()) {
 				GoToBank();
 				return true;
 			}
-		if (Status.getDestination() == destination.market &&
-				Status.market == marketStatus.buying) {
+			if (Status.getDestination() == destination.market &&
+					Status.market == marketStatus.buying) {
 				GoToMarket();
 				return true;
 			}
 
-		//If for any reason you need to go home, go home.
-		if (Status.getHousingStatus() == houseStatus.needsToGo &&
-				Status.getDestination() == destination.home)
-		{
-			GoHomeToDoX();
-			return true;
-		}
-}
-
-//print(" role no active, should be true" + noRoleActive());
-//print("is gui busy, should be false" + gui.getBusy());
-//print("ai type, should be anything but NOAI" + job.type);
-//print("at work, should be anything be work" + Status.getWork());
-if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
-//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
-	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
-		for (Day d : job.daysWorking){
-			if (d == TimeManager.getInstance().getDay()){
-				GoToWork();
+			//If for any reason you need to go home, go home.
+			if (Status.getHousingStatus() == houseStatus.needsToGo &&
+					Status.getDestination() == destination.home)
+			{
+				GoHomeToDoX();
 				return true;
 			}
 		}
-	}
-	
-	if (isHungry()){
-		GoEat();
-		return true;
-	}
-	
-	if(needsBankTransaction() && CheckBankOpen()){
-		GoToBank();
-		return true;
-	}
-	
-	if(needsToBuy()){
-		GoToMarket();
-		return true;
-	}	
-	
-	if(isTired()){
-		GoToSleep();
-		return true;
-	}
 
-		
-}
+		//print(" role no active, should be true" + noRoleActive());
+		//print("is gui busy, should be false" + gui.getBusy());
+		//print("ai type, should be anything but NOAI" + job.type);
+		//print("at work, should be anything be work" + Status.getWork());
+		if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
+			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
+			if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
+				for (Day d : job.daysWorking){
+					if (d == TimeManager.getInstance().getDay()){
+						GoToWork();
+						return true;
+					}
+				}
+			}
 
-//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
-//	if (OwesRent()){
-//		homePurpose = "Pay Rent";
-//		GoHomeToDoX();
-//		return true;
-//	}
-//	if (AptBroken()){
-//		homePurpose = "Call for Repair";
-//		GoHomeToDoX();
-//		return true;
-//	}
+			if (isHungry()){
+				GoEat();
+				return true;
+			}
 
-		
-	
-	
+			if(needsBankTransaction() && CheckBankOpen()){
+				GoToBank();
+				return true;
+			}
+
+			if(needsToBuy()){
+				GoToMarket();
+				return true;
+			}	
+
+			if(isTired()){
+				GoToSleep();
+				return true;
+			}
+
+
+		}
+
+		//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
+		//	if (OwesRent()){
+		//		homePurpose = "Pay Rent";
+		//		GoHomeToDoX();
+		//		return true;
+		//	}
+		//	if (AptBroken()){
+		//		homePurpose = "Call for Repair";
+		//		GoHomeToDoX();
+		//		return true;
+		//	}
+
+
+
+
 		Boolean anytrue = false;
 		synchronized(roles)
 		{
@@ -1045,16 +1043,16 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 
 		if(anytrue)
 			return true;
-//TODO
+		//TODO
 		//if (!gui.getBusy()  && job.type != JobType.noAI){	//  && job.type != JobType.noAI used to have this
-	//		WalkAimlessly();
-//		homePurpose = "Sleep";
-//		GoHomeToDoX();
-	//	}
+		//		WalkAimlessly();
+		//		homePurpose = "Sleep";
+		//		GoHomeToDoX();
+		//	}
 		if (!gui.getBusy() && job.type != JobType.noAI){
 			WalkAimlessly();
-//			homePurpose = "Sleep";
-//				GoHomeToDoX();
+			//			homePurpose = "Sleep";
+			//				GoHomeToDoX();
 		}
 		return false;	
 
@@ -1420,7 +1418,7 @@ if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != 
 		}
 	}
 
-	private void WorkAtRest() {
+	public void WorkAtRest() {
 
 		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
