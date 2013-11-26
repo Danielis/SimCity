@@ -5,6 +5,7 @@ import restaurant.HostAgent;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import restaurant.interfaces.Customer;
+import restaurant.interfaces.Waiter;
 
 import javax.swing.*;
 
@@ -43,10 +44,10 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addWaiterButton = new JButton("Add");
     private JTextField nameFieldForWaiter = new JTextField("Enter Waiter Here");
     private JCheckBox waiterBreakCheckBox = new JCheckBox("Set Breaks Below");
-    private WaiterAgent currentWaiter;
+    private Waiter currentWaiter;
     
     private Customer lastCustomerClicked;
-    private WaiterAgent lastWaiterClicked;
+    private Waiter lastWaiterClicked;
 
     //GENERAL STUFF
     private RestaurantPanel restPanel;
@@ -204,6 +205,20 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }
     
+    public void removeCustomer(Customer customer)
+    {
+    	for(JButton b : listForCustomer)
+    	{
+    		if(b.getText() == customer.getName())
+    		{
+    			listForCustomer.remove(b);
+    			viewForCustomer.remove(b);
+    		}
+    	}
+    	restPanel.removeCustomer(customer);
+    	validate();
+    }
+    
     
     public void updateCustomerInfoPanel(Customer person) {
     	this.lastCustomerClicked = person;
@@ -219,7 +234,7 @@ public class ListPanel extends JPanel implements ActionListener {
         customerHungryCheckBox.setSelected(lastCustomerClicked.getGui().isHungry());
         customerHungryCheckBox.setEnabled(!lastCustomerClicked.getGui().isHungry());
     }
-    public void updateWaiterInfoPanel(WaiterAgent person)
+    public void updateWaiterInfoPanel(Waiter person)
     {
     	/*
     	this.lastWaiterClicked = person;
@@ -249,7 +264,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     
     
-    public void updateWaiter(WaiterAgent person)
+    public void updateWaiter(Waiter person)
     {
     	
     	/*currentWaiter = person;

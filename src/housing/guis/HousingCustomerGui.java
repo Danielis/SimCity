@@ -18,7 +18,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	private boolean isHungry = false;
 	public boolean goingSomewhere = false;
 	public boolean initial = true;
-
+	public boolean isBusy = false;
 	int roomIndex;
 
 	//finals
@@ -89,9 +89,9 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		}
 	}
 
-	public void DoneWithAnimation() {
-		waitingForAnimation.release();
-	}
+//	public void DoneWithAnimation() {
+//		waitingForAnimation.release();
+//	}
 
 
 	public void updatePosition() {
@@ -120,8 +120,9 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 			if (position.x == destination.x && position.y == destination.y)
 			{
+			//	System.out.println("reached dest");
 					goingSomewhere = false;
-					DoneWithAnimation();
+					agent.DoneWithAnimation();
 			}
 		}
 	}
@@ -167,38 +168,52 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		goingSomewhere = true;
 		destination = new Coordinate(250, 50);
 		//agent.WaitForAnimation();
-		WaitForAnimation();
+		agent.WaitForAnimation();
 	}
 
 	public void DoGoToThreshold() {
 		goingSomewhere = true;
 		destination = new Coordinate(475,20 + (100*roomIndex));
-		WaitForAnimation();
+		agent.WaitForAnimation();
 	}
 	public void DoGoToBed() {
 		goingSomewhere = true;
 		destination = new Coordinate(600, 100 + (100*roomIndex));
-		WaitForAnimation();
+		agent.WaitForAnimation();
 	}
 
 	public void DoGoToLandlord() {
 		goingSomewhere = true;
 		destination = new Coordinate(325,50);
-		WaitForAnimation();
+		agent.WaitForAnimation();
 	}
 	public void DoGoToKitchen() {
 		goingSomewhere = true;
 		destination = new Coordinate(225,100);
-		WaitForAnimation();
+		agent.WaitForAnimation();
 	}
 	public void DoGoToFridge() {
 		goingSomewhere = true;
 		destination = new Coordinate(50, 80);
-		WaitForAnimation();
+		agent.WaitForAnimation();
 	}
 	public void DoGoToTable() {
 		goingSomewhere = true;
 		destination = new Coordinate(50, 125);
-		WaitForAnimation();
+		agent.WaitForAnimation();
+	}
+
+	public void setAction() {
+		isBusy = true;
+		//int temp = Integer.parseInt(amount);
+		agent.msgDoSomething();
+		setPresent(true);
+	}
+	
+	public void setDone()
+	{
+		isBusy = false;
+		setPresent(false);
+		//setPresent(false);
 	}
 }

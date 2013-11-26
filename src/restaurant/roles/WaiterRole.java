@@ -1,20 +1,24 @@
-package restaurant;
+package restaurant.roles;
 
-import agent.Agent;
-import agent.RestaurantMenu;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+import java.util.concurrent.Semaphore;
+
+import restaurant.CookAgent;
+import restaurant.HostAgent;
+import restaurant.MyCustomer;
+import restaurant.CustomerState;
+import restaurant.WaiterAgent.myState;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.*;
 import roles.Restaurant;
-import restaurant.MyCustomer;
-import restaurant.CustomerAgent;
+import roles.Role;
+import agent.RestaurantMenu;
 
-import java.awt.Menu;
-import java.util.*;
-import java.util.concurrent.Semaphore;
-
-//Waiter Agent
-public class WaiterAgent extends Agent implements Waiter {
+public class WaiterRole extends Role implements Waiter
+{
 	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
@@ -41,7 +45,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public WaiterAgent()
+	public WaiterRole()
 	{
 		super();
 		this.name = "Default Daniel";
@@ -53,7 +57,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			foodsAvailable.add(true);
 		}
 	}
-	public WaiterAgent(String name, Restaurant rest) {
+	public WaiterRole(String name, Restaurant rest) {
 		super();
 		this.rest = rest;
 		this.name = name;
@@ -74,7 +78,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		copyOfAnimPanel = panel;
 	}
 	
-	public void setHost(Host host) {
+	public void setHost(HostAgent host) {
 		this.host = host;
 	}
 	
@@ -102,13 +106,13 @@ public class WaiterAgent extends Agent implements Waiter {
 	public void setGui(WaiterGui gui) {
 		waiterGui = gui;
 	}
-
+	
 	public WaiterGui getGui() {
 		return waiterGui;
 	}
 
 //CLASSES/ENUMS**********************************************
-
+	
 	public enum myState
 	{
 		none, wantBreak, askedForBreak, onBreak
@@ -129,7 +133,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		/*
 		print(this.name + " wants a break.");
 		state = myState.wantBreak;
-		stateChanged();*/
+		myPerson.stateChanged();*/
 		isOnBreak = true;
 	}
 	
@@ -153,7 +157,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	{
 		myCustomers.add(new MyCustomer(c, table, CustomerState.waiting, null));
 		print("Got message to sit customer " + c.getName());
-		stateChanged();
+		myPerson.stateChanged();
 	}
 
 	public void msgReadyToOrder(Customer c) 
@@ -162,7 +166,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			if (mc.c == c) {
 				mc.s = CustomerState.readyToOrder;
 				print("Received message that " + c.getName() + " wants to order.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -174,7 +178,7 @@ public class WaiterAgent extends Agent implements Waiter {
 				mc.s = CustomerState.finishedOrdering;
 				mc.choice = choice;
 				print("Received message that " + c.getName() + "'s order is " + choice);
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -186,7 +190,7 @@ public class WaiterAgent extends Agent implements Waiter {
 				recalculateInventory(foods);
 				mc.s = CustomerState.reordering;
 				print("Received message that we are out of " + choice + ".");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -197,7 +201,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			if (mc.table == table) {
 				mc.s = CustomerState.orderReady;
 				print("Received message that " + choice + " is ready.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -219,7 +223,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			if (mc.c == c) {
 				mc.s = CustomerState.needsCheck;
 				print("Received message that customer " + c.getName() + " needs a check.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -230,7 +234,7 @@ public class WaiterAgent extends Agent implements Waiter {
 			if (mc.c == c) {
 				mc.s = CustomerState.leaving;
 				print("Received message that customer " + c.getName() + " is leaving.");
-				stateChanged();
+				myPerson.stateChanged();
 			}
 		}
 	}
@@ -238,7 +242,7 @@ public class WaiterAgent extends Agent implements Waiter {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{		
 		try
 		{
@@ -408,4 +412,3 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 
 }
-

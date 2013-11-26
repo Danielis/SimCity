@@ -46,7 +46,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//private Semaphore waitingForAnimation = new Semaphore(0);
 	private HousingAnimationPanel animationPanel;
 	private HousingCustomerGui gui;
-
+	public Semaphore animSemaphore = new Semaphore(0, true);
 	//landlord agent for the customer
 	private LandlordAgent landlord;
 
@@ -178,9 +178,33 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 
 	@Override
 	public void setPurpose(String homePurpose) {
-		// TODO Auto-generated method stub
-		
+		if (homePurpose.equals("Call for Repair"))
+			houseNeedsRepairs = true;
+		if (homePurpose.equals("Cook"))
+			hungry = true;
+		stateChanged();
 	}
 
+	@Override
+	public void msgDoSomething() {
+		stateChanged();
+	}
+
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
 
 }

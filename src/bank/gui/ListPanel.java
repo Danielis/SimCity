@@ -1,13 +1,12 @@
 package bank.gui;
 
 import bank.BankCustomerRole;
-import bank.HostAgent;
-import bank.TellerAgent;
+import bank.BankHostRole;
 
 import javax.swing.*;
 
 import roles.Role;
-import bank.interfaces.BankCustomer;
+import bank.interfaces.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,10 +43,10 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addWaiterButton = new JButton("Add");
     private JTextField nameFieldForWaiter = new JTextField("");
     private JCheckBox waiterBreakCheckBox = new JCheckBox("Set Breaks Below");
-    private TellerAgent currentWaiter;
+    private Teller currentWaiter;
     
     private BankCustomerRole lastCustomerClicked;
-    private TellerAgent lastWaiterClicked;
+    private Teller lastWaiterClicked;
 
     //GENERAL STUFF
     private BankPanel restPanel;
@@ -114,7 +113,7 @@ public class ListPanel extends JPanel implements ActionListener {
         }
         else if (e.getSource() == addWaiterButton)
         {
-        	addTeller(nameFieldForWaiter.getText());
+        	//addTeller(nameFieldForWaiter.getText());
         }
         else {
         	// Isn't the second for loop more beautiful?
@@ -142,12 +141,12 @@ public class ListPanel extends JPanel implements ActionListener {
      * a spot for it in the scroll pane, and tells the restaurant panel
      * to add a new person.
      *
-     * @param name name of new person
+     * @param c name of new person
      */
     
-    public void addTeller(String name) {
-        if (name != null) {
-            JButton button = new JButton(name);
+    public void addTeller(Teller c) {
+        if (c != null) {
+            JButton button = new JButton(c.getName());
             button.setBackground(Color.white);
 
             Dimension paneSize = waiterPane.getSize();
@@ -159,11 +158,32 @@ public class ListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForWaiter.add(button);
             viewForWaiter.add(button);
-            restPanel.addTeller(name);
-            restPanel.showWaiterInfo(name);
+            restPanel.addTeller(c);
+            restPanel.showWaiterInfo(c.getName());
             validate();
         }
     }
+    
+    public void addHost(BankHost host) {
+        if (host != null) {
+            JButton button = new JButton(host.getName());
+            button.setBackground(Color.white);
+
+            Dimension paneSize = waiterPane.getSize();
+            Dimension buttonSize = new Dimension(paneSize.width - 20,
+                    (int) (paneSize.height / 10));
+            button.setPreferredSize(buttonSize);
+            button.setMinimumSize(buttonSize);
+            button.setMaximumSize(buttonSize);
+            button.addActionListener(this);
+            listForWaiter.add(button);
+            viewForWaiter.add(button);
+            restPanel.addHost(host);
+            validate();
+           
+        }
+    }
+    
     
     public void addCustomer(BankCustomer customer) {
         if (customer != null) {
@@ -185,6 +205,8 @@ public class ListPanel extends JPanel implements ActionListener {
            
         }
     }
+    
+   
     
     public void addCustomer(String name) {
         if (name != null) {
@@ -221,7 +243,7 @@ public class ListPanel extends JPanel implements ActionListener {
         customerHungryCheckBox.setSelected(lastCustomerClicked.getGui().isHungry());
         customerHungryCheckBox.setEnabled(!lastCustomerClicked.getGui().isHungry());
     }
-    public void updateWaiterInfoPanel(TellerAgent person)
+    public void updateWaiterInfoPanel(Teller person)
     {
     	/*
     	this.lastWaiterClicked = person;
@@ -251,7 +273,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     
     
-    public void updateWaiter(TellerAgent person)
+    public void updateWaiter(Teller person)
     {
     	
     	/*currentWaiter = person;

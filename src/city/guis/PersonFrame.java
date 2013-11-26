@@ -23,6 +23,7 @@ public class PersonFrame extends JFrame{
 	JLabel moneyLabel;
 	JLabel inventoryLabel;
 	JLabel imgLabel;
+	JLabel locationLabel;
 	ImageIcon imgTrainer;
 	 
 
@@ -35,23 +36,24 @@ public class PersonFrame extends JFrame{
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new BorderLayout());
 		
-		nameLabel = new JLabel("Name: " + p.getName());
-		moneyLabel = new JLabel("Money: " + p.money+"");
+		//nameLabel = new JLabel("Name: " + p.getName());
+		moneyLabel = new JLabel("Money: " + p.cash+"");
 		inventoryLabel = new JLabel("Inventory: " + "Test String");
 		imgLabel = new JLabel(imgTrainer);
+		locationLabel = new JLabel("Going: " + p.Status.getDestination());
 		
 		this.setLayout(new BorderLayout());
 		
-		imgPanel.add(imgLabel);
-		infoPanel.add(nameLabel, BorderLayout.NORTH);
+		imgPanel.add(imgLabel, BorderLayout.NORTH);
+		infoPanel.add(locationLabel, BorderLayout.NORTH);
 		infoPanel.add(moneyLabel, BorderLayout.CENTER);
 		infoPanel.add(inventoryLabel, BorderLayout.SOUTH);
 		
 		this.add(imgLabel, BorderLayout.NORTH);
 		this.add(infoPanel, BorderLayout.CENTER);
 		
-		this.setBounds(860, 550, 100, 100);
-        setTitle("Person Agent");
+		this.setBounds(860, 550, 250, 150);
+        setTitle(p.getName());
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

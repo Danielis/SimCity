@@ -3,6 +3,7 @@ package restaurant;
 
 import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.interfaces.*;
+import restaurant.roles.ModernWaiterRole;
 import roles.Restaurant;
 
 import java.util.*;
@@ -45,14 +46,7 @@ public class ModernWaiterAgent extends WaiterAgent implements Waiter {
 		print("I'm a modern waiter! I love the ticket system.");
 	}
 
-//UTILITIES***************************************************
-	
-//CLASSES/ENUMS**********************************************
-		
-	
 //MESSAGES****************************************************
-
-	
 	
 	public void msgHereIsMyOrder(Customer c, String choice)
 	{
@@ -175,7 +169,7 @@ public class ModernWaiterAgent extends WaiterAgent implements Waiter {
         //catch(InterruptedException ex){};
 	}
 	
-	private Ticket produce_item(ModernWaiterAgent w, String choice, int tb){
+	private Ticket produce_item(Waiter waiter, String choice, int tb){
 		Ticket data;
         //try{sleep(1000);}
         //catch(InterruptedException ex){};

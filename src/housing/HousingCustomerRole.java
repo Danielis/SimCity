@@ -50,7 +50,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//private Semaphore waitingForAnimation = new Semaphore(0);
 	private HousingAnimationPanel animationPanel;
 	private HousingCustomerGui gui;
-
+	public Semaphore animSemaphore = new Semaphore(0, true);
 	//landlord agent for the customer
 	private LandlordAgent landlord;
 
@@ -74,6 +74,10 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//arriving at house
 	public void enteringHouse() {
 
+	}
+	public void msgDoSomething() {
+		print("dosmth");
+		myPerson.stateChanged();
 	}
 	//sent from landlord.  rent bill
 	public void HereIsRentBill(double amount){
@@ -138,6 +142,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//----------------Actions-------------------------
 	//------------------------------------------------
 	private void PayBill(){
+		print("Going to pay bill");
 		gui.DoGoToLandlord();
 		if (balance > bill){
 			balance -= bill;
@@ -155,6 +160,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		gui.DoGoToBed();
 	}
 	private void CallLandlordRepairs(){
+		print("Going to call landlord");
 		gui.DoGoToThreshold();
 		gui.DoGoToPhone();
 		houseNeedsRepairs = false;
@@ -170,15 +176,21 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		System.out.println("Went to bank.");
 	}
 	private void GetFood() {
-		hungry = false;
-		gui.DoGoToThreshold();
+		print("Going to cook.");
+		
+	//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
 		gui.DoGoToTable();
+		hungry = false;
 		gui.DoGoToKitchen();
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
 		System.out.println("Done Eating.");
+	}
+	
+	private void LeaveApartment(){
+		gui.setDone();
 	}
 
 	public HousingCustomerGui getGui() {
@@ -192,11 +204,27 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			//needsLoan = true;
 		if (homePurpose.equals("Call for Repair"))
 			houseNeedsRepairs = true;
-		if (homePurpose.equals("Cook"))
+		if (homePurpose.equals("Cook")) //TODO
 			hungry = true;
 		//if (homePurpose.equals("Sleep"))
 		//	hungry = true;
 	}
 
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
+
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
 
 }

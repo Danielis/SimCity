@@ -5,6 +5,7 @@ import restaurant.WaiterAgent;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.interfaces.Customer;
+import restaurant.interfaces.Waiter;
 import roles.Restaurant;
 
 import javax.imageio.ImageIO;
@@ -44,7 +45,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private JButton waiterOFF = new JButton("Go Off Break");
 
     private Customer currentCustomer;
-    private WaiterAgent currentWaiter;
+    private Waiter currentWaiter;
 
     private JButton pauseButton;
     private JButton refreshButton;
@@ -180,11 +181,11 @@ public class RestaurantGui extends JFrame implements ActionListener {
     	//empty
     }
     
-    public void updateWaiterInformationPanel(WaiterAgent person) {
+    public void updateWaiterInformationPanel(Waiter person) {
     	waiterON.setVisible(true);
     	waiterOFF.setVisible(true);
         currentWaiter = person;
-        WaiterAgent waiter = person;
+        Waiter waiter = person;
     	infoWaiterLabel.setText(
                 "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
         waiterInformationPanel.validate();
@@ -199,18 +200,18 @@ public class RestaurantGui extends JFrame implements ActionListener {
     
         if (e.getSource() == customerStateCheckBox) 
         {
-            CustomerAgent c = (CustomerAgent) currentCustomer;
+            Customer c = (Customer) currentCustomer;
             c.getGui().setHungry();
             customerStateCheckBox.setEnabled(false);
         }
         if (e.getSource() == waiterON)
         {
-        	WaiterAgent w = currentWaiter;
+        	Waiter w = currentWaiter;
         	w.getGui().AskForBreak();
         }
         if (e.getSource() == waiterOFF)
         {
-        	WaiterAgent w = currentWaiter;
+        	Waiter w = currentWaiter;
         	w.getGui().AskGoOffBreak();
         }
         if (e.getSource() == MrKrabsButton)
@@ -250,7 +251,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerAgent c) {
+    public void setCustomerEnabled(Customer c) {
         Customer cust = currentCustomer;
         if (c.equals(cust)) 
         {

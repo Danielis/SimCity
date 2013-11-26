@@ -2,9 +2,8 @@ package bank.gui;
 
 import bank.Bank;
 import bank.BankCustomerRole;
-import bank.HostAgent;
-import bank.TellerAgent;
-import bank.interfaces.BankCustomer;
+import bank.BankHostRole;
+import bank.interfaces.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,13 +22,13 @@ import java.util.Vector;
 public class BankPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Oprah");
-    private HostGui hostGui = new HostGui(host);
+    private BankHost host = null;
+    //private HostGui hostGui = new HostGui(host);
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
     private Vector<BankCustomer> customers = new Vector<BankCustomer>();
-    private Vector<TellerAgent> waiters = new Vector<TellerAgent>();
+    private Vector<Teller> waiters = new Vector<Teller>();
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -43,16 +42,11 @@ public class BankPanel extends JPanel {
     
     public BankPanel(BankGui gui) {
         this.gui = gui;
-        host.setGui(hostGui);
-        host.setAnimPanel(gui.animationPanel);
         
-       
-       
-        gui.animationPanel.addGui(hostGui);
-        
-       
-        
-        host.startThread();
+//        host.setGui(hostGui);
+//        host.setAnimPanel(gui.animationPanel); TODO HOST
+//        gui.animationPanel.addGui(hostGui);
+//        host.startThread();
         
         
         setLayout(new GridLayout(1, 2, 20, 20));
@@ -118,7 +112,7 @@ public class BankPanel extends JPanel {
     public void showWaiterInfo(String name) 
     {
         for (int i = 0; i < waiters.size(); i++) {
-            TellerAgent temp = waiters.get(i);
+        	Teller temp = waiters.get(i);
             if (temp.getName() == name)
             {
                 waiterPanel.updateWaiter(temp);
@@ -139,12 +133,41 @@ public class BankPanel extends JPanel {
     	//System.out.println("bankpanel addcust");
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
-		c.setHost(host);
+		c.setHost(host);  
 		c.setGui(g);
+		g.setAction();
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
 		//c.startThread();
     }
+    
+    public void addHost(BankHost host) {
+    	System.out.println("bankpanel addhost");
+		// TODO Auto-generated method stub
+		HostGui g = new HostGui(host, gui);
+		gui.animationPanel.addGui(g);
+		host.setGui(g);
+		host.setAnimPanel(gui.animationPanel);
+		this.host = host;
+	}
+    
+    public void addTeller(Teller c) 
+    {
+		
+		Teller w = c;	
+		b.addTeller(w);
+		c.setTableNum(b.getTellerNunmber()); 
+		TellerGui g = new TellerGui(w, gui, b.getTellerNunmber());
+		w.setBank(b);
+		gui.animationPanel.addGui(g);
+		w.setHost(host);  
+		w.setAnimPanel(gui.animationPanel);
+		host.msgNewTeller(w); 
+		w.setGui(g);
+		waiters.add(w);
+		//w.startThread();
+    }
+    
     
 //    public void addCustomer(String name) 
 //    {
@@ -158,48 +181,8 @@ public class BankPanel extends JPanel {
 //		c.startThread();
 //    }
     
-    public void addTeller(String name) 
-    {
-		waiterindex++;
-    	TellerAgent w = new TellerAgent(name, waiterindex);	
-		TellerGui g = new TellerGui(w, gui, waiterindex);
-		w.setBank(b);
-		gui.animationPanel.addGui(g);
-		w.setHost(host);
-		w.setAnimPanel(gui.animationPanel);
-		host.msgNewTeller(w);
-		w.setGui(g);
-		waiters.add(w);
-		w.startThread();
-    }
-    
-    public void pause()
-    {
-    	host.pauseAgent();
- 
-    	for (BankCustomer c : customers)
-    	{
-    		c.pauseAgent();
-    	}
-    	for (TellerAgent w : waiters)
-    	{
-    		w.pauseAgent();
-    	}
-    }
-    
-    public void resume()
-    {
-    	host.resumeAgent();
-    
-    	for (BankCustomer c : customers)
-    	{
-    		c.resumeAgent();
-    	}
-    	for (TellerAgent w : waiters)
-    	{
-    		w.resumeAgent();
-    	}
-    }
+  
+   
 
     public void refresh()
     {
@@ -211,4 +194,6 @@ public class BankPanel extends JPanel {
 		this.b = bank;
 		
 	}
+
+	
 }

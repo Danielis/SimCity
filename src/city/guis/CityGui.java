@@ -116,6 +116,7 @@ public class CityGui extends JFrame implements ActionListener {
     private JPanel restaurantPanel = new JPanel(); 
     private JButton restaurantGo = new JButton("Go");
     
+    private JButton workGo = new JButton("Work");
     
     // ************ END FUNCTION PANEL *********************
     
@@ -217,12 +218,12 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.add(restaurantPanel);
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
-		
+		restaurantPanel.add(workGo);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
 		restaurantGo.addActionListener(this);
-		
+		workGo.addActionListener(this);
 		housingList.addActionListener(this);
         
         
@@ -296,9 +297,9 @@ public class CityGui extends JFrame implements ActionListener {
 				    	ymintest = p.getGui().getYPosition()-30;
 				    	ymaxtest = p.getGui().getYPosition()+30;;
 				    	
-				    	 if ((x<xmaxtest) && (y<ymaxtest) && (x>xmin) && (y>ymin))
+				    	 if ((x<xmaxtest) && (y<ymaxtest) && (x>xmintest) && (y>ymintest))
 				    	 {
-				    		 System.out.println("Calling function.");
+				    		 System.out.println("Opening Person Frame.");
 				    		 createFrame(p);
 				    	 }
 			    	}
@@ -385,6 +386,7 @@ public class CityGui extends JFrame implements ActionListener {
    	 	marketGo.setEnabled(!currentPerson.getGui().getBusy());
         housingGo.setEnabled(!currentPerson.getGui().getBusy());
         restaurantGo.setEnabled(!currentPerson.getGui().getBusy());
+        workGo.setEnabled(!currentPerson.getGui().getBusy());
     }
     //Action Listener
     public void actionPerformed(ActionEvent e) {
@@ -395,6 +397,11 @@ public class CityGui extends JFrame implements ActionListener {
             PersonAgent c = (PersonAgent) currentPerson;
             c.getGui().setHungry();
             silenceButtons();
+        }
+        if (e.getSource() == workGo){
+        	 PersonAgent c = (PersonAgent) currentPerson;
+             c.getGui().setWork();
+             silenceButtons();
         }
         if (e.getSource() == bankGo)
         {
@@ -525,43 +532,11 @@ public class CityGui extends JFrame implements ActionListener {
     	gui.setVisible(true);
     	
 
+    	//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+        //gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
-    	gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
         
         TrackerGui trackerWindow = new TrackerGui();
     }
-    /**
-     * Main routine to get gui started
-
-    public static void main(String[] args) {    
-        RestaurantGui gui2 = new RestaurantGui();
-        gui2.setTitle("Norman's Restaurant");
-        gui2.setVisible(true);
-        gui2.setResizable(false);
-        gui2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
-
-        CityGui gui = new CityGui();
-        gui.cityPanel.setRestPanel(gui2.restPanel);
-        gui.setTitle("Team 05's City");
-        gui.setVisible(true);
-        gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Commands to run stuff for testing code for bus system 
-
-        gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-        gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
-
-        /*
-        BankGui gui3 = new BankGui();
-        gui3.setTitle("Aleena's Bank");
-        gui3.setVisible(true);
-        gui3.setResizable(false);
-        gui3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-
-
-    }
-     */
 }

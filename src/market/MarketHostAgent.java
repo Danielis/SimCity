@@ -1,7 +1,7 @@
 package market;
 
 import agent.Agent;
-import bank.HostAgent.MyCustomer;
+import bank.BankHostRole.MyCustomer;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketHostGui;
 import market.interfaces.MarketHost;

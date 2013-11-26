@@ -1,7 +1,7 @@
 package bank.gui;
 
-import bank.HostAgent;
-import bank.TellerAgent;
+import bank.BankHostRole;
+import bank.interfaces.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,7 +27,7 @@ public class TellerGui implements Gui {
 	//images
 	BufferedImage imgTrainer;
 		
-    private TellerAgent agent = null;
+    private Teller agent = null;
     BankGui gui;
 
     Boolean isPresent;
@@ -51,7 +51,7 @@ public class TellerGui implements Gui {
     
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-    public TellerGui(TellerAgent w, BankGui gui, int in) {
+    public TellerGui(Teller w, BankGui gui, int in) {
     	
     	setPresent(true);
     	isPresent = true;
@@ -147,31 +147,31 @@ public class TellerGui implements Gui {
 	}
     
     
-    public void AskForBreak()
-    {
-    	agent.host.msgIdLikeToGoOnBreak(agent);
-    }
-    
-    public void AskGoOffBreak()
-    {
-    	agent.host.msgIdLikeToGetOffBreak(agent);
-    }
+//    public void AskForBreak()
+//    {
+//    	agent.host.msgIdLikeToGoOnBreak(agent);
+//    }
+//    
+//    public void AskGoOffBreak()
+//    {
+//    	agent.host.msgIdLikeToGetOffBreak(agent);
+//    }
 
     public boolean isPresent() {
 		return isPresent;
 	}
 	
-	public void setOnBreak() 
-	{
-		//agent.msgSetOnBreak();
-		agent.isOnBreak = true;
-	}
-	
-	public void setOffBreak()
-	{
-		//agent.msgSetOffBreak();
-		agent.isOnBreak = false;
-	}
+//	public void setOnBreak() 
+//	{
+//		//agent.msgSetOnBreak();
+//		agent.isOnBreak = true;
+//	}
+//	
+//	public void setOffBreak()
+//	{
+//		//agent.msgSetOffBreak();
+//		agent.isOnBreak = false;
+//	}
 	
 	public boolean isOnBreak() {
 		return agent.isOnBreak;

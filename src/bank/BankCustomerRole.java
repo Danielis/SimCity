@@ -1,5 +1,6 @@
 package bank;
 
+import bank.Bank.*;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 import bank.interfaces.*;
@@ -26,7 +27,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	//EDIT HERE******************************
 	
 //VARIABLES*************************************************
-	Host h;
+	BankHost h;
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
 	Teller t;
@@ -38,6 +39,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
 	Timer timer = new Timer();
+	Loan loan;
+	Account acct;
 	
 	Boolean isHappy = true;
 	
@@ -67,6 +70,14 @@ public class BankCustomerRole extends Role implements BankCustomer {
 
 //UTILITIES**************************************************
 
+	private Boolean reduceBalance(){
+		if (enoughBalance()){
+			balance -= amount;
+			return true;
+		}
+		return false;
+	}
+	
 	private Boolean enoughBalance(){
 		if (amount > balance){
 			print("I just realized I do not have enough money");
@@ -75,11 +86,10 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			stateChanged();
 			return false;
 		}
-		else{
-			balance -= amount;
+		else
 			return true;
-		}
 	}
+	
 	
 //CLASSES/ENUMS**********************************************
 
@@ -123,7 +133,8 @@ public void	GoToTeller(Teller t){
 	    stateChanged();
 	}
 
-public void	AccountCreated(){
+public void	AccountCreated(Account a){
+		acct = a;
 	    state = bankCustomerState.done;
 	    stateChanged();
 	}
@@ -133,7 +144,8 @@ public void	MoneySuccesfullyDeposited(){
 	    stateChanged();
 	}
 
-public void	LoanCreated(double temp){
+public void	LoanCreated(double temp, Loan t){
+		loan = t;
 	    balance += temp;
 	    state = bankCustomerState.done;
 	    stateChanged();
@@ -306,7 +318,7 @@ private void GiveRequest(){
 	    	print("I would like to create an account and deposit $" + amount);
 	    	else
 	    	print("I would like to create an account.");
-	    	if (enoughBalance()){
+	    	if (reduceBalance()){
 	    		t.IWantAccount(this, amount);
 	    	}
 	    }
@@ -331,7 +343,7 @@ private void GiveRequest(){
 	    if (purpose == customerPurpose.payLoan){
 	    	print("I would like to payback $" + amount + " of my loan");
 	        
-	    	if (enoughBalance())
+	    	if (reduceBalance())
 	    		t.PayMyLoan(this, amount);
 	    }
 
@@ -367,6 +379,10 @@ private void LeaveBank(){
 	    state = bankCustomerState.exited;  
 	    customerGui.setDone();
 		this.myPerson.msgLeavingBank(this, balance);
+		if (acct != null)
+			this.myPerson.msgNewAccount(this, acct);
+		if (loan != null)
+			this.myPerson.msgNewLoan(this,loan);
 	    getCustomerGui().finishedTransaction();
 }
 	
@@ -445,9 +461,13 @@ private void LeaveBank(){
 		this.customerGui = customerGui;
 	}
 
-	public void setHost(HostAgent host) {
+	public void setHost(BankHost host) {
 		this.h = host;
 	}
+
+
+
+	
 
 	
 }

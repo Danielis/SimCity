@@ -1,22 +1,25 @@
-package restaurant;
+package restaurant.roles;
 
-import agent.Agent;
-import agent.RestaurantMenu;
-import restaurant.gui.WaiterGui;
+import restaurant.CustomerState;
+import restaurant.MyCustomer;
+import restaurant.ProducerConsumerMonitor;
+import restaurant.ProducerConsumerMonitor.Ticket;
 import restaurant.interfaces.*;
+import roles.Restaurant;
 
-import java.awt.Menu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Waiter Agent
-public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
+public class ModernWaiterRole extends WaiterRole implements Waiter {
 	
 	//Lists and Other Agents
 
 	//List of foods remaining
-	
+    private int itemCount = 0;
+    
 	//Variables
+	private ProducerConsumerMonitor theMonitor;
 	
 	//Menu
 	
@@ -24,7 +27,7 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public TraditionalWaiterAgent()
+	public ModernWaiterRole()
 	{
 		super();
 		this.name = "Default Daniel";
@@ -34,31 +37,32 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 		{
 			foodsAvailable.add(true);
 		}
+		//theMonitor = ;
 	}
-	public TraditionalWaiterAgent(String name) {
+	public ModernWaiterRole(String name, Restaurant r) {
 		super();
-
+		this.rest = r;
 		this.name = name;
-		print("I'm a traditional waiter! I hate the ticket system.");
+		theMonitor = r.theMonitor;
+		print("I'm a modern waiter! I love the ticket system.");
 	}
-
 
 //MESSAGES****************************************************
-
+	
 	public void msgHereIsMyOrder(Customer c, String choice)
 	{
 		for (MyCustomer mc: myCustomers) {
 			if (mc.c == c) {
 				mc.s = CustomerState.finishedOrdering;
 				mc.choice = choice;
-				print("Received message that " + c.getName() + "'s order is " + choice);
+				print("Received message that " + c.getName() + "'s Ticket is " + choice);
 				stateChanged();
 			}
 		}
 	}
 
 	
-	public void msgOrderIsReady(String choice, int table)
+	public void msgTicketIsReady(String choice, int table)
 	{
 		for (MyCustomer mc: myCustomers) {
 			if (mc.table == table) {
@@ -73,7 +77,7 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{		
 		try
 		{
@@ -111,7 +115,7 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 			for (MyCustomer mc : myCustomers)
 			{
 				if (mc.s == CustomerState.finishedOrdering) {
-					PlaceOrder(mc);
+					PlaceTicket(mc);
 					return true;
 				}
 			}
@@ -149,12 +153,39 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter {
 
 //ACTIONS********************************************************
 
-	protected void PlaceOrder(MyCustomer mc)
+	
+	
+	protected void PlaceTicket(MyCustomer mc)
 	{
-		print("Placing the order for " + mc.choice);
+		print("Placing the Ticket for " + mc.choice);
 		waiterGui.DoGoToCook();
 		mc.s = CustomerState.hasOrdered;		
-		cook.msgHereIsAnOrder(this, mc.choice, mc.table);
+		//cook.msgHereIsAnTicket(this, mc.choice, mc.table);
+		Ticket data = produce_item(this, mc.choice, mc.table);
+        print("Placed ticket for table " + data.table
+                + " with order of " + data.choice);
+        theMonitor.insert(data);
+        
+        //try{sleep(1000);}
+        //catch(InterruptedException ex){};
 	}
+	
+	private Ticket produce_item(ModernWaiterRole w, String choice, int tb){
+		Ticket data;
+        //try{sleep(1000);}
+        //catch(InterruptedException ex){};
+        data = theMonitor.new Ticket(this, cook, choice, tb);
+        itemCount++;
+        print("Creating new ticket for table " + data.table
+                + " with order of " + data.choice);
+        cook.msgHereIsMonitor(theMonitor);
+        return data;
+    }
+    
+	
+
+
+   
+
 }
 

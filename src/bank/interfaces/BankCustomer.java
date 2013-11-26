@@ -3,7 +3,6 @@ package bank.interfaces;
 
 import javax.swing.Icon;
 
-import bank.TellerAgent;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 
@@ -18,11 +17,9 @@ public abstract void	WantsToDo(String visitPurpose, int quantity);
 
 public abstract void	GoToTeller(Teller t);
 
-public abstract void	AccountCreated();
 
 public abstract void	MoneySuccesfullyDeposited();
 
-public abstract void	LoanCreated(double temp);
 
 public abstract void	CannotCreateLoan();
 
@@ -46,7 +43,7 @@ public void WaitForAnimation();
 
 public void DoneWithAnimation();
 
-public abstract void setHost(bank.HostAgent host);
+public abstract void setHost(BankHost host);
 
 
 public abstract void setGui(CustomerGui g);

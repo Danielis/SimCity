@@ -1,0 +1,74 @@
+
+if (time > workStart && time < workEnd){
+	GoToWork();
+	return true;
+}
+
+if (cash > cashThresholdUp)
+	bankPurpose = deposit;
+	bankAmount = cash - cashThresholdUp;
+	GoToBank();
+	return true;
+
+if (cash < cashThresholdLow)
+	bankPurpose = withdraw;
+	bankAmount = cashThresholdLow - cash;
+	GoToBank();
+	return true;
+
+if (totalMoney < moneyThreshold)
+	bankPurpose = takeLoan;
+	bankAmount = moneyThreshold - totalMoney;
+	GoToBank();
+	return true;
+
+if (hasLoan() && cash > cashThresholdLow)
+	bankPurpose = payLoan;
+	bankAmount = cash - cashTresholdLow
+	GoToBank();
+	return true;
+
+if (noAcct())
+	bankPurpose = newAcct;
+	GoToBank();
+	return true;
+
+for (Item i : inventory){
+	if(i.quantity < i.threshold){
+		marketItem = i;
+		marketQuantity = i.threshold - i.quantity;
+		GoToMarket();
+		return true;
+	}
+}
+
+if (Hungry()){
+	Boolean restaurant;
+	if (isWealthy)
+		restaurant = 70% chance
+	else
+		restaurant = 10% chance
+
+	if (restaurant)
+		GoToRestaurant();
+		return true;
+	else
+		housingPurpose = cook;
+		GoToHome();
+		return true;
+}
+
+if (OwesRent()){
+	housingPurpose = payRent;
+	GoToHome();
+	return true;
+}
+
+if (AptBroken()){
+	housingPurpose = callRepair;
+	GoToHome();
+	return true;
+}
+
+GoSleep();
+return false;

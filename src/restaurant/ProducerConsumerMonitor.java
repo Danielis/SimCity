@@ -3,6 +3,9 @@ package restaurant;
 import java.util.Vector;
 
 import restaurant.CookAgent.state;
+import restaurant.interfaces.Cook;
+import restaurant.interfaces.Waiter;
+import restaurant.roles.ModernWaiterRole;
  
 public class ProducerConsumerMonitor extends Object {
     private final int N = 15;
@@ -65,22 +68,22 @@ public class ProducerConsumerMonitor extends Object {
     
     public class Ticket
     {
-    	WaiterAgent w;
-    	String choice;
-    	CookAgent c;
-    	int table;
+    	public Waiter w;
+    	public String choice;
+    	public Cook c;
+    	public int table;
     	
     	//Constructor
-    	Ticket(WaiterAgent newWaiter, CookAgent c, String newChoice, int newTable)
+    	public Ticket(Waiter waiter, Cook cook, String newChoice, int newTable)
     	{
-    		w = newWaiter;
-    		this.c = c;
+    		w = waiter;
+    		this.c = cook;
     		choice = newChoice;
     		table = newTable;
     	}
     	
     	//Class Methods
-    	WaiterAgent getWaiter()
+    	Waiter getWaiter()
     	{
     		return w;
     	}

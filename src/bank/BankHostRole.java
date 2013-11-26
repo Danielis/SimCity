@@ -1,17 +1,17 @@
 package bank;
 
 import agent.Agent;
+import roles.Role;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
-import bank.interfaces.Host;
-import bank.TellerAgent;
+import bank.interfaces.*;
 import bank.BankCustomerRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 //Host Agent
-public class HostAgent extends Agent implements Host {
+public class BankHostRole extends Role implements BankHost {
 	
 		
 	//Lists
@@ -25,7 +25,7 @@ public class HostAgent extends Agent implements Host {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
 //CONSTRUCTOR
-	public HostAgent(String name) {
+	public BankHostRole(String name) {
 		super();
 		this.name = name;
 	}
@@ -70,11 +70,11 @@ public class HostAgent extends Agent implements Host {
 //CLASSES****************************************************
 		public class MyTeller{
 			
-			public MyTeller(TellerAgent t2) {
+			public MyTeller(Teller t2) {
 				this.t = t2;
 				this.s = tellerState.free;
 			}
-			TellerAgent t;
+			Teller t;
 			tellerState s;
 		}
 		enum tellerState {free, busy, wantsBreak, onBreak};
@@ -99,13 +99,13 @@ public class HostAgent extends Agent implements Host {
     stateChanged();
 	}
 		
-	public void msgNewTeller(TellerAgent t)
+	public void msgNewTeller(Teller t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
 	}
 	
-	public void IAmFree(TellerAgent tell){
+	public void IAmFree(Teller tell){
 		//print("received msg free");
 		for(MyTeller t: myTellers){
 			if (t.t == tell){
@@ -116,7 +116,7 @@ public class HostAgent extends Agent implements Host {
 	}
 	
 	
-	public void msgIdLikeToGoOnBreak(TellerAgent t)
+	public void msgIdLikeToGoOnBreak(Teller t)
 	{
 		print("Received message that " + t.getName() + " wants to go on break.");
 		for (MyTeller mw : myTellers)
@@ -129,7 +129,7 @@ public class HostAgent extends Agent implements Host {
 		}
 	}
 	
-	public void msgIdLikeToGetOffBreak(TellerAgent t)
+	public void msgIdLikeToGetOffBreak(Teller t)
 	{
 		print("Received message that " + t.getName() + " wants to go off break.");
 		for (MyTeller mw : myTellers)
@@ -149,7 +149,7 @@ public class HostAgent extends Agent implements Host {
 
 //SCHEDULER****************************************************
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		try
 		{
 			synchronized(customers)
@@ -270,5 +270,10 @@ public class HostAgent extends Agent implements Host {
        // 	customers.get(i).c.getCustomerGui().shuffle(0, i*25);
        // }
 }
+
+	
+	
+	
+
 }
 

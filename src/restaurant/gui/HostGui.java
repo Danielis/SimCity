@@ -4,15 +4,16 @@ package restaurant.gui;
 import restaurant.CustomerAgent;
 import restaurant.WaiterAgent;
 import restaurant.HostAgent;
+import restaurant.interfaces.Host;
 
 import java.awt.*;
 
 public class HostGui implements Gui {
 
-    private HostAgent agent = null;
+    private Host agent = null;
 
-    public HostGui(HostAgent agent) {
-        this.agent = agent;
+    public HostGui(Host host) {
+        this.agent = host;
     }
 
     public void updatePosition() {

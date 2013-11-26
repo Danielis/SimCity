@@ -1,6 +1,7 @@
 package bank;
 
 import java.util.*;
+import bank.interfaces.*;
 
 import javax.swing.JFrame;
 
@@ -16,12 +17,14 @@ public class Bank extends Building{
 	double balance;
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
+	List <Teller> workingTellers = new ArrayList<Teller>();
 	int idIncr = 0;
 	
 	public BankGui gui;
 	public BankPanel panel;
 	public String name; //Name of the restaurant
     public Coordinate location;
+    public int numTellersWorking = 0;
 	
 	public Bank(BankGui gui, String name){
 		//super();
@@ -36,22 +39,38 @@ public class Bank extends Building{
         gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
+	public void addTeller(Teller t){
+		workingTellers.add(t);
+		numTellersWorking ++;
+	}
+	
+	public int getTellerNunmber(){
+		return numTellersWorking;
+	}
 	
 	public class Account {
 		int id; // auto increment
 	    BankCustomerRole c;
-	    double balance;
+	    private double balance;
 	    
 	    
 	    public Account(BankCustomerRole c) {
 			this.c = c;
-			balance = 0;
+			setBalance(0);
 			id = ++idIncr;
 		}
 	    
 	    public Account(int t, int b) {
-			balance = b;
+			setBalance(b);
 			id = t;
+		}
+
+		public double getBalance() {
+			return balance;
+		}
+
+		public void setBalance(double balance) {
+			this.balance = balance;
 		}
 	}
 	
@@ -62,7 +81,7 @@ public class Bank extends Building{
 	    double rate;
 	    int dayCreated;
 	    int dayOwed;
-	    loanState s;
+	    public loanState s;
 	    
 	    Loan(BankCustomerRole c2, double amount){
 	    c = c2;
@@ -71,7 +90,7 @@ public class Bank extends Building{
 	    balancePaid = 0;
 	    }
 	}
-	enum loanState {unpaid, partiallyPaid, paid}
+	public enum loanState {unpaid, partiallyPaid, paid}
 	
 	public Account createAccount(BankCustomerRole c) {
 		Account acct = new Account(c);

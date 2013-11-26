@@ -18,11 +18,12 @@ import city.PersonAgent;
 public class PersonGui implements Gui{
 	
 	//variables
-	private boolean isPresent = false;
+	private boolean isPresent = true;
 	
 	private boolean isHungry = false;
-	private boolean needsmoney = false;
+	//private boolean needsmoney = false;
 	private boolean goingHome = false;
+	private boolean isWorking = false;
 	
 	private boolean goingSomewhere = false;
 	private boolean isBusy = false;
@@ -224,7 +225,12 @@ public class PersonGui implements Gui{
 		setPresent(true);
 		setBusy(true);
 	}
-	
+	public void setWork() {
+		isWorking = true;
+		agent.msgGoToWork();
+		setPresent(true);
+		setBusy(true);
+	}
 	public void setBusy(Boolean x){
 		isBusy = x;
 	}
@@ -246,7 +252,7 @@ public class PersonGui implements Gui{
 	
 	public void setNeedsMoney(Boolean b, String purpose, double amt)
 	{
-		this.needsmoney = b;
+		//this.needsmoney = b;
 		agent.msgGoToBank(purpose, amt);
 		setPresent(true);
 		setBusy(true);
@@ -262,7 +268,7 @@ public class PersonGui implements Gui{
 	
 	public void setShop(Boolean b, String item, double quantity)
 	{
-		this.needsmoney = b;
+		//this.needsmoney = b;
 		agent.msgGoToMarket(item, quantity);
 		setPresent(true);
 		setBusy(true);
@@ -273,10 +279,10 @@ public class PersonGui implements Gui{
 		return this.goingHome;
 	}
 	
-	public boolean needsMoney()
-	{
-		return needsmoney;
-	}
+//	public boolean needsMoney()
+//	{
+//		return needsmoney;
+//	}
 
 	public void setPresent(boolean p) {
 		isPresent = p;
@@ -383,5 +389,7 @@ public class PersonGui implements Gui{
 		this.position.x = X;
 		this.position.y = Y;
 	}
+
+	
 
 }

@@ -98,7 +98,7 @@ public class CustomerGui implements Gui{
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
     	
-    	for (int i = 0; i < HostAgent.NTABLES; i++)
+    	for (int i = 0; i < 4; i++)
     	{
     		tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
     	}

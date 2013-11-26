@@ -78,13 +78,13 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void setHost(HostAgent host) {
+	public void setHost(Host host) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setCashier(CashierAgent cashier) {
+	public void setCashier(Cashier cashier) {
 		// TODO Auto-generated method stub
 		
 	}
