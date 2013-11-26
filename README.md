@@ -27,13 +27,17 @@
 | Weekly Meeting 2    | Thu. 05:00pm to 10:00pm  | Century            |
 
 #### Breakdown of work done
-### Norman
+ Norman
+ + item here
 
-### Chris
+ Chris
+ + item here
 
-### Daniel 
+ Daniel 
+ + item here
 
-### Aleena
+ Aleena
+ + item here
 
 #### How To run system
 
@@ -43,8 +47,7 @@
 + GUI controls for Bank, Market, Housing, Restaurant on left side only affect 'non AI' agents
 + Bus system is off by default (because some windows computers have some issues with it), you can turn it on by selecting 'Bus' under City Controls
 
-### 
-## Press "Scenario 1" button to run the normative scenario
+##### Press "Scenario 1" button to run the normative scenario
 + This creates: 1 bank host, 3 bank tellers, 1 cashier, 1 cook, 1 restaurant host, 2 waiters, and many different types of jobless citizens.
 + Before 3AM, everyone will shop at the store, filling their inventories, or buying cars. 
 + After 3AM the workers will head to work. 
@@ -52,7 +55,7 @@
 + The work shift ends at 8PM, but workers finish up remaining jobs before leaving. 
 + The default action (personAgent scheduler returns false) is to wander around the streets).
 
-## Press "Turn off AI" to test individual component functions
+##### Press "Turn off AI" to test individual component functions
 + Add neccesary workers for a building (bank: 1 host, 1 teller; restaurant: 1 cashier, 1 cook, 1 waiter, 1 host)
 + Press "Work" after adding each worker.
 + Add a person with "None" for job. 
