@@ -6,6 +6,7 @@ import bank.gui.*;
 
 import java.util.List;
 
+import logging.TrackerGui;
 import bank.Bank;
 import bank.BankCustomerRole;
 
@@ -32,8 +33,7 @@ public interface Teller
 	public void setAnimPanel(BankAnimationPanel animationPanel);
 	public void setGui(TellerGui g);
 	public void setTableNum(int tellerNunmber);
-	public void setHost(BankHost host2);
-		
+	public void setHost(BankHost host2);		
 		
 
 }

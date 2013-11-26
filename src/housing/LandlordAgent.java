@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import logging.TrackerGui;
 import agent.Agent;
 
 public class LandlordAgent extends Agent {
+
 
 	//--------------------------------------------------------
 	//-------------------Utilities----------------------------
@@ -19,6 +21,10 @@ public class LandlordAgent extends Agent {
 		complexes.add(new HousingComplex());
 		System.out.println("Landlord created.");
 		balance = 10000;
+	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
 	}
 	
 	public void addCustomer(HousingCustomer hc){
@@ -37,6 +43,7 @@ public class LandlordAgent extends Agent {
 	private List<Payment> payments = new ArrayList<Payment>();
 	private List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
 	double balance;
+	public TrackerGui trackingWindow;
 
 	public class HousingComplex {
 		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();

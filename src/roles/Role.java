@@ -1,12 +1,14 @@
 package roles;
 
+import logging.TrackerGui;
 import agent.StringUtil;
 import city.PersonAgent;
 
-public class Role //why doesnt this extend agent?
+public class Role 
 {
 	public PersonAgent myPerson;
 	public Boolean active;
+	public TrackerGui trackingWindow;
 	
 	public void startThread()
 	{
@@ -75,6 +77,11 @@ public class Role //why doesnt this extend agent?
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+
 	}
 
 	public void msgLeaveWork() {

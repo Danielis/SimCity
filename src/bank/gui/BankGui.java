@@ -8,6 +8,9 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
+
+import logging.TrackerGui;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -21,7 +24,8 @@ public class BankGui extends JFrame implements ActionListener {
 	BankAnimationPanel animationPanel = new BankAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
 	
- 
+	public TrackerGui trackingWindow; 
+	
     public BankPanel restPanel = new BankPanel(this);
     
     /* customerInformationPanel holds information about the clicked customer, if there is one*/
@@ -140,6 +144,11 @@ public class BankGui extends JFrame implements ActionListener {
         add(RestaurantPortion, BorderLayout.EAST);
 
     }
+    
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
+	
     /**
      * updateCustomerInformationPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.

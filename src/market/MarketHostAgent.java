@@ -2,6 +2,7 @@ package market;
 
 import agent.Agent;
 import bank.BankHostRole.MyCustomer;
+import logging.TrackerGui;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketHostGui;
 import market.interfaces.MarketHost;
@@ -25,6 +26,7 @@ public class MarketHostAgent extends Agent implements MarketHost {
 
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public MarketAnimationPanel copyOfAnimPanel;
+	private TrackerGui trackingWindow;
 //CONSTRUCTOR
 	public MarketHostAgent(String name) {
 		super();
@@ -67,6 +69,11 @@ public class MarketHostAgent extends Agent implements MarketHost {
 	{
 		copyOfAnimPanel = panel;
 	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+	}
+
 	
 //CLASSES****************************************************
 		public class MyTeller{

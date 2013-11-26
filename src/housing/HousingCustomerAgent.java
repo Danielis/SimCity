@@ -102,7 +102,6 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	//--------------------------------------------------------
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		System.out.println("Tenant scheduler.");
 		if (needsLoan){
 			TakeOutLoan();
 			return true;

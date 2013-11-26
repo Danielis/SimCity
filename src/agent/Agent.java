@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import javax.management.relation.Role;
+
+import logging.AlertLevel;
+
 /**
  * Base class for simple agents
  */
@@ -64,7 +68,7 @@ public abstract class Agent {
     protected void print(String msg) {
         print(msg, null);
     }
-
+    
     /**
      * Print message with exception stack trace
      */

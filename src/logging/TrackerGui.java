@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 public class TrackerGui {
 	
-	JFrame trackerFrame;
+	public JFrame trackerFrame;
 	public TracePanel tracker;
 
 	public TrackerGui() {
@@ -16,11 +16,11 @@ public class TrackerGui {
 		trackerFrame = new JFrame("Tracker");
 	    trackerFrame.setSize(new Dimension(500,100));
 	    trackerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    trackerFrame.setResizable(false);
+	    trackerFrame.setResizable(true);
 	    trackerFrame.setVisible(true);
 
 	    //creates tracker panel.  
-	    tracker = new TracePanel();
+	    tracker = new TracePanel(this);
         trackerFrame.getContentPane().add(tracker);
         tracker.setVisible(true);
         tracker.showAlertsForAllLevels();

@@ -45,7 +45,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 
 	private static final long serialVersionUID = 5643932617391465416L;
 	private JTextPane traceTextPane;
-
+	private TrackerGui parent;
 	private List<Alert> newAlerts = Collections.synchronizedList(new ArrayList<Alert>());
 	private Set<AlertLevel> visibleLevels = Collections.synchronizedSet(EnumSet.allOf(AlertLevel.class));
 	private Set<AlertTag> visibleTags = Collections.synchronizedSet(EnumSet.noneOf(AlertTag.class));
@@ -56,8 +56,9 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	Style infoStyle;
 	Style defaultStyle;
 
-	public TracePanel() {
+	public TracePanel(TrackerGui t) {
 		super();
+		parent = t;
 		this.setBorder(new BevelBorder(EtchedBorder.LOWERED));
 		this.size = new Dimension(500, 100);
 		traceTextPane = new JTextPane();
@@ -129,6 +130,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 	 * Updates the trace panel to include all new messages from the log, 
 	 */
 	private void updateTracePanel() {
+		parent.trackerFrame.setAlwaysOnTop(true);
 		synchronized (newAlerts) {
 			for (Alert alert : newAlerts) {
 				try {
@@ -156,7 +158,7 @@ public class TracePanel extends JScrollPane implements AlertListener {
 					//Insert the alert into the panel's document
 					int endPosition = traceTextPane.getDocument().getEndPosition().getOffset();
 					traceTextPane.getStyledDocument().insertString(endPosition, alert.toString() + "\n", styleToPrint);
-
+					System.out.println(alert.toString());
 				} catch (BadLocationException e) {
 					e.printStackTrace();
 				}

@@ -3,6 +3,7 @@ package bank.test.mock;
 
 import java.util.List;
 
+import logging.TrackerGui;
 import bank.BankCustomerRole;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
@@ -57,14 +58,6 @@ public class MockHost extends Mock implements BankHost {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void setTellers(List<Teller> tellers) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 
 
 
