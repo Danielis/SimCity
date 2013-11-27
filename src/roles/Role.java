@@ -38,7 +38,7 @@ public abstract class Role //why doesnt this extend agent?
 		return myPerson;
 	}
 	
-	protected void stateChanged()
+	public void stateChanged()
 	{
 		//System.out.println(myPerson);
 		myPerson.stateChanged();

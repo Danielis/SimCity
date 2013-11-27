@@ -1,4 +1,4 @@
-package restaurant.roles;
+package restaurant.test.mock;
 
 import agent.Agent;
 import restaurant.CustomerAgent.iconState;
@@ -12,26 +12,30 @@ import restaurant.gui.HostGui;
 import restaurant.gui.WaiterGui;
 import restaurant.interfaces.Cook;
 import restaurant.interfaces.Waiter;
+import restaurant.roles.WorkState;
 import restaurant.MarketAgent;
 import roles.Role;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
 
 //Cook Agent
-public class CookRole extends Role implements Cook 
+public class MockCook extends Mock implements Cook 
 {
-
+	
 	public WorkState myState = WorkState.none;
 	
+	PersonAgent myPerson;
+	
 	//Lists
-	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
+	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	public List<Foods> inventory = Collections.synchronizedList(new ArrayList<Foods>());
-	List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
+	public List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 		
 	//Variables
 	private String name;
@@ -58,7 +62,7 @@ public class CookRole extends Role implements Cook
 	public Map<String, iconState> iconMap = new HashMap<String, iconState>();
 	public CookGui cookGui = null;
 	public Restaurant rest;
-	ProducerConsumerMonitor theMonitor;
+	public ProducerConsumerMonitor theMonitor;
 
 	public enum iconState
 	{
@@ -66,8 +70,8 @@ public class CookRole extends Role implements Cook
 	};
 
 	//Constructor
-	public CookRole(String name, double cash) {
-		super();
+	public MockCook(String name, double cash) {
+		super(name);
 		this.name = name;
 		
 		accountBalance = cash;
@@ -100,10 +104,8 @@ public class CookRole extends Role implements Cook
 				(inventory.get(i).amount <= numIntemsForThreshhold && 
 					inventory.get(i).state == OrderState.ordered))
 			{
-				print("There are " + inventory.get(i).amount + " " + inventory.get(i).name);
-				print("Scheduling order for " + inventory.get(i).name);
 				inventory.get(i).state = OrderState.needsToOrder;
-				stateChanged();
+				//stateChanged();
 			}
 		}
 	}
@@ -189,12 +191,12 @@ public class CookRole extends Role implements Cook
 			amount--;
 		}
 	}
-	private class Order
+	public class Order
 	{
-		Waiter w;
-		String choice;
-		int table;
-		state s;
+		public Waiter w;
+		public String choice;
+		public int table;
+		public state s;
 		
 		//Constructor
 		Order(Waiter newWaiter, String newChoice, int newTable)
@@ -248,12 +250,12 @@ public class CookRole extends Role implements Cook
 	}
 	
 	//enum State
-	enum state
+	public enum state
 	{
 		needsProcessing, pending, cooking, done, complete
 	};
 	
-	enum OrderState
+	public enum OrderState
 	{
 		none, needsToOrder, ordering, ordered
 	};
@@ -264,7 +266,7 @@ public class CookRole extends Role implements Cook
 	public void msgLeaveWork()
 	{
 		myState = WorkState.needToLeave;
-		stateChanged();
+		//stateChanged();
 	}
 	
 	public void msgTakingItem(Waiter w)
@@ -276,25 +278,23 @@ public class CookRole extends Role implements Cook
 				if (icon.w == w)
 				{
 					icon.state = iconState.none;
-					stateChanged();
+					//stateChanged();
 				}
 			}
 		}
 	}
 	
 	public void msgNotEmpty(){
-		stateChanged();
+		//stateChanged();
 	}
 	public void msgHereIsAnOrder(Waiter w, String choice, int table)
 	{
 		orders.add(new Order(w, choice, table));
-		print("Received order to prepare " + choice);
-		stateChanged();
+		//stateChanged();
 	}
 
 	public void msgHereIsYourOrder(MarketAgent m, String name, int count, boolean out)
 	{
-		print("Got order from " + m.getName() + ": " + count + " " + name);
 		//Find the market giving you the order
 		synchronized(markets)
 		{
@@ -324,10 +324,8 @@ public class CookRole extends Role implements Cook
 				(inventory.get(i).amount <= numIntemsForThreshhold && 
 					inventory.get(i).state == OrderState.ordered))
 			{
-				print("There are " + inventory.get(i).amount + " " + inventory.get(i).name);
-				print("Scheduling order for " + inventory.get(i).name);
 				inventory.get(i).state = OrderState.needsToOrder;
-				stateChanged();
+				//stateChanged();
 			}
 		}
 		
@@ -357,23 +355,6 @@ public class CookRole extends Role implements Cook
 					pizzaCounter++;
 				}
 			}
-		}
-		
-		if (steakCounter == markets.size() && name == "Steak")
-		{
-			print("All markets are out of steak");
-		}
-		if (chickenCounter == markets.size() && name == "Chicken")
-		{
-			print("All markets are out of chicken");
-		}
-		if (saladCounter == markets.size() && name == "Salad")
-		{
-			print("All markets are out of salad");
-		}
-		if (pizzaCounter == markets.size() && name == "Pizza")
-		{
-			print("All markets are out of pizza");
 		}
 	}
 
@@ -409,7 +390,6 @@ public class CookRole extends Role implements Cook
 								//If we didn't order this item before from another market
 								if(inventory.get(i).state == OrderState.needsToOrder)
 								{
-									print("Ordering " + inventory.get(i).getName() + " from " + mm.m.getName());
 									//Order this item from this market
 									OrderFromMarket(i, mm, inventory.get(i).name, numItemsToOrder);
 									return true;
@@ -485,8 +465,6 @@ public class CookRole extends Role implements Cook
 
 	private void ProcessOrder(Order o)
 	{
-		print("Processing order of " + o.choice);
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Processing order of " + o.choice, new Date()));
 		List<Boolean> foods = new ArrayList<Boolean>();
 		
 		//Constructing a list of what foods are available. False = out of food that item
@@ -513,8 +491,6 @@ public class CookRole extends Role implements Cook
 				{
 					if (f.amount == 0)
 					{
-						print("Telling waiter we are out of " + f.getName());
-						trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Telling waiter we are out of " + f.getName(), new Date()));
 						o.w.msgOutOfFood(foods, o.choice, o.table);
 						orders.remove(o);
 					}
@@ -537,12 +513,8 @@ public class CookRole extends Role implements Cook
 				(inventory.get(i).amount <= numIntemsForThreshhold && 
 					inventory.get(i).state == OrderState.ordered))
 			{
-				print("There are " + inventory.get(i).amount + " " + inventory.get(i).name);
-				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "There are " + inventory.get(i).amount + " " + inventory.get(i).name, new Date()));
-				print("Scheduling order for " + inventory.get(i).name);
-				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Scheduling order for " + inventory.get(i).name, new Date()));
 				inventory.get(i).state = OrderState.needsToOrder;
-				stateChanged();
+				//stateChanged();
 			}
 		}
 		
@@ -572,32 +544,9 @@ public class CookRole extends Role implements Cook
 					pizzaCounter++;
 				}
 			}
-		}
-
-		if (steakCounter == markets.size())
-		{
-			print("All markets are out of steak");
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of steak.", new Date()));			
-		}
-		if (chickenCounter == markets.size())
-		{
-			print("All markets are out of chicken");
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of chicken.", new Date()));
-
-		}
-		if (saladCounter == markets.size())
-		{
-			print("All markets are out of salad");
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of salad.", new Date()));
-		}
-		if (pizzaCounter == markets.size())
-		{
-			print("All markets are out of pizza");
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of pizza.", new Date()));
-		}
-		
+		}		
 	}
-	public void CookOrder(Order o)
+	private void CookOrder(Order o)
 	{
 		//stub DoCooking;
 		o.s = state.cooking;
@@ -609,39 +558,30 @@ public class CookRole extends Role implements Cook
 				if (f.getName() == o.choice)
 				{
 					f.decrement();
-					print("There are " + f.getAmount() + " " + f.getName()+ "s remaining");
-					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "There are " + f.getAmount() + " " + f.getName()+ "s remaining", new Date()));
-
 				}
 			}
 		}
 		time = foods.get(o.choice).getCookingTime();
 		
-		cookGui.DoGoToFridge();
-		cookGui.DoGoToGrill();
-		print("Cooking " + o.choice + " for " + time + " seconds.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Cooking " + o.choice + " for " + time + " seconds.", new Date()));
-		final Order temp = o;
+		//cookGui.DoGoToFridge();
+		//cookGui.DoGoToGrill();
+		o.s = state.done;
 		
 		//finish cooking food after a certain cooking time
-		timer.schedule(new TimerTask()
-		{
-			public void run()
-			{
-				temp.s = state.done;
-				print("The order of " + temp.choice + " has finished cooking.");
-				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "The order of " + temp.choice + " has finished cooking.", new Date()));
-				stateChanged();
-			}
-		}, time * 1000);
+//		timer.schedule(new TimerTask()
+//		{
+//			public void run()
+//			{
+//				temp.s = state.done;
+//				//stateChanged();
+//			}
+//		}, time * 1000);
 	}
 	
 	private void PlateOrder(Order o)
 	{
-		cookGui.DoGoToGrill();
-		cookGui.DoGoToPlatingArea();
-		print("The order of " + o.choice + " has been plated.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "The order of " + o.choice + " has been plated.", new Date()));
+		//cookGui.DoGoToGrill();
+		//cookGui.DoGoToPlatingArea();
 		o.w.msgOrderIsReady(o.choice,  o.table);
 		Waiter newW = o.w;
 		icons.add(new myIcon(newW, iconMap.get(o.choice)));
@@ -655,20 +595,12 @@ public class CookRole extends Role implements Cook
 	}
 	
 	private void TakeTicket(){
-		print("Picking up ticket");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Picking up ticket", new Date()));
-               Ticket data = theMonitor.remove();
-               consume_item(data);
+			Ticket data = theMonitor.remove();
+            consume_item(data);
        }
        
        private void consume_item(Ticket data){
     	   orders.add(new Order(data.w, data.choice, data.table));
-           print("Creating new order from ticket left by " + name 
-                               + " for order of " + data.choice);
-   		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Creating new order from ticket left by " + name 
-                + " for order of " + data.choice, new Date()));
-           //try{sleep(1000);}
-          // catch(InterruptedException ex){};
        }
 	
 	public void WaitForAnimation()
@@ -679,7 +611,7 @@ public class CookRole extends Role implements Cook
 		} catch (InterruptedException e) {
             // no action - expected when stopping or when deadline changed
         } catch (Exception e) {
-            print("Unexpected exception caught in Agent thread:", e);
+            //print("Unexpected exception caught in Agent thread:", e);
         }
 	}
 	
@@ -705,7 +637,7 @@ public class CookRole extends Role implements Cook
 	
 	public void forceScheduler()
 	{
-		stateChanged();
+		//stateChanged();
 	}
 
 	public void setRestaurant(Restaurant restaurant) {
@@ -721,9 +653,25 @@ public class CookRole extends Role implements Cook
 	public void LeaveWork()
 	{
 		myState = WorkState.leaving;
-		print("CookRole: Called to leave work.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Called to leave work.", new Date()));
-		myPerson.msgLeftWork(this, this.accountBalance);
+		//myPerson.msgLeftWork(this, this.accountBalance);
+	}
+
+	@Override
+	public void startThread() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pauseAgent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resumeAgent() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

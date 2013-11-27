@@ -24,7 +24,7 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
     private int itemCount = 0;
     
 	//Variables
-	private ProducerConsumerMonitor theMonitor;
+	public ProducerConsumerMonitor theMonitor;
 	
 	//Menu
 	
@@ -176,7 +176,7 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 
 	
 	
-	protected void PlaceTicket(MyCustomer mc)
+	public void PlaceTicket(MyCustomer mc)
 	{
 		print("Placing the Ticket for " + mc.choice);
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Placing the Ticket for " + mc.choice, new Date()));
@@ -195,10 +195,8 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
         //catch(InterruptedException ex){};
 	}
 	
-	private Ticket produce_item(ModernWaiterRole w, String choice, int tb){
+	public Ticket produce_item(Waiter w, String choice, int tb){
 		Ticket data;
-        //try{sleep(1000);}
-        //catch(InterruptedException ex){};
         data = theMonitor.new Ticket(this, cook, choice, tb);
         itemCount++;
         print("Creating new ticket for table " + data.table
