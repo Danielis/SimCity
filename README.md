@@ -55,7 +55,20 @@ Chris
   + item here
 
 Daniel 
-  + item here
+  + PersonAgent Design Doc
+  + Buses
+  ++ Must be able to pick people up and take them to destinations
+  + BusStops
+  + + hold people as they wait for the bus to pick them up
+  + TransportationCompany
+  + + Handles all decision making for bus as in when it is at a stop pick people up and drop others off
+  + + This will eventually also handle any collision interactions
+  + PersonAgent decision in walking to locations based on start position and end position
+  + + People should walk when they don't have a car or want to take bus, they should take a bus only when they want to but have no car and walking is done as a default. A random function will decide if a person is always going to take a bus or walk unless they have a car,
+  + Payment system so that everyone gets paid at a certain time and only if working at that time. Payment will later on be based upon job role and pay according to how much they've worked.
+  + Unit Testing BusStopAgent
+  + Unit Testing BusAgent
+  + the two unit tests are the main components used in transportation.
 
 Aleena
   + PersonAgent AI design & implementation
