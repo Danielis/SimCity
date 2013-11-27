@@ -1169,7 +1169,7 @@ public class PersonAgent extends Agent implements Person
 
 	private Boolean CheckBankOpen() {
 		print("I need to go to the bank!");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to the bank!", new Date()));
+		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to the bank!", new Date()));
 		Bank r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){

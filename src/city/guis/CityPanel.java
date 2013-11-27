@@ -138,7 +138,7 @@ public class CityPanel extends JPanel {
 	//Adds a person to the city
     public void addPerson(String name, String job, String wealth) 
     {
-    	gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
+    	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
     	PersonAgent p = new PersonAgent(name, job, wealth);
 		PersonGui g = new PersonGui(p, gui);
 		gui.cityAnimationPanel.addGui(g);

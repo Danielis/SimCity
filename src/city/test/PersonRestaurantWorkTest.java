@@ -40,15 +40,16 @@ public class PersonRestaurantWorkTest extends TestCase {
         	gui = new CityGui();
     		trackerWindow = new TrackerGui();
         	gui.cityPanel.addPerson("Test", "Restaurant Host", "Average");
-        	r = new Restaurant(new RestaurantGui(), "Test");
-        	r.panel = new RestaurantPanel(new RestaurantGui());
-        	person.job.type = JobType.noAI;
-        	person.wealthLevel = WealthLevel.average;
-        	assertTrue(person.pickAndExecuteAnAction());
-        	//person.WorkAtRest();
-        	assertFalse(person.pickAndExecuteAnAction());
-        	r = new Restaurant(new RestaurantGui(), "Test");
-        	assertEquals("Person's assigned role should be a hostrole", r.panel.host, person.roles.get(0));
+        	assertEquals(gui.cityPanel.people.size(), 1);
+        	//gui.cityPanel.people.get(0).roles.add(new HostRole("TestHost", 1000));
+        	gui.cityPanel.people.get(0).WorkAtRest();
+//        	person.job.type = JobType.noAI;
+//        	person.wealthLevel = WealthLevel.average;
+//        	assertTrue(person.pickAndExecuteAnAction());
+//        	//person.WorkAtRest();
+//        	assertFalse(person.pickAndExecuteAnAction());
+//        	r = new Restaurant(new RestaurantGui(), "Test");
+//        	assertEquals("Person's assigned role should be a hostrole", r.panel.host, person.roles.get(0));
         	
         	
         	//r.panel.host = new HostRole("TestHost", 1000);
