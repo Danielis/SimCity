@@ -74,13 +74,13 @@ public class ListPanel extends JPanel implements ActionListener {
         if (type == "Customers"){
         	topPart_customer.add(name, BorderLayout.NORTH);
             addCustomerButton.addActionListener(this);
-            topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
+            //topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
             customerHungryCheckBox.addActionListener(this);
-           topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
+          // topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
             customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
             viewForCustomer.setLayout(new BoxLayout((Container) viewForCustomer, BoxLayout.Y_AXIS));
             customerPane.setViewportView(viewForCustomer);
-            bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
+           // bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
             bottomPart_customer.add(customerPane, BorderLayout.CENTER);
             add(topPart_customer, BorderLayout.NORTH);
             add(bottomPart_customer, BorderLayout.CENTER);
@@ -89,12 +89,12 @@ public class ListPanel extends JPanel implements ActionListener {
         if (type == "Tellers"){
         	topPart_waiter.add(name, BorderLayout.NORTH);
         	addWaiterButton.addActionListener(this);  
-        	topPart_waiter.add(nameFieldForWaiter, BorderLayout.CENTER);
+        	//topPart_waiter.add(nameFieldForWaiter, BorderLayout.CENTER);
         	//waiterBreakCheckBox.setEnabled(false);
         	//topPart_waiter.add(waiterBreakCheckBox, BorderLayout.SOUTH);
             viewForWaiter.setLayout(new BoxLayout((Container) viewForWaiter, BoxLayout.Y_AXIS));
             waiterPane.setViewportView(viewForWaiter);
-            bottomPart_waiter.add(addWaiterButton, BorderLayout.NORTH);
+           // bottomPart_waiter.add(addWaiterButton, BorderLayout.NORTH);
             bottomPart_waiter.add(waiterPane, BorderLayout.CENTER);
             add(topPart_waiter, BorderLayout.NORTH);
             add(bottomPart_waiter, BorderLayout.CENTER);

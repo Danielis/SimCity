@@ -62,7 +62,7 @@ public class BankPanel extends JPanel {
         group.add(waiterPanel);
 
         initRestLabel();
-        add(restLabel);
+        //add(restLabel);
         add(group);
     }
 
