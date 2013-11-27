@@ -1,9 +1,12 @@
 package bank.test;
 
+import city.PersonAgent;
 import bank.BankCustomerRole;
 import bank.BankCustomerRole.customerPurpose;
+import bank.BankCustomerRole.bankCustomerState;
 import bank.test.mock.*;
 import bank.Bank.*;
+import logging.TrackerGui;
 import bank.Bank;
 import junit.framework.TestCase;
 /**
@@ -12,6 +15,19 @@ import junit.framework.TestCase;
  * with waiters, customers, and the host.
  * It is provided as an example to students in CS201 for their unit testing lab.
  */
+
+
+
+
+
+// ********* Didn't have time to finish :( ************ //
+
+
+
+
+
+
+
 public class CustomerTest extends TestCase
 {
     //these are instantiated for each test separately via the setUp() method.
@@ -19,18 +35,27 @@ public class CustomerTest extends TestCase
 	Bank b;
     MockHost host;
     BankCustomerRole cust;
-    
+    BankCustomerRole cust2;
+    PersonAgent per;
     
     public void setUp() throws Exception{
             super.setUp();                
             System.out.println("SET UP");
-          
+
             
             host = new MockHost("host");
             teller = new MockTeller("teller");
+            cust = new BankCustomerRole("customer", "Deposit", 1500, 2500);
+            cust2 = new BankCustomerRole("customer", "New Loan", 1500, 2500);
+        	cust.h = host; 
+            cust.setTrackerGui(new TrackerGui());
+        	b = new Bank();
             
             teller.bank = b;
-          
+            per = new PersonAgent("Person", "None", "Wealthy");
+            cust.setPerson(per);
+
+            cust2.setPerson(per);
             
     }  
     
@@ -41,33 +66,70 @@ public class CustomerTest extends TestCase
             //SET UP SHOULD RUN BEFORE THIS FIRST TEST
     	
     		//SET UP SCENARIO
-            cust = new BankCustomerRole("customer", "New Account", 1500, 2500);
-        	cust.h = host; 
-        	host.IWantService(cust);
-        	Account acct = null;
         	
         	assertTrue("Customer should have a balance of 2500", cust.getBalance() == 2500);
         	assertTrue("Customer should want to deposit 1500 into new account", cust.getBankAmount() == 1500);
-        	assertTrue("Customer should have a purpose to create a new account", cust.getPurpose() == customerPurpose.createAccount);
-        	//cust.AccountCreated(null);
-        //	assertTrue("Customer should have run an action", cust.pickAndExecuteAnAction());
+        	assertTrue("Customer should have a purpose to deposit into a new account", cust.getPurpose() == customerPurpose.deposit);
         	
-        	
-        	
-        	//            
-//            //PRECONDITIONS
-//            assertEquals("Cashier should have 0 checks in it. It doesn't.", cashier.getChecks().size(), 0);
-//            
-//            //PART 1 - Add a check
-//            cashier.msgHereIsACheck(waiter, customer, "Steak"); 
-//            assertEquals("The cashier should have only one check. It doesn't.", cashier.getChecks().size(), 1);
-//            assertTrue("The cashier did not run any actions. It should have.", cashier.pickAndExecuteAnAction());
-//            assertEquals("The cashier's customer should owe 15.99.", cashier.getChecks().get(0).owedAmount, 15.99f);
-//            assertTrue("The cashier should have MockCustomer in the list", cashier.getChecks().get(0).c == customer);
-//            assertEquals("The waiter should have one log item", 1, waiter.log.size());
-//            assertEquals("The customer should have one log.", 0, customer.log.size());
+        	cust.GoToTeller(teller);
+        	assertTrue("Customer should have a state assigned", cust.getState() == bankCustomerState.assigned);
+      
+        	assertTrue("Customer scheduler should return true", cust.pickAndExecuteAnAction());
+         	assertTrue("Customer should have a state assigned", cust.getState() == bankCustomerState.atCounter);
+        	//assertTrue("Customer scheduler should return true", cust.pickAndExecuteAnAction());
+         	//assertTrue("Customer should have a state waiting", cust.getState() == bankCustomerState.waiting);
+        
+        	//assertTrue("Teller should receive purpose message", 
+        	//		teller.log.containsString("Received message DepositMoney from customer"));
+           
 
             }//end one normal customer scenario
  
-        
+    //TEST 2 - account created
+    public void test2_NormalCustomerScenario() throws Exception{
+    	System.out.println("TEST 2");
+    	Account a = teller.bank.createAccount(cust);
+    	cust.t = teller;
+        //SET UP SHOULD RUN BEFORE THIS FIRST TEST
+	
+		//SET UP SCENARIO
+    	
+    	assertTrue("Customer should have a balance of 2500", cust.getBalance() == 2500);
+    	assertTrue("Customer should want to deposit 1500 into new account", cust.getBankAmount() == 1500);
+    	assertTrue("Customer should have a purpose to deposit into a new account", cust.getPurpose() == customerPurpose.deposit);
+    	assertTrue("Customer does not have an account", cust.getAccount() == null);
+    	
+    	cust.AccountCreated(a);
+    	assertTrue("Customer does not have an account", cust.getAccount() != null);
+  
+    
+    	//assertTrue("Teller should receive leaving message", 
+    	//		teller.log.containsString("Received message IAmLeaving from customer"));
+       
+
+        }//end one normal customer scenario
+    
+    //TEST 2 - loan created
+    public void test3_NormalCustomerScenario() throws Exception{
+    	System.out.println("TEST 2");
+    	Loan a = teller.bank.createLoan(cust2, 2000);
+    	cust2.t = teller;
+        //SET UP SHOULD RUN BEFORE THIS FIRST TEST
+	
+		//SET UP SCENARIO
+    	assertTrue("Customer has no loan", cust.getLoan() == null);
+    	assertTrue("Customer should have a balance of 2500", cust2.getBalance() == 2500);
+    	assertTrue("Customer should want to take out a loan of 1500", cust2.getBankAmount() == 1500);
+    	assertTrue("Customer should have a purpose to take out a loan", cust2.getPurpose() == customerPurpose.takeLoan);
+   
+    	cust2.LoanCreated(2500, a);
+    	assertTrue("Customer now has a loan", cust2.getLoan() != null);
+  
+    
+    	//assertTrue("Teller should receive leaving message", 
+    	//		teller.log.containsString("Received message IAmLeaving from customer"));
+       
+
+        }//end one normal customer scenario
+ 
 }

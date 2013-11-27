@@ -106,9 +106,9 @@ public class BankGui extends JFrame implements ActionListener {
         infoCustomerLabel = new JLabel(); 
         infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
         getCustomerInformationPanel().add(infoCustomerLabel);
-        getCustomerInformationPanel().add(getCustomerStateCheckBox());
-        getCustomerInformationPanel().add(amountInput);
-        getCustomerInformationPanel().add(transactionList);
+       // getCustomerInformationPanel().add(getCustomerStateCheckBox());
+       // getCustomerInformationPanel().add(amountInput);
+       // getCustomerInformationPanel().add(transactionList);
         
 //WAITER PANEL INFORMATION
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));

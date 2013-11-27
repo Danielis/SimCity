@@ -5,7 +5,6 @@ import roles.Role;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
 import bank.interfaces.*;
-import bank.BankCustomerRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -79,6 +78,10 @@ public class BankHostRole extends Role implements BankHost {
 	{
 		copyOfAnimPanel = panel;
 	}
+	
+	public Collection<MyTeller> getmyTellers(){
+		return myTellers;
+	}
 
 	//CLASSES****************************************************
 	public class MyTeller{
@@ -94,29 +97,30 @@ public class BankHostRole extends Role implements BankHost {
 
 	public class MyCustomer{
 
-		public MyCustomer(BankCustomerRole c) {
+		public MyCustomer(BankCustomer c) {
 			this.c = c;
 			this.s = customerState.waiting;
 		}
-		BankCustomerRole c;
+		BankCustomer c;
 		customerState s;
 	}
 	enum customerState {waiting, done};
 
-
+	public List<MyCustomer> getCustomers(){
+		return customers;
+	}
 
 //MESSAGES****************************************************
 	public void msgGetPaid(){
 		balance =+50;
 	}
-	@Override
 	public void msgLeaveWork() {
 			bank.removeMe(this);
 			leave = true;
 			stateChanged();
 		}
 		
-	public void IWantService(BankCustomerRole c){
+	public void IWantService(BankCustomer c){
 	    customers.add(new MyCustomer(c));
 	    updateCustpost();
 	    stateChanged();
@@ -261,7 +265,7 @@ public class BankHostRole extends Role implements BankHost {
 		c.c.BankIsClosed();
 		customers.remove(c);
 	}
-	private void RemoveCustomer(BankCustomerRole mc)
+	private void RemoveCustomer(BankCustomer mc)
 	{
 		customers.remove(mc);
 	}
@@ -277,7 +281,7 @@ public class BankHostRole extends Role implements BankHost {
 			hostGui.setSpeechBubble("host_3");
 
 		// c.s = customerState.done;
-		customers.remove(0);
+		customers.remove(c);
 		t.s = tellerState.busy;
 		c.c.GoToTeller(t.t);
 	}
@@ -319,6 +323,7 @@ public class BankHostRole extends Role implements BankHost {
 		for (Teller t : tellers)
 			myTellers.add(new MyTeller(t));
 	}
+
 
 
 

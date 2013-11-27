@@ -3,11 +3,9 @@ import java.util.List;
 
 import logging.TrackerGui;
 import bank.Bank;
-import bank.BankCustomerRole;
 import bank.gui.BankAnimationPanel;
 import bank.gui.TellerGui;
-import bank.interfaces.BankHost;
-import bank.interfaces.Teller;
+import bank.interfaces.*;
 
 
 public class MockTeller extends Mock implements Teller {
@@ -22,17 +20,28 @@ public class MockTeller extends Mock implements Teller {
         }
 
 		
-		public void IWantAccount(BankCustomerRole c, double amount) {}
+		public void IWantAccount(BankCustomer c, double amount) {
+			log.add(new LoggedEvent("Received message IWantAccount from customer"));
+			}
 		
-		public void DepositMoney(BankCustomerRole c, int accountID, double amount) {}
+	
+		public void DepositMoney(BankCustomer c, int accountID, double amount) {
+			System.out.println("tea");
+			log.add(new LoggedEvent("Received message DepositMoney from customer"));
+			}
 		
-		public void WithdrawMoney(BankCustomerRole c, int accountID, double amount) {}
+		public void WithdrawMoney(BankCustomer c, int accountID, double amount) {
+			log.add(new LoggedEvent("Received message WithdrawMoney from customer"));}
 		
-		public void IWantLoan(BankCustomerRole c, double amount) {}
+		public void IWantLoan(BankCustomer c, double amount) {
+			log.add(new LoggedEvent("Received message IWantLoan from customer"));}
 		
-		public void PayMyLoan(BankCustomerRole c, double amount) {}
+		public void PayMyLoan(BankCustomer c, double amount) {
+			log.add(new LoggedEvent("Received message PayMyLoan from customer"));}
 
-		public void IAmLeaving() {}
+		public void IAmLeaving() {
+			System.out.println("tea");
+			log.add(new LoggedEvent("Received message IAmLeaving from customer"));}
 	
 		public void msgSetOffBreak() {}
 		

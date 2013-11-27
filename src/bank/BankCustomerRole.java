@@ -34,7 +34,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankHost h;
 	bankCustomerState state;
 	public BankAnimationPanel copyOfAnimPanel; // for gui
-	Teller t;
+	public Teller t;
 	double balance = 0;
 	customerPurpose purpose;
 	double amount; //amount they want to deposit, withdraw, pay loan off of, or take loan out of
@@ -104,12 +104,23 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			return true;
 	}
 	
+	public bankCustomerState getState(){
+		return  state;
+	}
+	
 	
 //CLASSES/ENUMS**********************************************
 
 	public enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none};
-	enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
+	public enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
 	
+	public Account getAccount(){
+		return acct;
+	}
+	
+	public Loan getLoan(){
+		return loan;
+	}
 //MESSAGES*************************************************
 	public void msgGetPaid(){
 		//balance =+50;

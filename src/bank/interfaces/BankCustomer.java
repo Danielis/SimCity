@@ -4,6 +4,8 @@ package bank.interfaces;
 import javax.swing.Icon;
 
 import logging.TrackerGui;
+import bank.Bank.Account;
+import bank.Bank.Loan;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 
@@ -58,6 +60,14 @@ public abstract void startThread();
 public abstract void pauseAgent();
 
 public abstract void resumeAgent();
+
+public abstract void NoLoan();
+
+public abstract void AccountCreated(Account account);
+
+public abstract void LoanCreated(double amount, Loan loan);
+
+public abstract void BankIsClosed();
 
 
 }

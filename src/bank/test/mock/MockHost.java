@@ -4,10 +4,9 @@ package bank.test.mock;
 import java.util.List;
 
 
+
 import logging.TrackerGui;
-
 import bank.Bank;
-
 import bank.BankCustomerRole;
 import bank.gui.BankAnimationPanel;
 import bank.gui.HostGui;
@@ -15,71 +14,28 @@ import bank.interfaces.*;
 
 public class MockHost extends Mock implements BankHost {
 
-    public EventLog log;
-
-    public MockHost(String name) 
-    {
-            super(name);
-            log = new EventLog();
-    }
-
-	public void IWantService(BankCustomerRole c) {
+    public MockHost(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void IAmFree(Teller tell) {		
-	}
+	public EventLog log;
+	public void IWantService(BankCustomer c){}
+	public  void addMe(Teller t){}
+	public  void IAmFree(Teller tell){}
+	public  void msgIdLikeToGoOnBreak(Teller t){}
+	public  void msgIdLikeToGetOffBreak(Teller t){}
+	public  void WaitForAnimation(){}
+
+	public  void DoneWithAnimation(){}
 	
-	public void addMe (Teller t){
-		
-	}
+	public  void setAnimPanel(BankAnimationPanel animationPanel){}
+	public  String getName(){
+		return null;}
+	public  void setGui(HostGui g){}
 
-	public void msgIdLikeToGoOnBreak(Teller t) {
-	}
-
-
-	public void msgIdLikeToGetOffBreak(Teller t) {
-	}
-
-
-	public void WaitForAnimation() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	public void DoneWithAnimation() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setAnimPanel(BankAnimationPanel animationPanel) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setGui(HostGui g) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void setTellers(List<Teller> tellers) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setBank(Bank b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-
-
+	public void setBank(Bank b){}
+	public void setTellers(List<Teller> workingTellers){}
 
 
 }
