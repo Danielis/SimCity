@@ -269,4 +269,9 @@ public class CookGui implements Gui{
 			}
 		}
 	}
+	
+	public void Disable()
+	{
+		setPresent(false);
+	}
 }

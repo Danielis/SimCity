@@ -28,11 +28,31 @@
 
 #### Breakdown of work done
 Norman
-  + item here
+* Original owner of source code, including ovearching architecture of the gui/panel/animation panels
+* Working building model used to branching into individual tasks
+* Along with Aleena modified source code for city semantics, two windows, and foundation for everyone to branch off and work on their own buildings and individual contributions
+* Researched how to import images to the program, how to run image/state based animations, how to properly load them, how to run a sequence given source of sprite files, move them a certain rate, switch them based on states (eg direction). This system is used everywhere in the city.
+* Delta Gui movement system that is implemented in every building and in city layout, a comperehensive movement system for everyone to navigate their gui
+* Worked extensively on PersonAgent methodology, especially early, looking at the designs given in class to create the role/person interactions, Role class, interfaces (even for other buildings, created the main interfaces so roles are able to be passed around the city), integrating them and creating a system for people to use and modify for specific tasks (eg, transportation, work systems, timer systems, etc).
+* Organized CityGui Layouts, CityLists layouts/Java interfaces, the City Animation Panel, implemented Person Gui
+* Personal functioning restaurant with polished spriting and animations, and integrated in to city
+* City animated environment (Transparent clouds that move about the city independently)
+* Integrating everyone's individual contribution into the city involving personAgent and roles (Which involves fixing and adding functionality to interfaces for each of the agents that enter a building, creating role classes for every agent that is passed into the city, particularly the "customers", copying and deleting individual code so that roles run with the right interfaces, created Restaurant, Apartment, Bank classes with their respective panels for people to keep working on their implementations and send their people into their buildings, a person/money retainment system to keep track of money/inventories as well as returning to the city)
+* Gui listener system using JObjects (With Aleena) that trigger functions that trigger events, messages, and actions.
+* Lots of photoshop and parsing work for sprites, background images, specialized tile sets, for transportation, restaurant animations.
+* How to click the buildings so that windows are displayed with what is inside in the city view rather than creating a new building each time, and a way for GUI not to pause itself when moving out of the window.
+* Found spriting layout/themes/sprites for the city.
+* Clicking people in the city opens up a new window with information about the person, closing this frame won't quit the program. Also closing any frame that is not the city won't quit the program.
+* Hand-merging branches
+* Figuring out a system for people to go in and out of work, setting buildings to open or closed based on whether there are enough workers and the proper roles are created, and let people in and out based on that. Workers in the restaurant are able to go in at properly. Buildings also now don't limit gui movements because they are replaced by the city rather than minimized. Added Guis for every role in the restaurant, because some did not need gui before and now they do because sometimes the restaurant has no cashier. Added images and animation also for those (host, cashier).
+* People can now leave work given specific conditions for restaurant (eg cashier not having customers, and tables being empty) for work shifts
+* Unit testing producer/consumer model in restaurant
+* Unit tested people properly added into the city
+* Unit tested basic roles added to person
+* A lot of my role involved me creating new content for people to use as a basis to branch off and add functionality.
 
 Chris
-  + Housing Module
-  + Implemented output tracking system.
+  + item here
 
 Daniel 
   + item here
@@ -66,12 +86,11 @@ Aleena
   + Although AI is turned off, they will still wander the streets if they have nothing to do
 
 #### What doesn't work
-  + We have an apartment system as a living system. Reserving housing for v2.
+  + We did not make a 'house' system, but made an 'apartment' system.
   + Landlords do not automatically collect rent. The housing system for this interaction was built correctly (by Chris), but it was not integrated in time for v1 (by team).
   + Employees are not paid yet.
-  + Market is complete but not integrated for city functionality: customers can enter and leave, but employees work entire time.*
+  + Market was half integrated: customers can enter and leave, but employees work entire time. *
   + People go to sleep and instantly wake up. (integration issue)
-  + The housing worker role is static right now.
-  + When restaurant workers leave, their GUI is not removed.
+  + Housing workers always work, do not yet follow work shifts.
 
 * We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. Again we are a small team, but please take a look at our long, extended and committed history on github.

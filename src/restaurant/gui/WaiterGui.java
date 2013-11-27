@@ -290,4 +290,9 @@ public class WaiterGui implements Gui {
 		destination = homeposition;
 		agent.WaitForAnimation();
 	}
+	
+	public void Disable()
+	{
+		setPresent(false);
+	}
 }

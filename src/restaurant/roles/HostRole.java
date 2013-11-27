@@ -13,6 +13,7 @@ import logging.AlertLevel;
 import logging.AlertTag;
 import restaurant.HostAgent.customerState;
 import restaurant.HostAgent.waiterState;
+import restaurant.Restaurant;
 import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.Customer;
@@ -28,7 +29,9 @@ public class HostRole extends Role implements Host{
 	public RestaurantAnimationPanel copyOfAnimPanel;
 	
 	public WorkState myState = WorkState.none;
-	boolean workersCanLeave = false;	
+	boolean workersCanLeave = false;
+	
+	Restaurant r;
 	
 	//Lists
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
@@ -548,11 +551,18 @@ public class HostRole extends Role implements Host{
 		return true;
 	}
 	
+	public void setRestaurant(Restaurant rr)
+	{
+		r = rr;
+	}
+	
 	public void LeaveWork()
 	{
+		hostGui.Disable();
 		myState = WorkState.leaving;
 		print("HostRole: Called to leave work.");
 		myPerson.msgLeftWork(this, balance);
+		r.nullifyHost();
 	}
 
 }

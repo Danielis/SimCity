@@ -190,4 +190,11 @@ public class CashierGui implements Gui{
 		destination = fridge;
 		agent.WaitForAnimation();
 	}
+
+	public void Disable()
+	{
+		setPresent(false);
+	}
+
+	
 }

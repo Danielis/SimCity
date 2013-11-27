@@ -178,6 +178,8 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	
 	public void LeaveWork()
 	{
+		rest.removeme(this);
+		waiterGui.Disable();
 		myWorkState = WorkState.leaving;
 		print("TraditionalWaiterRole: Called to leave work.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "TraditionalWaiterRole", "Called to leave work.", new Date()));
