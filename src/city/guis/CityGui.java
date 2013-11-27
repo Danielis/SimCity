@@ -636,8 +636,8 @@ public class CityGui extends JFrame implements ActionListener {
 		if (owner == "Norman")
 		{
 			RestaurantGui rg = new RestaurantGui();
-			Restaurant r = new Restaurant(rg, name);
 			rg.setTrackerGui(trackingWindow);
+			Restaurant r = new Restaurant(rg, name);
 			rg.setRestaurant(r);
 			buildings.add(r);
 		}
@@ -654,16 +654,16 @@ public class CityGui extends JFrame implements ActionListener {
 	public void createMarket(String name)
 	{
 		MarketGui mg = new MarketGui();
-		Market b = new Market(name, mg);
 		mg.setTrackerGui(trackingWindow);
+		Market b = new Market(name, mg);
 		buildings.add(b);
 	}
 
 	//apartment creation
 	public void createApartment(String name) {
 		HousingGui hg = new HousingGui();
-		Apartment a = new Apartment(name, hg);
 		hg.setTrackerGui(trackingWindow);
+		Apartment a = new Apartment(name, hg);
 		buildings.add(a);
 	}
 
@@ -683,8 +683,6 @@ public class CityGui extends JFrame implements ActionListener {
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
 		trackingWindow.trackerFrame.setAlwaysOnTop(true);
-
-
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 

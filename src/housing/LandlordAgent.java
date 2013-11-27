@@ -36,18 +36,18 @@ public class LandlordAgent extends Agent {
 		complexes.get(0).inhabitants.add(hc);
 	}
 	
-	public void addWorker(HousingWorkerAgent worker) {
+	public void addWorker(HousingWorker worker) {
 		workers.add(new MaintenanceWorker(worker, 0));
 	}
 
 	//--------------------------------------------------------
 	//-------------------Data---------------------------------
 	//--------------------------------------------------------
-	private List<HousingComplex> complexes = new ArrayList<HousingComplex>();
-	private List<RepairTicket> tickets = new ArrayList<RepairTicket>();
-	private List<Payment> payments = new ArrayList<Payment>();
-	private List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
-	double balance;
+	public List<HousingComplex> complexes = new ArrayList<HousingComplex>();
+	public List<RepairTicket> tickets = new ArrayList<RepairTicket>();
+	public List<Payment> payments = new ArrayList<Payment>();
+	public List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
+	public double balance;
 	public TrackerGui trackingWindow;
 
 	public class HousingComplex {
@@ -61,13 +61,13 @@ public class LandlordAgent extends Agent {
 	}
 	enum complexType {apartment, house};
 
-	private class Payment{
+	public class Payment{
 		HousingComplex complex;
 		HousingCustomer inhabitant;
 		PersonAgent inhabitantPerson;
 		double amountOwed;
 		double amountPaid;
-		paymentState s;
+		public paymentState s;
 		public Payment(HousingComplex c, HousingCustomer i, double owed, paymentState initialState) {
 			complex = c;
 			inhabitant = i;
@@ -75,26 +75,26 @@ public class LandlordAgent extends Agent {
 			s = initialState;
 		}
 	}
-	enum paymentState {created, issued, paying, completed};
+	public enum paymentState {created, issued, paying, completed};
 
-	private class RepairTicket{
+	public class RepairTicket{
 		HousingComplex complex;
 		MaintenanceWorker w;
 		double bill;
-		ticketStatus s;
+		public ticketStatus s;
 		public RepairTicket(HousingComplex c, ticketStatus ts) {
 			complex = c;
 			s = ts;
 		}
 	}
-	enum ticketStatus {unassigned, assigned, completed, paid};
+	public enum ticketStatus {unassigned, assigned, completed, paid};
 
 	private class MaintenanceWorker{
-		HousingWorkerAgent p;
+		HousingWorker p;
 		int jobs;
 		//constructor
-		public MaintenanceWorker(HousingWorkerAgent h, int j) {
-			p = h;
+		public MaintenanceWorker(HousingWorker worker, int j) {
+			p = worker;
 			jobs = j;
 		}
 	}
@@ -151,7 +151,7 @@ public class LandlordAgent extends Agent {
 	//------------------Scheduler-----------------------------
 	//--------------------------------------------------------
 	@Override
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		for(RepairTicket t:tickets) {
 			if(t.s == ticketStatus.unassigned) {
 				AssignTicket(t);

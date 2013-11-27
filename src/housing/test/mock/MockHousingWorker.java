@@ -1,6 +1,11 @@
 package housing.test.mock;
 
 
+import housing.LandlordAgent;
+import housing.LandlordAgent.HousingComplex;
+import housing.guis.HousingWorkerGui;
+import housing.interfaces.HousingWorker;
+
 import java.util.List;
 
 import agent.RestaurantMenu;
@@ -8,7 +13,7 @@ import restaurant.WaiterAgent;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;
 
-public class MockHousingWorker extends Mock implements Market {
+public class MockHousingWorker extends Mock implements HousingWorker {
 
     public Cashier cashier;
     public EventLog log;
@@ -31,6 +36,29 @@ public class MockHousingWorker extends Mock implements Market {
 	public void msgIWantToOrder(String choice, int amount)
 	{
 		//None for now, does not interact with cashier
+	}
+
+	@Override
+	public void HereIsMoney(HousingComplex complex, double bill) {
+		log.add(new LoggedEvent("HereIsMoney"));
+		
+	}
+
+	@Override
+	public void GoRepair(HousingComplex complex) {
+		log.add(new LoggedEvent("GoRepair"));
+	}
+
+	@Override
+	public void setGui(HousingWorkerGui g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLandlord(LandlordAgent landlord) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

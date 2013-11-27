@@ -14,9 +14,10 @@ import housing.LandlordAgent.HousingComplex;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingGui;
 import housing.guis.HousingWorkerGui;
+import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;
 
-public class HousingWorkerAgent extends Agent {
+public class HousingWorkerAgent extends Agent implements HousingWorker {
 
 	// HOUSING WORKER DATA
 	LandlordAgent landlord;
