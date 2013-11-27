@@ -83,9 +83,9 @@ Aleena
   + Build from ant file, compile, run, and choose an option below
   + Double-click on the building to open the window
   + Exit the building window to go back to city
-  + GUI controls for Bank, Market, Housing, Restaurant on left side only affect 'non AI' agents
-  + Bus system is off by default (because some windows computers have some issues with it), you can turn it on by selecting 'Bus' under City Controls
-  + Ignore the 'in-building' GUI, we will remove for v2
+  + GUI controls for Bank, Market, Housing, Restaurant on left side only affect 'non AI' agents, or any agent once the system is placed in 'Turn off AI' mode
+  + Bus system is off by default (because some Windows computers have some issues with it), you can turn it on by selecting 'Bus' under City Controls
+  + Ignore the 'in-building' GUI, we will remove / edit for v2
 
 ##### Press "Scenario 1" button to run the normative scenario
   + This creates: 1 bank host, 3 bank tellers, 1 cashier, 1 cook, 1 restaurant host, 2 waiters, and many different types of jobless citizens.
@@ -110,4 +110,5 @@ Aleena
   + People go to sleep and instantly wake up. (integration issue)
   + The housing worker is static.
 
-* We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. Again we are a small team, but please take a look at our long, extended and committed history on github. It would be a nice bump of extra credit if you could give us credit for extra deliverables despite a 4-man team.
+
+* *We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. Again we are a small team, but please take a look at our long, extended and committed history on github. It would be a nice bump of extra credit if you could give us credit for extra deliverables despite a 4-man team.
