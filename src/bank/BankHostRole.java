@@ -102,6 +102,9 @@ public class BankHostRole extends Role implements BankHost {
 
 
 //MESSAGES****************************************************
+	public void msgGetPaid(){
+		balance =+50;
+	}
 	@Override
 	public void msgLeaveWork() {
 			bank.removeMe(this);

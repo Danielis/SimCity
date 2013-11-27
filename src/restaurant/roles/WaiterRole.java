@@ -36,7 +36,7 @@ public class WaiterRole extends Role implements Waiter
 	protected String name;
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
-	
+	public double balance;
 	//Menu
 	RestaurantMenu Menu;
 	Restaurant rest;
@@ -119,7 +119,9 @@ public class WaiterRole extends Role implements Waiter
 	}
 
 //MESSAGES****************************************************
-
+	public void msgGetPaid(){
+		balance =+50;
+	}
 	public void msgSetOffBreak()
 	{/*
 		print(this.name + " is now available.");

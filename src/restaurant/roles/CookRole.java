@@ -42,6 +42,7 @@ public class CookRole extends Role implements Cook {
 	//Variables
 	private Map<String, Foods> foods = new HashMap<String, Foods>();
 	private int time;
+	public double balance;
 	
 	//Anim Stuff
 	public List<myIcon> icons = Collections.synchronizedList(new ArrayList<myIcon>());
@@ -251,7 +252,9 @@ public class CookRole extends Role implements Cook {
 
 
 //MESSAGES****************************************************
-
+	public void msgGetPaid(){
+		balance =+50;
+	}
 	public void msgTakingItem(Waiter w)
 	{
 		synchronized(icons)

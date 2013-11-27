@@ -102,7 +102,9 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
 	
 //MESSAGES*************************************************
-
+	public void msgGetPaid(){
+		//balance =+50;
+	}
 	public void BankIsClosed(){
 		state = bankCustomerState.done;
 		isHappy = false;

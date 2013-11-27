@@ -26,7 +26,7 @@ public class HostRole extends Role implements Host{
 	private String name;
 	//private Semaphore atTable = new Semaphore(0,true); for GUI
 	public HostGui hostGui = null;
-
+	public double balance;
 //CONSTRUCTOR
 	public HostRole(String name) {
 		super();
@@ -189,7 +189,9 @@ public class HostRole extends Role implements Host{
 		}
 
 //MESSAGES****************************************************
-
+		public void msgGetPaid(){
+			balance =+50;
+		}
 	public void msgNewWaiter(Waiter w)
 	{
 		waiters.add(new MyWaiter(w, 0, false));	

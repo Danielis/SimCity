@@ -79,7 +79,9 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------------------------------------
 	//arriving at house
 	
-
+	public void msgGetPaid(){
+		balance =+50;
+	}
 	
 	public void enteringHouse() {
 

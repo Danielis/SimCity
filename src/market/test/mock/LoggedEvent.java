@@ -1,4 +1,4 @@
-package market.test.mock;
+ package market.test.mock;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class LoggedEvent {
 
-        /**
+        /**ew changes wi
          * Represents the date and time at which the event occurred. This is useful
          * when you need to order events in chronological order.
          */

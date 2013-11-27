@@ -29,8 +29,8 @@ public class CashierRole extends Role implements Cashier{
 	//Variables
 	private String name = "Squidward";
 	private float account;
-	
-	//Other
+	private double  balance;
+	//Other 
 	private Map<String, Float> prices = new HashMap<String, Float>();
 	
 	//Constructor
@@ -134,7 +134,9 @@ public class CashierRole extends Role implements Cashier{
 
 
 //MESSAGES****************************************************
-
+	public void msgGetPaid(){
+		balance =+50;
+	}
 	public void msgHereIsACheck(Waiter newW, Customer newC, String newChoice)
 	{
 		print("Received message to compute check.");

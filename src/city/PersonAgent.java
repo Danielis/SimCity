@@ -654,7 +654,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
-	    stateChanged();
+	    stateChanged() ;
 	}
 	
 	public void msgLeavingHome(Role r, double balance){
@@ -835,7 +835,7 @@ public class PersonAgent extends Agent implements Person
 		roles.remove(r);
 		stateChanged();
 	}
-	
+
 	//Figure out how we are going to incorporate Bus,Car and walking into SimCity
 
 	/*****************************************************************************
@@ -844,100 +844,101 @@ public class PersonAgent extends Agent implements Person
 
 	@Override
 	protected boolean pickAndExecuteAnAction() {
-		
+
 		//Not exactly sure where this next bit of code has to go or when it will be called
 		// it is called when a person needs to go to work and the SimCity has determined that it has to
 		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
 		//If you're hungry and outside, go to the restaurant. Preliminary.
-		
-if (job.type == JobType.noAI){		
-		if (Status.getWork() == workStatus.notWorking &&
-				Status.getDestination() == destination.work) {
-			print("Scheduler realized the person wants to go to work");
-			GoToWork();
-			return true;
-		}
-		if (Status.getNourishmnet() == nourishment.Hungry &&
-				Status.getLocation() == location.outside) {
-			print("Scheduler realized the person wants to go to Restaurant");
-			GoToRestaurant();
-			return true;
-		}
-		//If you need to withdraw, and your destination is the bank, withdraw
-		if (Status.getMoneyStatus() == bankStatus.withdraw &&
-				Status.getDestination() == destination.bank && CheckBankOpen()) {
+
+		if (job.type == JobType.noAI){		
+			if (Status.getWork() == workStatus.notWorking &&
+					Status.getDestination() == destination.work) {
+				print("Scheduler realized the person wants to go to work");
+				GoToWork();
+				return true;
+			}
+			if (Status.getNourishmnet() == nourishment.Hungry &&
+					Status.getLocation() == location.outside) {
+				print("Scheduler realized the person wants to go to Restaurant");
+				GoToRestaurant();
+				return true;
+			}
+			//If you need to withdraw, and your destination is the bank, withdraw
+			if (Status.getMoneyStatus() == bankStatus.withdraw &&
+					Status.getDestination() == destination.bank && CheckBankOpen()) {
 				GoToBank();
 				return true;
 			}
-		if (Status.getDestination() == destination.market &&
-				Status.market == marketStatus.buying) {
+			if (Status.getDestination() == destination.market &&
+					Status.market == marketStatus.buying) {
 				GoToMarket();
 				return true;
 			}
 
-		//If for any reason you need to go home, go home.
-		if (Status.getHousingStatus() == houseStatus.needsToGo &&
-				Status.getDestination() == destination.home)
-		{
-			GoHomeToDoX();
-			return true;
-		}
-}
-
-if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
-//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
-	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
-		for (Day d : job.daysWorking){
-			if (d == TimeManager.getInstance().getDay()){
-				GoToWork();
+			//If for any reason you need to go home, go home.
+			if (Status.getHousingStatus() == houseStatus.needsToGo &&
+					Status.getDestination() == destination.home)
+			{
+				GoHomeToDoX();
 				return true;
 			}
 		}
-	}
-	
-	if(needsBankTransaction() && CheckBankOpen()){
-		GoToBank();
-		return true;
-	}
-	
-	if(needsToBuy()){
-		GoToMarket();
-		return true;
-	}	
-		
-}
 
-//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
-//	if (Hungry()){
-//		Boolean restaurant;
-//		if (wealthLevel == WealthLevel.wealthy)
-//			restaurant = 70% chance
-//		else
-//			restaurant = 10% chance
-//
-//		if (restaurant)
-//			GoToRestaurant();
-//			return true;
-//		else{
-//			homePurpose = "Cook";
-//			GoHomeToDoX();
-//			return true;
-//		} 
-//	}
-//	if (OwesRent()){
-//		homePurpose = "Pay Rent";
-//		GoHomeToDoX();
-//		return true;
-//	}
-//	if (AptBroken()){
-//		homePurpose = "Call for Repair";
-//		GoHomeToDoX();
-//		return true;
-//	}
+		if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
+			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
+			if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
+				for (Day d : job.daysWorking){
+					if (d == TimeManager.getInstance().getDay()){
+						GoToWork();
+						return true;
+					}
+				}
+			}
 
+			if(needsBankTransaction() && CheckBankOpen()){
+				GoToBank();
+				return true;
+			}
+
+			if(needsToBuy()){
+				GoToMarket();
+				return true;
+			}	
+
+		}
 		
-	
-	
+
+		//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
+		//	if (Hungry()){
+		//		Boolean restaurant;
+		//		if (wealthLevel == WealthLevel.wealthy)
+		//			restaurant = 70% chance
+		//		else
+		//			restaurant = 10% chance
+		//
+		//		if (restaurant)
+		//			GoToRestaurant();
+		//			return true;
+		//		else{
+		//			homePurpose = "Cook";
+		//			GoHomeToDoX();
+		//			return true;
+		//		} 
+		//	}
+		//	if (OwesRent()){
+		//		homePurpose = "Pay Rent";
+		//		GoHomeToDoX();
+		//		return true;
+		//	}
+		//	if (AptBroken()){
+		//		homePurpose = "Call for Repair";
+		//		GoHomeToDoX();
+		//		return true;
+		//	}
+
+
+
+
 		Boolean anytrue = false;
 		synchronized(roles)
 		{
@@ -955,11 +956,12 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 			return true;
 
 		if (!gui.getBusy() && job.type != JobType.noAI){	
-		homePurpose = "Sleep";
-		GoHomeToDoX();
+			homePurpose = "Sleep";
+			GoHomeToDoX();
 		}
 		return false;	
 	}
+	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 
 	private boolean noRoleActive() {
 		synchronized(roles)
@@ -1008,7 +1010,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 				GoToWork();
 			}
 		}, num);
-		
+
 	}
 
 	private boolean needsToBuy() {
@@ -1081,7 +1083,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		gui.setBusy(true);
 		print("Going home to " + homePurpose);
 		Status.setHousingStatus(houseStatus.goingHome);
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1131,7 +1133,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		Status.setMoneyStatus(bankStatus.goingToBank);
 
 	//	gui.DoGoToLocation(80,76);
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1184,7 +1186,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	
 	
 	private void WorkAtApartment() {
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1215,7 +1217,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 	private void WorkAtRest() {
 
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1267,7 +1269,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	}
 
 	private void WorkAtBank() {
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1326,7 +1328,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 
 
 //		TODO
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(2); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1370,7 +1372,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 	{
 		Status.setMoneyStatus(bankStatus.goingToBank);
 	
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());
@@ -1418,7 +1420,7 @@ if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
 		Status.market = marketStatus.waiting;
 
-		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
+		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar() && !metro.buses.isEmpty()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(1); // two is the busStop closest to restaurant top left is 0, top right is 6
 			gui.DoGoToLocation(curStop.getGui().getXPosition(),curStop.getGui().getYPosition());

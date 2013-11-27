@@ -41,6 +41,7 @@ public class TellerRole extends Role implements Teller {
 	public myState state = myState.none;
 	private int loanAccountThreshold = 500;
 	
+	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
@@ -147,7 +148,10 @@ public enum myState
 }
 
 //MESSAGES****************************************************
-
+public void msgGetPaid(){
+	balance =+50;
+	print("Person was Paid =====================================");
+}
 @Override
 public void msgLeaveWork() {
 	leave = true;

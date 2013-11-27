@@ -145,6 +145,10 @@ public class CityPanel extends JPanel {
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
 		p.setBuildings(buildings);
+		if(Math.random() > .49)
+			p.transportationStatusBus();
+		if(p.getName().equals("Bus"))
+			p.transportationStatusBus();
 		people.add(p);
 		p.setTrackerGui(gui.trackingWindow);
 		p.startThread();
@@ -240,16 +244,6 @@ public class CityPanel extends JPanel {
         S6.startThread();
         
        
-    }
-    
-    public void sendPersonToStop(){ //Trans: should be done by person AI 
-    	this.personPanel.addPerson("TestPerson", "NO AI", "Wealthy");
-    	PersonAgent testPerson = people.lastElement();
-    	testPerson.transportationStatusBus();
-    	//testPerson.msgGoToRestaurant();
-    	//testPerson.msgGoToBank("Deposit", 50);
-    	//testPerson.msgGoToHome("Sleep");
-    	//testPerson.msgGoToMarket("Buy", 1);
     }
 
     

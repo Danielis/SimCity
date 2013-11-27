@@ -143,8 +143,8 @@ public class BusGui implements Gui{
 //            	System.out.println(agent.getName() + "Destination reached");
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
+            	agent.msgBusGuiMoved();
             }
-            agent.msgBusGuiMoved();
     	}
 	}
 

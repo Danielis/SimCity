@@ -112,7 +112,7 @@ public class CustomerRole extends Role implements Customer {
 	};
 	
 //MESSAGES*************************************************
-
+	public void msgGetPaid(){}
 	public void msgGotHungry() 
 	{
 		for (int i = 0; i<4; i++)

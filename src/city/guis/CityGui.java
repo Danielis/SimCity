@@ -417,7 +417,6 @@ public class CityGui extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == busGo){
 			this.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-			this.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 			busGo.setEnabled(false);
 		}
 		if (e.getSource() == scen1){

@@ -86,11 +86,8 @@ public abstract class Role //why doesnt this extend agent?
 	}
 
 
-	public void msgGetPaid() {
-		// TODO Have each role as person in charge for cash
-	}
 	
 	public abstract void msgLeaveWork();	
-
+	public abstract void msgGetPaid();
 
 }

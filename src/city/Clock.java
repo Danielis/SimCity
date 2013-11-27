@@ -22,6 +22,10 @@ Day msgPayLastSent = Day.thursday;
 			msgPeopleWake();
 		if (GoHome() && DayOverHome())
 			msgStopWorking();
+		if (GetPaid() && DayOverPay()){ // need to call message people around 12 so they can get paid then need to pay people a flat fee then
+			msgPeoplePayOut();
+			print("Clock Printed out at mid day!");
+		}
 		return true;
 	}
 
@@ -32,9 +36,15 @@ Day msgPayLastSent = Day.thursday;
 	private boolean DayOverHome() {
 		return (msgHomeLastSent != TimeManager.getInstance().getDay());
 	}
+	private boolean DayOverPay() {
+		return (msgPayLastSent != TimeManager.getInstance().getDay());
+	}
 	
 	private Boolean GoHome(){
 		return (TimeManager.getInstance().getHour() + 1 == 16);
+	}
+	private Boolean GetPaid(){
+		return (TimeManager.getInstance().getHour() + 1 == 12);
 	}
 
 	private void msgPeopleWake() {

@@ -63,6 +63,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		balance = money;
 		state = marketCustomerState.outside;
 	}
+	public void msgGetPaid(){
+		balance =+50;
+	}
 //UTILITIES**************************************************
 
 	public void setTrackerGui(TrackerGui t) {
