@@ -4,6 +4,7 @@ package city;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,8 +28,17 @@ import agent.Agent;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.PersonAgent.Item;
+import city.PersonAgent.Job;
 import city.PersonAgent.JobType;
+import city.PersonAgent.PersonStatus;
 import city.PersonAgent.WealthLevel;
+import city.PersonAgent.bankStatus;
+import city.PersonAgent.destination;
+import city.PersonAgent.houseStatus;
+import city.PersonAgent.location;
+import city.PersonAgent.marketStatus;
+import city.PersonAgent.nourishment;
+import city.PersonAgent.workStatus;
 import city.TimeManager.Day;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
@@ -54,11 +64,53 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 public interface Person
 {
+/*****************************************************************************
+		Messages
+******************************************************************************/
+//	public void msgWakeUp() ;
+//	
+//	public void msgGetPaid() ;
+//	
+//	public void msgLeaveWork() ;
+//
+//	public void msgLeftWork(Role r, double balance) ;
+//	
+//	public void msgLeavingHome(Role r, double balance);
+//
+//	public void msgGoToWork() ;
+//	
+//	//Housing
+//	public void msgGoToHome(String purpose);
+//
+//	//Restaurant
+//	public void msgGoToRestaurant();
+//
+//	public void msgLeavingRestaurant(Role r, float myMoney);
+//
+//	public void msgGoToBank(String purpose, double amt);
+//
+//	public void msgLeavingBank(BankCustomerRole r, double balance);
+//		
+//	public void msgNewAccount(BankCustomerRole bankCustomerRole, Account acct);
+//	
+//	public void msgNewLoan(BankCustomerRole bankCustomerRole, Loan loan) ;
+//		
+//	public void msgAtBusStop();
+//
+//	
+////Scheduler
+//	public boolean pickAndExecuteAnAction() ;
+//		
+			
+	
+	
+	
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	public Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
 	public List<Item> inventory = Collections.synchronizedList(new ArrayList<Item>());

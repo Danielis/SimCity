@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 import city.PersonAgent;
 import city.guis.CityAnimationPanel;
 import transportation.gui.*;
+import transportation.test.mock.LoggedEvent;
 import transportation.Interfaces.*;
 
 
@@ -50,7 +51,9 @@ public class BusStopAgent extends Agent implements BusStop
 	/*****************************************************************************
 									 UTILITIES
 	******************************************************************************/
-
+	public List<PersonAgent> getPeopleList(){
+		return people;
+	}
 	public void setGui(BusStopGui g)
 	{
 		this.gui = g;
@@ -82,6 +85,13 @@ public class BusStopAgent extends Agent implements BusStop
 	public void setCompany(TransportationCompany M){
 		this.company = M;
 	}
+	public void getPeople(Bus B){
+		for(int i=0;i<people.size();i++){
+			B.getPeopleList().add(people.get(i));
+			print("Added Person " + people.get(i).getName());
+			people.remove(i);
+		}
+	}
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
@@ -104,8 +114,8 @@ public class BusStopAgent extends Agent implements BusStop
 	 								SCHEDULER
 	 ******************************************************************************/
 	
-	@Override
-	protected boolean pickAndExecuteAnAction() {
+	
+	public boolean pickAndExecuteAnAction() {
 		ActionChangeGui();
 		return false;
 	}

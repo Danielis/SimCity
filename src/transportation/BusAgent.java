@@ -30,8 +30,8 @@ public class BusAgent extends Agent implements Bus
 	String name;
 	boolean atStop;
 	boolean nextStop;
-	BusStopAgent curStop;
-	BusStopAgent tempStop; //used to hold a stop so that the curStop doesn't change and the people are able to instantly get off
+	BusStop curStop;
+	BusStop tempStop; //used to hold a stop so that the curStop doesn't change and the people are able to instantly get off
 	TransportationCompany company;
 	Timer timer;
 	BusAgent myself;
@@ -63,7 +63,9 @@ public class BusAgent extends Agent implements Bus
 	/*****************************************************************************
 									 UTILITIES
 	******************************************************************************/
-
+	public List<PersonAgent> getPeopleList(){
+		return people;
+	}
 	public void setGui(BusGui g)
 	{
 		this.gui = g;
@@ -103,7 +105,7 @@ public class BusAgent extends Agent implements Bus
 	
 
 	//
-	public void msgAtStop(BusStopAgent B){ // sent from BusCompany when Bus Gui matches Bus Stop Gui
+	public void msgAtStop(BusStop B){ // sent from BusCompany when Bus Gui matches Bus Stop Gui
 	    atStop= true;
 	    curStop = B;
 //	    print("CurStop now equals " + B.getName());
@@ -123,8 +125,8 @@ public class BusAgent extends Agent implements Bus
 	 								SCHEDULER
 	 ******************************************************************************/
 	
-	@Override
-	protected boolean pickAndExecuteAnAction() {
+	
+	public boolean pickAndExecuteAnAction() {
 
 		if (atStop) {
 //			print("Called ActionAtStop for " + curStop.getName());
@@ -158,11 +160,8 @@ public class BusAgent extends Agent implements Bus
 			}
 		}
 		//Take in people from stop
-		for(int i=0;i<curStop.people.size();i++){
-			this.people.add(curStop.people.get(i));
-			print("Added Person " + curStop.people.get(i).getName());
-			curStop.people.remove(curStop.people.get(i));
-		}
+		curStop.getPeople(this);
+		
 		//Msg stop that people have left stop
 		curStop.msgPeopleGone(); // Used to tell curStop that the people were taken in so Gui can change
 		
@@ -184,9 +183,4 @@ public class BusAgent extends Agent implements Bus
 		gui.NextStop();
 	}
 
-	@Override
-	public void msgImAtStop(BusStop busStop) {
-		// TODO Auto-generated method stub
-		
-	}
 }

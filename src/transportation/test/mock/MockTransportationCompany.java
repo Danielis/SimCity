@@ -71,7 +71,7 @@ public class MockTransportationCompany extends Mock implements TransportationCom
     		for(int i=0;i<buses.size();i++){
     			for(int j=0;j<stops.size();j++){
     				if(buses.get(i).getGui().getXPosition() == stops.get(j).getGui().getXPosition() && buses.get(i).getGui().getYPosition() == stops.get(j).getGui().getYPosition() ){//compare locations of both
-    					buses.get(i).msgImAtStop((stops.get(j)));    					
+    					buses.get(i).msgAtStop((stops.get(j)));    					
     					//print("At Stop: " + stops.get(j).getName());
     				}
     			}

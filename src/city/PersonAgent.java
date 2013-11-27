@@ -1749,28 +1749,28 @@ public class PersonAgent extends Agent implements Person
 		this.noAI = noAI;
 	}
 
-	@Override
-	public void setThreshold(int q) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getQuantity() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void removeItem() {
-		// TODO Auto-generated method stub
-		
-	}
+		@Override
+		public void setThreshold(int q) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+		@Override
+		public String getType() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	
+		@Override
+		public int getQuantity() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+	
+		@Override
+		public void removeItem() {
+			// TODO Auto-generated method stub
+			
+		}
 
 }
