@@ -31,7 +31,8 @@ Norman
   + item here
 
 Chris
-  + item here
+  + Housing Module
+  + Implemented output tracking system.
 
 Daniel 
   + item here
