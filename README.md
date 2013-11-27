@@ -58,7 +58,24 @@ Daniel
   + item here
 
 Aleena
-  + item here
+  + PersonAgent AI design & implementation
+  + Timers for eating, going to sleep, going to work, leaving work
+  + Housing design document
+  + Market design document
+  + Bank design document
+  + Bank implementation
+  + Market implementation
+  + City GUI controls
+  + Time management singleton
+  + Clock class
+  + Sprites, animation for bank, market
+  + Integrating bank
+  + Integrating market 
+  + Inventory management
+  + Shared data monitor in restaurant
+  + In-building GUI clean-up
+  + Bank unit testing
+  + Solved team git issues
 
 
 #### How to run system
