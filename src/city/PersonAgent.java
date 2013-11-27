@@ -230,8 +230,6 @@ public class PersonAgent extends Agent implements Person
 		else
 			return 35000;
 	}
-	
-
 
 	public double getCashThresholdUp(){
 		if (wealthLevel == WealthLevel.average)
@@ -1302,8 +1300,8 @@ public class PersonAgent extends Agent implements Person
 		
 		//Role terminologies
 		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory);
-		c.setPerson(this);
 		c.setTrackerGui(trackingWindow);
+		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
 
@@ -1453,8 +1451,8 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.restHost)
 		{
 			HostRole c = new HostRole(this.getName(), this.cash);
-			r.panel.addHost((HostRole) c);
 			c.setTrackerGui(trackingWindow);
+			r.panel.addHost((HostRole) c);
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
@@ -1462,19 +1460,19 @@ public class PersonAgent extends Agent implements Person
 		
 		if (job.type == JobType.cook){
 			CookRole c = new CookRole(this.getName(), this.cash);
+			c.setTrackerGui(trackingWindow);
 			r.panel.addCook((CookRole) c);
 			c.setPerson(this);
 			c.setRestaurant(r);
-			c.setTrackerGui(trackingWindow);
 			roles.add(c);
 			c.setActivity(true);
 		}
 		if (job.type == JobType.cashier){
 			CashierRole c = new CashierRole(this.getName(), this.cash);
+			c.setTrackerGui(trackingWindow);
 			r.panel.addCashier((CashierRole) c);
 			c.setPerson(this);
 			c.setRestaurant(r);
-			c.setTrackerGui(trackingWindow);
 			roles.add(c);
 			c.setActivity(true);
 		}
@@ -1580,6 +1578,7 @@ public class PersonAgent extends Agent implements Person
 
 		//Role terminologies
 		CustomerRole c = new CustomerRole(this.getName(), cash);
+		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		//this.roles.get(0).setActivity(true);
@@ -1627,6 +1626,7 @@ public class PersonAgent extends Agent implements Person
 		// Making this bank amount instead from msgBank
 		//BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
 		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, 50);
+		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

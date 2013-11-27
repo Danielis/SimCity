@@ -2,6 +2,7 @@ package housing.guis;
 
 import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
+import housing.interfaces.HousingWorker;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -48,10 +49,10 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public HousingWorkerGui(HousingWorkerAgent c, HousingGui gui3){
+		public HousingWorkerGui(HousingWorker p, HousingGui gui3){
 			
 	        
-			agent = c;
+			agent = (HousingWorkerAgent) p;
 			this.gui = gui3;
 			
 			try
