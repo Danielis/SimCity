@@ -94,7 +94,7 @@ public class PersonAgent extends Agent implements Person
 	Timer timer = new Timer();
 	public int waiterindex = 0;
 	
-	private long timeSinceLastAte;
+	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
@@ -130,7 +130,7 @@ public class PersonAgent extends Agent implements Person
 		
 		
 		
-		private void assignWorkDay(JobType parseJob) {
+		public void assignWorkDay(JobType parseJob) {
 			
 				daysWorking.add(Day.monday);
 				daysWorking.add(Day.tuesday);
@@ -155,7 +155,7 @@ public class PersonAgent extends Agent implements Person
 //			
 		}
 
-//		private void assignWorkSet(int i) {
+//		public void assignWorkSet(int i) {
 //			if (i == 1){
 //				if (type == JobType.bankHost || type == JobType.teller){
 //					daysWorking.add(Day.monday);
@@ -187,7 +187,7 @@ public class PersonAgent extends Agent implements Person
 	
 	TransportationCompanyAgent metro;
 	double timeSinceLastSlept;
-	private Boolean noAI;
+	public Boolean noAI;
 	
 	public PersonAgent(String name, String j, String wealth){
 		this.name = name;
@@ -204,7 +204,7 @@ public class PersonAgent extends Agent implements Person
 		
 	}	
 	
-	private double setWealth() {
+	public double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
 			addItem(inventory, "Car", 0, 1);
 			addItem(inventory, "Steak", 5, 5);
@@ -232,7 +232,7 @@ public class PersonAgent extends Agent implements Person
 	
 
 
-	private double getCashThresholdUp(){
+	public double getCashThresholdUp(){
 		if (wealthLevel == WealthLevel.average)
 			return 150;
 		else if (wealthLevel == WealthLevel.wealthy)
@@ -242,7 +242,7 @@ public class PersonAgent extends Agent implements Person
 		return 0;
 	}
 	
-	private double getCashThresholdLow(){
+	public double getCashThresholdLow(){
 		if (wealthLevel == WealthLevel.average)
 			return 20;
 		else if (wealthLevel == WealthLevel.wealthy)
@@ -252,7 +252,7 @@ public class PersonAgent extends Agent implements Person
 		return 0;
 	}
 	
-	private double getMoneyThreshold(){
+	public double getMoneyThreshold(){
 		if (wealthLevel == WealthLevel.average)
 			return 1000;
 		else if (wealthLevel == WealthLevel.wealthy)
@@ -262,7 +262,7 @@ public class PersonAgent extends Agent implements Person
 		return 0;
 	}
 
-	private WealthLevel parseWealth(String wealth) {
+	public WealthLevel parseWealth(String wealth) {
 		if (wealth.equals("Average"))
 			return wealthLevel.average;
 		else if (wealth.equals("Wealthy"))
@@ -275,7 +275,7 @@ public class PersonAgent extends Agent implements Person
 
 	//Class Declarations
 
-	private JobType parseJob(String job) {
+	public JobType parseJob(String job) {
 	
 	if (job.equals("No AI"))
 		return JobType.noAI;	
@@ -443,7 +443,7 @@ public class PersonAgent extends Agent implements Person
 		print("I now have " + q + " " + item);
 	}
 	
-	private void addItem(List<Item> inv, String item, int q, int j) {
+	public void addItem(List<Item> inv, String item, int q, int j) {
 		for (Item i : inv){
 			if (i.type.equals(item)){
 				i.quantity += q;
@@ -1060,12 +1060,12 @@ public class PersonAgent extends Agent implements Person
 
 	
 	
-	private void GoToSleep() {
+	public void GoToSleep() {
 		homePurpose = "Sleep";
 		GoHomeToDoX();
 	}
 
-	private boolean CheckRestOpen() {
+	public boolean CheckRestOpen() {
 		print("I need to go to the restaurant!");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the restaurant!", new Date()));
 		Restaurant r = null;
@@ -1087,7 +1087,7 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 
-	private void GoEat() {
+	public void GoEat() {
 		Boolean restaurant = false;
 		if (CheckRestOpen()){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
@@ -1110,7 +1110,7 @@ public class PersonAgent extends Agent implements Person
 		} 
 	}
 
-	private boolean isHungry() {
+	public boolean isHungry() {
 		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
 			print("Hmm... I'm hungry. I better eat soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
@@ -1121,7 +1121,7 @@ public class PersonAgent extends Agent implements Person
 			return false;
 	}
 	
-	private boolean isTired() {
+	public boolean isTired() {
 		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastSlept > 60000){
 			print("Hmm... I'm tired. I better sleep soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm tired. I better sleep soon", new Date()));
@@ -1132,7 +1132,7 @@ public class PersonAgent extends Agent implements Person
 			return false;
 	}
 
-	private void WalkAimlessly() {
+	public void WalkAimlessly() {
 		if (hasCar() && wealthLevel.equals(WealthLevel.average)){
 			gui.DoGoToLocation(18, 529);
 			gui.DoGoToLocation(617, 529);
@@ -1153,7 +1153,7 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 
-	private boolean noRoleActive() {
+	public boolean noRoleActive() {
 		synchronized(roles)
 		{
 			for(Role r : roles)
@@ -1167,7 +1167,7 @@ public class PersonAgent extends Agent implements Person
 		return true;
 	}
 
-	private Boolean CheckBankOpen() {
+	public Boolean CheckBankOpen() {
 		print("I need to go to the bank!");
 		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to the bank!", new Date()));
 		Bank r = null;
@@ -1183,14 +1183,14 @@ public class PersonAgent extends Agent implements Person
 			return true;
 		else{
 			print("Aww.. bank is closed :(");	
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
+			//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
 
 			return false;
 		}
 	}
 
 
-	private void DelayGoToWork() {
+	public void DelayGoToWork() {
 		int num = (int)(Math.random() * ((5 - 0) + 1));
 		num *= 1000;
 		timer.schedule( new TimerTask()
@@ -1203,7 +1203,7 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 
-	private boolean needsToBuy() {
+	public boolean needsToBuy() {
 		if (inventory.size() > 0){
 			for (Item i : inventory){
 				//print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
@@ -1217,14 +1217,14 @@ public class PersonAgent extends Agent implements Person
 		return false;
 	}
 	
-	private boolean canAfford(Item i){
+	public boolean canAfford(Item i){
 		if (i.type == "Car")
 			return (cash > 20000);
 		else
 			return true;
 	}
 
-	private boolean needsBankTransaction() {
+	public boolean needsBankTransaction() {
 		if (hasLoan() && cash > getCashThresholdUp()){
 			bankPurpose = "Pay Loan";
 			bankAmount = cash - getCashThresholdUp();
@@ -1253,7 +1253,7 @@ public class PersonAgent extends Agent implements Person
 		return false;
 	}
 
-	private double getTotalMoney() {
+	public double getTotalMoney() {
 		double temp = cash;
 		for (Account a : accounts){
 			temp += a.getBalance();
@@ -1261,7 +1261,7 @@ public class PersonAgent extends Agent implements Person
 		return temp;
 	}
 
-	private boolean hasLoan() {
+	public boolean hasLoan() {
 		for(Loan l :loans){
 			if (l.s != loanState.paid){
 				return true;
@@ -1274,7 +1274,7 @@ public class PersonAgent extends Agent implements Person
 										ACTIONS
 	 ******************************************************************************/
 
-	private void GoHomeToDoX()
+	public void GoHomeToDoX()
 	{
 		gui.setPresent(true);
 		gui.setBusy(true);
@@ -1364,7 +1364,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 
-	private void GoToWork(){
+	public void GoToWork(){
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to work as " + job.type);
@@ -1388,7 +1388,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	
-	private void WorkAtApartment() {
+	public void WorkAtApartment() {
 		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
@@ -1500,7 +1500,7 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 
-	private void WorkAtBank() {
+	public void WorkAtBank() {
 		if(Status.getTransportationStatus() == transportStatus.bus && !hasCar()){
 			curStop = this.closestBusStop();
 			destinationStop = metro.stops.get(0); // two is the busStop closest to restaurant top left is 0, top right is 6
@@ -1551,7 +1551,7 @@ public class PersonAgent extends Agent implements Person
 		c.setActivity(true);
 	}
 
-	private void GoToRestaurant()
+	public void GoToRestaurant()
 	{
 		gui.setPresent(true);
 		gui.setBusy(true);
