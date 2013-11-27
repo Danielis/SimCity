@@ -125,12 +125,10 @@ public class CityGui extends JFrame implements ActionListener {
 
 	private JPanel restaurantPanel = new JPanel(); 
 	private JButton restaurantGo = new JButton("Go");
-
 	private JPanel otherFunction = new JPanel(); 
 	private JButton busGo = new JButton("Bus");
 	private JButton scen1 = new JButton("Scenario 1");
 	private JButton workGo = new JButton("Work");
-
 	private JButton noAIGo = new JButton("Turn off all AI");
 
 	// ************ END FUNCTION PANEL *********************

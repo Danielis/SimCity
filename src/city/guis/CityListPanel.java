@@ -54,21 +54,13 @@ public class CityListPanel extends JPanel implements ActionListener {
     
   //  JCheckBox takesBusCheckBox = new JCheckBox("Takes Bus?");
     
-    // ************* end person creation panel
-    
-    
-    
-    
-    
-    
+    // ************* end person creation panel   
     
     //CONSTRUCTOR
     public CityListPanel(CityPanel rp, String type) {
         cityPanel = rp;
         this.type = type;
-        
-        
-        
+      
         // ***** new ppl creation panel
         newCreation.setLayout(new FlowLayout());
         newCreation.add(jobList);
@@ -76,8 +68,7 @@ public class CityListPanel extends JPanel implements ActionListener {
         //newCreation.add(takesBusCheckBox);
         
         //****** end new ppl creation panel
-        
-
+ 
         //setLayout(new GridLayout(0,1,1,1));
         topPart_person.setLayout(new BorderLayout());
         bottomPart_person.setLayout(new BorderLayout());
