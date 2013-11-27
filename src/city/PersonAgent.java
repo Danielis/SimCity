@@ -1491,6 +1491,7 @@ public class PersonAgent extends Agent implements Person
 			c.setTrackerGui(trackingWindow);
 			r.panel.addHost((HostRole) c);
 			c.setPerson(this);
+			c.setRestaurant(r);
 			roles.add(c);
 			c.setActivity(true);
 		}

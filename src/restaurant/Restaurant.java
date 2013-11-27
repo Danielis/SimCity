@@ -66,4 +66,22 @@ public class Restaurant extends Building{
 	public int getWaiterNumber(){
 		return panel.waiters.size();
 	}
+
+	public void removeme(Waiter w)
+	{
+		workingWaiters.remove(w);
+	}
+	
+	public void nullifyHost()
+	{
+		panel.host = null;
+	}
+	public void nullifyCook()
+	{
+		panel.cook = null;
+	}
+	public void nullifyCashier()
+	{
+		panel.cashier = null;
+	}
 }

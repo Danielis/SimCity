@@ -386,11 +386,13 @@ public class CashierRole extends Role implements Cashier{
 	
 	public void LeaveWork()
 	{
+		cashierGui.Disable();
 		myState = WorkState.leaving;
 		print("CashierRole: Called to leave work.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "Called to leave work.", new Date()));
 		//STUB
 		myPerson.msgLeftWork(this, this.mymoney);
+		r.nullifyCashier();
 	}
 	
 	private float RoundToTwoDigits(float a)

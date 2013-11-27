@@ -42,6 +42,7 @@ public class CityRunTests extends TestCase {
     	assertEquals(gui.cityPanel.people.size(), 1);
     	assertEquals(gui.cityPanel.people.get(0).roles.size(), 0);
     }
+    
     //Testing the addition of Roles, creation of Restaurants
     public void test2_TestAddingRoles() throws Exception
     {
@@ -55,17 +56,5 @@ public class CityRunTests extends TestCase {
     	assertEquals("Person should now have two roles", person.roles.size(), 2);
     	testRestaurant.addWaiter((Waiter)t);
     	assertEquals("The test restaurant should have only one waiter", testRestaurant.panel.waiters.size(), 1);
-    }
-    
-    //Testing the work
-    public void test3_TestAddingRoles() throws Exception
-    {
-    	System.out.println("TEST 3");
-//    	person = new PersonAgent("Test", "Waiter", "Average");
-//    	Restaurant testRestaurant = new Restaurant(new RestaurantGui(), "Norman");
-//    	person.addRole(new ModernWaiterRole("TestWaiter", testRestaurant));
-//    	assertEquals("Person should have only one role", person.roles.size(), 1);
-    	gui = new CityGui();
-    	//gui.cityPanel.addp
     }
 }

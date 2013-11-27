@@ -725,10 +725,12 @@ public class CookRole extends Role implements Cook
 	
 	public void LeaveWork()
 	{
+		cookGui.Disable();
 		myState = WorkState.leaving;
 		print("CookRole: Called to leave work.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Called to leave work.", new Date()));
 		myPerson.msgLeftWork(this, this.accountBalance);
+		rest.nullifyCook();
 	}
 }
 
