@@ -103,7 +103,7 @@ public class TellerRole extends Role implements Teller {
 	    }
 	    
 		public Transaction(Account acct, double amount2, transactionType type, BankCustomer c) {
-		account = acct;
+		setAccount(acct);
 		amount = amount2;
 		this.type = type;
 		status = transactionStatus.unresolved;
@@ -126,8 +126,22 @@ public class TellerRole extends Role implements Teller {
 
 
 		
+		public Account getAccount() {
+			return account;
+		}
+
+		public void setAccount(Account account) {
+			this.account = account;
+		}
+		
+		public BankCustomer getCust(){
+			return c;
+		}
+
+
+
 		public double amount;
-	    Account account;
+	    private Account account;
 	    Loan loan;
 	   public transactionType type;
 	    public transactionStatus status;
@@ -362,12 +376,12 @@ private boolean canLeave() {
 	
 	private void Deposit(Transaction t){
 		waiterGui.setSpeechBubble("thnxteller");
-		print("Depositing $" + t.amount + " into account #" + t.account.id);
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Depositing $" + t.amount + " into account #" + t.account.id, new Date()));
-	    t.account.setBalance(t.account.getBalance()
+		print("Depositing $" + t.amount + " into account #" + t.getAccount().id);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Depositing $" + t.amount + " into account #" + t.getAccount().id, new Date()));
+	    t.getAccount().setBalance(t.getAccount().getBalance()
 				+ t.amount);
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.account.getBalance(), new Date()));
-	    print("New account balance is $" + t.account.getBalance());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.getAccount().getBalance(), new Date()));
+	    print("New account balance is $" + t.getAccount().getBalance());
 	    bank.balance += t.amount;
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New bank cash balance is $" + bank.balance, new Date()));	    
 	    print("New bank cash balance is $" + bank.balance);
@@ -379,27 +393,27 @@ private boolean canLeave() {
 
 	private void Withdraw(Transaction t){
 		t.status = transactionStatus.resolved;
-	    if (t.account.getBalance() >= t.amount){
+	    if (t.getAccount().getBalance() >= t.amount){
 	    	waiterGui.setSpeechBubble("withdrawteller");
-	    	print("Withdrawing $" + t.amount + " from account #" + t.account.id);
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Withdrawing $" + t.amount + " from account #" + t.account.id, new Date()));	    
-	        t.account.setBalance(t.account.getBalance()
+	    	print("Withdrawing $" + t.amount + " from account #" + t.getAccount().id);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Withdrawing $" + t.amount + " from account #" + t.getAccount().id, new Date()));	    
+	        t.getAccount().setBalance(t.getAccount().getBalance()
 					- t.amount);
-	        print("New account balance is $" + t.account.getBalance());
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.account.getBalance(), new Date()));	    	        
+	        print("New account balance is $" + t.getAccount().getBalance());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.getAccount().getBalance(), new Date()));	    	        
 	        bank.balance -= t.amount;
 	        print("New bank cash balance is $" + bank.balance);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New bank cash balance is $" + bank.balance, new Date()));	    	        
 	        t.c.HereIsWithdrawal(t.amount);
 	    }
-	    else if (t.account.getBalance() > 0){
+	    else if (t.getAccount().getBalance() > 0){
 	    	waiterGui.setSpeechBubble("withdrawteller");
-	    	double temp = t.account.getBalance();
-	    	print("You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id);
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You are low on money. Withdrawing only $" + temp + " from account #" + t.account.id, new Date()));	    	        
-	        t.account.setBalance(t.account.getBalance() - temp);
-	        print("New account balance is $" + t.account.getBalance());
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.account.getBalance(), new Date()));	    	        
+	    	double temp = t.getAccount().getBalance();
+	    	print("You are low on money. Withdrawing only $" + temp + " from account #" + t.getAccount().id);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "You are low on money. Withdrawing only $" + temp + " from account #" + t.getAccount().id, new Date()));	    	        
+	        t.getAccount().setBalance(t.getAccount().getBalance() - temp);
+	        print("New account balance is $" + t.getAccount().getBalance());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New account balance is $" + t.getAccount().getBalance(), new Date()));	    	        
 	        bank.balance -= temp;
 	        print("New bank cash balance is $" + bank.balance);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "New bank cash balance is $" + bank.balance, new Date()));	    	        
@@ -419,14 +433,14 @@ private boolean canLeave() {
 	    
 		print("Creating new account...");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Creating new account...", new Date()));	    	        
-	    t.account.setBalance(t.account.getBalance()
+	    t.getAccount().setBalance(t.getAccount().getBalance()
 				+ t.amount);
 	    bank.balance += t.amount;
-	    bank.accounts.add(t.account);
+	    bank.addAccount(t.getAccount());
 	    t.status = transactionStatus.resolved;
-	    t.account.c.AccountCreated(t.account);
-	    print("Your new account ID is " + t.account.id + " with balance of $" + t.account.getBalance());
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Your new account ID is " + t.account.id + " with balance of $" + t.account.getBalance(), new Date()));	    	        
+	    t.getAccount().c.AccountCreated(t.getAccount());
+	    print("Your new account ID is " + t.getAccount().id + " with balance of $" + t.getAccount().getBalance());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Your new account ID is " + t.getAccount().id + " with balance of $" + t.getAccount().getBalance(), new Date()));	    	        
 	    print("Bank cash balance is $" + bank.balance);
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Bank cash balance is $" + bank.balance, new Date()));	    	        
 	}
@@ -468,6 +482,8 @@ private boolean canLeave() {
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Your loan is paid off!", new Date()));	    	        
 	        t.loan.s = loanState.paid;
 	        double change = t.loan.balancePaid - t.loan.balanceOwed;
+	        t.loan.balancePaid -= change;
+	        bank.balance -= change;
 	        t.loan.c.YourLoanIsPaidOff(change);
 	    }
 	    else{

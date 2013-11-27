@@ -77,7 +77,9 @@ public class Bank extends Building{
 //		
 //	}
 	
-	
+	public void addAccount(Account a){
+		accounts.add(a);
+	}
 	
 	public void addTeller(Teller t){
 		workingTellers.add(t);
@@ -119,6 +121,10 @@ public class Bank extends Building{
 
 	public Boolean isOpen(){
 		return (host != null);
+	}
+	
+	public double getBalance(){
+		return balance;
 	}
 	
 //	public int getUnoccupiedTableNumber(){
@@ -177,6 +183,14 @@ public class Bank extends Building{
 		public void setBalance(double balance) {
 			this.balance = balance;
 		}
+		
+		public BankCustomer getCustomer(){
+			return c;
+		}
+		
+		public int getID(){
+			return id;
+		}
 	}
 	
 	public class Loan {
@@ -194,6 +208,13 @@ public class Bank extends Building{
 	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
 	    balancePaid = 0;
 	    }
+	    
+	    public double getAmountOwed(){
+	    	return balanceOwed;
+	    }
+	    public double getAmountPaid(){
+	    	return balancePaid;
+	    }
 	}
 	public enum loanState {unpaid, partiallyPaid, paid}
 	
@@ -205,6 +226,10 @@ public class Bank extends Building{
 	public Loan createLoan(BankCustomer c, double amount) {
 		Loan loan = new Loan(c, amount);
 		return loan;
+	}
+	
+	public List<Loan> getLoans(){
+		return loans;
 	}
 
 	public void Leaving() {
@@ -219,10 +244,18 @@ public class Bank extends Building{
 	public List <Teller> getWorkingTellers() {
 		return workingTellers;
 	}
+	
+	public void addLoan(Loan l){
+		loans.add(l);
+	}
 
 
 	public void setWorkingTellers(List <Teller> workingTellers) {
 		this.workingTellers = workingTellers;
+	}
+	
+	public List<Account> getAccounts(){
+		return accounts;
 	}
 
 	

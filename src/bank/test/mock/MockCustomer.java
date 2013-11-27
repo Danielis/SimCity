@@ -30,19 +30,29 @@ public class MockCustomer extends Mock implements BankCustomer {
 
 	public  void	CannotCreateLoan(){}
 
-	public  void	CreditNotGoodEnough(){}
+	public  void	CreditNotGoodEnough(){
+		log.add(new LoggedEvent("Received message CreditNotGoodEnough from teller"));}
 
-	public  void	YourLoanIsPaidOff(double change){}
+	public  void	YourLoanIsPaidOff(double change){
+		log.add(new LoggedEvent("Received message YourLoanIsPaidOff from teller"));
+		}
 
-	public  void	YouStillOwe(double d, int i){}
+	public  void	YouStillOwe(double d, int i){
+		log.add(new LoggedEvent("Received message YouStillOwe from teller"));}
 
-	public  void	HereIsWithdrawal(double amount){}
+	public  void	HereIsWithdrawal(double amount){
+		log.add(new LoggedEvent("Received message HereIsWithdrawal from teller"));
+		}
 
-	public  void	HereIsPartialWithdrawal(double amount){}
+	public  void	HereIsPartialWithdrawal(double amount){
+		log.add(new LoggedEvent("Received message HereIsPartialWithdrawal from teller"));}
 
-	public  void	NoMoney(){}
+	public  void	NoMoney(){
+		log.add(new LoggedEvent("Received message NoMoney from teller"));}
 
-	public  void 	WantAccount(){}
+	public  void 	WantAccount(){
+		log.add(new LoggedEvent("Received message WantAccount from teller"));
+	}
 
 	public  String getName(){
 		return null;}
@@ -69,9 +79,12 @@ public class MockCustomer extends Mock implements BankCustomer {
 
 	public  void NoLoan(){}
 
-	public  void LoanCreated(double amount, Loan loan){}
+	public  void LoanCreated(double amount, Loan loan){
+		log.add(new LoggedEvent("Received message LoanCreated from teller"));}
 
-	public  void AccountCreated(Account account){}
+	public  void AccountCreated(Account account){
+		log.add(new LoggedEvent("Received message AccountCreated from teller"));
+	}
 	
 	public void BankIsClosed() {
 		log.add(new LoggedEvent("Received message BankIsClosed from host"));
