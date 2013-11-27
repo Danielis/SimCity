@@ -78,6 +78,10 @@ public class BankHostRole extends Role implements BankHost {
 	{
 		copyOfAnimPanel = panel;
 	}
+	
+	public Collection<MyTeller> getmyTellers(){
+		return myTellers;
+	}
 
 	//CLASSES****************************************************
 	public class MyTeller{
@@ -102,7 +106,9 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	enum customerState {waiting, done};
 
-
+	public List<MyCustomer> getCustomers(){
+		return customers;
+	}
 
 //MESSAGES****************************************************
 	
@@ -273,7 +279,7 @@ public class BankHostRole extends Role implements BankHost {
 			hostGui.setSpeechBubble("host_3");
 
 		// c.s = customerState.done;
-		customers.remove(0);
+		customers.remove(c);
 		t.s = tellerState.busy;
 		c.c.GoToTeller(t.t);
 	}

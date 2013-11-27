@@ -40,7 +40,7 @@ Aleena
   + item here
 
 
-#### How To run system
+#### How to run system
 ![](http://i.imgur.com/bKOvnio.png)
   + Build from ant file, compile, run, and choose an option below
   + Double-click on the building to open the window

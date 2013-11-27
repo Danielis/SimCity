@@ -10,6 +10,8 @@ import bank.gui.*;
 
 public class MockCustomer extends Mock implements BankCustomer {
 
+    public EventLog log = new EventLog();
+    
 	public MockCustomer(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -18,7 +20,9 @@ public class MockCustomer extends Mock implements BankCustomer {
 
 	public  void	WantsToDo(String visitPurpose, int quantity){}
 
-	public  void	GoToTeller(Teller t){}
+	public  void	GoToTeller(Teller t){
+		log.add(new LoggedEvent("Received message GoToTeller from host"));
+	}
 
 
 	public  void	MoneySuccesfullyDeposited(){}
@@ -70,6 +74,8 @@ public class MockCustomer extends Mock implements BankCustomer {
 	public  void AccountCreated(Account account){}
 	
 	public void BankIsClosed() {
+		log.add(new LoggedEvent("Received message BankIsClosed from host"));
+		
 	}
 
 }
