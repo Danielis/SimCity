@@ -18,7 +18,7 @@ public interface BankHost {
 	ImageObserver copyOfAnimPanel = null;
 
 	public void IWantService(BankCustomerRole c);
-		public abstract void msgNewTeller(Teller t);
+		public abstract void addMe(Teller t);
 		public abstract void IAmFree(Teller tell);
 		public abstract void msgIdLikeToGoOnBreak(Teller t);
 		public abstract void msgIdLikeToGetOffBreak(Teller t);
@@ -30,7 +30,7 @@ public interface BankHost {
 		public abstract String getName();
 		public abstract void setGui(HostGui g);
 
-		public void setTellers(List<Teller> tellers);
 		public void setBank(Bank b);
+		public void setTellers(List<Teller> workingTellers);
 
 }

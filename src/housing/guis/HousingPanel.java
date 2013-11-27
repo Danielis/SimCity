@@ -1,18 +1,9 @@
 package housing.guis;
 
-import restaurant.CustomerAgent;
-import restaurant.CashierAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import restaurant.MarketAgent;
-import restaurant.gui.CookGui;
-import restaurant.gui.HostGui;
-import restaurant.gui.RestaurantGui;
-import housing.HousingCustomerAgent;
 import housing.HousingWorkerAgent;
 import housing.LandlordAgent;
 import housing.interfaces.HousingCustomer;
+import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;
 
 import javax.imageio.ImageIO;
@@ -39,7 +30,7 @@ public class HousingPanel extends JPanel {
 	private HousingWorkerAgent worker;
         
     private Vector<HousingCustomer> tenants = new Vector<HousingCustomer>();
-    private Vector<HousingWorkerAgent> workers = new Vector<HousingWorkerAgent>();
+    public Vector<HousingWorkerAgent> workers = new Vector<HousingWorkerAgent>();
     
     private JPanel restLabel = new JPanel();
     public HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
@@ -167,14 +158,14 @@ public class HousingPanel extends JPanel {
     
     public void addWorker(String name) 
     {
-    	HousingWorkerAgent p = new HousingWorkerAgent(name);
+    	HousingWorker p = new HousingWorkerAgent(name);
 		HousingWorkerGui g = new HousingWorkerGui(p, gui);
 		gui.housingAnimationPanel.addGui(g);
 		p.setGui(g);
         landlord.addWorker(p);
         p.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
-		worker = p;
+		worker = (HousingWorkerAgent) p;
 		workers.add(worker);
 		worker.startThread();
     }

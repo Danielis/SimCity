@@ -35,6 +35,10 @@ public class BankHostRole extends Role implements BankHost {
 	public BankHostRole(String name) {
 		super();
 		this.name = name;
+		tellTellers();
+	}
+	private void tellTellers() {
+		
 	}
 	Boolean leave = false;
 
@@ -118,7 +122,7 @@ public class BankHostRole extends Role implements BankHost {
 	    stateChanged();
 	}
 
-	public void msgNewTeller(Teller t)
+	public void addMe(Teller t)
 	{
 		myTellers.add(new MyTeller(t));	
 		stateChanged();
@@ -251,6 +255,9 @@ public class BankHostRole extends Role implements BankHost {
 		
 	}
 	private void NoTellers(MyCustomer c){
+		print("Sorry the bank is closed");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankHostRole","Sorry the bank is closed", new Date()));
+
 		c.c.BankIsClosed();
 		customers.remove(c);
 	}
@@ -307,10 +314,10 @@ public class BankHostRole extends Role implements BankHost {
 		bank = b;
 	}
 
-	@Override
+
 	public void setTellers(List<Teller> tellers) {
-		// TODO Auto-generated method stub
-		
+		for (Teller t : tellers)
+			myTellers.add(new MyTeller(t));
 	}
 
 

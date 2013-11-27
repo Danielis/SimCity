@@ -1,9 +1,10 @@
 package roles;
 
+
 import logging.TrackerGui;
+import restaurant.gui.HostGui;
 import agent.StringUtil;
 import city.PersonAgent;
-
 
 public abstract class Role //why doesnt this extend agent?
 {
@@ -37,7 +38,7 @@ public abstract class Role //why doesnt this extend agent?
 		return myPerson;
 	}
 	
-	protected void stateChanged()
+	public void stateChanged()
 	{
 		//System.out.println(myPerson);
 		myPerson.stateChanged();

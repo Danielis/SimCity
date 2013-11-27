@@ -1,5 +1,8 @@
 package market;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import market.gui.MarketAnimationPanel;
 import market.gui.MarketCustomerGui;
@@ -17,36 +20,36 @@ import roles.Role;
 //I used this design from the designs drawn from class.
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
-	
+
 	//To show icon
 	public enum iconState
 	{
 		none, question, steak, chicken, salad, pizza,
 	};
-	
-	
-	
-//VARIABLES*************************************************
+
+
+
+	//VARIABLES*************************************************
 	MarketHost h;
 	marketCustomerState state;
 	public MarketAnimationPanel copyOfAnimPanel; // for gui
 	MarketWorker t;
 	double balance = 0;
-	
+
 	private MarketCustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
 	Timer timer = new Timer();
-	
+
 	Boolean isHappy = true;
-	
+
 	String item;
 	int quantityWanted = 0;
 	int quantityReceived = 0; 
 	double amountOwed;
 	public TrackerGui trackingWindow;
-	
-	
+
+
 	//Constructor
 	public MarketCustomerRole(String name, MarketHost h){
 		super();
@@ -54,7 +57,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		this.h = h;
 		state = marketCustomerState.outside;
 	}
-	
+
 	public MarketCustomerRole(String name, String item, double marketQuantity, double money) {
 		super();
 		this.name = name;
@@ -63,10 +66,14 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		balance = money;
 		state = marketCustomerState.outside;
 	}
+
 	public void msgGetPaid(){
-		balance =+50;
+		//balance =+50;
 	}
-//UTILITIES**************************************************
+
+
+	//UTILITIES**************************************************
+
 
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
@@ -84,73 +91,73 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			return true;
 		}
 	}
-	
-//CLASSES/ENUMS**********************************************
 
-	
+	//CLASSES/ENUMS**********************************************
+
+
 	enum marketCustomerState{outside, entered, waiting, assigned, atCounter, canPay, needsPay, done, exited};
-	
-	
-//MESSAGES*************************************************
+
+
+	//MESSAGES*************************************************
 
 	public void MarketIsClosed(){
 		state = marketCustomerState.done;
 		//customerGui.setSpeechBubble("oksadcust");
 		stateChanged();
 	}
-	
-public void msgWantsToBuy(){ //called from gui
+
+	public void msgWantsToBuy(){ //called from gui
 		state = marketCustomerState.outside;
 		stateChanged();
 	}
 
-public void	WantsToDo(String visitPurpose, int quantity){ //called from Person agent
-	    //purpose = convert(visitPurpose);
-	    this.state = marketCustomerState.entered;
-	    stateChanged();
+	public void	WantsToDo(String visitPurpose, int quantity){ //called from Person agent
+		//purpose = convert(visitPurpose);
+		this.state = marketCustomerState.entered;
+		stateChanged();
 	}
 
-public void	GoToTeller(MarketWorker t){
-	//print("received teller info");
-	    this.t = t;
-	    state = marketCustomerState.assigned;
-	    stateChanged();
+	public void	GoToTeller(MarketWorker t){
+		//print("received teller info");
+		this.t = t;
+		state = marketCustomerState.assigned;
+		stateChanged();
 	}
 
-public void OutOfStock(){
-	state = marketCustomerState.done;
-	isHappy = false;
-	stateChanged();
-}
-
-public void YouOwe(double amount){
-	if (balance >= amount){
-		amountOwed = amount;
-		state = marketCustomerState.canPay;
-	}
-	else{
-		print("I can't afford...");
-		isHappy = false;
+	public void OutOfStock(){
 		state = marketCustomerState.done;
+		isHappy = false;
+		stateChanged();
 	}
-	stateChanged();
-}
 
-public void PleasePay(double amount){
-	amountOwed = amount;
-	state = marketCustomerState.needsPay;
-	stateChanged();
-}
+	public void YouOwe(double amount){
+		if (balance >= amount){
+			amountOwed = amount;
+			state = marketCustomerState.canPay;
+		}
+		else{
+			print("I can't afford...");
+			isHappy = false;
+			state = marketCustomerState.done;
+		}
+		stateChanged();
+	}
 
-public void HereIsOrder(String i, int q){
-	quantityReceived = q;
-	state = marketCustomerState.done;
-	stateChanged();
-}
+	public void PleasePay(double amount){
+		amountOwed = amount;
+		state = marketCustomerState.needsPay;
+		stateChanged();
+	}
+
+	public void HereIsOrder(String i, int q){
+		quantityReceived = q;
+		state = marketCustomerState.done;
+		stateChanged();
+	}
 
 
-	
-//SCHEDULER*************************************************
+
+	//SCHEDULER*************************************************
 	public boolean pickAndExecuteAnAction() 
 	{
 		//print("reached sched, state: " + state);
@@ -159,140 +166,143 @@ public void HereIsOrder(String i, int q){
 			return true;
 		}
 		if (state == marketCustomerState.entered){
-		    TellHost();
-		    return true;
+			TellHost();
+			return true;
 		}
 
 		if (state == marketCustomerState.assigned){
-		    WalkToTeller();
-		    return true;
+			WalkToTeller();
+			return true;
 		}
-		
+
 		if (state == marketCustomerState.atCounter){
 			AskForAssistance();
-		    return true;
+			return true;
 		}
-		
+
 		if (state == marketCustomerState.canPay){
 			PriceGood();
-		    return true;
+			return true;
 		}
 
 		if (state == marketCustomerState.needsPay){
 			GivePayment();
-		    return true;
+			return true;
 		}
-		
+
 		if (state == marketCustomerState.done){
 			SayThanks();
-		    return true;
+			return true;
 		}
-		
-		
+
+
 		return false;
 	}
 
-//ACTIONS*************************************************
+	//ACTIONS*************************************************
 
-private void GoToMarket() {
+	private void GoToMarket() {
 		print("Going to market");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Going to market", new Date()));
 		getCustomerGui().DoGoToWaitingRoom();
 		state = marketCustomerState.entered;
-}
-	
-private void TellHost(){
-	   // DoEnterBank();
+	}
+
+	private void TellHost(){
+		// DoEnterBank();
 		print("I want service");
-	    state = marketCustomerState.waiting;
-	    h.IWantService(this);
-}
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "I want service", new Date()));
+		state = marketCustomerState.waiting;
+		h.IWantService(this);
+	}
 
-private void AskForAssistance(){
-	state = marketCustomerState.waiting;
-	
-	timer.schedule( new TimerTask()
-	{
-		public void run()
-		{				
-			GiveRequest();
-		}
-	}, 4000);
-}
+	private void AskForAssistance(){
+		state = marketCustomerState.waiting;
 
-private void GiveRequest(){
-	print("I want to order " + quantityWanted + " of " + item);
-	state = marketCustomerState.waiting;
-	t.GiveOrder(this, item, quantityWanted);
-}
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{				
+				GiveRequest();
+			}
+		}, 4000);
+	}
 
-private void PriceGood(){
-	print("That price is good!");
-	state = marketCustomerState.waiting;
-	t.PleaseFulfill(this);
-}
+	private void GiveRequest(){
+		print("I want to order " + quantityWanted + " of " + item);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "I want to order " + quantityWanted + " of " + item, new Date()));
+		state = marketCustomerState.waiting;
+		t.GiveOrder(this, item, quantityWanted);
+	}
 
-private void GivePayment(){
-	print("Here is payment of $" + amountOwed);
-	balance -= amountOwed;
-	state = marketCustomerState.waiting;
-	t.GivePayment(this, amountOwed);
-}
+	private void PriceGood(){
+		print("That price is good!");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "That price is good!", new Date()));
+		state = marketCustomerState.waiting;
+		t.PleaseFulfill(this);
+	}
 
-private void SayThanks(){
-	state = marketCustomerState.exited;
-	if (isHappy)
-	customerGui.setSpeechBubble("thnxcust");
-	else
-	customerGui.setSpeechBubble("oksadcust");
-	
-	timer.schedule( new TimerTask()
-	{
-		public void run()
-		{				
-			LeaveMarket();
-		}
-	}, 2000);
-	
-}
+	private void GivePayment(){
+		print("Here is payment of $" + amountOwed);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Here is payment of $" + amountOwed, new Date()));
 
+		balance -= amountOwed;
+		state = marketCustomerState.waiting;
+		t.GivePayment(this, amountOwed);
+	}
 
+	private void SayThanks(){
+		state = marketCustomerState.exited;
+		if (isHappy)
+			customerGui.setSpeechBubble("thnxcust");
+		else
+			customerGui.setSpeechBubble("oksadcust");
 
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{				
+				LeaveMarket();
+			}
+		}, 2000);
 
+	}
 
-private void LeaveMarket(){
+	private void LeaveMarket(){
 		print("Thank you. I now have $" + balance);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Thank you. I now have $" + balance, new Date()));
 		if (t != null){
-		t.IAmLeaving();
-		if (t.getTableNum() == 1){
-			getCustomerGui().DoGoToWaitingRoom();
-		}
-		else if (t.getTableNum() == 2){
-			getCustomerGui().DoGoToTopMiddle();
-			getCustomerGui().DoGoToTopLeft();
-			getCustomerGui().DoGoToBotLeft();
-			getCustomerGui().DoGoToWaitingRoom();
-		}
-		else if (t.getTableNum() == 3){
-			getCustomerGui().DoGoToTopRight();
-			getCustomerGui().DoGoToBotRight();
-			getCustomerGui().DoGoToWaitingRoom();
-		}
+			t.IAmLeaving();
+			if (t.getTableNum() == 1){
+				getCustomerGui().DoGoToWaitingRoom();
+			}
+			else if (t.getTableNum() == 2){
+				getCustomerGui().DoGoToTopMiddle();
+				getCustomerGui().DoGoToTopLeft();
+				getCustomerGui().DoGoToBotLeft();
+				getCustomerGui().DoGoToWaitingRoom();
+			}
+			else if (t.getTableNum() == 3){
+				getCustomerGui().DoGoToTopRight();
+				getCustomerGui().DoGoToBotRight();
+				getCustomerGui().DoGoToWaitingRoom();
+			}
 		}
 		getCustomerGui().DoExitRestaurant();
-	    state = marketCustomerState.exited;  
-	    this.myPerson.msgLeavingMarket(this, balance, item, quantityReceived);
-	    customerGui.finishedTransaction();
-}
-	
-	
-	
-	
+		state = marketCustomerState.exited;  
+		this.myPerson.msgLeavingMarket(this, balance, item, quantityReceived);
+		customerGui.finishedTransaction();
+	}
+
+
+
+
 	private void WalkToTeller() 
 	{
 		print("Directed to teller.");
-		
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.MARKET, "MarketCustomerRole", "Directed to teller.", new Date()));
 		if (t.getTableNum() == 1){
-		getCustomerGui().DoGoToSeat(t.getTableNum());
+			getCustomerGui().DoGoToSeat(t.getTableNum());
 		}
 		else if (t.getTableNum() == 2){
 			getCustomerGui().DoGoToBotLeft();
@@ -308,13 +318,13 @@ private void LeaveMarket(){
 		state = marketCustomerState.atCounter;
 		//stateChanged();
 	}
-	
-	
-	
 
-//UTILITIES*************************************************
 
-	
+
+
+	//UTILITIES*************************************************
+
+
 
 	public String toString() {
 		return name;
@@ -327,24 +337,24 @@ private void LeaveMarket(){
 	public MarketCustomerGui getGui() {
 		return getCustomerGui();
 	}
-	
+
 	public void WaitForAnimation()
 	{
 		try
 		{
 			this.animSemaphore.acquire();	
 		} catch (InterruptedException e) {
-            // no action - expected when stopping or when deadline changed
-        } catch (Exception e) {
-            print("Unexpected exception caught in Agent thread:", e);
-        }
+			// no action - expected when stopping or when deadline changed
+		} catch (Exception e) {
+			print("Unexpected exception caught in Agent thread:", e);
+		}
 	}
-	
+
 	public void DoneWithAnimation()
 	{
 		this.animSemaphore.release();
 	}
-	
+
 	public void setAnimPanel(MarketAnimationPanel panel)
 	{
 		copyOfAnimPanel = panel;
@@ -357,7 +367,7 @@ private void LeaveMarket(){
 	public void setCustomerGui(MarketCustomerGui customerGui) {
 		this.customerGui = customerGui;
 	}
-	
+
 	public String getName(){
 		return name;
 	}
@@ -373,7 +383,6 @@ private void LeaveMarket(){
 		
 	}
 
-	
-}
+	}
 
 

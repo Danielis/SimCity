@@ -6,6 +6,7 @@ import java.util.List;
 import agent.RestaurantMenu;
 import restaurant.CashierAgent;
 import restaurant.HostAgent;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent;
 import restaurant.gui.CustomerGui;
 import restaurant.gui.RestaurantAnimationPanel;
@@ -116,6 +117,12 @@ public class MockPerson extends Mock implements Customer {
 	@Override
 	public void resumeAgent() {
 		//
+	}
+
+	@Override
+	public void setRestaurant(Restaurant r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

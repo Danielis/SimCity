@@ -4,33 +4,48 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import restaurant.HostAgent.customerState;
 import restaurant.HostAgent.waiterState;
 import restaurant.gui.HostGui;
+import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.Customer;
 import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
 import roles.Role;
 
 public class HostRole extends Role implements Host{
+	
+	public double balance = 0;
 	public int NTABLES = 4;
-		
+	public Semaphore animSemaphore = new Semaphore(0, true);
+	public RestaurantAnimationPanel copyOfAnimPanel;
+	
+	public WorkState myState = WorkState.none;
+	boolean workersCanLeave = false;	
+	
 	//Lists
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
-	public Collection<Table> tables;
+	public List<Table> tables = Collections.synchronizedList(new ArrayList<Table>());
 
 	//Other Variables
 	private String name;
 	//private Semaphore atTable = new Semaphore(0,true); for GUI
 	public HostGui hostGui = null;
-	public double balance;
+	
 //CONSTRUCTOR
-	public HostRole(String name) {
+	public HostRole(String name, double cash) {
 		super();
 
+		balance = cash;
+		
 		this.name = name;
 		
 		//Make the tables
@@ -41,6 +56,10 @@ public class HostRole extends Role implements Host{
 	}
 
 //UTILITIES************************************************************
+	public boolean canLeave()
+	{
+		return workersCanLeave;
+	}
 	
 	public String getMaitreDName() {
 		return name;
@@ -192,6 +211,13 @@ public class HostRole extends Role implements Host{
 		public void msgGetPaid(){
 			balance =+50;
 		}
+
+	public void msgLeaveWork()
+	{
+		myState = WorkState.needToLeave;
+		stateChanged();
+	}
+
 	public void msgNewWaiter(Waiter w)
 	{
 		waiters.add(new MyWaiter(w, 0, false));	
@@ -294,10 +320,11 @@ public class HostRole extends Role implements Host{
 					if (mc.state == customerState.removeFromList)
 					{
 						RemoveCustomer(mc);
+						return true;
 					}
 				}
 			}
-			
+
 			synchronized(customers)
 			{
 				for (MyCustomer mc : customers) 
@@ -311,7 +338,7 @@ public class HostRole extends Role implements Host{
 							if(t.getOccupied() == true)
 								counter++;
 						}
-						
+
 						//If we are full, tell him we are
 						if (counter == tables.size())
 						{
@@ -319,7 +346,7 @@ public class HostRole extends Role implements Host{
 							TellCustomerWhetherFull(mc, true);
 							return true;
 						}
-						
+
 						//If we are not, tell him we are not full
 						else
 						{
@@ -330,7 +357,7 @@ public class HostRole extends Role implements Host{
 					}
 				}
 			}
-	
+
 			synchronized(customers)
 			{
 				//Check for an unassigned customer and free table, then assign them
@@ -363,7 +390,7 @@ public class HostRole extends Role implements Host{
 					}
 				}
 			}
-			
+
 			synchronized(waiters)
 			{
 				//Check if waiter can go on break
@@ -403,13 +430,29 @@ public class HostRole extends Role implements Host{
 					}
 				}
 			}
-			return false;
+
+			//checking if others can leave
+			if(customers.size() == 0 && areTablesEmpty())
+			{
+				workersCanLeave = true;
+			}
+
+		//Check if this host can leave
+		if (myState == WorkState.needToLeave)
+		{
+			System.out.println("CustomerSize: " + customers.size());
+			if(customers.size() == 0 && areTablesEmpty())
+			{
+				LeaveWork();
+				return true;
+			}
 		}
-		
-		catch (ConcurrentModificationException e)
+
+		return false;
+		} catch(ConcurrentModificationException e)
 		{ 
 			return false; 
-		}
+		}	
 	}
 
 //ACTIONS********************************************************
@@ -449,6 +492,7 @@ public class HostRole extends Role implements Host{
 		print(w.w.getName() + " is the least busy, handling " + w.getNumCustomersServing() + " customers." );
 		w.numCustomersServing++;
 		print("Assigning " + mc.c.getName() + " to " + t + " and waiter " + w.w.getName() );
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "HostRole", "Assigning " + mc.c.getName() + " to " + t + " and waiter " + w.w.getName(), new Date()));
 		w.w.msgSitAtTable(mc.c, t.tableNumber);
 		customers.remove(mc);
 	}
@@ -458,6 +502,7 @@ public class HostRole extends Role implements Host{
 		if (b == true)
 		{
 			print("Granting break for " + mw.w.getName() + " when customers are done. Will stop sending him customers.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "HostRole", "Granting break for " + mw.w.getName() + " when customers are done. Will stop sending him customers.", new Date()));
 			mw.state = waiterState.onbreak;
 			mw.isOnBreak = true;
 			mw.w.msgBreakGranted(true);
@@ -465,16 +510,54 @@ public class HostRole extends Role implements Host{
 		else if (b == false)
 		{
 			print("Break rejected for " + mw.w.getName());
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "HostRole", "Break rejected for " + mw.w.getName(), new Date()));
 			mw.state = waiterState.none;
 			mw.isOnBreak = false;
 			mw.w.msgBreakGranted(false);
 		}
 	}
 
+	
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
+
 	@Override
-	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
+	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+		this.copyOfAnimPanel = animationPanel;
 		
 	}
+	
+	public boolean areTablesEmpty()
+	{
+		for (int i = 0; i<4; i++)
+		{
+			if(tables.get(0).isOccupied)
+				return false;
+		}
+		System.out.println("Tables are empty");
+		return true;
+	}
+	
+	public void LeaveWork()
+	{
+		myState = WorkState.leaving;
+		print("HostRole: Called to leave work.");
+		myPerson.msgLeftWork(this, balance);
+	}
+
 }
 

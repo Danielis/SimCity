@@ -2,6 +2,7 @@ package restaurant.gui;
 
 import restaurant.CustomerAgent;
 import restaurant.HostAgent;
+import restaurant.Restaurant;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
 import restaurant.interfaces.Customer;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
  * This holds the scroll panes for the customers and, later, for waiters
  */
 public class ListPanel extends JPanel implements ActionListener {
+	
+	Restaurant r = null;
     
     //CUSTOMER STUFF
     public JScrollPane customerPane =
@@ -184,7 +187,7 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }
     
-    public void addCustomer(Customer customer) {
+    public void addCustomer(Customer customer, Restaurant r) {
         if (customer.getName() != null) {
             JButton button = new JButton(customer.getName());
             button.setBackground(Color.white);
@@ -198,7 +201,7 @@ public class ListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             listForCustomer.add(button);
             viewForCustomer.add(button);
-            restPanel.addCustomer(customer);
+            restPanel.addCustomer(customer, r);
             restPanel.showCustomerInfo(customer.getName());
             validate();
            

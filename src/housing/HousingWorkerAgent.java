@@ -1,18 +1,23 @@
 package housing;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
 import housing.LandlordAgent.HousingComplex;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingGui;
 import housing.guis.HousingWorkerGui;
+import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;
 
-public class HousingWorkerAgent extends Agent {
+public class HousingWorkerAgent extends Agent implements HousingWorker {
 
 	// HOUSING WORKER DATA
 	LandlordAgent landlord;
@@ -121,6 +126,7 @@ public class HousingWorkerAgent extends Agent {
 		//DoRepairComplex(j.c);
 		job.s = jobState.completed;
 		System.out.println("Worker: Job completed.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Job Completed", new Date()));
 	}
 
 	private void AskForPay(Job job){
@@ -128,5 +134,6 @@ public class HousingWorkerAgent extends Agent {
 		landlord.RepairsCompleted(job.c, job.bill);
 		job.s = jobState.billed;
 		System.out.println("Worker: Asking for pay.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
 	}
 }

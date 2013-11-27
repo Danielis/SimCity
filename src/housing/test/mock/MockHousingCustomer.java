@@ -1,121 +1,100 @@
 package housing.test.mock;
 
 
+import housing.LandlordAgent;
+import housing.guis.HousingAnimationPanel;
+import housing.guis.HousingCustomerGui;
+import housing.interfaces.HousingCustomer;
+
 import java.util.List;
 
-import agent.RestaurantMenu;
-import restaurant.CashierAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.gui.CustomerGui;
-import restaurant.gui.RestaurantAnimationPanel;
-import restaurant.interfaces.*;
-import restaurant.test.mock.*;
 
-public class MockHousingCustomer extends Mock implements Customer {
 
-    public Cashier cashier;
-    public EventLog log;
+public class MockHousingCustomer extends Mock implements HousingCustomer {
 
-    public MockHousingCustomer(String name) 
-    {
-            super(name);
-            log = new EventLog();
-    }
-    
-	public void msgGotHungry() 
-	{
-		//Empty
-	}
+	public EventLog log = new EventLog();
 
-	public void msgRestaurantIsFull(Boolean b)
-	{
-		//Empty
-	}
-	
-	public void msgFollowMe(Waiter w, int tableNum, RestaurantMenu m) 
-	{
-		//Empty
-	}
-	
-	public void msgWhatWouldYouLike()
-	{
-		//Empty
-	}
-	
-	public void msgSorryOutOfFood(List<Boolean> temp)
-	{
-		//Empty
-	}
-
-	public void msgHereIsYourFood(String choice)
-	{
-		//Empty
-	}
-
-	public void msgHereIsYourCheck(float check)
-	{
-    	log.add(new LoggedEvent("Received HereIsYourTotal from cashier. Total = "+ check));
-
-        if(this.getName().toLowerCase().contains("thief")){
-                //test the non-normative scenario where the customer has no money if their name contains the string "theif"
-                cashier.msgHereIsMyPayment(this, 0);
-        }else{
-                //test the normative scenario
-        		System.out.println(check);
-                cashier.msgHereIsMyPayment(this, check);
-        }
-	}
-	
-	public void WaitForAnimation()
-	{
-		//
-	}
-	
-	public void DoneWithAnimation()
-	{
-		//
+	public MockHousingCustomer(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void setHost(Host host) {
-		//
+	public void HereIsChange(double d) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void setCashier(Cashier cashier) {
-		//
+	public void RentIsPaid() {
+		log.add(new LoggedEvent("RentIsPaid"));;
 	}
 
 	@Override
-	public void setGui(CustomerGui g) {
-		//
+	public void YouStillOwe(double d) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
-		//
+	public void HereIsRentBill(double amountOwed) {
+		log.add(new LoggedEvent("HereIsRentBill"));;
 	}
 
 	@Override
-	public CustomerGui getGui() {
-		//
+	public HousingAnimationPanel copyOfAnimationPanel() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void startThread() {
-		//
+	public void setGui(HousingCustomerGui g) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void pauseAgent() {
-		//
+	public void setLandlord(LandlordAgent landlord) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void resumeAgent() {
-		//
+	public void EatAtHome() {
+		// TODO Auto-generated method stub
+
 	}
+
+	@Override
+	public void MyHouseNeedsRepairs() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPurpose(String homePurpose) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void msgDoSomething() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void DoneWithAnimation() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void WaitForAnimation() {
+		// TODO Auto-generated method stub
+
+	}
+
+
 
 }

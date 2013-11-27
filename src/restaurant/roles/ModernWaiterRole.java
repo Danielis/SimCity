@@ -10,16 +10,21 @@ import restaurant.interfaces.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+
 //Waiter Agent
 public class ModernWaiterRole extends WaiterRole implements Waiter {
-	
+		
+	public WorkState myWorkState = WorkState.none;
 	//Lists and Other Agents
-
+	double balance = 0;
 	//List of foods remaining
     private int itemCount = 0;
     
 	//Variables
-	private ProducerConsumerMonitor theMonitor;
+	public ProducerConsumerMonitor theMonitor;
 	
 	//Menu
 	
@@ -27,10 +32,11 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public ModernWaiterRole()
+	public ModernWaiterRole(String string, Restaurant r, double cash)
 	{
 		super();
-		this.name = "Default Daniel";
+		this.name = string;
+		balance = cash;
 		
 		//set all items of food available
 		for (int i = 0; i<4; i++)
@@ -48,6 +54,12 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	}
 
 //MESSAGES****************************************************
+	
+	public void msgLeaveWork()
+	{
+		myWorkState = WorkState.needToLeave;
+		stateChanged();
+	}
 	
 	public void msgHereIsMyOrder(Customer c, String choice)
 	{
@@ -141,6 +153,15 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 				AskForBreak();
 				return true;
 			}
+			
+			if (myWorkState == WorkState.needToLeave)
+			{
+				if(rest.panel.host.canLeave())
+				{
+					LeaveWork();
+					return true;
+				}
+			}
 			waiterGui.DoGoToHomePosition();
 			return false;
 		}
@@ -155,37 +176,44 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 
 	
 	
-	protected void PlaceTicket(MyCustomer mc)
+	public void PlaceTicket(MyCustomer mc)
 	{
 		print("Placing the Ticket for " + mc.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Placing the Ticket for " + mc.choice, new Date()));
 		waiterGui.DoGoToCook();
 		mc.s = CustomerState.hasOrdered;		
 		//cook.msgHereIsAnTicket(this, mc.choice, mc.table);
 		Ticket data = produce_item(this, mc.choice, mc.table);
         print("Placed ticket for table " + data.table
                 + " with order of " + data.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Placed ticket for table " + data.table
+                + " with order of " + data.choice, new Date()));
+
         theMonitor.insert(data);
         
         //try{sleep(1000);}
         //catch(InterruptedException ex){};
 	}
 	
-	private Ticket produce_item(ModernWaiterRole w, String choice, int tb){
+	public Ticket produce_item(Waiter w, String choice, int tb){
 		Ticket data;
-        //try{sleep(1000);}
-        //catch(InterruptedException ex){};
         data = theMonitor.new Ticket(this, cook, choice, tb);
         itemCount++;
         print("Creating new ticket for table " + data.table
                 + " with order of " + data.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Creating new ticket for table " + data.table
+                + " with order of " + data.choice, new Date()));
+
         cook.msgHereIsMonitor(theMonitor);
         return data;
     }
-    
 	
-
-
-   
-
+	public void LeaveWork()
+	{
+		myWorkState = WorkState.leaving;
+		print("ModernWaiterRole: Called to leave work.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "ModernWaiterRole", "Called to leave work", new Date()));
+		myPerson.msgLeftWork(this, this.balance);
+	}
 }
 

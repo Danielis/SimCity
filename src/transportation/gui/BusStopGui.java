@@ -46,12 +46,19 @@ public class BusStopGui implements Gui{
 	Coordinate waitingroom;
 	
 	BufferedImage imgTrainer;
+	BufferedImage busstop;
+	Boolean waiting = false;
 	Color waiterColor;
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
 	public BusStopGui(BusStopAgent c, CityGui gui2){
-        
+		try
+        {
+        	busstop = ImageIO.read(getClass().getResource("/resources/busstop.png"));
+        } catch (IOException e ) {}
+		
+		
         try
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
@@ -122,9 +129,15 @@ public class BusStopGui implements Gui{
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
-		//newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
-        newG.setColor(waiterColor);
-        newG.fillRect(position.x, position.y, 25, 25);
+		if (waiting){
+			newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
+			newG.drawImage(busstop, position.x, position.y, agent.CityAnimPanel);
+			}
+		else{
+			newG.drawImage(busstop, position.x, position.y, agent.CityAnimPanel);
+		}
+       // newG.setColor(waiterColor);
+       // newG.fillRect(position.x, position.y, 25, 25);
 	}
 
 	
@@ -177,6 +190,7 @@ public class BusStopGui implements Gui{
 		    //    	imgTrainer = ImageIO.read(getClass().getResource("/resources/dbus.png"));
 		    //    } catch (IOException e ) {}
 			waiterColor = new Color(000, 000, 000);
+			waiting = true;
 		}
 		else
 			//try
@@ -184,6 +198,7 @@ public class BusStopGui implements Gui{
 			//	imgTrainer = ImageIO.read(getClass().getResource("/resources/ubus.png"));
         	//} catch (IOException e ) {}
 			waiterColor = new Color(193, 218, 214);
+		waiting = false;
 			
 	}
 	public int getXPosition(){

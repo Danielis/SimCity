@@ -34,8 +34,6 @@ import city.Clock;
 import city.Scenario;
 import city.TimeManager;
 
-
-
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -55,6 +53,14 @@ import java.util.Vector;
 
 public class CityGui extends JFrame implements ActionListener {
 
+
+
+	Restaurant tempRes;
+	Bank tempBan;
+	Apartment tempApa;
+	Market tempMar;
+
+	CityGui cityGui = this;
 
 	//Buildings
 	public Vector<Building> buildings = new Vector<Building>();
@@ -81,6 +87,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private JPanel functionPanel = new JPanel();
 	private JLabel functionPanelL;
 
+	private JLabel quant;
+
 	//Copy of the current person
 	private PersonAgent currentPerson;
 
@@ -94,11 +102,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 	private Clock clock = new Clock();
 
-
-
 	// ************ START FUNCTION PANEL *********************
-
-
 
 	private JPanel bankPanel = new JPanel();
 	private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
@@ -112,8 +116,6 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton marketGo = new JButton("Go");
 	private JTextField marketQ = new JTextField("");
 
-
-
 	private JPanel housingPanel = new JPanel();
 	String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
 	JComboBox housingList = new JComboBox(housingOptions);
@@ -121,19 +123,23 @@ public class CityGui extends JFrame implements ActionListener {
 	JComboBox foodList = new JComboBox(foodOptions);
 	private JButton housingGo = new JButton("Go");
 
-
 	private JPanel restaurantPanel = new JPanel(); 
 	private JButton restaurantGo = new JButton("Go");
-
 	private JPanel otherFunction = new JPanel(); 
 	private JButton busGo = new JButton("Bus");
 	private JButton scen1 = new JButton("Scenario 1");
 	private JButton workGo = new JButton("Work");
+	private JButton noAIGo = new JButton("Turn off all AI");
 
 	// ************ END FUNCTION PANEL *********************
 
 	//CONSTRUCTOR
-	public CityGui() {  
+
+	public CityGui() 
+	{
+		//this.setAlwaysOnTop(true);
+		this.setAlwaysOnTop(false);
+
 		clock.startThread();
 		clock.setPeople(cityPanel.people);
 
@@ -182,7 +188,11 @@ public class CityGui extends JFrame implements ActionListener {
 		// ************ START FUNCTION PANEL *********************
 		functionPanel.setLayout(new GridLayout(0,1));
 		functionPanelL = new JLabel(); 
-		//functionPanelL.setText("<html>function panel</html>");
+		functionPanelL.setText("Amount ($):");
+
+
+		quant = new JLabel(); 
+		quant.setText("Quantity:");
 		//functionPanel.add(functionPanelL, BorderLayout.NORTH);
 
 
@@ -207,6 +217,7 @@ public class CityGui extends JFrame implements ActionListener {
 		bankPanel.setLayout(new FlowLayout());
 		bankPanel.setBorder(bankTitle);
 		amountInput.setColumns(10);
+		bankPanel.add(functionPanelL);
 		bankPanel.add(amountInput);
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
@@ -216,6 +227,7 @@ public class CityGui extends JFrame implements ActionListener {
 		marketPanel.setLayout(new FlowLayout());
 		marketPanel.setBorder(marketTitle);
 		marketQ.setColumns(10);
+		marketPanel.add(quant);
 		marketPanel.add(marketQ);
 		marketPanel.add(marketList);
 		marketPanel.add(marketGo);
@@ -242,6 +254,7 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(workGo);
 		otherFunction.add(busGo);
 		otherFunction.add(scen1);
+		otherFunction.add(noAIGo);
 
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
@@ -251,7 +264,7 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantGo.addActionListener(this);
 		workGo.addActionListener(this);
 		housingList.addActionListener(this);
-
+		noAIGo.addActionListener(this);
 
 
 		// ************ END FUNCTION PANEL *********************
@@ -273,12 +286,9 @@ public class CityGui extends JFrame implements ActionListener {
 		infoCustomerLabel.setText("<html><p><p>Click Add to make people</p></p></html>");
 
 
-
 		personInformationPanel.add(infoCustomerLabel, BorderLayout.NORTH);
 		RestaurantPortion.add(cityPanel, BorderLayout.EAST);
 		RestaurantPortion.add(functionPanel, BorderLayout.CENTER);
-
-
 
 
 		//InformationPanel.add(personInformationPanel, BorderLayout.NORTH);
@@ -289,7 +299,7 @@ public class CityGui extends JFrame implements ActionListener {
 		add(cityAnimationPanel);
 		add(RestaurantPortion);
 
-		trackingWindow = new TrackerGui();
+
 
 		//City Element Creation
 		createRestaurant("Norman's Restaurant", "Norman");
@@ -297,10 +307,16 @@ public class CityGui extends JFrame implements ActionListener {
 		createMarket("Aleena's Market");
 		createApartment("The Chris Apartment Complex");
 
+		this.setAlwaysOnTop(false);
+		//this.setAutoRequestFocus(false);
+
 		//Mouse Listener for the coordinates
-		cityAnimationPanel.addMouseListener(new MouseListener() {
+		cityAnimationPanel.addMouseListener(new MouseListener() 
+
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) 
+			{
 				int x=e.getX();
 				int y=e.getY();
 				System.out.println(x+","+y);//these co-ords are relative to the component
@@ -330,50 +346,114 @@ public class CityGui extends JFrame implements ActionListener {
 					}
 				}
 
-				if ((x<159) && (y<85) && (x>0) && (y>0)){
+
+				if ((x<159) && (y<85) && (x>0) && (y>0))
+				{
 
 					for (Building b: buildings){
 						if (b.getType() == buildingType.bank){
 							Bank r = (Bank) b;
+							tempBan = r;
 							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempBan.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+									System.out.println("check");
+								}
+							});
 						}
 					}   
 				}
 
-				if ((x<314) && (y<468) && (x>210) && (y>370)){
+
+				if ((x<314) && (y<468) && (x>210) && (y>370))
+				{
 					for (Building b: buildings){
 						if (b.getType() == buildingType.restaurant){
 							Restaurant r = (Restaurant) b;
+							tempRes = r;
 							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempRes.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+								}
+
+								public void mouseEntered(MouseEvent e) {}
+								public void mouseExited(MouseEvent arg0) {}
+								public void mousePressed(MouseEvent arg0) {}
+								public void mouseReleased(MouseEvent arg0) {}
+
+							});
 						}
+
 					}
 				}
 
-				if ((x<398) && (y<85) && (x>257) && (y>0)){
-					for (Building b: buildings){
-						if (b.getType() == buildingType.housingComplex){
+
+
+				if ((x<398) && (y<85) && (x>257) && (y>0))
+				{
+					for (Building b: buildings)
+					{
+						if (b.getType() == buildingType.housingComplex)
+						{
 							Apartment r = (Apartment) b;
+							tempApa = r;
 							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempApa.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+								}
+							});
 						}
 					}
 				}
 
-				if ((x<315) && (y<258) && (x>258) && (y>212)){
+
+				if ((x<315) && (y<258) && (x>258) && (y>212))
+				{
 					for (Building b: buildings){
 						if (b.getType() == buildingType.market){
 							Market r = (Market) b;
+							tempMar = r;
 							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempMar.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									setState(Frame.NORMAL);
+								}
+							});
 						}
 					} 
 				}
-			}	
+			}
+
 
 			public void mouseEntered(MouseEvent e) {}
 			public void mouseExited(MouseEvent arg0) {}
 			public void mousePressed(MouseEvent arg0) {}
 			public void mouseReleased(MouseEvent arg0) {}
 
-		});  
+
+		});
 	}
 
 	/**
@@ -423,6 +503,10 @@ public class CityGui extends JFrame implements ActionListener {
 			Scenario.getInstance().CallScenario1(this.cityPanel);
 			scen1.setEnabled(false);
 		}
+		if (e.getSource() == noAIGo){
+			this.cityPanel.setNoAI(true);
+			noAIGo.setEnabled(false);
+		}
 		if (currentPerson != null){
 			if (e.getSource() == restaurantGo) 
 			{
@@ -439,20 +523,42 @@ public class CityGui extends JFrame implements ActionListener {
 			if (e.getSource() == bankGo)
 			{
 
-				PersonAgent c = (PersonAgent) currentPerson;
+				//                                PersonAgent c = (PersonAgent) currentPerson;
+				//
+				//                                String purpose = transactionList.getSelectedItem().toString();
+				//
+				//                                if (purpose.equals("New Account")){
+					//                                        c.getGui().setNeedsMoney(true, purpose, 0);
+					//                                }
+				//                                else if (!amountInput.getText().isEmpty()){
+				//                                        String amtTemp = amountInput.getText();
+				//                                        double amt = Double.parseDouble(amtTemp);
+				//                                        amt = Math.round(amt * 100) / 100.0d;
+				//                                        c.getGui().setNeedsMoney(true, purpose, amt);
+				//                                }
+				//                                silenceButtons();
 
-				String purpose = transactionList.getSelectedItem().toString();
+				Restaurant temp;
+				for (Building b: buildings)
+				{
+					if(b.getType() == buildingType.restaurant)
+					{
+						temp = (Restaurant)b;
+						System.out.println(temp.panel.host);
+						if (temp.panel.host != null)
+							temp.panel.host.msgLeaveWork();
+						System.out.println(temp.panel.cook);
+						if (temp.panel.cook != null)
+							temp.panel.cook.msgLeaveWork();
+						System.out.println(temp.panel.cashier);
+						if (temp.panel.cashier != null)
+							temp.panel.cashier.msgLeaveWork();
+						System.out.println(temp.panel.waiters.get(0));
+						if (temp.panel.waiters.get(0) != null)
+							temp.panel.waiters.get(0).msgLeaveWork();
+					}
+				}
 
-				if (purpose.equals("New Account")){
-					c.getGui().setNeedsMoney(true, purpose, 0);
-				}
-				else if (!amountInput.getText().isEmpty()){
-					String amtTemp = amountInput.getText();
-					double amt = Double.parseDouble(amtTemp);
-					amt = Math.round(amt * 100) / 100.0d;
-					c.getGui().setNeedsMoney(true, purpose, amt);
-				}
-				silenceButtons();
 			}
 			if (e.getSource() == housingGo)
 			{
@@ -468,7 +574,8 @@ public class CityGui extends JFrame implements ActionListener {
 
 				PersonAgent c = (PersonAgent) currentPerson;
 
-				if (!marketQ.getText().isEmpty()){
+				if (!marketQ.getText().isEmpty())
+				{
 					String item = marketList.getSelectedItem().toString();
 					String quantityStr = marketQ.getText();
 					double quantity = Double.parseDouble(quantityStr);
@@ -489,28 +596,29 @@ public class CityGui extends JFrame implements ActionListener {
 			}
 			//        if (e.getSource() == personHousingCheckBox)
 			//        {
-			//        	PersonAgent c = (PersonAgent) currentPerson;
-			//        	c.getGui().setNeedsHome(true);
-			//        	personHousingCheckBox.setEnabled(false);
-		}
-		if (e.getSource() == pauseButton)
-		{
-			if (isPaused)
+			//                PersonAgent c = (PersonAgent) currentPerson;
+			//                c.getGui().setNeedsHome(true);
+			//                personHousingCheckBox.setEnabled(false);
+			//                }
+			if (e.getSource() == pauseButton)
 			{
-				pauseButton.setText("PAUSE");
-				cityPanel.resume();
-				isPaused = false;
+				if (isPaused)
+				{
+					pauseButton.setText("PAUSE");
+					cityPanel.resume();
+					isPaused = false;
+				}
+				else if(isPaused == false)
+				{
+					pauseButton.setText("RESUME");
+					cityPanel.pause();
+					isPaused = true;
+				}
 			}
-			else if(isPaused == false)
+			if (e.getSource() == refreshButton)
 			{
-				pauseButton.setText("RESUME");
-				cityPanel.pause();
-				isPaused = true;
+				cityPanel.refresh();
 			}
-		}
-		if (e.getSource() == refreshButton)
-		{
-			cityPanel.refresh();
 		}
 	}
 
@@ -519,12 +627,15 @@ public class CityGui extends JFrame implements ActionListener {
 		PersonFrame f = new PersonFrame(p);
 	}
 
+
+
 	//Resturant Creation
 	public void createRestaurant(String name, String owner)
 	{
 		if (owner == "Norman")
 		{
 			RestaurantGui rg = new RestaurantGui();
+			rg.setTrackerGui(trackingWindow);
 			Restaurant r = new Restaurant(rg, name);
 			rg.setRestaurant(r);
 			buildings.add(r);
@@ -534,20 +645,24 @@ public class CityGui extends JFrame implements ActionListener {
 	public void createBank(String name)
 	{
 		BankGui bg = new BankGui();
-		Bank b = new Bank(bg, name);
 		bg.setTrackerGui(trackingWindow);
+		Bank b = new Bank(bg, name);
 		buildings.add(b);
 	}
 
 	public void createMarket(String name)
 	{
-		Market b = new Market(name, new MarketGui());
+		MarketGui mg = new MarketGui();
+		mg.setTrackerGui(trackingWindow);
+		Market b = new Market(name, mg);
 		buildings.add(b);
 	}
 
 	//apartment creation
 	public void createApartment(String name) {
-		Apartment a = new Apartment(name, new HousingGui());
+		HousingGui hg = new HousingGui();
+		hg.setTrackerGui(trackingWindow);
+		Apartment a = new Apartment(name, hg);
 		buildings.add(a);
 	}
 
@@ -559,20 +674,18 @@ public class CityGui extends JFrame implements ActionListener {
 			silenceButtons();
 		}
 	}
-	
-	
+
 	//Main Function - Sets up the program
 	public static void main(String[] args) 
-	{    	
-
+	{    
+		trackingWindow = new TrackerGui();
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
-
-		
-		
-		
+		trackingWindow.trackerFrame.setAlwaysOnTop(true);
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 	}
+
+
 }

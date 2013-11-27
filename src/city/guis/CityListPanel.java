@@ -46,7 +46,7 @@ public class CityListPanel extends JPanel implements ActionListener {
     
     JPanel newCreation = new JPanel();
     
-    String[] jobOptions = { "No AI", "None", "Market Worker", "Market Host", "Restaurant Host", "Cook", "Waiter", "Cashier", "Bank Host", "Teller", "Landlord", "Repairman", "Crook" };
+    String[] jobOptions = { "No AI", "None", "Restaurant Host", "Cook", "Waiter", "Cashier", "Bank Host", "Teller", "Landlord", "Repairman", "Crook" };
     JComboBox jobList = new JComboBox(jobOptions);
    
     String[] wealthLevels = { "Average", "Wealthy", "Poor" };
@@ -54,21 +54,13 @@ public class CityListPanel extends JPanel implements ActionListener {
     
   //  JCheckBox takesBusCheckBox = new JCheckBox("Takes Bus?");
     
-    // ************* end person creation panel
-    
-    
-    
-    
-    
-    
+    // ************* end person creation panel   
     
     //CONSTRUCTOR
     public CityListPanel(CityPanel rp, String type) {
         cityPanel = rp;
         this.type = type;
-        
-        
-        
+      
         // ***** new ppl creation panel
         newCreation.setLayout(new FlowLayout());
         newCreation.add(jobList);
@@ -76,8 +68,7 @@ public class CityListPanel extends JPanel implements ActionListener {
         //newCreation.add(takesBusCheckBox);
         
         //****** end new ppl creation panel
-        
-
+ 
         //setLayout(new GridLayout(0,1,1,1));
         topPart_person.setLayout(new BorderLayout());
         bottomPart_person.setLayout(new BorderLayout());

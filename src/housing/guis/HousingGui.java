@@ -11,6 +11,8 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+
+import logging.TrackerGui;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -47,6 +49,8 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JButton rentButton;
 
 	Boolean isPaused = false;
+	
+	public TrackerGui trackingWindow;
 	
 	//constructor
 	public HousingGui() {
@@ -134,6 +138,15 @@ public class HousingGui extends JFrame implements ActionListener {
 		add(housingAnimationPanel, BorderLayout.CENTER);
 		add(RestaurantPortion, BorderLayout.EAST);
 
+	}
+	
+	public void setTrackerGui(TrackerGui t) {
+		trackingWindow = t;
+        housingPanel.landlord.setTrackerGui(trackingWindow);
+        for(HousingWorkerAgent h : housingPanel.workers) {
+        	h.setTrackerGui(trackingWindow);
+        }
+    
 	}
 	/**
 	 * updatepersonInformationPanel() takes the given customer (or, for v3, Host) object and

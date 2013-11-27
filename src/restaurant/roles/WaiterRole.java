@@ -2,9 +2,13 @@ package restaurant.roles;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import restaurant.CookAgent;
 import restaurant.HostAgent;
 import restaurant.MyCustomer;
@@ -19,7 +23,6 @@ import agent.RestaurantMenu;
 
 public class WaiterRole extends Role implements Waiter
 {
-	
 	//Lists and Other Agents
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	public Host host;
@@ -48,7 +51,6 @@ public class WaiterRole extends Role implements Waiter
 	public WaiterRole()
 	{
 		super();
-		this.name = "Default Daniel";
 		print("initialized waiter");
 		
 		//set all items of food available
@@ -323,14 +325,17 @@ public class WaiterRole extends Role implements Waiter
 	protected void AskForBreak()
 	{
 		print("Asking host for a break");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Asking host for a break.", new Date()));
 		state = myState.askedForBreak;
 		host.msgIdLikeToGoOnBreak(this);
 	}
 	protected void SeatCustomer(MyCustomer mc) 
 	{
 		print("Going to host to seat new customer");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Going to host to seat new customer", new Date()));
 		waiterGui.DoGoToWaitingRoom();
 		print("Seating " + mc.c.getName() + " at table " + mc.table);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Seating " + mc.c.getName() + " at table " + mc.table, new Date()));
 		waiterGui.DoShowTable(mc.table, mc);
 		mc.s = CustomerState.seated;
 	}
@@ -338,6 +343,7 @@ public class WaiterRole extends Role implements Waiter
 	protected void AskOrder(MyCustomer mc)
 	{
 		print("Asking " + mc.c.getName() + " for an order.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Asking " + mc.c.getName() + " for an order.", new Date()));
 		waiterGui.DoGoToTable(mc.table);
 		mc.s = CustomerState.ordering;
 		mc.c.msgWhatWouldYouLike();
@@ -346,6 +352,7 @@ public class WaiterRole extends Role implements Waiter
 	protected void AskAgain(MyCustomer mc)
 	{
 		print("Asking " + mc.c.getName() + " again for a different order.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Asking " + mc.c.getName() + " again for a different order.", new Date()));
 		waiterGui.DoGoToTable(mc.table);
 		mc.s = CustomerState.reordered;
 		mc.c.msgSorryOutOfFood(foodsAvailable);
@@ -354,6 +361,7 @@ public class WaiterRole extends Role implements Waiter
 	protected void PlaceOrder(MyCustomer mc)
 	{
 		print("Placing the order for " + mc.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Placing the order for " + mc.choice, new Date()));
 		waiterGui.DoGoToCook();
 		mc.s = CustomerState.hasOrdered;		
 		cook.msgHereIsAnOrder(this, mc.choice, mc.table);
@@ -362,13 +370,16 @@ public class WaiterRole extends Role implements Waiter
 	protected void GiveOrderToCustomerAndCheckToCashier(MyCustomer mc)
 	{
 		print("Getting the order of " + mc.choice + " for " + mc.c.getName());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Getting the order of " + mc.choice + " for " + mc.c.getName(), new Date()));
 		waiterGui.DoGoToCook();
 		cook.msgTakingItem(this);
 		print("Giving " + mc.choice + " to " + mc.c.getName());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Giving " + mc.choice + " to " + mc.c.getName(), new Date()));
 		waiterGui.DoGoToTable(mc.table);
 		mc.s = CustomerState.eating;
 		mc.c.msgHereIsYourFood(mc.choice);
 		print("Giving cashier check.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Giving cashier check.", new Date()));
 		waiterGui.DoGoToCashier();
 		cashier.msgHereIsACheck(this, mc.c, mc.choice);
 	}
@@ -376,8 +387,10 @@ public class WaiterRole extends Role implements Waiter
 	protected void PickUpAndGiveCheck(MyCustomer mc)
 	{
 		print("Picking up check.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Picking up check.", new Date()));
 		waiterGui.DoGoToCashier();
 		print("Giving check to "+ mc.c.getName());
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Giving check to "+ mc.c.getName(), new Date()));
 		waiterGui.DoGoToTable(mc.table);
 		mc.s = CustomerState.leaving;
 		mc.c.msgHereIsYourCheck(mc.price);
@@ -387,8 +400,10 @@ public class WaiterRole extends Role implements Waiter
 	protected void CleanAndNotifyHost(MyCustomer mc)
 	{
 		print("Cleaning table " + mc.table);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Cleaning table " + mc.table, new Date()));
 		waiterGui.DoGoToTable(mc.table);
 		print("Notifying host that customer " + mc.c.getName() + " is leaving.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "WaiterRole", "Notifying host that customer " + mc.c.getName() + " is leaving.", new Date()));
 		waiterGui.DoGoToHomePosition();
 		mc.s = CustomerState.hasLeft;
 		host.msgTableIsFree(this, mc.table);
@@ -417,5 +432,6 @@ public class WaiterRole extends Role implements Waiter
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

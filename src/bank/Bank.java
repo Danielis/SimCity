@@ -22,7 +22,7 @@ public class Bank extends Building{
 	double balance;
 	List <Account> accounts = new ArrayList<Account>();
 	List <Loan> loans = new ArrayList<Loan>();
-	List <Teller> workingTellers = new ArrayList<Teller>();
+	private List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 	int idIncr = 0;
 	
@@ -43,13 +43,11 @@ public class Bank extends Building{
     	this.panel = gui.restPanel;
     	gui.restPanel.setBank(this);
         gui.setTitle(name);
-        gui.setVisible(false);
+        gui.setVisible(true);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-       // TellerTable table1 = new TellerTable(1);
-        //TellerTable table2 = new TellerTable(2);
-       // TellerTable table3 = new TellerTable(3);
+        gui.setAlwaysOnTop(true);
+        gui.setAlwaysOnTop(false);
+        gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 	
 	
@@ -80,16 +78,30 @@ public class Bank extends Building{
 		workingTellers.add(t);
 	}
 	
+	public void imLeaving(Teller t){
+		workingTellers.remove(t);
+	}
+	
 	
 	public int setTableNum(){
 		assignTable();
 		return tableLastAssigned;
 	}
 	
+	public void tellTellers(BankHost h){
+		for (Teller t: workingTellers){
+			t.setHost(h);
+		}
+	}
+	
 	public void assignTable(){
 		tableLastAssigned++;
 		if (tableLastAssigned > 3)
 			tableLastAssigned = 1;
+	}
+	
+	public int setTable(){
+		return (workingTellers.size());
 	}
 	
 	
@@ -196,6 +208,16 @@ public class Bank extends Building{
 
 	public void removeMe(BankHostRole b) {
 		workingTellers.remove(b);
+	}
+
+
+	public List <Teller> getWorkingTellers() {
+		return workingTellers;
+	}
+
+
+	public void setWorkingTellers(List <Teller> workingTellers) {
+		this.workingTellers = workingTellers;
 	}
 
 	

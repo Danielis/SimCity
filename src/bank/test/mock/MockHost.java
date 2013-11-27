@@ -26,10 +26,11 @@ public class MockHost extends Mock implements BankHost {
 	public void IWantService(BankCustomerRole c) {
 	}
 
-	public void msgNewTeller(Teller t) {
-	}
-
 	public void IAmFree(Teller tell) {		
+	}
+	
+	public void addMe (Teller t){
+		
 	}
 
 	public void msgIdLikeToGoOnBreak(Teller t) {

@@ -1,5 +1,6 @@
 package restaurant;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +27,6 @@ public class Restaurant extends Building{
 	
 	public RestaurantGui gui;
 	public RestaurantPanel panel;
-	public Host host;
-	public Cashier cashier;
-	public Cook cook;
 	public String name; //Name of the restaurant
     public Coordinate location;
     public ProducerConsumerMonitor theMonitor;
@@ -47,21 +45,25 @@ public class Restaurant extends Building{
     	this.name = name;
     	type = buildingType.restaurant;
         gui.setTitle(name);
-        gui.setVisible(false);
+        gui.setVisible(true);
+        gui.setState(Frame.NORMAL);
         gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gui.setAlwaysOnTop(true);
+        gui.setAlwaysOnTop(false);
+        gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
        theMonitor = new ProducerConsumerMonitor();
     }
 	
 	public void addWaiter(Waiter w){
-		workingWaiters.add(w);
-		numWaitersWorking ++;
+		panel.waiters.add(w);
+		//workingWaiters.add(w);
+		//numWaitersWorking ++;
 	}
 	
 	public Boolean isOpen(){
-		return (host != null && cashier != null && cook != null);
+		return (panel.host != null && panel.cashier != null && panel.cook != null);
 	}
 	public int getWaiterNumber(){
-		return numWaitersWorking;
+		return panel.waiters.size();
 	}
 }

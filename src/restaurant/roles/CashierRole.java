@@ -2,24 +2,37 @@ package restaurant.roles;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
 import restaurant.CashierAgent.CheckState;
 import restaurant.CashierAgent.MyCheck;
 import restaurant.CashierAgent.MyPayment;
 import restaurant.CashierAgent.PaymentState;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Market;
-import restaurant.interfaces.Waiter;
+import restaurant.Restaurant;
+import restaurant.gui.CashierGui;
+import restaurant.gui.HostGui;
+import restaurant.gui.RestaurantAnimationPanel;
+import restaurant.interfaces.*;
 import roles.Role;
 
 public class CashierRole extends Role implements Cashier{
 	
+	Restaurant r;
+	
+	public WorkState myState = WorkState.none;
 	//Statics
 	private static float initialBalance = 500.0f;
+	
+	public RestaurantAnimationPanel copyOfAnimPanel;
+	public CashierGui cashierGui = null;
+	public Semaphore animSemaphore = new Semaphore(0, true);
 	
 	//Lists
 	List<MyCheck> checks = Collections.synchronizedList(new ArrayList<MyCheck>());
@@ -28,15 +41,17 @@ public class CashierRole extends Role implements Cashier{
 	
 	//Variables
 	private String name = "Squidward";
+	private double mymoney;
 	private float account;
 	private double  balance;
 	//Other 
 	private Map<String, Float> prices = new HashMap<String, Float>();
 	
 	//Constructor
-	public CashierRole(String name) {
+	public CashierRole(String name, double cash) {
 		super();
 		this.name = name;
+		
 		
 		//Map name to foods
 		prices.put("Steak",  15.99f);
@@ -48,6 +63,7 @@ public class CashierRole extends Role implements Cashier{
 			owes.add(0f);
 		
 		account = initialBalance; //Starting account balance for cashier
+		mymoney = cash;
 	}
 
 	public String getMaitreDName() {
@@ -68,6 +84,14 @@ public class CashierRole extends Role implements Cashier{
 	}
 	
 //UTILITIES**************************************************
+	
+	public void setGui(CashierGui g) {
+		cashierGui = g;
+	}
+	
+	public CashierGui getGui(){
+		return cashierGui;
+	}
 	
 	//GETTERS
 	public List<MyCheck> getChecks() {
@@ -134,9 +158,17 @@ public class CashierRole extends Role implements Cashier{
 
 
 //MESSAGES****************************************************
+
 	public void msgGetPaid(){
 		balance =+50;
 	}
+
+	public void msgLeaveWork()
+	{
+		myState = WorkState.needToLeave;
+		stateChanged();
+	}
+	
 	public void msgHereIsACheck(Waiter newW, Customer newC, String newChoice)
 	{
 		print("Received message to compute check.");
@@ -237,6 +269,21 @@ public class CashierRole extends Role implements Cashier{
 				}
 			}
 		}
+		
+		if (myState == WorkState.needToLeave)
+		{
+			//Check if there's no host
+			System.out.println("Checks: " + checks.size() + "/Payments: " + payments.size());
+			if
+				(
+					checks.size() == 0 &&
+					payments.size() == 0
+				)
+			{
+				LeaveWork();
+			}
+		}
+		
 		return false;
 	}
 
@@ -248,6 +295,7 @@ public class CashierRole extends Role implements Cashier{
 		print("Computing check.");
 		mc.owedAmount += mc.price;
 		print(mc.c.getName() + " owes $" + mc.owedAmount);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", mc.c.getName() + " owes $" + mc.owedAmount, new Date()));
 		mc.w.msgCheckIsComputed(mc.c, mc.choice, mc.owedAmount);
 	}
 	
@@ -257,11 +305,14 @@ public class CashierRole extends Role implements Cashier{
 		if (mc.owedAmount == 0)
 		{
 			print("Customer paid for his meal.");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", mc.c.getName() + " owes $" + mc.owedAmount, new Date()));
 			checks.remove(mc);
 		}
 		else if (mc.owedAmount > 0)
 		{
 			print("Customer still owes $" + mc.owedAmount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "Customer still owes $" + mc.owedAmount, new Date()));
+
 		}
 	}
 	
@@ -285,11 +336,14 @@ public class CashierRole extends Role implements Cashier{
 		}
 		mp.payment = this.RoundToTwoDigits(mp.payment);
 		print("I must pay " + mp.m.getName() + " $" + mp.payment + " and I have $" + account);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "I must pay " + mp.m.getName() + " $" + mp.payment + " and I have $" + account, new Date()));
+
 		
 		//If we have enough
 		if (account > mp.payment)
 		{
 			print("Paying " + mp.m.getName() + " $" + mp.payment);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "Paying " + mp.m.getName() + " $" + mp.payment, new Date()));
 			mp.m.msgHereIsAPayment(mp.payment);
 			account -= mp.payment;
 			account = this.RoundToTwoDigits(account);
@@ -299,13 +353,19 @@ public class CashierRole extends Role implements Cashier{
 		//If we don't have enough
 		else if (account < mp.payment)
 		{
-			if (account <= 0)
+			if (account <= 0){
 				print("I'm out of cash.");
-			else
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "I'm out of cash", new Date()));
+			}
+
+			else {
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "Paying " + mp.m.getName() + " $" + account, new Date()));
 				print("Paying " + mp.m.getName() + " $" + account);
-			
+			}
+				
 			mp.payment = mp.payment - account;
 			print("I owe " + mp.m.getName() + " $" + mp.payment);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "I owe " + mp.m.getName() + " $" + mp.payment, new Date()));
 			mp.m.msgHereIsAPayment(account);
 			account = 0;
 			if (mp.m.getName() == "Market 1")
@@ -324,6 +384,15 @@ public class CashierRole extends Role implements Cashier{
 		}
 	}
 	
+	public void LeaveWork()
+	{
+		myState = WorkState.leaving;
+		print("CashierRole: Called to leave work.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "Called to leave work.", new Date()));
+		//STUB
+		myPerson.msgLeftWork(this, this.mymoney);
+	}
+	
 	private float RoundToTwoDigits(float a)
 	{
 		a = Math.round(a*100f);
@@ -331,10 +400,36 @@ public class CashierRole extends Role implements Cashier{
 		return a;
 	}
 
+
+	
+	public void WaitForAnimation()
+	{
+		try
+		{
+			this.animSemaphore.acquire();	
+		} catch (InterruptedException e) {
+            // no action - expected when stopping or when deadline changed
+        } catch (Exception e) {
+            print("Unexpected exception caught in Agent thread:", e);
+        }
+	}
+	
+	public void DoneWithAnimation()
+	{
+		this.animSemaphore.release();
+	}
+
 	@Override
-	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
+	public void setAnimPanel(RestaurantAnimationPanel animationPanel) {
+		this.copyOfAnimPanel = animationPanel;
 		
 	}
+	
+	public void setRestaurant(Restaurant r)
+	{
+		this.r = r;
+	}
+	
+	
 }
 

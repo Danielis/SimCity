@@ -51,7 +51,7 @@ public class TellerRole extends Role implements Teller {
 		super();
 		this.name = "Default Daniel";
 		print("initialized teller");
-		
+		//host.addMe(this);
 	}
 	public TellerRole(String name) {
 		super();
@@ -150,7 +150,7 @@ public enum myState
 //MESSAGES****************************************************
 public void msgGetPaid(){
 	balance =+50;
-	print("Person was Paid =====================================");
+	//print("Person was Paid =====================================");
 }
 @Override
 public void msgLeaveWork() {
@@ -292,7 +292,7 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 				return true;
 			}
 			waiterGui.DoGoToHomePosition();
-			if (leave)
+			if (leave && canLeave())
 				LeaveWork();
 			return false;
 		}
@@ -303,10 +303,18 @@ public void PayMyLoan(BankCustomerRole c, double amount){
 		}
 	}
 
+private boolean canLeave() {
+	for (Transaction t : transactions){
+		if (t.status == transactionStatus.noAccount || t.status == transactionStatus.unresolved || t.status == transactionStatus.noLoan)
+			return false;
+	}
+	return true;
+	
+}
 //ACTIONS********************************************************
 	
 	private void LeaveWork() {
-		bank.Leaving();
+		bank.imLeaving(this);
 		waiterGui.setDone();
 		myPerson.msgLeftWork(this, balance);
 		

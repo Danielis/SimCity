@@ -42,14 +42,14 @@ import logging.AlertTag;
 public class CityPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Oprah");
+    /*private HostAgent host = new HostAgent("Oprah");
     private HostGui hostGui = new HostGui(host);
     public CashierAgent cashier = new CashierAgent("Squidward");
     private MarketAgent market1 = new MarketAgent("Market 1");
     private MarketAgent market2 = new MarketAgent("Market 2");
     private MarketAgent market3 = new MarketAgent("Market 3");
     public CookAgent cook = new CookAgent("Gordon Ramsay");
-    private CookGui cookGui;
+    private CookGui cookGui;*/
     public RestaurantPanel restPanel;
     public TransportationCompanyAgent metro = new TransportationCompanyAgent("Metro");
     
@@ -58,6 +58,7 @@ public class CityPanel extends JPanel {
     public Vector<Building> buildings = new Vector<Building>();
     public Vector<PersonAgent> people = new Vector<PersonAgent>();
     
+	public Boolean noAI = false;
 
     private CityListPanel personPanel = new CityListPanel(this, "People");
     private JPanel group = new JPanel();
@@ -137,10 +138,12 @@ public class CityPanel extends JPanel {
 	//Adds a person to the city
     public void addPerson(String name, String job, String wealth) 
     {
-    	gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
+    	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
     	PersonAgent p = new PersonAgent(name, job, wealth);
 		PersonGui g = new PersonGui(p, gui);
+		p.setTrackerGui(gui.trackingWindow);
 		gui.cityAnimationPanel.addGui(g);
+		p.setAI(noAI);
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
@@ -150,7 +153,6 @@ public class CityPanel extends JPanel {
 		if(p.getName().equals("Bus"))
 			p.transportationStatusBus();
 		people.add(p);
-		p.setTrackerGui(gui.trackingWindow);
 		p.startThread();
     }
     
@@ -269,5 +271,9 @@ public class CityPanel extends JPanel {
 
 	public void setBuildings(Vector<Building> buildings2) {
 		buildings = buildings2;
+	}
+
+	public void setNoAI(boolean b) {
+		noAI = true;
 	}
 }

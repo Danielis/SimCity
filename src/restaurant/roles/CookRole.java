@@ -18,8 +18,15 @@ import roles.Role;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import logging.Alert;
+import logging.AlertLevel;
+import logging.AlertTag;
+
 //Cook Agent
-public class CookRole extends Role implements Cook {
+public class CookRole extends Role implements Cook 
+{
+
+	public WorkState myState = WorkState.none;
 	
 	//Lists
 	List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
@@ -29,6 +36,7 @@ public class CookRole extends Role implements Cook {
 	//Variables
 	private String name;
 	Timer timer;
+	double accountBalance = 0;
 
 	//How many items the cook starts with
 	static final int numItemsInInventory = 5;
@@ -59,10 +67,11 @@ public class CookRole extends Role implements Cook {
 	};
 
 	//Constructor
-	public CookRole(String name) {
+	public CookRole(String name, double cash) {
 		super();
 		this.name = name;
 		
+		accountBalance = cash;
 		
 		//Set the timer
 		timer = new Timer();
@@ -255,6 +264,14 @@ public class CookRole extends Role implements Cook {
 	public void msgGetPaid(){
 		balance =+50;
 	}
+
+
+	public void msgLeaveWork()
+	{
+		myState = WorkState.needToLeave;
+		stateChanged();
+	}
+	
 	public void msgTakingItem(Waiter w)
 	{
 		synchronized(icons)
@@ -449,6 +466,17 @@ public class CookRole extends Role implements Cook {
 				TakeTicket();
 				return true;
 			}
+			
+			if (myState == WorkState.needToLeave)
+			{
+				//if there's no customers in the restaurant and the cook has no orders
+				if(rest.panel.host.canLeave() && 
+						this.orders.size() == 0 && 
+						noItemsOrdered())
+				{
+					LeaveWork();
+				}
+			}
 	
 			return false;
 		}
@@ -463,6 +491,7 @@ public class CookRole extends Role implements Cook {
 	private void ProcessOrder(Order o)
 	{
 		print("Processing order of " + o.choice);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Processing order of " + o.choice, new Date()));
 		List<Boolean> foods = new ArrayList<Boolean>();
 		
 		//Constructing a list of what foods are available. False = out of food that item
@@ -490,6 +519,7 @@ public class CookRole extends Role implements Cook {
 					if (f.amount == 0)
 					{
 						print("Telling waiter we are out of " + f.getName());
+						trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Telling waiter we are out of " + f.getName(), new Date()));
 						o.w.msgOutOfFood(foods, o.choice, o.table);
 						orders.remove(o);
 					}
@@ -513,7 +543,9 @@ public class CookRole extends Role implements Cook {
 					inventory.get(i).state == OrderState.ordered))
 			{
 				print("There are " + inventory.get(i).amount + " " + inventory.get(i).name);
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "There are " + inventory.get(i).amount + " " + inventory.get(i).name, new Date()));
 				print("Scheduling order for " + inventory.get(i).name);
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Scheduling order for " + inventory.get(i).name, new Date()));
 				inventory.get(i).state = OrderState.needsToOrder;
 				stateChanged();
 			}
@@ -550,22 +582,27 @@ public class CookRole extends Role implements Cook {
 		if (steakCounter == markets.size())
 		{
 			print("All markets are out of steak");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of steak.", new Date()));			
 		}
 		if (chickenCounter == markets.size())
 		{
 			print("All markets are out of chicken");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of chicken.", new Date()));
+
 		}
 		if (saladCounter == markets.size())
 		{
 			print("All markets are out of salad");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of salad.", new Date()));
 		}
 		if (pizzaCounter == markets.size())
 		{
 			print("All markets are out of pizza");
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "All markets are out of pizza.", new Date()));
 		}
 		
 	}
-	private void CookOrder(Order o)
+	public void CookOrder(Order o)
 	{
 		//stub DoCooking;
 		o.s = state.cooking;
@@ -578,6 +615,8 @@ public class CookRole extends Role implements Cook {
 				{
 					f.decrement();
 					print("There are " + f.getAmount() + " " + f.getName()+ "s remaining");
+					trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "There are " + f.getAmount() + " " + f.getName()+ "s remaining", new Date()));
+
 				}
 			}
 		}
@@ -586,6 +625,7 @@ public class CookRole extends Role implements Cook {
 		cookGui.DoGoToFridge();
 		cookGui.DoGoToGrill();
 		print("Cooking " + o.choice + " for " + time + " seconds.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Cooking " + o.choice + " for " + time + " seconds.", new Date()));
 		final Order temp = o;
 		
 		//finish cooking food after a certain cooking time
@@ -595,6 +635,7 @@ public class CookRole extends Role implements Cook {
 			{
 				temp.s = state.done;
 				print("The order of " + temp.choice + " has finished cooking.");
+				trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "The order of " + temp.choice + " has finished cooking.", new Date()));
 				stateChanged();
 			}
 		}, time * 1000);
@@ -605,6 +646,7 @@ public class CookRole extends Role implements Cook {
 		cookGui.DoGoToGrill();
 		cookGui.DoGoToPlatingArea();
 		print("The order of " + o.choice + " has been plated.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "The order of " + o.choice + " has been plated.", new Date()));
 		o.w.msgOrderIsReady(o.choice,  o.table);
 		Waiter newW = o.w;
 		icons.add(new myIcon(newW, iconMap.get(o.choice)));
@@ -619,6 +661,7 @@ public class CookRole extends Role implements Cook {
 	
 	private void TakeTicket(){
 		print("Picking up ticket");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Picking up ticket", new Date()));
                Ticket data = theMonitor.remove();
                consume_item(data);
        }
@@ -627,6 +670,8 @@ public class CookRole extends Role implements Cook {
     	   orders.add(new Order(data.w, data.choice, data.table));
            print("Creating new order from ticket left by " + name 
                                + " for order of " + data.choice);
+   		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Creating new order from ticket left by " + name 
+                + " for order of " + data.choice, new Date()));
            //try{sleep(1000);}
           // catch(InterruptedException ex){};
        }
@@ -641,6 +686,21 @@ public class CookRole extends Role implements Cook {
         } catch (Exception e) {
             print("Unexpected exception caught in Agent thread:", e);
         }
+	}
+	
+	public boolean noItemsOrdered()
+	{
+		int counter = 0;
+		for(int i = 0; i<inventory.size(); i++)
+		{
+			if(inventory.get(i).state == OrderState.none ||
+					inventory.get(i).state == OrderState.ordered)
+				counter++;
+		}
+		if (counter == 4)
+			return true;
+		else 
+			return false;
 	}
 	
 	public void DoneWithAnimation()
@@ -662,10 +722,13 @@ public class CookRole extends Role implements Cook {
 		theMonitor = theMonitor2;
 	}
 
-	@Override
-	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
-		
+	
+	public void LeaveWork()
+	{
+		myState = WorkState.leaving;
+		print("CookRole: Called to leave work.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Called to leave work.", new Date()));
+		myPerson.msgLeftWork(this, this.accountBalance);
 	}
 }
 

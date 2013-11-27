@@ -80,12 +80,14 @@ public class CookGui implements Gui{
         
 		agent = cook;
 		this.gui = gui;
-		position = new Coordinate(450,110);
+		position = new Coordinate(450,90);
     	fridge = new Coordinate(370, 55);
     	grill = new Coordinate(535,75);
     	platingarea = new Coordinate(450,110);  	
     	
     	destination = platingarea;
+    	
+    	goingSomewhere = true;
 
 	}
 	//UTILITIES ***********************************************

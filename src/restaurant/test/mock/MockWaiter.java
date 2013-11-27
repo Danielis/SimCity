@@ -138,4 +138,10 @@ public class MockWaiter extends Mock implements Waiter {
 			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public void msgLeaveWork() {
+			// TODO Auto-generated method stub
+			
+		}
 }
