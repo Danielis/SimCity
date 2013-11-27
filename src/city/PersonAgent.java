@@ -61,6 +61,7 @@ import transportation.TransportationCompanyAgent;
 
 
 
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -1646,7 +1647,7 @@ public class PersonAgent extends Agent implements Person
 		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
 	
-	void GoToMarket(){
+	public void GoToMarket(){
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
@@ -1706,6 +1707,30 @@ public class PersonAgent extends Agent implements Person
 
 	public void setAI(Boolean noAI) {
 		this.noAI = noAI;
+	}
+
+	@Override
+	public void setThreshold(int q) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getQuantity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void removeItem() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
