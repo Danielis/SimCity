@@ -5,7 +5,10 @@ import city.*;
 import bank.test.mock.*;
 import bank.interfaces.*;
 import junit.framework.TestCase;
+import logging.TrackerGui;
 import bank.Bank;
+import bank.TellerRole.*;
+import bank.gui.*;
 /**
  * 
  * This class is a JUnit test class to unit test the CashierAgent's basic interaction
@@ -20,7 +23,7 @@ public class TellerTest extends TestCase
     MockCustomer cust;
     PersonAgent per;
     Bank b;
-    
+    TellerGui gui;
     
     public void setUp() throws Exception{
             super.setUp();                
@@ -35,6 +38,9 @@ public class TellerTest extends TestCase
             
             b = new Bank();
             teller.setBank(b);
+            teller.setGui(new TellerGui(teller, b.gui, 0));
+
+            teller.setTrackerGui(new TrackerGui());
     }  
     
     //TEST 1 - WAITER GIVES CHECK, CUSTOMER PAYS (NORMAL)
@@ -47,11 +53,11 @@ public class TellerTest extends TestCase
         	
        
         	assertEquals("Teller should have 0 transactions", teller.transactions.size() ,0);
-        	System.out.println("tell" + teller);
-        	System.out.println("cust" + cust);
-        	teller.IAmLeaving();
         	teller.IWantAccount(cust, 200);
         	assertEquals("Teller should have 1 transaction", teller.transactions.size() , 1);
+        	assertTrue("Teller's transaction should be type new account", teller.transactions.get(0).type == transactionType.newAccount);
+        	assertTrue("Teller's transaction should be status unresolved", teller.transactions.get(0).status == transactionStatus.unresolved);
+        	assertTrue("Teller's transaction amount be  200", teller.transactions.get(0).amount == 200);
         	assertTrue("Teller should run action", teller.pickAndExecuteAnAction());
 //            customer.cashier = cashier; //You can do almost anything in a unit test. 
 //            waiter.cashier = cashier;

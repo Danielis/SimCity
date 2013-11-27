@@ -93,7 +93,7 @@ public class TellerRole extends Role implements Teller {
 	}
 //CLASSES/ENUMS**********************************************
 		
-	private class Transaction{
+	public class Transaction{
 	    public Transaction(Loan loan2, double amount2, transactionType type, BankCustomer c) {
 	    	loan = loan2;
 			amount = amount2;
@@ -126,15 +126,15 @@ public class TellerRole extends Role implements Teller {
 
 
 		
-		double amount;
+		public double amount;
 	    Account account;
 	    Loan loan;
-	    transactionType type;
-	    transactionStatus status;
+	   public transactionType type;
+	    public transactionStatus status;
 	    BankCustomer c;
 	}
-	enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
-	enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
+	public enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
+	public enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
 
 private class MyCustomer{
 	    BankCustomer c;
