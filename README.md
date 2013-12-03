@@ -52,7 +52,12 @@ Norman
 * A lot of my role involved me creating new content for people to use as a basis to branch off and add functionality.
 
 Chris
-  + item here
+  + Restaurant Design Doc
+  + Housing: v1 has an apartment complex but no houses
+  + Many people stay in the same complex in different rooms/beds with a common kitchen area
+  + Issue tracker: created a new window that took each console output and created an alert and displayed it appropriately.  This involved working with each file and tailoring it to this new system.
+  + Developed some restaurant-market interactions before we knew it wasn't going to be required of us.  This will be utilized in v2.
+  + Unit testing for LandlordAgent in housing
 
 Daniel 
   + PersonAgent Design Doc
