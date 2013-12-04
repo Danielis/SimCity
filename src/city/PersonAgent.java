@@ -100,11 +100,11 @@ public class PersonAgent extends Agent implements Person
 	double marketQuantity, bankAmount;
 	
 
-	public class Job{
+	public static class Job{
 		public JobType type;
 		public Coordinate location;
-		static final int timeStart = 8;
-		static final int timeEnd = 20;
+		int timeStart = 8;
+		static int timeEnd = 20;
 		List <Day> daysWorking = new ArrayList<Day>();
 		
 		public Job(JobType parseJob) {
@@ -612,23 +612,23 @@ public class PersonAgent extends Agent implements Person
 		double C;
 		char P = 'G';
 		C = checkPointDistance(385,106); // Assign G
-		print("C is " + C + " My current check C is: " + checkPointDistance(385,278) + "  P is " + P);
+		//print("C is " + C + " My current check C is: " + checkPointDistance(385,278) + "  P is " + P);
 		if ( C > checkPointDistance(385,278)){
 			C = checkPointDistance(385,278);//assign D
 			P = 'D';
 		}
-		print("C is " + C + " My current check C is: " + checkPointDistance(385,362) + "  P is " + P);
+		//print("C is " + C + " My current check C is: " + checkPointDistance(385,362) + "  P is " + P);
 		if ( C > checkPointDistance(385,362)){
 			C = checkPointDistance(385,362);//assign C
 		P = 'C';
 		}
-		print("C is " + C + " My current check C is: " + checkPointDistance(385,474) + "  P is " + P);
+		//print("C is " + C + " My current check C is: " + checkPointDistance(385,474) + "  P is " + P);
 		if ( C > checkPointDistance(385,474)){
 			C = checkPointDistance(385,474);//assign B
 			P = 'B';
 		}
-		print("C is " + C + "  P is " + P);
-		print("Going To Point " + P);
+		//print("C is " + C + "  P is " + P);
+		//print("Going To Point " + P);
 		gui.DoGoToCheckpoint(P);
 	}
 	/** checkPointDistance(int x, int y) is mainly used in closestCheckPoint() to determine where a person should go to begin their journey somewhere
@@ -669,41 +669,6 @@ public class PersonAgent extends Agent implements Person
 			}
 		}
 	}
-//	public void msgLeaveHome() {
-//		
-//		try
-//		{
-//			for (Role r : roles){
-//				if (r.active){
-//				HousingCustomerRole x = (HousingCustomerRole) r;
-//				x.msgLeaveHouse();
-//				// TODO
-//				}
-//			}
-//		} catch (ConcurrentModificationException e)
-//		{
-//			System.out.println("Caught Concurrent Modification error. Catching it and re-running action.");
-//			for (Role r : roles){
-//				if (r.active){
-//				HousingCustomerRole x = (HousingCustomerRole) r;
-//				x.msgLeaveHouse();
-//				// TODO
-//				}
-//			}
-//		}
-		
-		//		for (Role r : roles){
-		//				if (r.active){
-		//				r.setActivity(false);
-		//				roles.remove(r);
-		//			    Status.setLocation(location.outside);
-		//			    Status.setDestination(destination.outside);
-		//			    Status.setHousingStatus(houseStatus.notHome);
-		//			    gui.setPresent(true);
-		//			}
-		//		}
-		//stateChanged();	
-	//}
 
 	public void msgLeftWork(Role r, double balance) {
 		print("Left work");
@@ -730,39 +695,6 @@ public class PersonAgent extends Agent implements Person
 	    gui.setPresent(true);
 	    stateChanged();
 	}
-
-	//public void msgLeaveHome() {
-		
-//		if (roles.get(0).active){
-//			roles.get(0).setActivity(false);
-//			roles.remove(0);
-//		    Status.setLocation(location.outside);
-//		    Status.setDestination(destination.outside);
-//		    Status.setHousingStatus(houseStatus.notHome);
-//		    gui.setPresent(true);
-//		}
-		
-//		for (Role r : roles){
-//			if (r.active){
-//			HousingCustomerRole x = (HousingCustomerRole) r;
-//			x.msgLeaveHouse();
-//			// TODO
-//			}
-//		}
-//		synchronized(roles){
-//		for (Role r : roles){
-//				if (r.active){
-//				r.setActivity(false);
-//				roles.remove(r);
-//			    Status.setLocation(location.outside);
-//			    Status.setDestination(destination.outside);
-//			    Status.setHousingStatus(houseStatus.notHome);
-//			    gui.setPresent(true);
-			//}
-//		}
-//		}
-	//	stateChanged();	
-//	}
 	
 	public void msgGoToWork() {
 		print("Called msgGoToWork");
@@ -986,7 +918,7 @@ public class PersonAgent extends Agent implements Person
 			//if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 
 			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
-			if (job.type != JobType.none && TimeManager.getInstance().getHour() > (0) && TimeManager.getInstance().getHour() < Job.timeEnd){
+			if (job.type != JobType.none && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd){
 				for (Day d : job.daysWorking){ //if it is the correct day to work
 					if (d == TimeManager.getInstance().getDay()){
 						GoToWork();

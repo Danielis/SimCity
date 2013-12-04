@@ -50,13 +50,19 @@ Day LastChecked = Day.monday;
 	private boolean DayOverHome() {
 		return (msgHomeLastSent != TimeManager.getInstance().getDay());
 	}
+	
 	private boolean DayOverPay() {
 		return (msgPayLastSent != TimeManager.getInstance().getDay());
 	}
 	
 	private Boolean GoHome(){
 		return (TimeManager.getInstance().getHour() + 1 == 20);
+	}	
+	
+	private boolean WakeUp() {
+		return (TimeManager.getInstance().getHour() == 5);
 	}
+
 	private Boolean GetPaid(){
 		return (TimeManager.getInstance().getHour() + 1 == 12);
 	}
@@ -98,10 +104,6 @@ Day LastChecked = Day.monday;
 				p.msgGetPaid();
 			}
 		}
-	}
-	
-	private boolean WakeUp() {
-		return (TimeManager.getInstance().getHour() == 5);
 	}
 
 	public void setPeople(Vector<PersonAgent> people2) {

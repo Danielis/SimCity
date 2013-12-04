@@ -92,6 +92,13 @@ public class TimeManager {
 		return hours;
 	}
 	
+	public Boolean isHourGreater(int temp){
+		if (this.getHour() > temp)
+			return true;
+		else 
+			return false;
+	}
+	
 	
 	public String dayString(){
 		if (dayOfWeek == Day.monday)
