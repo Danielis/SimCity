@@ -6,6 +6,8 @@ import housing.guis.HousingWorkerGui;
 
 public interface HousingWorker {
 
+	String name = null;
+
 	public abstract void HereIsMoney(HousingComplex complex, double bill);
 
 	public abstract void GoRepair(HousingComplex complex);

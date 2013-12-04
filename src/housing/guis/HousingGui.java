@@ -3,6 +3,8 @@ package housing.guis;
 
 
 import restaurant.WaiterAgent;
+import housing.HousingCustomerRole;
+import housing.HousingWorkerRole;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 
@@ -142,7 +144,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
         housingPanel.landlord.setTrackerGui(trackingWindow);
-        for(HousingWorkerAgent h : housingPanel.workers) {
+        for(HousingWorkerRole h : housingPanel.workers) {
         	h.setTrackerGui(trackingWindow);
         }
     
@@ -164,7 +166,7 @@ public class HousingGui extends JFrame implements ActionListener {
 				"<html><pre>     Name: " + currentTenant.getName() + " </pre></html>");
 		tenantInformationPanel.validate();
 	}
-	public void updateWorkerInformationPanel(HousingWorkerAgent temp) {
+	public void updateWorkerInformationPanel(HousingWorkerRole temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentWorker = temp;
 		//HousingCustomerAgent tenant = temp;
@@ -186,9 +188,9 @@ public class HousingGui extends JFrame implements ActionListener {
 		}
 	}
 
-	public void updateWaiterInformationPanel(HousingWorkerAgent person) {
+	public void updateWaiterInformationPanel(HousingWorkerRole person) {
 		currentWorker = person;
-		HousingWorkerAgent worker = person;
+		HousingWorkerRole worker = person;
 		infoWorkerLabel.setText(
 				"<html><pre>     Name: " + worker.name + " </pre></html>");
 		workerInformationPanel.validate();
@@ -242,7 +244,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	 *
 	 * @param c reference to the customer
 	 */
-	public void setCustomerEnabled(HousingCustomerAgent p) {
+	public void setCustomerEnabled(HousingCustomerRole p) {
 		HousingCustomer ten = currentTenant;
 		if (p.equals(ten)) 
 		{

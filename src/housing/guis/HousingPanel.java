@@ -1,5 +1,7 @@
 package housing.guis;
 
+import housing.HousingWorkerRole;
+import housing.LandlordRole;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;
@@ -23,12 +25,12 @@ import java.util.Vector;
 public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
-	public LandlordAgent landlord = new LandlordAgent();
+	public LandlordRole landlord = new LandlordRole();
 	public HousingCustomer tenant;
-	private HousingWorkerAgent worker;
+	private HousingWorkerRole worker;
         
     private Vector<HousingCustomer> tenants = new Vector<HousingCustomer>();
-    public Vector<HousingWorkerAgent> workers = new Vector<HousingWorkerAgent>();
+    public Vector<HousingWorkerRole> workers = new Vector<HousingWorkerRole>();
     
     private JPanel restLabel = new JPanel();
     public HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
@@ -103,7 +105,7 @@ public class HousingPanel extends JPanel {
     }
     public void showWorkerInfo(String name)
     {
-    	for (HousingWorkerAgent temp:workers) {
+    	for (HousingWorkerRole temp:workers) {
     		if (temp.name.equals(name))
     		{
     			workerPanel.updateWorker(temp);
@@ -156,14 +158,14 @@ public class HousingPanel extends JPanel {
     
     public void addWorker(String name) 
     {
-    	HousingWorker p = new HousingWorkerAgent(name);
+    	HousingWorker p = new HousingWorkerRole(name);
 		HousingWorkerGui g = new HousingWorkerGui(p, gui);
 		gui.housingAnimationPanel.addGui(g);
 		p.setGui(g);
         landlord.addWorker(p);
         p.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
-		worker = (HousingWorkerAgent) p;
+		worker = (HousingWorkerRole) p;
 		workers.add(worker);
 		worker.startThread();
     }
