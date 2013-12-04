@@ -1,8 +1,7 @@
 package housing.test.mock;
 
 
-import housing.LandlordAgent;
-import housing.LandlordAgent.HousingComplex;
+import housing.LandlordRole;
 import housing.guis.HousingWorkerGui;
 import housing.interfaces.HousingWorker;
 
@@ -13,6 +12,7 @@ import restaurant.WaiterAgent;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;
 
+/*
 public class MockHousingWorker extends Mock implements HousingWorker {
 
     public Cashier cashier;
@@ -24,9 +24,9 @@ public class MockHousingWorker extends Mock implements HousingWorker {
             log = new EventLog();
     }
 
-    /*public String getName(){
+    public String getName(){
     	return this.getName();
-    }*/
+    }
     
 	public void msgHereIsAPayment(float amount)
 	{
@@ -61,4 +61,24 @@ public class MockHousingWorker extends Mock implements HousingWorker {
 		
 	}
 
+	@Override
+	public void HereIsMoney(housing.LandlordRole.HousingComplex complex,
+			double bill) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void GoRepair(housing.LandlordRole.HousingComplex complex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLandlord(LandlordRole landlord) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
+*/

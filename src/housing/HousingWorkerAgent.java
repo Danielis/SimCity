@@ -10,13 +10,13 @@ import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
-import housing.LandlordAgent.HousingComplex;
+//import housing.LandlordAgent.HousingComplex;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingGui;
 import housing.guis.HousingWorkerGui;
 import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;
-
+/*
 public class HousingWorkerAgent extends Agent implements HousingWorker {
 
 	// HOUSING WORKER DATA
@@ -136,4 +136,24 @@ public class HousingWorkerAgent extends Agent implements HousingWorker {
 		System.out.println("Worker: Asking for pay.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
 	}
+
+	@Override
+	public void HereIsMoney(housing.LandlordRole.HousingComplex complex,
+			double bill) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void GoRepair(housing.LandlordRole.HousingComplex complex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLandlord(LandlordRole landlord) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+*/

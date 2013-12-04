@@ -8,7 +8,7 @@ import housing.guis.HousingCustomerGui;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.Landlord;
 import agent.Agent;
-
+/*
 public class HousingCustomerAgent extends Agent implements HousingCustomer{
 
 
@@ -207,3 +207,4 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	}
 
 }
+*/

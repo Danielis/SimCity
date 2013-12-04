@@ -15,6 +15,7 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
 
+/*
 public class LandlordAgent extends Agent {
 
 
@@ -240,3 +241,4 @@ public class LandlordAgent extends Agent {
 	}
 
 }
+*/

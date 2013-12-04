@@ -1,14 +1,13 @@
 package housing.test.mock;
 
 
-import housing.LandlordAgent;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
 import housing.interfaces.HousingCustomer;
 
 import java.util.List;
 
-
+/*
 
 public class MockHousingCustomer extends Mock implements HousingCustomer {
 
@@ -98,3 +97,4 @@ public class MockHousingCustomer extends Mock implements HousingCustomer {
 
 
 }
+*/

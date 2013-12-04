@@ -3,9 +3,8 @@ package housing.guis;
 
 
 import restaurant.WaiterAgent;
-import housing.HousingCustomerAgent;
-import housing.HousingWorkerAgent;
 import housing.interfaces.HousingCustomer;
+import housing.interfaces.HousingWorker;
 
 import javax.swing.*;
 
@@ -41,7 +40,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	private JCheckBox tenantRepairBox;
 
 	private HousingCustomer currentTenant;
-	private HousingWorkerAgent currentWorker;
+	private HousingWorker currentWorker;
 
 	private JButton pauseButton;
 	private JButton startButton;

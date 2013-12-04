@@ -1,6 +1,5 @@
 package housing.guis;
 
-import housing.HousingCustomerAgent;
 import housing.interfaces.HousingCustomer;
 
 import java.awt.Color;

@@ -1,10 +1,5 @@
 package housing.test;
 
-import housing.LandlordAgent;
-import housing.LandlordAgent.paymentState;
-import housing.LandlordAgent.ticketStatus;
-import housing.test.mock.MockHousingCustomer;
-import housing.test.mock.MockHousingWorker;
 import junit.framework.TestCase;
 import logging.TrackerGui;
 import restaurant.CashierAgent;
@@ -21,6 +16,7 @@ import restaurant.test.mock.MockMarket;
  * with waiters, customers, and the host.
  * It is provided as an example to students in CS201 for their unit testing lab.
  */
+/*
 public class LandlordTest extends TestCase
 {
     //these are instantiated for each test separately via the setUp() method.
@@ -116,3 +112,4 @@ public class LandlordTest extends TestCase
     }//end one normal customer scenario
         
 }
+*/

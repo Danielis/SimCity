@@ -1,7 +1,6 @@
 package housing.guis;
 
-import housing.HousingCustomerAgent;
-import housing.HousingWorkerAgent;
+import housing.HousingWorkerRole;
 import housing.interfaces.HousingWorker;
 
 import java.awt.Color;
@@ -33,7 +32,7 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		private final int table_divider = 100;
 
 		//self agent
-		private HousingWorkerAgent agent = null;
+		private HousingWorkerRole agent = null;
 
 		//private HostAgent host;
 		HousingGui gui;
@@ -52,7 +51,7 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		public HousingWorkerGui(HousingWorker p, HousingGui gui3){
 			
 	        
-			agent = (HousingWorkerAgent) p;
+			agent = (HousingWorkerRole) p;
 			this.gui = gui3;
 			
 			try

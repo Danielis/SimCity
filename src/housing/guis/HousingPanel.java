@@ -1,7 +1,5 @@
 package housing.guis;
 
-import housing.HousingWorkerAgent;
-import housing.LandlordAgent;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;

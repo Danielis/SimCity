@@ -4,8 +4,6 @@ import restaurant.CustomerAgent;
 import restaurant.HostAgent;
 import restaurant.WaiterAgent;
 import restaurant.CookAgent;
-import housing.HousingCustomerAgent;
-import housing.HousingWorkerAgent;
 import housing.interfaces.HousingCustomer;
 
 import javax.swing.*;
