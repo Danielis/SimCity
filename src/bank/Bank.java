@@ -32,7 +32,9 @@ public class Bank extends Building{
 	public BankPanel panel;
 	public String name; //Name of the restaurant
     public Coordinate location;
-    public BankHostRole host;
+    public BankHostRole workingHost;
+    private Boolean hasHost = false;
+    private int numTellers = 0;
     
 	public TrackerGui trackingWindow;
     int tableLastAssigned = 0;
@@ -122,7 +124,7 @@ public class Bank extends Building{
 //	}
 
 	public Boolean isOpen(){
-		if (TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || host == null)
+		if (TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || workingHost == null)
 			return false;
 		else
 			return true;
@@ -238,7 +240,7 @@ public class Bank extends Building{
 	}
 
 	public void Leaving() {
-		host = null;
+		workingHost = null;
 	}
 
 	public void removeMe(BankHostRole b) {
@@ -262,8 +264,22 @@ public class Bank extends Building{
 	public List<Account> getAccounts(){
 		return accounts;
 	}
-
 	
+	public Boolean needsHost(){
+		return !hasHost;
+	}
+
+	public Boolean needsTeller(){
+		return (numTellers < 3);
+	}
+
+	public void setTeller(){
+		numTellers++;
+	}
+	
+	public void sethost(){
+		hasHost = true;
+	}
 
 	
 }

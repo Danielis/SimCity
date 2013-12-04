@@ -99,11 +99,12 @@ public class PersonAgent extends Agent implements Person
 	double marketQuantity, bankAmount;
 	
 
-	public static class Job{
+	public class Job{
 		public JobType type;
 		public Coordinate location;
 		int timeStart = 8;
-		static int timeEnd = 20;
+		static final int timeEnd = 20;
+		private Building workBuilding;
 		List <Day> daysWorking = new ArrayList<Day>();
 		
 		public Job(JobType parseJob) {
@@ -112,13 +113,33 @@ public class PersonAgent extends Agent implements Person
 			//	timeStart = 8;
 			//	timeEnd
 			//}
-			if (type == JobType.bankHost || type == JobType.restHost){
+			if (type == JobType.bankHost){
 				//timeStart = 8; 
 				//timeEnd = 4;
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.bank){
+						Bank ba = (Bank) b;
+						if (ba.needsHost()){
+							print("set b");
+							ba.sethost();
+							workBuilding = b;
+						}
+					}
+				}
+			}
+			else if (type == JobType.restHost){
+				
 			}
 			else if (type == JobType.teller || type == JobType.cook || type == JobType.cashier || type == JobType.waiter){
-				//timeStart = 9;
-				//timeEnd = 5;
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.bank){
+						Bank ba = (Bank) b;
+						if (ba.needsTeller()){
+							ba.setTeller();
+							workBuilding = b;
+						}
+					}
+				}
 			}
 			else if (type == JobType.landLord || type == JobType.repairman){
 				//timeStart = 8;
@@ -190,6 +211,21 @@ public class PersonAgent extends Agent implements Person
 	double timeSinceLastSlept;
 	public Boolean noAI;
 	
+	public PersonAgent(String name, String j, String wealth, Vector<Building> build){
+		this.name = name;
+		buildings = build;
+		job = new Job(parseJob(j));
+		wealthLevel = parseWealth(wealth);
+		cash = setWealth();
+		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
+		double time = TimeManager.getInstance().getCurrentSimTime();
+		int num = (int)(Math.random() * ((30000 - 10000) + 10000));
+		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
+		int num2 = (int)(Math.random() * ((30000 - 10000) + 10000));
+		timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime() - num2; // sets random time for ate, before added
+		
+	}	
+
 	public PersonAgent(String name, String j, String wealth){
 		this.name = name;
 		job = new Job(parseJob(j));
@@ -197,14 +233,12 @@ public class PersonAgent extends Agent implements Person
 		cash = setWealth();
 		System.out.println("Added person " + name + " with job type " + job.type + " and wealth level: " + wealthLevel);
 		double time = TimeManager.getInstance().getCurrentSimTime();
-		
 		int num = (int)(Math.random() * ((30000 - 10000) + 10000));
 		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
 		int num2 = (int)(Math.random() * ((30000 - 10000) + 10000));
 		timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime() - num2; // sets random time for ate, before added
 		
 	}	
-	
 	public double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
 			addItem(inventory, "Car", 0, 1);
@@ -1424,16 +1458,16 @@ public class PersonAgent extends Agent implements Person
 		
 		
 		Role c = null;
-		Bank r = null;
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank)
-				{
-					r = (Bank) b;
-				}
-			}
-		}
+		Bank r = (Bank) job.workBuilding;
+//		synchronized(buildings)
+//		{
+//			for (Building b: buildings){
+//				if (b.getType() == buildingType.bank)
+//				{
+//					r = (Bank) b;
+//				}
+//			}
+//		}
 	
 		gui.DoGoToLocation(r.entrance);
 		Status.setWorkStatus(workStatus.working);
@@ -1443,11 +1477,11 @@ public class PersonAgent extends Agent implements Person
 		
 	
 		
-		if (job.type == JobType.bankHost && r.host == null)
+		if (job.type == JobType.bankHost && r.workingHost == null)
 		{
 			c = new BankHostRole(this.getName());
 			c.setTrackerGui(trackingWindow);
-			r.host = (BankHostRole) c;
+			r.workingHost = (BankHostRole) c;
 			r.panel.customerPanel.addHost((BankHost) c);
 		}
 		if (job.type == JobType.teller){

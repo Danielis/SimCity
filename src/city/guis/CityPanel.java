@@ -139,7 +139,7 @@ public class CityPanel extends JPanel {
     public void addPerson(String name, String job, String wealth) 
     {
     	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
-    	PersonAgent p = new PersonAgent(name, job, wealth);
+    	PersonAgent p = new PersonAgent(name, job, wealth, buildings);
 		PersonGui g = new PersonGui(p, gui);
 		p.setTrackerGui(gui.trackingWindow);
 		gui.cityAnimationPanel.addGui(g);
@@ -147,7 +147,7 @@ public class CityPanel extends JPanel {
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
-		p.setBuildings(buildings);
+		//p.setBuildings(buildings);
 		if(Math.random() > .49)
 			p.setBus(true);
 		if(p.getName().equals("Bus"))
@@ -165,7 +165,7 @@ public class CityPanel extends JPanel {
     public void addWorker(String name, String job, String wealth) 
     {
     	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
-    	PersonAgent p = new PersonAgent(name, job, wealth);
+    	PersonAgent p = new PersonAgent(name, job, wealth, buildings);
 		PersonGui g = new PersonGui(p, gui);
 		p.setTrackerGui(gui.trackingWindow);
 		gui.cityAnimationPanel.addGui(g);
@@ -174,7 +174,7 @@ public class CityPanel extends JPanel {
 		//g.setPosition(p., Y);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
-		p.setBuildings(buildings);
+		//p.setBuildings(buildings);
 		if(Math.random() > .49)
 			p.setBus(true);
 		if(p.getName().equals("Bus"))
