@@ -6,6 +6,7 @@ import bank.interfaces.*;
 
 import javax.swing.JFrame;
 
+import city.TimeManager;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
@@ -15,6 +16,7 @@ import roles.Coordinate;
 import bank.Bank.Account;
 import bank.gui.BankGui;
 import bank.gui.BankPanel;
+import city.TimeManager.*;
 
 
 
@@ -120,7 +122,10 @@ public class Bank extends Building{
 //	}
 
 	public Boolean isOpen(){
-		return (host != null);
+		if (TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || host != null)
+			return false;
+		else
+			return true;
 	}
 	
 	public double getBalance(){

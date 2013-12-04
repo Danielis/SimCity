@@ -4,7 +4,7 @@ import city.TimeManager.Day;
 
 public class TimeManager {
 	
-	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
+	public enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	
 	private static TimeManager instance = null;
 	private static final long simStartTime = System.currentTimeMillis();
