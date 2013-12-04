@@ -1,7 +1,6 @@
 package city.guis;
 
 import restaurant.gui.Gui;
-import transportation.gui.BusStopGui.Coordinate;
 
 import java.io.*;
 import java.awt.*;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
+import roles.Coordinate;
 import city.PersonAgent;
 
 public class PersonGui implements Gui{
@@ -131,22 +130,7 @@ public class PersonGui implements Gui{
     	destination = outside;
 	}
 	//UTILITIES ***********************************************
-    public class Coordinate
-    {
-    	int x;
-    	int y;
-    	
-    	Coordinate()
-    	{
-    		x = 0;
-    		y = 0;
-    	}
-    	Coordinate(int a, int b)
-    	{
-    		x = a;
-    		y = b;
-    	}
-    }
+   
     
     private void setAnim1() {
 		 try
@@ -439,8 +423,7 @@ public class PersonGui implements Gui{
 	}
 
 	public void DoGoToLocation(Coordinate entrance) {
-		destination.x = entrance.x;
-		destination.y = entrance.y;
+		DoGoToLocation(entrance.x, entrance.y);
 	}
 
 

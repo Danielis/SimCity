@@ -1,72 +1,24 @@
 package city;
 
 //Package Imports
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 
-import restaurant.CustomerAgent;
-import restaurant.Restaurant;
-import restaurant.gui.CookGui;
-import restaurant.gui.HostGui;
-import restaurant.gui.RestaurantAnimationPanel;
-import restaurant.gui.RestaurantGui;
-import restaurant.gui.RestaurantPanel;
-import restaurant.gui.WaiterGui;
-import restaurant.interfaces.Cashier;
-import restaurant.interfaces.Cook;
-import restaurant.interfaces.Customer;
-import restaurant.interfaces.Host;
-import restaurant.interfaces.Waiter;
-import restaurant.roles.*;
-import agent.Agent;
-import bank.BankCustomerRole;
-import restaurant.gui.CustomerGui;
+
 import city.PersonAgent.Item;
-import city.PersonAgent.Job;
 import city.PersonAgent.JobType;
-import city.PersonAgent.PersonStatus;
 import city.PersonAgent.WealthLevel;
-import city.PersonAgent.bankStatus;
-import city.PersonAgent.destination;
-import city.PersonAgent.houseStatus;
-import city.PersonAgent.location;
-import city.PersonAgent.marketStatus;
-import city.PersonAgent.nourishment;
-import city.PersonAgent.workStatus;
-import city.TimeManager.Day;
+
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
-import bank.Bank;
-import bank.Bank.Account;
-import bank.Bank.Loan;
-import bank.Bank.loanState;
-import bank.BankHostRole;
-import bank.interfaces.*;
-import roles.Apartment;
-import roles.Building;
-import roles.Building.buildingType;
-import roles.Role;
-import logging.Alert;
-import logging.AlertLevel;
-import logging.AlertTag;
-import logging.TrackerGui;
-import market.*;
-import market.interfaces.MarketCustomer;
-import city.guis.PersonGui.Coordinate; //trans: added for trans
-import transportation.BusStopAgent; // needed for BusStop variable
-import housing.HousingCustomerRole;
-import housing.interfaces.HousingCustomer;
-import bank.*;
-import transportation.TransportationCompanyAgent;
 
-import java.util.*;
-import java.util.concurrent.Semaphore;
+import roles.Building;
+import roles.Role;
+import logging.TrackerGui;
+import transportation.BusStopAgent; // needed for BusStop variable
+import transportation.TransportationCompanyAgent;
 
 public interface Person
 {

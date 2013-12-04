@@ -45,13 +45,12 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import market.*;
 import market.interfaces.MarketCustomer;
-import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
 import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
-
+import roles.Coordinate;
 
 
 
@@ -1265,6 +1264,7 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
+		
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
@@ -1274,10 +1274,10 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(0);
 		
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('J');
-		gui.DoGoToCheckpoint('K');
-		
+		//gui.DoGoToCheckpoint('G');
+		//gui.DoGoToCheckpoint('J');
+		//gui.DoGoToCheckpoint('K');
+		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.bank);
 		
 		if (CheckBankOpen()){
@@ -1344,12 +1344,9 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(2);
 		
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
-		Status.setWorkStatus(workStatus.working);
-		this.Status.setLocation(location.restaurant);
-		gui.setPresent(false);
-		//Role c = null;
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
+
 		Restaurant r = null;
 		synchronized(buildings)
 		{
@@ -1360,6 +1357,10 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
+		gui.DoGoToLocation(r.entrance);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
 
 		if (job.type == JobType.restHost)
 		{
@@ -1434,9 +1435,7 @@ public class PersonAgent extends Agent implements Person
 			}
 		}
 	
-		
 		gui.DoGoToLocation(r.entrance);
-		
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
@@ -1464,6 +1463,17 @@ public class PersonAgent extends Agent implements Person
 
 	public void GoToRestaurant()
 	{
+		Restaurant r = null;
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				//print(" type: " + b.getType() + " n: ");
+				if (b.getType() == buildingType.restaurant){
+					r = (Restaurant) b;
+				}
+			}
+		}
+		
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to restaurant");
@@ -1474,8 +1484,10 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(2);
 		
-		gui.DoGoToCheckpoint('B');
-		gui.DoGoToCheckpoint('A');
+		//gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
+
+		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
@@ -1484,67 +1496,18 @@ public class PersonAgent extends Agent implements Person
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
-		//this.roles.get(0).setActivity(true);
 		c.setActivity(true);
-
-		//restaurants.get(0).panel.host.msgCheckForASpot((Customer)roles.get(0));
-
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				//print(" type: " + b.getType() + " n: ");
-				if (b.getType() == buildingType.restaurant){
-					Restaurant r = (Restaurant) b;
-					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((Customer) c, r);
-				}
-			}
-		}
-	}
-
-
-	public void GoToWithdrawFromBank()
-	{
-		Status.setMoneyStatus(bankStatus.goingToBank);
+		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		r.panel.customerPanel.addCustomer((Customer) c, r);
 	
-
-		takeBusIfApplicable(0);
-		
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('J');
-		gui.DoGoToCheckpoint('K');
-		//Status.setWorkStatus(workStatus.working);
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
-		// Making this bank amount instead from msgBank
-		//BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, money);
-		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, 50);
-		c.setTrackerGui(trackingWindow);
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
-		c.test("New Account", 20);
-
-		
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					print("found b");
-					Bank r = (Bank) b;
-					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((BankCustomer) c);
-				}
-			}
-		}
-		//((BankCustomerRole) this.roles.get(0)).msgWantsTransaction("New Account", 20);
 	}
+	
+	
 	
 
 	
 	public void GoToMarket(){
+		Market r = null;
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
@@ -1554,35 +1517,39 @@ public class PersonAgent extends Agent implements Person
 		takeBusIfApplicable(1);
 		
 		
-		gui.DoGoToCheckpoint('D');
-		gui.DoGoToCheckpoint('E');
-		gui.DoGoToCheckpoint('F');
+		//gui.DoGoToCheckpoint('D');
+		//gui.DoGoToCheckpoint('E');
+		//gui.DoGoToCheckpoint('F');
 		//Status.setWorkStatus(workStatus.working);
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
-		this.Status.setLocation(location.market);
-		print("At market entrance");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "At market entrance", new Date()));
-
-		gui.setPresent(false);
 		
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
-		c.setTrackerGui(trackingWindow);
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
+		
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
 				if (b.getType() == buildingType.market){
 					//print("found market");
-					Market r = (Market) b;
-					r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-					r.panel.customerPanel.addCustomer((MarketCustomer) c);
-					r.gui.customerStateCheckBox.setSelected(true);
+					r = (Market) b;
 				}
 			}
 		}
+		gui.DoGoToLocation(r.entrance);
+		
+		
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+		this.Status.setLocation(location.market);
+		print("At market entrance");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "At market entrance", new Date()));
+		gui.setPresent(false);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
+		c.setTrackerGui(trackingWindow);
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		r.panel.customerPanel.addCustomer((MarketCustomer) c);
+		r.gui.customerStateCheckBox.setSelected(true);
+		
 	}
 	
 	public void takeBusIfApplicable(int destin){
