@@ -771,6 +771,13 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 	
+	public void msgAskForPayment()
+	{
+		if (job != null && job.type != JobType.none)
+		{
+			//Ask for payments
+		}
+	}
 	
 
 	//Housing

@@ -93,7 +93,7 @@ Day LastChecked = Day.monday;
 		msgPayLastSent = TimeManager.getInstance().getDay();
 		print("12PM. Time to get paid!");
 		for( PersonAgent p : people){
-			p.msgWakeUp();
+			p.msgAskForPayment();
 			if(p.Status.getLocation() == location.work){
 				p.msgGetPaid();
 			}
