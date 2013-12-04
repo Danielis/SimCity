@@ -105,7 +105,7 @@ public class CityGui extends JFrame implements ActionListener {
 	// ************ START FUNCTION PANEL *********************
 
 	private JPanel bankPanel = new JPanel();
-	private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
+	private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan", "Rob" };
 	private JComboBox transactionList = new JComboBox(transactions);
 	private JButton bankGo = new JButton("Go");
 	private JTextField amountInput = new JTextField("");
@@ -523,41 +523,41 @@ public class CityGui extends JFrame implements ActionListener {
 			if (e.getSource() == bankGo)
 			{
 
-				//                                PersonAgent c = (PersonAgent) currentPerson;
-				//
-				//                                String purpose = transactionList.getSelectedItem().toString();
-				//
-				//                                if (purpose.equals("New Account")){
-					//                                        c.getGui().setNeedsMoney(true, purpose, 0);
-					//                                }
-				//                                else if (!amountInput.getText().isEmpty()){
-				//                                        String amtTemp = amountInput.getText();
-				//                                        double amt = Double.parseDouble(amtTemp);
-				//                                        amt = Math.round(amt * 100) / 100.0d;
-				//                                        c.getGui().setNeedsMoney(true, purpose, amt);
-				//                                }
-				//                                silenceButtons();
+				                                PersonAgent c = (PersonAgent) currentPerson;
+				
+				                                String purpose = transactionList.getSelectedItem().toString();
+				
+				                                if (purpose.equals("New Account")){
+					                                        c.getGui().setNeedsMoney(true, purpose, 0);
+					                                }
+				                                else if (!amountInput.getText().isEmpty()){
+				                                        String amtTemp = amountInput.getText();
+				                                        double amt = Double.parseDouble(amtTemp);
+				                                        amt = Math.round(amt * 100) / 100.0d;
+				                                        c.getGui().setNeedsMoney(true, purpose, amt);
+				                                }
+				                                silenceButtons();
 
-				Restaurant temp;
-				for (Building b: buildings)
-				{
-					if(b.getType() == buildingType.restaurant)
-					{
-						temp = (Restaurant)b;
-						System.out.println(temp.panel.host);
-						if (temp.panel.host != null)
-							temp.panel.host.msgLeaveWork();
-						System.out.println(temp.panel.cook);
-						if (temp.panel.cook != null)
-							temp.panel.cook.msgLeaveWork();
-						System.out.println(temp.panel.cashier);
-						if (temp.panel.cashier != null)
-							temp.panel.cashier.msgLeaveWork();
-						System.out.println(temp.panel.waiters.get(0));
-						if (temp.panel.waiters.get(0) != null)
-							temp.panel.waiters.get(0).msgLeaveWork();
-					}
-				}
+//				Restaurant temp;
+//				for (Building b: buildings)
+//				{
+//					if(b.getType() == buildingType.restaurant)
+//					{
+//						temp = (Restaurant)b;
+//						System.out.println(temp.panel.host);
+//						if (temp.panel.host != null)
+//							temp.panel.host.msgLeaveWork();
+//						System.out.println(temp.panel.cook);
+//						if (temp.panel.cook != null)
+//							temp.panel.cook.msgLeaveWork();
+//						System.out.println(temp.panel.cashier);
+//						if (temp.panel.cashier != null)
+//							temp.panel.cashier.msgLeaveWork();
+//						System.out.println(temp.panel.waiters.get(0));
+//						if (temp.panel.waiters.get(0) != null)
+//							temp.panel.waiters.get(0).msgLeaveWork();
+//					}
+//				}
 
 			}
 			if (e.getSource() == housingGo)
