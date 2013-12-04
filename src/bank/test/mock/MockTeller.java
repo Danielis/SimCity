@@ -110,4 +110,11 @@ public class MockTeller extends Mock implements Teller {
 		}
 
 
+		@Override
+		public void IAmRobbing(BankCustomer bankCustomerRole, double amount) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
 }

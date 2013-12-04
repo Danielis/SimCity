@@ -69,5 +69,9 @@ public abstract void LoanCreated(double amount, Loan loan);
 
 public abstract void BankIsClosed();
 
+public abstract void GetOut();
+
+public abstract void OkHereIsMoney(double amount);
+
 
 }

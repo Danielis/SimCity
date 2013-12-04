@@ -40,7 +40,7 @@ public class TellerRole extends Role implements Teller {
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	private int loanAccountThreshold = 500;
-	
+	private Boolean hasGun = false;
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
@@ -115,7 +115,10 @@ public class TellerRole extends Role implements Teller {
 		amount = amount2;
 		type = t;
 		this.c = c;
-		status = transactionStatus.noAccount;
+		if (t.equals(transactionType.robbery))
+			status = transactionStatus.unresolved;
+		else
+			status = transactionStatus.noAccount;
 		}
 		
 		
@@ -148,7 +151,7 @@ public class TellerRole extends Role implements Teller {
 	    public transactionStatus status;
 	    BankCustomer c;
 	}
-	public enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
+	public enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment, robbery};
 	public enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
 
 private class MyCustomer{
@@ -170,6 +173,12 @@ public void msgGetPaid(){
 public void msgLeaveWork() {
 	leave = true;
 	stateChanged();
+}
+
+public void IAmRobbing(BankCustomer c, double amount){
+	print("msg rec i am being robbed");
+    transactions.add(new Transaction(amount, transactionType.robbery, c));
+    stateChanged();
 }
 
 
@@ -281,7 +290,7 @@ public void PayMyLoan(BankCustomer c, double amount){
 		try
 		{
 			for (Transaction t : transactions){
-				//print("status: "+ t.status);
+				print("status: "+ t.status);
 				if (t.status == transactionStatus.noAccount){
 					HandleNoAccount(t);
 					return true;
@@ -359,6 +368,12 @@ private boolean canLeave() {
 	}
 	
 	private void HandleTransaction(Transaction t){
+		
+		if (t.type == transactionType.robbery){
+			print("dealing with robbery");
+			DealWithRobbery(t);
+		}
+		else{
 		print("Looking into transaction...");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Looking into transaction...", new Date()));
 		if (t.type == transactionType.deposit){
@@ -376,6 +391,21 @@ private boolean canLeave() {
 		else if (t.type == transactionType.loanPayment){
 			LoanPayBack(t);
 		}
+		}
+	}
+	
+	private void DealWithRobbery(Transaction t){
+		if (hasGun){
+			print("I have a gun! You better get out.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "I have a gun! You better get out.", new Date()));
+		   
+			t.c.GetOut();
+		}
+		else{
+			print("Ok ;_;! Here's $" + t.amount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Ok ;_;! Here's $" + t.amount, new Date()));
+			t.c.OkHereIsMoney(t.amount);
+			}
 	}
 	
 	private void Deposit(Transaction t){

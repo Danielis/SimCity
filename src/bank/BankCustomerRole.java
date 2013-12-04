@@ -47,7 +47,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	Account acct;
 	
 	Boolean isHappy = true;
-	
+	Boolean isRobber = false;
 
 	//Constructor
 	public BankCustomerRole(String name, String type, double bankAmount, double money){
@@ -67,6 +67,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			purpose = customerPurpose.takeLoan;
 		else if (type.equals("Pay Loan"))
 			purpose = customerPurpose.payLoan;
+		else if (type.equals("Rob"))
+			purpose = customerPurpose.rob;
 		else{
 			purpose = customerPurpose.none;
 			state = bankCustomerState.done;
@@ -111,7 +113,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 //CLASSES/ENUMS**********************************************
 
-	public enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none};
+	public enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none, rob};
 	public enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
 	
 	public Account getAccount(){
@@ -141,6 +143,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
+
 public void msgWantsTransaction(){
 		state = bankCustomerState.outside;
 		//print("rec msg");
@@ -159,6 +162,17 @@ public void	GoToTeller(Teller t){
 	    state = bankCustomerState.assigned;
 	    stateChanged();
 	}
+
+public void OkHereIsMoney(double amt){
+	balance += amt;
+	state = bankCustomerState.done;
+	stateChanged();
+}
+
+public void GetOut(){
+	state = bankCustomerState.done;
+	stateChanged();
+}
 
 public void	AccountCreated(Account a){
 		acct = a;
@@ -313,7 +327,10 @@ private void AskForAssistance(){
     else if (purpose == customerPurpose.payLoan){
     	customerGui.setSpeechBubble("payloan");
     }
-	
+    
+    else if (purpose == customerPurpose.rob){
+    	customerGui.setSpeechBubble("payloan");
+    }
 	
 	
 	timer.schedule( new TimerTask()
@@ -385,6 +402,12 @@ private void GiveRequest(){
 	    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to payback $" + amount + " of my loan", new Date()));
 	    	if (reduceBalance())
 	    		t.PayMyLoan(this, amount);
+	    }
+	    
+	    if (purpose == customerPurpose.rob){
+	    	print("THIS IS A HOLD UP! GIVE ME $" + amount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "THIS IS A HOLD UP! GIVE ME $" + amount, new Date()));
+	        t.IAmRobbing(this, amount);
 	    }
  
 	}
