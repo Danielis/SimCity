@@ -645,6 +645,10 @@ public class PersonAgent extends Agent implements Person
 	public void transportationStatusBus(){
 		this.Status.setTransportationStatus(transportStatus.bus);
 	}
+	public void setBus(Boolean temp){
+		if (temp)
+			Status.setTransportationStatus(transportStatus.bus);
+	}
 	/*****************************************************************************
 	 								 MESSAGES
 	 ******************************************************************************/
@@ -1035,7 +1039,10 @@ public class PersonAgent extends Agent implements Person
 			if (wealthLevel == WealthLevel.wealthy && num <= 9){
 					restaurant = true;
 			}
-			else if (num <=7){
+			else if (wealthLevel == WealthLevel.average && num <=7){
+					restaurant = true;
+			}
+			else if (wealthLevel == WealthLevel.poor && num <=3){
 					restaurant = true;
 			}
 		}
@@ -1410,12 +1417,9 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(0);
 		
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('J');
-		gui.DoGoToCheckpoint('K');
-		Status.setWorkStatus(workStatus.working);
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
+		//gui.DoGoToCheckpoint('G');
+		//gui.DoGoToCheckpoint('J');
+		//gui.DoGoToCheckpoint('K');
 		
 		
 		Role c = null;
@@ -1429,6 +1433,15 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
+	
+		
+		gui.DoGoToLocation(r.entrance);
+		
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.bank);
+		gui.setPresent(false);
+		
+		
 	
 		
 		if (job.type == JobType.bankHost && r.host == null)
@@ -1619,6 +1632,10 @@ public class PersonAgent extends Agent implements Person
 		public void removeItem() {
 			// TODO Auto-generated method stub
 			
+		}
+
+		public void setHungry() {
+			timeSinceLastAte = -60000;
 		}
 
 }

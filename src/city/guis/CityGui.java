@@ -127,7 +127,9 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton restaurantGo = new JButton("Go");
 	private JPanel otherFunction = new JPanel(); 
 	private JButton busGo = new JButton("Bus");
-	private JButton scen1 = new JButton("Scenario 1");
+	private JButton scen1 = new JButton("Scenario Full");
+
+	private JButton scen2 = new JButton("Scenario 1-4");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
 
@@ -254,10 +256,12 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(workGo);
 		otherFunction.add(busGo);
 		otherFunction.add(scen1);
+		otherFunction.add(scen2);
 		otherFunction.add(noAIGo);
 
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
+		scen2.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -302,10 +306,10 @@ public class CityGui extends JFrame implements ActionListener {
 
 
 		//City Element Creation
-		createRestaurant("Norman's Restaurant", "Norman");
-		createBank("Aleena's Bank");
-		createMarket("Aleena's Market");
-		createApartment("The Chris Apartment Complex");
+		createRestaurant("Norman's Restaurant", 257, 474);
+		createBank("Aleena's Bank", 73, 74);
+		createMarket("Aleena's Market", 280, 265);
+		createApartment("The Chris Apartment Complex", 319, 90);
 
 		this.setAlwaysOnTop(false);
 		//this.setAutoRequestFocus(false);
@@ -503,6 +507,10 @@ public class CityGui extends JFrame implements ActionListener {
 			Scenario.getInstance().CallScenario1(this.cityPanel);
 			scen1.setEnabled(false);
 		}
+		if (e.getSource() == scen2){
+			Scenario.getInstance().CallScenario2(this.cityPanel);
+			scen1.setEnabled(false);
+		}
 		if (e.getSource() == noAIGo){
 			this.cityPanel.setNoAI(true);
 			noAIGo.setEnabled(false);
@@ -630,39 +638,40 @@ public class CityGui extends JFrame implements ActionListener {
 
 
 	//Resturant Creation
-	public void createRestaurant(String name, String owner)
+	public void createRestaurant(String name, int x, int y)
 	{
-		if (owner == "Norman")
-		{
 			RestaurantGui rg = new RestaurantGui();
 			rg.setTrackerGui(trackingWindow);
 			Restaurant r = new Restaurant(rg, name);
 			rg.setRestaurant(r);
+			r.setEntrance(x,y);
 			buildings.add(r);
-		}
 	}
 
-	public void createBank(String name)
+	public void createBank(String name, int x, int y)
 	{
 		BankGui bg = new BankGui();
 		bg.setTrackerGui(trackingWindow);
 		Bank b = new Bank(bg, name);
+		b.setEntrance(x,y);
 		buildings.add(b);
 	}
 
-	public void createMarket(String name)
+	public void createMarket(String name, int x, int y)
 	{
 		MarketGui mg = new MarketGui();
 		mg.setTrackerGui(trackingWindow);
 		Market b = new Market(name, mg);
+		b.setEntrance(x,y);
 		buildings.add(b);
 	}
 
 	//apartment creation
-	public void createApartment(String name) {
+	public void createApartment(String name, int x, int y) {
 		HousingGui hg = new HousingGui();
 		hg.setTrackerGui(trackingWindow);
 		Apartment a = new Apartment(name, hg);
+		a.setEntrance(x,y);
 		buildings.add(a);
 	}
 

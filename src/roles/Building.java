@@ -23,4 +23,9 @@ public class Building {
 		this.type = type;
 	}
 	
+	public void setEntrance(int x, int y) {
+		Coordinate c = new Coordinate(x,y);
+		entrance = c;
+	}
+	
 }

@@ -126,8 +126,6 @@ public class PersonGui implements Gui{
     	position = new Coordinate(x1, y1);
     	
     	
-    	
-    	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -262,6 +260,7 @@ public class PersonGui implements Gui{
 		Graphics2D newG = (Graphics2D)g;
 		newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
 	}
+	
 
 	
 	public boolean isPresent() {
@@ -435,8 +434,13 @@ public class PersonGui implements Gui{
 		return this.position.y;
 	}
 	public void setPosition(int X, int Y){
-		this.position.x = X;
-		this.position.y = Y;
+		position.x = X;
+		position.y = Y;
+	}
+
+	public void DoGoToLocation(Coordinate entrance) {
+		destination.x = entrance.x;
+		destination.y = entrance.y;
 	}
 
 

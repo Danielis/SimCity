@@ -20,6 +20,8 @@ public class TimeManager {
 	private int days;
 	private int weeks;
 	
+	private int offsetHour = 0;
+	
 	TimeManager(){
 	}
 
@@ -35,6 +37,10 @@ public class TimeManager {
 	public long getCurrentSimTime() {
 	    long currentTime = System.currentTimeMillis();
 	    return currentTime - simStartTime;
+	}
+	
+	public void setOffsetHour(int temp){
+		offsetHour = temp;
 	}
 	
 	public String TimeStr(){
@@ -54,7 +60,7 @@ public class TimeManager {
 	}
 	
 	public void updateTime(){
-		int mil = (int) getCurrentSimTime();
+		int mil = (int) getCurrentSimTime() + 200000;
 		
 		seconds = (mil / 2) | 0;
 		mil -= seconds * 2;

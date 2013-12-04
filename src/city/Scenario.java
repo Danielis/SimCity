@@ -1,6 +1,7 @@
 package city;
 
 import city.guis.CityGui;
+import city.*;
 import city.guis.CityPanel;
 
 
@@ -20,6 +21,26 @@ public class Scenario {
         }
         return instance;
 	}
+
+public void fillWork(CityPanel c){
+	c.addWorker("Bank Host", "Bank Host", "Average");
+	c.addWorker("Teller 1", "Teller", "Average");
+	c.addWorker("Teller 2", "Teller", "Wealthy");
+	c.addWorker("Teller 3", "Teller", "Average");
+	
+	//for restaurant: need to repeat for all restaurants
+	c.addWorker("Chef", "Cook", "Average");
+	c.addWorker("Waiter 1", "Waiter", "Average");
+	c.addWorker("Waiter 2", "Waiter", "Average");
+	c.addWorker("Cashier", "Cashier", "Average");
+	c.addWorker("Restaurant Host", "Restaurant Host", "Average");
+}
+
+
+public void CallScenario2(CityPanel c){				// for points 1-4
+	fillWork(c);
+	c.addPerson("Scen 1-4", "None", "Wealthy");
+}
 	
 public void CallScenario1(CityPanel c){
 		c.addPerson("Bank Host", "Bank Host", "Average");
