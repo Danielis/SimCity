@@ -241,24 +241,24 @@ public class PersonAgent extends Agent implements Person
 	}	
 	public double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
-			addItem(inventory, "Car", 0, 1);
-			addItem(inventory, "Steak", 5, 5);
-			addItem(inventory, "Pasta", 5, 5);
-			addItem(inventory, "Milk", 1, 1);
+			addItem(inventory, "Car", 0, 1, 1);
+			addItem(inventory, "Steak", 5, 3, 5);
+			addItem(inventory, "Pasta", 5, 3, 5);
+			addItem(inventory, "Milk", 1, 1, 1);
 			return 15000;
 		}
 		else if (wealthLevel.equals(WealthLevel.wealthy)){
-			addItem(inventory, "Car", 0, 1);
-			addItem(inventory, "Steak", 5, 8);
-			addItem(inventory, "Chicken", 8, 8);
-			addItem(inventory, "Milk", 10, 2);
+			addItem(inventory, "Car", 0, 1, 1);
+			addItem(inventory, "Steak", 8, 5, 8);
+			addItem(inventory, "Chicken", 8, 5, 8);
+			addItem(inventory, "Milk", 2, 1, 2);
 			return 50000;
 		}
 		else if (wealthLevel.equals(WealthLevel.poor)){
-			addItem(inventory, "Car", 0, 1);
-			addItem(inventory, "Eggs", 5, 3);
-			addItem(inventory, "Pasta", 3, 3);
-			addItem(inventory, "Milk", 0, 1);
+			addItem(inventory, "Car", 0, 1, 1);
+			addItem(inventory, "Eggs", 5, 3, 5);
+			addItem(inventory, "Pasta", 3, 3, 3);
+			addItem(inventory, "Milk", 0, 1, 1);
 			return 2000;
 		}
 		else
@@ -438,12 +438,14 @@ public class PersonAgent extends Agent implements Person
 	public class Item {
 		String type;
 		int quantity;
-
 		int threshold;
-		public Item(String t, int q, int th) {
+		int capacity;
+		
+		public Item(String t, int q, int th, int cap) {
 			type = t;
 			quantity = q;
 			threshold = th;
+			capacity = cap;
 		}
 		
 	public void setThreshold(int q){
@@ -472,11 +474,11 @@ public class PersonAgent extends Agent implements Person
 				return;
 			}
 		}
-		inv.add(new Item(item, q, 0));
+		inv.add(new Item(item, q, 0, 4));
 		print("I now have " + q + " " + item);
 	}
 	
-	public void addItem(List<Item> inv, String item, int q, int j) {
+	public void addItem(List<Item> inv, String item, int q, int j, int cap) {
 		for (Item i : inv){
 			if (i.type.equals(item)){
 				i.quantity += q;
@@ -484,7 +486,7 @@ public class PersonAgent extends Agent implements Person
 				return;
 			}
 		}
-		inv.add(new Item(item, q, j));
+		inv.add(new Item(item, q, j, cap));
 		print("I now have " + q + " " + item);
 		
 	}
@@ -1265,6 +1267,14 @@ public class PersonAgent extends Agent implements Person
 
 	public void GoHomeToDoX()
 	{
+		Apartment a = null;
+		for (Building b: buildings){
+			//print(" type: " + b.getType() + " n: ");
+			if (b.getType() == buildingType.housingComplex){
+				 a = (Apartment) b;
+			}
+		}
+		
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going home to " + homePurpose);
@@ -1273,10 +1283,10 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(0);
 		
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('H');
-		gui.DoGoToCheckpoint('I');
-		
+		//gui.DoGoToCheckpoint('G');
+		//gui.DoGoToCheckpoint('H');
+		//gui.DoGoToCheckpoint('I');
+		gui.DoGoToLocation(a.entrance);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
 		
@@ -1286,14 +1296,9 @@ public class PersonAgent extends Agent implements Person
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-
-		for (Building b: buildings){
-			//print(" type: " + b.getType() + " n: ");
-			if (b.getType() == buildingType.housingComplex){
-				Apartment a = (Apartment) b;
-				a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
-			}
-		}
+		a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
+		
+		
 	}
 
 	public void GoToBank()
