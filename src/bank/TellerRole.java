@@ -15,6 +15,7 @@ import bank.BankCustomerRole.customerPurpose;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent.WealthLevel;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
@@ -56,6 +57,11 @@ public class TellerRole extends Role implements Teller {
 	public TellerRole(String name) {
 		super();
 		this.name = name;
+		
+		int num = (int)(Math.random() * ((10 - 0) + 0));
+		if (num <= 5){
+				hasGun = true;
+		}
 		//print("initialized teller");
 	}
 	
@@ -176,7 +182,7 @@ public void msgLeaveWork() {
 }
 
 public void IAmRobbing(BankCustomer c, double amount){
-	print("msg rec i am being robbed");
+	//print("msg rec i am being robbed");
     transactions.add(new Transaction(amount, transactionType.robbery, c));
     stateChanged();
 }
@@ -290,7 +296,7 @@ public void PayMyLoan(BankCustomer c, double amount, Loan loan){
 		try
 		{
 			for (Transaction t : transactions){
-				print("status: "+ t.status);
+				//print("status: "+ t.status);
 				if (t.status == transactionStatus.noAccount){
 					HandleNoAccount(t);
 					return true;
@@ -370,7 +376,7 @@ private boolean canLeave() {
 	private void HandleTransaction(Transaction t){
 		
 		if (t.type == transactionType.robbery){
-			print("dealing with robbery");
+			//print("dealing with robbery");
 			DealWithRobbery(t);
 		}
 		else{
@@ -395,13 +401,16 @@ private boolean canLeave() {
 	}
 	
 	private void DealWithRobbery(Transaction t){
+		t.status = transactionStatus.resolved;
 		if (hasGun){
+			waiterGui.setSpeechBubble("robberyfailedteller");
 			print("I have a gun! You better get out.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "I have a gun! You better get out.", new Date()));
 		   
 			t.c.GetOut();
 		}
 		else{
+			waiterGui.setSpeechBubble("robberysuccessteller");
 			print("Ok ;_;! Here's $" + t.amount);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Ok ;_;! Here's $" + t.amount, new Date()));
 			t.c.OkHereIsMoney(t.amount);

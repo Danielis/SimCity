@@ -116,7 +116,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 //CLASSES/ENUMS**********************************************
 
 	public enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none, rob};
-	public enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
+	public enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited, doneRobbery};
 	
 	public Account getAccount(){
 		return acct;
@@ -167,12 +167,13 @@ public void	GoToTeller(Teller t){
 
 public void OkHereIsMoney(double amt){
 	balance += amt;
-	state = bankCustomerState.done;
+	state = bankCustomerState.doneRobbery;
 	stateChanged();
 }
 
 public void GetOut(){
-	state = bankCustomerState.done;
+	state = bankCustomerState.doneRobbery;
+	isHappy = false;
 	stateChanged();
 }
 
@@ -278,6 +279,10 @@ public void WantAccount(){
 		    return true;
 		}
 		
+		if (state == bankCustomerState.doneRobbery){
+			MakeARunForIt();
+		    return true;
+		}
 		
 		return false;
 	}
@@ -331,7 +336,7 @@ private void AskForAssistance(){
     }
     
     else if (purpose == customerPurpose.rob){
-    	customerGui.setSpeechBubble("payloan");
+    	customerGui.setSpeechBubble("robbery");
     }
 	
 	
@@ -359,6 +364,22 @@ private void SayThanks(){
 		}
 	}, 2000);
 	
+}
+
+private void MakeARunForIt(){
+	state = bankCustomerState.exited;
+	if (isHappy)
+	customerGui.setSpeechBubble("robberysuccess");
+	else
+	customerGui.setSpeechBubble("robberyfailed");
+	
+	timer.schedule( new TimerTask()
+	{
+		public void run()
+		{				
+			LeaveBank();
+		}
+	}, 2000);
 }
 
 private void GiveRequest(){
