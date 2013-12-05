@@ -404,7 +404,7 @@ private void GiveRequest(){
 	    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to payback $" + amount + " of my loan", new Date()));
 	    	if (reduceBalance())
 	    	{
-	    		//t.PayMyLoan(this, amount, loan);
+	    		t.PayMyLoan(this, amount, loan);
 	    	}
 	    }
 	    
