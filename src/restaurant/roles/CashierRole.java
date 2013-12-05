@@ -160,7 +160,8 @@ public class CashierRole extends Role implements Cashier{
 //MESSAGES****************************************************
 
 	public void msgGetPaid(){
-		balance =+50;
+		account = account - 50;
+		mymoney = mymoney + 50;
 	}
 
 	public void msgLeaveWork()

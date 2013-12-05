@@ -44,8 +44,8 @@ public void fillWork(CityPanel c){
 
 public void CallScenarioA(CityPanel c){				// for points 1-4
 	fillWork(c);
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	//TimeManager.getInstance().setDivider(20);
+	//TimeManager.getInstance().setOffset(300000);
 	PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 	c.addPerson(p);
 	
@@ -55,8 +55,8 @@ public void CallScenarioA(CityPanel c){				// for points 1-4
 
 public void CallScenarioB(CityPanel c){
 	fillWork(c);
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	//TimeManager.getInstance().setDivider(20);
+	//TimeManager.getInstance().setOffset(300000);
 	
 	PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
 	p.GiveCar();
