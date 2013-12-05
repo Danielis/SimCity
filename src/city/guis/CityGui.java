@@ -129,7 +129,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton busGo = new JButton("Bus");
 	private JButton scen1 = new JButton("Scenario Full");
 
-	private JButton scen2 = new JButton("Scenario A");
+	private JButton scenA = new JButton("Scenario A");
+	private JButton scenB = new JButton("Scenario B");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
 
@@ -256,12 +257,14 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(workGo);
 		otherFunction.add(busGo);
 		otherFunction.add(scen1);
-		otherFunction.add(scen2);
+		otherFunction.add(scenA);
+		otherFunction.add(scenB);
 		otherFunction.add(noAIGo);
 
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
-		scen2.addActionListener(this);
+		scenA.addActionListener(this);
+		scenB.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -500,7 +503,8 @@ public class CityGui extends JFrame implements ActionListener {
 	
 	private void silenceScenButtons(){
 		scen1.setEnabled(false);
-		scen2.setEnabled(false);
+		scenA.setEnabled(false);
+		scenB.setEnabled(false);
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
@@ -512,8 +516,12 @@ public class CityGui extends JFrame implements ActionListener {
 			Scenario.getInstance().CallScenario1(this.cityPanel);
 			silenceScenButtons();
 		}
-		if (e.getSource() == scen2){
+		if (e.getSource() == scenA){
 			Scenario.getInstance().CallScenarioA(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenB){
+			Scenario.getInstance().CallScenarioB(this.cityPanel);
 			silenceScenButtons();
 		}
 		if (e.getSource() == noAIGo){

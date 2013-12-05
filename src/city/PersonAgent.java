@@ -241,24 +241,24 @@ public class PersonAgent extends Agent implements Person
 	}	
 	public double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
-			addItem(inventory, "Car", 0, 1, 1);
-			addItem(inventory, "Steak", 5, 3, 5);
-			addItem(inventory, "Pasta", 5, 3, 5);
-			addItem(inventory, "Milk", 1, 1, 1);
+			addItem("Car", 0, 1, 1);
+			addItem("Steak", 5, 3, 5);
+			addItem("Pasta", 5, 3, 5);
+			addItem("Milk", 1, 1, 1);
 			return 15000;
 		}
 		else if (wealthLevel.equals(WealthLevel.wealthy)){
-			addItem(inventory, "Car", 0, 1, 1);
-			addItem(inventory, "Steak", 8, 5, 8);
-			addItem(inventory, "Chicken", 8, 5, 8);
-			addItem(inventory, "Milk", 2, 1, 2);
+			addItem("Car", 0, 1, 1);
+			addItem("Steak", 8, 5, 8);
+			addItem("Chicken", 8, 5, 8);
+			addItem("Milk", 2, 1, 2);
 			return 50000;
 		}
 		else if (wealthLevel.equals(WealthLevel.poor)){
-			addItem(inventory, "Car", 0, 1, 1);
-			addItem(inventory, "Eggs", 5, 3, 5);
-			addItem(inventory, "Pasta", 3, 3, 3);
-			addItem(inventory, "Milk", 0, 1, 1);
+			addItem("Car", 0, 1, 1);
+			addItem("Eggs", 5, 3, 5);
+			addItem("Pasta", 3, 3, 3);
+			addItem("Milk", 0, 1, 1);
 			return 2000;
 		}
 		else
@@ -466,33 +466,33 @@ public class PersonAgent extends Agent implements Person
 	
 	
 	
-	public void addItem(List<Item> inv, String item, int q){
-		for (Item i : inv){
+	public void addItem(String item, int q){
+		for (Item i : inventory){
 			if (i.type.equals(item)){
 				i.quantity += q;
 				print("I now have " + i.quantity + " " + i.type);
 				return;
 			}
 		}
-		inv.add(new Item(item, q, 0, 4));
+		inventory.add(new Item(item, q, 0, 4));
 		print("I now have " + q + " " + item);
 	}
 	
-	public void addItem(List<Item> inv, String item, int q, int j, int cap) {
-		for (Item i : inv){
+	public void addItem(String item, int q, int j, int cap) {
+		for (Item i : inventory){
 			if (i.type.equals(item)){
 				i.quantity += q;
 				print("I now have " + i.quantity + " " + i.type);
 				return;
 			}
 		}
-		inv.add(new Item(item, q, j, cap));
+		inventory.add(new Item(item, q, j, cap));
 		print("I now have " + q + " " + item);
 		
 	}
 	
-	public void removeItem(List<Item> inv, String item, int q){
-		for (Item i : inv){
+	public void removeItem(String item, int q){
+		for (Item i : inventory){
 			if (i.type.equals(item)){
 				i.quantity -= q;
 				print("I now have " + i.quantity + " " + i.type);
@@ -500,6 +500,14 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 
+	public void setItemQuantity(String item, int q){
+		for (Item i : inventory){
+			if (i.type.equals(item)){
+				i.quantity -= q;
+				print("I now have " + i.quantity + " " + i.type);
+			}
+		}
+	}
 	//Enum States
 	enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
 	enum location		{outside,home,restaurant,bank,market,transportation,work}
@@ -890,7 +898,7 @@ public class PersonAgent extends Agent implements Person
 	public void msgLeavingMarket(MarketCustomerRole r, double balance, String item, int quantRec) {
 		print("Left market.");
 		cash = balance;
-		addItem(inventory, item, quantRec);
+		addItem(item, quantRec);
 		r.setActivity(false);
 		gui.setBusy(false);
 		Status.setLocation(location.outside);
@@ -1653,6 +1661,10 @@ public class PersonAgent extends Agent implements Person
 
 		public void setHungry() {
 			timeSinceLastAte = -90000;
+		}
+
+		public void GiveCar() {
+			addItem("Car", 1);
 		}
 
 }

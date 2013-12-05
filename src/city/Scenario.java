@@ -41,14 +41,32 @@ public void CallScenarioA(CityPanel c){				// for points 1-4
 	fillWork(c);
 	TimeManager.getInstance().setDivider(20);
 	TimeManager.getInstance().setOffset(300000);
-	c.addPerson("Scen 1-4", "None", "Wealthy");
+	PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
+	c.addPerson(p);
+	
+	p.setHungry();
+	p.setBus(false);
 }
 
 public void CallScenarioB(CityPanel c){
 	fillWork(c);
-	c.addPerson("Driver", "None", "Wealthy");
-	c.addPerson("Busser", "None", "Average");
-	c.addPerson("Walker", "None", "Poor");
+	TimeManager.getInstance().setDivider(20);
+	TimeManager.getInstance().setOffset(300000);
+	
+	PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
+	p.GiveCar();
+	p.addItem("Juice", 0, 2, 2);
+	p.setBus(false);
+	c.addPerson(p);
+	
+	PersonAgent p2 = new PersonAgent("Busser", "None", "Average");
+	p2.setBus(true);
+	c.addPerson(p2);
+	
+	PersonAgent p3 = new PersonAgent("Walker", "None", "Poor");
+	p3.setBus(false);
+	p3.setHungry();
+	c.addPerson(p3);
 }
 	
 public void CallScenario1(CityPanel c){
