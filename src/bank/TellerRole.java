@@ -403,12 +403,14 @@ private boolean canLeave() {
 	private void DealWithRobbery(Transaction t){
 		t.status = transactionStatus.resolved;
 		if (hasGun){
+			waiterGui.setSpeechBubble("robberyfailedteller");
 			print("I have a gun! You better get out.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "I have a gun! You better get out.", new Date()));
 		   
 			t.c.GetOut();
 		}
 		else{
+			waiterGui.setSpeechBubble("robberysuccessteller");
 			print("Ok ;_;! Here's $" + t.amount);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Ok ;_;! Here's $" + t.amount, new Date()));
 			t.c.OkHereIsMoney(t.amount);

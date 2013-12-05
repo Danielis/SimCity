@@ -75,24 +75,16 @@ public void CallScenarioB(CityPanel c){
 }
 	
 public void CallScenario1(CityPanel c){
-		c.addPerson("Bank Host", "Bank Host", "Average");
-		c.addPerson("Teller 1", "Teller", "Average");
-		c.addPerson("Teller 2", "Teller", "Wealthy");
-		c.addPerson("Teller 3", "Teller", "Poor");
-		c.addPerson("Chef", "Cook", "Average");
-		c.addPerson("Waiter 1", "Waiter", "Average");
-		c.addPerson("Waiter 2", "Waiter", "Wealthy");
-		c.addPerson("Cashier", "Cashier", "Average");
-		c.addPerson("Restaurant Host", "Restaurant Host", "Average");
-		c.addPerson("Jobless Joe", "None", "Average");
-		c.addPerson("Jobless Smith", "None", "Wealthy");
-		c.addPerson("Jobless Smith", "None", "Wealthy");
-		c.addPerson("Jobless Betty", "None", "Wealthy");
-		c.addPerson("Jobless Alex", "None", "Average");
-		c.addPerson("Jobless Alex", "None", "Poor");
-		c.addPerson("Jobless Alex", "None", "Average");
-		c.addPerson("Jobless Alex", "None", "Poor");
-		c.addPerson("Jobless Alex", "None", "Average");
-		c.addPerson("Jobless Sally", "None", "Wealthy");
+	TimeManager.getInstance().setDivider(20);
+	TimeManager.getInstance().setOffset(300000);
+	c.addWorker("Bank Host", "Bank Host", "Average");
+	c.addWorker("Teller 1", "Teller", "Average");
+	c.addWorker("Teller 2", "Teller", "Average");
+	c.addWorker("Teller 3", "Teller", "Average");
+	
+	c.addWorker("Bank Host", "Bank Host", "Average");
+	c.addWorker("Teller 1", "Teller", "Average");
+	c.addWorker("Teller 2", "Teller", "Average");
+	c.addWorker("Teller 3", "Teller", "Average");
 	}
 }
