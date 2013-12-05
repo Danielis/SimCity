@@ -179,15 +179,15 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
 		sleep = false;
-		timer.schedule(new TimerTask()
-		{
-			public void run()
-			{
-				
-				print("Woke up!");
-				stateChanged();
-			}
-		}, 5000);
+		//TODO: PLEASE FIX THIS LOL, semaphore?
+//		timer.schedule(new TimerTask()
+//		{
+//			public void run()
+//			{
+//				
+//				print("Woke up!");
+//			}
+//		}, 5000);
 		
 		
 	}
@@ -223,7 +223,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
 		gui.DoGoToThreshold();
-		gui.DoGoToBed();	
+		//gui.DoGoToBed();	
 		System.out.println("Tenant: called landlord for repairs.");
 
 		}
@@ -246,7 +246,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		hungry = false;
 		gui.DoGoToKitchen();
 		gui.DoGoToThreshold();
-		gui.DoGoToBed();
+		//gui.DoGoToBed();
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Done Eating", new Date()));
 		System.out.println("Done Eating.");
 	}
