@@ -9,6 +9,7 @@ public class Building {
 	Coordinate botright;
 	public buildingType type;
 	public String name;
+	public double PaymentFund;
 	
 	public enum buildingType{bank, restaurant, market, housingComplex};
 	
@@ -22,6 +23,11 @@ public class Building {
 
 	public void setType(buildingType type) {
 		this.type = type;
+	}
+	
+	public void setPaymentFund(double fund)
+	{
+		this.PaymentFund = fund;
 	}
 	
 	public void setEntrance(int x, int y) {

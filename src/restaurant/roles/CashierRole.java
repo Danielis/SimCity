@@ -428,7 +428,7 @@ public class CashierRole extends Role implements Cashier{
 		
 	}
 	
-	public void setRestaurant(Restaurant r)
+	public void setBuilding(Restaurant r)
 	{
 		this.r = r;
 	}

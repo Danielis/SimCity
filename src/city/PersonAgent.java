@@ -9,7 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import restaurant.CustomerAgent;
 import restaurant.Restaurant;
 import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
@@ -187,6 +186,7 @@ public class PersonAgent extends Agent implements Person
 		
 		
 	}
+	
 	public enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
 	public Job job;
 	
@@ -1374,29 +1374,29 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.restHost)
 		{
 			HostRole c = new HostRole(this.getName(), this.cash);
+			c.setBuilding(r);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addHost((HostRole) c);
 			c.setPerson(this);
-			c.setRestaurant(r);
 			roles.add(c);
 			c.setActivity(true);
 		}
 		
 		if (job.type == JobType.cook){
 			CookRole c = new CookRole(this.getName(), this.cash);
+			c.setBuilding(r);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addCook((CookRole) c);
 			c.setPerson(this);
-			c.setRestaurant(r);
 			roles.add(c);
 			c.setActivity(true);
 		}
 		if (job.type == JobType.cashier){
 			CashierRole c = new CashierRole(this.getName(), this.cash);
+			c.setBuilding(r);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addCashier((CashierRole) c);
 			c.setPerson(this);
-			c.setRestaurant(r);
 			roles.add(c);
 			c.setActivity(true);
 		}

@@ -11,6 +11,7 @@ public abstract class Role
 	public PersonAgent myPerson;
 	public Boolean active;
 	public TrackerGui trackingWindow;
+	public Building building;
 	
 	public void startThread()
 	{

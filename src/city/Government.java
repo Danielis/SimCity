@@ -8,8 +8,8 @@ import city.PersonAgent.location;
 import city.TimeManager.Day;
 import agent.Agent;
 
-public class Clock extends Agent {
-String name = "Clock";
+public class Government extends Agent {
+String name = "Government";
 List<PersonAgent> people = new ArrayList<PersonAgent>();
 Day msgWakeLastSent = Day.thursday;
 Day msgHomeLastSent = Day.thursday;
@@ -26,7 +26,7 @@ Day LastChecked = Day.monday;
 
 		if (GetPaid() && DayOverPay()){ // need to call message people around 12 so they can get paid then need to pay people a flat fee then
 			msgPeoplePayOut();
-			print("Clock Printed out at mid day!");
+			print("Major: It's noon! Pay time.");
 		}
 
 		if (NewDay())
@@ -69,7 +69,7 @@ Day LastChecked = Day.monday;
 
 	private void msgPeopleWake() {
 		msgWakeLastSent = TimeManager.getInstance().getDay();
-		print("5AM. TIME TO WAKE UP!");
+		print("Major: 5AM. TIME TO WAKE UP!");
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.home){
@@ -84,7 +84,7 @@ Day LastChecked = Day.monday;
 
 	private void msgStopWorking() {
 		msgHomeLastSent = TimeManager.getInstance().getDay();
-		print("8PM. TIME TO GO HOME!");
+		print("Major: 8PM. TIME TO GO HOME!");
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.work){

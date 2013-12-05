@@ -120,8 +120,8 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void setRestaurant(Restaurant r) {
-		// TODO Auto-generated method stub
+	public void setBuilding(Restaurant r) {
+		//
 		
 	}
 

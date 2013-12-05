@@ -30,7 +30,7 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
-import city.Clock;
+import city.Government;
 import city.Scenario;
 import city.TimeManager;
 
@@ -53,12 +53,13 @@ import java.util.Vector;
 
 public class CityGui extends JFrame implements ActionListener {
 
-
-
 	Restaurant tempRes;
 	Bank tempBan;
 	Apartment tempApa;
 	Market tempMar;
+	
+	//Funds per building to pay their employees
+	public double GovernmentFunds = 100000;
 
 	CityGui cityGui = this;
 
@@ -100,7 +101,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 	public static TrackerGui trackingWindow;
 
-	private Clock clock = new Clock();
+	private Government clock = new Government();
 
 	// ************ START FUNCTION PANEL *********************
 
@@ -407,6 +408,7 @@ public class CityGui extends JFrame implements ActionListener {
 					for (Building b: buildings){
 						if (b.getType() == buildingType.restaurant){
 							Restaurant r = (Restaurant) b;
+							r.setPaymentFund(GovernmentFunds);
 							tempRes = r;
 							r.gui.setVisible(true);
 							cityGui.setAlwaysOnTop(false);

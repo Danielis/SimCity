@@ -713,7 +713,7 @@ public class CookRole extends Role implements Cook
 		stateChanged();
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setBuilding(Restaurant restaurant) {
 		this.rest = restaurant;
 		theMonitor = restaurant.theMonitor;
 	}

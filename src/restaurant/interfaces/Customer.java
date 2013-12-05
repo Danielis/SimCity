@@ -54,6 +54,6 @@ public interface Customer
 
 	public abstract void resumeAgent();
 
-	public abstract void setRestaurant(Restaurant r);
+	public abstract void setBuilding(Restaurant r);
 
 }

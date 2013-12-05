@@ -555,11 +555,6 @@ public class HostRole extends Role implements Host{
 		return true;
 	}
 	
-	public void setRestaurant(Restaurant rr)
-	{
-		r = rr;
-	}
-	
 	public void LeaveWork()
 	{
 		hostGui.Disable();
@@ -569,5 +564,9 @@ public class HostRole extends Role implements Host{
 		r.nullifyHost();
 	}
 
+	public void setBuilding(Restaurant rr)
+	{
+		r = rr;
+	}
 }
 
