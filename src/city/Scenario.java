@@ -28,6 +28,11 @@ public void fillWork(CityPanel c){
 	c.addWorker("Teller 2", "Teller", "Average");
 	c.addWorker("Teller 3", "Teller", "Average");
 	
+	c.addWorker("Bank Host", "Bank Host", "Average");
+	c.addWorker("Teller 1", "Teller", "Average");
+	c.addWorker("Teller 2", "Teller", "Average");
+	c.addWorker("Teller 3", "Teller", "Average");
+	
 	//for restaurant: need to repeat for all restaurants
 	c.addWorker("Chef", "Cook", "Average");
 	c.addWorker("Waiter 1", "Waiter", "Average");
