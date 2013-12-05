@@ -718,6 +718,7 @@ public class PersonAgent extends Agent implements Person
 	    Status.setLocation(location.outside);
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
+	    Status.setWorkStatus(workStatus.notWorking);
 	    gui.setPresent(true);
 	    stateChanged() ;
 	}
@@ -967,6 +968,7 @@ public class PersonAgent extends Agent implements Person
 			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 			if (job.type != JobType.none && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd){
 				for (Day d : job.daysWorking){ //if it is the correct day to work
+					print("time to go to work");
 					if (d == TimeManager.getInstance().getDay()){
 						GoToWork();
 						return true;
