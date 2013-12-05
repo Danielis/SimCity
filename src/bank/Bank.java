@@ -27,7 +27,7 @@ public class Bank extends Building{
 	private List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 	int idIncr = 0;
-	
+	int loanIncr = 0;
 	public BankGui gui;
 	public BankPanel panel;
 	public String name; //Name of the restaurant
@@ -208,12 +208,14 @@ public class Bank extends Building{
 	    int dayCreated;
 	    int dayOwed;
 	    public loanState s;
+	    int id;
 	    
 	    Loan(BankCustomer c2, double amount){
 	    c = c2;
 	    rate = 1.08;
 	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
 	    balancePaid = 0;
+		id = ++loanIncr;
 	    }
 	    
 	    public double getAmountOwed(){

@@ -1341,6 +1341,11 @@ public class PersonAgent extends Agent implements Person
 		if (CheckBankOpen()){
 		gui.setPresent(false);
 		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
+		if (!accounts.isEmpty())
+			c.setAccount(accounts.get(0));
+		if (!accounts.isEmpty())
+			c.setLoan(loans);
+		
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);

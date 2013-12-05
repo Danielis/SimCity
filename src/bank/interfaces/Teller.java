@@ -8,6 +8,7 @@ import java.util.List;
 
 import logging.TrackerGui;
 import bank.Bank;
+import bank.Bank.Loan;
 
 public interface Teller 
 {
@@ -18,7 +19,7 @@ public interface Teller
 	public void DepositMoney(BankCustomer c, int accountID, double amount);
 	public void WithdrawMoney(BankCustomer c, int accountID, double amount);
 	public void IWantLoan(BankCustomer c, double amount);
-	public void PayMyLoan(BankCustomer c, double amount);
+	public void PayMyLoan(BankCustomer c, double amount, Loan loan);
 	public void IAmLeaving();
 	public void msgSetOffBreak();
 	public void msgSetOnBreak();

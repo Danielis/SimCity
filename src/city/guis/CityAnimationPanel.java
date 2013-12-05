@@ -120,9 +120,7 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 			Graphics2D c2 = (Graphics2D)g;
 			Graphics2D c3 = (Graphics2D)g;
 			
-			c1.drawImage(cloud1, c_position1.x, c_position1.y, this);
-			c2.drawImage(cloud2, c_position2.x, c_position2.y, this);
-			c3.drawImage(cloud3, c_position3.x, c_position3.y, this);
+
 
 			synchronized(guis){
             for(Gui gui : guis) {
@@ -139,6 +137,11 @@ public class CityAnimationPanel extends JPanel implements ActionListener
                     }
             }
 			}
+			
+			c1.drawImage(cloud1, c_position1.x, c_position1.y, this);
+			c2.drawImage(cloud2, c_position2.x, c_position2.y, this);
+			c3.drawImage(cloud3, c_position3.x, c_position3.y, this);
+			
             g.setColor(Color.BLACK);
             g.drawString(TimeManager.getInstance().TimeStr(), 520, 615);
             

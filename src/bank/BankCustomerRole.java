@@ -1,5 +1,7 @@
 package bank;
 
+import bank.Bank.Account;
+import bank.Bank.Loan;
 import bank.Bank.*;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
@@ -401,7 +403,7 @@ private void GiveRequest(){
 	    	print("I would like to payback $" + amount + " of my loan");
 	    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to payback $" + amount + " of my loan", new Date()));
 	    	if (reduceBalance())
-	    		t.PayMyLoan(this, amount);
+	    		t.PayMyLoan(this, amount, loan);
 	    }
 	    
 	    if (purpose == customerPurpose.rob){
@@ -527,10 +529,20 @@ private void LeaveBank(){
 	}
 
 
+
 	@Override
 	public void msgLeaveWork() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setAccount(Account account) {
+		accountID = account.id;
+	}
+
+	public void setLoan(List<Loan> loans) {
+		//if (loans != null)
+		//	loan = loans.get(0);
 	}
 
 

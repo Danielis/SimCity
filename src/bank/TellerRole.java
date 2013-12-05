@@ -191,7 +191,7 @@ public void IWantAccount(BankCustomer c, double amount){
 public void DepositMoney(BankCustomer c, int accountID, double amount){
 	print("Looking for account...");
 	for (Account a : bank.accounts){
-		if (a.c == c){
+		if (a.id == accountID){
 			print("Found account.");
 			Account acct = a;
 			 transactions.add(new Transaction(acct, amount, transactionType.deposit, c));
@@ -208,7 +208,7 @@ public void DepositMoney(BankCustomer c, int accountID, double amount){
 
 public void WithdrawMoney(BankCustomer c, int accountID, double amount){
 	for (Account a : bank.accounts){
-		if (a.c == c){
+		if (a.id == accountID){
 			Account acct = a;
 			transactions.add(new Transaction(acct, amount, transactionType.withdrawal, c));
 			stateChanged();
@@ -227,9 +227,9 @@ public void IWantLoan(BankCustomer c, double amount){
     stateChanged();
 }
 
-public void PayMyLoan(BankCustomer c, double amount){
+public void PayMyLoan(BankCustomer c, double amount, Loan loan){
     for (Loan l : bank.loans){
-		if (l.c == c){
+		if (l == loan){
 			transactions.add(new Transaction(l, amount, transactionType.loanPayment, c));
 			stateChanged();
 			return;
