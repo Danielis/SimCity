@@ -167,7 +167,7 @@ public class CashierRole extends Role implements Cashier{
 //MESSAGES****************************************************
 
 	public void msgGetPaid(){
-		mymoney = this.r.takePaymentForWork(salary);
+		mymoney += this.r.takePaymentForWork(salary);
 	}
 
 	public void msgLeaveWork()

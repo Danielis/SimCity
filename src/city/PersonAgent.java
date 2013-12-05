@@ -698,7 +698,7 @@ public class PersonAgent extends Agent implements Person
 			 }
 		 }
 	}
-	//TODO ADD THIS MSG TO ALL WORKER ROLES
+
 	public void msgLeaveWork() {
 		for (Role r : roles){
 			if (r.active){
@@ -1353,6 +1353,14 @@ public class PersonAgent extends Agent implements Person
 
 	public void WorkAtRest() {
 
+		/*=====================================================================
+		  						RESTAURANT SALARIES
+		  =====================================================================
+			Cashier (Economist)  		|   100 per shift
+			Host (Manager)		 		|   80  per shift
+			Cook (Culinary Grad) 		|   80  per shift
+			Waiter (Low-wage student)   |   50  per shift
+		  =====================================================================*/
 
 		takeBusIfApplicable(2);
 
@@ -1375,6 +1383,7 @@ public class PersonAgent extends Agent implements Person
 		{
 			HostRole c = new HostRole(this.getName(), this.cash);
 			c.setBuilding(r);
+			c.setSalary(80);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addHost((HostRole) c);
 			c.setPerson(this);
@@ -1385,6 +1394,7 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.cook){
 			CookRole c = new CookRole(this.getName(), this.cash);
 			c.setBuilding(r);
+			c.setSalary(80);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addCook((CookRole) c);
 			c.setPerson(this);
@@ -1394,7 +1404,7 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.cashier){
 			CashierRole c = new CashierRole(this.getName(), this.cash);
 			c.setBuilding(r);
-			c.setSalary(50);
+			c.setSalary(100);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addCashier((CashierRole) c);
 			c.setPerson(this);
@@ -1408,6 +1418,7 @@ public class PersonAgent extends Agent implements Person
 				ModernWaiterRole c = new ModernWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((ModernWaiterRole) c);
 				c.setPerson(this);
+				//TODO c.setSalary(50);
 				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);
@@ -1417,6 +1428,7 @@ public class PersonAgent extends Agent implements Person
 				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r);
 				r.panel.addWaiter((TraditionalWaiterRole) c);
 				c.setPerson(this);
+				//TODO c.setSalary(50);
 				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);
@@ -1573,25 +1585,21 @@ public class PersonAgent extends Agent implements Person
 
 		@Override
 		public void setThreshold(int q) {
-			// TODO Auto-generated method stub
 			
 		}
 	
 		@Override
 		public String getType() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 	
 		@Override
 		public int getQuantity() {
-			// TODO Auto-generated method stub
 			return 0;
 		}
 	
 		@Override
 		public void removeItem() {
-			// TODO Auto-generated method stub
 			
 		}
 

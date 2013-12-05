@@ -37,6 +37,7 @@ public class CookRole extends Role implements Cook
 	private String name;
 	Timer timer;
 	double accountBalance = 0;
+	double salary;
 
 	//How many items the cook starts with
 	static final int numItemsInInventory = 5;
@@ -731,6 +732,10 @@ public class CookRole extends Role implements Cook
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Called to leave work.", new Date()));
 		myPerson.msgLeftWork(this, this.accountBalance);
 		rest.nullifyCook();
+	}
+
+	public void setSalary(double i) {
+		salary = i;
 	}
 }
 
