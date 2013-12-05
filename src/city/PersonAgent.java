@@ -1394,6 +1394,7 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.cashier){
 			CashierRole c = new CashierRole(this.getName(), this.cash);
 			c.setBuilding(r);
+			c.setSalary(50);
 			c.setTrackerGui(trackingWindow);
 			r.panel.addCashier((CashierRole) c);
 			c.setPerson(this);
@@ -1427,30 +1428,14 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(0);
 		
-		//gui.DoGoToCheckpoint('G');
-		//gui.DoGoToCheckpoint('J');
-		//gui.DoGoToCheckpoint('K');
-		
 		
 		Role c = null;
 		Bank r = (Bank) job.workBuilding;
-//		synchronized(buildings)
-//		{
-//			for (Building b: buildings){
-//				if (b.getType() == buildingType.bank)
-//				{
-//					r = (Bank) b;
-//				}
-//			}
-//		}
 	
 		gui.DoGoToLocation(r.entrance);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
-		
-		
-	
 		
 		if (job.type == JobType.bankHost && r.workingHost == null)
 		{

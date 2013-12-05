@@ -44,6 +44,8 @@ public class CashierRole extends Role implements Cashier{
 	private double mymoney;
 	private float account;
 	private double  balance;
+	
+	public double salary = 50;
 	//Other 
 	private Map<String, Float> prices = new HashMap<String, Float>();
 	
@@ -77,6 +79,11 @@ public class CashierRole extends Role implements Cashier{
 	public void setBalance(float balance)
 	{
 		account = balance;
+	}
+	
+	public void setSalary(double sal)
+	{
+		salary = sal;
 	}
 	
 	public float getAccountBalance(){
@@ -160,8 +167,7 @@ public class CashierRole extends Role implements Cashier{
 //MESSAGES****************************************************
 
 	public void msgGetPaid(){
-		account = account - 50;
-		mymoney = mymoney + 50;
+		mymoney = this.r.takePaymentForWork(salary);
 	}
 
 	public void msgLeaveWork()

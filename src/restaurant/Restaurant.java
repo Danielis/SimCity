@@ -75,4 +75,10 @@ public class Restaurant extends Building{
 	{
 		panel.cashier = null;
 	}
+	
+	public double takePaymentForWork(double amount)
+	{
+		this.PaymentFund -= amount;
+		return amount;
+	}
 }
