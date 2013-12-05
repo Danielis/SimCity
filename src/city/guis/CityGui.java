@@ -508,7 +508,7 @@ public class CityGui extends JFrame implements ActionListener {
 			scen1.setEnabled(false);
 		}
 		if (e.getSource() == scen2){
-			Scenario.getInstance().CallScenario2(this.cityPanel);
+			Scenario.getInstance().CallScenarioA(this.cityPanel);
 			scen1.setEnabled(false);
 		}
 		if (e.getSource() == noAIGo){

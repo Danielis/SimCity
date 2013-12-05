@@ -25,7 +25,7 @@ public class Scenario {
 public void fillWork(CityPanel c){
 	c.addWorker("Bank Host", "Bank Host", "Average");
 	c.addWorker("Teller 1", "Teller", "Average");
-	c.addWorker("Teller 2", "Teller", "Wealthy");
+	c.addWorker("Teller 2", "Teller", "Average");
 	c.addWorker("Teller 3", "Teller", "Average");
 	
 	//for restaurant: need to repeat for all restaurants
@@ -37,9 +37,18 @@ public void fillWork(CityPanel c){
 }
 
 
-public void CallScenario2(CityPanel c){				// for points 1-4
+public void CallScenarioA(CityPanel c){				// for points 1-4
 	fillWork(c);
+	TimeManager.getInstance().setDivider(20);
+	TimeManager.getInstance().setOffset(300000);
 	c.addPerson("Scen 1-4", "None", "Wealthy");
+}
+
+public void CallScenarioB(CityPanel c){
+	fillWork(c);
+	c.addPerson("Driver", "None", "Wealthy");
+	c.addPerson("Busser", "None", "Average");
+	c.addPerson("Walker", "None", "Poor");
 }
 	
 public void CallScenario1(CityPanel c){
