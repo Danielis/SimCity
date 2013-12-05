@@ -30,7 +30,6 @@ public class Bank extends Building{
 	int loanIncr = 0;
 	public BankGui gui;
 	public BankPanel panel;
-	public String name; //Name of the restaurant
     public Coordinate location;
     public BankHostRole workingHost;
     private Boolean hasHost = false;
@@ -52,6 +51,7 @@ public class Bank extends Building{
         gui.setAlwaysOnTop(true);
         gui.setAlwaysOnTop(false);
         gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.name = name;
 	}
 	
 	public Bank(){

@@ -310,7 +310,8 @@ public class CityGui extends JFrame implements ActionListener {
 
 		//City Element Creation
 		createRestaurant("Norman's Restaurant", 257, 474);
-		createBank("Aleena's Bank", 73, 74);
+		createBank("Aleena's Bank - North", 73, 74);
+		createBank("Aleena's Bank - South", 16, 619);
 		createMarket("Aleena's Market", 280, 265);
 		createApartment("The Chris Apartment Complex", 319, 90);
 
@@ -358,7 +359,30 @@ public class CityGui extends JFrame implements ActionListener {
 				{
 
 					for (Building b: buildings){
-						if (b.getType() == buildingType.bank){
+						if (b.getType() == buildingType.bank && b.name.equals("Aleena's Bank - North")){
+							Bank r = (Bank) b;
+							tempBan = r;
+							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempBan.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+									System.out.println("check");
+								}
+							});
+						}
+					}   
+				}
+				
+				if ((x<140) && (y<619) && (x>32) && (y>554))
+				{
+
+					for (Building b: buildings){
+						if (b.getType() == buildingType.bank && b.name.equals("Aleena's Bank - South")){
 							Bank r = (Bank) b;
 							tempBan = r;
 							r.gui.setVisible(true);

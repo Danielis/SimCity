@@ -8,6 +8,7 @@ public class Building {
 	Coordinate botLeft;
 	Coordinate botright;
 	public buildingType type;
+	public String name;
 	
 	public enum buildingType{bank, restaurant, market, housingComplex};
 	
