@@ -730,6 +730,13 @@ public class PersonAgent extends Agent implements Person
 	    Status.setDestination(destination.outside);
 	    Status.setHousingStatus(houseStatus.notHome);
 	    gui.setPresent(true);
+	    
+	    if (homePurpose.equals("Cook")){
+	    	timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
+	    }
+	    if (homePurpose.equals("Sleep")){
+	    	timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime();
+	    }
 	    stateChanged();
 	}
 	
@@ -800,6 +807,7 @@ public class PersonAgent extends Agent implements Person
 
 
 		//roles.remove(r);
+		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
 		stateChanged();
 
 	}
@@ -1089,10 +1097,11 @@ public class PersonAgent extends Agent implements Person
 			homePurpose = "Cook";
 			GoHomeToDoX();
 		} 
+		
 	}
 
 	public boolean isHungry() {
-		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 90000){
 			print("Hmm... I'm hungry. I better eat soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
 			
@@ -1103,7 +1112,7 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	public boolean isTired() {
-		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastSlept > 60000){
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastSlept > 90000){
 			print("Hmm... I'm tired. I better sleep soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm tired. I better sleep soon", new Date()));
 			
@@ -1636,7 +1645,7 @@ public class PersonAgent extends Agent implements Person
 		}
 
 		public void setHungry() {
-			timeSinceLastAte = -60000;
+			timeSinceLastAte = -90000;
 		}
 
 }
