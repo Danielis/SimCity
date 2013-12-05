@@ -1210,7 +1210,7 @@ public class PersonAgent extends Agent implements Person
 				//print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
 				if(i.quantity < i.threshold && canAfford(i)){
 					marketPurpose = i.type;
-					marketQuantity = i.threshold - i.quantity;
+					marketQuantity = i.capacity - i.quantity;
 					return true;
 				}
 			}
