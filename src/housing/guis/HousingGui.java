@@ -144,7 +144,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
         housingPanel.landlord.setTrackerGui(trackingWindow);
-        for(HousingWorkerRole h : housingPanel.workers) {
+        for(HousingWorker h : housingPanel.workers) {
         	h.setTrackerGui(trackingWindow);
         }
     
@@ -166,7 +166,7 @@ public class HousingGui extends JFrame implements ActionListener {
 				"<html><pre>     Name: " + currentTenant.getName() + " </pre></html>");
 		tenantInformationPanel.validate();
 	}
-	public void updateWorkerInformationPanel(HousingWorkerRole temp) {
+	public void updateWorkerInformationPanel(HousingWorker temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentWorker = temp;
 		//HousingCustomerAgent tenant = temp;

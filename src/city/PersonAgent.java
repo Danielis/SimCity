@@ -424,8 +424,6 @@ public class PersonAgent extends Agent implements Person
 	public void removeItem() {
 		quantity--;
 	}
-	
-		
 	}
 	
 	
@@ -1056,8 +1054,6 @@ public class PersonAgent extends Agent implements Person
 		return false;	
 
 	}
-
-	
 	
 	public void GoToSleep() {
 		homePurpose = "Sleep";

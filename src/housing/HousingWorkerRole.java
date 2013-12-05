@@ -52,6 +52,10 @@ public class HousingWorkerRole extends Role implements HousingWorker{
 		balance = 0;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
 	}

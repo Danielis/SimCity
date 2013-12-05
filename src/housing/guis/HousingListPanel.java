@@ -7,6 +7,7 @@ import restaurant.CookAgent;
 import housing.HousingCustomerRole;
 import housing.HousingWorkerRole;
 import housing.interfaces.HousingCustomer;
+import housing.interfaces.HousingWorker;
 
 import javax.swing.*;
 
@@ -37,7 +38,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	private JTextField nameFieldForPerson = new JTextField("");
 	private HousingCustomer currentTenant;
 	private HousingCustomerRole lastPersonClicked;
-	private HousingWorkerRole currentWorker;
+	private HousingWorker currentWorker;
 
 	//GENERAL STUFF
 	private HousingPanel housingPanel;
@@ -79,8 +80,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
 				addTenant(nameFieldForPerson.getText());*/
 			}
 			else{
-				System.out.println("The type is " + this.type);
-				addWorker(nameFieldForPerson.getText());
+				//System.out.println("The type is " + this.type);
+				//addWorker(nameFieldForPerson.getText());
 			}
 		}
 		else {
@@ -108,25 +109,6 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	 * @param name name of new person
 	 */
 
-	/*
-	public void addTenant(String name) {
-		if (name != null) {
-			JButton button = new JButton(name);
-			button.setBackground(Color.white);
-			Dimension paneSize = personPane.getSize();
-			Dimension buttonSize = new Dimension(paneSize.width - 20,
-					(int) (paneSize.height / 10));
-			button.setPreferredSize(buttonSize);
-			button.setMinimumSize(buttonSize);
-			button.setMaximumSize(buttonSize);
-			button.addActionListener(this);
-			listForTenants.add(button);
-			viewForTenant.add(button);
-			housingPanel.addTenant(name, (listForTenants.size()-1));
-			housingPanel.showTenantInfo(name);
-			validate();
-		}
-	}*/
 	
 	public void addTenant(HousingCustomer c, String homePurpose) {
 			JButton button = new JButton(c.getName());
@@ -145,9 +127,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			validate();
 	}
 	
-	public void addWorker(String name) {
-		if (name != null) {
-			JButton button = new JButton(name);
+	public void addWorker(HousingWorker w) {
+			JButton button = new JButton(w.getName());
 			button.setBackground(Color.white);
 			Dimension paneSize = personPane.getSize();
 			Dimension buttonSize = new Dimension(paneSize.width - 20,
@@ -158,10 +139,9 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			button.addActionListener(this);
 			listForWorkers.add(button);
 			viewForWorker.add(button);
-			housingPanel.addWorker(name);
-			housingPanel.showWorkerInfo(name);
+			housingPanel.addWorker(w);
+			housingPanel.showWorkerInfo(w.getName());
 			validate();
-		}
 	}
 
 
@@ -178,9 +158,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	{
 		currentTenant = temp;
 	}
-	public void updateWorker(HousingWorkerRole temp)
+	public void updateWorker(HousingWorker temp)
 	{
 		currentWorker = temp;
-
 	}
 }

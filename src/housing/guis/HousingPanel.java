@@ -25,12 +25,10 @@ import java.util.Vector;
 public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
-	public LandlordRole landlord = new LandlordRole();
-	public HousingCustomer tenant;
-	private HousingWorkerRole worker;
+	public LandlordRole landlord;
         
     private Vector<HousingCustomer> tenants = new Vector<HousingCustomer>();
-    public Vector<HousingWorkerRole> workers = new Vector<HousingWorkerRole>();
+    public Vector<HousingWorker> workers = new Vector<HousingWorker>();
     
     private JPanel restLabel = new JPanel();
     public HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
@@ -50,7 +48,6 @@ public class HousingPanel extends JPanel {
         group.add(workerPanel);
 
         landlord.startThread();
-        addWorker("Worker");
         
         initRestLabel();
         add(restLabel);
@@ -105,7 +102,7 @@ public class HousingPanel extends JPanel {
     }
     public void showWorkerInfo(String name)
     {
-    	for (HousingWorkerRole temp:workers) {
+    	for (HousingWorker temp:workers) {
     		if (temp.name.equals(name))
     		{
     			workerPanel.updateWorker(temp);
@@ -150,24 +147,24 @@ public class HousingPanel extends JPanel {
         landlord.addCustomer(hc);
         hc.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
-		tenant = hc;
-		tenants.add(tenant);
+		tenants.add(hc);
 		System.out.println("Entry in tenants has name: " + tenants.get(0).getName());
 		//tenant.startThread();
     }
     
-    public void addWorker(String name) 
+    public void addWorker(HousingWorker w) 
     {
-    	HousingWorker p = new HousingWorkerRole(name);
-		HousingWorkerGui g = new HousingWorkerGui(p, gui);
+		HousingWorkerGui g = new HousingWorkerGui(w, gui);
 		gui.housingAnimationPanel.addGui(g);
-		p.setGui(g);
-        landlord.addWorker(p);
-        p.setLandlord(landlord);
+		w.setGui(g);
+        landlord.addWorker(w);
+        w.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
-		worker = (HousingWorkerRole) p;
-		workers.add(worker);
-		worker.startThread();
+		workers.add(w);
+    }
+    
+    public void addLandlord(String name) {
+    	Landlord l = new LandlordRole(name);
     }
     
     public void pause()

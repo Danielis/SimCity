@@ -22,10 +22,11 @@ public class LandlordRole extends Role implements Landlord{
 	//-------------------Utilities----------------------------
 	//--------------------------------------------------------
 	//constructor
-	public LandlordRole() {
+	public LandlordRole(String name) {
 		complexes.add(new HousingComplex());
 		System.out.println("Landlord created.");
 		balance = 10000;
+		this.name = name;
 	}
 	
 	public void setTrackerGui(TrackerGui t) {
@@ -49,6 +50,7 @@ public class LandlordRole extends Role implements Landlord{
 	public List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
 	public double balance;
 	public TrackerGui trackingWindow;
+	public String name;
 
 	public class HousingComplex {
 		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();
