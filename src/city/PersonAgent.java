@@ -749,21 +749,6 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 		stateChanged();
 	}
-	
-	public void msgAskForPayment()
-	{
-		if (job != null && job.type != JobType.none)
-		{
-			for (Role r : roles)
-			{
-				if (r.getActivity() == true)
-				{
-					//STUB
-				}
-			}
-		}
-	}
-	
 
 	//Housing
 	public void msgGoToHome(String purpose){

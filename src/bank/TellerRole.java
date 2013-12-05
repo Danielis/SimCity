@@ -589,7 +589,5 @@ private boolean canLeave() {
 	public void setBank(Bank b) {
 		this.bank = b;
 	}
-	
-
 }
 
