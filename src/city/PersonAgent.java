@@ -52,15 +52,6 @@ import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
 
-
-
-
-
-
-
-
-
-
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -763,7 +754,13 @@ public class PersonAgent extends Agent implements Person
 	{
 		if (job != null && job.type != JobType.none)
 		{
-			//Ask for payments
+			for (Role r : roles)
+			{
+				if (r.getActivity() == true)
+				{
+					//STUB
+				}
+			}
 		}
 	}
 	
@@ -795,28 +792,7 @@ public class PersonAgent extends Agent implements Person
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
 		gui.setPresent(true);
-		
-//		for (Building b: buildings){
-//			print(" type: " + b.getType() + " n: ");
-//			if (b.getType() == buildingType.restaurant){
-//				Restaurant a = (Restaurant) b;
-//				a.panel.removeCustomer((Customer)r);
-//			}
-
-//		}	
-
-//		}
-		
-		//Commenting out since AI should handle movement after the person gets out of restaurant
-		//gui.DoGoToCheckpoint('D');
-		//gui.DoGoToCheckpoint('C');
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('A');
-		// however will make person just go home or where housing will be /////////////////////////////////////
 		this.Status.setLocation(location.outside);
-		//gui.setPresent(false);		
-
-
 		//roles.remove(r);
 		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
 		stateChanged();
@@ -846,8 +822,6 @@ public class PersonAgent extends Agent implements Person
 		roles.remove(r);
 		stateChanged();
 	}
-	
-
 	
 	public void msgNewAccount(BankCustomerRole bankCustomerRole, Account acct) {
 		accounts.add(acct);
@@ -1279,7 +1253,6 @@ public class PersonAgent extends Agent implements Person
 	{
 		Apartment a = null;
 		for (Building b: buildings){
-			//print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				 a = (Apartment) b;
 			}
@@ -1293,9 +1266,6 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(0);
 		
-		//gui.DoGoToCheckpoint('G');
-		//gui.DoGoToCheckpoint('H');
-		//gui.DoGoToCheckpoint('I');
 		gui.DoGoToLocation(a.entrance);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
@@ -1307,8 +1277,6 @@ public class PersonAgent extends Agent implements Person
 		roles.add(c);
 		c.setActivity(true);
 		a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
-		
-		
 	}
 
 	public void GoToBank()
@@ -1317,7 +1285,6 @@ public class PersonAgent extends Agent implements Person
 		synchronized(buildings) {
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank){
-					//print("found b");
 					r = (Bank) b;
 				}
 			}
@@ -1332,9 +1299,6 @@ public class PersonAgent extends Agent implements Person
 
 		takeBusIfApplicable(0);
 		
-		//gui.DoGoToCheckpoint('G');
-		//gui.DoGoToCheckpoint('J');
-		//gui.DoGoToCheckpoint('K');
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.bank);
 		
@@ -1406,9 +1370,6 @@ public class PersonAgent extends Agent implements Person
 
 
 		takeBusIfApplicable(2);
-		
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('A');
 
 		Restaurant r = null;
 		synchronized(buildings)
