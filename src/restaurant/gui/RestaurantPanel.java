@@ -194,23 +194,6 @@ public class RestaurantPanel extends JPanel
 		customers.add(c);
     }
     
-    
-//    public void addTeller(Teller c) 
-//    {
-//		Teller w = c;	
-//		b.addTeller(w);
-//		c.setTableNum(b.getTellerNunmber()); 
-//		TellerGui g = new TellerGui(w, gui, b.getTellerNunmber());
-//		w.setBank(b);
-//		gui.animationPanel.addGui(g);
-//		w.setHost(host);  
-//		w.setAnimPanel(gui.animationPanel);
-//		host.msgNewTeller(w); 
-//		w.setGui(g);
-//		waiters.add(w);
-//		//w.startThread();
-//    }
-    
     public void addWaiter(Waiter w) 
     {
 		WaiterGui g = new WaiterGui(w, gui, waiterindex);
@@ -261,6 +244,11 @@ public class RestaurantPanel extends JPanel
     public void removeCustomer(Customer customer)
     {
     	customers.remove(customer);
+    }
+    
+    public void removeWaiters(Waiter waiter)
+    {
+    	waiters.remove(waiter);
     }
     public void addCustomer(String name) 
     {
@@ -327,7 +315,6 @@ public class RestaurantPanel extends JPanel
     public void addCook(Cook cook)
     {
        	System.out.println("Added cook");
-		// TODO Auto-generated method stub
 		CookGui g = new CookGui(cook, gui);
 		gui.animationPanel.addGui(g);
 		cook.setGui(g);
@@ -356,26 +343,4 @@ public class RestaurantPanel extends JPanel
 	public void setRestaurant(Restaurant restaurant) {
 		this.r = restaurant;
 	}
-
-	
-//    
-//    public void resume()
-//    {
-//    	host.resumeAgent();
-//    	cook.resumeAgent();
-//    	for (Customer c : customers)
-//    	{
-//    		c.resumeAgent();
-//    	}
-//    	for (Waiter w : waiters)
-//    	{
-//    		w.resumeAgent();
-//    	}
-//    }
-//
-//    public void refresh()
-//    {
-//    	gui.updateLastCustomer();
-//    	gui.updateLastWaiter();
-//    }
 }
