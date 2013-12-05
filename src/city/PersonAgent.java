@@ -48,9 +48,17 @@ import market.interfaces.MarketCustomer;
 import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
 import housing.HousingCustomerRole;
+import housing.HousingWorkerRole;
+import housing.LandlordRole;
 import housing.interfaces.HousingCustomer;
+import housing.interfaces.HousingWorker;
+import housing.interfaces.Landlord;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
+
+
+
 
 
 
@@ -202,7 +210,6 @@ public class PersonAgent extends Agent implements Person
 		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
 		int num2 = (int)(Math.random() * ((30000 - 10000) + 10000));
 		timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime() - num2; // sets random time for ate, before added
-		
 	}	
 	
 	public double setWealth() {
@@ -1401,15 +1408,25 @@ public class PersonAgent extends Agent implements Person
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
+		Apartment a = null;
+		synchronized(buildings)
+		{
+			for (Building b: buildings){
+				if (b.getType() == buildingType.housingComplex)
+				{
+					a = (Apartment) b;
+				}
+			}
+		}
 		if (job.type == JobType.landLord)
 		{
-//			c = new RestaurantHostRole(this.getName());
-//			r.panel.customerPanel.addHost((BankHost) c);
+			Landlord l = new LandlordRole(this.getName());
+			a.panel.addLandlord((LandlordRole) l);
 		}
 		if (job.type == JobType.repairman)
 		{
-//			c = new RestaurantHostRole(this.getName());
-//			r.panel.customerPanel.addHost((BankHost) c);
+			HousingWorker w = new HousingWorkerRole(this.getName());
+			a.panel.workerPanel.addWorker(w);
 		}
 	}
 

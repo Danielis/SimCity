@@ -46,8 +46,6 @@ public class HousingPanel extends JPanel {
         
         group.add(tenantPanel);
         group.add(workerPanel);
-
-        landlord.startThread();
         
         initRestLabel();
         add(restLabel);
@@ -163,8 +161,8 @@ public class HousingPanel extends JPanel {
 		workers.add(w);
     }
     
-    public void addLandlord(String name) {
-    	Landlord l = new LandlordRole(name);
+    public void addLandlord(LandlordRole l2) {
+    	landlord = l2;
     }
     
     public void pause()

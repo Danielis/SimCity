@@ -661,8 +661,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 	//apartment creation
 	public void createApartment(String name) {
-		HousingGui hg = new HousingGui();
-		hg.setTrackerGui(trackingWindow);
+		HousingGui hg = new HousingGui(trackingWindow);
 		Apartment a = new Apartment(name, hg);
 		buildings.add(a);
 	}

@@ -54,10 +54,12 @@ public class HousingGui extends JFrame implements ActionListener {
 	public TrackerGui trackingWindow;
 	
 	//constructor
-	public HousingGui() {
+	public HousingGui(TrackerGui t) {
 		//dimensions
 		int WINDOWX = 600;
 		int WINDOWY = 500;
+		
+		trackingWindow = t;
 
 		//button panel at bottom
 		ButtonPanel = new JPanel();
@@ -140,15 +142,7 @@ public class HousingGui extends JFrame implements ActionListener {
 		add(RestaurantPortion, BorderLayout.EAST);
 
 	}
-	
-	public void setTrackerGui(TrackerGui t) {
-		trackingWindow = t;
-        housingPanel.landlord.setTrackerGui(trackingWindow);
-        for(HousingWorker h : housingPanel.workers) {
-        	h.setTrackerGui(trackingWindow);
-        }
-    
-	}
+
 	/**
 	 * updatepersonInformationPanel() takes the given customer (or, for v3, Host) object and
 	 * changes the information panel to hold that person's info.
