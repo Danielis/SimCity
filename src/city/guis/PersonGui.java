@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
 import roles.Coordinate;
 import city.PersonAgent;
 
@@ -162,54 +163,31 @@ public class PersonGui implements Gui{
 
     		if (deltax < 0) deltax *= -1;
     		if (deltay < 0) deltay *= -1;
-    		if(agent.hasCar()){
-    			if (deltax < 0){
-    				deltax *= -1;
-    				try
-    				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
-    				} catch (IOException e ) {}
-    			}
-    			else if(deltax > 0){
-    				try
-    				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
-    				} catch (IOException e ) {}
-    			}
-    			if (deltay < 0){
-    				deltay *= -1;
-    				try
-    				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
-    				} catch (IOException e ) {}
-    			}
-    			else if(deltay > 0){
-    				try
-    				{
-    					imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
-    				} catch (IOException e ) {}
-    			}
-    		}
+   
 
             if (position.x < destination.x)
             {
+            	setImg("right");
                 position.x += (1 + deltax/deltadivider);
                 movementTicker++;
             }
             else if (position.x > destination.x)
             {
+            	setImg("left");
                 position.x -= (1 + deltax/deltadivider);
                 movementTicker++;
             }
 
-            if (position.y < destination.y)
+            else if (position.y < destination.y)
             {
+            	setImg("up");
                 position.y += (1 + deltay/deltadivider);
                 movementTicker++;
             }
             
             else if (position.y > destination.y)
             {
+            	setImg("down");
                 position.y -= (1 + deltay/deltadivider);
                 movementTicker++;
             }
@@ -238,6 +216,37 @@ public class PersonGui implements Gui{
 			setDefault();
 		}
 	}
+
+	private void setImg(String string) {
+		if (agent.hasCar()){
+			if (string.equals("up")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
+				} catch (IOException e ) {}
+			}
+
+			if (string.equals("down")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
+				} catch (IOException e ) {}
+			}
+			if (string.equals("right")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
+				} catch (IOException e ) {}
+			}
+			if (string.equals("left")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
+				} catch (IOException e ) {}
+			}
+		}
+	}
+
 
 	public void draw(Graphics2D g) 
 	{
