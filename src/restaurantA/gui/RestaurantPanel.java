@@ -83,7 +83,7 @@ public class RestaurantPanel extends JPanel {
         group.add(waiterPanel);
         
         initRestLabel();
-        add(restLabel);
+        //add(restLabel);
         add(group);
     }
 

@@ -310,6 +310,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 		//City Element Creation
 		createRestaurant("Norman's Restaurant", 257, 474);
+		createRestaurantA("Aleena Restaurant", 257, 474);
 		createBank("Aleena's Bank", 73, 74);
 		createMarket("Aleena's Market", 280, 265);
 		createApartment("The Chris Apartment Complex", 319, 90);
@@ -656,6 +657,16 @@ public class CityGui extends JFrame implements ActionListener {
 			RestaurantGui rg = new RestaurantGui();
 			rg.setTrackerGui(trackingWindow);
 			Restaurant r = new Restaurant(rg, name);
+			rg.setRestaurant(r);
+			r.setEntrance(x,y);
+			buildings.add(r);
+	}
+	
+	public void createRestaurantA(String name, int x, int y)
+	{
+			restaurantA.gui.RestaurantGui rg = new restaurantA.gui.RestaurantGui();
+			rg.setTrackerGui(trackingWindow);
+			restaurantA.RestaurantA r = new restaurantA.RestaurantA(rg, name);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
 			buildings.add(r);
