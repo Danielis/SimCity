@@ -6,11 +6,12 @@ import restaurant.gui.HostGui;
 import agent.StringUtil;
 import city.PersonAgent;
 
-public abstract class Role //why doesnt this extend agent?
+public abstract class Role
 {
 	public PersonAgent myPerson;
 	public Boolean active;
 	public TrackerGui trackingWindow;
+	public Building building;
 	
 	public void startThread()
 	{
@@ -40,7 +41,6 @@ public abstract class Role //why doesnt this extend agent?
 	
 	public void stateChanged()
 	{
-		//System.out.println(myPerson);
 		myPerson.stateChanged();
 	}
 	
@@ -86,8 +86,6 @@ public abstract class Role //why doesnt this extend agent?
 
 	}
 
-
-	
 	public abstract void msgLeaveWork();	
 	public abstract void msgGetPaid();
 

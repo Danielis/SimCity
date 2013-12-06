@@ -114,5 +114,9 @@ public class MockPerson extends Mock implements Person {
 		//		}
 		return false;
 	}
+	
+	public void setBuilding(Restaurant r) {
+		// TODO Auto-generated method stub
+	}
 
 }

@@ -13,7 +13,7 @@ import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;
 
-public class MockMarketWotker extends Mock implements Customer {
+public class MockMarketWotker extends Mock implements Customer { //Wotker?
 
     public Cashier cashier;
     public EventLog log;
@@ -120,7 +120,7 @@ public class MockMarketWotker extends Mock implements Customer {
 	}
 
 	@Override
-	public void setRestaurant(Restaurant r) {
+	public void setBuilding(Restaurant r) {
 		// TODO Auto-generated method stub
 		
 	}

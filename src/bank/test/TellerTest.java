@@ -324,7 +324,8 @@ public class TellerTest extends TestCase
     	assertTrue("Bank has correct starting balance", b.getBalance() == 50000);
     	assertEquals("Teller should have 0 transactions", teller.transactions.size() ,0);
     	
-    	teller.PayMyLoan(cust, 2400);
+    	//TODO
+    	//teller.PayMyLoan(cust, 2400);
     	assertEquals("Teller should have 1 transaction", teller.transactions.size() , 1);
     	assertTrue("Teller's transaction should be type loan payment", 
     			teller.transactions.get(0).type == transactionType.loanPayment);
@@ -356,7 +357,8 @@ public class TellerTest extends TestCase
     	assertTrue("Bank has correct starting balance", b.getBalance() == 50000);
     	assertEquals("Teller should have 0 transactions", teller.transactions.size() ,0);
     	
-    	teller.PayMyLoan(cust, 1400);
+    	//TODO
+    	//teller.PayMyLoan(cust, 1400);
     	assertEquals("Teller should have 1 transaction", teller.transactions.size() , 1);
     	assertTrue("Teller's transaction should be type loan payment", 
     			teller.transactions.get(0).type == transactionType.loanPayment);

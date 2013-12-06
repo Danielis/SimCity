@@ -15,6 +15,7 @@ import bank.BankCustomerRole.customerPurpose;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.PersonAgent.WealthLevel;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
@@ -40,7 +41,7 @@ public class TellerRole extends Role implements Teller {
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	private int loanAccountThreshold = 500;
-	
+	private Boolean hasGun = false;
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
@@ -56,6 +57,11 @@ public class TellerRole extends Role implements Teller {
 	public TellerRole(String name) {
 		super();
 		this.name = name;
+		
+		int num = (int)(Math.random() * ((10 - 0) + 0));
+		if (num <= 5){
+				hasGun = true;
+		}
 		//print("initialized teller");
 	}
 	
@@ -115,7 +121,10 @@ public class TellerRole extends Role implements Teller {
 		amount = amount2;
 		type = t;
 		this.c = c;
-		status = transactionStatus.noAccount;
+		if (t.equals(transactionType.robbery))
+			status = transactionStatus.unresolved;
+		else
+			status = transactionStatus.noAccount;
 		}
 		
 		
@@ -148,7 +157,7 @@ public class TellerRole extends Role implements Teller {
 	    public transactionStatus status;
 	    BankCustomer c;
 	}
-	public enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment};
+	public enum transactionType {withdrawal, deposit, newAccount, newLoan, loanPayment, robbery};
 	public enum transactionStatus {unresolved, resolved, noAccount, waiting, noLoan};
 
 private class MyCustomer{
@@ -172,6 +181,12 @@ public void msgLeaveWork() {
 	stateChanged();
 }
 
+public void IAmRobbing(BankCustomer c, double amount){
+	//print("msg rec i am being robbed");
+    transactions.add(new Transaction(amount, transactionType.robbery, c));
+    stateChanged();
+}
+
 
 public void IWantAccount(BankCustomer c, double amount){
     Account acct = bank.createAccount(c);
@@ -182,7 +197,7 @@ public void IWantAccount(BankCustomer c, double amount){
 public void DepositMoney(BankCustomer c, int accountID, double amount){
 	print("Looking for account...");
 	for (Account a : bank.accounts){
-		if (a.c == c){
+		if (a.id == accountID){
 			print("Found account.");
 			Account acct = a;
 			 transactions.add(new Transaction(acct, amount, transactionType.deposit, c));
@@ -199,7 +214,7 @@ public void DepositMoney(BankCustomer c, int accountID, double amount){
 
 public void WithdrawMoney(BankCustomer c, int accountID, double amount){
 	for (Account a : bank.accounts){
-		if (a.c == c){
+		if (a.id == accountID){
 			Account acct = a;
 			transactions.add(new Transaction(acct, amount, transactionType.withdrawal, c));
 			stateChanged();
@@ -218,9 +233,9 @@ public void IWantLoan(BankCustomer c, double amount){
     stateChanged();
 }
 
-public void PayMyLoan(BankCustomer c, double amount){
+public void PayMyLoan(BankCustomer c, double amount, Loan loan){
     for (Loan l : bank.loans){
-		if (l.c == c){
+		if (l == loan){
 			transactions.add(new Transaction(l, amount, transactionType.loanPayment, c));
 			stateChanged();
 			return;
@@ -359,6 +374,12 @@ private boolean canLeave() {
 	}
 	
 	private void HandleTransaction(Transaction t){
+		
+		if (t.type == transactionType.robbery){
+			//print("dealing with robbery");
+			DealWithRobbery(t);
+		}
+		else{
 		print("Looking into transaction...");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Looking into transaction...", new Date()));
 		if (t.type == transactionType.deposit){
@@ -376,6 +397,24 @@ private boolean canLeave() {
 		else if (t.type == transactionType.loanPayment){
 			LoanPayBack(t);
 		}
+		}
+	}
+	
+	private void DealWithRobbery(Transaction t){
+		t.status = transactionStatus.resolved;
+		if (hasGun){
+			waiterGui.setSpeechBubble("robberyfailedteller");
+			print("I have a gun! You better get out.");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "I have a gun! You better get out.", new Date()));
+		   
+			t.c.GetOut();
+		}
+		else{
+			waiterGui.setSpeechBubble("robberysuccessteller");
+			print("Ok ;_;! Here's $" + t.amount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "TellerRole", "Ok ;_;! Here's $" + t.amount, new Date()));
+			t.c.OkHereIsMoney(t.amount);
+			}
 	}
 	
 	private void Deposit(Transaction t){
@@ -559,7 +598,5 @@ private boolean canLeave() {
 	public void setBank(Bank b) {
 		this.bank = b;
 	}
-	
-
 }
 

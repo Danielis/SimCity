@@ -172,7 +172,8 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "TraditionalWaiterRole", "Placing the order for " + mc.choice, new Date()));
 
 		waiterGui.DoGoToCook();
-		mc.s = CustomerState.hasOrdered;		
+		mc.s = CustomerState.hasOrdered;
+		//print("c: "+ mc.choice +" t: " + mc.table);
 		cook.msgHereIsAnOrder(this, mc.choice, mc.table);
 	}
 	

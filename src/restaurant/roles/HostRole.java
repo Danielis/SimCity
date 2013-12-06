@@ -23,13 +23,14 @@ import roles.Role;
 
 public class HostRole extends Role implements Host{
 	
-	public double balance = 0;
+	public double balance;
 	public int NTABLES = 4;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public RestaurantAnimationPanel copyOfAnimPanel;
 	
 	public WorkState myState = WorkState.none;
 	boolean workersCanLeave = false;
+	public double salary;
 	
 	Restaurant r;
 	
@@ -212,7 +213,7 @@ public class HostRole extends Role implements Host{
 
 //MESSAGES****************************************************
 		public void msgGetPaid(){
-			balance =+50;
+			balance += this.r.takePaymentForWork(salary);
 		}
 
 	public void msgLeaveWork()
@@ -555,11 +556,6 @@ public class HostRole extends Role implements Host{
 		return true;
 	}
 	
-	public void setRestaurant(Restaurant rr)
-	{
-		r = rr;
-	}
-	
 	public void LeaveWork()
 	{
 		hostGui.Disable();
@@ -569,5 +565,13 @@ public class HostRole extends Role implements Host{
 		r.nullifyHost();
 	}
 
+	public void setBuilding(Restaurant rr)
+	{
+		r = rr;
+	}
+
+	public void setSalary(double i) {
+		salary = i;
+	}
 }
 

@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import restaurant.HostAgent;
 import city.PersonAgent;
 import city.guis.CityGui;
-import city.guis.PersonGui.Coordinate;
 
 public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 

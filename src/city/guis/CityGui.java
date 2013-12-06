@@ -30,7 +30,7 @@ import transportation.BusStopAgent;
 import transportation.TransportationCompanyAgent;
 import transportation.gui.BusGui;
 import transportation.gui.BusStopGui;
-import city.Clock;
+import city.Government;
 import city.Scenario;
 import city.TimeManager;
 
@@ -53,12 +53,13 @@ import java.util.Vector;
 
 public class CityGui extends JFrame implements ActionListener {
 
-
-
 	Restaurant tempRes;
 	Bank tempBan;
 	Apartment tempApa;
 	Market tempMar;
+	
+	//Funds per building to pay their employees
+	public double GovernmentFunds = 100000;
 
 	CityGui cityGui = this;
 
@@ -100,12 +101,12 @@ public class CityGui extends JFrame implements ActionListener {
 
 	public static TrackerGui trackingWindow;
 
-	private Clock clock = new Clock();
+	private Government clock = new Government();
 
 	// ************ START FUNCTION PANEL *********************
 
 	private JPanel bankPanel = new JPanel();
-	private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan" };
+	private String[] transactions = { "New Account", "Deposit", "Withdraw", "New Loan", "Pay Loan", "Rob" };
 	private JComboBox transactionList = new JComboBox(transactions);
 	private JButton bankGo = new JButton("Go");
 	private JTextField amountInput = new JTextField("");
@@ -127,7 +128,10 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton restaurantGo = new JButton("Go");
 	private JPanel otherFunction = new JPanel(); 
 	private JButton busGo = new JButton("Bus");
-	private JButton scen1 = new JButton("Scenario 1");
+	private JButton scen1 = new JButton("Scenario O");
+
+	private JButton scenA = new JButton("Scenario A");
+	private JButton scenB = new JButton("Scenario B");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
 
@@ -254,10 +258,14 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(workGo);
 		otherFunction.add(busGo);
 		otherFunction.add(scen1);
+		otherFunction.add(scenA);
+		otherFunction.add(scenB);
 		otherFunction.add(noAIGo);
 
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
+		scenA.addActionListener(this);
+		scenB.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -302,10 +310,11 @@ public class CityGui extends JFrame implements ActionListener {
 
 
 		//City Element Creation
-		createRestaurant("Norman's Restaurant", "Norman");
-		createBank("Aleena's Bank");
-		createMarket("Aleena's Market");
-		createApartment("The Chris Apartment Complex");
+		createRestaurant("Norman's Restaurant", 257, 474);
+		createBank("Aleena's Bank - North", 73, 74);
+		createBank("Aleena's Bank - South", 16, 619);
+		createMarket("Aleena's Market", 280, 265);
+		createApartment("The Chris Apartment Complex", 319, 90);
 
 		this.setAlwaysOnTop(false);
 		//this.setAutoRequestFocus(false);
@@ -351,7 +360,30 @@ public class CityGui extends JFrame implements ActionListener {
 				{
 
 					for (Building b: buildings){
-						if (b.getType() == buildingType.bank){
+						if (b.getType() == buildingType.bank && b.name.equals("Aleena's Bank - North")){
+							Bank r = (Bank) b;
+							tempBan = r;
+							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempBan.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+									System.out.println("check");
+								}
+							});
+						}
+					}   
+				}
+				
+				if ((x<140) && (y<619) && (x>32) && (y>554))
+				{
+
+					for (Building b: buildings){
+						if (b.getType() == buildingType.bank && b.name.equals("Aleena's Bank - South")){
 							Bank r = (Bank) b;
 							tempBan = r;
 							r.gui.setVisible(true);
@@ -376,6 +408,7 @@ public class CityGui extends JFrame implements ActionListener {
 					for (Building b: buildings){
 						if (b.getType() == buildingType.restaurant){
 							Restaurant r = (Restaurant) b;
+							r.setPaymentFund(GovernmentFunds);
 							tempRes = r;
 							r.gui.setVisible(true);
 							cityGui.setAlwaysOnTop(false);
@@ -493,6 +526,12 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantGo.setEnabled(!currentPerson.getGui().getBusy());
 		workGo.setEnabled(!currentPerson.getGui().getBusy());
 	}
+	
+	private void silenceScenButtons(){
+		scen1.setEnabled(false);
+		scenA.setEnabled(false);
+		scenB.setEnabled(false);
+	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == busGo){
@@ -501,7 +540,15 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == scen1){
 			Scenario.getInstance().CallScenario1(this.cityPanel);
-			scen1.setEnabled(false);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenA){
+			Scenario.getInstance().CallScenarioA(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenB){
+			Scenario.getInstance().CallScenarioB(this.cityPanel);
+			silenceScenButtons();
 		}
 		if (e.getSource() == noAIGo){
 			this.cityPanel.setNoAI(true);
@@ -523,41 +570,41 @@ public class CityGui extends JFrame implements ActionListener {
 			if (e.getSource() == bankGo)
 			{
 
-				//                                PersonAgent c = (PersonAgent) currentPerson;
-				//
-				//                                String purpose = transactionList.getSelectedItem().toString();
-				//
-				//                                if (purpose.equals("New Account")){
-					//                                        c.getGui().setNeedsMoney(true, purpose, 0);
-					//                                }
-				//                                else if (!amountInput.getText().isEmpty()){
-				//                                        String amtTemp = amountInput.getText();
-				//                                        double amt = Double.parseDouble(amtTemp);
-				//                                        amt = Math.round(amt * 100) / 100.0d;
-				//                                        c.getGui().setNeedsMoney(true, purpose, amt);
-				//                                }
-				//                                silenceButtons();
+				                                PersonAgent c = (PersonAgent) currentPerson;
+				
+				                                String purpose = transactionList.getSelectedItem().toString();
+				
+				                                if (purpose.equals("New Account")){
+					                                        c.getGui().setNeedsMoney(true, purpose, 0);
+					                                }
+				                                else if (!amountInput.getText().isEmpty()){
+				                                        String amtTemp = amountInput.getText();
+				                                        double amt = Double.parseDouble(amtTemp);
+				                                        amt = Math.round(amt * 100) / 100.0d;
+				                                        c.getGui().setNeedsMoney(true, purpose, amt);
+				                                }
+				                                silenceButtons();
 
-				Restaurant temp;
-				for (Building b: buildings)
-				{
-					if(b.getType() == buildingType.restaurant)
-					{
-						temp = (Restaurant)b;
-						System.out.println(temp.panel.host);
-						if (temp.panel.host != null)
-							temp.panel.host.msgLeaveWork();
-						System.out.println(temp.panel.cook);
-						if (temp.panel.cook != null)
-							temp.panel.cook.msgLeaveWork();
-						System.out.println(temp.panel.cashier);
-						if (temp.panel.cashier != null)
-							temp.panel.cashier.msgLeaveWork();
-						System.out.println(temp.panel.waiters.get(0));
-						if (temp.panel.waiters.get(0) != null)
-							temp.panel.waiters.get(0).msgLeaveWork();
-					}
-				}
+//				Restaurant temp;
+//				for (Building b: buildings)
+//				{
+//					if(b.getType() == buildingType.restaurant)
+//					{
+//						temp = (Restaurant)b;
+//						System.out.println(temp.panel.host);
+//						if (temp.panel.host != null)
+//							temp.panel.host.msgLeaveWork();
+//						System.out.println(temp.panel.cook);
+//						if (temp.panel.cook != null)
+//							temp.panel.cook.msgLeaveWork();
+//						System.out.println(temp.panel.cashier);
+//						if (temp.panel.cashier != null)
+//							temp.panel.cashier.msgLeaveWork();
+//						System.out.println(temp.panel.waiters.get(0));
+//						if (temp.panel.waiters.get(0) != null)
+//							temp.panel.waiters.get(0).msgLeaveWork();
+//					}
+//				}
 
 			}
 			if (e.getSource() == housingGo)
@@ -630,39 +677,40 @@ public class CityGui extends JFrame implements ActionListener {
 
 
 	//Resturant Creation
-	public void createRestaurant(String name, String owner)
+	public void createRestaurant(String name, int x, int y)
 	{
-		if (owner == "Norman")
-		{
 			RestaurantGui rg = new RestaurantGui();
 			rg.setTrackerGui(trackingWindow);
 			Restaurant r = new Restaurant(rg, name);
 			rg.setRestaurant(r);
+			r.setEntrance(x,y);
 			buildings.add(r);
-		}
 	}
 
-	public void createBank(String name)
+	public void createBank(String name, int x, int y)
 	{
 		BankGui bg = new BankGui();
 		bg.setTrackerGui(trackingWindow);
 		Bank b = new Bank(bg, name);
+		b.setEntrance(x,y);
 		buildings.add(b);
 	}
 
-	public void createMarket(String name)
+	public void createMarket(String name, int x, int y)
 	{
 		MarketGui mg = new MarketGui();
 		mg.setTrackerGui(trackingWindow);
 		Market b = new Market(name, mg);
+		b.setEntrance(x,y);
 		buildings.add(b);
 	}
 
 	//apartment creation
-	public void createApartment(String name) {
+	public void createApartment(String name, int x, int y) {
 		HousingGui hg = new HousingGui();
 		hg.setTrackerGui(trackingWindow);
 		Apartment a = new Apartment(name, hg);
+		a.setEntrance(x,y);
 		buildings.add(a);
 	}
 

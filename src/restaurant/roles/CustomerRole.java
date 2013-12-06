@@ -585,7 +585,7 @@ public class CustomerRole extends Role implements Customer {
 		this.animSemaphore.release();
 	}
 
-	public void setRestaurant(Restaurant r) {
+	public void setBuilding(Restaurant r) {
 		this.restaurant = r;
 		
 	}

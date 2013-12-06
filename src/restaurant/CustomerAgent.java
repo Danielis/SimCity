@@ -554,9 +554,10 @@ public class CustomerAgent extends Agent implements Customer {
 		this.animSemaphore.release();
 	}
 
+
 	@Override
-	public void setRestaurant(Restaurant r) {
-		this.restaurant = r;
+	public void setBuilding(Restaurant r) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -3,6 +3,7 @@ import java.util.List;
 
 import logging.TrackerGui;
 import bank.Bank;
+import bank.Bank.Loan;
 import bank.gui.BankAnimationPanel;
 import bank.gui.TellerGui;
 import bank.interfaces.*;
@@ -105,6 +106,20 @@ public class MockTeller extends Mock implements Teller {
 
 		@Override
 		public void setHost(BankHost host2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void IAmRobbing(BankCustomer bankCustomerRole, double amount) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void PayMyLoan(BankCustomer c, double amount, Loan loan) {
 			// TODO Auto-generated method stub
 			
 		}

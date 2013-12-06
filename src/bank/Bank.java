@@ -6,6 +6,7 @@ import bank.interfaces.*;
 
 import javax.swing.JFrame;
 
+import city.TimeManager;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
@@ -15,6 +16,7 @@ import roles.Coordinate;
 import bank.Bank.Account;
 import bank.gui.BankGui;
 import bank.gui.BankPanel;
+import city.TimeManager.*;
 
 
 
@@ -25,12 +27,13 @@ public class Bank extends Building{
 	private List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 	int idIncr = 0;
-	
+	int loanIncr = 0;
 	public BankGui gui;
 	public BankPanel panel;
-	public String name; //Name of the restaurant
     public Coordinate location;
-    public BankHostRole host;
+    public BankHostRole workingHost;
+    private Boolean hasHost = false;
+    private int numTellers = 0;
     
 	public TrackerGui trackingWindow;
     int tableLastAssigned = 0;
@@ -48,6 +51,7 @@ public class Bank extends Building{
         gui.setAlwaysOnTop(true);
         gui.setAlwaysOnTop(false);
         gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.name = name;
 	}
 	
 	public Bank(){
@@ -120,7 +124,10 @@ public class Bank extends Building{
 //	}
 
 	public Boolean isOpen(){
-		return (host != null);
+		if (TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || workingHost == null)
+			return false;
+		else
+			return true;
 	}
 	
 	public double getBalance(){
@@ -201,12 +208,14 @@ public class Bank extends Building{
 	    int dayCreated;
 	    int dayOwed;
 	    public loanState s;
+	    int id;
 	    
 	    Loan(BankCustomer c2, double amount){
 	    c = c2;
 	    rate = 1.08;
 	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
 	    balancePaid = 0;
+		id = ++loanIncr;
 	    }
 	    
 	    public double getAmountOwed(){
@@ -233,7 +242,7 @@ public class Bank extends Building{
 	}
 
 	public void Leaving() {
-		host = null;
+		workingHost = null;
 	}
 
 	public void removeMe(BankHostRole b) {
@@ -256,6 +265,22 @@ public class Bank extends Building{
 	
 	public List<Account> getAccounts(){
 		return accounts;
+	}
+	
+	public Boolean needsHost(){
+		return !hasHost;
+	}
+
+	public Boolean needsTeller(){
+		return (numTellers < 3);
+	}
+
+	public void setTeller(){
+		numTellers++;
+	}
+	
+	public void sethost(){
+		hasHost = true;
 	}
 
 	

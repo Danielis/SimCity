@@ -30,13 +30,6 @@ public class Restaurant extends Building{
 	public String name; //Name of the restaurant
     public Coordinate location;
     public ProducerConsumerMonitor theMonitor;
-    public int numWaitersWorking = 0;
-    
-    //public CookAgent cook;
-    //public CashierAgent cashier;
-    //public String customerRole; //value is something like "Restaurant1CustomerRole"
-    //public RestaurantMenu menu;
-    //public String type;
     
     public Restaurant(RestaurantGui gui, String name)
     {
@@ -56,8 +49,6 @@ public class Restaurant extends Building{
 	
 	public void addWaiter(Waiter w){
 		panel.waiters.add(w);
-		//workingWaiters.add(w);
-		//numWaitersWorking ++;
 	}
 	
 	public Boolean isOpen(){
@@ -69,7 +60,7 @@ public class Restaurant extends Building{
 
 	public void removeme(Waiter w)
 	{
-		workingWaiters.remove(w);
+		panel.waiters.remove(w);
 	}
 	
 	public void nullifyHost()
@@ -83,5 +74,11 @@ public class Restaurant extends Building{
 	public void nullifyCashier()
 	{
 		panel.cashier = null;
+	}
+	
+	public double takePaymentForWork(double amount)
+	{
+		this.PaymentFund -= amount;
+		return amount;
 	}
 }

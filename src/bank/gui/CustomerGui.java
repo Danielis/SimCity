@@ -89,10 +89,6 @@ public class CustomerGui implements Gui{
 	public void updatePosition() {
 		if (goingSomewhere)
     	{
-    		//Do you like my Delta Movement System?
-    		//I thought of it myself :D
-    		//EC PLS
-			
         	int deltax = destination.x - position.x;
         	int deltay = destination.y - position.y;
         	

@@ -1,5 +1,7 @@
 package bank;
 
+import bank.Bank.Account;
+import bank.Bank.Loan;
 import bank.Bank.*;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
@@ -47,7 +49,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	Account acct;
 	
 	Boolean isHappy = true;
-	
+	Boolean isRobber = false;
 
 	//Constructor
 	public BankCustomerRole(String name, String type, double bankAmount, double money){
@@ -67,6 +69,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 			purpose = customerPurpose.takeLoan;
 		else if (type.equals("Pay Loan"))
 			purpose = customerPurpose.payLoan;
+		else if (type.equals("Rob"))
+			purpose = customerPurpose.rob;
 		else{
 			purpose = customerPurpose.none;
 			state = bankCustomerState.done;
@@ -111,8 +115,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 //CLASSES/ENUMS**********************************************
 
-	public enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none};
-	public enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited};
+	public enum customerPurpose {createAccount, withdraw, deposit, takeLoan, payLoan, none, rob};
+	public enum bankCustomerState {outside, entered, waiting, assigned, atCounter, done, exited, doneRobbery};
 	
 	public Account getAccount(){
 		return acct;
@@ -141,6 +145,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
+
 public void msgWantsTransaction(){
 		state = bankCustomerState.outside;
 		//print("rec msg");
@@ -159,6 +164,18 @@ public void	GoToTeller(Teller t){
 	    state = bankCustomerState.assigned;
 	    stateChanged();
 	}
+
+public void OkHereIsMoney(double amt){
+	balance += amt;
+	state = bankCustomerState.doneRobbery;
+	stateChanged();
+}
+
+public void GetOut(){
+	state = bankCustomerState.doneRobbery;
+	isHappy = false;
+	stateChanged();
+}
 
 public void	AccountCreated(Account a){
 		acct = a;
@@ -262,6 +279,10 @@ public void WantAccount(){
 		    return true;
 		}
 		
+		if (state == bankCustomerState.doneRobbery){
+			MakeARunForIt();
+		    return true;
+		}
 		
 		return false;
 	}
@@ -313,7 +334,10 @@ private void AskForAssistance(){
     else if (purpose == customerPurpose.payLoan){
     	customerGui.setSpeechBubble("payloan");
     }
-	
+    
+    else if (purpose == customerPurpose.rob){
+    	customerGui.setSpeechBubble("robbery");
+    }
 	
 	
 	timer.schedule( new TimerTask()
@@ -340,6 +364,22 @@ private void SayThanks(){
 		}
 	}, 2000);
 	
+}
+
+private void MakeARunForIt(){
+	state = bankCustomerState.exited;
+	if (isHappy)
+	customerGui.setSpeechBubble("robberysuccess");
+	else
+	customerGui.setSpeechBubble("robberyfailed");
+	
+	timer.schedule( new TimerTask()
+	{
+		public void run()
+		{				
+			LeaveBank();
+		}
+	}, 2000);
 }
 
 private void GiveRequest(){
@@ -384,7 +424,15 @@ private void GiveRequest(){
 	    	print("I would like to payback $" + amount + " of my loan");
 	    	trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "I would like to payback $" + amount + " of my loan", new Date()));
 	    	if (reduceBalance())
-	    		t.PayMyLoan(this, amount);
+	    	{
+	    		t.PayMyLoan(this, amount, loan);
+	    	}
+	    }
+	    
+	    if (purpose == customerPurpose.rob){
+	    	print("THIS IS A HOLD UP! GIVE ME $" + amount);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankCustomerRole", "THIS IS A HOLD UP! GIVE ME $" + amount, new Date()));
+	        t.IAmRobbing(this, amount);
 	    }
  
 	}
@@ -504,10 +552,20 @@ private void LeaveBank(){
 	}
 
 
+
 	@Override
 	public void msgLeaveWork() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setAccount(Account account) {
+		accountID = account.id;
+	}
+
+	public void setLoan(List<Loan> loans) {
+		//if (loans != null)
+		//	loan = loans.get(0);
 	}
 
 

@@ -4,21 +4,20 @@ import city.TimeManager.Day;
 
 public class TimeManager {
 	
-	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
+	public enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	
 	private static TimeManager instance = null;
 	private static final long simStartTime = System.currentTimeMillis();
 	private Day dayOfWeek = null;
 	
-	private int milliInWeek = 10080000;
-	private int milliInDay = 1440000;
-	private int milliInHour = 60000;
-	
+	private int divider = 2;
 	private int seconds;
 	private int minutes;
 	private int hours;
 	private int days;
 	private int weeks;
+	private int offset = 0;
+	
 	
 	TimeManager(){
 	}
@@ -33,9 +32,10 @@ public class TimeManager {
 	
 	
 	public long getCurrentSimTime() {
-	    long currentTime = System.currentTimeMillis();
+	    long currentTime = System.currentTimeMillis() + offset;
 	    return currentTime - simStartTime;
 	}
+	
 	
 	public String TimeStr(){
 		updateTime();
@@ -56,8 +56,8 @@ public class TimeManager {
 	public void updateTime(){
 		int mil = (int) getCurrentSimTime();
 		
-		seconds = (mil / 2) | 0;
-		mil -= seconds * 2;
+		seconds = (mil / divider) | 0;
+		mil -= seconds * divider;
 	
 		minutes = (seconds / 60) | 0;
 		seconds -= minutes * 60;
@@ -92,6 +92,13 @@ public class TimeManager {
 		return hours;
 	}
 	
+	public Boolean isHourGreater(int temp){
+		if (this.getHour() > temp)
+			return true;
+		else 
+			return false;
+	}
+	
 	
 	public String dayString(){
 		if (dayOfWeek == Day.monday)
@@ -115,6 +122,16 @@ public class TimeManager {
 	public Day getDay() {
 		updateTime();
 		return dayOfWeek;
+	}
+
+
+	public void setDivider(int i) {
+		divider = i;		
+	}
+
+
+	public void setOffset(int i) {
+		offset = i;
 	}
 	
 }

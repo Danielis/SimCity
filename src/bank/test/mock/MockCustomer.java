@@ -90,5 +90,15 @@ public class MockCustomer extends Mock implements BankCustomer {
 		log.add(new LoggedEvent("Received message BankIsClosed from host"));
 		
 	}
+	@Override
+	public void GetOut() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void OkHereIsMoney(double amount) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
