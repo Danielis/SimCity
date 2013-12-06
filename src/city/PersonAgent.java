@@ -27,6 +27,7 @@ import agent.Agent;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.TimeManager.Day;
+import city.Interfaces.Person;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
@@ -51,6 +52,7 @@ import housing.HousingCustomerRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
 
 
 
@@ -1749,28 +1751,28 @@ public class PersonAgent extends Agent implements Person
 		this.noAI = noAI;
 	}
 
-		@Override
-		public void setThreshold(int q) {
-			// TODO Auto-generated method stub
-			
-		}
-	
-		@Override
-		public String getType() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	
-		@Override
-		public int getQuantity() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-	
-		@Override
-		public void removeItem() {
-			// TODO Auto-generated method stub
-			
-		}
+
+	public void setThreshold(int q) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public int getQuantity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public void removeItem() {
+		// TODO Auto-generated method stub
+
+	}
 
 }
