@@ -1396,7 +1396,7 @@ public class PersonAgent extends Agent implements Person
 			WorkAtBank();
 		}
 		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
-			//if (job.workBuilding.owner.equals("Norman"))
+
 			print("owner: " + job.workBuilding.owner);
 			WorkAtRest();
 			
@@ -1540,10 +1540,17 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void WorkAtBank() {
+		
+		/*=====================================================================
+			RESTAURANT SALARIES
+		=====================================================================
+		Host (Manager)  				|   80 per shift
+		Teller (Accountant)		 		|   110  per shift
+		=====================================================================*/
 
 		takeBusIfApplicable(0);
 
-		Role c = null;
+		//Role c = null;
 		Bank r = (Bank) job.workBuilding;
 	
 		gui.DoGoToLocation(r.entrance);
@@ -1553,20 +1560,27 @@ public class PersonAgent extends Agent implements Person
 		
 		if (job.type == JobType.bankHost && r.workingHost == null)
 		{
-			c = new BankHostRole(this.getName());
+			BankHostRole c = new BankHostRole(this.getName());
 			c.setTrackerGui(trackingWindow);
+			c.setSalary(80);
 			r.workingHost = (BankHostRole) c;
 			r.panel.customerPanel.addHost((BankHost) c);
+
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
 		}
 		if (job.type == JobType.teller){
-			c = new TellerRole(this.getName());
+			TellerRole c = new TellerRole(this.getName());
 			c.setTrackerGui(trackingWindow);
+			c.setSalary(110);
 			r.panel.customerPanel.addTeller((Teller) c);
+
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
 		}
 
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
 	}
 
 	public void GoToRestaurant()
