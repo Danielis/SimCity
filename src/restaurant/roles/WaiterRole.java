@@ -340,7 +340,7 @@ public class WaiterRole extends Role implements Waiter
 		catch(ConcurrentModificationException e)
 		{
 			waiterGui.DoGoToHomePosition();
-			return false;
+			return true;
 		}
 	}
 

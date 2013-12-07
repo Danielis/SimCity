@@ -57,7 +57,7 @@ Day LastChecked = Day.monday;
 	}
 	
 	private Boolean GoHome(){
-		return (TimeManager.getInstance().getHour() + 1 == 20);
+		return (TimeManager.getInstance().getHour() + 1 == 6);
 	}	
 	
 	private boolean WakeUp() {
@@ -65,7 +65,7 @@ Day LastChecked = Day.monday;
 	}
 
 	private Boolean GetPaid(){
-		return (TimeManager.getInstance().getHour() + 1 == 12);
+		return (TimeManager.getInstance().getHour() + 1 == 7);
 	}
 
 	private void msgPeopleWake() {
