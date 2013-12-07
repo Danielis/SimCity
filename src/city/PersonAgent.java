@@ -1614,14 +1614,13 @@ public class PersonAgent extends Agent implements Person
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+		//r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
 		r.panel.customerPanel.addCustomer((Customer) c, r);
 	
 	}
 	
 	public void GoToRestaurantA(Building b)
 	{
-		
 		RestaurantA r = (RestaurantA) b;
 		gui.setPresent(true);
 		gui.setBusy(true);

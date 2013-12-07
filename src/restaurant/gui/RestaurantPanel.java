@@ -50,10 +50,9 @@ public class RestaurantPanel extends JPanel
     
     int waiterindex = 0; 		//To assign waiters individual locations
 
-
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
         
     //Image Related
@@ -103,7 +102,7 @@ public class RestaurantPanel extends JPanel
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
         group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(waiterPanel);
 
         initRestLabel();
         add(restLabel);
@@ -162,7 +161,7 @@ public class RestaurantPanel extends JPanel
     }
     
     public void showWaiterInfo(String name) 
-    {
+    {/*
         for (int i = 0; i < waiters.size(); i++) {
             Waiter temp = waiters.get(i);
             if (temp.getName() == name)
@@ -171,7 +170,7 @@ public class RestaurantPanel extends JPanel
                 gui.updateWaiterInformationPanel(temp);
                 waiterPanel.updateWaiter(temp);
             }
-        }
+        }*/
     }
 
     /**
@@ -257,6 +256,7 @@ public class RestaurantPanel extends JPanel
     	if (host != null)
     		host.msgRemoveWaiter(waiter);
     }
+    /*
     public void addCustomer(String name) 
     {
 		Customer c = new CustomerAgent(name);
@@ -268,7 +268,7 @@ public class RestaurantPanel extends JPanel
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
 		c.startThread();
-    }
+    }*/
  
     
     public void pause()
