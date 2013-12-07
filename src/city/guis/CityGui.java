@@ -669,7 +669,7 @@ public class CityGui extends JFrame implements ActionListener {
 			restaurantA.RestaurantA r = new restaurantA.RestaurantA(rg, name);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
-			buildings.add(r);
+			//buildings.add(r);
 	}
 
 	public void createBank(String name, int x, int y)

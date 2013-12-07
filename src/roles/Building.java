@@ -1,6 +1,6 @@
 package roles;
 
-public class Building {
+public abstract class Building {
 
 	public Coordinate entrance;
 	Coordinate topLeft;
@@ -8,6 +8,8 @@ public class Building {
 	Coordinate botLeft;
 	Coordinate botright;
 	public buildingType type;
+	public Object panel;
+	public String owner = "None";
 	
 	public enum buildingType{bank, restaurant, market, housingComplex};
 	
@@ -27,5 +29,7 @@ public class Building {
 		Coordinate c = new Coordinate(x,y);
 		entrance = c;
 	}
+
+	public abstract Boolean isOpen();
 	
 }

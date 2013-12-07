@@ -2,6 +2,7 @@ package city;
 
 //Package Imports
 import java.awt.Point;
+import restaurantA.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -120,7 +121,6 @@ public class PersonAgent extends Agent implements Person
 					if (workBuilding == null && b.type == buildingType.bank){
 						Bank ba = (Bank) b;
 						if (ba.needsHost()){
-							print("set b");
 							ba.sethost();
 							workBuilding = b;
 						}
@@ -128,9 +128,67 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 			else if (type == JobType.restHost){
-				
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.restaurant){
+						RestBase ba = (RestBase) b;
+						if (ba.needsHost()){
+							print("set h");
+							ba.sethost();
+							workBuilding = b;
+						}
+					}
+				}
+//				for (Building b : buildings){
+//					if (workBuilding == null && b.type == buildingType.restaurant){
+//						RestaurantA ba = (RestaurantA) b;
+//						if (ba.needsHost()){
+//							print("set b");
+//							ba.sethost();
+//							workBuilding = b;
+//						}
+//					}
+//				}
 			}
-			else if (type == JobType.teller || type == JobType.cook || type == JobType.cashier || type == JobType.waiter){
+			else if (type == JobType.cook){
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.restaurant){
+						RestBase ba = (RestBase) b;
+						if (ba.needsCook()){
+							ba.setCook();
+
+							print("set c");
+							workBuilding = b;
+						}
+					}
+				}
+			}
+			else if (type == JobType.cashier){
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.restaurant){
+						RestBase ba = (RestBase) b;
+						if (ba.needsCashier()){
+							ba.setCashier();
+
+							print("set cas");
+							workBuilding = b;
+						}
+					}
+				}
+			}
+			else if (type == JobType.waiter){
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.restaurant){
+						RestBase ba = (RestBase) b;
+						if (ba.needsWaiter()){
+							ba.setWaiter();
+
+							print("set w");
+							workBuilding = b;
+						}
+					}
+				}
+			}
+			else if (type == JobType.teller || type == JobType.waiter){
 				for (Building b : buildings){
 					if (workBuilding == null && b.type == buildingType.bank){
 						Bank ba = (Bank) b;
@@ -1065,15 +1123,14 @@ public class PersonAgent extends Agent implements Person
 	public boolean CheckRestOpen() {
 		print("I need to go to the restaurant!");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the restaurant!", new Date()));
-		Restaurant r = null;
+		RestBase r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){
 				if (b.getType() == buildingType.restaurant){
 					//print("found b");
-					r = (Restaurant) b;
+					r = (RestBase) b;
 				}
 			}
-
 		}
 		if(r.isOpen())
 			return true;
@@ -1084,9 +1141,27 @@ public class PersonAgent extends Agent implements Person
 			return false;
 		}
 	}
+	
+	public Building findOpenBuilding(buildingType type){
+		Building r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == type){
+					if (b.isOpen()){
+						return b;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
 
 	public void GoEat() {
 		Boolean restaurant = false;
+		Building r = null;
+		r = findOpenBuilding(buildingType.restaurant);
+		
 		if (CheckRestOpen()){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
 			if (wealthLevel == WealthLevel.wealthy && num <= 9){
@@ -1104,6 +1179,9 @@ public class PersonAgent extends Agent implements Person
 		
 		if (restaurant){
 			GoToRestaurant();
+			GoToRestaurantA(r);
+			//GoToRestaurantD();
+		//	GoToRestaurantC();
 		}
 		else{
 			homePurpose = "Cook";
@@ -1369,7 +1447,11 @@ public class PersonAgent extends Agent implements Person
 			WorkAtBank();
 		}
 		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
+			//if (job.workBuilding.owner.equals("Norman"))
+			print("owner: " + job.workBuilding.owner);
 			WorkAtRest();
+			//else
+			//WorkAtRestA();
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
@@ -1410,16 +1492,9 @@ public class PersonAgent extends Agent implements Person
 		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('A');
 
-		Restaurant r = null;
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.restaurant)
-				{
-					r = (Restaurant) b;
-				}
-			}
-		}
+	
+		Restaurant r = (Restaurant) job.workBuilding;
+				
 		gui.DoGoToLocation(r.entrance);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
@@ -1475,6 +1550,12 @@ public class PersonAgent extends Agent implements Person
 				c.setActivity(true);
 			}
 		}
+	}
+	
+	public void WorkAtRestA() {
+
+
+
 	}
 
 	public void WorkAtBank() {
@@ -1543,13 +1624,8 @@ public class PersonAgent extends Agent implements Person
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
-
-
 		takeBusIfApplicable(2);
 		
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('A');
-
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -1565,7 +1641,32 @@ public class PersonAgent extends Agent implements Person
 	
 	}
 	
+	public void GoToRestaurantA(Building b)
+	{
+		
+		RestaurantA r = (RestaurantA) b;
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to restaurant");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
+		Status.setNourishment(nourishment.goingToFood);
+
+		takeBusIfApplicable(2);
+		
+		gui.DoGoToLocation(r.entrance);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+
+		//Role terminologies
+		CustomerRole c = new CustomerRole(this.getName(), cash);
+		c.setTrackerGui(trackingWindow);
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		r.panel.customerPanel.hungry.setSelected(true);
+		r.panel.customerPanel.addPerson((Customer) c, r);
 	
+	}
 	
 
 	

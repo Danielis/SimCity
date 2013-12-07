@@ -40,7 +40,7 @@ public class RestaurantPanel extends JPanel {
     public Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
 
