@@ -3,6 +3,6 @@ package apartment.interfaces;
 
 public interface Landlord {
 
-	void HereIsRent(HousingCustomer housingCustomer, double balance);
-	void MyHouseNeedsRepairs(HousingCustomer housingCustomerAgent);
+	void HereIsRent(ApartmentCustomer housingCustomer, double balance);
+	void MyHouseNeedsRepairs(ApartmentCustomer housingCustomerAgent);
 }

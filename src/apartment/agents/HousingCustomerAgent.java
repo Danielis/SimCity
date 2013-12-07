@@ -204,6 +204,6 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 
 }
 */import apartment.guis.ApartmentAnimationPanel;
-import apartment.guis.ApartmentCustomerGui;import apartment.interfaces.HousingCustomer;
+import apartment.guis.ApartmentCustomerGui;import apartment.interfaces.ApartmentCustomer;
 import apartment.interfaces.Landlord;
 

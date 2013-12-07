@@ -11,8 +11,8 @@ import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
-import apartment.interfaces.HousingCustomer;
-import apartment.interfaces.HousingWorker;
+import apartment.interfaces.ApartmentCustomer;
+import apartment.interfaces.ApartmentWorker;
 
 /*
 public class LandlordAgent extends Agent {

@@ -55,7 +55,7 @@ Day LastChecked = Day.monday;
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.home){
 				for (Role r : p.roles){
-					HousingCustomerRole x = (HousingCustomerRole) r;
+					ApartmentCustomerRole x = (ApartmentCustomerRole) r;
 					x.msgLeaveHome();
 				}
 			}

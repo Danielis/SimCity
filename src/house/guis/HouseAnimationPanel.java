@@ -1,4 +1,4 @@
-package apartment.guis;
+package house.guis;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ApartmentAnimationPanel extends JPanel implements ActionListener {
+public class HouseAnimationPanel extends JPanel implements ActionListener {
 
 	private final int WINDOWX_ANIM = 700;
 	private final int WINDOWY_ANIM = 700;
@@ -30,7 +30,7 @@ public class ApartmentAnimationPanel extends JPanel implements ActionListener {
 
 	private List<Gui> guis = new ArrayList<Gui>();
 
-	public ApartmentAnimationPanel() {
+	public HouseAnimationPanel() {
 		setSize(WINDOWX_ANIM, WINDOWY_ANIM);
 		setVisible(true);
 
@@ -152,13 +152,10 @@ public class ApartmentAnimationPanel extends JPanel implements ActionListener {
 	}
 
 	//addGui overloaded for each type of gui
-	public void addGui(ApartmentCustomerGui gui) {
-		guis.add(gui);
+	public void addGui(HouseOwnerGui gui) {
+		guis.add((Gui) gui);
 	}
-	public void addGui(ApartmentWorkerGui gui) {
-		guis.add(gui);
-	}
-	public void addGui(LandlordGui gui) {
-		guis.add(gui);
+	public void addGui(HouseWorkerGui gui) {
+		guis.add((Gui) gui);
 	}
 }

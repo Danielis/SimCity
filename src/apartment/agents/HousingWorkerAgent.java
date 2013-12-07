@@ -14,5 +14,5 @@ import agent.Agent;
 import apartment.guis.ApartmentAnimationPanel;
 import apartment.guis.ApartmentGui;
 import apartment.guis.ApartmentWorkerGui;
-import apartment.interfaces.HousingWorker;
+import apartment.interfaces.ApartmentWorker;
 import apartment.interfaces.Landlord;

@@ -1,6 +1,7 @@
-package apartment.guis;
+package house.guis;
 
-import java.awt.Color;
+import house.interfaces.HouseOwner;
+
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
@@ -8,9 +9,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.imageio.ImageIO;
 
-import apartment.interfaces.ApartmentCustomer;
-
-public class ApartmentCustomerGui implements Gui, restaurant.gui.Gui{
+public class HouseOwnerGui implements Gui{
 
 	//variables
 	private boolean isPresent = true;
@@ -24,10 +23,10 @@ public class ApartmentCustomerGui implements Gui, restaurant.gui.Gui{
 	private final int deltadivider = 100;
 
 	//self agent
-	private ApartmentCustomer agent = null;
+	private HouseOwner agent = null;
 
 	//private HostAgent host;
-	ApartmentGui gui;
+	HouseGui gui;
 
 	private Image avatar;
 	private Semaphore waitingForAnimation = new Semaphore(-1);
@@ -42,7 +41,7 @@ public class ApartmentCustomerGui implements Gui, restaurant.gui.Gui{
 	//images
 	//List of tables
 
-	public ApartmentCustomerGui(ApartmentCustomer c, ApartmentGui gui3, int n){
+	public HouseOwnerGui(HouseOwner c, HouseGui gui3, int n){
 
 		roomIndex = n;
 

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import apartment.interfaces.HousingCustomer;
-import apartment.interfaces.HousingWorker;
+import apartment.interfaces.ApartmentCustomer;
+import apartment.interfaces.ApartmentWorker;
 import apartment.interfaces.Landlord;
 import logging.Alert;
 import logging.AlertLevel;
@@ -34,11 +34,11 @@ public class LandlordRole extends Role implements Landlord{
 		trackingWindow = t;
 	}
 	
-	public void addCustomer(HousingCustomer hc){
+	public void addCustomer(ApartmentCustomer hc){
 		complexes.get(0).inhabitants.add(hc);
 	}
 	
-	public void addWorker(HousingWorker worker) {
+	public void addWorker(ApartmentWorker worker) {
 		workers.add(new MaintenanceWorker(worker, 0));
 	}
 	
@@ -71,7 +71,7 @@ public class LandlordRole extends Role implements Landlord{
 	public String name;
 
 	public class HousingComplex {
-		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();
+		List<ApartmentCustomer> inhabitants = new ArrayList<ApartmentCustomer>();
 		complexType type;
 		double rent;
 		public HousingComplex() {
@@ -83,12 +83,12 @@ public class LandlordRole extends Role implements Landlord{
 
 	public class Payment{
 		HousingComplex complex;
-		HousingCustomer inhabitant;
+		ApartmentCustomer inhabitant;
 		PersonAgent inhabitantPerson;
 		double amountOwed;
 		double amountPaid;
 		public paymentState s;
-		public Payment(HousingComplex c, HousingCustomer i, double owed, paymentState initialState) {
+		public Payment(HousingComplex c, ApartmentCustomer i, double owed, paymentState initialState) {
 			complex = c;
 			inhabitant = i;
 			amountOwed = owed;
@@ -110,10 +110,10 @@ public class LandlordRole extends Role implements Landlord{
 	public enum ticketStatus {unassigned, assigned, completed, paid};
 
 	private class MaintenanceWorker{
-		HousingWorker p;
+		ApartmentWorker p;
 		int jobs;
 		//constructor
-		public MaintenanceWorker(HousingWorker worker, int j) {
+		public MaintenanceWorker(ApartmentWorker worker, int j) {
 			p = worker;
 			jobs = j;
 		}
@@ -125,7 +125,7 @@ public class LandlordRole extends Role implements Landlord{
 	public void EveryoneOwesRent(){ //called by gui or timer or something
 		System.out.println("Landlord: time to figure out rent.");
 		for(HousingComplex c: complexes) {
-			for(HousingCustomer i: c.inhabitants) {
+			for(ApartmentCustomer i: c.inhabitants) {
 				payments.add(new Payment(c, i, c.rent / c.inhabitants.size(), paymentState.created));
 				System.out.println("Landlord: payment request added.");
 			}
@@ -133,7 +133,7 @@ public class LandlordRole extends Role implements Landlord{
 		stateChanged();
 	}
 
-	public void HereIsRent(HousingCustomer inhabitant, double amount){
+	public void HereIsRent(ApartmentCustomer inhabitant, double amount){
 		for(Payment p: payments) {
 			if(p.inhabitant == inhabitant) {
 				balance += amount;
@@ -145,9 +145,9 @@ public class LandlordRole extends Role implements Landlord{
 		stateChanged();
 	}
 
-	public void MyHouseNeedsRepairs(HousingCustomer p){
+	public void MyHouseNeedsRepairs(ApartmentCustomer p){
 		for(HousingComplex c: complexes) {
-			for(HousingCustomer h: c.inhabitants) {
+			for(ApartmentCustomer h: c.inhabitants) {
 				if(h == p) {
 					tickets.add(new RepairTicket(c, ticketStatus.unassigned));
 				}

@@ -24,11 +24,11 @@ import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
 import restaurant.roles.*;
 import agent.Agent;
-import apartment.HousingCustomerRole;
-import apartment.HousingWorkerRole;
+import apartment.ApartmentCustomerRole;
+import apartment.ApartmentWorkerRole;
 import apartment.LandlordRole;
-import apartment.interfaces.HousingCustomer;
-import apartment.interfaces.HousingWorker;
+import apartment.interfaces.ApartmentCustomer;
+import apartment.interfaces.ApartmentWorker;
 import apartment.interfaces.Landlord;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
@@ -1304,7 +1304,7 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 		
 		//Role terminologies
-		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory);
+		ApartmentCustomerRole c = new ApartmentCustomerRole(this.getName(), cash, inventory);
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
@@ -1314,7 +1314,7 @@ public class PersonAgent extends Agent implements Person
 			//print(" type: " + b.getType() + " n: ");
 			if (b.getType() == buildingType.housingComplex){
 				Apartment a = (Apartment) b;
-				a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
+				a.panel.tenantPanel.addTenant((ApartmentCustomer) c, homePurpose);
 			}
 		}
 	}
@@ -1427,7 +1427,7 @@ public class PersonAgent extends Agent implements Person
 		}
 		if (job.type == JobType.repairman)
 		{
-			HousingWorker w = new HousingWorkerRole(this.getName());
+			ApartmentWorker w = new ApartmentWorkerRole(this.getName());
 			a.panel.workerPanel.addWorker(w);
 		}
 	}

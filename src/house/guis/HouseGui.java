@@ -1,8 +1,11 @@
-package apartment.guis;
+package house.guis;
 
 
 
 import restaurant.WaiterAgent;
+import house.HouseWorkerRole;
+import house.interfaces.HouseOwner;
+import house.interfaces.HouseWorker;
 
 import javax.swing.*;
 
@@ -19,16 +22,16 @@ import logging.TrackerGui;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class ApartmentGui extends JFrame implements ActionListener {
+public class HouseGui extends JFrame implements ActionListener {
 	/* The GUI has two frames, the control frame (in variable gui) 
 	 * and the animation frame, (in variable animationFrame within gui)
 	 */
 
 	JFrame animationFrame = new JFrame("Housing Animation");
-	ApartmentAnimationPanel housingAnimationPanel = new ApartmentAnimationPanel();
+	HouseAnimationPanel housingAnimationPanel = new HouseAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
 
-	public ApartmentPanel housingPanel = new ApartmentPanel(this);
+	public HousePanel housingPanel = new HousePanel(this);
 
 	/* personInformationPanel holds information about the clicked customer, if there is one*/
 	private JPanel tenantInformationPanel;
@@ -42,8 +45,8 @@ public class ApartmentGui extends JFrame implements ActionListener {
 	private JCheckBox tenantHungryBox;
 	private JCheckBox tenantRepairBox;
 
-	private ApartmentCustomer currentTenant;
-	private ApartmentWorker currentWorker;
+	private HouseOwner currentTenant;
+	private HouseWorker currentWorker;
 
 	private JButton pauseButton;
 	private JButton startButton;
@@ -55,7 +58,7 @@ public class ApartmentGui extends JFrame implements ActionListener {
 	public TrackerGui trackingWindow;
 	
 	//constructor
-	public ApartmentGui(TrackerGui t) {
+	public HouseGui(TrackerGui t) {
 		//dimensions
 		int WINDOWX = 600;
 		int WINDOWY = 500;
@@ -150,7 +153,7 @@ public class ApartmentGui extends JFrame implements ActionListener {
 	 *
 	 * @param temp customer (or waiter) object
 	 */
-	public void updateTenantInformationPanel(ApartmentCustomer temp) {
+	public void updateTenantInformationPanel(HouseOwner temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentTenant = temp;
 		tenantHungryBox.setSelected(currentTenant.hungry);
@@ -161,7 +164,7 @@ public class ApartmentGui extends JFrame implements ActionListener {
 				"<html><pre>     Name: " + currentTenant.getName() + " </pre></html>");
 		tenantInformationPanel.validate();
 	}
-	public void updateWorkerInformationPanel(ApartmentWorker temp) {
+	public void updateWorkerInformationPanel(HouseWorker temp) {
 		//customerStateCheckBox.setVisible(true);
 		currentWorker = temp;
 		//HousingCustomerAgent tenant = temp;
@@ -183,9 +186,9 @@ public class ApartmentGui extends JFrame implements ActionListener {
 		}
 	}
 
-	public void updateWaiterInformationPanel(ApartmentWorkerRole person) {
+	public void updateWaiterInformationPanel(HouseWorkerRole person) {
 		currentWorker = person;
-		ApartmentWorkerRole worker = person;
+		HouseWorkerRole worker = person;
 		infoWorkerLabel.setText(
 				"<html><pre>     Name: " + worker.name + " </pre></html>");
 		workerInformationPanel.validate();
@@ -200,13 +203,13 @@ public class ApartmentGui extends JFrame implements ActionListener {
 
 		if (e.getSource() == tenantHungryBox) 
 		{
-			ApartmentCustomer c = currentTenant;
+			HouseOwner c = currentTenant;
 			c.EatAtHome();
 			tenantHungryBox.setEnabled(false);
 		}
 		if (e.getSource() == tenantRepairBox) 
 		{
-			ApartmentCustomer c = currentTenant;
+			HouseOwner c = currentTenant;
 			c.MyHouseNeedsRepairs();
 			tenantRepairBox.setEnabled(false);
 		}
@@ -240,7 +243,7 @@ public class ApartmentGui extends JFrame implements ActionListener {
 	 * @param c reference to the customer
 	 */
 	public void setCustomerEnabled(ApartmentCustomerRole p) {
-		ApartmentCustomer ten = currentTenant;
+		HouseOwner ten = currentTenant;
 		if (p.equals(ten)) 
 		{
 			tenantHungryBox.setEnabled(true);

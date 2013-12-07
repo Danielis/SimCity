@@ -31,11 +31,7 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 		//Coordinates
 		Coordinate position;
 		Coordinate destination;
-		Coordinate outside;
-		Coordinate workarea;
-		
-		//images
-		//List of tables
+
 
 		public LandlordGui(Landlord l, ApartmentGui gui3){
 			
@@ -48,11 +44,9 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 	        } catch (IOException e ) {}
 			
-			position = new Coordinate(475,750);			
-			outside = new Coordinate(475,750);
-			destination = new Coordinate(475, 750);
-	    	workarea = new Coordinate(12,80);
-
+			position = new Coordinate(365,-50);			
+			destination = new Coordinate(365, 25);
+			goingSomewhere = true;
 		}
 		//UTILITIES ***********************************************
 	    public class Coordinate
@@ -74,12 +68,7 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 	    
 		public void updatePosition() {
 			if (goingSomewhere)
-	    	{
-				//System.out.println("Is this being consistently called?");
-	    		//Do you like my Delta Movement System?
-	    		//I thought of it myself :D
-	    		//EC PLS
-				
+	    	{				
 	        	int deltax = destination.x - position.x;
 	        	int deltay = destination.y - position.y;
 	        	
@@ -134,20 +123,6 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 
 		public void setPresent(boolean p) {
 			isPresent = p;
-		}
-		
-		public void DoGoHome()
-		{
-			goingSomewhere = true;
-			destination = new Coordinate(475, 750);
-			agent.WaitForAnimation();
-		}
-		
-		
-		public void DoGoToComplex() {
-			goingSomewhere = true;
-			destination = new Coordinate(12, 80);
-			agent.WaitForAnimation();
 		}
 
 }

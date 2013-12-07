@@ -6,7 +6,7 @@ import java.util.List;
 import agent.RestaurantMenu;
 import apartment.LandlordRole;
 import apartment.guis.ApartmentWorkerGui;
-import apartment.interfaces.HousingWorker;
+import apartment.interfaces.ApartmentWorker;
 import restaurant.WaiterAgent;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;

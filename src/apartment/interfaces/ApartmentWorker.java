@@ -5,7 +5,7 @@ import apartment.LandlordRole.HousingComplex;
 import apartment.guis.ApartmentWorkerGui;
 import logging.TrackerGui;
 
-public interface HousingWorker {
+public interface ApartmentWorker {
 
 	String name = null;
 	

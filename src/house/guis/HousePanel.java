@@ -1,4 +1,7 @@
-package apartment.guis;
+package house.guis;
+
+import house.interfaces.HouseOwner;
+import house.interfaces.HouseWorker;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,23 +24,23 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class ApartmentPanel extends JPanel {
+public class HousePanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
 	public LandlordRole landlord;
         
-    private Vector<ApartmentCustomer> tenants = new Vector<ApartmentCustomer>();
-    public Vector<ApartmentWorker> workers = new Vector<ApartmentWorker>();
+    private Vector<HouseOwner> tenants = new Vector<HouseOwner>();
+    public Vector<HouseWorker> workers = new Vector<HouseWorker>();
     
     private JPanel restLabel = new JPanel();
-    public ApartmentListPanel tenantPanel = new ApartmentListPanel(this, "Tenants");
-    public ApartmentListPanel workerPanel = new ApartmentListPanel(this, "Workers");
+    public HouseListPanel tenantPanel = new HouseListPanel(this, "Tenants");
+    public HouseListPanel workerPanel = new HouseListPanel(this, "Workers");
     private JPanel group = new JPanel();
         
     
-    private ApartmentGui gui; //reference to main gui
+    private HouseGui gui; //reference to main gui
 
-    public ApartmentPanel(ApartmentGui gui) {
+    public HousePanel(HouseGui gui) {
         this.gui = gui;
       
         setLayout(new GridLayout(1, 2, 20, 20));
@@ -89,7 +92,7 @@ public class ApartmentPanel extends JPanel {
      */
     public void showTenantInfo(String name)
     {
-    	for (ApartmentCustomer temp:tenants) {
+    	for (HouseOwner temp:tenants) {
     		if (temp.getName().equals(name))
     		{
     			tenantPanel.updateTenant(temp);
@@ -99,7 +102,7 @@ public class ApartmentPanel extends JPanel {
     }
     public void showWorkerInfo(String name)
     {
-    	for (ApartmentWorker temp:workers) {
+    	for (HouseWorker temp:workers) {
     		if (temp.name.equals(name))
     		{
     			workerPanel.updateWorker(temp);
@@ -132,39 +135,29 @@ public class ApartmentPanel extends JPanel {
 		tenant.startThread();
     }*/
     
-    public void addTenant(ApartmentCustomer c, int n, String homePurpose) 
+    public void addTenant(HouseOwner c, int n, String homePurpose) 
     {
 		//HousingCustomerAgent p = new HousingCustomerAgent(name);
-    	ApartmentCustomer hc = c;
+    	HouseOwner hc = c;
     	c.setPurpose(homePurpose);
-		ApartmentCustomerGui g = new ApartmentCustomerGui(hc, gui, n);
+		HouseOwnerGui g = new HouseOwnerGui(hc, gui, n);
 		gui.housingAnimationPanel.addGui(g);
 		hc.setGui(g);
 		g.setAction();
-        landlord.addCustomer(hc);
-        hc.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
-		tenants.add(hc);
 		System.out.println("Entry in tenants has name: " + tenants.get(0).getName());
 		//tenant.startThread();
     }
     
-    public void addWorker(ApartmentWorker w) 
+    public void addWorker(HouseWorker w) 
     {
-		ApartmentWorkerGui g = new ApartmentWorkerGui(w, gui);
+		HouseWorkerGui g = new HouseWorkerGui(w, gui);
 		gui.housingAnimationPanel.addGui(g);
 		w.setGui(g);
-        landlord.addWorker(w);
-        w.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		workers.add(w);
     }
     
-    public void addLandlord(LandlordRole l2) {
-    	LandlordGui g = new LandlordGui(l2, gui);
-    	gui.housingAnimationPanel.addGui(g);
-    	landlord = l2;    	
-    }
     
     public void pause()
     {

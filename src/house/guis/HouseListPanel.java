@@ -1,4 +1,8 @@
-package apartment.guis;
+package house.guis;
+
+import house.HouseOwnerRole;
+import house.interfaces.HouseOwner;
+import house.interfaces.HouseWorker;
 
 import javax.swing.*;
 
@@ -17,7 +21,7 @@ import java.util.ArrayList;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
  */
-public class ApartmentListPanel extends JPanel implements ActionListener {
+public class HouseListPanel extends JPanel implements ActionListener {
 
 	//CUSTOMER STUFF
 	public JScrollPane personPane =
@@ -31,16 +35,16 @@ public class ApartmentListPanel extends JPanel implements ActionListener {
 	private List<JButton> listForWorkers = new ArrayList<JButton>();
 	private JButton addPersonButton = new JButton("Add");
 	private JTextField nameFieldForPerson = new JTextField("");
-	private ApartmentCustomer currentTenant;
-	private ApartmentCustomerRole lastPersonClicked;
-	private ApartmentWorker currentWorker;
+	private HouseOwner currentTenant;
+	private HouseOwnerRole lastPersonClicked;
+	private HouseWorker currentWorker;
 
 	//GENERAL STUFF
-	private ApartmentPanel housingPanel;
+	private HousePanel housingPanel;
 	String type;
 
 	//--------------------Constructor-------------------------
-	public ApartmentListPanel(ApartmentPanel rp, String type) {
+	public HouseListPanel(HousePanel rp, String type) {
 		housingPanel = rp;
 		this.type = type;
 		//setLayout(new GridLayout(0,1,1,1));
@@ -105,7 +109,7 @@ public class ApartmentListPanel extends JPanel implements ActionListener {
 	 */
 
 	
-	public void addTenant(ApartmentCustomer c, String homePurpose) {
+	public void addTenant(HouseOwner c, String homePurpose) {
 			JButton button = new JButton(c.getName());
 			button.setBackground(Color.white);
 			Dimension paneSize = personPane.getSize();
@@ -122,7 +126,7 @@ public class ApartmentListPanel extends JPanel implements ActionListener {
 			validate();
 	}
 	
-	public void addWorker(ApartmentWorker w) {
+	public void addWorker(HouseWorker w) {
 			JButton button = new JButton(w.getName());
 			button.setBackground(Color.white);
 			Dimension paneSize = personPane.getSize();
@@ -149,11 +153,11 @@ public class ApartmentListPanel extends JPanel implements ActionListener {
 
 	//this is where I got to.  When a button is pressed, this method is invoked.  
 	//need two checkboxes.  one for broken stuff, one for eating
-	public void updateTenant(ApartmentCustomer temp)
+	public void updateTenant(HouseOwner temp)
 	{
 		currentTenant = temp;
 	}
-	public void updateWorker(ApartmentWorker temp)
+	public void updateWorker(HouseWorker temp)
 	{
 		currentWorker = temp;
 	}

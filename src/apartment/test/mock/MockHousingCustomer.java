@@ -5,7 +5,7 @@ import java.util.List;
 
 import apartment.guis.ApartmentAnimationPanel;
 import apartment.guis.ApartmentCustomerGui;
-import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.ApartmentCustomer;
 
 /*
 

@@ -6,7 +6,7 @@ import apartment.LandlordRole;
 import apartment.guis.ApartmentAnimationPanel;
 import apartment.guis.ApartmentCustomerGui;
 
-public interface HousingCustomer {
+public interface ApartmentCustomer {
 
 	boolean hungry = false;
 	boolean houseNeedsRepairs = false;

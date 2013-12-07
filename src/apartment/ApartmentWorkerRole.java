@@ -8,7 +8,7 @@ import java.util.concurrent.Semaphore;
 import apartment.LandlordRole.HousingComplex;
 import apartment.guis.ApartmentAnimationPanel;
 import apartment.guis.ApartmentWorkerGui;
-import apartment.interfaces.HousingWorker;
+import apartment.interfaces.ApartmentWorker;
 import apartment.interfaces.Landlord;
 import logging.Alert;
 import logging.AlertLevel;
@@ -16,7 +16,7 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import roles.Role;
 
-public class HousingWorkerRole extends Role implements HousingWorker{
+public class ApartmentWorkerRole extends Role implements ApartmentWorker{
 
 
 	// HOUSING WORKER DATA
@@ -46,7 +46,7 @@ public class HousingWorkerRole extends Role implements HousingWorker{
 	//-----------------Utilities----------------------------
 	//------------------------------------------------------
 	//constructor
-	public HousingWorkerRole(String name1){
+	public ApartmentWorkerRole(String name1){
 		this.name = name1;
 		System.out.println("Housing Worker Created.");
 		balance = 0;

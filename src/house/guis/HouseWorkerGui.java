@@ -1,4 +1,7 @@
-package apartment.guis;
+package house.guis;
+
+import house.HouseWorkerRole;
+import house.interfaces.HouseWorker;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,7 +13,7 @@ import javax.imageio.ImageIO;
 import apartment.ApartmentWorkerRole;
 import apartment.interfaces.ApartmentWorker;
 
-public class ApartmentWorkerGui implements Gui, restaurant.gui.Gui{
+public class HouseWorkerGui implements Gui{
 
 	//variables
 		private boolean isPresent = true;
@@ -18,17 +21,14 @@ public class ApartmentWorkerGui implements Gui, restaurant.gui.Gui{
 		private boolean goingSomewhere = false;
 		
 		//finals
-		private final int tables_y = 450;
-		private final int customerSize = 20;
 		private final int deltadivider = 100;
-		private final int starting_X = 150;
-		private final int table_divider = 100;
+
 
 		//self agent
-		private ApartmentWorkerRole agent = null;
+		private HouseWorkerRole agent = null;
 
 		//private HostAgent host;
-		ApartmentGui gui;
+		HouseGui gui;
 		
 		private Image avatar;
 		
@@ -41,10 +41,10 @@ public class ApartmentWorkerGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public ApartmentWorkerGui(ApartmentWorker p, ApartmentGui gui3){
+		public HouseWorkerGui(HouseWorker p, HouseGui gui3){
 			
 	        
-			agent = (ApartmentWorkerRole) p;
+			agent = (HouseWorkerRole) p;
 			this.gui = gui3;
 			
 			try

@@ -6,8 +6,8 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import agent.RestaurantMenu;
-import apartment.HousingCustomerRole;
-import apartment.HousingWorkerRole;
+import apartment.ApartmentCustomerRole;
+import apartment.ApartmentWorkerRole;
 import apartment.LandlordRole;
 import apartment.guis.ApartmentGui;
 import apartment.guis.ApartmentPanel;
@@ -24,8 +24,8 @@ public class Apartment extends Building{
 	public ApartmentPanel panel;
 	public String name; //Name of the restaurant
     public LandlordRole landlord;
-    public List<HousingWorkerRole> workers = new ArrayList<HousingWorkerRole>();
-    public List<HousingCustomerRole> tenants = new ArrayList<HousingCustomerRole>();
+    public List<ApartmentWorkerRole> workers = new ArrayList<ApartmentWorkerRole>();
+    public List<ApartmentCustomerRole> tenants = new ArrayList<ApartmentCustomerRole>();
     //public String customerRole; //value is something like "Restaurant1CustomerRole"
     //public String type;
     

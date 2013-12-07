@@ -18,17 +18,17 @@ import city.guis.PersonGui;
 import agent.Agent;
 import apartment.guis.ApartmentAnimationPanel;
 import apartment.guis.ApartmentCustomerGui;
-import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.ApartmentCustomer;
 import apartment.interfaces.Landlord;
 
-public class HousingCustomerRole extends Role implements HousingCustomer{
+public class ApartmentCustomerRole extends Role implements ApartmentCustomer{
 
 
 	//-----------------------------------------------
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
 	//constructor
-	public HousingCustomerRole(String name2, double b, List<Item> inventory) {
+	public ApartmentCustomerRole(String name2, double b, List<Item> inventory) {
 		name = name2;
 		balance = b;
 		needsLoan = false;
