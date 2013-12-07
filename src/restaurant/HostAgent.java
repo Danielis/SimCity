@@ -505,5 +505,11 @@ public class HostAgent extends Agent implements Host {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean areTablesEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 

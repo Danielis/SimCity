@@ -231,7 +231,6 @@ public class HostRole extends Role implements Host{
 	public void msgCheckForASpot(Customer cust)
 	{
 		customers.add(new MyCustomer(cust, customerState.waitingToSeeIfFull));
-		this.r.customerCame();
 		stateChanged();
 	}
 	
@@ -276,7 +275,6 @@ public class HostRole extends Role implements Host{
 				print("Table " + tableNum + " is now unoccupied.");
 				table.setUnoccupied();
 				DeLoad(w);
-				r.customerLeft();
 				stateChanged();
 			}
 		}
@@ -440,8 +438,7 @@ public class HostRole extends Role implements Host{
 		//Check if this host can leave
 		if (myState == WorkState.needToLeave)
 		{
-			System.out.println("CustomerSize: " + customers.size());
-			if(customers.size() == 0 && areTablesEmpty())
+			if(r.canLeave())
 			{
 				LeaveWork();
 				return true;
@@ -461,7 +458,6 @@ public class HostRole extends Role implements Host{
 	{
 		mc.state = customerState.leftRestaurant;
 		customers.remove(mc);
-		r.customerLeft();
 	}
 	
 	private void TellCustomerWhetherFull(MyCustomer mc, Boolean b)

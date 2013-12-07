@@ -13,6 +13,7 @@ import bank.Bank.Loan;
 import bank.Bank.loanState;
 import bank.interfaces.Teller;
 import agent.RestaurantMenu;
+import restaurant.gui.CookGui;
 import restaurant.gui.RestaurantGui;
 import restaurant.gui.RestaurantPanel;
 import restaurant.interfaces.*;
@@ -54,19 +55,12 @@ public class Restaurant extends Building{
 		panel.waiters.add(w);
 	}
 	
-	public void customerCame()
-	{
-		numCustomers++;
-	}
-	
-	public void customerLeft()
-	{
-		numCustomers--;
-	}
-	
 	public boolean canLeave()
 	{
-		return (numCustomers==0);
+		if (panel.host == null) return true;
+		if (panel.host.getCustomers().size() == 0 && panel.host.areTablesEmpty()) return true;
+		
+		return false;
 	}
 	
 	public Boolean isOpen(){
@@ -86,7 +80,7 @@ public class Restaurant extends Building{
 	{
 		panel.host = null;
 	}
-	public void nullifyCook()
+	public void nullifyCook(CookGui cookGui)
 	{
 		panel.cook = null;
 	}

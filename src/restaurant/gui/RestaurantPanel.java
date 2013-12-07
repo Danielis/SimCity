@@ -62,7 +62,7 @@ public class RestaurantPanel extends JPanel
     ImageIcon iconMenu;
     JLabel picMenu;
     
-    private RestaurantGui gui; //reference to main gui
+    public RestaurantGui gui; //reference to main gui
 
     public RestaurantPanel(RestaurantGui gui) {
     	

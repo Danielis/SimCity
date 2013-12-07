@@ -475,6 +475,7 @@ public class CookRole extends Role implements Cook
 						noItemsOrdered() && this.rest.canLeave())
 				{
 					LeaveWork();
+					return true;
 				}
 			}
 	
@@ -482,7 +483,7 @@ public class CookRole extends Role implements Cook
 		}
 		catch (ConcurrentModificationException e)
 		{
-			return false;
+			return true;
 		}
 	}
 
@@ -672,8 +673,6 @@ public class CookRole extends Role implements Cook
                                + " for order of " + data.choice);
    		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Creating new order from ticket left by " + name 
                 + " for order of " + data.choice, new Date()));
-           //try{sleep(1000);}
-          // catch(InterruptedException ex){};
        }
 	
 	public void WaitForAnimation()
@@ -730,7 +729,7 @@ public class CookRole extends Role implements Cook
 		print("CookRole: Called to leave work.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CookRole", "Called to leave work.", new Date()));
 		myPerson.msgLeftWork(this, this.accountBalance);
-		rest.nullifyCook();
+		rest.nullifyCook(this.cookGui);
 	}
 
 	public void setSalary(double i) {
