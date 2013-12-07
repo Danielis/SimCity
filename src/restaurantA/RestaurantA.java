@@ -5,6 +5,7 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 
 
+
 //import restaurantA.ProducerConsumerMonitor;
 import restaurantA.gui.RestaurantGui;
 import restaurantA.gui.RestaurantPanel;
@@ -19,7 +20,10 @@ public class RestaurantA extends RestBase{
     public Coordinate location;
    // public ProducerConsumerMonitor theMonitor;
     public int numWaitersWorking = 0;
-	public String owner = "Aleena";
+	public Boolean hasHost = false;
+    public Boolean hasCook = false;
+    public Boolean hasCashier = false;
+    public int numWaiters = 0;
 	public RestaurantA(restaurantA.gui.RestaurantGui rg, String name)
     {
     	this.gui = rg;
@@ -33,6 +37,7 @@ public class RestaurantA extends RestBase{
         rg.setAlwaysOnTop(true);
         rg.setAlwaysOnTop(false);
         rg.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        owner = "Aleena";
       // theMonitor = new ProducerConsumerMonitor();
     }
 
@@ -43,55 +48,41 @@ public class RestaurantA extends RestBase{
 
 	@Override
 	public Boolean isOpen() {
-		// TODO Auto-generated method stub
-		return null;
+		return true;
 	}
 
-	@Override
 	public boolean needsHost() {
-		// TODO Auto-generated method stub
+		//return !hasHost;
 		return false;
 	}
 
-	@Override
 	public void sethost() {
-		// TODO Auto-generated method stub
-		
+		hasHost = true;
 	}
 
-	@Override
 	public boolean needsCook() {
-		// TODO Auto-generated method stub
+		//return !hasCook;
 		return false;
 	}
 
-	@Override
 	public void setCook() {
-		// TODO Auto-generated method stub
-		
+		hasCook = true;
 	}
 
-	@Override
 	public boolean needsCashier() {
-		// TODO Auto-generated method stub
-		return false;
+		return !hasCashier;
 	}
 
-	@Override
 	public void setCashier() {
-		// TODO Auto-generated method stub
-		
+		//hasCashier = true;
 	}
 
-	@Override
 	public boolean needsWaiter() {
-		// TODO Auto-generated method stub
+		//return (numWaiters < 2);
 		return false;
 	}
 
-	@Override
 	public void setWaiter() {
-		// TODO Auto-generated method stub
-		
+		numWaiters++;
 	}
 }

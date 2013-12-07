@@ -12,6 +12,7 @@ import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.Table;
 import restaurantA.WaiterAgent;
+import restaurantA.interfaces.Customer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class RestaurantPanel extends JPanel {
     private int numTables = 4;
     public ArrayList<Table> tables;
 
-    public Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
+    public Vector<Customer> customers = new Vector<Customer>();
     public Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
     JPanel restLabel = new JPanel();
@@ -138,7 +139,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Customers")) {
 
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+            	Customer temp = customers.get(i);
                 
                 if (name.isEmpty())
         			name = "Customer";
@@ -172,25 +173,24 @@ public class RestaurantPanel extends JPanel {
      */
     public void addPerson(String type, String name, boolean isHungry) {
 
-    	if (type.equals("Customers")) {
-    		if (name.isEmpty())
-    			name = "Customer";
-    		CustomerAgent c = new CustomerAgent(name);	
-    		CustomerGui g = new CustomerGui(c, gui);
-
-    		gui.animationPanel.addGui(g);// dw
-    		c.setHost(host);
-    		c.setGui(g);
-    		customers.add(c);
-    		c.startThread();
-    		c.setAnimPanel(gui.animationPanel);
-    		if (isHungry){
-    		g.setHungry();
-    		}
-    		
-    		
-    		
-    	}
+//    	if (type.equals("Customers")) {
+//    		if (name.isEmpty())
+//    			name = "Customer";
+//    		CustomerAgent c = new CustomerAgent(name);	
+//    		CustomerGui g = new CustomerGui(c, gui);
+//
+//    		gui.animationPanel.addGui(g);// dw
+//    		c.setHost(host);
+//    		c.setGui(g);
+//    		customers.add(c);
+//    		c.startThread();
+//    		c.setAnimPanel(gui.animationPanel);
+//    		if (isHungry){
+//    		g.setHungry();
+//    		}
+//    		
+//    		
+//    	}
     	
     	if (type.equals("Waiters")){
 			WaiterAgent newWaiter = new WaiterAgent(name, host, cook, cashier);
@@ -205,6 +205,19 @@ public class RestaurantPanel extends JPanel {
     		host.addWaiter(newWaiter);
 		}
     }
+
+	public void addCustomer(String type, Customer c, boolean b) {
+		//CustomerAgent c = new CustomerAgent(name);	
+		CustomerGui g = new CustomerGui(c, gui);
+
+		gui.animationPanel.addGui(g);// dw
+		c.setHost(host);
+		c.setGui(g);
+		customers.add(c);
+		//c.startThread();
+		c.setAnimPanel(gui.animationPanel);
+		g.setHungry();
+	}
     
 //    public void addWaiter(String name){
 //    	WaiterAgent w = new restaurant.WaiterAgent(name);

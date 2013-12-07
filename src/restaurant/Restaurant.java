@@ -8,9 +8,6 @@ import javax.swing.JFrame;
 
 import bank.BankCustomerRole;
 import bank.BankHostRole;
-import bank.Bank.Account;
-import bank.Bank.Loan;
-import bank.Bank.loanState;
 import bank.interfaces.Teller;
 import agent.RestaurantMenu;
 import restaurant.gui.CookGui;

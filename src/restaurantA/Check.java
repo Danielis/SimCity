@@ -5,9 +5,9 @@ import restaurantA.interfaces.*;
 
 public class Check{
 	String food;
-	private int amountOwed = 0;
-	private int amountPaid = 0;
-	private int amountChange = 0;
+	private double amountOwed = 0;
+	private double amountPaid = 0;
+	private double amountChange = 0;
 	Table table;
 	Customer c;
 	Cashier cashier;
@@ -51,27 +51,27 @@ public class Check{
 		this.s = s;
 	}
 
-	public int getAmountPaid() {
+	public double getAmountPaid() {
 		return amountPaid;
 	}
 
-	public void setAmountPaid(int amountPaid) {
-		this.amountPaid = amountPaid;
+	public void setAmountPaid(double money) {
+		this.amountPaid = money;
 	}
 
-	public int getAmountOwed() {
+	public double getAmountOwed() {
 		return amountOwed;
 	}
 
-	public void setAmountOwed(int amountOwed) {
-		this.amountOwed = amountOwed;
+	public void setAmountOwed(double d) {
+		this.amountOwed = d;
 	}
 
-	public int getAmountChange() {
+	public double getAmountChange() {
 		return amountChange;
 	}
 
-	public void setAmountChange(int amountChange) {
+	public void setAmountChange(double amountChange) {
 		this.amountChange = amountChange;
 	}
 

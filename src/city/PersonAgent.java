@@ -31,9 +31,7 @@ import city.Interfaces.Person;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
-import bank.Bank.Account;
-import bank.Bank.Loan;
-import bank.Bank.loanState;
+import city.BankDatabase.*;
 import bank.BankHostRole;
 import bank.interfaces.*;
 import roles.Apartment;
@@ -869,6 +867,18 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 	
+	public void msgLeaveRestA(CustomerAgent r, double money) {
+		print("Left Aleena's Restaurant.");
+		cash = money;
+		r.setActivity(false);
+		gui.setBusy(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside); 
+		gui.setPresent(true);
+		roles.remove(r);
+		stateChanged();
+	}
+	
 	public void msgNewAccount(BankCustomerRole bankCustomerRole, Account acct) {
 		accounts.add(acct);
 	}
@@ -960,7 +970,8 @@ public class PersonAgent extends Agent implements Person
 
 				//Status.getLocation() == location.outside && CheckRestOpen()) {
 				print("Scheduler realized the person wants to go to Restaurant");
-				GoToRestaurant();
+				Building r = findOpenBuilding(buildingType.restaurant);
+				GoToRestaurant(r);
 				return true;
 			}
 			//If you need to withdraw, and your destination is the bank, withdraw
@@ -1103,17 +1114,24 @@ public class PersonAgent extends Agent implements Person
 	
 	public Building findOpenBuilding(buildingType type){
 		Building r = null;
+		List<Building> temp = new ArrayList<Building>();
 		synchronized(buildings) {
 			for (Building b: buildings){
 				if (b.getType() == type){
+					print(" added " + b);
 					if (b.isOpen()){
-						return b;
+						temp.add(b);
 					}
 				}
 			}
 		}
 		
-		return null;
+		if (temp.size() > 1){
+			//TODO some type of find closest building
+			return temp.get(0);
+		}
+		else
+			return temp.get(0);
 	}
 
 	public void GoEat() {
@@ -1137,16 +1155,20 @@ public class PersonAgent extends Agent implements Person
 			restaurant = false;
 		
 		if (restaurant){
-			GoToRestaurant();
-			GoToRestaurantA(r);
-			//GoToRestaurantD();
-		//	GoToRestaurantC();
+			GoToRestaurant(r);
 		}
 		else{
 			homePurpose = "Cook";
 			GoHomeToDoX();
 		} 
 		
+	}
+	
+	public void GoToRestaurant(Building r){
+		if (r.owner.equals("Norman"))
+			GoToRestaurantN();
+		if (r.owner.equals("Aleena"))
+			GoToRestaurantA(r);
 	}
 
 	public boolean isHungry() {
@@ -1583,7 +1605,7 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-	public void GoToRestaurant()
+	public void GoToRestaurantN()
 	{
 		Restaurant r = null;
 		synchronized(buildings)
@@ -1624,24 +1646,24 @@ public class PersonAgent extends Agent implements Person
 		RestaurantA r = (RestaurantA) b;
 		gui.setPresent(true);
 		gui.setBusy(true);
-		print("Going to restaurant");
+		print("Going to Aleena's Restaurant");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
-		takeBusIfApplicable(2);
+		//takeBusIfApplicable(2);
 		
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
 		//Role terminologies
-		CustomerRole c = new CustomerRole(this.getName(), cash);
+		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash);
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		r.panel.customerPanel.hungry.setSelected(true);
-		r.panel.customerPanel.addPerson((Customer) c, r);
+	//	r.panel.customerPanel.hungry.setSelected(true);
+		r.panel.customerPanel.addCustomer((restaurantA.interfaces.Customer) c, r);
 	
 	}
 	
@@ -1742,5 +1764,9 @@ public class PersonAgent extends Agent implements Person
 		public void GiveCar() {
 			addItem("Car", 1);
 		}
+
+	
+
+		
 
 }

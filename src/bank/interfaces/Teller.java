@@ -8,7 +8,7 @@ import java.util.List;
 
 import logging.TrackerGui;
 import bank.Bank;
-import bank.Bank.Loan;
+import city.BankDatabase.*;
 
 public interface Teller 
 {

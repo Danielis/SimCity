@@ -1,5 +1,6 @@
 package bank.test;
 
+import city.BankDatabase;
 import city.PersonAgent;
 import bank.BankCustomerRole;
 import bank.BankCustomerRole.customerPurpose;
@@ -8,6 +9,7 @@ import bank.test.mock.*;
 import bank.Bank.*;
 import logging.TrackerGui;
 import bank.Bank;
+import city.BankDatabase.*;
 import junit.framework.TestCase;
 /**
  * 
@@ -88,7 +90,7 @@ public class CustomerTest extends TestCase
     //TEST 2 - account created
     public void test2_NormalCustomerScenario() throws Exception{
     	System.out.println("TEST 2");
-    	Account a = teller.bank.createAccount(cust);
+    	Account a = BankDatabase.getInstance().createAccount(cust);
     	cust.t = teller;
         //SET UP SHOULD RUN BEFORE THIS FIRST TEST
 	
@@ -112,7 +114,7 @@ public class CustomerTest extends TestCase
     //TEST 2 - loan created
     public void test3_NormalCustomerScenario() throws Exception{
     	System.out.println("TEST 2");
-    	Loan a = teller.bank.createLoan(cust2, 2000);
+    	Loan a = BankDatabase.getInstance().createLoan(cust2, 2000);
     	cust2.t = teller;
         //SET UP SHOULD RUN BEFORE THIS FIRST TEST
 	

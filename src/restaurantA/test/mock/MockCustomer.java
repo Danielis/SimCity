@@ -1,6 +1,9 @@
 package restaurantA.test.mock;
 
 
+import restaurantA.HostAgent;
+import restaurantA.gui.AnimationPanel;
+import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.Cashier;
 import restaurantA.interfaces.Customer;
 
@@ -30,7 +33,7 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void addMoneyAmountOwed(int amountOwed) {
+	public void addMoneyAmountOwed(double amountOwed) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -42,7 +45,7 @@ public class MockCustomer extends Mock implements Customer {
 	}
 
 	@Override
-	public void msgHereIsChange(int amountChange) {
+	public void msgHereIsChange(double amountChange) {
 		log.add(new LoggedEvent("Received message msgHereIsChange from cashier"));
 
 	}
@@ -51,6 +54,48 @@ public class MockCustomer extends Mock implements Customer {
 	public String getCustomerName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setHost(HostAgent host) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setGui(CustomerGui g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAnimPanel(AnimationPanel animationPanel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAnimationFinishedGoToSeat() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gotHungry() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAnimationFinishedGoToCashier() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgAnimationFinishedLeaveRestaurant() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

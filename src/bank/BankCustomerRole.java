@@ -1,7 +1,6 @@
 package bank;
 
-import bank.Bank.Account;
-import bank.Bank.Loan;
+import city.BankDatabase.*;
 import bank.Bank.*;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
@@ -560,7 +559,7 @@ private void LeaveBank(){
 	}
 
 	public void setAccount(Account account) {
-		accountID = account.id;
+		accountID = account.getID();
 	}
 
 	public void setLoan(List<Loan> loans) {

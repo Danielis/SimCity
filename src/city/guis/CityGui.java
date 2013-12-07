@@ -34,6 +34,7 @@ import city.Government;
 import city.Scenario;
 import city.TimeManager;
 
+
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -50,10 +51,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Vector;
 
+import restaurantA.*;
 
 public class CityGui extends JFrame implements ActionListener {
 
 	Restaurant tempRes;
+	RestaurantA tempResA;
 	Bank tempBan;
 	Apartment tempApa;
 	Market tempMar;
@@ -313,7 +316,7 @@ public class CityGui extends JFrame implements ActionListener {
 		createRestaurant("Norman's Restaurant", 257, 474);
 		createBank("Aleena's Bank - North", 73, 74);
 		createBank("Aleena's Bank - South", 16, 619);
-		createRestaurantA("Aleena Restaurant", 257, 474);
+		createRestaurantA("Aleena Restaurant", 183, 266);
 		createMarket("Aleena's Market", 280, 265);
 		createApartment("The Chris Apartment Complex", 319, 90);
 
@@ -407,7 +410,7 @@ public class CityGui extends JFrame implements ActionListener {
 				if ((x<314) && (y<468) && (x>210) && (y>370))
 				{
 					for (Building b: buildings){
-						if (b.getType() == buildingType.restaurant){
+						if (b.getType() == buildingType.restaurant && b.owner.equals("Norman")){
 							Restaurant r = (Restaurant) b;
 							r.setPaymentFund(GovernmentFunds);
 							tempRes = r;
@@ -433,7 +436,34 @@ public class CityGui extends JFrame implements ActionListener {
 					}
 				}
 
+				if ((x<239) && (y<264) && (x>145) && (y>190))
+				{
+					for (Building b: buildings){
+						if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena")){
+							RestaurantA r = (RestaurantA) b;
+							//r.setPaymentFund(GovernmentFunds);
+							tempResA = r;
+							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempResA.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+								}
 
+								public void mouseEntered(MouseEvent e) {}
+								public void mouseExited(MouseEvent arg0) {}
+								public void mousePressed(MouseEvent arg0) {}
+								public void mouseReleased(MouseEvent arg0) {}
+
+							});
+						}
+
+					}
+				}
 
 				if ((x<398) && (y<85) && (x>257) && (y>0))
 				{
@@ -696,7 +726,7 @@ public class CityGui extends JFrame implements ActionListener {
 			restaurantA.RestaurantA r = new restaurantA.RestaurantA(rg, name);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
-			//buildings.add(r);
+			buildings.add(r);
 	}
 
 	public void createBank(String name, int x, int y)
