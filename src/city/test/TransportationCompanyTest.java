@@ -17,6 +17,7 @@ import restaurant.test.mock.MockMarket;
  */
 public class TransportationCompanyTest extends TestCase
 {
+	/*
     //these are instantiated for each test separately via the setUp() method.
     CashierAgent cashier;
     MockWaiter waiter;
@@ -283,6 +284,6 @@ public class TransportationCompanyTest extends TestCase
             assertEquals("The cashier's balance should now be 515.99-44.95 = 471.04", cashier.getAccountBalance(), 471.04f);
             assertEquals("The market should have received a log of his payment", market1.log.size(), 1);
             assertTrue("Market should have logged the price of his payment to be \"44.95\" but didn't", market1.log.containsString("44.95"));
-    }
+    }*/
         
 }
