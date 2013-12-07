@@ -1,19 +1,23 @@
-package roles;
+package house;
+
+
+import house.guis.HouseGui;
+import house.guis.HousePanel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 
+import roles.Building;
 import apartment.ApartmentCustomerRole;
 import apartment.ApartmentWorkerRole;
 import apartment.LandlordRole;
-import apartment.guis.ApartmentGui;
-import apartment.guis.ApartmentPanel;
 
-public class Apartment extends Building{
-	public ApartmentGui gui;
-	public ApartmentPanel panel;
+
+public class House extends Building{
+	public HouseGui gui;
+	public HousePanel panel;
 	public String name; //Name of the restaurant
     public LandlordRole landlord;
     public List<ApartmentWorkerRole> workers = new ArrayList<ApartmentWorkerRole>();
@@ -21,7 +25,7 @@ public class Apartment extends Building{
     //public String customerRole; //value is something like "Restaurant1CustomerRole"
     //public String type;
     
-    public Apartment(String name, ApartmentGui gui)
+    public House(String name, HouseGui gui)
     {
     	type = buildingType.housingComplex;
     	this.gui = gui;

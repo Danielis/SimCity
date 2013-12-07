@@ -17,6 +17,8 @@ import market.gui.MarketGui;
 import city.PersonAgent;
 import city.Clock;
 import city.Scenario;
+import house.House;
+import house.guis.HouseGui;
 
 
 //Import Java utilities
@@ -284,6 +286,7 @@ public class CityGui extends JFrame implements ActionListener {
 		createBank("Aleena's Bank");
 		createMarket("Aleena's Market");
 		createApartment("The Chris Apartment Complex");
+		createHouse("The Chris House");
 
 		this.setAlwaysOnTop(false);
 		//this.setAutoRequestFocus(false);
@@ -643,7 +646,14 @@ public class CityGui extends JFrame implements ActionListener {
 		Apartment a = new Apartment(name, hg);
 		buildings.add(a);
 	}
-
+	//house creation
+	public void createHouse(String name) {
+		HouseGui hg = new HouseGui(trackingWindow);
+		House h = new House(name, hg);
+		buildings.add(h);
+	}
+	
+	
 	//Set Person Enabled
 	public void setPersonEnabled(PersonAgent p) {
 		PersonAgent per = currentPerson;
