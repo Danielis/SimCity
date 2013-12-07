@@ -410,6 +410,16 @@ public class WaiterAgent extends Agent implements Waiter {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void setAssigned() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean isAssigned() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
 

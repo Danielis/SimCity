@@ -40,6 +40,7 @@ public class WaiterRole extends Role implements Waiter
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	public double balance;
+	public boolean assigned = false;
 	//Menu
 	RestaurantMenu Menu;
 	Restaurant rest;
@@ -48,6 +49,7 @@ public class WaiterRole extends Role implements Waiter
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
+	/*
 	public WaiterRole()
 	{
 		super();
@@ -58,11 +60,16 @@ public class WaiterRole extends Role implements Waiter
 		{
 			foodsAvailable.add(true);
 		}
-	}
+	}*/
 	public WaiterRole(String name, Restaurant rest) {
 		super();
 		this.rest = rest;
 		this.name = name;
+		
+		for (int i = 0; i<4; i++)
+		{
+			foodsAvailable.add(true);
+		}
 	}
 
 //UTILITIES***************************************************
@@ -82,6 +89,16 @@ public class WaiterRole extends Role implements Waiter
 	
 	public void setHost(Host host) {
 		this.host = host;
+	}
+	
+	public void setAssigned()
+	{
+		assigned = true;
+	}
+	
+	public boolean isAssigned()
+	{
+		return assigned;
 	}
 	
 	public void setCook(Cook cook) {

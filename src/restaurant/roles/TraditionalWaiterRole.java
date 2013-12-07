@@ -25,11 +25,11 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public TraditionalWaiterRole(String string, Restaurant r, double cash)
+	public TraditionalWaiterRole(String name, Restaurant r, double cash)
 	{
-		super();
+		super(name, r);
 		this.rest = r;
-		this.name = string;
+		this.name = name;
 		balance = cash;
 		
 		//set all items of food available
@@ -37,11 +37,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		{
 			foodsAvailable.add(true);
 		}
-	}
-	public TraditionalWaiterRole(String name) {
-		super();
 
-		this.name = name;
 		print("I'm a traditional waiter! I hate the ticket system.");
 	}
 

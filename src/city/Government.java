@@ -88,8 +88,10 @@ Day LastChecked = Day.monday;
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.work){
+				try{
 				for (Role r : p.roles)
 					r.msgLeaveWork();
+				} catch (ConcurrentModificationException e){}
 			}
 		}
 		

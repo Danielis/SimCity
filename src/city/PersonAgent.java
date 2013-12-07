@@ -1380,19 +1380,19 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
-		if (job.type == JobType.restHost)
+		if (job.type == JobType.restHost && r.panel.host == null)
 		{
 			HostRole c = new HostRole(this.getName(), this.cash);
 			c.setBuilding(r);
 			c.setSalary(80);
 			c.setTrackerGui(trackingWindow);
-			r.panel.addHost((HostRole) c);
 			c.setPerson(this);
+			r.panel.addHost((HostRole) c);
 			roles.add(c);
 			c.setActivity(true);
 		}
 		
-		if (job.type == JobType.cook){
+		if (job.type == JobType.cook  && r.panel.cook == null){
 			CookRole c = new CookRole(this.getName(), this.cash);
 			c.setBuilding(r);
 			c.setSalary(80);
@@ -1402,7 +1402,7 @@ public class PersonAgent extends Agent implements Person
 			roles.add(c);
 			c.setActivity(true);
 		}
-		if (job.type == JobType.cashier){
+		if (job.type == JobType.cashier && r.panel.cashier == null){
 			CashierRole c = new CashierRole(this.getName(), this.cash);
 			c.setBuilding(r);
 			c.setSalary(100);
@@ -1424,7 +1424,7 @@ public class PersonAgent extends Agent implements Person
 				roles.add(c);
 				c.setActivity(true);
 			}
-			else
+			else if(waiterindex %2 == 1)
 			{
 				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((TraditionalWaiterRole) c);

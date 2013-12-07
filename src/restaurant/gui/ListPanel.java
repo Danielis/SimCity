@@ -113,11 +113,11 @@ public class ListPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addCustomerButton) 
         {
-            addCustomer(nameFieldForCustomer.getText());
+            //addCustomer(nameFieldForCustomer.getText());
         }
         else if (e.getSource() == addWaiterButton)
         {
-        	addWaiter(nameFieldForWaiter.getText());
+        	//addWaiter(nameFieldForWaiter.getText());
         }
         else {
         	// Isn't the second for loop more beautiful?
@@ -145,7 +145,7 @@ public class ListPanel extends JPanel implements ActionListener {
      *
      * @param name name of new person
      */
-    
+    /*
     public void addWaiter(String name) {
         if (name != null) {
             JButton button = new JButton(name);
@@ -164,8 +164,8 @@ public class ListPanel extends JPanel implements ActionListener {
             restPanel.showWaiterInfo(name);
             validate();
         }
-    }
-    
+    }*/
+    /*
     public void addCustomer(String name) {
         if (name != null) {
             JButton button = new JButton(name);
@@ -185,7 +185,7 @@ public class ListPanel extends JPanel implements ActionListener {
             validate();
            
         }
-    }
+    }*/
     
     public void addCustomer(Customer customer, Restaurant r) {
         if (customer.getName() != null) {

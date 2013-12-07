@@ -202,13 +202,16 @@ public class RestaurantPanel extends JPanel
 		w.setHost(host);
 		w.setAnimPanel(gui.animationPanel);
 		if (host != null)
+		{
 			host.msgNewWaiter(w);
+			w.setAssigned();
+		}
 		w.setCook(cook);
 		w.setCashier(cashier);
 		w.setGui(g);
 		waiters.add(w);
     }
-    
+    /*
     public void addWaiter(String name) 
     {
 		waiterindex++;
@@ -240,7 +243,7 @@ public class RestaurantPanel extends JPanel
 			waiters.add(w);
 			w.startThread();
 		}
-    }
+    }*/
     
     public void removeCustomer(Customer customer)
     {
@@ -280,38 +283,45 @@ public class RestaurantPanel extends JPanel
     }
     
     
-    public void addHost(Host host) {
+    public void addHost(Host h) {
     	System.out.println("Added host");
-		HostGui g = new HostGui(host, gui);
+		HostGui g = new HostGui(h, gui);
 		gui.animationPanel.addGui(g);
-		host.setGui(g);
-		host.setAnimPanel(gui.animationPanel);
-		this.host = host;
-		
+		h.setGui(g);
+		h.setAnimPanel(gui.animationPanel);
+
 		for (int i = 0; i<this.waiters.size(); i++)
 		{
-			waiters.get(i).setHost(host);
-			host.msgNewWaiter(waiters.get(i));
+			waiters.get(i).setHost(h);
+			if (waiters.get(i).isAssigned() == false)
+			{
+				System.out.println("Is the waiter null: " + waiters.get(i) == null);
+				h.msgNewWaiter(waiters.get(i));
+				waiters.get(i).setAssigned();
+			}
 		}
+		
+		this.host = h;
 	}
     
-    public void addCashier(Cashier cashier)
+    public void addCashier(Cashier ca)
     {
     	System.out.println("Added cashier");
-    	CashierGui g = new CashierGui(cashier, gui);
-    	cashier.setGui(g);
-    	cashier.setAnimPanel(gui.animationPanel);
+    	CashierGui g = new CashierGui(ca, gui);
+    	ca.setGui(g);
+    	ca.setAnimPanel(gui.animationPanel);
     	gui.animationPanel.addGui(g);
-    	this.cashier = cashier;
     	
-    	market1.setCashier(cashier);
-    	market2.setCashier(cashier);
-    	market3.setCashier(cashier);
+    	market1.setCashier(ca);
+    	market2.setCashier(ca);
+    	market3.setCashier(ca);
     	
 		for (int i = 0; i<this.waiters.size(); i++)
 		{
-			waiters.get(i).setCashier(cashier);
+			waiters.get(i).setCashier(ca);
 		}
+		
+    	this.cashier = ca;
     }
     
     public void addCook(Cook ck)

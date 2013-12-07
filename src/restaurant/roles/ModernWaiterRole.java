@@ -32,23 +32,11 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public ModernWaiterRole(String string, Restaurant r, double cash)
-	{
-		super();
-		this.name = string;
-		balance = cash;
-		
-		//set all items of food available
-		for (int i = 0; i<4; i++)
-		{
-			foodsAvailable.add(true);
-		}
-		//theMonitor = ;
-	}
-	public ModernWaiterRole(String name, Restaurant r) {
-		super();
+	public ModernWaiterRole(String name, Restaurant r, double cash) {
+		super(name, r);
 		this.rest = r;
 		this.name = name;
+		balance = cash;
 		theMonitor = r.theMonitor;
 		print("I'm a modern waiter! I love the ticket system.");
 	}
