@@ -44,4 +44,9 @@ public class Apartment extends Building{
         gui.setAlwaysOnTop(false);
         gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
+
+	@Override
+	public Boolean isOpen() {
+		return true;
+	}
 }

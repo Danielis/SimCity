@@ -20,8 +20,9 @@ import restaurant.interfaces.*;
 import roles.Building;
 import roles.Coordinate;
 import roles.Building.buildingType;
+import city.*;
 
-public class Restaurant extends Building{
+public class Restaurant extends RestBase{
 	
 	List <Waiter> workingWaiters = new ArrayList<Waiter>();
 	int idIncr = 0;
@@ -31,6 +32,13 @@ public class Restaurant extends Building{
 	public String name; //Name of the restaurant
     public Coordinate location;
     public ProducerConsumerMonitor theMonitor;
+
+    public int numWaitersWorking = 0;
+    public Boolean hasHost = false;
+    public Boolean hasCook = false;
+    public Boolean hasCashier = false;
+    public int numWaiters = 0;
+
     
     int numCustomers = 0;
     
@@ -48,6 +56,7 @@ public class Restaurant extends Building{
         gui.setAlwaysOnTop(false);
         gui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
        theMonitor = new ProducerConsumerMonitor();
+       owner = "Norman";
     }
 	
 	public void addWaiter(Waiter w){
@@ -87,10 +96,41 @@ public class Restaurant extends Building{
 	{
 		panel.cashier = null;
 	}
-	
+
 	public double takePaymentForWork(double amount)
 	{
 		this.PaymentFund -= amount;
 		return amount;
+	}
+	public boolean needsHost() {
+		return !hasHost;
+	}
+
+	public void sethost() {
+		hasHost = true;
+	}
+
+	public boolean needsCook() {
+		return !hasCook;
+	}
+
+	public void setCook() {
+		hasCook = true;
+	}
+
+	public boolean needsCashier() {
+		return !hasCashier;
+	}
+
+	public void setCashier() {
+		hasCashier = true;
+	}
+
+	public boolean needsWaiter() {
+		return (numWaiters < 2);
+	}
+
+	public void setWaiter() {
+		numWaiters++;
 	}
 }
