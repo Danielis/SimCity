@@ -7,10 +7,12 @@ import restaurantA.CustomerAgent.AgentEvent;
 import restaurantA.interfaces.Customer;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 public class WaiterGui implements Gui {
 
@@ -20,13 +22,14 @@ public class WaiterGui implements Gui {
     public int xHome, yHome;
     private int xPos = xOrigin, yPos = yOrigin;//default waiter position orignally -20
     private int xDestination = xOrigin, yDestination = yOrigin;//default start position originally -20
-    private int xCook = 380, yCook = 50;
+    private int xCook = 360, yCook = 50;
     private boolean foodOn = false;
     private JLabel[][] buttons;
     private String foodDeliver = null;
     private boolean isOnBreak = false;
     public ArrayList<Table> tables;
     Timer timer;
+    Image img, food;
     
     public WaiterGui(WaiterAgent agent, ArrayList<Table> tables, int xHome, int yHome) {
         this.agent = agent;
@@ -35,6 +38,14 @@ public class WaiterGui implements Gui {
     	this.xHome = xHome;
     	this.yHome = yHome;
     	//System.out.println("test" + xHome + " " + yHome);
+    	 try
+         {
+    		 img = ImageIO.read(getClass().getResource("/resources/bankSprites/teller.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 food = ImageIO.read(getClass().getResource("/resources/restSprites/A/food2.png"));
+         } catch (IOException e ) {}
     }
 
     public void updatePosition() {
@@ -82,13 +93,14 @@ public class WaiterGui implements Gui {
 
 	public void draw(Graphics2D g) {
 
-        	g.setColor(Color.MAGENTA);
-            g.fillRect(xPos, yPos, 20, 20);
+		if (isPresent()){
+	        g.drawImage(img, xPos, yPos, agent.copyOfAnimPanel);
+	    	}
+        	//g.setColor(Color.MAGENTA);
+           // g.fillRect(xPos, yPos, 20, 20);
   
             if (foodOn){
-            g.setColor(Color.DARK_GRAY);
-            g.fillRect(xPos, yPos+20, 10, 10);
-            g.drawString(foodDeliver, xPos, yPos+20);
+            g.drawImage(food, xPos + 15, yPos + 15, agent.copyOfAnimPanel);
             }
             
             
@@ -102,7 +114,7 @@ public class WaiterGui implements Gui {
     }
 
     public void DoGoToTable(Customer customer, Table table) {
-        xDestination = table.getxPos() + 20;
+        xDestination = table.getxPos() + 30;
         yDestination = table.getyPos() - 20;
     }
     

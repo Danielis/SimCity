@@ -7,6 +7,7 @@ import restaurantA.interfaces.Customer;
 import restaurantA.interfaces.Waiter;
 //import restaurant.gui.RestaurantGui;
 import agent.Agent;
+import bank.gui.BankAnimationPanel;
 
 import java.util.concurrent.Semaphore;
 import java.util.Collection;
@@ -30,6 +31,7 @@ public class CustomerAgent extends Agent implements Customer {
     public Collection<MyMenuItem> menu;
     private CashierAgent cashier;
     private int money = 0;
+	public AnimationPanel copyOfAnimPanel;
 	
 	// agent correspondents
 	private HostAgent host;
@@ -59,6 +61,11 @@ public class CustomerAgent extends Agent implements Customer {
 		this.check.setAmountOwed(amount);
 		this.money += 40;
 		print("Withdrawing $40 to pay back debts");
+	}
+	
+	public void setAnimPanel(AnimationPanel panel)
+	{
+		copyOfAnimPanel = panel;
 	}
 	
 	private void setMoney() {
@@ -534,10 +541,7 @@ public class CustomerAgent extends Agent implements Customer {
 	    	return waitForFood;
 	}
 
-	public void setAnimPanel(AnimationPanel animationPanel) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	
 

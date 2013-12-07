@@ -1,5 +1,6 @@
 package restaurantA.gui;
 import javax.imageio.ImageIO;
+import restaurantA.*;
 import javax.swing.*;
 
 import restaurantA.HostAgent;
@@ -26,7 +27,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private HostAgent host = null;
     private ArrayList<Table> tables = null;
 
-    Image restBG, table, cashMachine, cookTable;
+    Image restBG, table, cashMachine, cookTable, hostimg, cashierimg;
+    
+  //  RestaurantA rest;
 
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -53,6 +56,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	 try
          {
     		 cookTable = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 hostimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/host.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 cashierimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashier.png"));
          } catch (IOException e ) {}
     }
 
@@ -86,8 +97,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
     	g2.setColor(Color.BLUE);
 		//g2.fillRect(30, 0, 20, 20);
-        g2.drawImage(cashMachine, 30, 0, this);
-    	
+        g2.drawImage(cashMachine, 60, 0, this);
+       
+        //if (rest.hostIsHere()){
+        g2.drawImage(hostimg, 20, 7, this);
+        // }
+        //if (rest.cashierIsHere()){
+        g2.drawImage(cashierimg, 80, 7, this);
+        // }
+        
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);

@@ -33,4 +33,9 @@ public class RestaurantA extends Building{
         rg.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       // theMonitor = new ProducerConsumerMonitor();
     }
+
+	public boolean hostIsHere() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

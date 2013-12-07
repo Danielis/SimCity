@@ -46,6 +46,8 @@ public class WaiterAgent extends Agent implements Waiter {
 	public CashierAgent cashier;
 	public Collection<MyMenuItem> menu;
 	Timer timer = new Timer();
+
+	public AnimationPanel copyOfAnimPanel;
 	public WaiterAgent(String name, HostAgent host, CookAgent cook, CashierAgent cashier) {
 		super();
 		this.name = name;
@@ -497,9 +499,9 @@ private void escortCustomer(MyCustomer c){
 		waiterGui.SetOffBreak();
 	}
 
-	public void setAnimPanel(AnimationPanel animationPanel) {
-		// TODO Auto-generated method stub
-		
-	};
+	public void setAnimPanel(AnimationPanel animationPanel)
+	{
+		copyOfAnimPanel = animationPanel;
+	}
 
 }
