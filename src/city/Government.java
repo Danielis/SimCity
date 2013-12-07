@@ -21,6 +21,7 @@ Day LastChecked = Day.monday;
 	protected boolean pickAndExecuteAnAction() {
 		if (WakeUp() && DayOverWake())
 			msgPeopleWake();
+		
 		if (GoHome() && DayOverHome())
 			msgStopWorking();
 

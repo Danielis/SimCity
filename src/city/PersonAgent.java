@@ -1420,7 +1420,7 @@ public class PersonAgent extends Agent implements Person
 				ModernWaiterRole c = new ModernWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((ModernWaiterRole) c);
 				c.setPerson(this);
-				//TODO c.setSalary(50);
+				c.setSalary(50);
 				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);
@@ -1430,7 +1430,7 @@ public class PersonAgent extends Agent implements Person
 				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((TraditionalWaiterRole) c);
 				c.setPerson(this);
-				//TODO c.setSalary(50);
+				c.setSalary(50);
 				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);

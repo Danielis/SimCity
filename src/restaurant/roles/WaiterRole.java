@@ -41,6 +41,8 @@ public class WaiterRole extends Role implements Waiter
 	public myState state = myState.none;
 	public double balance;
 	public boolean assigned = false;
+	public double salary;
+	
 	//Menu
 	RestaurantMenu Menu;
 	Restaurant rest;
@@ -101,6 +103,11 @@ public class WaiterRole extends Role implements Waiter
 		return assigned;
 	}
 	
+	public void setSalary(double s)
+	{
+		salary = s;
+	}
+	
 	public void setCook(Cook cook) {
 		this.cook = cook;
 	}
@@ -139,7 +146,7 @@ public class WaiterRole extends Role implements Waiter
 
 //MESSAGES****************************************************
 	public void msgGetPaid(){
-		balance =+50;
+		balance += this.rest.takePaymentForWork(salary);
 	}
 	public void msgSetOffBreak()
 	{/*

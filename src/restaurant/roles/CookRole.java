@@ -263,7 +263,7 @@ public class CookRole extends Role implements Cook
 
 //MESSAGES****************************************************
 	public void msgGetPaid(){
-		balance =+50;
+		balance =+ this.rest.takePaymentForWork(salary);
 	}
 
 
