@@ -949,32 +949,19 @@ public class PersonAgent extends Agent implements Person
 
 	public boolean pickAndExecuteAnAction() {
 
-		//Not exactly sure where this next bit of code has to go or when it will be called
-		// it is called when a person needs to go to work and the SimCity has determined that it has to
-		// take a Bus to get somehere so perhaps before other actions are performed. Will need to work this out in PersonAgent later on
-		//If you're hungry and outside, go to the restaurant. Preliminary.
-
-
 		if (job.type == JobType.noAI){		
 
-			//if (job.type == JobType.noAI || noAI){	
-			//print("sched hit");
 			if (Status.getWork() == workStatus.notWorking &&
 					Status.getDestination() == destination.work) {
-				print("Scheduler realized the person wants to go to work");
 				GoToWork();
 				return true;
 			}
 			if (Status.getNourishmnet() == nourishment.Hungry &&
 					Status.getLocation() == location.outside) {
-
-				//Status.getLocation() == location.outside && CheckRestOpen()) {
-				print("Scheduler realized the person wants to go to Restaurant");
 				Building r = findOpenBuilding(buildingType.restaurant);
 				GoToRestaurant(r);
 				return true;
 			}
-			//If you need to withdraw, and your destination is the bank, withdraw
 			if (Status.getMoneyStatus() == bankStatus.withdraw &&
 					Status.getDestination() == destination.bank && CheckBankOpen()) {
 				GoToBank();
@@ -985,18 +972,15 @@ public class PersonAgent extends Agent implements Person
 				GoToMarket();
 				return true;
 			}
-
-			//If for any reason you need to go home, go home.
 			if (Status.getHousingStatus() == houseStatus.needsToGo &&
-					Status.getDestination() == destination.home)
-			{
+					Status.getDestination() == destination.home){
 				GoHomeToDoX();
 				return true;
 			}
 		}
-
-
-		if (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
+		
+		
+		if (AIandNotWorking()){	
 
 			//print(" role no active, should be true" + noRoleActive());
 			//print("is gui busy, should be false" + gui.getBusy());
@@ -1005,7 +989,7 @@ public class PersonAgent extends Agent implements Person
 			//if (!gui.getBusy() && ! noAI && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive()){	
 
 			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
-			if (job.type != JobType.none && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd){
+			if (needToWork()){
 				for (Day d : job.daysWorking){ //if it is the correct day to work
 					print("time to go to work");
 					if (d == TimeManager.getInstance().getDay()){
@@ -1035,18 +1019,6 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 		}
-
-		//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
-		//	if (OwesRent()){
-		//		homePurpose = "Pay Rent";
-		//		GoHomeToDoX();
-		//		return true;
-		//	}
-		//	if (AptBroken()){
-		//		homePurpose = "Call for Repair";
-		//		GoHomeToDoX();
-		//		return true;
-		//	}
 
 		Boolean anytrue = false;
 		synchronized(roles)
@@ -1083,14 +1055,22 @@ public class PersonAgent extends Agent implements Person
 		return false;
 	}
 	
-	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
+	
 
-	public void GoToSleep() {
+	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
+	private Boolean needToWork(){
+		return (job.type != JobType.none && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd);
+	}
+	private boolean AIandNotWorking() {
+		return (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
+	}
+	
+	private void GoToSleep() {
 		homePurpose = "Sleep";
 		GoHomeToDoX();
 	}
 
-	public boolean CheckRestOpen() {
+	private boolean CheckRestOpen() {
 		print("I need to go to the restaurant!");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "I need to go to the restaurant!", new Date()));
 		RestBase r = null;
@@ -1112,8 +1092,8 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 	
-	public Building findOpenBuilding(buildingType type){
-		Building r = null;
+	private Building findOpenBuilding(buildingType type){
+		//Building r = null;
 		List<Building> temp = new ArrayList<Building>();
 		synchronized(buildings) {
 			for (Building b: buildings){
@@ -1125,7 +1105,10 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
-		
+		if (temp.size() == 0){
+			gui.setBusy(false);
+			return null;
+		}
 		if (temp.size() > 1){
 			//TODO some type of find closest building
 			return temp.get(0);
@@ -1134,7 +1117,7 @@ public class PersonAgent extends Agent implements Person
 			return temp.get(0);
 	}
 
-	public void GoEat() {
+	private void GoEat() {
 		Boolean restaurant = false;
 		Building r = null;
 		r = findOpenBuilding(buildingType.restaurant);
@@ -1164,14 +1147,14 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 	
-	public void GoToRestaurant(Building r){
+	private void GoToRestaurant(Building r){
 		if (r.owner.equals("Norman"))
 			GoToRestaurantN();
 		if (r.owner.equals("Aleena"))
 			GoToRestaurantA(r);
 	}
 
-	public boolean isHungry() {
+	private boolean isHungry() {
 		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 90000){
 			print("Hmm... I'm hungry. I better eat soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
@@ -1182,7 +1165,7 @@ public class PersonAgent extends Agent implements Person
 			return false;
 	}
 	
-	public boolean isTired() {
+	private boolean isTired() {
 		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastSlept > 90000){
 			print("Hmm... I'm tired. I better sleep soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm tired. I better sleep soon", new Date()));
@@ -1193,7 +1176,7 @@ public class PersonAgent extends Agent implements Person
 			return false;
 	}
 
-	public void WalkAimlessly() {
+	private void WalkAimlessly() {
 		if (hasCar() && wealthLevel.equals(WealthLevel.average)){
 			gui.DoGoToLocation(18, 529);
 			gui.DoGoToLocation(617, 529);
@@ -1210,11 +1193,11 @@ public class PersonAgent extends Agent implements Person
 			gui.DoGoToLocation(24, 267);
 			gui.DoGoToLocation(375, 267);
 		}
-
+		gui.setBusy(false);
 		stateChanged();
 	}
 
-	public boolean noRoleActive() {
+	private boolean noRoleActive() {
 		synchronized(roles)
 		{
 			for(Role r : roles)
@@ -1228,7 +1211,7 @@ public class PersonAgent extends Agent implements Person
 		return true;
 	}
 
-	public Boolean CheckBankOpen() {
+	private Boolean CheckBankOpen() {
 		print("I need to go to the bank!");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to the bank!", new Date()));
 		Bank r = null;
@@ -1244,12 +1227,13 @@ public class PersonAgent extends Agent implements Person
 			return true;
 		else{
 			print("Aww.. bank is closed :(");	
+			gui.setBusy(false);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
 			return false;
 		}
 	}
 
-	public Boolean CheckMarketOpen() {
+	private Boolean CheckMarketOpen() {
 		Market r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){
@@ -1262,13 +1246,14 @@ public class PersonAgent extends Agent implements Person
 		if(r.isOpen())
 			return true;
 		else{
+			gui.setBusy(false);
 			print("Aww.. market is closed :(");	
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... market is closed :(", new Date()));
 			return false;
 		}
 	}
 
-	public void DelayGoToWork() {
+	private void DelayGoToWork() {
 		int num = (int)(Math.random() * ((5 - 0) + 1));
 		num *= 1000;
 		timer.schedule( new TimerTask()
@@ -1281,7 +1266,7 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-	public boolean needsToBuy() {
+	private boolean needsToBuy() {
 		if (inventory.size() > 0){
 			for (Item i : inventory){
 				//print("type " + i.type + " quantHas " + i.quantity + " quantwnats" + i.threshold);
@@ -1295,14 +1280,14 @@ public class PersonAgent extends Agent implements Person
 		return false;
 	}
 	
-	public boolean canAfford(Item i){
+	private boolean canAfford(Item i){
 		if (i.type == "Car")
 			return (cash > 20000);
 		else
 			return true;
 	}
 
-	public boolean needsBankTransaction() {
+	private boolean needsBankTransaction() {
 		if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
 			bankPurpose = "Pay Loan";
 			bankAmount = cash - getCashThresholdUp();
@@ -1331,7 +1316,7 @@ public class PersonAgent extends Agent implements Person
 		return false;
 	}
 
-	public double getTotalMoney() {
+	private double getTotalMoney() {
 		double temp = cash;
 		for (Account a : accounts){
 			temp += a.getBalance();
@@ -1339,7 +1324,7 @@ public class PersonAgent extends Agent implements Person
 		return temp;
 	}
 
-	public boolean hasLoan() {
+	private boolean hasLoan() {
 		for(Loan l :loans){
 			if (l.s != loanState.paid){
 				return true;
@@ -1352,7 +1337,7 @@ public class PersonAgent extends Agent implements Person
 										ACTIONS
 	 ******************************************************************************/
 
-	public void GoHomeToDoX()
+	private void GoHomeToDoX()
 	{
 		Apartment a = null;
 		for (Building b: buildings){
@@ -1382,7 +1367,7 @@ public class PersonAgent extends Agent implements Person
 		a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
 	}
 
-	public void GoToBank()
+	private void GoToBank()
 	{
 		Bank r = null;
 		synchronized(buildings) {
