@@ -959,7 +959,8 @@ public class PersonAgent extends Agent implements Person
 
 				//Status.getLocation() == location.outside && CheckRestOpen()) {
 				print("Scheduler realized the person wants to go to Restaurant");
-				GoToRestaurant();
+				Building r = findOpenBuilding(buildingType.restaurant);
+				GoToRestaurant(r);
 				return true;
 			}
 			//If you need to withdraw, and your destination is the bank, withdraw
@@ -1138,16 +1139,20 @@ public class PersonAgent extends Agent implements Person
 			restaurant = false;
 		
 		if (restaurant){
-			GoToRestaurant();
-			GoToRestaurantA(r);
-			//GoToRestaurantD();
-		//	GoToRestaurantC();
+			GoToRestaurant(r);
 		}
 		else{
 			homePurpose = "Cook";
 			GoHomeToDoX();
 		} 
 		
+	}
+	
+	public void GoToRestaurant(Building r){
+		if (r.owner.equals("Norman"))
+			GoToRestaurantN();
+		if (r.owner.equals("Aleena"))
+			GoToRestaurantA(r);
 	}
 
 	public boolean isHungry() {
@@ -1550,7 +1555,7 @@ public class PersonAgent extends Agent implements Person
 		c.setActivity(true);
 	}
 
-	public void GoToRestaurant()
+	public void GoToRestaurantN()
 	{
 		Restaurant r = null;
 		synchronized(buildings)
