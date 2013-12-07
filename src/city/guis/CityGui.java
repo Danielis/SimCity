@@ -138,6 +138,13 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
 
+
+	private JButton close = new JButton("Close");
+	private JButton closeRestN = new JButton("Close RestN");
+	private JButton closeRestA = new JButton("Close RestA");
+	private JButton closeBank = new JButton("Close Banks");
+	private JButton closeMarket = new JButton("Close Market");
+
 	// ************ END FUNCTION PANEL *********************
 
 	//CONSTRUCTOR
@@ -228,6 +235,7 @@ public class CityGui extends JFrame implements ActionListener {
 		bankPanel.add(amountInput);
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
+		bankPanel.add(closeBank);
 
 		TitledBorder marketTitle = BorderFactory.createTitledBorder(loweredetched, "Market");
 		functionPanel.add(marketPanel);
@@ -238,6 +246,7 @@ public class CityGui extends JFrame implements ActionListener {
 		marketPanel.add(marketQ);
 		marketPanel.add(marketList);
 		marketPanel.add(marketGo);
+		marketPanel.add(closeMarket);
 
 		TitledBorder housingTitle = BorderFactory.createTitledBorder(loweredetched, "Housing");
 		functionPanel.add(housingPanel);
@@ -253,6 +262,8 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.add(restaurantPanel);
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
+		restaurantPanel.add(closeRestA);
+		restaurantPanel.add(closeRestN);
 
 		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
 		functionPanel.add(otherFunction);
@@ -276,6 +287,11 @@ public class CityGui extends JFrame implements ActionListener {
 		workGo.addActionListener(this);
 		housingList.addActionListener(this);
 		noAIGo.addActionListener(this);
+		closeRestA.addActionListener(this);
+		closeRestN.addActionListener(this);
+		closeMarket.addActionListener(this);
+		closeBank.addActionListener(this);
+		closeMarket.addActionListener(this);
 
 
 		// ************ END FUNCTION PANEL *********************
@@ -565,6 +581,35 @@ public class CityGui extends JFrame implements ActionListener {
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == closeBank){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.bank)
+					b.ForceClosed();
+			}
+			closeBank.setEnabled(false);
+		}
+		if (e.getSource() == closeRestN){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.restaurant && b.owner.equals("Norman"))
+					b.ForceClosed();
+			}
+			closeRestN.setEnabled(false);
+		}
+		if (e.getSource() == closeRestA){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena"))
+					b.ForceClosed();
+			}
+			closeRestA.setEnabled(false);
+		}
+		if (e.getSource() == closeMarket){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.market)
+					b.ForceClosed();
+			}
+			closeMarket.setEnabled(false);
+		}
+		
 		if (e.getSource() == busGo){
 			this.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 			busGo.setEnabled(false);

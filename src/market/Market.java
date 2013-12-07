@@ -97,7 +97,7 @@ public class Market extends Building {
 
 	@Override
 	public Boolean isOpen() {
-		return true;
+		return (!forceClosed);
 	}
 	
 

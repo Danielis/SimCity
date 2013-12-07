@@ -981,7 +981,7 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 			if (Status.getDestination() == destination.market &&
-					Status.market == marketStatus.buying) {
+					Status.market == marketStatus.buying && CheckMarketOpen()) {
 				GoToMarket();
 				return true;
 			}
@@ -1025,7 +1025,7 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 
-			if(needsToBuy()){
+			if(needsToBuy() && CheckMarketOpen()){
 				GoToMarket();
 				return true;
 			}	
@@ -1249,6 +1249,24 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 
+	public Boolean CheckMarketOpen() {
+		Market r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.market){
+					//print("found b");
+					r = (Market) b;
+				}
+			}
+		}
+		if(r.isOpen())
+			return true;
+		else{
+			print("Aww.. market is closed :(");	
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... market is closed :(", new Date()));
+			return false;
+		}
+	}
 
 	public void DelayGoToWork() {
 		int num = (int)(Math.random() * ((5 - 0) + 1));

@@ -10,6 +10,7 @@ public abstract class Building {
 	public buildingType type;
 	public String name;
 	public double PaymentFund;
+	public Boolean forceClosed = false;
 
 	public Object panel;
 	public String owner = "None";
@@ -52,6 +53,10 @@ public abstract class Building {
 	public void addFunds(double amount)
 	{
 		PaymentFund += amount;
+	}
+
+	public void ForceClosed() {
+		forceClosed = true;
 	}
 	
 }

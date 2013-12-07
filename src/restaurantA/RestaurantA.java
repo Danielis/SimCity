@@ -48,7 +48,7 @@ public class RestaurantA extends RestBase{
 
 	@Override
 	public Boolean isOpen() {
-		return true;
+		return (!forceClosed);
 	}
 
 	public boolean needsHost() {

@@ -98,7 +98,7 @@ public class Bank extends Building{
 //	}
 
 	public Boolean isOpen(){
-		if (TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || workingHost == null)
+		if (!forceClosed && TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || workingHost == null)
 			return false;
 		else
 			return true;
