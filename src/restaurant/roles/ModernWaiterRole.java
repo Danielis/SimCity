@@ -156,7 +156,7 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 			
 			if (myWorkState == WorkState.needToLeave)
 			{
-				if(rest.panel.host.canLeave())
+				if(rest.canLeave())
 				{
 					LeaveWork();
 					return true;
@@ -168,13 +168,11 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 		catch(ConcurrentModificationException e)
 		{
 			waiterGui.DoGoToHomePosition();
-			return false;
+			return true;
 		}
 	}
 
 //ACTIONS********************************************************
-
-	
 	
 	public void PlaceTicket(MyCustomer mc)
 	{
@@ -190,9 +188,6 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
                 + " with order of " + data.choice, new Date()));
 
         theMonitor.insert(data);
-        
-        //try{sleep(1000);}
-        //catch(InterruptedException ex){};
 	}
 	
 	public Ticket produce_item(Waiter w, String choice, int tb){

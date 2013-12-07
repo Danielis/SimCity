@@ -29,7 +29,6 @@ public class HostRole extends Role implements Host{
 	public RestaurantAnimationPanel copyOfAnimPanel;
 	
 	public WorkState myState = WorkState.none;
-	boolean workersCanLeave = false;
 	public double salary;
 	
 	Restaurant r;
@@ -60,10 +59,6 @@ public class HostRole extends Role implements Host{
 	}
 
 //UTILITIES************************************************************
-	public boolean canLeave()
-	{
-		return workersCanLeave;
-	}
 	
 	public String getMaitreDName() {
 		return name;
@@ -231,6 +226,7 @@ public class HostRole extends Role implements Host{
 	public void msgCheckForASpot(Customer cust)
 	{
 		customers.add(new MyCustomer(cust, customerState.waitingToSeeIfFull));
+		this.r.customerCame();
 		stateChanged();
 	}
 	
@@ -275,6 +271,7 @@ public class HostRole extends Role implements Host{
 				print("Table " + tableNum + " is now unoccupied.");
 				table.setUnoccupied();
 				DeLoad(w);
+				r.customerLeft();
 				stateChanged();
 			}
 		}
@@ -435,12 +432,6 @@ public class HostRole extends Role implements Host{
 				}
 			}
 
-			//checking if others can leave
-			if(customers.size() == 0 && areTablesEmpty())
-			{
-				workersCanLeave = true;
-			}
-
 		//Check if this host can leave
 		if (myState == WorkState.needToLeave)
 		{
@@ -465,6 +456,7 @@ public class HostRole extends Role implements Host{
 	{
 		mc.state = customerState.leftRestaurant;
 		customers.remove(mc);
+		r.customerLeft();
 	}
 	
 	private void TellCustomerWhetherFull(MyCustomer mc, Boolean b)
@@ -488,6 +480,7 @@ public class HostRole extends Role implements Host{
 			}
 		}
 	}
+	
 	private void AssignCustomer(MyCustomer mc, Table t) {
 		//Assign waiter, message waiter, take care of the table
 		MyWaiter w = PickWaiter();
@@ -520,7 +513,6 @@ public class HostRole extends Role implements Host{
 			mw.w.msgBreakGranted(false);
 		}
 	}
-
 	
 	public void WaitForAnimation()
 	{
@@ -549,7 +541,7 @@ public class HostRole extends Role implements Host{
 	{
 		for (int i = 0; i<4; i++)
 		{
-			if(tables.get(0).isOccupied)
+			if(tables.get(i).isOccupied)
 				return false;
 		}
 		System.out.println("Tables are empty");

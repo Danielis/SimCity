@@ -35,8 +35,6 @@ public interface Host {
 
 	public abstract void setAnimPanel(RestaurantAnimationPanel animationPanel);
 
-	public abstract boolean canLeave();
-
 	public abstract void msgLeaveWork();
 
 }

@@ -148,7 +148,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 			
 			if (myWorkState == WorkState.needToLeave)
 			{
-				if(rest.panel.host.canLeave())
+				if(rest.canLeave())
 				{
 					LeaveWork();
 					return true;
@@ -160,7 +160,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		catch(ConcurrentModificationException e)
 		{
 			waiterGui.DoGoToHomePosition();
-			return false;
+			return true;
 		}
 	}
 
@@ -184,7 +184,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		myWorkState = WorkState.leaving;
 		print("TraditionalWaiterRole: Called to leave work.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "TraditionalWaiterRole", "Called to leave work.", new Date()));
-		myPerson.msgLeftWork(this, 0);
+		myPerson.msgLeftWork(this, this.balance);
 	}
 
 }

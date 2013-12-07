@@ -495,12 +495,6 @@ public class HostAgent extends Agent implements Host {
 	}
 
 	@Override
-	public boolean canLeave()
-	{
-		return workersCanLeave;
-	}
-
-	@Override
 	public void msgLeaveWork() {
 		// TODO Auto-generated method stub
 		

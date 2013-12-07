@@ -993,7 +993,6 @@ public class PersonAgent extends Agent implements Person
 				}
 			}catch (ConcurrentModificationException e)
 			{
-				System.out.println("Caught Concurrent Modification error. Catching it and re-running action.");
 				for(Role r : roles)
 				{
 					if(r.active)

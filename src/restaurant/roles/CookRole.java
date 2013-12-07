@@ -471,9 +471,8 @@ public class CookRole extends Role implements Cook
 			if (myState == WorkState.needToLeave)
 			{
 				//if there's no customers in the restaurant and the cook has no orders
-				if(rest.panel.host.canLeave() && 
-						this.orders.size() == 0 && 
-						noItemsOrdered())
+				if(this.orders.size() == 0 && 
+						noItemsOrdered() && this.rest.canLeave())
 				{
 					LeaveWork();
 				}

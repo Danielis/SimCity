@@ -31,6 +31,9 @@ public class Restaurant extends Building{
     public Coordinate location;
     public ProducerConsumerMonitor theMonitor;
     
+    Boolean workersCanLeave;
+    int numCustomers = 0;
+    
     public Restaurant(RestaurantGui gui, String name)
     {
     	this.gui = gui;
@@ -49,6 +52,21 @@ public class Restaurant extends Building{
 	
 	public void addWaiter(Waiter w){
 		panel.waiters.add(w);
+	}
+	
+	public void customerCame()
+	{
+		numCustomers++;
+	}
+	
+	public void customerLeft()
+	{
+		numCustomers--;
+	}
+	
+	public boolean canLeave()
+	{
+		return (numCustomers==0);
 	}
 	
 	public Boolean isOpen(){

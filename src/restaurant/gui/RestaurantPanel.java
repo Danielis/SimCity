@@ -290,7 +290,8 @@ public class RestaurantPanel extends JPanel
 		
 		for (int i = 0; i<this.waiters.size(); i++)
 		{
-			waiters.get(0).setHost(host);
+			waiters.get(i).setHost(host);
+			host.msgNewWaiter(waiters.get(i));
 		}
 	}
     
