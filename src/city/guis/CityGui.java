@@ -682,6 +682,7 @@ public class CityGui extends JFrame implements ActionListener {
 			RestaurantGui rg = new RestaurantGui();
 			rg.setTrackerGui(trackingWindow);
 			Restaurant r = new Restaurant(rg, name);
+			r.setPaymentFund(GovernmentFunds);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
 			buildings.add(r);
@@ -692,6 +693,7 @@ public class CityGui extends JFrame implements ActionListener {
 		BankGui bg = new BankGui();
 		bg.setTrackerGui(trackingWindow);
 		Bank b = new Bank(bg, name);
+		b.setPaymentFund(GovernmentFunds);
 		b.setEntrance(x,y);
 		buildings.add(b);
 	}
@@ -701,6 +703,7 @@ public class CityGui extends JFrame implements ActionListener {
 		MarketGui mg = new MarketGui();
 		mg.setTrackerGui(trackingWindow);
 		Market b = new Market(name, mg);
+		b.setPaymentFund(GovernmentFunds);
 		b.setEntrance(x,y);
 		buildings.add(b);
 	}
@@ -710,6 +713,7 @@ public class CityGui extends JFrame implements ActionListener {
 		HousingGui hg = new HousingGui();
 		hg.setTrackerGui(trackingWindow);
 		Apartment a = new Apartment(name, hg);
+		a.setPaymentFund(GovernmentFunds);
 		a.setEntrance(x,y);
 		buildings.add(a);
 	}

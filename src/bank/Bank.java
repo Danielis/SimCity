@@ -282,6 +282,12 @@ public class Bank extends Building{
 	public void sethost(){
 		hasHost = true;
 	}
+	
+	public double takePaymentForWork(double amount)
+	{
+		this.PaymentFund -= amount;
+		return amount;
+	}
 
 	
 }

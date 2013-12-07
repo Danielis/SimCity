@@ -35,4 +35,18 @@ public class Building {
 		entrance = c;
 	}
 	
+	public boolean lowOnFunds()
+	{
+		if (PaymentFund < 1000)
+		{
+			return true;
+		}
+		else return false;
+	}
+	
+	public void addFunds(double amount)
+	{
+		PaymentFund += amount;
+	}
+	
 }
