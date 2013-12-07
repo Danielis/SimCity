@@ -1,7 +1,9 @@
 package restaurantA.gui;
 
+import restaurant.interfaces.Customer;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
+import restaurantA.RestaurantA;
 
 import javax.swing.*;
 
@@ -24,7 +26,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addPersonB = new JButton("Add");
     private JTextField nameInput = new JTextField();
     
-    private JCheckBox hungry = new JCheckBox("Hungry?");
+    public JCheckBox hungry = new JCheckBox("Hungry?");
     private RestaurantPanel restPanel;
     private String type;
  
@@ -113,4 +115,9 @@ public class ListPanel extends JPanel implements ActionListener {
             
         }
     }
+
+	public void addPerson(Customer c, RestaurantA r) {
+		// TODO Auto-generated method stub
+		
+	}
 }

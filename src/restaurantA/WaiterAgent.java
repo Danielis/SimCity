@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 import restaurantA.CookAgent;
 import restaurantA.Table;
 import restaurantA.CookAgent.MyMenuItem;
+import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.HostGui;
 import restaurantA.gui.WaiterGui;
 import restaurantA.interfaces.Cook;
@@ -45,6 +46,8 @@ public class WaiterAgent extends Agent implements Waiter {
 	public CashierAgent cashier;
 	public Collection<MyMenuItem> menu;
 	Timer timer = new Timer();
+
+	public AnimationPanel copyOfAnimPanel;
 	public WaiterAgent(String name, HostAgent host, CookAgent cook, CashierAgent cashier) {
 		super();
 		this.name = name;
@@ -494,6 +497,11 @@ private void escortCustomer(MyCustomer c){
 
 	public void msgGoOffBreak() {
 		waiterGui.SetOffBreak();
-	};
+	}
+
+	public void setAnimPanel(AnimationPanel animationPanel)
+	{
+		copyOfAnimPanel = animationPanel;
+	}
 
 }

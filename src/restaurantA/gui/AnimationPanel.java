@@ -1,4 +1,6 @@
 package restaurantA.gui;
+import javax.imageio.ImageIO;
+import restaurantA.*;
 import javax.swing.*;
 
 import restaurantA.HostAgent;
@@ -7,6 +9,7 @@ import restaurantA.Table;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,7 +27,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private HostAgent host = null;
     private ArrayList<Table> tables = null;
 
+    Image restBG, table, cashMachine, cookTable, hostimg, cashierimg;
     
+  //  RestaurantA rest;
 
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -35,6 +40,31 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	Timer timer = new Timer(20, this );
     	timer.start();
     	
+    	 try
+         {
+    		 restBG = ImageIO.read(getClass().getResource("/resources/restSprites/A/bg.png"));
+         } catch (IOException e ) {}
+    	 
+    	 try
+         {
+    		 table = ImageIO.read(getClass().getResource("/resources/restSprites/A/table.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 cashMachine = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashmachine.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 cookTable = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 hostimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/host.png"));
+         } catch (IOException e ) {}
+    	 try
+         {
+    		 cashierimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashier.png"));
+         } catch (IOException e ) {}
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -47,6 +77,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
+        g2.drawImage(restBG, 0, 0, this);
 
         //Here is the table
         g2.setColor(Color.ORANGE);
@@ -54,7 +85,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
       
         
         for(Table t: tables){
-        	g2.fillRect(t.getxPos(), t.getyPos(), WIDTH, HEIGHT);
+        //	g2.fillRect(t.getxPos(), t.getyPos(), WIDTH, HEIGHT);
+        	g2.drawImage(table, t.getxPos(), t.getyPos(), this);
         }
 
         for(Gui gui : guis) {
@@ -64,8 +96,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
         }
         
     	g2.setColor(Color.BLUE);
-		g2.fillRect(30, 0, 20, 20);
-
+		//g2.fillRect(30, 0, 20, 20);
+        g2.drawImage(cashMachine, 60, 0, this);
+       
+        //if (rest.hostIsHere()){
+        g2.drawImage(hostimg, 20, 7, this);
+        // }
+        //if (rest.cashierIsHere()){
+        g2.drawImage(cashierimg, 80, 7, this);
+        // }
+        
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw(g2);
