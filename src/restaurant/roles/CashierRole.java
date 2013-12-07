@@ -279,13 +279,7 @@ public class CashierRole extends Role implements Cashier{
 		
 		if (myState == WorkState.needToLeave)
 		{
-			//Check if there's no host
-			System.out.println("Checks: " + checks.size() + "/Payments: " + payments.size());
-			if
-				(checks.size() == 0 &&
-					payments.size() == 0 &&
-					r.canLeave()
-				)
+			if(checks.size() == 0 && payments.size() == 0 && r.canLeave())
 			{
 				LeaveWork();
 				return true;

@@ -32,7 +32,6 @@ public class Restaurant extends Building{
     public Coordinate location;
     public ProducerConsumerMonitor theMonitor;
     
-    Boolean workersCanLeave;
     int numCustomers = 0;
     
     public Restaurant(RestaurantGui gui, String name)

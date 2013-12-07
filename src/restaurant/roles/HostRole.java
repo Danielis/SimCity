@@ -438,7 +438,7 @@ public class HostRole extends Role implements Host{
 		//Check if this host can leave
 		if (myState == WorkState.needToLeave)
 		{
-			if(r.canLeave())
+			if(this.areTablesEmpty() && customers.size() == 0)
 			{
 				LeaveWork();
 				return true;
