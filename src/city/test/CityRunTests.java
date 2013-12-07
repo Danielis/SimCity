@@ -16,12 +16,6 @@ import restaurant.test.mock.MockWaiter;
 import roles.Role;
 
 public class CityRunTests extends TestCase {
-    //these are instantiated for each test separately via the setUp() method.
-//    CashierAgent cashier;
-//    MockWaiter waiter;
-//    MockCustomer customer;
-//    MockMarket market1;
-//    MockMarket market2;
 	
 	PersonAgent person;
 	CityGui gui;
