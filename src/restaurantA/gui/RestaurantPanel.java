@@ -40,6 +40,7 @@ public class RestaurantPanel extends JPanel {
     public Vector<Customer> customers = new Vector<Customer>();
     public Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
+    
     JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
@@ -50,7 +51,6 @@ public class RestaurantPanel extends JPanel {
     public RestaurantPanel(RestaurantGui gui) {
     	
     	setTables();
-    	
         this.gui = gui;
         host.setGui(hostGui);
         gui.animationPanel.addGui(hostGui);
@@ -86,6 +86,10 @@ public class RestaurantPanel extends JPanel {
         initRestLabel();
         //add(restLabel);
         add(group);
+
+    	addPerson("Waiters", "WaiterA 1", true);
+    	addPerson("Waiters", "WaiterA 2", true);
+    	addPerson("Waiters", "WaiterA 3", true);
     }
 
     private void setTables() {
