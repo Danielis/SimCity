@@ -1,10 +1,10 @@
-package housing.interfaces;
-
-import housing.LandlordRole;
-import housing.guis.HousingAnimationPanel;
-import housing.guis.HousingCustomerGui;
+package apartment.interfaces;
 
 import javax.swing.Icon;
+
+import apartment.LandlordRole;
+import apartment.guis.ApartmentAnimationPanel;
+import apartment.guis.ApartmentCustomerGui;
 
 public interface HousingCustomer {
 
@@ -21,9 +21,9 @@ public interface HousingCustomer {
 
 	public abstract String getName();
 	
-	public HousingAnimationPanel copyOfAnimationPanel();
+	public ApartmentAnimationPanel copyOfAnimationPanel();
 
-	public abstract void setGui(HousingCustomerGui g);
+	public abstract void setGui(ApartmentCustomerGui g);
 
 	public abstract void setLandlord(LandlordRole landlord);
 

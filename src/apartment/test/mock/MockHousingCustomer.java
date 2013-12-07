@@ -1,11 +1,11 @@
-package housing.test.mock;
+package apartment.test.mock;
 
-
-import housing.guis.HousingAnimationPanel;
-import housing.guis.HousingCustomerGui;
-import housing.interfaces.HousingCustomer;
 
 import java.util.List;
+
+import apartment.guis.ApartmentAnimationPanel;
+import apartment.guis.ApartmentCustomerGui;
+import apartment.interfaces.HousingCustomer;
 
 /*
 

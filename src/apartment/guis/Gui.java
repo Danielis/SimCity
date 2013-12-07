@@ -1,4 +1,4 @@
-package housing.guis;
+package apartment.guis;
 
 import java.awt.*;
 

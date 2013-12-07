@@ -1,4 +1,4 @@
-package housing.test.mock;
+package apartment.test.mock;
 
 import java.util.LinkedList;
 import java.util.List;

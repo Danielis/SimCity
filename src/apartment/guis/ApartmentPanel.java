@@ -1,14 +1,13 @@
-package housing.guis;
-
-import housing.HousingWorkerRole;
-import housing.LandlordRole;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.HousingWorker;
-import housing.interfaces.Landlord;
+package apartment.guis;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import apartment.HousingWorkerRole;
+import apartment.LandlordRole;
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.HousingWorker;
+import apartment.interfaces.Landlord;
 import city.PersonAgent;
 
 import java.awt.*;
@@ -22,7 +21,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class HousingPanel extends JPanel {
+public class ApartmentPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
 	public LandlordRole landlord;
@@ -31,14 +30,14 @@ public class HousingPanel extends JPanel {
     public Vector<HousingWorker> workers = new Vector<HousingWorker>();
     
     private JPanel restLabel = new JPanel();
-    public HousingListPanel tenantPanel = new HousingListPanel(this, "Tenants");
-    public HousingListPanel workerPanel = new HousingListPanel(this, "Workers");
+    public ApartmentListPanel tenantPanel = new ApartmentListPanel(this, "Tenants");
+    public ApartmentListPanel workerPanel = new ApartmentListPanel(this, "Workers");
     private JPanel group = new JPanel();
         
     
-    private HousingGui gui; //reference to main gui
+    private ApartmentGui gui; //reference to main gui
 
-    public HousingPanel(HousingGui gui) {
+    public ApartmentPanel(ApartmentGui gui) {
         this.gui = gui;
       
         setLayout(new GridLayout(1, 2, 20, 20));
@@ -138,7 +137,7 @@ public class HousingPanel extends JPanel {
 		//HousingCustomerAgent p = new HousingCustomerAgent(name);
     	HousingCustomer hc = c;
     	c.setPurpose(homePurpose);
-		HousingCustomerGui g = new HousingCustomerGui(hc, gui, n);
+		ApartmentCustomerGui g = new ApartmentCustomerGui(hc, gui, n);
 		gui.housingAnimationPanel.addGui(g);
 		hc.setGui(g);
 		g.setAction();
@@ -152,7 +151,7 @@ public class HousingPanel extends JPanel {
     
     public void addWorker(HousingWorker w) 
     {
-		HousingWorkerGui g = new HousingWorkerGui(w, gui);
+		ApartmentWorkerGui g = new ApartmentWorkerGui(w, gui);
 		gui.housingAnimationPanel.addGui(g);
 		w.setGui(g);
         landlord.addWorker(w);

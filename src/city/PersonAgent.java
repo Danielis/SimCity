@@ -24,6 +24,12 @@ import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
 import restaurant.roles.*;
 import agent.Agent;
+import apartment.HousingCustomerRole;
+import apartment.HousingWorkerRole;
+import apartment.LandlordRole;
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.HousingWorker;
+import apartment.interfaces.Landlord;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.TimeManager.Day;
@@ -47,14 +53,10 @@ import market.*;
 import market.interfaces.MarketCustomer;
 import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
-import housing.HousingCustomerRole;
-import housing.HousingWorkerRole;
-import housing.LandlordRole;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.HousingWorker;
-import housing.interfaces.Landlord;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
+
 
 
 

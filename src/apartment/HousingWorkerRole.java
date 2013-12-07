@@ -1,19 +1,19 @@
-package housing;
+package apartment;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import apartment.LandlordRole.HousingComplex;
+import apartment.guis.ApartmentAnimationPanel;
+import apartment.guis.ApartmentWorkerGui;
+import apartment.interfaces.HousingWorker;
+import apartment.interfaces.Landlord;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
-import housing.LandlordRole.HousingComplex;
-import housing.guis.HousingAnimationPanel;
-import housing.guis.HousingWorkerGui;
-import housing.interfaces.HousingWorker;
-import housing.interfaces.Landlord;
 import roles.Role;
 
 public class HousingWorkerRole extends Role implements HousingWorker{
@@ -25,8 +25,8 @@ public class HousingWorkerRole extends Role implements HousingWorker{
 	private List<Job> myJobs = new ArrayList<Job>();
 	double balance;
 	private Semaphore waitingForAnimation = new Semaphore(0);
-	private HousingAnimationPanel animationPanel;
-	private HousingWorkerGui gui;
+	private ApartmentAnimationPanel animationPanel;
+	private ApartmentWorkerGui gui;
 	public TrackerGui trackingWindow;
 	private class Job{
 		HousingComplex c;
@@ -64,11 +64,11 @@ public class HousingWorkerRole extends Role implements HousingWorker{
 		landlord = l;
 	}
 
-	public HousingAnimationPanel copyOfAnimationPanel() {
+	public ApartmentAnimationPanel copyOfAnimationPanel() {
 		return animationPanel;
 	}
 
-	public void setGui(HousingWorkerGui g) {
+	public void setGui(ApartmentWorkerGui g) {
 		gui = g;
 	}
 

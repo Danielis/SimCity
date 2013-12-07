@@ -1,12 +1,12 @@
 package city;
 
 import java.util.*;
-import roles.*;
-import housing.*;
 
+import roles.*;
 import city.PersonAgent.location;
 import city.TimeManager.Day;
 import agent.Agent;
+import apartment.*;
 
 public class Clock extends Agent {
 String name = "Clock";

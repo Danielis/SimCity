@@ -1,16 +1,11 @@
-package housing.guis;
-
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import housing.HousingCustomerRole;
-import housing.HousingWorkerRole;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.HousingWorker;
+package apartment.guis;
 
 import javax.swing.*;
 
+import apartment.HousingCustomerRole;
+import apartment.HousingWorkerRole;
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.HousingWorker;
 import city.PersonAgent;
 
 import java.awt.*;
@@ -22,7 +17,7 @@ import java.util.ArrayList;
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
  */
-public class HousingListPanel extends JPanel implements ActionListener {
+public class ApartmentListPanel extends JPanel implements ActionListener {
 
 	//CUSTOMER STUFF
 	public JScrollPane personPane =
@@ -41,11 +36,11 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	private HousingWorker currentWorker;
 
 	//GENERAL STUFF
-	private HousingPanel housingPanel;
+	private ApartmentPanel housingPanel;
 	String type;
 
 	//--------------------Constructor-------------------------
-	public HousingListPanel(HousingPanel rp, String type) {
+	public ApartmentListPanel(ApartmentPanel rp, String type) {
 		housingPanel = rp;
 		this.type = type;
 		//setLayout(new GridLayout(0,1,1,1));

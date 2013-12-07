@@ -1,7 +1,4 @@
-package housing;
-
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.HousingWorker;
+package apartment.agents;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +11,8 @@ import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.HousingWorker;
 
 /*
 public class LandlordAgent extends Agent {

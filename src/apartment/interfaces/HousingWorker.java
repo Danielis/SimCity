@@ -1,9 +1,9 @@
-package housing.interfaces;
+package apartment.interfaces;
 
+import apartment.LandlordRole;
+import apartment.LandlordRole.HousingComplex;
+import apartment.guis.ApartmentWorkerGui;
 import logging.TrackerGui;
-import housing.LandlordRole;
-import housing.LandlordRole.HousingComplex;
-import housing.guis.HousingWorkerGui;
 
 public interface HousingWorker {
 
@@ -15,7 +15,7 @@ public interface HousingWorker {
 
 	public abstract void GoRepair(HousingComplex complex);
 
-	public abstract void setGui(HousingWorkerGui g);
+	public abstract void setGui(ApartmentWorkerGui g);
 
 	public abstract void setLandlord(LandlordRole landlord);
 

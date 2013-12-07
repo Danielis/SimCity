@@ -1,4 +1,4 @@
-package housing.test;
+package apartment.test;
 
 import junit.framework.TestCase;
 import logging.TrackerGui;

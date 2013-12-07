@@ -1,11 +1,10 @@
-package housing;
+package apartment;
 
 import java.util.Date;
 import java.util.Random;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import java.util.concurrent.Semaphore;
 
 import logging.Alert;
@@ -16,11 +15,11 @@ import roles.Role;
 import city.PersonAgent;
 import city.PersonAgent.Item;
 import city.guis.PersonGui;
-import housing.guis.HousingAnimationPanel;
-import housing.guis.HousingCustomerGui;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.Landlord;
 import agent.Agent;
+import apartment.guis.ApartmentAnimationPanel;
+import apartment.guis.ApartmentCustomerGui;
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.Landlord;
 
 public class HousingCustomerRole extends Role implements HousingCustomer{
 
@@ -52,11 +51,11 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		landlord = landlord2;
 	}
 
-	public HousingAnimationPanel copyOfAnimationPanel() {
+	public ApartmentAnimationPanel copyOfAnimationPanel() {
 		return animationPanel;
 	}
 
-	public void setGui(HousingCustomerGui g) {
+	public void setGui(ApartmentCustomerGui g) {
 		gui = g;		
 	}
 
@@ -67,8 +66,8 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//name
 	public String name;
 	//private Semaphore waitingForAnimation = new Semaphore(0);
-	private HousingAnimationPanel animationPanel;
-	private HousingCustomerGui gui;
+	private ApartmentAnimationPanel animationPanel;
+	private ApartmentCustomerGui gui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	//landlord agent for the customer
 	private LandlordRole landlord;
@@ -270,7 +269,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		myPerson.msgLeavingHome(this, balance);
 	}
 
-	public HousingCustomerGui getGui() {
+	public ApartmentCustomerGui getGui() {
 		return gui;
 	}
 

@@ -1,13 +1,12 @@
-package housing.test.mock;
+package apartment.test.mock;
 
-
-import housing.LandlordRole;
-import housing.guis.HousingWorkerGui;
-import housing.interfaces.HousingWorker;
 
 import java.util.List;
 
 import agent.RestaurantMenu;
+import apartment.LandlordRole;
+import apartment.guis.ApartmentWorkerGui;
+import apartment.interfaces.HousingWorker;
 import restaurant.WaiterAgent;
 import restaurant.interfaces.*;
 import restaurant.test.mock.*;

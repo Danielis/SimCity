@@ -2,37 +2,22 @@ package city.guis;
 
 
 //Import other packages
-import restaurant.CustomerAgent;
 import restaurant.Restaurant;
 //import bank.gui.BankGui;
-import restaurant.WaiterAgent;
-import restaurant.HostAgent;
-import restaurant.CookAgent;
-import restaurant.gui.RestaurantAnimationPanel;
 import restaurant.gui.RestaurantGui;
-import restaurant.interfaces.Customer;
 import roles.Apartment;
 import roles.Building;
 import roles.Building.buildingType;
-import housing.guis.HousingGui;
+import apartment.guis.ApartmentGui;
 import bank.Bank;
 import bank.gui.BankGui;
-import logging.Alert;
-import logging.AlertLevel;
-import logging.AlertTag;
-import logging.TracePanel;
 import logging.TrackerGui;
 import market.Market;
 import market.gui.MarketGui;
 import city.PersonAgent;
-import transportation.BusAgent;
-import transportation.BusStopAgent;
-import transportation.TransportationCompanyAgent;
-import transportation.gui.BusGui;
-import transportation.gui.BusStopGui;
 import city.Clock;
 import city.Scenario;
-import city.TimeManager;
+
 
 //Import Java utilities
 import javax.imageio.ImageIO;
@@ -43,17 +28,10 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Vector;
 
 
 public class CityGui extends JFrame implements ActionListener {
-
-
 
 	Restaurant tempRes;
 	Bank tempBan;
@@ -661,7 +639,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 	//apartment creation
 	public void createApartment(String name) {
-		HousingGui hg = new HousingGui(trackingWindow);
+		ApartmentGui hg = new ApartmentGui(trackingWindow);
 		Apartment a = new Apartment(name, hg);
 		buildings.add(a);
 	}

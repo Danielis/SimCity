@@ -1,4 +1,4 @@
-package housing.guis;
+package apartment.guis;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class HousingAnimationPanel extends JPanel implements ActionListener {
+public class ApartmentAnimationPanel extends JPanel implements ActionListener {
 
 	private final int WINDOWX_ANIM = 700;
 	private final int WINDOWY_ANIM = 700;
@@ -24,11 +24,11 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	private Image wood_floor;
 	private Image kitchen; 
 	private Image bed;
-	private Image landlord_office;
+	private Image landlord_desk;
 	
 	private List<Gui> guis = new ArrayList<Gui>();
 
-	public HousingAnimationPanel() {
+	public ApartmentAnimationPanel() {
 		setSize(WINDOWX_ANIM, WINDOWY_ANIM);
 		setVisible(true);
 
@@ -49,7 +49,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		
 		try
         {
-            landlord_office = ImageIO.read(getClass().getResource("/resources/landlord.png"));
+            landlord_desk = ImageIO.read(getClass().getResource("/resources/landlord_desk.png"));
         } catch (IOException e ) {}
 		
 		Timer timer = new Timer(20, this );
@@ -71,7 +71,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.setStroke(new BasicStroke(3));
 		background.drawImage(wood_floor, 0, 0, this);
 		background.drawImage(kitchen, 0, 0, 288, 241, this);
-		background.drawImage(landlord_office, 300, 0, this);
+		background.drawImage(landlord_desk, 350, 50, this);
 		//first row of beds
 		background.drawImage(bed, 525, 100, this);
 		background.drawImage(bed, 550, 100, this);
@@ -125,10 +125,10 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void addGui(HousingCustomerGui gui) {
+	public void addGui(ApartmentCustomerGui gui) {
 		guis.add(gui);
 	}
-	public void addGui(HousingWorkerGui gui) {
+	public void addGui(ApartmentWorkerGui gui) {
 		guis.add(gui);
 		System.out.println("Gui size: " + guis.size());
 	}

@@ -1,4 +1,4 @@
-package housing.test.mock;
+package apartment.test.mock;
 
 /**
  * This is the base class for all mocks.

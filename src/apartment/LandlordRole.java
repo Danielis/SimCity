@@ -1,17 +1,18 @@
-package housing;
+package apartment;
 
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.HousingWorker;
+import apartment.interfaces.Landlord;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
 import city.PersonAgent;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.HousingWorker;
-import housing.interfaces.Landlord;
 import roles.Role;
 
 public class LandlordRole extends Role implements Landlord{
@@ -40,6 +41,23 @@ public class LandlordRole extends Role implements Landlord{
 	public void addWorker(HousingWorker worker) {
 		workers.add(new MaintenanceWorker(worker, 0));
 	}
+	
+
+	public void DoneWithAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public ImageObserver copyOfAnimationPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public void WaitForAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	//--------------------------------------------------------
 	//-------------------Data---------------------------------
@@ -246,5 +264,4 @@ public class LandlordRole extends Role implements Landlord{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -1,14 +1,15 @@
-package housing.guis;
+package apartment.guis;
 
 
 
 import restaurant.WaiterAgent;
-import housing.HousingCustomerRole;
-import housing.HousingWorkerRole;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.HousingWorker;
 
 import javax.swing.*;
+
+import apartment.HousingCustomerRole;
+import apartment.HousingWorkerRole;
+import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.HousingWorker;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,16 +19,16 @@ import logging.TrackerGui;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class HousingGui extends JFrame implements ActionListener {
+public class ApartmentGui extends JFrame implements ActionListener {
 	/* The GUI has two frames, the control frame (in variable gui) 
 	 * and the animation frame, (in variable animationFrame within gui)
 	 */
 
 	JFrame animationFrame = new JFrame("Housing Animation");
-	HousingAnimationPanel housingAnimationPanel = new HousingAnimationPanel();
+	ApartmentAnimationPanel housingAnimationPanel = new ApartmentAnimationPanel();
 	JPanel RestaurantPortion = new JPanel();
 
-	public HousingPanel housingPanel = new HousingPanel(this);
+	public ApartmentPanel housingPanel = new ApartmentPanel(this);
 
 	/* personInformationPanel holds information about the clicked customer, if there is one*/
 	private JPanel tenantInformationPanel;
@@ -54,7 +55,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	public TrackerGui trackingWindow;
 	
 	//constructor
-	public HousingGui(TrackerGui t) {
+	public ApartmentGui(TrackerGui t) {
 		//dimensions
 		int WINDOWX = 600;
 		int WINDOWY = 500;

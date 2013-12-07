@@ -24,6 +24,8 @@ import restaurant.interfaces.Host;
 import restaurant.interfaces.Waiter;
 import restaurant.roles.*;
 import agent.Agent;
+import apartment.HousingCustomerRole;
+import apartment.interfaces.HousingCustomer;
 import bank.BankCustomerRole;
 import restaurant.gui.CustomerGui;
 import city.PersonAgent.Item;
@@ -50,10 +52,9 @@ import market.*;
 import market.interfaces.MarketCustomer;
 import city.guis.PersonGui.Coordinate; //trans: added for trans
 import transportation.BusStopAgent; // needed for BusStop variable
-import housing.HousingCustomerRole;
-import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 

@@ -3,15 +3,14 @@ package roles;
 import java.util.ArrayList;
 import java.util.List;
 
-import housing.HousingCustomerRole;
-import housing.HousingWorkerRole;
-import housing.LandlordRole;
-import housing.guis.HousingGui;
-import housing.guis.HousingPanel;
-
 import javax.swing.JFrame;
 
 import agent.RestaurantMenu;
+import apartment.HousingCustomerRole;
+import apartment.HousingWorkerRole;
+import apartment.LandlordRole;
+import apartment.guis.ApartmentGui;
+import apartment.guis.ApartmentPanel;
 import restaurant.HostAgent;
 import restaurant.CookAgent;
 import restaurant.CashierAgent;
@@ -21,8 +20,8 @@ import restaurant.gui.RestaurantPanel;
 import roles.Building.buildingType;
 
 public class Apartment extends Building{
-	public HousingGui gui;
-	public HousingPanel panel;
+	public ApartmentGui gui;
+	public ApartmentPanel panel;
 	public String name; //Name of the restaurant
     public LandlordRole landlord;
     public List<HousingWorkerRole> workers = new ArrayList<HousingWorkerRole>();
@@ -30,7 +29,7 @@ public class Apartment extends Building{
     //public String customerRole; //value is something like "Restaurant1CustomerRole"
     //public String type;
     
-    public Apartment(String name, HousingGui gui)
+    public Apartment(String name, ApartmentGui gui)
     {
     	type = buildingType.housingComplex;
     	this.gui = gui;

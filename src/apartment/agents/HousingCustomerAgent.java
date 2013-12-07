@@ -1,12 +1,8 @@
-package housing;
+package apartment.agents;
 
 import java.util.concurrent.Semaphore;
 
 import city.guis.PersonGui;
-import housing.guis.HousingAnimationPanel;
-import housing.guis.HousingCustomerGui;
-import housing.interfaces.HousingCustomer;
-import housing.interfaces.Landlord;
 import agent.Agent;
 /*
 public class HousingCustomerAgent extends Agent implements HousingCustomer{
@@ -207,4 +203,7 @@ public class HousingCustomerAgent extends Agent implements HousingCustomer{
 	}
 
 }
-*/
+*/import apartment.guis.ApartmentAnimationPanel;
+import apartment.guis.ApartmentCustomerGui;import apartment.interfaces.HousingCustomer;
+import apartment.interfaces.Landlord;
+

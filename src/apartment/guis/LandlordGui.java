@@ -1,23 +1,16 @@
-package housing.guis;
-
-import housing.HousingWorkerRole;
-import housing.interfaces.HousingWorker;
+package apartment.guis;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import restaurant.HostAgent;
-import city.PersonAgent;
-import city.guis.CityGui;
-import city.guis.PersonGui.Coordinate;
+import apartment.LandlordRole;
+import apartment.interfaces.Landlord;
 
-public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
+public class LandlordGui implements Gui, restaurant.gui.Gui{
 
 	//variables
 		private boolean isPresent = true;
@@ -25,17 +18,13 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		private boolean goingSomewhere = false;
 		
 		//finals
-		private final int tables_y = 450;
-		private final int customerSize = 20;
 		private final int deltadivider = 100;
-		private final int starting_X = 150;
-		private final int table_divider = 100;
 
 		//self agent
-		private HousingWorkerRole agent = null;
+		private LandlordRole agent = null;
 
 		//private HostAgent host;
-		HousingGui gui;
+		ApartmentGui gui;
 		
 		private Image avatar;
 		
@@ -48,10 +37,10 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public HousingWorkerGui(HousingWorker p, HousingGui gui3){
+		public LandlordGui(Landlord l, ApartmentGui gui3){
 			
 	        
-			agent = (HousingWorkerRole) p;
+			agent = (LandlordRole) l;
 			this.gui = gui3;
 			
 			try

@@ -1,4 +1,4 @@
-package housing.interfaces;
+package apartment.interfaces;
 
 
 public interface Landlord {
