@@ -286,7 +286,7 @@ public class HostAgent extends Agent {
 	
 	public void updateCustpost(){
 		for (int i =0; i <waitingCustomers.size(); i++){
-			waitingCustomers.get(i).customerGui.shuffle(0, i*30);
+			waitingCustomers.get(i).customerGui.shuffle(0, 50 + i*30);
 		}
 	}
 

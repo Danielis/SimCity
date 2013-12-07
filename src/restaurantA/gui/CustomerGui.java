@@ -3,6 +3,7 @@ package restaurantA.gui;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.Table;
+import restaurantA.interfaces.Customer;
 
 import java.awt.*;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private Customer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean isEating = false;
@@ -28,7 +29,7 @@ public class CustomerGui implements Gui{
 	Image img, food;
 
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(Customer c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;

@@ -1,6 +1,6 @@
 package restaurantA.gui;
 
-import restaurant.interfaces.Customer;
+import restaurantA.interfaces.Customer;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.RestaurantA;
@@ -116,8 +116,24 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }
 
-	public void addPerson(Customer c, RestaurantA r) {
-		// TODO Auto-generated method stub
-		
+	public void addCustomer(Customer c, RestaurantA r) {
+		 JButton button = new JButton(c.getName());
+         button.setBackground(Color.white);
+
+         Dimension paneSize = pane.getSize();
+         Dimension buttonSize = new Dimension(paneSize.width - 20,
+                 (int) (paneSize.height / 10));
+         button.setPreferredSize(buttonSize);
+         button.setMinimumSize(buttonSize);
+         button.setMaximumSize(buttonSize);
+         button.addActionListener(this);
+         list.add(button);
+         view.add(button);
+      
+         restPanel.addCustomer(type, c, true);//puts customer on list
+         restPanel.showInfo(type, c.getName());//puts hungry button on panel
+         nameInput.setText("");
+         hungry.setSelected(false);
+         validate();
 	}
 }

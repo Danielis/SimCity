@@ -1,6 +1,7 @@
 package restaurantA;
 
 import restaurantA.CookAgent.MyMenuItem;
+import roles.*;
 import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.Customer;
@@ -17,7 +18,7 @@ import java.util.TimerTask;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer {
+public class CustomerAgent extends Role implements Customer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -30,7 +31,7 @@ public class CustomerAgent extends Agent implements Customer {
     public Semaphore waitForFood = new Semaphore(0);
     public Collection<MyMenuItem> menu;
     private CashierAgent cashier;
-    private int money = 0;
+    private double money = 0;
 	public AnimationPanel copyOfAnimPanel;
 	
 	// agent correspondents
@@ -49,15 +50,17 @@ public class CustomerAgent extends Agent implements Customer {
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
+	 * @param cash 
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name){
+	public CustomerAgent(String name, double cash){
 		super();
 		this.name = name;
-		setMoney();
+		money = cash;
+		//setMoney();
 	}
 
-	public void addMoneyAmountOwed(int amount){
+	public void addMoneyAmountOwed(double amount){
 		this.check.setAmountOwed(amount);
 		this.money += 40;
 		print("Withdrawing $40 to pay back debts");
@@ -168,7 +171,7 @@ public class CustomerAgent extends Agent implements Customer {
 		stateChanged();
 	}
 	
-	public void msgHereIsChange(int change){
+	public void msgHereIsChange(double change){
 		money += change;
 	}
 	
@@ -202,7 +205,7 @@ public class CustomerAgent extends Agent implements Customer {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//System.out.println("Hi Aleena!");
 		//print("state: " + state);
 		//print("event: " + event);
@@ -282,12 +285,12 @@ public class CustomerAgent extends Agent implements Customer {
 		host.msgNotWaiting(this);
 	}
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		print("Going to restaurant");
 		host.msgIWantFood(this);//send our instance, so he can respond to us
 	}
 
 	private void SitDown() {
-		Do("Following waiter to table.");
+		print("Following waiter to table.");
 		customerGui.DoGoToSeat(table);//hack; only one table
 		//event = AgentEvent.seated;
 	}
@@ -540,6 +543,22 @@ public class CustomerAgent extends Agent implements Customer {
     public Semaphore waitForFood() {
 	    	return waitForFood;
 	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 
 	
 

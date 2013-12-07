@@ -1597,24 +1597,24 @@ public class PersonAgent extends Agent implements Person
 		RestaurantA r = (RestaurantA) b;
 		gui.setPresent(true);
 		gui.setBusy(true);
-		print("Going to restaurant");
+		print("Going to Aleena's Restaurant");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
-		takeBusIfApplicable(2);
+		//takeBusIfApplicable(2);
 		
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
 		//Role terminologies
-		CustomerRole c = new CustomerRole(this.getName(), cash);
+		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash);
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		r.panel.customerPanel.hungry.setSelected(true);
-		r.panel.customerPanel.addPerson((Customer) c, r);
+	//	r.panel.customerPanel.hungry.setSelected(true);
+		r.panel.customerPanel.addCustomer((restaurantA.interfaces.Customer) c, r);
 	
 	}
 	

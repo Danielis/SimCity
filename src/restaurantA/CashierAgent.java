@@ -17,7 +17,7 @@ public class CashierAgent extends Agent implements Cashier {
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
 
-	private int savings;
+	private double savings;
 	public CashierAgent(String name){
 		super();
 		this.name = name;
@@ -62,17 +62,17 @@ public class CashierAgent extends Agent implements Cashier {
 		createCheck(c,w);
 		stateChanged();
 	}
-	public void msgHereIsMoney(Check check, int paid){
+	public void msgHereIsMoney(Check check, double d){
 		check.setS(checkState.paying);
-		setSavings(getSavings() + paid);
-		check.setAmountPaid(paid);
+		setSavings(getSavings() + d);
+		check.setAmountPaid(d);
 		check.setAmountChange(check.getAmountPaid() - check.getAmountOwed());
 		check.setAmountOwed(0);
 		checks.add(check);
 		stateChanged();
 	}
 	
-	public void msgICantPay(Check check , int money){
+	public void msgICantPay(Check check , double money){
 		check.setS(checkState.cantbePaid);
 		check.setAmountPaid(money);
 		check.setAmountOwed(check.getAmountOwed() - money);
@@ -164,11 +164,11 @@ public class CashierAgent extends Agent implements Cashier {
 		checks.add(temp);
 		}
 	}
-	public int getSavings() {
+	public double getSavings() {
 		return savings;
 	}
-	public void setSavings(int savings) {
-		this.savings = savings;
+	public void setSavings(double d) {
+		this.savings = d;
 	}
 
 
