@@ -1117,17 +1117,24 @@ public class PersonAgent extends Agent implements Person
 	
 	public Building findOpenBuilding(buildingType type){
 		Building r = null;
+		List<Building> temp = new ArrayList<Building>();
 		synchronized(buildings) {
 			for (Building b: buildings){
 				if (b.getType() == type){
+					print(" added " + b);
 					if (b.isOpen()){
-						return b;
+						temp.add(b);
 					}
 				}
 			}
 		}
 		
-		return null;
+		if (temp.size() > 1){
+			//TODO some type of find closest building
+			return temp.get(0);
+		}
+		else
+			return temp.get(0);
 	}
 
 	public void GoEat() {
