@@ -254,7 +254,8 @@ public class RestaurantPanel extends JPanel
     public void removeWaiters(Waiter waiter)
     {
     	waiters.remove(waiter);
-    	host.msgRemoveWaiter(waiter);
+    	if (host != null)
+    		host.msgRemoveWaiter(waiter);
     }
     public void addCustomer(String name) 
     {

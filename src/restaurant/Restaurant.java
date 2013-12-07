@@ -40,7 +40,6 @@ public class Restaurant extends RestBase{
     public int numWaiters = 0;
 
     
-    Boolean workersCanLeave;
     int numCustomers = 0;
     
     public Restaurant(RestaurantGui gui, String name)
