@@ -868,6 +868,18 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 	}
 	
+	public void msgLeaveRestA(CustomerAgent r, double money) {
+		print("Left Aleena's Restaurant.");
+		cash = money;
+		r.setActivity(false);
+		gui.setBusy(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside); 
+		gui.setPresent(true);
+		roles.remove(r);
+		stateChanged();
+	}
+	
 	public void msgNewAccount(BankCustomerRole bankCustomerRole, Account acct) {
 		accounts.add(acct);
 	}
@@ -1715,5 +1727,7 @@ public class PersonAgent extends Agent implements Person
 		public void GiveCar() {
 			addItem("Car", 1);
 		}
+
+		
 
 }

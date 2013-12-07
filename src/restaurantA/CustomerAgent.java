@@ -192,7 +192,7 @@ public class CustomerAgent extends Role implements Customer {
 	}
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
-		setMoney();
+		//setMoney();
 		event = AgentEvent.doneLeaving;
 		//print("reached origin");
 		stateChanged();
@@ -271,13 +271,17 @@ public class CustomerAgent extends Role implements Customer {
 
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action 
+			Remove(); 
 			return true;
 		}
 		return false;
 	}
 
 	// Actions
+
+	private void Remove() {
+		this.myPerson.msgLeaveRestA(this, money);
+	}
 
 	private void tellHostNotWaiting(){
 		print("Tired of waiting. Leaving.");

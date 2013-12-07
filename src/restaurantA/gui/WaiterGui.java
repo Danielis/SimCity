@@ -18,7 +18,7 @@ public class WaiterGui implements Gui {
 
 
     private WaiterAgent agent = null;
-    private int xOrigin= 60, yOrigin = 60;
+    private int xOrigin= 20, yOrigin = 0;
     public int xHome, yHome;
     private int xPos = xOrigin, yPos = yOrigin;//default waiter position orignally -20
     private int xDestination = xOrigin, yDestination = yOrigin;//default start position originally -20
