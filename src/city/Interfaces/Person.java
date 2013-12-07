@@ -6,8 +6,7 @@ import market.MarketCustomerRole;
 import roles.Role;
 import transportation.BusStopAgent;
 import bank.BankCustomerRole;
-import bank.Bank.Account;
-import bank.Bank.Loan;
+import city.BankDatabase.*;
 
 
 

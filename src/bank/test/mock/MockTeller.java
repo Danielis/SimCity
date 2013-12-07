@@ -1,9 +1,9 @@
 package bank.test.mock;
 import java.util.List;
+import city.BankDatabase.*;
 
 import logging.TrackerGui;
 import bank.Bank;
-import bank.Bank.Loan;
 import bank.gui.BankAnimationPanel;
 import bank.gui.TellerGui;
 import bank.interfaces.*;

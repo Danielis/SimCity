@@ -4,8 +4,7 @@ package bank.interfaces;
 import javax.swing.Icon;
 
 import logging.TrackerGui;
-import bank.Bank.Account;
-import bank.Bank.Loan;
+import city.BankDatabase.*;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
 

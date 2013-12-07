@@ -31,9 +31,7 @@ import city.Interfaces.Person;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
 import bank.Bank;
-import bank.Bank.Account;
-import bank.Bank.Loan;
-import bank.Bank.loanState;
+import city.BankDatabase.*;
 import bank.BankHostRole;
 import bank.interfaces.*;
 import roles.Apartment;
@@ -1734,6 +1732,8 @@ public class PersonAgent extends Agent implements Person
 		public void GiveCar() {
 			addItem("Car", 1);
 		}
+
+	
 
 		
 

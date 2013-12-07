@@ -13,7 +13,6 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import roles.Building;
 import roles.Coordinate;
-import bank.Bank.Account;
 import bank.gui.BankGui;
 import bank.gui.BankPanel;
 import city.TimeManager.*;
@@ -22,12 +21,11 @@ import city.TimeManager.*;
 
 public class Bank extends Building{
 	double balance;
-	List <Account> accounts = new ArrayList<Account>();
-	List <Loan> loans = new ArrayList<Loan>();
+//	List <Account> accounts = new ArrayList<Account>();
+//	List <Loan> loans = new ArrayList<Loan>();
 	private List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
-	int idIncr = 0;
-	int loanIncr = 0;
+
 	public BankGui gui;
 	public BankPanel panel;
     public Coordinate location;
@@ -59,31 +57,7 @@ public class Bank extends Building{
 		type = buildingType.bank;
 	}
 	
-	
-//	class TellerTable{
-//		Teller t;
-//		int num;
-//		Boolean occupied = false;
-//		
-//		public TellerTable(int i){
-//			System.out.println("added table " + i);
-//			num = i;
-//		}
-//		
-////		public void addTeller(Teller t){
-////			this.t = t;
-////			occupied = true;
-////		}
-//		
-//		public Boolean getOccupied(){
-//			return occupied;
-//		}
-//		
-//	}
-	
-	public void addAccount(Account a){
-		accounts.add(a);
-	}
+
 	
 	public void addTeller(Teller t){
 		workingTellers.add(t);
@@ -166,80 +140,7 @@ public class Bank extends Building{
 		return workingTellers;
 	}
 	
-	public class Account {
-		int id; // auto increment
-	    BankCustomer c;
-	    private double balance;
-	    
-	    
-	    public Account(BankCustomer c) {
-			this.c = c;
-			setBalance(0);
-			id = ++idIncr;
-		}
-	    
-	    public Account(int t, int b) {
-			setBalance(b);
-			id = t;
-		}
-
-		public double getBalance() {
-			return balance;
-		}
-
-		public void setBalance(double balance) {
-			this.balance = balance;
-		}
-		
-		public BankCustomer getCustomer(){
-			return c;
-		}
-		
-		public int getID(){
-			return id;
-		}
-	}
 	
-	public class Loan {
-		BankCustomer c;
-	    double balanceOwed;
-	    double balancePaid;
-	    double rate;
-	    int dayCreated;
-	    int dayOwed;
-	    public loanState s;
-	    int id;
-	    
-	    Loan(BankCustomer c2, double amount){
-	    c = c2;
-	    rate = 1.08;
-	    balanceOwed = Math.round(amount * rate * 100) / 100.0d;
-	    balancePaid = 0;
-		id = ++loanIncr;
-	    }
-	    
-	    public double getAmountOwed(){
-	    	return balanceOwed;
-	    }
-	    public double getAmountPaid(){
-	    	return balancePaid;
-	    }
-	}
-	public enum loanState {unpaid, partiallyPaid, paid}
-	
-	public Account createAccount(BankCustomer c) {
-		Account acct = new Account(c);
-		return acct;
-	}
-
-	public Loan createLoan(BankCustomer c, double amount) {
-		Loan loan = new Loan(c, amount);
-		return loan;
-	}
-	
-	public List<Loan> getLoans(){
-		return loans;
-	}
 
 	public void Leaving() {
 		workingHost = null;
@@ -254,18 +155,14 @@ public class Bank extends Building{
 		return workingTellers;
 	}
 	
-	public void addLoan(Loan l){
-		loans.add(l);
-	}
+	
 
 
 	public void setWorkingTellers(List <Teller> workingTellers) {
 		this.workingTellers = workingTellers;
 	}
 	
-	public List<Account> getAccounts(){
-		return accounts;
-	}
+
 	
 	public Boolean needsHost(){
 		return !hasHost;
