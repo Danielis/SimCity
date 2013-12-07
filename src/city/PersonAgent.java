@@ -130,6 +130,7 @@ public class PersonAgent extends Agent implements Person
 						}
 					}
 				}
+				
 //				for (Building b : buildings){
 //					if (workBuilding == null && b.type == buildingType.restaurant){
 //						RestaurantA ba = (RestaurantA) b;
@@ -1024,8 +1025,6 @@ public class PersonAgent extends Agent implements Person
 			}
 		}
 
-	
-
 		//TODO: THIS SECTION RELIES ON TIMERS / OUTSIDE MESSAGES	
 		//	if (OwesRent()){
 		//		homePurpose = "Pay Rent";
@@ -1400,8 +1399,28 @@ public class PersonAgent extends Agent implements Person
 			//if (job.workBuilding.owner.equals("Norman"))
 			print("owner: " + job.workBuilding.owner);
 			WorkAtRest();
-			//else
-			//WorkAtRestA();
+			
+			/*
+			if (job.workBuilding.owner.equals("Norman"))
+			{
+				WorkAtRest();
+			}
+			
+			else if(job.workBuilding.owner.equals("Aleena"))
+			{
+				WorkAtRestA();
+			} 
+			
+			else if(job.workBuilding.owner.equals("Daniel"))
+			{
+				WorkAtRestD();
+			}
+			
+			 else if(job.workBuilding.owner.equals("Chris"))
+			{
+				WorkAtRestC();
+			} 
+			*/
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();

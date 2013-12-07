@@ -29,6 +29,7 @@ public class BankHostRole extends Role implements BankHost {
 	Bank bank;
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
+	public double salary;
 
 	//CONSTRUCTOR
 	public BankHostRole(String name) {
@@ -48,6 +49,11 @@ public class BankHostRole extends Role implements BankHost {
 		return name;
 	}
 
+	public void setSalary(double sal)
+	{
+		salary = sal;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -112,8 +118,9 @@ public class BankHostRole extends Role implements BankHost {
 
 //MESSAGES****************************************************
 	public void msgGetPaid(){
-		balance =+50;
+		balance += this.bank.takePaymentForWork(salary);
 	}
+	
 	public void msgLeaveWork() {
 			bank.removeMe(this);
 			leave = true;

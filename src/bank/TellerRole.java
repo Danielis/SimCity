@@ -42,6 +42,7 @@ public class TellerRole extends Role implements Teller {
 	public myState state = myState.none;
 	private int loanAccountThreshold = 500;
 	private Boolean hasGun = false;
+	double salary;
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
@@ -62,7 +63,6 @@ public class TellerRole extends Role implements Teller {
 		if (num <= 5){
 				hasGun = true;
 		}
-		//print("initialized teller");
 	}
 	
 //UTILITIES***************************************************
@@ -73,6 +73,11 @@ public class TellerRole extends Role implements Teller {
 	
 	public void setHost(BankHost host) {
 		this.host = host;
+	}
+	
+	public void setSalary(double sal)
+	{
+		salary = sal;
 	}
 	
 	public String getMaitreDName() {
@@ -172,9 +177,10 @@ public enum myState
 
 //MESSAGES****************************************************
 public void msgGetPaid(){
-	balance =+50;
-	//print("Person was Paid =====================================");
+	balance += this.bank.takePaymentForWork(salary);
+	//print("I was paid");
 }
+
 @Override
 public void msgLeaveWork() {
 	leave = true;

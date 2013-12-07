@@ -127,7 +127,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 //MESSAGES*************************************************
 	public void msgGetPaid(){
-		//balance =+50;
+		//Does not get paid
 	}
 	public void BankIsClosed(){
 		state = bankCustomerState.done;
