@@ -1426,7 +1426,7 @@ public class PersonAgent extends Agent implements Person
 			}
 			else
 			{
-				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r);
+				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((TraditionalWaiterRole) c);
 				c.setPerson(this);
 				//TODO c.setSalary(50);

@@ -72,13 +72,14 @@ public class Restaurant extends Building{
 	public Boolean isOpen(){
 		return (panel.host != null && panel.cashier != null && panel.cook != null);
 	}
+	
 	public int getWaiterNumber(){
 		return panel.waiters.size();
 	}
 
 	public void removeme(Waiter w)
 	{
-		panel.waiters.remove(w);
+		panel.removeWaiters(w);
 	}
 	
 	public void nullifyHost()

@@ -310,7 +310,7 @@ public class RestaurantPanel extends JPanel
     	
 		for (int i = 0; i<this.waiters.size(); i++)
 		{
-			waiters.get(0).setCashier(cashier);
+			waiters.get(i).setCashier(cashier);
 		}
     }
     
