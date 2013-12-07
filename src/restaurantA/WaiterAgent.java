@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 import restaurantA.CookAgent;
 import restaurantA.Table;
 import restaurantA.CookAgent.MyMenuItem;
+import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.HostGui;
 import restaurantA.gui.WaiterGui;
 import restaurantA.interfaces.Cook;
@@ -494,6 +495,11 @@ private void escortCustomer(MyCustomer c){
 
 	public void msgGoOffBreak() {
 		waiterGui.SetOffBreak();
+	}
+
+	public void setAnimPanel(AnimationPanel animationPanel) {
+		// TODO Auto-generated method stub
+		
 	};
 
 }

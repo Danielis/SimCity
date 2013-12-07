@@ -1,6 +1,7 @@
 package restaurantA;
 
 import restaurantA.CookAgent.MyMenuItem;
+import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.Customer;
 import restaurantA.interfaces.Waiter;
@@ -531,6 +532,11 @@ public class CustomerAgent extends Agent implements Customer {
 	
     public Semaphore waitForFood() {
 	    	return waitForFood;
+	}
+
+	public void setAnimPanel(AnimationPanel animationPanel) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

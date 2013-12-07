@@ -29,7 +29,7 @@ public class RestaurantPanel extends JPanel {
     public HostAgent host = new HostAgent("Aleena");
     public CashierAgent cashier = new CashierAgent("Cashier");
     public CookAgent cook = new CookAgent("Chef", cashier);
-  
+ 
 	
     
     private HostGui hostGui = new HostGui(host);
@@ -57,7 +57,7 @@ public class RestaurantPanel extends JPanel {
         CookGui g = new CookGui(cook, gui);
     	gui.animationPanel.addGui(g);// dw
     	cook.setGui(g);
-        
+    	cook.setAnimPanel(gui.animationPanel);
 //        for (int ix = 0; ix < 1; ix++) {
 //    		WaiterAgent newWaiter = new WaiterAgent("Waiter " + ix, host);
 //    		newWaiter.startThread();
@@ -89,10 +89,10 @@ public class RestaurantPanel extends JPanel {
 
     private void setTables() {
 		// TODO Auto-generated method stub
-    	int startingX = 70;
-		int startingY = 50;
-		int spacerY = 70;
-		int spacerX = spacerY + 50;
+    	int startingX = 130;
+		int startingY = 250;
+		int spacerY = 200;
+		int spacerX = spacerY + 40;
 				
 		// make some tables
 		tables = new ArrayList<Table>(numTables);
@@ -183,33 +183,13 @@ public class RestaurantPanel extends JPanel {
     		c.setGui(g);
     		customers.add(c);
     		c.startThread();
-    		
+    		c.setAnimPanel(gui.animationPanel);
     		if (isHungry){
     		g.setHungry();
     		}
     		
     		
     		
-    		//REMOVE AT SOME POINT. currently for testing purposes
-    		//TODO
-//    		Integer temp = Integer.valueOf(name);
-//    		
-//    		if (temp >= 0)
-//    			for (int i = 0; i < temp; i++){
-//    				CustomerAgent cust = new CustomerAgent("Cust" + i);
-//    				customers.add(cust);
-//    				cust.setHost(host);
-//    				cust.startThread();
-//    				
-//    				CustomerGui gc = new CustomerGui(cust, gui);
-//    				gui.animationPanel.addGui(gc);
-//    				cust.setGui(gc);
-//    				if (isHungry){
-//    		    		gc.setHungry();
-//    		    		}
-//    				
-//    				System.out.println("added " + cust.getCustomerName());
-//    			}
     	}
     	
     	if (type.equals("Waiters")){
@@ -220,7 +200,7 @@ public class RestaurantPanel extends JPanel {
     		newWaiter.startThread();
     		host.waiterAdded();
     		waiters.add(newWaiter);
-  
+    		newWaiter.setAnimPanel(gui.animationPanel);
     		gui.animationPanel.addGui(waiterGui);
     		host.addWaiter(newWaiter);
 		}

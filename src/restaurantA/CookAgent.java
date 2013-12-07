@@ -3,6 +3,7 @@ package restaurantA;
 import agent.Agent;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
+import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CookGui;
 import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.*;
@@ -68,6 +69,7 @@ public class CookAgent extends Agent implements Cook {
 	private int marketIndex = 0;
 	private Semaphore cookingFood = new Semaphore(0,true);
 	private CookGui cookGui;
+	public AnimationPanel copyOfAnimPanel;
 	public CookAgent(String name, CashierAgent cashier) {
 		super();
 		this.name = name;
@@ -80,7 +82,10 @@ public class CookAgent extends Agent implements Cook {
 		addMarket();
 		addMarket(15);
 	}
-
+	public void setAnimPanel(AnimationPanel animationPanel)
+	{
+		copyOfAnimPanel = animationPanel;
+	}
 
 	public void addMarket() {
 		int temp = 2;
