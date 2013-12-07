@@ -196,6 +196,7 @@ public class RestaurantPanel extends JPanel
     
     public void addWaiter(Waiter w) 
     {
+    	waiterindex++;
 		WaiterGui g = new WaiterGui(w, gui, waiterindex);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
@@ -312,25 +313,25 @@ public class RestaurantPanel extends JPanel
 		}
     }
     
-    public void addCook(Cook cook)
+    public void addCook(Cook ck)
     {
        	System.out.println("Added cook");
-		CookGui g = new CookGui(cook, gui);
+		CookGui g = new CookGui(ck, gui);
 		gui.animationPanel.addGui(g);
-		cook.setGui(g);
-		cook.setAnimPanel(gui.animationPanel);
-		this.cook = cook;
+		ck.setGui(g);
+		ck.setAnimPanel(gui.animationPanel);
+		cook = ck;
 		
-		cook.setMarkets(market1);
-		cook.setMarkets(market2);
-		cook.setMarkets(market3);
-		this.market1.setCook(cook);
-		this.market2.setCook(cook);
-		this.market3.setCook(cook);
+		ck.setMarkets(market1);
+		ck.setMarkets(market2);
+		ck.setMarkets(market3);
+		this.market1.setCook(ck);
+		this.market2.setCook(ck);
+		this.market3.setCook(ck);
 		
 		for (int i = 0; i<this.waiters.size(); i++)
 		{
-			waiters.get(0).setCook(cook);
+			waiters.get(i).setCook(ck);
 		}
     }
     

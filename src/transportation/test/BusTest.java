@@ -1,7 +1,5 @@
 package transportation.test;
 
-
-import city.Person;
 import city.PersonAgent;
 import city.test.mock.MockPerson;
 import junit.framework.TestCase;

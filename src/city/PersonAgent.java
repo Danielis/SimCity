@@ -1435,14 +1435,14 @@ public class PersonAgent extends Agent implements Person
 				roles.add(c);
 				c.setActivity(true);
 			}
+			if (waiterindex>5) waiterindex = 0;
 		}
 	}
 
 	public void WorkAtBank() {
 
 		takeBusIfApplicable(0);
-		
-		
+
 		Role c = null;
 		Bank r = (Bank) job.workBuilding;
 	
@@ -1488,12 +1488,7 @@ public class PersonAgent extends Agent implements Person
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
-
-
 		takeBusIfApplicable(2);
-		
-		//gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('A');
 
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
@@ -1523,14 +1518,7 @@ public class PersonAgent extends Agent implements Person
 
 		Status.market = marketStatus.waiting;
 		takeBusIfApplicable(1);
-		
-		
-		//gui.DoGoToCheckpoint('D');
-		//gui.DoGoToCheckpoint('E');
-		//gui.DoGoToCheckpoint('F');
-		//Status.setWorkStatus(workStatus.working);
-		
-		
+	
 		synchronized(buildings)
 		{
 			for (Building b: buildings){
