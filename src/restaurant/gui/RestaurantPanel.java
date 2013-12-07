@@ -210,6 +210,7 @@ public class RestaurantPanel extends JPanel
 		w.setCashier(cashier);
 		w.setGui(g);
 		waiters.add(w);
+		if (waiterindex > 5) waiterindex = 0;
     }
     /*
     public void addWaiter(String name) 
@@ -253,6 +254,7 @@ public class RestaurantPanel extends JPanel
     public void removeWaiters(Waiter waiter)
     {
     	waiters.remove(waiter);
+    	host.msgRemoveWaiter(waiter);
     }
     public void addCustomer(String name) 
     {

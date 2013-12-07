@@ -37,4 +37,6 @@ public interface Host {
 
 	public abstract void msgLeaveWork();
 
+	public abstract void msgRemoveWaiter(Waiter waiter);
+
 }

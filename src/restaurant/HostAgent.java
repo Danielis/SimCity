@@ -499,5 +499,11 @@ public class HostAgent extends Agent implements Host {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgRemoveWaiter(Waiter waiter) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

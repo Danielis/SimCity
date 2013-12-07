@@ -223,6 +223,11 @@ public class HostRole extends Role implements Host{
 		stateChanged();
 	}
 	
+	public void msgRemoveWaiter(Waiter w)
+	{
+		waiters.remove(w);
+	}
+	
 	public void msgCheckForASpot(Customer cust)
 	{
 		customers.add(new MyCustomer(cust, customerState.waitingToSeeIfFull));
@@ -446,7 +451,7 @@ public class HostRole extends Role implements Host{
 		return false;
 		} catch(ConcurrentModificationException e)
 		{ 
-			return false; 
+			return true; 
 		}	
 	}
 

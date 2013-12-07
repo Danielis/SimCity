@@ -1413,7 +1413,8 @@ public class PersonAgent extends Agent implements Person
 			c.setActivity(true);
 		}
 		if (job.type == JobType.waiter){
-			waiterindex++;
+			Random rand = new Random();
+			waiterindex = rand.nextInt();
 			if (waiterindex % 2 == 0)
 			{
 				ModernWaiterRole c = new ModernWaiterRole(this.getName(), r, this.cash);
