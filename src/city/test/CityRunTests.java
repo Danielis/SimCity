@@ -51,7 +51,7 @@ public class CityRunTests extends TestCase {
     	person.addRole(new HostRole("Test", 1000));
     	assertEquals("Person should have only one role", person.roles.size(), 1);
     	Restaurant testRestaurant = new Restaurant(new RestaurantGui(), "Norman");
-    	Role t = new TraditionalWaiterRole("Test", testRestaurant);
+    	Role t = new TraditionalWaiterRole("Test", testRestaurant, 100);
     	person.addRole(t);
     	assertEquals("Person should now have two roles", person.roles.size(), 2);
     	testRestaurant.addWaiter((Waiter)t);
