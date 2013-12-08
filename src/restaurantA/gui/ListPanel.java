@@ -4,6 +4,7 @@ import restaurantA.interfaces.Customer;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.RestaurantA;
+import restaurantA.WaiterAgent;
 
 import javax.swing.*;
 
@@ -141,5 +142,9 @@ public class ListPanel extends JPanel implements ActionListener {
 
 	public void addHost(HostAgent c) {
 		restPanel.addHost(c);
+	}
+
+	public void addWaiter(WaiterAgent c) {
+		restPanel.addWaiter(c);
 	}
 }

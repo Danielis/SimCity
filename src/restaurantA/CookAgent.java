@@ -1,6 +1,7 @@
 package restaurantA;
 
 import agent.Agent;
+import restaurantA.RestaurantA.*;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
 import restaurantA.gui.AnimationPanel;
@@ -70,14 +71,14 @@ public class CookAgent extends Agent implements Cook {
 	private Semaphore cookingFood = new Semaphore(0,true);
 	private CookGui cookGui;
 	public AnimationPanel copyOfAnimPanel;
+	public RestaurantA rest = null;
 	public CookAgent(String name, CashierAgent cashier) {
 		super();
 		this.name = name;
 		this.cashier = cashier;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
-		menu = Collections.synchronizedList(new ArrayList<MyMenuItem>());
+		//menu = rest.menu;
 		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
-		createInventory();
 		for (int i = 0; i < 3; i++)
 		addMarket();
 		addMarket(15);
@@ -104,15 +105,6 @@ public class CookAgent extends Agent implements Cook {
 		marketIndex++;
 	}
 
-	private void createInventory() {
-		int Inv = 2;
-		int Cap = 5;
-		int Thr = 3;
-		menu.add( new MyMenuItem("Steak", 5, Inv, Thr, Cap, 16) );
-		menu.add( new MyMenuItem("Chicken", 5, Inv, Thr, Cap, 11) );
-		menu.add( new MyMenuItem("Pizza", 5, Inv, Thr, Cap, 9) );
-		menu.add( new MyMenuItem("Salad", 5, Inv, Thr, Cap, 6) );
-	}
 
 
 	public String getName() {
@@ -404,29 +396,7 @@ for (MyMenuItem f : menu){
 
 	
 	
-	public class MyMenuItem{
-		String name;
-		int stock;
-		itemState s;
-		int cookingTime;
-		int threshold;
-		int capacity;
-		int price;
-		int ordered = 0;
-		
-		MyMenuItem(String name, int c, int stock, int threshold, int capacity, int price){
-			this.name = name;
-			this.stock = stock;
-			this.cookingTime = c;
-			this.threshold = threshold;
-			this.capacity = capacity;
-			this.s = itemState.normal;
-			this.price = price;
-		}
-	}
-
-	enum itemState {normal, orderedMore, needsReOrder, checkReOrder};
-
+	
 	
 	
 

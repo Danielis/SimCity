@@ -222,16 +222,36 @@ public class RestaurantPanel extends JPanel {
 	}
 
 	public void addHost(HostAgent c) {
+		this.host = c;
 		host.setRestaurant(gui.rest);
 		//host.setTellers(b.getWorkingTellers());
 		//gui.rest.tellTellers(host);
 		//host.setGui(g);
 		gui.rest.setWorkingHost(c);
 		host.setAnimPanel(gui.animationPanel);
-		this.host = c;
 		host.tables = tables;
 	}
 
+	public void addWaiter(WaiterAgent c) {
+
+		c.rest = gui.rest;
+		c.menu = gui.rest.menu;
+		host.setRestaurant(gui.rest);
+		gui.rest.setWorkingWaiter(c);
+		c.setAnimPanel(gui.animationPanel);
+		c.tables = tables;
+		
+		WaiterGui waiterGui = new WaiterGui(c, c.tables, 120 + 30 * waiters.size(), 0);
+		c.setGui(waiterGui);
+		host.waiterAdded();
+		waiters.add(c);
+		gui.animationPanel.addGui(waiterGui);
+		host.addWaiter(c);
+	}
+
+    
+
+	
 	
     
 //    public void addWaiter(String name){

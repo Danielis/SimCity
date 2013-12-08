@@ -1,6 +1,7 @@
 package restaurantA;
 
-import restaurantA.CookAgent.MyMenuItem;
+
+import restaurantA.RestaurantA.*;
 import roles.*;
 import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CustomerGui;
@@ -33,7 +34,6 @@ public class CustomerAgent extends Role implements Customer {
     private CashierAgent cashier;
     private double money = 0;
 	public AnimationPanel copyOfAnimPanel;
-	
 	// agent correspondents
 	private HostAgent host;
 

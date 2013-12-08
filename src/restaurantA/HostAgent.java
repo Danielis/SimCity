@@ -118,7 +118,6 @@ public class HostAgent extends Role {
 	public void msgIWantFood(CustomerAgent cust) {
 		waitingCustomers.add(cust);
 		updateCustpost();
-		hostGui.updateNumWait();
 		stateChanged();
 		print("Customer " + cust.getCustomerName() + " has arrived.");
 	}
@@ -143,7 +142,7 @@ public class HostAgent extends Role {
 				waitingCustomers.remove(cust);
 		}
 		}
-		hostGui.updateNumWait();
+		
 		updateCustpost();
 		stateChanged();
 	}
@@ -259,7 +258,7 @@ public class HostAgent extends Role {
 		//gui here
 		table.setOccupant(customer);
 		waitingCustomers.remove(0);
-		hostGui.updateNumWait();
+		updateCustpost();
 		waiter.msgBringCustomerToTable(this, customer, table);
 	}
 

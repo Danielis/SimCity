@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 
 
 
+
+
+
 //import restaurantA.ProducerConsumerMonitor;
 import restaurantA.gui.RestaurantGui;
 import restaurantA.gui.RestaurantPanel;
@@ -27,7 +30,8 @@ public class RestaurantA extends RestBase{
     public Boolean hasCook = false;
     public Boolean hasCashier = false;
     public int numWaiters = 0;
-    
+
+	public List<MyMenuItem> menu = Collections.synchronizedList(new ArrayList<MyMenuItem>());
 	public HostAgent workingHost = null;
 	public CashierAgent workingCashier = null;
 	public CookAgent workingCook = null;
@@ -49,6 +53,14 @@ public class RestaurantA extends RestBase{
         rg.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         owner = "Aleena";
       // theMonitor = new ProducerConsumerMonitor();
+        
+    	int Inv = 40;
+		int Cap = 5;
+		int Thr = 3;
+        menu.add( new MyMenuItem("Steak", 5, Inv, Thr, Cap, 16) );
+		menu.add( new MyMenuItem("Chicken", 5, Inv, Thr, Cap, 11) );
+		menu.add( new MyMenuItem("Pizza", 5, Inv, Thr, Cap, 9) );
+		menu.add( new MyMenuItem("Salad", 5, Inv, Thr, Cap, 6) );
     }
 
 	public boolean hostIsHere() {
@@ -95,4 +107,32 @@ public class RestaurantA extends RestBase{
 	public void setWorkingHost(HostAgent c) {
 		workingHost = c;
 	}
+
+	public void setWorkingWaiter(WaiterAgent c) {
+		workingWaiters.add(c);
+	}
+	
+	public class MyMenuItem{
+		String name;
+		int stock;
+		itemState s;
+		int cookingTime;
+		int threshold;
+		int capacity;
+		int price;
+		int ordered = 0;
+		
+		MyMenuItem(String name, int c, int stock, int threshold, int capacity, int price){
+			this.name = name;
+			this.stock = stock;
+			this.cookingTime = c;
+			this.threshold = threshold;
+			this.capacity = capacity;
+			this.s = itemState.normal;
+			this.price = price;
+		}
+	}
+
+	enum itemState {normal, orderedMore, needsReOrder, checkReOrder};
+
 }

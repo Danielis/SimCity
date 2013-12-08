@@ -10,7 +10,7 @@ import java.util.concurrent.Semaphore;
 
 import restaurantA.CookAgent;
 import restaurantA.Table;
-import restaurantA.CookAgent.MyMenuItem;
+import restaurantA.RestaurantA.*;
 import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.HostGui;
 import restaurantA.gui.WaiterGui;
@@ -19,7 +19,7 @@ import restaurantA.interfaces.Customer;
 import restaurantA.interfaces.Waiter;
 
 import java.util.*;
-
+import roles.*;
 /**
  * Restaurant Waiter Agent
  */
@@ -27,7 +27,7 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterAgent extends Agent implements Waiter {
+public class WaiterAgent extends Role implements Waiter {
 	public static final int NTABLES = 3;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore atCook = new Semaphore(0,true);
@@ -39,12 +39,13 @@ public class WaiterAgent extends Agent implements Waiter {
 	private String name;
 	private List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
     //public CookAgent cook = new CookAgent("Chef"); // ask cameron where i should be storing this lol
-    public int numCust;
+    public int numCust = 0;
     public HostAgent host;
 	public WaiterGui waiterGui = null;
 	public CookAgent cook;
 	public CashierAgent cashier;
 	public Collection<MyMenuItem> menu;
+	public RestaurantA rest;
 	Timer timer = new Timer();
 
 	public AnimationPanel copyOfAnimPanel;
@@ -52,12 +53,16 @@ public class WaiterAgent extends Agent implements Waiter {
 		super();
 		this.name = name;
 	    
-	    numCust = 0;
 	    this.host = host;
 	    this.tables = host.tables;
 	    this.cook = cook;
-	    this.menu = cook.menu;
+	    print("menu: " + rest.menu);
+	    this.menu = rest.menu;
 	    this.cashier = cashier;
+	}
+	public WaiterAgent(String name) {
+		super();
+		this.name = name;
 	}
 	public boolean onBreak = false;
 
@@ -86,6 +91,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	public void msgBringCustomerToTable(HostAgent host, CustomerAgent customer, Table table) {
 		myCustomers.add(new MyCustomer(customer, table, customerState.FOLLOWING));
 		//print ("Waiter received message to bring customer " + customer.getCustomerName() + " to table " + table.tableNumber + ".");
+		this.host = host;
 		this.numCust ++;
 		stateChanged();
 	}
@@ -199,7 +205,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	// scheduler
 	// TODO
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		//print("waiter scheduler called");
 		
@@ -502,6 +508,18 @@ private void escortCustomer(MyCustomer c){
 	public void setAnimPanel(AnimationPanel animationPanel)
 	{
 		copyOfAnimPanel = animationPanel;
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

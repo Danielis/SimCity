@@ -1543,6 +1543,14 @@ public class PersonAgent extends Agent implements Person
 			r.panel.customerPanel.addHost((restaurantA.HostAgent) c);
 		}
 		
+		if (job.type == JobType.waiter)
+		{
+			c = new restaurantA.WaiterAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingWaiters.add((restaurantA.WaiterAgent) c);
+			r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
+		}
+		
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
