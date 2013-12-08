@@ -317,11 +317,11 @@ public class PersonAgent extends Agent implements Person
 
 	public double getCashThresholdUp(){
 		if (wealthLevel == WealthLevel.average)
-			return 150;
+			return 50;
 		else if (wealthLevel == WealthLevel.wealthy)
-			return 250;
+			return 100;
 		else if (wealthLevel == WealthLevel.poor)
-			return 75;
+			return 40;
 		return 0;
 	}
 	
@@ -1314,6 +1314,7 @@ public class PersonAgent extends Agent implements Person
 		}
 		else if (accounts.size() == 0){
 			bankPurpose = "New Account";
+			bankAmount = cash - getCashThresholdUp();
 			return true;
 		}
 		else return false;
