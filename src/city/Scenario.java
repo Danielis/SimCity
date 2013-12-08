@@ -113,9 +113,8 @@ public void CallScenario1(CityPanel c){ // scen o, robbery
 	c.addWorker("Teller 2", "Teller", "Average");
 	c.addWorker("Teller 3", "Teller", "Average");
 	
-	c.addWorker("Bank Host", "Bank Host", "Average");
-	c.addWorker("Teller 1", "Teller", "Average");
-	c.addWorker("Teller 2", "Teller", "Average");
-	c.addWorker("Teller 3", "Teller", "Average");
+	PersonAgent p2 = new PersonAgent("Robber", "Crook", "Average");
+	c.addPerson(p2);
+	
 	}
 }

@@ -965,7 +965,7 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 			if (Status.getMoneyStatus() == bankStatus.withdraw &&
-					Status.getDestination() == destination.bank) {
+					Status.getDestination() == destination.bank && CheckBankOpen()) {
 				GoToBank();
 				return true;
 			}
@@ -1220,7 +1220,6 @@ public class PersonAgent extends Agent implements Person
 		synchronized(buildings) {
 			for (Building b: buildings){
 				if (b.getType() == buildingType.bank && b.isOpen()){
-
 					return true;
 				}
 			}
