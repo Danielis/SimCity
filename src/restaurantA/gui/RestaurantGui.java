@@ -93,7 +93,6 @@ public class RestaurantGui extends JFrame implements ActionListener {
         animationPanel.setMinimumSize(animDim);
         animationPanel.setMaximumSize(animDim);
         add(animationPanel, BorderLayout.WEST);
-        
    
         
         // Now, setup the info panel
@@ -244,5 +243,6 @@ public class RestaurantGui extends JFrame implements ActionListener {
 	}
 	public void setRestaurant(RestaurantA r) {
 		rest = r;
+        animationPanel.setRest(rest);
 	}
 }

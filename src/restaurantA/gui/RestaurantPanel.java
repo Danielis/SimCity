@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+
+
 /**
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
@@ -27,13 +29,13 @@ import javax.swing.*;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    public HostAgent host = new HostAgent("Aleena");
+    public HostAgent host ;//= new HostAgent("Aleena");
     public CashierAgent cashier = new CashierAgent("Cashier");
     public CookAgent cook = new CookAgent("Chef", cashier);
  
 	
     
-    private HostGui hostGui = new HostGui(host);
+   // private HostGui hostGui = new HostGui(host);
     private int numTables = 4;
     public ArrayList<Table> tables;
 
@@ -52,8 +54,8 @@ public class RestaurantPanel extends JPanel {
     	setTables();
     	
         this.gui = gui;
-        host.setGui(hostGui);
-        gui.animationPanel.addGui(hostGui);
+        //host.setGui(hostGui);
+       // gui.animationPanel.addGui(hostGui);
       
         CookGui g = new CookGui(cook, gui);
     	gui.animationPanel.addGui(g);// dw
@@ -70,10 +72,10 @@ public class RestaurantPanel extends JPanel {
 //    		host.addWaiter(newWaiter);
 //    	}
 
-        gui.animationPanel.addGui(hostGui);
+       // gui.animationPanel.addGui(hostGui);
         gui.animationPanel.setHost(host);
-        gui.animationPanel.setTables(host.tables);
-        host.startThread();
+        gui.animationPanel.setTables(tables);
+        //host.startThread();
         cashier.startThread();
         cook.startThread();	
 
@@ -83,7 +85,7 @@ public class RestaurantPanel extends JPanel {
         group.add(customerPanel);
         group.add(waiterPanel);
         
-        initRestLabel();
+      //  initRestLabel();
         //add(restLabel);
         add(group);
     }
@@ -106,25 +108,25 @@ public class RestaurantPanel extends JPanel {
 			tables.add(tempTable);//how you add to a collections
 		}
 		
-		host.tables = this.tables;
+		//host.tables = this.tables;
 	}
 
 	/**
      * Sets up the restaurant label that includes the menu,
      * and host and cook information
      */
-    private void initRestLabel() {
-        JLabel label = new JLabel();
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
-        restLabel.setLayout(new FlowLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
-
-        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        restLabel.add(label, BorderLayout.CENTER);
-        
-       
-    }
+//    private void initRestLabel() {
+//        JLabel label = new JLabel();
+//        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
+//        restLabel.setLayout(new FlowLayout());
+//        label.setText(
+//                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+//
+//        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+//        restLabel.add(label, BorderLayout.CENTER);
+//        
+//       
+//    }
 
     /**
      * When a customer or waiter is clicked, this function calls
@@ -218,6 +220,19 @@ public class RestaurantPanel extends JPanel {
 		c.setAnimPanel(gui.animationPanel);
 		g.setHungry();
 	}
+
+	public void addHost(HostAgent c) {
+		host.setRestaurant(gui.rest);
+		//host.setTellers(b.getWorkingTellers());
+		//gui.rest.tellTellers(host);
+		//host.setGui(g);
+		gui.rest.setWorkingHost(c);
+		host.setAnimPanel(gui.animationPanel);
+		this.host = c;
+		host.tables = tables;
+	}
+
+	
     
 //    public void addWaiter(String name){
 //    	WaiterAgent w = new restaurant.WaiterAgent(name);

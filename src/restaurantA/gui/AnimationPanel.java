@@ -1,9 +1,12 @@
 package restaurantA.gui;
 import javax.imageio.ImageIO;
+
 import restaurantA.*;
+
 import javax.swing.*;
 
 import restaurantA.HostAgent;
+import restaurantA.RestaurantA;
 import restaurantA.Table;
 
 import java.awt.*;
@@ -21,7 +24,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WIDTH = 50;
     private Image bufferImage;
     private Dimension bufferSize;
-    
+    private RestaurantA rest;
     private List<Gui> guis = new ArrayList<Gui>();
 
     private HostAgent host = null;
@@ -36,7 +39,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
         setVisible(true);
         
         bufferSize = this.getSize();
- 
     	Timer timer = new Timer(20, this );
     	timer.start();
     	
@@ -99,9 +101,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		//g2.fillRect(30, 0, 20, 20);
         g2.drawImage(cashMachine, 60, 0, this);
        
-        //if (rest.hostIsHere()){
+        if (rest.workingHost != null){
         g2.drawImage(hostimg, 20, 7, this);
-        // }
+         }
+        
         //if (rest.cashierIsHere()){
         g2.drawImage(cashierimg, 80, 7, this);
         // }
@@ -134,5 +137,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 	public void addGui(CookGui g) {
 		guis.add(g);
+	}
+
+	public void setRest(RestaurantA rest2) {
+		rest = rest2;
 	}
 }

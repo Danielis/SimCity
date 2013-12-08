@@ -28,9 +28,9 @@ public class RestaurantA extends RestBase{
     public Boolean hasCashier = false;
     public int numWaiters = 0;
     
-	public HostAgent workingHost;
-	public CashierAgent workingCashier;
-	public CookAgent workingCook;
+	public HostAgent workingHost = null;
+	public CashierAgent workingCashier = null;
+	public CookAgent workingCook = null;
 	public List<WaiterAgent> workingWaiters = new ArrayList<WaiterAgent>();
 	
 	
@@ -52,8 +52,7 @@ public class RestaurantA extends RestBase{
     }
 
 	public boolean hostIsHere() {
-		// TODO Auto-generated method stub
-		return false;
+		return hasHost;
 	}
 
 	@Override
@@ -91,5 +90,9 @@ public class RestaurantA extends RestBase{
 
 	public void setWaiter() {
 		numWaiters++;
+	}
+
+	public void setWorkingHost(HostAgent c) {
+		workingHost = c;
 	}
 }

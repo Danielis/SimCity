@@ -1,10 +1,13 @@
 package restaurantA;
 
 import java.util.Timer;
+
 import roles.*;
+
 import java.util.TimerTask;
 
 import agent.Agent;
+import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.HostGui;
 import restaurantA.interfaces.Customer;
 import restaurantA.interfaces.Waiter;
@@ -30,10 +33,11 @@ public class HostAgent extends Role {
 	public ArrayList<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
-	
+	public RestaurantA rest;
 	private String name;
 	public List<WaiterAgent> waiters;
 	public List<MyWaiter> myWaiters;
+	public AnimationPanel copyOfAnimPanel = null;
 	
 	class MyWaiter{
 		WaiterAgent w;
@@ -301,6 +305,14 @@ public class HostAgent extends Role {
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setRestaurant(RestaurantA rest) {
+		this.rest = rest;
+	}
+
+	public void setAnimPanel(AnimationPanel animationPanel) {
+		copyOfAnimPanel = animationPanel;
 	}
 
 	

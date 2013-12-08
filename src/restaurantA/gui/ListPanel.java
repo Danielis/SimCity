@@ -140,6 +140,6 @@ public class ListPanel extends JPanel implements ActionListener {
 	}
 
 	public void addHost(HostAgent c) {
-		restPanel.addHost();
+		restPanel.addHost(c);
 	}
 }

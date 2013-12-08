@@ -1524,7 +1524,7 @@ public class PersonAgent extends Agent implements Person
 	
 	public void WorkAtRestA() {
 
-		takeBusIfApplicable(2);
+		//takeBusIfApplicable(2);
 
 		
 		RestaurantA r = (RestaurantA) job.workBuilding;
