@@ -55,7 +55,6 @@ public class BankPanel extends JPanel {
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
         group.add(customerPanel);
-        //group.add(waiterPanel);
 
         initRestLabel();
         add(restLabel);

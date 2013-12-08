@@ -96,7 +96,7 @@ public class BankGui extends JFrame implements ActionListener {
         getCustomerInformationPanel().setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
-        infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoCustomerLabel.setText("<html><pre><i>There are no customers in the bank right now.</i></pre></html>");
         getCustomerInformationPanel().add(infoCustomerLabel);
 //WAITER PANEL INFORMATION
         
@@ -125,10 +125,9 @@ public class BankGui extends JFrame implements ActionListener {
         InformationPanel.add(getCustomerInformationPanel(), BorderLayout.CENTER);
         ButtonPanel.setLayout(new BorderLayout());
         InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
-        //InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
-        buttonPanel.add(pauseButton, BorderLayout.CENTER);
-        buttonPanel.add(refreshButton, BorderLayout.EAST);
+       // buttonPanel.add(pauseButton, BorderLayout.CENTER);
+       // buttonPanel.add(refreshButton, BorderLayout.EAST);
         RestaurantPortion.add(buttonPanel, BorderLayout.SOUTH);
 
         add(animationPanel, BorderLayout.CENTER);
