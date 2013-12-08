@@ -32,9 +32,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
  
     public RestaurantPanel restPanel = new RestaurantPanel(this);
     
-    /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;
-    //private JPanel waiterInformationPanel;
     private JPanel InformationPanel;
     private JPanel buttonPanel;
     
@@ -42,14 +40,11 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private JLabel infoWaiterLabel;
 
     private JCheckBox customerStateCheckBox;
-    //private JCheckBox waiterBreakCheckBox;
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
     private Customer currentCustomer;
-    private Waiter currentWaiter;
 
-    //private JButton pauseButton;
     private JButton refreshButton;
     private JPanel ButtonPanel;
     private JButton MrKrabsButton;
