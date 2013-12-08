@@ -965,7 +965,7 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 			if (Status.getMoneyStatus() == bankStatus.withdraw &&
-					Status.getDestination() == destination.bank && CheckBankOpen()) {
+					Status.getDestination() == destination.bank) {
 				GoToBank();
 				return true;
 			}
@@ -1219,20 +1219,18 @@ public class PersonAgent extends Agent implements Person
 		Bank r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					//print("found b");
-					r = (Bank) b;
+				if (b.getType() == buildingType.bank && b.isOpen()){
+
+					return true;
 				}
 			}
 		}
-		if(r.isOpen())
-			return true;
-		else{
+		
 			print("Aww.. bank is closed :(");	
 			gui.setBusy(false);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
 			return false;
-		}
+		
 	}
 
 	private Boolean CheckMarketOpen() {
@@ -1290,36 +1288,36 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private boolean needsBankTransaction() {
-		if (job.type.equals(JobType.crook) && cash < getCashThresholdLow()){
+		if (job.type.equals(JobType.crook)){ //TODO modify this so they dont cont. rob lol
 			bankPurpose = "Rob";
-			bankAmount = getCashThresholdLow() - cash;
+			bankAmount = 200;
 			return true;
 		}
-		if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
+		else if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
 			bankPurpose = "Pay Loan";
 			bankAmount = cash - getCashThresholdUp();
 			return true;
 		}
-		if (cash > getCashThresholdUp() && hasCar()){ //if has too much cash, and hasn't bought a car
+		else if (cash > getCashThresholdUp() && hasCar()){ //if has too much cash, and hasn't bought a car
 			bankPurpose = "Deposit";
 			bankAmount = cash - getCashThresholdUp();
 			return true;
 		}
-		if (cash < getCashThresholdLow()){			
+		else if (cash < getCashThresholdLow()){			
 			bankPurpose = "Withdraw";
 			bankAmount = getCashThresholdLow() - cash;
 			return true;
 		}
-		if (getTotalMoney() < getMoneyThreshold()){
+		else if (getTotalMoney() < getMoneyThreshold()){
 			bankPurpose = "Take Loan";
 			bankAmount = getMoneyThreshold() - getTotalMoney();
 			return true;
 		}
-		if (accounts.size() == 0){
+		else if (accounts.size() == 0){
 			bankPurpose = "New Account";
 			return true;
 		}
-		return false;
+		else return false;
 	}
 
 	private double getTotalMoney() {
@@ -1375,15 +1373,10 @@ public class PersonAgent extends Agent implements Person
 
 	private void GoToBank()
 	{
-		Bank r = null;
-		synchronized(buildings) {
-			for (Building b: buildings){
-				if (b.getType() == buildingType.bank){
-					r = (Bank) b;
-				}
-			}
-		}
-		
+
+		Building r2 = findOpenBuilding(buildingType.bank);
+		Bank r = (Bank) r2;
+	
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to bank to " + bankPurpose);
@@ -1396,7 +1389,7 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.bank);
 		
-		if (CheckBankOpen()){
+		//if (CheckBankOpen()){
 		gui.setPresent(false);
 		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
 		if (!accounts.isEmpty())
@@ -1409,9 +1402,9 @@ public class PersonAgent extends Agent implements Person
 		c.setActivity(true);
 		c.setTrackerGui(trackingWindow);
 		r.panel.customerPanel.addCustomer((BankCustomer) c);
-		}
-		else 
-			stateChanged();
+		//}
+		//else 
+		//	stateChanged();
 	}
 	
 

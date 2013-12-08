@@ -58,8 +58,8 @@ public class TellerRole extends Role implements Teller {
 		super();
 		this.name = name;
 		
-		int num = (int)(Math.random() * ((10 - 0) + 0));
-		if (num <= 5){
+		int num = (int)(Math.random() * (10));
+		if (num <= 3){
 				hasGun = true;
 		}
 	}

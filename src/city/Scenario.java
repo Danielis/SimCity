@@ -105,7 +105,7 @@ public void CallScenarioP(CityPanel c){
 	
 }
 
-public void CallScenario1(CityPanel c){
+public void CallScenario1(CityPanel c){ // scen o, robbery
 	TimeManager.getInstance().setDivider(20);
 	TimeManager.getInstance().setOffset(300000);
 	c.addWorker("Bank Host", "Bank Host", "Average");
