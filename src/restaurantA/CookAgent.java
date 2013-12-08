@@ -2,6 +2,7 @@ package restaurantA;
 
 import agent.Agent;
 import restaurantA.RestaurantA.*;
+import restaurantA.WaiterAgent.customerState;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
 import restaurantA.gui.AnimationPanel;
@@ -73,6 +74,8 @@ public class CookAgent extends Role implements Cook {
 	private CookGui cookGui;
 	public AnimationPanel copyOfAnimPanel;
 	public RestaurantA rest = null;
+	private Boolean leave = false;
+	private double balance = 0;
 	public CookAgent(String name, CashierAgent cashier) {
 		super();
 		this.name = name;
@@ -244,7 +247,16 @@ public class CookAgent extends Role implements Cook {
 			}
 		}}
 		}
-
+		
+		if (leave && rest.workingWaiters.isEmpty()){
+			boolean temp = true;
+			for (Order o : orders){
+				if (o.s != orderState.finished)
+					temp = false;
+			}
+			if (temp)
+				LeaveWork();
+		}
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -253,6 +265,12 @@ public class CookAgent extends Role implements Cook {
 
 	// Actions
 	
+	private void LeaveWork() {
+		rest.NoCook();
+		cookGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
 	private void CheckAndCook(Order o){
 		synchronized(menu){
 		for (MyMenuItem f : menu){
@@ -399,8 +417,8 @@ for (MyMenuItem f : menu){
 	}
 	@Override
 	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
-		
+		leave = true;
+		stateChanged();
 	}
 	@Override
 	public void msgGetPaid() {

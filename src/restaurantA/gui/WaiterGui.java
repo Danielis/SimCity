@@ -30,7 +30,7 @@ public class WaiterGui implements Gui {
     public ArrayList<Table> tables;
     Timer timer;
     Image img, food;
-    
+    private boolean isPresent = true;
     public WaiterGui(WaiterAgent agent, ArrayList<Table> tables, int xHome, int yHome) {
         this.agent = agent;
     	this.tables = tables;    	
@@ -110,7 +110,7 @@ public class WaiterGui implements Gui {
 
 
     public boolean isPresent() {
-        return true;
+        return isPresent;
     }
 
     public void DoGoToTable(Customer customer, Table table) {
@@ -189,4 +189,8 @@ public class WaiterGui implements Gui {
     public boolean atHome(){
     	return (xPos == xHome && yPos == yHome);
     }
+
+	public void setDone() {
+		isPresent = false;
+	}
 }

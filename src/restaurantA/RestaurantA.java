@@ -69,7 +69,7 @@ public class RestaurantA extends RestBase{
 
 	@Override
 	public Boolean isOpen() {
-		return true;
+		return (workingHost != null && workingCashier != null && workingCook != null && !workingWaiters.isEmpty());
 	}
 
 	public boolean needsHost() {
@@ -142,6 +142,22 @@ public class RestaurantA extends RestBase{
 	}
 
 	enum itemState {normal, orderedMore, needsReOrder, checkReOrder}
+
+	public void noHost() {
+		workingHost = null;
+	}
+
+	public void noCashier() {
+		workingCashier = null;
+	}
+
+	public void removeMe(WaiterAgent waiterAgent) {
+		workingWaiters.remove(waiterAgent);
+	}
+
+	public void NoCook() {
+		workingCook = null;
+	}
 
 	
 

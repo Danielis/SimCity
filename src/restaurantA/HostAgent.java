@@ -38,7 +38,8 @@ public class HostAgent extends Role {
 	public List<WaiterAgent> waiters;
 	public List<MyWaiter> myWaiters;
 	public AnimationPanel copyOfAnimPanel = null;
-	
+	private double balance = 0;
+	private Boolean leave = false;
 	class MyWaiter{
 		WaiterAgent w;
 		waiterState s;
@@ -211,12 +212,19 @@ public class HostAgent extends Role {
 		//return true;
 		}
 		
-		
+		if (leave && waitingCustomers.isEmpty())
+			LeaveWork();
 
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
 		//and wait.
+	}
+
+	private void LeaveWork() {
+		print("Leaving work");
+		rest.noHost();
+		myPerson.msgLeftWork(this, balance);
 	}
 
 	// Actions
@@ -309,8 +317,9 @@ public class HostAgent extends Role {
 
 	@Override
 	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
-		
+		print("rec mesg");
+		leave = true;
+		stateChanged();
 	}
 
 	@Override

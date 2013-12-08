@@ -33,10 +33,11 @@ public class WaiterAgent extends Role implements Waiter {
 	private Semaphore atCook = new Semaphore(0,true);
 	private Semaphore atOrigin = new Semaphore(0,true);
 	private Boolean imHere = true;
-	
+	private Boolean leave = false;
 	public Semaphore waitForOrder = new Semaphore(0);
 	public ArrayList<Table> tables;
 	private String name;
+	private double balance = 0;
 	private List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
     //public CookAgent cook = new CookAgent("Chef"); // ask cameron where i should be storing this lol
     public int numCust = 0;
@@ -280,7 +281,15 @@ public class WaiterAgent extends Role implements Waiter {
 			return false; //TODO a more elegant implementation of this lol...
 		}
 		
-		
+		if (leave){
+			boolean temp = true;
+			for (MyCustomer c : myCustomers){
+				if (c.s != customerState.DONE)
+					temp = false;
+			}
+			if (temp)
+				LeaveWork();
+		}
 		
 		return false;
 		//we have tried all our rules and found
@@ -288,6 +297,12 @@ public class WaiterAgent extends Role implements Waiter {
 		//and wait.
 	}
 
+private void LeaveWork() {
+		rest.removeMe(this);
+		waiterGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
 private void enjoyBreak() {
 	print("***** Enjoying break");
 	timer.schedule(new TimerTask() {
@@ -512,8 +527,8 @@ private void escortCustomer(MyCustomer c){
 
 	@Override
 	public void msgLeaveWork() {
-		// TODO Auto-generated method stub
-		
+		leave = true;
+		stateChanged();
 	}
 
 	@Override
