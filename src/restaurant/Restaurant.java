@@ -124,7 +124,7 @@ public class Restaurant extends RestBase{
 	}
 
 	public boolean needsWaiter() {
-		return (numWaiters < 2);
+		return (numWaiters < 3);
 	}
 
 	public void setWaiter() {

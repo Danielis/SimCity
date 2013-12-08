@@ -73,8 +73,7 @@ public class RestaurantA extends RestBase{
 	}
 
 	public boolean needsHost() {
-		//return !hasHost;
-		return false;
+		return !hasHost;
 	}
 
 	public void sethost() {
@@ -82,8 +81,7 @@ public class RestaurantA extends RestBase{
 	}
 
 	public boolean needsCook() {
-		//return !hasCook;
-		return false;
+		return !hasCook;
 	}
 
 	public void setCook() {
@@ -95,7 +93,7 @@ public class RestaurantA extends RestBase{
 	}
 
 	public void setCashier() {
-		//hasCashier = true;
+		hasCashier = true;
 	}
 
 	public boolean needsWaiter() {
