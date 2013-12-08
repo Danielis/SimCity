@@ -96,7 +96,7 @@ public class BankGui extends JFrame implements ActionListener {
         getCustomerInformationPanel().setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
-        infoCustomerLabel.setText("<html><pre><i>There are no customers in the bank right now.</i></pre></html>");
+        infoCustomerLabel.setText("<html><pre><i>There are no customers in the bank.</i></pre></html>");
         getCustomerInformationPanel().add(infoCustomerLabel);
 //WAITER PANEL INFORMATION
         

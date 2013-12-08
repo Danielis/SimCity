@@ -105,7 +105,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         customerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
-        infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoCustomerLabel.setText("<html><pre><i>There are no restaurant customers.</i></pre></html>");
         customerInformationPanel.add(infoCustomerLabel);
         customerInformationPanel.add(customerStateCheckBox);
         
