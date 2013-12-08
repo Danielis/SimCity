@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 import roles.Coordinate;
 import city.PersonAgent;
-
+import city.PersonAgent.*;
 public class PersonGui implements Gui{
 	
 	//variables
@@ -134,21 +134,151 @@ public class PersonGui implements Gui{
    
     
     private void setAnim1() {
-		 try
+    	
+    	if (agent.job.type.equals(JobType.bankHost)){
+   		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost1.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.teller)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller1.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.restHost)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost1.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.waiter)){
+     		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter1.png"));
+    	       } catch (IOException e ) {}
+      	}
+    	else if (agent.job.type.equals(JobType.cashier)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier1.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.cook)){
+     		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook1.png"));
+    	       } catch (IOException e ) {}
+      	}
+    	else if (agent.job.type.equals(JobType.crook)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook1.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else 
+    		try
 	       {
 			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_1.png"));
 	       } catch (IOException e ) {}
 	}
 	
     private void setAnim2() {
-    	try
+    	if (agent.job.type.equals(JobType.bankHost)){
+      		 try
+      	       {
+      			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost2.png"));
+      	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.teller)){
+     		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller2.png"));
+    	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.restHost)){
+      		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost2.png"));
+    	       } catch (IOException e ) {}
+      	}
+    	else if (agent.job.type.equals(JobType.waiter)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter2.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.cashier)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier2.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.cook)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook2.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.crook)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook2.png"));
+     	       } catch (IOException e ) {}
+       	}
+       	else 
+       		try
     	{
     		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
     	} catch (IOException e ) {}
     }
 
     private void setDefault() {
-    	try
+    	if (agent.job.type.equals(JobType.bankHost)){
+      		 try
+      	       {
+      			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost3.png"));
+      	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.teller)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller3.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.restHost)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost3.png"));
+  	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.waiter)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter3.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.cashier)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier3.png"));
+  	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.cook)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook3.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.crook)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook3.png"));
+  	       } catch (IOException e ) {}
+    	}
+       	else
+       		try
     	{
     		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
     	} catch (IOException e ) {}

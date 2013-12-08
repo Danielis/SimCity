@@ -384,8 +384,10 @@ public class PersonAgent extends Agent implements Person
 		return JobType.landLord;
 	else if (job.equals("Repairman"))
 		return JobType.repairman;
-	else if (job.equals("Crook"))
+	else if (job.equals("Crook")){
+		cash = 0;
 		return JobType.crook;
+	}
 	else
 		return null;
 	}
@@ -803,7 +805,7 @@ public class PersonAgent extends Agent implements Person
 	
 	public void msgGoToWork() {
 		print("Called msgGoToWork");
-		if (job != null && job.type != JobType.none)
+		if (job != null && job.type != JobType.none && job.type != JobType.crook)
 			Status.setDestination(destination.work);
 		gui.setPresent(false);
 		stateChanged();
@@ -1059,7 +1061,7 @@ public class PersonAgent extends Agent implements Person
 
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
-		return (job.type != JobType.none && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd);
+		return (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd);
 	}
 	private boolean AIandNotWorking() {
 		return (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
@@ -1288,6 +1290,11 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private boolean needsBankTransaction() {
+		if (job.type.equals(JobType.crook) && cash < getCashThresholdLow()){
+			bankPurpose = "Rob";
+			bankAmount = getCashThresholdLow() - cash;
+			return true;
+		}
 		if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
 			bankPurpose = "Pay Loan";
 			bankAmount = cash - getCashThresholdUp();
@@ -1308,7 +1315,6 @@ public class PersonAgent extends Agent implements Person
 			bankAmount = getMoneyThreshold() - getTotalMoney();
 			return true;
 		}
-		
 		if (accounts.size() == 0){
 			bankPurpose = "New Account";
 			return true;
