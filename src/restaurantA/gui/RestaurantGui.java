@@ -110,7 +110,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoLabel = new JLabel(); 
-        infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoLabel.setText("<html><pre><i>Select a customer</i></pre></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
         restPanel.restLabel.add(infoPanel);

@@ -48,17 +48,17 @@ public class ListPanel extends JPanel implements ActionListener {
         this.type = type;
         
         setLayout(new FlowLayout());
-        add(new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>"));
+        //add(new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>"));
         nameInput.setPreferredSize( new Dimension( 200, 24 ) );
-        add(nameInput);
+       // add(nameInput);
         
-        if (type == "Customers")
-        add(hungry);
+       // if (type == "Customers")
+        //add(hungry);
         
    
 
         addPersonB.addActionListener(this);
-        add(addPersonB);
+        //add(addPersonB);
 
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
         pane.setViewportView(view);

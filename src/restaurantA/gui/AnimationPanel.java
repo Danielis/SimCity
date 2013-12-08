@@ -30,7 +30,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private HostAgent host = null;
     private ArrayList<Table> tables = null;
 
-    Image restBG, table, cashMachine, cookTable, hostimg, cashierimg;
+    Image restBG, table, cashMachine, cookTable, hostimg, cashierimg, tablec;
     
   //  RestaurantA rest;
 
@@ -55,6 +55,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
          {
     		 cashMachine = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashmachine.png"));
          } catch (IOException e ) {}
+		 try
+	        {
+	        	tablec = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
+	        } catch (IOException e ) {}
     	 try
          {
     		 cookTable = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
@@ -83,6 +87,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         //Here is the table
         g2.setColor(Color.ORANGE);
+        
+		g.drawImage(tablec, 400 - 20, 50 - 10, this);
 
       
         

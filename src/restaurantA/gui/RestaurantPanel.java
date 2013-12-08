@@ -79,10 +79,10 @@ public class RestaurantPanel extends JPanel {
        // cook.startThread();	
 
         setLayout(new GridLayout(1, 2, 20, 20));
-        group.setLayout(new GridLayout(1, 2, 10, 10));
+        group.setLayout(new FlowLayout());
 
         group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(waiterPanel);
         
       //  initRestLabel();
         //add(restLabel);

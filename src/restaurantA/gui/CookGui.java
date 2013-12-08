@@ -22,7 +22,7 @@ public class CookGui implements Gui{
 	String grillFood;
 	String plateFood;
 	Boolean isPresent = true;
-	Image img, table, food1, food2;
+	Image img, food1, food2;
 	public CookGui(CookAgent c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = 400;
@@ -32,10 +32,6 @@ public class CookGui implements Gui{
 		 try
 	        {
 	        	img = ImageIO.read(getClass().getResource("/resources/restSprites/A/cook.png"));
-	        } catch (IOException e ) {}
-		 try
-	        {
-	        	table = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
 	        } catch (IOException e ) {}
 		 try
 	        {
@@ -58,7 +54,6 @@ public class CookGui implements Gui{
 	        g.drawImage(img, xPos, yPos, agent.copyOfAnimPanel);
 	    	}
 		
-		g.drawImage(table, xPos - 20, yPos - 10, agent.copyOfAnimPanel);
 		
 		if(grill){
 		
