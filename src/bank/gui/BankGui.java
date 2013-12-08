@@ -126,8 +126,8 @@ public class BankGui extends JFrame implements ActionListener {
         ButtonPanel.setLayout(new BorderLayout());
         InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
-       buttonPanel.add(pauseButton, BorderLayout.CENTER);
-       buttonPanel.add(refreshButton, BorderLayout.EAST);
+       // buttonPanel.add(pauseButton, BorderLayout.CENTER);
+       // buttonPanel.add(refreshButton, BorderLayout.EAST);
         RestaurantPortion.add(buttonPanel, BorderLayout.SOUTH);
 
         add(animationPanel, BorderLayout.CENTER);
