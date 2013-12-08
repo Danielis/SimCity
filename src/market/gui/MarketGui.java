@@ -28,21 +28,21 @@ public class MarketGui extends JFrame implements ActionListener {
     
     /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;
-    private JPanel waiterInformationPanel;
+    //private JPanel waiterInformationPanel;
     private JPanel InformationPanel;
     private JPanel buttonPanel;
     
     private JLabel infoCustomerLabel;
-    private JLabel infoWaiterLabel;
+    //private JLabel infoWaiterLabel;
 
     public JCheckBox customerStateCheckBox;
-    private JTextField amountInput = new JTextField("");
+    //private JTextField amountInput = new JTextField("");
     
-    String[] transactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
-    JComboBox transactionList = new JComboBox(transactions);
+    //String[] transactions = { "Steak", "Pizza", "Salad", "Chicken", "Car" };
+    //JComboBox transactionList = new JComboBox(transactions);
     //private JCheckBox waiterBreakCheckBox;
-    private JButton waiterON = new JButton("Go On Break");
-    private JButton waiterOFF = new JButton("Go Off Break");
+    //private JButton waiterON = new JButton("Go On Break");
+    //private JButton waiterOFF = new JButton("Go Off Break");
 
     private MarketCustomer currentCustomer;
     private MarketWorkerAgent currentWaiter;
@@ -103,13 +103,15 @@ public class MarketGui extends JFrame implements ActionListener {
         customerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
-        infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoCustomerLabel.setText("<html><pre><i>There are no people in the market</i></pre></html>");
         customerInformationPanel.add(infoCustomerLabel);
         customerInformationPanel.add(customerStateCheckBox);
-        customerInformationPanel.add(amountInput);
-        customerInformationPanel.add(transactionList);
+        //customerInformationPanel.add(amountInput);
+        //customerInformationPanel.add(transactionList);
         
 //WAITER PANEL INFORMATION
+        
+        /*
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
         waiterInformationPanel = new JPanel();
         waiterInformationPanel.setPreferredSize(infoDimWaiter);
@@ -128,12 +130,13 @@ public class MarketGui extends JFrame implements ActionListener {
         waiterON.setVisible(false);
         waiterOFF.setVisible(false);
         waiterInformationPanel.add(waiterON);
-        waiterInformationPanel.add(waiterOFF);
+        waiterInformationPanel.add(waiterOFF);*/
+        
         RestaurantPortion.add(restPanel, BorderLayout.NORTH);
-        InformationPanel.add(customerInformationPanel, BorderLayout.NORTH);
+        InformationPanel.add(customerInformationPanel, BorderLayout.CENTER);
         ButtonPanel.setLayout(new BorderLayout());
         InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
-        InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
+        //InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
         buttonPanel.add(pauseButton, BorderLayout.CENTER);
         buttonPanel.add(refreshButton, BorderLayout.EAST);
@@ -164,8 +167,8 @@ public class MarketGui extends JFrame implements ActionListener {
         customerStateCheckBox.setText("Start?");
         customerStateCheckBox.setSelected(customer.getGui().isHungry());
         customerStateCheckBox.setEnabled(!customer.getGui().isHungry());
-        transactionList.setSelectedIndex(0);
-        transactionList.addActionListener(this);
+        //transactionList.setSelectedIndex(0);
+        //transactionList.addActionListener(this);
         
         infoCustomerLabel.setText(
            "<html><pre>     Name: " + customer.getName() + " </pre></html>");
@@ -186,13 +189,14 @@ public class MarketGui extends JFrame implements ActionListener {
     }
     
     public void updateWaiterInformationPanel(MarketWorkerAgent person) {
+    	/*
     	waiterON.setVisible(true);
     	waiterOFF.setVisible(true);
         currentWaiter = person;
         MarketWorkerAgent waiter = person;
     	infoWaiterLabel.setText(
                 "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
-        waiterInformationPanel.validate();
+        waiterInformationPanel.validate();*/
     }
     
     /**
@@ -212,6 +216,7 @@ public class MarketGui extends JFrame implements ActionListener {
 //        {
 //        	restPanel.refresh();
 //        }
+        /*
         if (e.getSource() == waiterON)
         {
         	MarketWorkerAgent w = currentWaiter;
@@ -222,7 +227,7 @@ public class MarketGui extends JFrame implements ActionListener {
         	MarketWorkerAgent w = currentWaiter;
         	w.getGui().AskGoOffBreak();
         }
-      
+      */
         if (e.getSource() == pauseButton)
         {
         	if (isPaused)

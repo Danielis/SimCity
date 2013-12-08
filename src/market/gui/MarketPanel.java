@@ -34,13 +34,14 @@ public class MarketPanel extends JPanel {
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Tellers");
+    //private ListPanel waiterPanel = new ListPanel(this, "Tellers");
     private JPanel group = new JPanel();
-        
-    
+
     private Market market;
     private MarketGui gui; //reference to main gui
     Market b;// = new Market();
+    public ImageIcon iconDescription;
+    public JLabel picDescription;
     
     public MarketPanel(MarketGui gui) {
         this.gui = gui;
@@ -50,7 +51,8 @@ public class MarketPanel extends JPanel {
        
         gui.animationPanel.addGui(hostGui);
         
-       
+        iconDescription = new ImageIcon(getClass().getResource("/resources/img_market.png"));
+        picDescription = new JLabel(iconDescription);
         host.startThread();
         
         
@@ -58,7 +60,7 @@ public class MarketPanel extends JPanel {
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
         group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(waiterPanel);
 
         initRestLabel();
         add(restLabel);
@@ -67,6 +69,9 @@ public class MarketPanel extends JPanel {
         this.addTeller("Clerk 1");
     	this.addTeller("Clerk 2");
     	this.addTeller("Clerk 3");
+    	
+    	   
+
     }
 
     /**
@@ -76,25 +81,8 @@ public class MarketPanel extends JPanel {
     private void initRestLabel() {
         //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
         restLabel.setLayout(new BorderLayout());
-        
-          
-//         label.setText(
-//                "<html>"
-//	                + "<h3><u>Tonight's Staff</u></h3>"
-//	                + "<table>"
-//	                	+ "<tr><td>Host:</td><td>" + host.getName() + "</td></tr>"
-//        			+ "</table>"
-//	                + "<h3><u> Menu</u></h3>"
-//	                + "<table>"
-//		                + "<tr><td>Steak</td><td>$15.99</td></tr>"
-//		                + "<tr><td>Chicken</td><td>$10.99</td></tr>"
-//		                + "<tr><td>Salad</td><td>$5.99</td></tr>"
-//		                + "<tr><td>Pizza</td><td>$8.99</td></tr>"
-//	                + "</table><br>"
-//                + "</html>");
-         
-
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+        restLabel.add(picDescription, BorderLayout.CENTER);
     }
 
     /**
@@ -124,9 +112,9 @@ public class MarketPanel extends JPanel {
             MarketWorkerAgent temp = waiters.get(i);
             if (temp.getName() == name)
             {
-                waiterPanel.updateWaiter(temp);
+                //waiterPanel.updateWaiter(temp);
                 gui.updateWaiterInformationPanel(temp);
-                waiterPanel.updateWaiter(temp);
+                //waiterPanel.updateWaiter(temp);
             }
         }
     }
