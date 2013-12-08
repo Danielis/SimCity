@@ -37,7 +37,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     public JButton orderButton;
     public JButton addMarket;
     private JCheckBox stateCB;//part of infoLabel
-
+    public RestaurantA rest;
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
 
@@ -243,7 +243,6 @@ public class RestaurantGui extends JFrame implements ActionListener {
 		
 	}
 	public void setRestaurant(RestaurantA r) {
-		// TODO Auto-generated method stub
-		
+		rest = r;
 	}
 }

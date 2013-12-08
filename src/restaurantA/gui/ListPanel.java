@@ -7,6 +7,8 @@ import restaurantA.RestaurantA;
 
 import javax.swing.*;
 
+import bank.interfaces.BankHost;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -135,5 +137,9 @@ public class ListPanel extends JPanel implements ActionListener {
          nameInput.setText("");
          hungry.setSelected(false);
          validate();
+	}
+
+	public void addHost(HostAgent c) {
+		restPanel.addHost();
 	}
 }

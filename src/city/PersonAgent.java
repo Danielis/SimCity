@@ -2,7 +2,9 @@ package city;
 
 //Package Imports
 import java.awt.Point;
+
 import restaurantA.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +54,7 @@ import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
+
 
 
 //Utility Imports
@@ -127,6 +130,7 @@ public class PersonAgent extends Agent implements Person
 							print("set h");
 							ba.sethost();
 							workBuilding = b;
+							print("owner: " + b.owner);
 						}
 					}
 				}
@@ -1402,11 +1406,10 @@ public class PersonAgent extends Agent implements Person
 			WorkAtBank();
 		}
 		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
-			//if (job.workBuilding.owner.equals("Norman"))
-			print("owner: " + job.workBuilding.owner);
+			if (job.workBuilding.owner.equals("Norman"))
 			WorkAtRest();
-			//else
-			//WorkAtRestA();
+			else if (job.workBuilding.owner.equals("Aleena"))
+			WorkAtRestA();
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
@@ -1521,7 +1524,29 @@ public class PersonAgent extends Agent implements Person
 	
 	public void WorkAtRestA() {
 
+		takeBusIfApplicable(2);
 
+		
+		RestaurantA r = (RestaurantA) job.workBuilding;
+				
+		gui.DoGoToLocation(r.entrance);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		Role c = null;
+		
+		if (job.type == JobType.restHost)
+		{
+			c = new restaurantA.HostAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingHost = (restaurantA.HostAgent) c;
+			r.panel.customerPanel.addHost((restaurantA.HostAgent) c);
+		}
+		
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		
 
 	}
 

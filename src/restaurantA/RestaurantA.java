@@ -1,8 +1,11 @@
 package restaurantA;
 
 import java.awt.Frame;
+import java.util.*;
 
 import javax.swing.JFrame;
+
+
 
 
 
@@ -24,6 +27,13 @@ public class RestaurantA extends RestBase{
     public Boolean hasCook = false;
     public Boolean hasCashier = false;
     public int numWaiters = 0;
+    
+	public HostAgent workingHost;
+	public CashierAgent workingCashier;
+	public CookAgent workingCook;
+	public List<WaiterAgent> workingWaiters = new ArrayList<WaiterAgent>();
+	
+	
 	public RestaurantA(restaurantA.gui.RestaurantGui rg, String name)
     {
     	this.gui = rg;

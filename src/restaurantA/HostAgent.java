@@ -1,6 +1,7 @@
 package restaurantA;
 
 import java.util.Timer;
+import roles.*;
 import java.util.TimerTask;
 
 import agent.Agent;
@@ -18,7 +19,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostAgent extends Agent {
+public class HostAgent extends Role {
 	public static final int NTABLES = 2;//a global for the number of tables.
 	public static final int NWAITERS = 1;
 	Timer timer;
@@ -154,7 +155,7 @@ public class HostAgent extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -288,6 +289,18 @@ public class HostAgent extends Agent {
 		for (int i =0; i <waitingCustomers.size(); i++){
 			waitingCustomers.get(i).customerGui.shuffle(0, 50 + i*30);
 		}
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

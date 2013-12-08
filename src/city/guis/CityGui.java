@@ -716,7 +716,8 @@ public class CityGui extends JFrame implements ActionListener {
 			r.setPaymentFund(GovernmentFunds);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
-			buildings.add(r);
+			//buildings.add(r); 
+			//TODO MAKE SURE THIS IS NOT COMMENTED OUT ON MERGE
 	}
 	
 	public void createRestaurantA(String name, int x, int y)
