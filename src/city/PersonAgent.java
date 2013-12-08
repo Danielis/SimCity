@@ -306,7 +306,7 @@ public class PersonAgent extends Agent implements Person
 		}
 		else if (wealthLevel.equals(WealthLevel.poor)){
 			addItem("Car", 0, 1, 1);
-			addItem("Eggs", 5, 3, 5);
+			addItem("Eggs", 3, 3, 5);
 			addItem("Pasta", 3, 3, 3);
 			addItem("Milk", 0, 1, 1);
 			return 2000;
@@ -991,7 +991,7 @@ public class PersonAgent extends Agent implements Person
 			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 			if (needToWork()){
 				for (Day d : job.daysWorking){ //if it is the correct day to work
-					print("time to go to work");
+					//print("time to go to work");
 					if (d == TimeManager.getInstance().getDay()){
 						GoToWork();
 						return true;
@@ -1149,7 +1149,7 @@ public class PersonAgent extends Agent implements Person
 	
 	private void GoToRestaurant(Building r){
 		if (r.owner.equals("Norman"))
-			GoToRestaurantN();
+			GoToRestaurantN(r);
 		if (r.owner.equals("Aleena"))
 			GoToRestaurantA(r);
 	}
@@ -1608,25 +1608,17 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-	public void GoToRestaurantN()
+	public void GoToRestaurantN(Building b)
 	{
-		Restaurant r = null;
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				//print(" type: " + b.getType() + " n: ");
-				if (b.getType() == buildingType.restaurant){
-					r = (Restaurant) b;
-				}
-			}
-		}
 		
+		
+		Restaurant r = (Restaurant) b;
 		gui.setPresent(true);
 		gui.setBusy(true);
-		print("Going to restaurant");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
+		print("Going to Norman's Restaurant");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to Norman's restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
-
+	
 		takeBusIfApplicable(2);
 
 		gui.DoGoToLocation(r.entrance);
@@ -1650,7 +1642,7 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to Aleena's Restaurant");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to restaurant.", new Date()));
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to Aleena's Restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
 		//takeBusIfApplicable(2);

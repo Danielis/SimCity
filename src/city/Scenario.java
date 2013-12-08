@@ -73,7 +73,38 @@ public void CallScenarioB(CityPanel c){
 	p3.setHungry();
 	c.addPerson(p3);
 }
+public void CallScenarioP(CityPanel c){
+	c.addWorker("Bank Host", "Bank Host", "Wealthy");
+	c.addWorker("Teller 1", "Teller", "Poor");
+	c.addWorker("Teller 2", "Teller", "Poor");
+	c.addWorker("Teller 3", "Teller", "Average");
 	
+	c.addWorker("Bank Host", "Bank Host", "Average");
+	c.addWorker("Teller 1", "Teller", "Average");
+	c.addWorker("Teller 2", "Teller", "Wealthy");
+	c.addWorker("Teller 3", "Teller", "Poor");
+	
+	//for restaurant: need to repeat for all restaurants
+	c.addWorker("Chef", "Cook", "Average");
+	c.addWorker("Waiter 1", "Waiter", "Average");
+	c.addWorker("Waiter 2", "Waiter", "Average");
+	c.addWorker("Cashier", "Cashier", "Average");
+	c.addWorker("Restaurant Host", "Restaurant Host", "Wealthy");
+
+	
+	TimeManager.getInstance().setDivider(30);
+	TimeManager.getInstance().setOffset(70420000);
+	
+	PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
+	PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
+	PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
+
+	c.addPerson(p2);
+	c.addPerson(p3);
+	c.addPerson(p4);
+	
+}
+
 public void CallScenario1(CityPanel c){
 	TimeManager.getInstance().setDivider(20);
 	TimeManager.getInstance().setOffset(300000);

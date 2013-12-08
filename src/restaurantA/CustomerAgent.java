@@ -129,11 +129,11 @@ public class CustomerAgent extends Role implements Customer {
 	public void msgRestaurantFull(){
 		int rand = (int )(Math.random() * 3 + 1);
 		
-//		if ( ((rand == 0 || rand == 1) && !name.equals("patient")) || name.equals("impatient")){
-//			event = AgentEvent.bored;
-//			stateChanged();
-//		}
-//		else
+		if ( ((rand == 0 || rand == 1) && !name.equals("patient")) || name.equals("impatient")){
+			event = AgentEvent.bored;
+			stateChanged();
+		}
+		else
 			print("I don't mind waiting.");
 	}
 
