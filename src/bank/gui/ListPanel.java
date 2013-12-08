@@ -68,7 +68,7 @@ public class ListPanel extends JPanel implements ActionListener {
         bottomPart_waiter.setLayout(new BorderLayout());
         
         setLayout(new BorderLayout());
-        JLabel name = new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>");
+        JLabel name = new JLabel("Current Bank Customers");
         name.setAlignmentY(CENTER_ALIGNMENT);
         
         if (type == "Customers"){

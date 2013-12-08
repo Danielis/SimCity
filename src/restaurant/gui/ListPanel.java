@@ -133,7 +133,7 @@ public class ListPanel extends JPanel implements ActionListener {
         	for (JButton temp2:listForWaiter){
         		if (e.getSource() == temp2)
         		{
-        			restPanel.showWaiterInfo(temp2.getText());
+        			//restPanel.showWaiterInfo(temp2.getText());
         		}
         	}
         }
