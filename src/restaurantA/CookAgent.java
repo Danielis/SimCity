@@ -1,12 +1,15 @@
 package restaurantA;
 
 import agent.Agent;
+import restaurantA.RestaurantA.*;
+import restaurantA.WaiterAgent.customerState;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
 import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CookGui;
 import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.*;
+import roles.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,7 +22,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class CookAgent extends Agent implements Cook {
+public class CookAgent extends Role implements Cook {
 	
  private class CookTimerTask extends TimerTask {
 		  Order o;
@@ -70,14 +73,25 @@ public class CookAgent extends Agent implements Cook {
 	private Semaphore cookingFood = new Semaphore(0,true);
 	private CookGui cookGui;
 	public AnimationPanel copyOfAnimPanel;
+	public RestaurantA rest = null;
+	private Boolean leave = false;
+	private double balance = 0;
 	public CookAgent(String name, CashierAgent cashier) {
 		super();
 		this.name = name;
 		this.cashier = cashier;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
-		menu = Collections.synchronizedList(new ArrayList<MyMenuItem>());
+		//menu = rest.menu;
 		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
-		createInventory();
+		for (int i = 0; i < 3; i++)
+		addMarket();
+		addMarket(15);
+	}
+	public CookAgent(String name2) {
+		this.name = name2;
+		orders = Collections.synchronizedList(new ArrayList<Order>());
+		
+		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
 		for (int i = 0; i < 3; i++)
 		addMarket();
 		addMarket(15);
@@ -104,15 +118,6 @@ public class CookAgent extends Agent implements Cook {
 		marketIndex++;
 	}
 
-	private void createInventory() {
-		int Inv = 2;
-		int Cap = 5;
-		int Thr = 3;
-		menu.add( new MyMenuItem("Steak", 5, Inv, Thr, Cap, 16) );
-		menu.add( new MyMenuItem("Chicken", 5, Inv, Thr, Cap, 11) );
-		menu.add( new MyMenuItem("Pizza", 5, Inv, Thr, Cap, 9) );
-		menu.add( new MyMenuItem("Salad", 5, Inv, Thr, Cap, 6) );
-	}
 
 
 	public String getName() {
@@ -201,7 +206,7 @@ public class CookAgent extends Agent implements Cook {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -242,7 +247,16 @@ public class CookAgent extends Agent implements Cook {
 			}
 		}}
 		}
-
+		
+		if (leave && rest.workingWaiters.isEmpty()){
+			boolean temp = true;
+			for (Order o : orders){
+				if (o.s != orderState.finished)
+					temp = false;
+			}
+			if (temp)
+				LeaveWork();
+		}
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -251,6 +265,12 @@ public class CookAgent extends Agent implements Cook {
 
 	// Actions
 	
+	private void LeaveWork() {
+		rest.NoCook();
+		cookGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
 	private void CheckAndCook(Order o){
 		synchronized(menu){
 		for (MyMenuItem f : menu){
@@ -395,6 +415,20 @@ for (MyMenuItem f : menu){
 		cookGui = g;
 		//print("gui set");
 	}
+	@Override
+	public void msgLeaveWork() {
+		leave = true;
+		stateChanged();
+	}
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRestaurant(RestaurantA rest2) {
+		rest = rest2;
+		menu = rest.menu;
+	}
 
 
 
@@ -404,29 +438,7 @@ for (MyMenuItem f : menu){
 
 	
 	
-	public class MyMenuItem{
-		String name;
-		int stock;
-		itemState s;
-		int cookingTime;
-		int threshold;
-		int capacity;
-		int price;
-		int ordered = 0;
-		
-		MyMenuItem(String name, int c, int stock, int threshold, int capacity, int price){
-			this.name = name;
-			this.stock = stock;
-			this.cookingTime = c;
-			this.threshold = threshold;
-			this.capacity = capacity;
-			this.s = itemState.normal;
-			this.price = price;
-		}
-	}
-
-	enum itemState {normal, orderedMore, needsReOrder, checkReOrder};
-
+	
 	
 	
 

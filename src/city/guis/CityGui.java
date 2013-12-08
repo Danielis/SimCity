@@ -138,6 +138,9 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton scenP = new JButton("Scenario P");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
+	
+
+	private JButton tempGo = new JButton("Test");
 
 
 	private JButton close = new JButton("Close");
@@ -277,6 +280,7 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(scenB);
 		otherFunction.add(scenP);
 		otherFunction.add(noAIGo);
+		otherFunction.add(tempGo);
 
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
@@ -290,11 +294,15 @@ public class CityGui extends JFrame implements ActionListener {
 		workGo.addActionListener(this);
 		housingList.addActionListener(this);
 		noAIGo.addActionListener(this);
+
 		closeRestA.addActionListener(this);
 		closeRestN.addActionListener(this);
 		closeMarket.addActionListener(this);
 		closeBank.addActionListener(this);
 		closeMarket.addActionListener(this);
+
+		tempGo.addActionListener(this);
+
 
 
 		// ************ END FUNCTION PANEL *********************
@@ -638,6 +646,10 @@ public class CityGui extends JFrame implements ActionListener {
 			this.cityPanel.setNoAI(true);
 			noAIGo.setEnabled(false);
 		}
+		if (e.getSource() == tempGo){
+			Scenario.getInstance().CallScenarioTest(this.cityPanel);
+			silenceScenButtons();
+		}
 		if (currentPerson != null){
 			if (e.getSource() == restaurantGo) 
 			{
@@ -769,7 +781,7 @@ public class CityGui extends JFrame implements ActionListener {
 			r.setPaymentFund(GovernmentFunds);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
-			buildings.add(r);
+			buildings.add(r); 
 	}
 	
 	public void createRestaurantA(String name, int x, int y)

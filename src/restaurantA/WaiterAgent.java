@@ -10,7 +10,7 @@ import java.util.concurrent.Semaphore;
 
 import restaurantA.CookAgent;
 import restaurantA.Table;
-import restaurantA.CookAgent.MyMenuItem;
+import restaurantA.RestaurantA.*;
 import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.HostGui;
 import restaurantA.gui.WaiterGui;
@@ -19,7 +19,7 @@ import restaurantA.interfaces.Customer;
 import restaurantA.interfaces.Waiter;
 
 import java.util.*;
-
+import roles.*;
 /**
  * Restaurant Waiter Agent
  */
@@ -27,24 +27,26 @@ import java.util.*;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterAgent extends Agent implements Waiter {
+public class WaiterAgent extends Role implements Waiter {
 	public static final int NTABLES = 3;
 	private Semaphore atTable = new Semaphore(0,true);
 	private Semaphore atCook = new Semaphore(0,true);
 	private Semaphore atOrigin = new Semaphore(0,true);
 	private Boolean imHere = true;
-	
+	private Boolean leave = false;
 	public Semaphore waitForOrder = new Semaphore(0);
 	public ArrayList<Table> tables;
 	private String name;
+	private double balance = 0;
 	private List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
     //public CookAgent cook = new CookAgent("Chef"); // ask cameron where i should be storing this lol
-    public int numCust;
+    public int numCust = 0;
     public HostAgent host;
 	public WaiterGui waiterGui = null;
 	public CookAgent cook;
 	public CashierAgent cashier;
 	public Collection<MyMenuItem> menu;
+	public RestaurantA rest;
 	Timer timer = new Timer();
 
 	public AnimationPanel copyOfAnimPanel;
@@ -52,12 +54,16 @@ public class WaiterAgent extends Agent implements Waiter {
 		super();
 		this.name = name;
 	    
-	    numCust = 0;
 	    this.host = host;
 	    this.tables = host.tables;
 	    this.cook = cook;
-	    this.menu = cook.menu;
+	    print("menu: " + rest.menu);
+	    this.menu = rest.menu;
 	    this.cashier = cashier;
+	}
+	public WaiterAgent(String name) {
+		super();
+		this.name = name;
 	}
 	public boolean onBreak = false;
 
@@ -86,6 +92,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	public void msgBringCustomerToTable(HostAgent host, CustomerAgent customer, Table table) {
 		myCustomers.add(new MyCustomer(customer, table, customerState.FOLLOWING));
 		//print ("Waiter received message to bring customer " + customer.getCustomerName() + " to table " + table.tableNumber + ".");
+		this.host = host;
 		this.numCust ++;
 		stateChanged();
 	}
@@ -199,7 +206,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	// scheduler
 	// TODO
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		//print("waiter scheduler called");
 		
@@ -274,7 +281,15 @@ public class WaiterAgent extends Agent implements Waiter {
 			return false; //TODO a more elegant implementation of this lol...
 		}
 		
-		
+		if (leave){
+			boolean temp = true;
+			for (MyCustomer c : myCustomers){
+				if (c.s != customerState.DONE)
+					temp = false;
+			}
+			if (temp)
+				LeaveWork();
+		}
 		
 		return false;
 		//we have tried all our rules and found
@@ -282,6 +297,12 @@ public class WaiterAgent extends Agent implements Waiter {
 		//and wait.
 	}
 
+private void LeaveWork() {
+		rest.removeMe(this);
+		waiterGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
 private void enjoyBreak() {
 	print("***** Enjoying break");
 	timer.schedule(new TimerTask() {
@@ -371,7 +392,7 @@ private void escortCustomer(MyCustomer c){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cook.msgPickedUpFood(c.c);
+		rest.workingCook.msgPickedUpFood(c.c);
 		
 		waiterGui.DoDeliverOrder(c.c, c.table, c.choice);
 		print("Delivering order to " + c.c.getCustomerName());
@@ -410,7 +431,7 @@ private void escortCustomer(MyCustomer c){
 		//DoSendOrder(); //animation
 		c.s = customerState.WAITING;
 		print("Bringing customer " + c.c.getCustomerName() + "'s order of " + c.choice + " to the cook");
-		cook.msgHereIsOrder(this, c.choice, c.table, c.c);
+		rest.workingCook.msgHereIsOrder(this, c.choice, c.table, c.c);
 	}
 
 	public void GiveFood(MyCustomer c){
@@ -422,13 +443,13 @@ private void escortCustomer(MyCustomer c){
 	public void RequestCheck(MyCustomer c){
 		print("Cashier, please prepare check for " + c.c.getCustomerName());
 		c.s = customerState.NEEDSCHECK;
-		cashier.msgRequestCheck(this, c.c);
+		rest.workingCashier.msgRequestCheck(this, c.c);
 	}
 	
 	public void GiveCheck(MyCustomer c){
 		print("Here is your check");
 		c.s = customerState.RECEIVEDCHECK;
-		c.c.msgHereIsCheck(c.check, cashier);
+		c.c.msgHereIsCheck(c.check, rest.workingCashier);
 	}
 	
 
@@ -436,7 +457,7 @@ private void escortCustomer(MyCustomer c){
 		c.s = customerState.DONE;
 		print(c.c.getCustomerName() + " is leaving table " + c.table.tableNumber);
 		
-		host.msgLeavingTable(c.c);
+		rest.workingHost.msgLeavingTable(c.c);
 	}
 	
 	
@@ -502,6 +523,18 @@ private void escortCustomer(MyCustomer c){
 	public void setAnimPanel(AnimationPanel animationPanel)
 	{
 		copyOfAnimPanel = animationPanel;
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		leave = true;
+		stateChanged();
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

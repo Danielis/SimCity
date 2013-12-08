@@ -1,9 +1,12 @@
 package restaurantA.gui;
 import javax.imageio.ImageIO;
+
 import restaurantA.*;
+
 import javax.swing.*;
 
 import restaurantA.HostAgent;
+import restaurantA.RestaurantA;
 import restaurantA.Table;
 
 import java.awt.*;
@@ -21,13 +24,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WIDTH = 50;
     private Image bufferImage;
     private Dimension bufferSize;
-    
+    private RestaurantA rest;
     private List<Gui> guis = new ArrayList<Gui>();
 
     private HostAgent host = null;
     private ArrayList<Table> tables = null;
 
-    Image restBG, table, cashMachine, cookTable, hostimg, cashierimg;
+    Image restBG, table, cashMachine, cookTable, hostimg, cashierimg, tablec;
     
   //  RestaurantA rest;
 
@@ -36,7 +39,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
         setVisible(true);
         
         bufferSize = this.getSize();
- 
     	Timer timer = new Timer(20, this );
     	timer.start();
     	
@@ -53,6 +55,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
          {
     		 cashMachine = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashmachine.png"));
          } catch (IOException e ) {}
+		 try
+	        {
+	        	tablec = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
+	        } catch (IOException e ) {}
     	 try
          {
     		 cookTable = ImageIO.read(getClass().getResource("/resources/restSprites/A/cooktable.png"));
@@ -81,6 +87,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         //Here is the table
         g2.setColor(Color.ORANGE);
+        
+		g.drawImage(tablec, 400 - 20, 50 - 10, this);
 
       
         
@@ -99,12 +107,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		//g2.fillRect(30, 0, 20, 20);
         g2.drawImage(cashMachine, 60, 0, this);
        
-        //if (rest.hostIsHere()){
+        if (rest.workingHost != null){
         g2.drawImage(hostimg, 20, 7, this);
-        // }
-        //if (rest.cashierIsHere()){
+         }
+        
+        if (rest.workingCashier != null){
         g2.drawImage(cashierimg, 80, 7, this);
-        // }
+         }
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -134,5 +143,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
 	public void addGui(CookGui g) {
 		guis.add(g);
+	}
+
+	public void setRest(RestaurantA rest2) {
+		rest = rest2;
 	}
 }

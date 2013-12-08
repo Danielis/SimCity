@@ -2,7 +2,9 @@ package city;
 
 //Package Imports
 import java.awt.Point;
+
 import restaurantA.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,6 +52,7 @@ import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
+
 
 
 //Utility Imports
@@ -125,6 +128,7 @@ public class PersonAgent extends Agent implements Person
 							print("set h");
 							ba.sethost();
 							workBuilding = b;
+							print("owner: " + b.owner);
 						}
 					}
 				}
@@ -834,6 +838,7 @@ public class PersonAgent extends Agent implements Person
 	public void msgLeavingRestaurant(Role r, float myMoney){
 		cash = myMoney;
 		r.setActivity(false);
+		gui.setBusy(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
@@ -844,7 +849,20 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 
 	}
-	
+	public void msgLeavingRestaurant(Role r, double myMoney){
+		cash = myMoney;
+		r.setActivity(false);
+		gui.setBusy(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		Status.setNourishment(nourishment.notHungry);
+		gui.setPresent(true);
+		this.Status.setLocation(location.outside);
+		//roles.remove(r);
+		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
+		stateChanged();
+
+	}
 
 	public void msgGoToBank(String purpose, double amt)
 	{
@@ -1421,30 +1439,11 @@ public class PersonAgent extends Agent implements Person
 		}
 		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
 
-			print("owner: " + job.workBuilding.owner);
-			WorkAtRest();
-			
-			/*
 			if (job.workBuilding.owner.equals("Norman"))
-			{
-				WorkAtRest();
-			}
-			
-			else if(job.workBuilding.owner.equals("Aleena"))
-			{
-				WorkAtRestA();
-			} 
-			
-			else if(job.workBuilding.owner.equals("Daniel"))
-			{
-				WorkAtRestD();
-			}
-			
-			 else if(job.workBuilding.owner.equals("Chris"))
-			{
-				WorkAtRestC();
-			} 
-			*/
+			WorkAtRest();
+			else if (job.workBuilding.owner.equals("Aleena"))
+			WorkAtRestA();
+
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
@@ -1559,7 +1558,53 @@ public class PersonAgent extends Agent implements Person
 	
 	public void WorkAtRestA() {
 
+		//takeBusIfApplicable(2);
 
+		
+		RestaurantA r = (RestaurantA) job.workBuilding;
+				
+		gui.DoGoToLocation(r.entrance);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		Role c = null;
+		
+		if (job.type == JobType.restHost)
+		{
+			c = new restaurantA.HostAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingHost = (restaurantA.HostAgent) c;
+			r.panel.customerPanel.addHost((restaurantA.HostAgent) c);
+		}
+		
+		if (job.type == JobType.waiter)
+		{
+			c = new restaurantA.WaiterAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingWaiters.add((restaurantA.WaiterAgent) c);
+			r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
+		}
+		
+		if (job.type == JobType.cook)
+		{
+			c = new restaurantA.CookAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingCook = (restaurantA.CookAgent) c;
+			r.panel.customerPanel.addCook((restaurantA.CookAgent) c);
+		}
+		
+		if (job.type == JobType.cashier)
+		{
+			c = new restaurantA.CashierAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingCashier = (restaurantA.CashierAgent) c;
+			r.panel.customerPanel.addCashier((restaurantA.CashierAgent) c);
+		}
+		
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		
 
 	}
 

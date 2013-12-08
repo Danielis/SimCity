@@ -61,7 +61,7 @@ Day LastChecked = Day.monday;
 	}	
 	
 	private boolean WakeUp() {
-		return (TimeManager.getInstance().getHour() == 5);
+		return (TimeManager.getInstance().getHour() == 4);
 	}
 
 	private Boolean GetPaid(){

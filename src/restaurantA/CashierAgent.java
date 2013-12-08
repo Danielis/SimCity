@@ -7,17 +7,19 @@ import java.util.List;
 
 import restaurantA.Check;
 import restaurantA.Check.checkState;
-import restaurantA.CookAgent.MyMenuItem;
 import restaurantA.HostAgent.MyWaiter;
+import restaurantA.WaiterAgent.customerState;
 import restaurantA.interfaces.*;
 import agent.Agent;
-
-public class CashierAgent extends Agent implements Cashier {
+import roles.*;
+public class CashierAgent extends Role implements Cashier {
 	private String name;
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
-
+	public RestaurantA rest = null;
 	private double savings;
+	private Boolean leave = false;
+	private double balance = 0;
 	public CashierAgent(String name){
 		super();
 		this.name = name;
@@ -105,9 +107,26 @@ public class CashierAgent extends Agent implements Cashier {
 			}
 		}
 		}
+		if (leave && rest.workingCook == null){
+		boolean temp = true;
+		for (Check c : checks){
+			if (c.getS() != checkState.Paid)
+				temp = false;
+		}
+		if (temp)
+			LeaveWork();
+		}
+
 		return false;
 	}
 	
+	private void LeaveWork() {
+		print("Leaving work");
+		rest.noCashier();
+		//hostGui.setDone();
+		myPerson.msgLeftWork(this, balance);
+		
+	}
 	//* actions *//
 	private void PayBill(Bill b){
 		setSavings(getSavings() - b.getAmount());
@@ -123,7 +142,7 @@ public class CashierAgent extends Agent implements Cashier {
 	
 	private void TellOffCustomer(Check c){
 		print("You better pay next time.");
-		c.setS(checkState.waiting);
+		c.setS(checkState.Paid);
 		c.c.addMoneyAmountOwed(c.getAmountOwed());
 		c.c.msgGetOut();
 	}
@@ -169,6 +188,19 @@ public class CashierAgent extends Agent implements Cashier {
 	}
 	public void setSavings(double d) {
 		this.savings = d;
+	}
+	@Override
+	public void msgLeaveWork() {
+		leave = true;
+		stateChanged();
+	}
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRestaurant(RestaurantA rest) {
+		this.rest = rest;
 	}
 
 

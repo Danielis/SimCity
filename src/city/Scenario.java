@@ -117,4 +117,17 @@ public void CallScenario1(CityPanel c){ // scen o, robbery
 	c.addPerson(p2);
 	
 	}
+
+
+public void CallScenarioTest(CityPanel c) {
+
+	TimeManager.getInstance().setDivider(20);
+	TimeManager.getInstance().setOffset(300000);
+	c.addWorker("Host", "Restaurant Host", "Average");
+	c.addWorker("W 1", "Waiter", "Average");
+	c.addWorker("W 2", "Waiter", "Average");
+	c.addWorker("W 3", "Waiter", "Average");
+	c.addWorker("Cashier", "Cashier", "Average");
+	c.addWorker("Chef", "Cook", "Average");
+}
 }

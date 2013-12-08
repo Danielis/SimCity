@@ -37,7 +37,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     public JButton orderButton;
     public JButton addMarket;
     private JCheckBox stateCB;//part of infoLabel
-
+    public RestaurantA rest;
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
 
@@ -93,7 +93,6 @@ public class RestaurantGui extends JFrame implements ActionListener {
         animationPanel.setMinimumSize(animDim);
         animationPanel.setMaximumSize(animDim);
         add(animationPanel, BorderLayout.WEST);
-        
    
         
         // Now, setup the info panel
@@ -111,7 +110,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoLabel = new JLabel(); 
-        infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoLabel.setText("<html><pre><i>Select a customer</i></pre></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
         restPanel.restLabel.add(infoPanel);
@@ -206,12 +205,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
 //            	System.out.println("pause button pressed");
 //        	}	
         }
-        else if (e.getSource() == addMarket){
-        	restPanel.cook.addMarket();
-        }
-        else if (e.getSource() == orderButton){
-        	restPanel.cook.CheckStock();
-        }
+//        else if (e.getSource() == addMarket){
+//        	restPanel.cook.addMarket();
+//        }
+//        else if (e.getSource() == orderButton){
+//        	restPanel.cook.CheckStock();
+//        }
     }
     /**
      * Message sent from a customer gui to enable that customer's
@@ -243,7 +242,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
 		
 	}
 	public void setRestaurant(RestaurantA r) {
-		// TODO Auto-generated method stub
-		
+		rest = r;
+        animationPanel.setRest(rest);
 	}
 }
