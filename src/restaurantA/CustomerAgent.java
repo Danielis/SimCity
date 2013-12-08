@@ -166,6 +166,7 @@ public class CustomerAgent extends Role implements Customer {
 	}
 	
 	public void msgHereIsCheck(Check check, CashierAgent c){
+		print("Received check");
 		this.check = check;
 		this.cashier = c;
 		stateChanged();
@@ -192,8 +193,10 @@ public class CustomerAgent extends Role implements Customer {
 	}
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
-		setMoney();
+		//setMoney();
+		
 		event = AgentEvent.doneLeaving;
+		this.myPerson.msgLeavingRestaurant(this, money);
 		//print("reached origin");
 		stateChanged();
 	}

@@ -97,7 +97,7 @@ public class RestaurantA extends RestBase{
 	}
 
 	public boolean needsWaiter() {
-		return (numWaiters < 2);
+		return (numWaiters < 3);
 	}
 
 	public void setWaiter() {
@@ -109,7 +109,15 @@ public class RestaurantA extends RestBase{
 	}
 
 	public void setWorkingWaiter(WaiterAgent c) {
+		System.out.println("added w " + c.getName());
 		workingWaiters.add(c);
+	}
+	
+	public void setWorkingCook(CookAgent c) {
+		workingCook = c;
+	}
+	public void setWorkingCashier(CashierAgent c) {
+		workingCashier = c;
 	}
 	
 	public class MyMenuItem{
@@ -133,6 +141,8 @@ public class RestaurantA extends RestBase{
 		}
 	}
 
-	enum itemState {normal, orderedMore, needsReOrder, checkReOrder};
+	enum itemState {normal, orderedMore, needsReOrder, checkReOrder}
+
+	
 
 }

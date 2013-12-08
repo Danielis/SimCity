@@ -8,6 +8,7 @@ import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CookGui;
 import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.*;
+import roles.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -20,7 +21,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class CookAgent extends Agent implements Cook {
+public class CookAgent extends Role implements Cook {
 	
  private class CookTimerTask extends TimerTask {
 		  Order o;
@@ -78,6 +79,15 @@ public class CookAgent extends Agent implements Cook {
 		this.cashier = cashier;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
 		//menu = rest.menu;
+		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
+		for (int i = 0; i < 3; i++)
+		addMarket();
+		addMarket(15);
+	}
+	public CookAgent(String name2) {
+		this.name = name2;
+		orders = Collections.synchronizedList(new ArrayList<Order>());
+		
 		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
 		for (int i = 0; i < 3; i++)
 		addMarket();
@@ -193,7 +203,7 @@ public class CookAgent extends Agent implements Cook {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -386,6 +396,20 @@ for (MyMenuItem f : menu){
 	public void setGui(CookGui g) {
 		cookGui = g;
 		//print("gui set");
+	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRestaurant(RestaurantA rest2) {
+		rest = rest2;
+		menu = rest.menu;
 	}
 
 

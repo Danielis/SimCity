@@ -837,6 +837,7 @@ public class PersonAgent extends Agent implements Person
 	public void msgLeavingRestaurant(Role r, float myMoney){
 		cash = myMoney;
 		r.setActivity(false);
+		gui.setBusy(false);
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.outside);
 		Status.setNourishment(nourishment.notHungry);
@@ -847,7 +848,20 @@ public class PersonAgent extends Agent implements Person
 		stateChanged();
 
 	}
-	
+	public void msgLeavingRestaurant(Role r, double myMoney){
+		cash = myMoney;
+		r.setActivity(false);
+		gui.setBusy(false);
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.outside);
+		Status.setNourishment(nourishment.notHungry);
+		gui.setPresent(true);
+		this.Status.setLocation(location.outside);
+		//roles.remove(r);
+		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime();
+		stateChanged();
+
+	}
 
 	public void msgGoToBank(String purpose, double amt)
 	{
@@ -1549,6 +1563,22 @@ public class PersonAgent extends Agent implements Person
 			c.setTrackerGui(trackingWindow);
 			r.workingWaiters.add((restaurantA.WaiterAgent) c);
 			r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
+		}
+		
+		if (job.type == JobType.cook)
+		{
+			c = new restaurantA.CookAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingCook = (restaurantA.CookAgent) c;
+			r.panel.customerPanel.addCook((restaurantA.CookAgent) c);
+		}
+		
+		if (job.type == JobType.cashier)
+		{
+			c = new restaurantA.CashierAgent(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingCashier = (restaurantA.CashierAgent) c;
+			r.panel.customerPanel.addCashier((restaurantA.CashierAgent) c);
 		}
 		
 		c.setPerson(this);

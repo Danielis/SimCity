@@ -10,12 +10,12 @@ import restaurantA.Check.checkState;
 import restaurantA.HostAgent.MyWaiter;
 import restaurantA.interfaces.*;
 import agent.Agent;
-
-public class CashierAgent extends Agent implements Cashier {
+import roles.*;
+public class CashierAgent extends Role implements Cashier {
 	private String name;
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
-
+	public RestaurantA rest = null;
 	private double savings;
 	public CashierAgent(String name){
 		super();
@@ -168,6 +168,19 @@ public class CashierAgent extends Agent implements Cashier {
 	}
 	public void setSavings(double d) {
 		this.savings = d;
+	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRestaurant(RestaurantA rest) {
+		this.rest = rest;
 	}
 
 

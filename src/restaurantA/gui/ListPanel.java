@@ -1,6 +1,8 @@
 package restaurantA.gui;
 
 import restaurantA.interfaces.Customer;
+import restaurantA.CashierAgent;
+import restaurantA.CookAgent;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.RestaurantA;
@@ -146,5 +148,13 @@ public class ListPanel extends JPanel implements ActionListener {
 
 	public void addWaiter(WaiterAgent c) {
 		restPanel.addWaiter(c);
+	}
+
+	public void addCook(CookAgent c) {
+		restPanel.addCook(c);
+	}
+
+	public void addCashier(CashierAgent c) {
+		restPanel.addCashier(c);
 	}
 }

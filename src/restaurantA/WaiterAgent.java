@@ -377,7 +377,7 @@ private void escortCustomer(MyCustomer c){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cook.msgPickedUpFood(c.c);
+		rest.workingCook.msgPickedUpFood(c.c);
 		
 		waiterGui.DoDeliverOrder(c.c, c.table, c.choice);
 		print("Delivering order to " + c.c.getCustomerName());
@@ -416,7 +416,7 @@ private void escortCustomer(MyCustomer c){
 		//DoSendOrder(); //animation
 		c.s = customerState.WAITING;
 		print("Bringing customer " + c.c.getCustomerName() + "'s order of " + c.choice + " to the cook");
-		cook.msgHereIsOrder(this, c.choice, c.table, c.c);
+		rest.workingCook.msgHereIsOrder(this, c.choice, c.table, c.c);
 	}
 
 	public void GiveFood(MyCustomer c){
@@ -428,13 +428,13 @@ private void escortCustomer(MyCustomer c){
 	public void RequestCheck(MyCustomer c){
 		print("Cashier, please prepare check for " + c.c.getCustomerName());
 		c.s = customerState.NEEDSCHECK;
-		cashier.msgRequestCheck(this, c.c);
+		rest.workingCashier.msgRequestCheck(this, c.c);
 	}
 	
 	public void GiveCheck(MyCustomer c){
 		print("Here is your check");
 		c.s = customerState.RECEIVEDCHECK;
-		c.c.msgHereIsCheck(c.check, cashier);
+		c.c.msgHereIsCheck(c.check, rest.workingCashier);
 	}
 	
 
@@ -442,7 +442,7 @@ private void escortCustomer(MyCustomer c){
 		c.s = customerState.DONE;
 		print(c.c.getCustomerName() + " is leaving table " + c.table.tableNumber);
 		
-		host.msgLeavingTable(c.c);
+		rest.workingHost.msgLeavingTable(c.c);
 	}
 	
 	

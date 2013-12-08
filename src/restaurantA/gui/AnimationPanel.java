@@ -105,9 +105,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.drawImage(hostimg, 20, 7, this);
          }
         
-        //if (rest.cashierIsHere()){
+        if (rest.workingCashier != null){
         g2.drawImage(cashierimg, 80, 7, this);
-        // }
+         }
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {

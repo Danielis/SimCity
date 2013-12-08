@@ -112,7 +112,20 @@ public class HostAgent extends Role {
 	}
 	
 	public void waiterAdded(){
+		setWaiters();
 		stateChanged();
+	}
+	
+	public void setWaiters(){
+		for (WaiterAgent w : waiters){
+			Boolean found = false;
+			for (MyWaiter mw : myWaiters){
+				if (mw.w.equals(w))
+					found = true;
+			}
+			if (!found)
+				myWaiters.add(new MyWaiter(w));
+		}
 	}
 
 	public void msgIWantFood(CustomerAgent cust) {
@@ -238,15 +251,15 @@ public class HostAgent extends Role {
 
 	private WaiterAgent selectWaiter() {
 		// TODO Auto-generated method stub
+		
 		if (myWaiters.size() != 0){
 		MyWaiter tempWait = myWaiters.get(0);
 		
 		for (MyWaiter w : myWaiters){
 		if (tempWait.w.numCust > w.w.numCust && w.s != waiterState.ONBREAK)
 			tempWait = w;
-	//	print("checking waiter" + w);
+	
 		}
-		
 		
 		return tempWait.w;
 		}
@@ -308,6 +321,7 @@ public class HostAgent extends Role {
 
 	public void setRestaurant(RestaurantA rest) {
 		this.rest = rest;
+		waiters = rest.workingWaiters;
 	}
 
 	public void setAnimPanel(AnimationPanel animationPanel) {

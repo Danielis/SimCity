@@ -205,12 +205,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
 //            	System.out.println("pause button pressed");
 //        	}	
         }
-        else if (e.getSource() == addMarket){
-        	restPanel.cook.addMarket();
-        }
-        else if (e.getSource() == orderButton){
-        	restPanel.cook.CheckStock();
-        }
+//        else if (e.getSource() == addMarket){
+//        	restPanel.cook.addMarket();
+//        }
+//        else if (e.getSource() == orderButton){
+//        	restPanel.cook.CheckStock();
+//        }
     }
     /**
      * Message sent from a customer gui to enable that customer's
