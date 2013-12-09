@@ -805,6 +805,9 @@ public class PersonAgent extends Agent implements Person
 	    if (homePurpose.equals("Sleep")){
 	    	timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime();
 	    }
+	    for (Item i : inventory){
+			print(i.getType() + " " + i.quantity);
+		}
 	    stateChanged();
 	}
 	
@@ -1367,6 +1370,10 @@ public class PersonAgent extends Agent implements Person
 			if (b.getType() == buildingType.housingComplex){
 				 a = (Apartment) b;
 			}
+		}
+		
+		for (Item i : inventory){
+			print(i.getType() + " " + i.quantity);
 		}
 		
 		gui.setPresent(true);
