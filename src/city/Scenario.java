@@ -47,20 +47,24 @@ public void EmployRest(CityPanel c) {
 	c.addWorker("Chef 1", "Cook", "Average");
 }
 
+public void workShift(){
+	TimeManager.getInstance().setDivider(20);
+	TimeManager.getInstance().setOffset(300000);
+}
+
 public void CallScenarioA(CityPanel c){				// for points 1-4
 // 	A:
 //	All workplaces (markets, all restaurants, banks) fully employed.
 //	Day starts and all workers go to work.
 //	One not-working person eats at home, then visits all the workplaces by walking.
 //	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
-	
+
+	workShift();
 	fillWork(c);
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	
 	PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 	p.addItem("Juice", 0, 2, 2);
 	c.addPerson(p);
-	
 	p.setHungry();
 	p.setBus(false);
 }
@@ -70,9 +74,9 @@ public void CallScenarioB(CityPanel c){
 //	Day starts and all workers go to work.
 //	Three not-working persons eat at home, then visit all the workplaces in different orders. 
 //	[one should walk; one should take a car; one should take a bus.]
+	
+	workShift();
 	fillWork(c);
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
 	
 	PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
 	p.GiveCar();
@@ -93,14 +97,14 @@ public void CallScenarioR(CityPanel c){
 //	Weekend behavior is different
 //	Some workplaces are closed on the weekend.
 //	Show that people naturally avoid them and seek alternatives.
+	TimeManager.getInstance().setDivider(2);
+	TimeManager.getInstance().setOffset(760420000);
 	fillWork(c);
 
 	
 	//TimeManager.getInstance().setDivider(30);
 	//TimeManager.getInstance().setOffset(70420000);
 
-	TimeManager.getInstance().setDivider(2);
-	TimeManager.getInstance().setOffset(760420000);
 	PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
 	PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
 	PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
@@ -114,8 +118,7 @@ public void CallScenarioR(CityPanel c){
 public void CallScenarioO(CityPanel c){ // scen o, robbery
 //	An evil person decides to rob a bank.
 //	On entrance he ... (you design it)
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	workShift();
 	EmployBank(c);
 	PersonAgent p2 = new PersonAgent("Robber", "Crook", "Average");
 	c.addPerson(p2);
@@ -124,8 +127,7 @@ public void CallScenarioO(CityPanel c){ // scen o, robbery
 
 public void CallScenarioTest(CityPanel c) {
 
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	workShift();
 	EmployRest(c);
 	EmployRest(c);
 }
@@ -137,8 +139,7 @@ public void CallScenarioF(CityPanel c) {
 //	Bring each workplace down, one by one.
 //	Show how one not-working person still visits all the workplaces but not the ones that are down. 
 //	Say you only have one bank and it is down, the person should avoid all banking behavior.
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	workShift();
 	fillWork(c);
 }
 
@@ -152,9 +153,7 @@ public void CallScenarioJ(CityPanel c) {
 //	Enough vehicle traffic to show stopping/starting at intersections.
 //	Vehicles stop for pedestrians with right of way.
 	
-	
-	TimeManager.getInstance().setDivider(20);
-	TimeManager.getInstance().setOffset(300000);
+	workShift();
 	fillWork(c);
 }
 
