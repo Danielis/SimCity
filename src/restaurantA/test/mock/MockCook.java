@@ -27,5 +27,11 @@ public class MockCook extends Mock implements Cook {
 
 	}
 
+	@Override
+	public void msgNotEmpty() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -34,6 +34,7 @@ import city.Government;
 import city.Scenario;
 import city.TimeManager;
 
+
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -50,10 +51,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Vector;
 
+import restaurantA.*;
 
 public class CityGui extends JFrame implements ActionListener {
 
 	Restaurant tempRes;
+	RestaurantA tempResA;
 	Bank tempBan;
 	Apartment tempApa;
 	Market tempMar;
@@ -132,8 +135,19 @@ public class CityGui extends JFrame implements ActionListener {
 
 	private JButton scenA = new JButton("Scenario A");
 	private JButton scenB = new JButton("Scenario B");
+	private JButton scenP = new JButton("Scenario P");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
+	
+
+	private JButton tempGo = new JButton("Test");
+
+
+	private JButton close = new JButton("Close");
+	private JButton closeRestN = new JButton("Close RestN");
+	private JButton closeRestA = new JButton("Close RestA");
+	private JButton closeBank = new JButton("Close Banks");
+	private JButton closeMarket = new JButton("Close Market");
 
 	// ************ END FUNCTION PANEL *********************
 
@@ -225,6 +239,7 @@ public class CityGui extends JFrame implements ActionListener {
 		bankPanel.add(amountInput);
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
+		bankPanel.add(closeBank);
 
 		TitledBorder marketTitle = BorderFactory.createTitledBorder(loweredetched, "Market");
 		functionPanel.add(marketPanel);
@@ -235,6 +250,7 @@ public class CityGui extends JFrame implements ActionListener {
 		marketPanel.add(marketQ);
 		marketPanel.add(marketList);
 		marketPanel.add(marketGo);
+		marketPanel.add(closeMarket);
 
 		TitledBorder housingTitle = BorderFactory.createTitledBorder(loweredetched, "Housing");
 		functionPanel.add(housingPanel);
@@ -250,6 +266,8 @@ public class CityGui extends JFrame implements ActionListener {
 		functionPanel.add(restaurantPanel);
 		restaurantPanel.setBorder(restTitle);
 		restaurantPanel.add(restaurantGo);
+		restaurantPanel.add(closeRestA);
+		restaurantPanel.add(closeRestN);
 
 		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
 		functionPanel.add(otherFunction);
@@ -260,12 +278,15 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(scen1);
 		otherFunction.add(scenA);
 		otherFunction.add(scenB);
+		otherFunction.add(scenP);
 		otherFunction.add(noAIGo);
+		otherFunction.add(tempGo);
 
 		busGo.addActionListener(this);
 		scen1.addActionListener(this);
 		scenA.addActionListener(this);
 		scenB.addActionListener(this);
+		scenP.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -273,6 +294,15 @@ public class CityGui extends JFrame implements ActionListener {
 		workGo.addActionListener(this);
 		housingList.addActionListener(this);
 		noAIGo.addActionListener(this);
+
+		closeRestA.addActionListener(this);
+		closeRestN.addActionListener(this);
+		closeMarket.addActionListener(this);
+		closeBank.addActionListener(this);
+		closeMarket.addActionListener(this);
+
+		tempGo.addActionListener(this);
+
 
 
 		// ************ END FUNCTION PANEL *********************
@@ -313,6 +343,7 @@ public class CityGui extends JFrame implements ActionListener {
 		createRestaurant("Norman's Restaurant", 257, 472);
 		createBank("Aleena's Bank - North", 73, 74);
 		createBank("Aleena's Bank - South", 16, 619);
+		createRestaurantA("Aleena Restaurant", 183, 266);
 		createMarket("Aleena's Market", 280, 265);
 		createApartment("The Chris Apartment Complex", 319, 90);
 
@@ -406,7 +437,7 @@ public class CityGui extends JFrame implements ActionListener {
 				if ((x<314) && (y<468) && (x>210) && (y>370))
 				{
 					for (Building b: buildings){
-						if (b.getType() == buildingType.restaurant){
+						if (b.getType() == buildingType.restaurant && b.owner.equals("Norman")){
 							Restaurant r = (Restaurant) b;
 							r.setPaymentFund(GovernmentFunds);
 							tempRes = r;
@@ -432,7 +463,34 @@ public class CityGui extends JFrame implements ActionListener {
 					}
 				}
 
+				if ((x<239) && (y<264) && (x>145) && (y>190))
+				{
+					for (Building b: buildings){
+						if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena")){
+							RestaurantA r = (RestaurantA) b;
+							//r.setPaymentFund(GovernmentFunds);
+							tempResA = r;
+							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempResA.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+								}
 
+								public void mouseEntered(MouseEvent e) {}
+								public void mouseExited(MouseEvent arg0) {}
+								public void mousePressed(MouseEvent arg0) {}
+								public void mouseReleased(MouseEvent arg0) {}
+
+							});
+						}
+
+					}
+				}
 
 				if ((x<398) && (y<85) && (x>257) && (y>0))
 				{
@@ -531,9 +589,39 @@ public class CityGui extends JFrame implements ActionListener {
 		scen1.setEnabled(false);
 		scenA.setEnabled(false);
 		scenB.setEnabled(false);
+		scenP.setEnabled(false);
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == closeBank){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.bank)
+					b.ForceClosed();
+			}
+			closeBank.setEnabled(false);
+		}
+		if (e.getSource() == closeRestN){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.restaurant && b.owner.equals("Norman"))
+					b.ForceClosed();
+			}
+			closeRestN.setEnabled(false);
+		}
+		if (e.getSource() == closeRestA){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena"))
+					b.ForceClosed();
+			}
+			closeRestA.setEnabled(false);
+		}
+		if (e.getSource() == closeMarket){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.market)
+					b.ForceClosed();
+			}
+			closeMarket.setEnabled(false);
+		}
+		
 		if (e.getSource() == busGo){
 			this.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 			busGo.setEnabled(false);
@@ -550,9 +638,17 @@ public class CityGui extends JFrame implements ActionListener {
 			Scenario.getInstance().CallScenarioB(this.cityPanel);
 			silenceScenButtons();
 		}
+		if (e.getSource() == scenP){
+			Scenario.getInstance().CallScenarioP(this.cityPanel);
+			silenceScenButtons();
+		}
 		if (e.getSource() == noAIGo){
 			this.cityPanel.setNoAI(true);
 			noAIGo.setEnabled(false);
+		}
+		if (e.getSource() == tempGo){
+			Scenario.getInstance().CallScenarioTest(this.cityPanel);
+			silenceScenButtons();
 		}
 		if (currentPerson != null){
 			if (e.getSource() == restaurantGo) 
@@ -682,6 +778,17 @@ public class CityGui extends JFrame implements ActionListener {
 			RestaurantGui rg = new RestaurantGui();
 			rg.setTrackerGui(trackingWindow);
 			Restaurant r = new Restaurant(rg, name);
+			r.setPaymentFund(GovernmentFunds);
+			rg.setRestaurant(r);
+			r.setEntrance(x,y);
+			buildings.add(r); 
+	}
+	
+	public void createRestaurantA(String name, int x, int y)
+	{
+			restaurantA.gui.RestaurantGui rg = new restaurantA.gui.RestaurantGui();
+			rg.setTrackerGui(trackingWindow);
+			restaurantA.RestaurantA r = new restaurantA.RestaurantA(rg, name);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
 			buildings.add(r);
@@ -692,6 +799,7 @@ public class CityGui extends JFrame implements ActionListener {
 		BankGui bg = new BankGui();
 		bg.setTrackerGui(trackingWindow);
 		Bank b = new Bank(bg, name);
+		b.setPaymentFund(GovernmentFunds);
 		b.setEntrance(x,y);
 		buildings.add(b);
 	}
@@ -701,6 +809,7 @@ public class CityGui extends JFrame implements ActionListener {
 		MarketGui mg = new MarketGui();
 		mg.setTrackerGui(trackingWindow);
 		Market b = new Market(name, mg);
+		b.setPaymentFund(GovernmentFunds);
 		b.setEntrance(x,y);
 		buildings.add(b);
 	}
@@ -710,6 +819,7 @@ public class CityGui extends JFrame implements ActionListener {
 		HousingGui hg = new HousingGui();
 		hg.setTrackerGui(trackingWindow);
 		Apartment a = new Apartment(name, hg);
+		a.setPaymentFund(GovernmentFunds);
 		a.setEntrance(x,y);
 		buildings.add(a);
 	}

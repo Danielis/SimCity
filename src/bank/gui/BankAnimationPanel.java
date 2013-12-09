@@ -133,20 +133,21 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         
         
                 
-
+       	synchronized(guis){
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
-
+       	}
+synchronized(guis){
         for(Gui gui : guis) {
             if (gui.isPresent()) {
             	gui.draw(cashier);
             	gui.draw(host);
             }
         }
-        
+}
     }
 
     public void addGui(CustomerGui gui) {

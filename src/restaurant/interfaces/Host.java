@@ -1,6 +1,7 @@
 package restaurant.interfaces;
 
 import java.awt.image.ImageObserver;
+import java.util.List;
 
 import restaurant.CustomerAgent;
 import restaurant.TraditionalWaiterAgent;
@@ -35,8 +36,12 @@ public interface Host {
 
 	public abstract void setAnimPanel(RestaurantAnimationPanel animationPanel);
 
-	public abstract boolean canLeave();
-
 	public abstract void msgLeaveWork();
+
+	public abstract void msgRemoveWaiter(Waiter waiter);
+
+	public abstract List getCustomers();
+	
+	public abstract boolean areTablesEmpty();
 
 }

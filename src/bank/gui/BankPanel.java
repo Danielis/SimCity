@@ -26,9 +26,7 @@ import logging.AlertTag;
  */
 public class BankPanel extends JPanel {
 
-    //Host, cook, waiters and customers
     private BankHost host = null;
-    //private HostGui hostGui = new HostGui(host);
     
     int waiterindex = 0; 		//To assign waiters individual locations
     
@@ -40,7 +38,8 @@ public class BankPanel extends JPanel {
     private ListPanel waiterPanel = new ListPanel(this, "Tellers");
     private JPanel group = new JPanel();
         
-    
+    public ImageIcon iconDescription;
+    public JLabel picDescription;
     
     private BankGui gui; //reference to main gui
     
@@ -49,59 +48,27 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         this.gui = gui;
         
-//        host.setGui(hostGui);
-//        host.setAnimPanel(gui.animationPanel); TODO HOST
-//        gui.animationPanel.addGui(hostGui);
-//        host.startThread();
-        
+        iconDescription = new ImageIcon(getClass().getResource("/resources/img_bank.png"));
+        picDescription = new JLabel(iconDescription);
         
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
 
         group.add(customerPanel);
-        group.add(waiterPanel);
 
         initRestLabel();
-        //add(restLabel);
+        add(restLabel);
         add(group);
     }
 
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
     private void initRestLabel() {
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
         restLabel.setLayout(new BorderLayout());
-        
-          
-//         label.setText(
-//                "<html>"
-//	                + "<h3><u>Tonight's Staff</u></h3>"
-//	                + "<table>"
-//	                	+ "<tr><td>Host:</td><td>" + host.getName() + "</td></tr>"
-//        			+ "</table>"
-//	                + "<h3><u> Menu</u></h3>"
-//	                + "<table>"
-//		                + "<tr><td>Steak</td><td>$15.99</td></tr>"
-//		                + "<tr><td>Chicken</td><td>$10.99</td></tr>"
-//		                + "<tr><td>Salad</td><td>$5.99</td></tr>"
-//		                + "<tr><td>Pizza</td><td>$8.99</td></tr>"
-//	                + "</table><br>"
-//                + "</html>");
-         
-
+     
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+        
+        restLabel.add(picDescription, BorderLayout.CENTER);
     }
 
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
-     */
     public void showCustomerInfo(String name)
     {
         for (int i = 0; i < customers.size(); i++) {
@@ -134,9 +101,8 @@ public class BankPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
-    public void addCustomer(BankCustomer c) 
+    public void addCustomer(BankCustomerRole c) 
     {
-     //   gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Customer Added", new Date()));
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setHost(host);  
@@ -144,12 +110,9 @@ public class BankPanel extends JPanel {
 		g.setAction();
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
-		//c.startThread();
     }
     
     public void addHost(BankHost host) {
-       // gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Host Added", new Date()));
-		// TODO Auto-generated method stub
 		HostGui g = new HostGui(host, gui);
 		gui.animationPanel.addGui(g);
 		host.setBank(b);
@@ -162,7 +125,6 @@ public class BankPanel extends JPanel {
     
     public void addTeller(Teller c) 
     {
-    	// gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankPanel", "Teller Added", new Date()));
 		Teller w = c;	
 		b.addTeller(w);
 		c.setTableNum(b.setTable()); 
@@ -173,24 +135,9 @@ public class BankPanel extends JPanel {
 		gui.animationPanel.addGui(g);
 		w.setHost(host);  
 		w.setAnimPanel(gui.animationPanel);
-		//host.msgNewTeller(w); 
 		w.setGui(g);
 		waiters.add(w);
-		//w.startThread();
     }
-    
-    
-//    public void addCustomer(String name) 
-//    {
-//		BankCustomerRole c = new BankCustomerRole(name);	
-//		CustomerGui g = new CustomerGui(c, gui);
-//		gui.animationPanel.addGui(g);
-//		c.setHost(host);
-//		c.setGui(g);
-//		c.setAnimPanel(gui.animationPanel);
-//		customers.add(c);
-//		c.startThread();
-//    }
     
     public void refresh()
     {

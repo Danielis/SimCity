@@ -5,6 +5,9 @@ import restaurantA.HostAgent;
 import restaurantA.Table;
 
 import java.awt.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class CookGui implements Gui{
 
@@ -18,12 +21,26 @@ public class CookGui implements Gui{
 	Boolean plate = false;
 	String grillFood;
 	String plateFood;
-
+	Boolean isPresent = true;
+	Image img, food1, food2;
 	public CookGui(CookAgent c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = 400;
 		yPos = 50;
 		this.gui = gui;
+		
+		 try
+	        {
+	        	img = ImageIO.read(getClass().getResource("/resources/restSprites/A/cook.png"));
+	        } catch (IOException e ) {}
+		 try
+	        {
+	        	food1 = ImageIO.read(getClass().getResource("/resources/restSprites/A/foodLOL.png"));
+	        } catch (IOException e ) {}
+		 try
+	        {
+	        	food2 = ImageIO.read(getClass().getResource("/resources/restSprites/A/food2.png"));
+	        } catch (IOException e ) {}
 	}
 
 	public void updatePosition() {
@@ -31,26 +48,23 @@ public class CookGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.PINK);
-		g.fillRect(xPos, yPos, 20, 20);
+	
 		
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(xPos + 5, yPos + 25, 15, 15);
+		if (isPresent){
+	        g.drawImage(img, xPos, yPos, agent.copyOfAnimPanel);
+	    	}
 		
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(xPos + 5, yPos - 20, 15, 15);
 		
 		if(grill){
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect(xPos + 5, yPos - 20, 10, 10);
-			if (!grillFood.isEmpty())
-            g.drawString(grillFood, xPos + 5, yPos - 20);
+		
+			g.drawImage(food1, xPos - 20, yPos - 7, agent.copyOfAnimPanel);
+			//if (!grillFood.isEmpty())
+           // g.drawString(grillFood, xPos + 10, yPos - 17);
 		}
 		if(plate){
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect(xPos + 5, yPos + 25, 10, 10);
-			if (!plateFood.isEmpty())
-            g.drawString(plateFood, xPos + 5, yPos + 50);
+			g.drawImage(food2, xPos - 20, yPos  + 20, agent.copyOfAnimPanel);
+			//if (!plateFood.isEmpty())
+           // g.drawString(plateFood, xPos + 5, yPos + 45);
 		}
 		
 	}
@@ -81,7 +95,10 @@ public class CookGui implements Gui{
 	
 	@Override
 	public boolean isPresent() {
-		// TODO Auto-generated method stub
-		return true;
+		return isPresent;
+	}
+
+	public void setDone() {
+		isPresent = false;
 	}
 }

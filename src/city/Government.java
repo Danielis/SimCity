@@ -21,6 +21,7 @@ Day LastChecked = Day.monday;
 	protected boolean pickAndExecuteAnAction() {
 		if (WakeUp() && DayOverWake())
 			msgPeopleWake();
+		
 		if (GoHome() && DayOverHome())
 			msgStopWorking();
 
@@ -60,7 +61,7 @@ Day LastChecked = Day.monday;
 	}	
 	
 	private boolean WakeUp() {
-		return (TimeManager.getInstance().getHour() == 5);
+		return (TimeManager.getInstance().getHour() == 4);
 	}
 
 	private Boolean GetPaid(){
@@ -88,8 +89,10 @@ Day LastChecked = Day.monday;
 		for (PersonAgent p : people){
 			p.msgWakeUp();
 			if (p.Status.getLocation() == location.work){
+				try{
 				for (Role r : p.roles)
 					r.msgLeaveWork();
+				} catch (ConcurrentModificationException e){}
 			}
 		}
 		

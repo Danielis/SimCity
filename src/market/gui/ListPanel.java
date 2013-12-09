@@ -65,19 +65,19 @@ public class ListPanel extends JPanel implements ActionListener {
         bottomPart_waiter.setLayout(new BorderLayout());
         
         setLayout(new BorderLayout());
-        JLabel name = new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>");
+        JLabel name = new JLabel("Current People In The Market");
         name.setAlignmentY(CENTER_ALIGNMENT);
         
         if (type == "Customers"){
-        	topPart_customer.add(name, BorderLayout.NORTH);
+        	topPart_customer.add(name, BorderLayout.CENTER);
             addCustomerButton.addActionListener(this);
-            topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
+            //topPart_customer.add(nameFieldForCustomer, BorderLayout.CENTER);
             customerHungryCheckBox.addActionListener(this);
-           topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
+           //topPart_customer.add(customerHungryCheckBox, BorderLayout.SOUTH);
             customerHungryCheckBox.setMinimumSize(new Dimension(250,100));
             viewForCustomer.setLayout(new BoxLayout((Container) viewForCustomer, BoxLayout.Y_AXIS));
             customerPane.setViewportView(viewForCustomer);
-            bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
+            //bottomPart_customer.add(addCustomerButton, BorderLayout.NORTH);
             bottomPart_customer.add(customerPane, BorderLayout.CENTER);
             add(topPart_customer, BorderLayout.NORTH);
             add(bottomPart_customer, BorderLayout.CENTER);

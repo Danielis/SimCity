@@ -10,7 +10,6 @@ import restaurantA.CashierAgent;
 import restaurantA.Check;
 import restaurantA.Table;
 import restaurantA.Check.checkState;
-import restaurantA.CookAgent.MyMenuItem;
 import restaurantA.interfaces.Cashier;
 import restaurantA.test.mock.MockCook;
 import restaurantA.test.mock.MockCustomer;

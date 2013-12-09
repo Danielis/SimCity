@@ -445,7 +445,7 @@ public class MockCook extends Mock implements Cook
 			if (myState == WorkState.needToLeave)
 			{
 				//if there's no customers in the restaurant and the cook has no orders
-				if(rest.panel.host.canLeave() && 
+				if(rest.canLeave() && 
 						this.orders.size() == 0 && 
 						noItemsOrdered())
 				{

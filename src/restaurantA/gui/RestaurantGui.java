@@ -1,6 +1,7 @@
 package restaurantA.gui;
 
 import restaurantA.CustomerAgent;
+import restaurantA.RestaurantA;
 import restaurantA.WaiterAgent;
 import restaurantA.interfaces.Customer;
 
@@ -8,6 +9,8 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+
+import logging.TrackerGui;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -25,7 +28,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    public RestaurantPanel restPanel = new RestaurantPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -34,7 +37,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     public JButton orderButton;
     public JButton addMarket;
     private JCheckBox stateCB;//part of infoLabel
-
+    public RestaurantA rest;
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
 
@@ -44,26 +47,18 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public RestaurantGui() {
     	paused = false;
-        int WINDOWX = 950;
-        int WINDOWY = 900;
-
-//        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        animationFrame.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
-//        animationFrame.setVisible(true);
-//    	animationFrame.add(animationPanel); 
+        int WINDOWX = 600;
+        int WINDOWY = 500;
     	
-    	setBounds(50, 50, WINDOWX, WINDOWY);
-
-        setLayout(new BoxLayout((Container) getContentPane(), 
-        		BoxLayout.Y_AXIS));
-        
-    
+    	setBounds(50, 50, WINDOWX + 650, WINDOWY + 170);
+        setLayout(new BorderLayout());
+       
 
         Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .4));
         restPanel.setPreferredSize(restDim);
         restPanel.setMinimumSize(restDim);
         restPanel.setMaximumSize(restDim);
-        add(restPanel);
+        add(restPanel, BorderLayout.EAST);
         
         addMarket = new JButton();
         addMarket.setVisible(true);
@@ -73,7 +68,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         addMarket.setPreferredSize(buttonDim);
         addMarket.setMinimumSize(buttonDim);
         addMarket.setMaximumSize(buttonDim);
-        add(addMarket);
+       // add(addMarket);
         
         pauseButton = new JButton();
         pauseButton.setVisible(true);
@@ -82,7 +77,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         pauseButton.setPreferredSize(buttonDim);
         pauseButton.setMinimumSize(buttonDim);
         pauseButton.setMaximumSize(buttonDim);
-        add(pauseButton);
+        //add(pauseButton);
         
         orderButton = new JButton();
         orderButton.setVisible(true);
@@ -91,14 +86,13 @@ public class RestaurantGui extends JFrame implements ActionListener {
         orderButton.setPreferredSize(buttonDim);
         orderButton.setMinimumSize(buttonDim);
         orderButton.setMaximumSize(buttonDim);
-        add(orderButton);
+       // add(orderButton);
         
         Dimension animDim = new Dimension(WINDOWX, (int) (WINDOWY * .6));
         animationPanel.setPreferredSize(animDim);
         animationPanel.setMinimumSize(animDim);
         animationPanel.setMaximumSize(animDim);
-        add(animationPanel);
-        
+        add(animationPanel, BorderLayout.WEST);
    
         
         // Now, setup the info panel
@@ -116,7 +110,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoLabel = new JLabel(); 
-        infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoLabel.setText("<html><pre><i>Select a customer</i></pre></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
         restPanel.restLabel.add(infoPanel);
@@ -211,12 +205,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
 //            	System.out.println("pause button pressed");
 //        	}	
         }
-        else if (e.getSource() == addMarket){
-        	restPanel.cook.addMarket();
-        }
-        else if (e.getSource() == orderButton){
-        	restPanel.cook.CheckStock();
-        }
+//        else if (e.getSource() == addMarket){
+//        	restPanel.cook.addMarket();
+//        }
+//        else if (e.getSource() == orderButton){
+//        	restPanel.cook.CheckStock();
+//        }
     }
     /**
      * Message sent from a customer gui to enable that customer's
@@ -243,4 +237,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+	public void setTrackerGui(TrackerGui trackingWindow) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRestaurant(RestaurantA r) {
+		rest = r;
+        animationPanel.setRest(rest);
+	}
 }

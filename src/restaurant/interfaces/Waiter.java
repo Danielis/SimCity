@@ -18,6 +18,8 @@ public interface Waiter
 
 	public boolean isOnBreak = false;
 	
+	public boolean assigned = false;
+	
 	public abstract void msgSetOffBreak();
 	
 	public abstract void msgSetOnBreak();
@@ -64,4 +66,7 @@ public interface Waiter
 
 	public abstract void msgLeaveWork();
 	
+	public void setAssigned();
+	
+	public boolean isAssigned();
 }

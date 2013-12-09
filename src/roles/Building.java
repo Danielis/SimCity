@@ -1,6 +1,6 @@
 package roles;
 
-public class Building {
+public abstract class Building {
 
 	public Coordinate entrance;
 	Coordinate topLeft;
@@ -10,6 +10,10 @@ public class Building {
 	public buildingType type;
 	public String name;
 	public double PaymentFund;
+	public Boolean forceClosed = false;
+
+	public Object panel;
+	public String owner = "None";
 	
 	public enum buildingType{bank, restaurant, market, housingComplex};
 	
@@ -33,6 +37,26 @@ public class Building {
 	public void setEntrance(int x, int y) {
 		Coordinate c = new Coordinate(x,y);
 		entrance = c;
+	}
+
+	public abstract Boolean isOpen();
+	
+	public boolean lowOnFunds()
+	{
+		if (PaymentFund < 1000)
+		{
+			return true;
+		}
+		else return false;
+	}
+	
+	public void addFunds(double amount)
+	{
+		PaymentFund += amount;
+	}
+
+	public void ForceClosed() {
+		forceClosed = true;
 	}
 	
 }

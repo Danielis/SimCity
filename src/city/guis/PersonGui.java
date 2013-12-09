@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 import roles.Coordinate;
 import city.PersonAgent;
-
+import city.PersonAgent.*;
 public class PersonGui implements Gui{
 	
 	//variables
@@ -57,6 +57,7 @@ public class PersonGui implements Gui{
 	
 	Coordinate checkpointHouse;
 
+	String direct = "down";
 	
 	Coordinate position;
 	Coordinate destination;
@@ -104,7 +105,6 @@ public class PersonGui implements Gui{
 //		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
 		
-
 		//checkpointA = new Coordinate(395,250);
 		//checkpointB = new Coordinate(395,125);
 		//checkpointC = new Coordinate(320,125);
@@ -135,21 +135,151 @@ public class PersonGui implements Gui{
    
     
     private void setAnim1() {
-		 try
+    	
+    	if (agent.job.type.equals(JobType.bankHost)){
+   		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost1.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.teller)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller1.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.restHost)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost1.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.waiter)){
+     		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter1.png"));
+    	       } catch (IOException e ) {}
+      	}
+    	else if (agent.job.type.equals(JobType.cashier)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier1.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.cook)){
+     		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook1.png"));
+    	       } catch (IOException e ) {}
+      	}
+    	else if (agent.job.type.equals(JobType.crook)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook1.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else 
+    		try
 	       {
 			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_1.png"));
 	       } catch (IOException e ) {}
 	}
 	
     private void setAnim2() {
-    	try
+    	if (agent.job.type.equals(JobType.bankHost)){
+      		 try
+      	       {
+      			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost2.png"));
+      	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.teller)){
+     		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller2.png"));
+    	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.restHost)){
+      		 try
+    	       {
+    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost2.png"));
+    	       } catch (IOException e ) {}
+      	}
+    	else if (agent.job.type.equals(JobType.waiter)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter2.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.cashier)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier2.png"));
+     	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.cook)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook2.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.crook)){
+      		 try
+     	       {
+     			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook2.png"));
+     	       } catch (IOException e ) {}
+       	}
+       	else 
+       		try
     	{
     		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
     	} catch (IOException e ) {}
     }
 
     private void setDefault() {
-    	try
+    	if (agent.job.type.equals(JobType.bankHost)){
+      		 try
+      	       {
+      			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost3.png"));
+      	       } catch (IOException e ) {}
+       	}
+    	else if (agent.job.type.equals(JobType.teller)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller3.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.restHost)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost3.png"));
+  	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.waiter)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter3.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.cashier)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier3.png"));
+  	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.cook)){
+    		 try
+   	       {
+   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook3.png"));
+   	       } catch (IOException e ) {}
+     	}
+    	else if (agent.job.type.equals(JobType.crook)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook3.png"));
+  	       } catch (IOException e ) {}
+    	}
+       	else
+       		try
     	{
     		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
     	} catch (IOException e ) {}
@@ -164,89 +294,118 @@ public class PersonGui implements Gui{
 
     		if (deltax < 0) deltax *= -1;
     		if (deltay < 0) deltay *= -1;
+    		
+            if (position.x < destination.x)
+            {
+            	direct = "right";
+            	setImage();
+                position.x += (1 + deltax/deltadivider);
+                movementTicker++;
+            }
+            else if (position.x > destination.x)
+            {
+            	direct = "left";
+            	setImage();
+                position.x -= (1 + deltax/deltadivider);
+                movementTicker++;
+            }
 
+            else if (position.y < destination.y)
+            {
+            	direct = "down";
+            	setImage();
+                position.y += (1 + deltay/deltadivider);
+                movementTicker++;
+            }
+            
+            else if (position.y > destination.y)
+            {
+            	direct = "up";
+            	setImage();
+                position.y -= (1 + deltay/deltadivider);
+                movementTicker++;
+            }
+//            if(!agent.hasCar()){
+//            	if (movementTicker < 30)
+//            	{
+//            		//setAnim1();
+//            	}
+//            	else if (movementTicker < 60)
+//            	{
+//            		//setAnim2();
+//            	}
+//            	else if (movementTicker >= 60)
+//            	{
+//            		movementTicker = 0;
+//            	}
+//            }
+            if (position.x == destination.x && position.y == destination.y)
+            {
+            	setImage();
+            	goingSomewhere = false;
+            	agent.DoneWithAnimation();
+            }
 
-    		if (position.x < destination.x)
-    		{
-    			setImg("right");
-    			position.x += (1 + deltax/deltadivider);
-    			movementTicker++;
-    		}
-    		else if (position.x > destination.x)
-    		{
-    			setImg("left");
-    			position.x -= (1 + deltax/deltadivider);
-    			movementTicker++;
-    		}
-
-    		else if (position.y < destination.y)
-    		{
-    			setImg("up");
-    			position.y += (1 + deltay/deltadivider);
-    			movementTicker++;
-    		}
-
-    		else if (position.y > destination.y)
-    		{
-    			setImg("down");
-    			position.y -= (1 + deltay/deltadivider);
-    			movementTicker++;
-    		}
-    		if(!agent.hasCar()){
-    			if (movementTicker < 30)
-    			{
-    				setAnim1();
-    			}
-    			else if (movementTicker < 60)
-    			{
-    				setAnim2();
-    			}
-    			else if (movementTicker >= 60)
-    			{
-    				movementTicker = 0;
-    			}
-    		}
-    		if (position.x == destination.x && position.y == destination.y)
-    		{
-    			goingSomewhere = false;
-    			agent.DoneWithAnimation();
-    		}
     	}
 		else
 		{
 			setDefault();
 		}
 	}
-
-	private void setImg(String string) {
-		if (agent.hasCar()){
-			if (string.equals("up")){
+    
+    private void setImage(){
+    	if (agent.hasCar()){
+			if (direct.equals("down")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
 				} catch (IOException e ) {}
 			}
 
-			if (string.equals("down")){
+			if (direct.equals("up")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
 				} catch (IOException e ) {}
 			}
-			if (string.equals("right")){
+			if (direct.equals("right")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
 				} catch (IOException e ) {}
 			}
-			if (string.equals("left")){
+			if (direct.equals("left")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
 				} catch (IOException e ) {}
 			}
 		}
+    	else{
+		String start = "/resources/globalSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (movementTicker >= 50 || !goingSomewhere){
+			num = "0";
+			movementTicker = 0;
+		}
+        else if (movementTicker < 25)
+        	num = "2";
+        else if (movementTicker < 50)
+        	num = "1";
+    
+       // resource/globalSprites/None/left0.png
+		String collapse = start + agent.job.type.toString() + "/" + mid + num + end;
+		//System.out.println(collapse);
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
+    	}
 	}
+
+
 
 
 	public void draw(Graphics2D g) 

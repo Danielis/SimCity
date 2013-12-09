@@ -32,23 +32,11 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public ModernWaiterRole(String string, Restaurant r, double cash)
-	{
-		super();
-		this.name = string;
-		balance = cash;
-		
-		//set all items of food available
-		for (int i = 0; i<4; i++)
-		{
-			foodsAvailable.add(true);
-		}
-		//theMonitor = ;
-	}
-	public ModernWaiterRole(String name, Restaurant r) {
-		super();
+	public ModernWaiterRole(String name, Restaurant r, double cash) {
+		super(name, r);
 		this.rest = r;
 		this.name = name;
+		balance = cash;
 		theMonitor = r.theMonitor;
 		print("I'm a modern waiter! I love the ticket system.");
 	}
@@ -156,7 +144,7 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 			
 			if (myWorkState == WorkState.needToLeave)
 			{
-				if(rest.panel.host.canLeave())
+				if(rest.canLeave())
 				{
 					LeaveWork();
 					return true;
@@ -168,13 +156,11 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 		catch(ConcurrentModificationException e)
 		{
 			waiterGui.DoGoToHomePosition();
-			return false;
+			return true;
 		}
 	}
 
 //ACTIONS********************************************************
-
-	
 	
 	public void PlaceTicket(MyCustomer mc)
 	{
@@ -190,9 +176,6 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
                 + " with order of " + data.choice, new Date()));
 
         theMonitor.insert(data);
-        
-        //try{sleep(1000);}
-        //catch(InterruptedException ex){};
 	}
 	
 	public Ticket produce_item(Waiter w, String choice, int tb){

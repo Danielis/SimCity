@@ -3,12 +3,16 @@ package restaurantA.gui;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.Table;
+import restaurantA.interfaces.Customer;
 
 import java.awt.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private Customer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean isEating = false;
@@ -22,10 +26,10 @@ public class CustomerGui implements Gui{
 	private int xDestination, yDestination;
 	private enum Command {noCommand, GoToSeat, LeaveRestaurant, GoToCashier};
 	private Command command=Command.noCommand;
+	Image img, food;
 
 
-
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(Customer c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
@@ -33,6 +37,16 @@ public class CustomerGui implements Gui{
 		yDestination = 0;
 		//maitreD = m;
 		this.gui = gui;
+		
+		 try
+	        {
+			 img = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+	        } catch (IOException e ) {}
+		 
+		 try
+	        {
+			 food = ImageIO.read(getClass().getResource("/resources/restSprites/A/food2.png"));
+	        } catch (IOException e ) {}
 	}
 
 	public void updatePosition() {
@@ -63,16 +77,13 @@ public class CustomerGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, 20, 20);
-		
+		g.drawImage(img, xPos, yPos, agent.copyOfAnimPanel);
+
 		
 		
 		 if (isEating){
-	            g.setColor(Color.DARK_GRAY);
-	            g.fillRect(xPos+20, yPos, 10, 10);
-	            g.drawString(choice.substring(0,3), xPos+20, yPos+20);
-	            }
+	    		g.drawImage(food, xPos + 1, yPos + 26, agent.copyOfAnimPanel);
+	      }
 		 
 		 if (isOrdering){
 			 g.setColor(Color.DARK_GRAY);
@@ -114,8 +125,8 @@ public class CustomerGui implements Gui{
 	}
 
 	public void DoGoToSeat(Table table) {//later you will map seatnumber to table coordinates.
-		xDestination = table.getxPos();
-		yDestination = table.getyPos();
+		xDestination = table.getxPos() + 15;
+		yDestination = table.getyPos() - 23;
 		command = Command.GoToSeat;
 	}
 
@@ -126,8 +137,8 @@ public class CustomerGui implements Gui{
 	}
 	
 	public void DoGoToCashier() {
-		xDestination = 60;
-		yDestination = 20;
+		xDestination = 80;
+		yDestination = 30;
 		command = Command.GoToCashier;
 	}
 

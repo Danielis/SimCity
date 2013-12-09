@@ -40,6 +40,9 @@ public class WaiterRole extends Role implements Waiter
 	public Boolean isOnBreak = false;
 	public myState state = myState.none;
 	public double balance;
+	public boolean assigned = false;
+	public double salary;
+	
 	//Menu
 	RestaurantMenu Menu;
 	Restaurant rest;
@@ -48,6 +51,7 @@ public class WaiterRole extends Role implements Waiter
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
+	/*
 	public WaiterRole()
 	{
 		super();
@@ -58,11 +62,16 @@ public class WaiterRole extends Role implements Waiter
 		{
 			foodsAvailable.add(true);
 		}
-	}
+	}*/
 	public WaiterRole(String name, Restaurant rest) {
 		super();
 		this.rest = rest;
 		this.name = name;
+		
+		for (int i = 0; i<4; i++)
+		{
+			foodsAvailable.add(true);
+		}
 	}
 
 //UTILITIES***************************************************
@@ -82,6 +91,21 @@ public class WaiterRole extends Role implements Waiter
 	
 	public void setHost(Host host) {
 		this.host = host;
+	}
+	
+	public void setAssigned()
+	{
+		assigned = true;
+	}
+	
+	public boolean isAssigned()
+	{
+		return assigned;
+	}
+	
+	public void setSalary(double s)
+	{
+		salary = s;
 	}
 	
 	public void setCook(Cook cook) {
@@ -122,7 +146,7 @@ public class WaiterRole extends Role implements Waiter
 
 //MESSAGES****************************************************
 	public void msgGetPaid(){
-		balance =+50;
+		balance += this.rest.takePaymentForWork(salary);
 	}
 	public void msgSetOffBreak()
 	{/*
@@ -316,7 +340,7 @@ public class WaiterRole extends Role implements Waiter
 		catch(ConcurrentModificationException e)
 		{
 			waiterGui.DoGoToHomePosition();
-			return false;
+			return true;
 		}
 	}
 

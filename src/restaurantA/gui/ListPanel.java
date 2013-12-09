@@ -1,9 +1,16 @@
 package restaurantA.gui;
 
+import restaurantA.interfaces.Customer;
+import restaurantA.CashierAgent;
+import restaurantA.CookAgent;
 import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
+import restaurantA.RestaurantA;
+import restaurantA.WaiterAgent;
 
 import javax.swing.*;
+
+import bank.interfaces.BankHost;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -24,7 +31,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JButton addPersonB = new JButton("Add");
     private JTextField nameInput = new JTextField();
     
-    private JCheckBox hungry = new JCheckBox("Hungry?");
+    public JCheckBox hungry = new JCheckBox("Hungry?");
     private RestaurantPanel restPanel;
     private String type;
  
@@ -41,17 +48,17 @@ public class ListPanel extends JPanel implements ActionListener {
         this.type = type;
         
         setLayout(new FlowLayout());
-        add(new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>"));
+        //add(new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>"));
         nameInput.setPreferredSize( new Dimension( 200, 24 ) );
-        add(nameInput);
+       // add(nameInput);
         
-        if (type == "Customers")
-        add(hungry);
+       // if (type == "Customers")
+        //add(hungry);
         
    
 
         addPersonB.addActionListener(this);
-        add(addPersonB);
+        //add(addPersonB);
 
         view.setLayout(new BoxLayout((Container) view, BoxLayout.Y_AXIS));
         pane.setViewportView(view);
@@ -113,4 +120,41 @@ public class ListPanel extends JPanel implements ActionListener {
             
         }
     }
+
+	public void addCustomer(Customer c, RestaurantA r) {
+		 JButton button = new JButton(c.getName());
+         button.setBackground(Color.white);
+
+         Dimension paneSize = pane.getSize();
+         Dimension buttonSize = new Dimension(paneSize.width - 20,
+                 (int) (paneSize.height / 10));
+         button.setPreferredSize(buttonSize);
+         button.setMinimumSize(buttonSize);
+         button.setMaximumSize(buttonSize);
+         button.addActionListener(this);
+         list.add(button);
+         view.add(button);
+      
+         restPanel.addCustomer(type, c, true);//puts customer on list
+         restPanel.showInfo(type, c.getName());//puts hungry button on panel
+         nameInput.setText("");
+         hungry.setSelected(false);
+         validate();
+	}
+
+	public void addHost(HostAgent c) {
+		restPanel.addHost(c);
+	}
+
+	public void addWaiter(WaiterAgent c) {
+		restPanel.addWaiter(c);
+	}
+
+	public void addCook(CookAgent c) {
+		restPanel.addCook(c);
+	}
+
+	public void addCashier(CashierAgent c) {
+		restPanel.addCashier(c);
+	}
 }

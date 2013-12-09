@@ -5,8 +5,7 @@ import java.util.List;
 
 import market.MarketCustomerRole;
 import bank.BankCustomerRole;
-import bank.Bank.Account;
-import bank.Bank.Loan;
+import city.BankDatabase.*;
 import city.Interfaces.Person;
 import agent.RestaurantMenu;
 import restaurant.CashierAgent;

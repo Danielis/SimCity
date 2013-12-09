@@ -25,22 +25,19 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
 	//Constructors
-	public TraditionalWaiterRole(String string, Restaurant r)
+	public TraditionalWaiterRole(String name, Restaurant r, double cash)
 	{
-		super();
+		super(name, r);
 		this.rest = r;
-		this.name = string;
+		this.name = name;
+		balance = cash;
 		
 		//set all items of food available
 		for (int i = 0; i<4; i++)
 		{
 			foodsAvailable.add(true);
 		}
-	}
-	public TraditionalWaiterRole(String name) {
-		super();
 
-		this.name = name;
 		print("I'm a traditional waiter! I hate the ticket system.");
 	}
 
@@ -148,7 +145,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 			
 			if (myWorkState == WorkState.needToLeave)
 			{
-				if(rest.panel.host.canLeave())
+				if(rest.canLeave())
 				{
 					LeaveWork();
 					return true;
@@ -160,7 +157,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		catch(ConcurrentModificationException e)
 		{
 			waiterGui.DoGoToHomePosition();
-			return false;
+			return true;
 		}
 	}
 
@@ -184,7 +181,7 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 		myWorkState = WorkState.leaving;
 		print("TraditionalWaiterRole: Called to leave work.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "TraditionalWaiterRole", "Called to leave work.", new Date()));
-		myPerson.msgLeftWork(this, 0);
+		myPerson.msgLeftWork(this, this.balance);
 	}
 
 }

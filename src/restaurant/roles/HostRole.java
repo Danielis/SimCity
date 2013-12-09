@@ -29,7 +29,6 @@ public class HostRole extends Role implements Host{
 	public RestaurantAnimationPanel copyOfAnimPanel;
 	
 	public WorkState myState = WorkState.none;
-	boolean workersCanLeave = false;
 	public double salary;
 	
 	Restaurant r;
@@ -60,10 +59,6 @@ public class HostRole extends Role implements Host{
 	}
 
 //UTILITIES************************************************************
-	public boolean canLeave()
-	{
-		return workersCanLeave;
-	}
 	
 	public String getMaitreDName() {
 		return name;
@@ -226,6 +221,11 @@ public class HostRole extends Role implements Host{
 	{
 		waiters.add(new MyWaiter(w, 0, false));	
 		stateChanged();
+	}
+	
+	public void msgRemoveWaiter(Waiter w)
+	{
+		waiters.remove(w);
 	}
 	
 	public void msgCheckForASpot(Customer cust)
@@ -435,17 +435,10 @@ public class HostRole extends Role implements Host{
 				}
 			}
 
-			//checking if others can leave
-			if(customers.size() == 0 && areTablesEmpty())
-			{
-				workersCanLeave = true;
-			}
-
 		//Check if this host can leave
 		if (myState == WorkState.needToLeave)
 		{
-			System.out.println("CustomerSize: " + customers.size());
-			if(customers.size() == 0 && areTablesEmpty())
+			if(this.areTablesEmpty() && customers.size() == 0)
 			{
 				LeaveWork();
 				return true;
@@ -455,7 +448,7 @@ public class HostRole extends Role implements Host{
 		return false;
 		} catch(ConcurrentModificationException e)
 		{ 
-			return false; 
+			return true; 
 		}	
 	}
 
@@ -488,6 +481,7 @@ public class HostRole extends Role implements Host{
 			}
 		}
 	}
+	
 	private void AssignCustomer(MyCustomer mc, Table t) {
 		//Assign waiter, message waiter, take care of the table
 		MyWaiter w = PickWaiter();
@@ -520,7 +514,6 @@ public class HostRole extends Role implements Host{
 			mw.w.msgBreakGranted(false);
 		}
 	}
-
 	
 	public void WaitForAnimation()
 	{
@@ -549,7 +542,7 @@ public class HostRole extends Role implements Host{
 	{
 		for (int i = 0; i<4; i++)
 		{
-			if(tables.get(0).isOccupied)
+			if(tables.get(i).isOccupied)
 				return false;
 		}
 		System.out.println("Tables are empty");

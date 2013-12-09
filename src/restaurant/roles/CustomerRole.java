@@ -507,6 +507,7 @@ public class CustomerRole extends Role implements Customer {
 		customerGui.setNotHungry();
 		state = myState.finished;
 		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
+		restaurant.panel.customerPanel.removeCustomer(this);
 	}
 	
 	private void Leave()
@@ -519,6 +520,7 @@ public class CustomerRole extends Role implements Customer {
 		state = myState.finished;
 		customerGui.setNotHungry();
 		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
+		restaurant.panel.customerPanel.removeCustomer(this);
 	}
 	
 	private void LeaveBecauseFull()
@@ -531,6 +533,7 @@ public class CustomerRole extends Role implements Customer {
 		state = myState.finished;
 		customerGui.setNotHungry();
 		this.myPerson.msgLeavingRestaurant(this, this.myMoney);
+		restaurant.panel.customerPanel.removeCustomer(this);
 	}
 
 //UTILITIES*************************************************

@@ -18,12 +18,6 @@ import restaurant.test.mock.MockWaiter;
 import roles.Role;
 
 public class CityRunTests extends TestCase {
-    //these are instantiated for each test separately via the setUp() method.
-//    CashierAgent cashier;
-//    MockWaiter waiter;
-//    MockCustomer customer;
-//    MockMarket market1;
-//    MockMarket market2;
 	
 	PersonAgent person;
 	CityGui gui;
@@ -54,7 +48,7 @@ public class CityRunTests extends TestCase {
     	person.addRole(new HostRole("Test", 1000));
     	assertEquals("Person should have only one role", person.roles.size(), 1);
     	Restaurant testRestaurant = new Restaurant(new RestaurantGui(), "Norman");
-    	Role t = new TraditionalWaiterRole("Test", testRestaurant);
+    	Role t = new TraditionalWaiterRole("Test", testRestaurant, 100);
     	person.addRole(t);
     	assertEquals("Person should now have two roles", person.roles.size(), 2);
     	testRestaurant.addWaiter((Waiter)t);

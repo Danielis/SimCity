@@ -1,9 +1,13 @@
 package restaurantA;
 
 import java.util.Timer;
+
+import roles.*;
+
 import java.util.TimerTask;
 
 import agent.Agent;
+import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.HostGui;
 import restaurantA.interfaces.Customer;
 import restaurantA.interfaces.Waiter;
@@ -18,7 +22,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostAgent extends Agent {
+public class HostAgent extends Role {
 	public static final int NTABLES = 2;//a global for the number of tables.
 	public static final int NWAITERS = 1;
 	Timer timer;
@@ -29,11 +33,13 @@ public class HostAgent extends Agent {
 	public ArrayList<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
-	
+	public RestaurantA rest;
 	private String name;
 	public List<WaiterAgent> waiters;
 	public List<MyWaiter> myWaiters;
-	
+	public AnimationPanel copyOfAnimPanel = null;
+	private double balance = 0;
+	private Boolean leave = false;
 	class MyWaiter{
 		WaiterAgent w;
 		waiterState s;
@@ -107,13 +113,25 @@ public class HostAgent extends Agent {
 	}
 	
 	public void waiterAdded(){
+		setWaiters();
 		stateChanged();
+	}
+	
+	public void setWaiters(){
+		for (WaiterAgent w : waiters){
+			Boolean found = false;
+			for (MyWaiter mw : myWaiters){
+				if (mw.w.equals(w))
+					found = true;
+			}
+			if (!found)
+				myWaiters.add(new MyWaiter(w));
+		}
 	}
 
 	public void msgIWantFood(CustomerAgent cust) {
 		waitingCustomers.add(cust);
 		updateCustpost();
-		hostGui.updateNumWait();
 		stateChanged();
 		print("Customer " + cust.getCustomerName() + " has arrived.");
 	}
@@ -138,7 +156,7 @@ public class HostAgent extends Agent {
 				waitingCustomers.remove(cust);
 		}
 		}
-		hostGui.updateNumWait();
+		
 		updateCustpost();
 		stateChanged();
 	}
@@ -154,7 +172,7 @@ public class HostAgent extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -194,12 +212,19 @@ public class HostAgent extends Agent {
 		//return true;
 		}
 		
-		
+		if (leave && waitingCustomers.isEmpty())
+			LeaveWork();
 
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
 		//and wait.
+	}
+
+	private void LeaveWork() {
+		print("Leaving work");
+		rest.noHost();
+		myPerson.msgLeftWork(this, balance);
 	}
 
 	// Actions
@@ -234,15 +259,15 @@ public class HostAgent extends Agent {
 
 	private WaiterAgent selectWaiter() {
 		// TODO Auto-generated method stub
+		
 		if (myWaiters.size() != 0){
 		MyWaiter tempWait = myWaiters.get(0);
 		
 		for (MyWaiter w : myWaiters){
 		if (tempWait.w.numCust > w.w.numCust && w.s != waiterState.ONBREAK)
 			tempWait = w;
-	//	print("checking waiter" + w);
+	
 		}
-		
 		
 		return tempWait.w;
 		}
@@ -254,7 +279,7 @@ public class HostAgent extends Agent {
 		//gui here
 		table.setOccupant(customer);
 		waitingCustomers.remove(0);
-		hostGui.updateNumWait();
+		updateCustpost();
 		waiter.msgBringCustomerToTable(this, customer, table);
 	}
 
@@ -286,8 +311,30 @@ public class HostAgent extends Agent {
 	
 	public void updateCustpost(){
 		for (int i =0; i <waitingCustomers.size(); i++){
-			waitingCustomers.get(i).customerGui.shuffle(0, i*30);
+			waitingCustomers.get(i).customerGui.shuffle(0, 50 + i*30);
 		}
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		print("rec mesg");
+		leave = true;
+		stateChanged();
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setRestaurant(RestaurantA rest) {
+		this.rest = rest;
+		waiters = rest.workingWaiters;
+	}
+
+	public void setAnimPanel(AnimationPanel animationPanel) {
+		copyOfAnimPanel = animationPanel;
 	}
 
 	

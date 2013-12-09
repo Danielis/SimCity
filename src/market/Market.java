@@ -93,6 +93,12 @@ public class Market extends Building {
 		}
 		return false;
 	}
+
+
+	@Override
+	public Boolean isOpen() {
+		return (!forceClosed);
+	}
 	
 
 }

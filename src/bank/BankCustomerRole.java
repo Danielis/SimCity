@@ -1,7 +1,6 @@
 package bank;
 
-import bank.Bank.Account;
-import bank.Bank.Loan;
+import city.BankDatabase.*;
 import bank.Bank.*;
 import bank.gui.BankAnimationPanel;
 import bank.gui.CustomerGui;
@@ -50,15 +49,16 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	
 	Boolean isHappy = true;
 	Boolean isRobber = false;
-
+	public String job = "None";
 	//Constructor
-	public BankCustomerRole(String name, String type, double bankAmount, double money){
+	public BankCustomerRole(String name, String type, double bankAmount, double money, String job){
 		super();
 		this.name = name;
 		state = bankCustomerState.outside;
 		amount = bankAmount;
 		balance = money;
-		
+		this.job = job;
+		System.out.println("job: " + job);
 		if (type.equals("New Account"))
 			purpose = customerPurpose.createAccount;
 		else if (type.equals("Withdraw"))
@@ -127,7 +127,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 //MESSAGES*************************************************
 	public void msgGetPaid(){
-		//balance =+50;
+		//Does not get paid
 	}
 	public void BankIsClosed(){
 		state = bankCustomerState.done;
@@ -560,7 +560,7 @@ private void LeaveBank(){
 	}
 
 	public void setAccount(Account account) {
-		accountID = account.id;
+		accountID = account.getID();
 	}
 
 	public void setLoan(List<Loan> loans) {

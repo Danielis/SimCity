@@ -12,11 +12,14 @@ import restaurantA.CustomerAgent;
 import restaurantA.HostAgent;
 import restaurantA.Table;
 import restaurantA.WaiterAgent;
+import restaurantA.interfaces.Customer;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -26,21 +29,22 @@ import javax.swing.*;
 public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
-    public HostAgent host = new HostAgent("Aleena");
-    public CashierAgent cashier = new CashierAgent("Cashier");
-    public CookAgent cook = new CookAgent("Chef", cashier);
-  
+    public HostAgent host ;//= new HostAgent("Aleena");
+   // public CashierAgent cashier = new CashierAgent("Cashier");
+   // public CookAgent cook = new CookAgent("Chef", cashier);
+ 
 	
     
-    private HostGui hostGui = new HostGui(host);
+   // private HostGui hostGui = new HostGui(host);
     private int numTables = 4;
     public ArrayList<Table> tables;
 
-    public Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
+    public Vector<Customer> customers = new Vector<Customer>();
     public Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
 
+    
     JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
 
@@ -49,15 +53,13 @@ public class RestaurantPanel extends JPanel {
     public RestaurantPanel(RestaurantGui gui) {
     	
     	setTables();
-    	
         this.gui = gui;
-        host.setGui(hostGui);
-        gui.animationPanel.addGui(hostGui);
+        //host.setGui(hostGui);
+       // gui.animationPanel.addGui(hostGui);
       
-        CookGui g = new CookGui(cook, gui);
-    	gui.animationPanel.addGui(g);// dw
-    	cook.setGui(g);
-        
+       
+    	
+    	//cook.setAnimPanel(gui.animationPanel);
 //        for (int ix = 0; ix < 1; ix++) {
 //    		WaiterAgent newWaiter = new WaiterAgent("Waiter " + ix, host);
 //    		newWaiter.startThread();
@@ -69,30 +71,34 @@ public class RestaurantPanel extends JPanel {
 //    		host.addWaiter(newWaiter);
 //    	}
 
-        gui.animationPanel.addGui(hostGui);
+       // gui.animationPanel.addGui(hostGui);
         gui.animationPanel.setHost(host);
-        gui.animationPanel.setTables(host.tables);
-        host.startThread();
-        cashier.startThread();
-        cook.startThread();	
+        gui.animationPanel.setTables(tables);
+        //host.startThread();
+        //cashier.startThread();
+       // cook.startThread();	
 
         setLayout(new GridLayout(1, 2, 20, 20));
-        group.setLayout(new GridLayout(1, 2, 10, 10));
+        group.setLayout(new FlowLayout());
 
         group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(waiterPanel);
         
-        initRestLabel();
-        add(restLabel);
+      //  initRestLabel();
+        //add(restLabel);
         add(group);
+
+    	addPerson("Waiters", "WaiterA 1", true);
+    	addPerson("Waiters", "WaiterA 2", true);
+    	addPerson("Waiters", "WaiterA 3", true);
     }
 
     private void setTables() {
 		// TODO Auto-generated method stub
-    	int startingX = 70;
-		int startingY = 50;
-		int spacerY = 70;
-		int spacerX = spacerY + 50;
+    	int startingX = 130;
+		int startingY = 250;
+		int spacerY = 200;
+		int spacerX = spacerY + 40;
 				
 		// make some tables
 		tables = new ArrayList<Table>(numTables);
@@ -105,25 +111,25 @@ public class RestaurantPanel extends JPanel {
 			tables.add(tempTable);//how you add to a collections
 		}
 		
-		host.tables = this.tables;
+		//host.tables = this.tables;
 	}
 
 	/**
      * Sets up the restaurant label that includes the menu,
      * and host and cook information
      */
-    private void initRestLabel() {
-        JLabel label = new JLabel();
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
-        restLabel.setLayout(new FlowLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
-
-        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        restLabel.add(label, BorderLayout.CENTER);
-        
-       
-    }
+//    private void initRestLabel() {
+//        JLabel label = new JLabel();
+//        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
+//        restLabel.setLayout(new FlowLayout());
+//        label.setText(
+//                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+//
+//        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+//        restLabel.add(label, BorderLayout.CENTER);
+//        
+//       
+//    }
 
     /**
      * When a customer or waiter is clicked, this function calls
@@ -138,7 +144,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Customers")) {
 
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+            	Customer temp = customers.get(i);
                 
                 if (name.isEmpty())
         			name = "Customer";
@@ -172,59 +178,102 @@ public class RestaurantPanel extends JPanel {
      */
     public void addPerson(String type, String name, boolean isHungry) {
 
-    	if (type.equals("Customers")) {
-    		if (name.isEmpty())
-    			name = "Customer";
-    		CustomerAgent c = new CustomerAgent(name);	
-    		CustomerGui g = new CustomerGui(c, gui);
-
-    		gui.animationPanel.addGui(g);// dw
-    		c.setHost(host);
-    		c.setGui(g);
-    		customers.add(c);
-    		c.startThread();
-    		
-    		if (isHungry){
-    		g.setHungry();
-    		}
-    		
-    		
-    		
-    		//REMOVE AT SOME POINT. currently for testing purposes
-    		//TODO
-//    		Integer temp = Integer.valueOf(name);
+//    	if (type.equals("Customers")) {
+//    		if (name.isEmpty())
+//    			name = "Customer";
+//    		CustomerAgent c = new CustomerAgent(name);	
+//    		CustomerGui g = new CustomerGui(c, gui);
+//
+//    		gui.animationPanel.addGui(g);// dw
+//    		c.setHost(host);
+//    		c.setGui(g);
+//    		customers.add(c);
+//    		c.startThread();
+//    		c.setAnimPanel(gui.animationPanel);
+//    		if (isHungry){
+//    		g.setHungry();
+//    		}
 //    		
-//    		if (temp >= 0)
-//    			for (int i = 0; i < temp; i++){
-//    				CustomerAgent cust = new CustomerAgent("Cust" + i);
-//    				customers.add(cust);
-//    				cust.setHost(host);
-//    				cust.startThread();
-//    				
-//    				CustomerGui gc = new CustomerGui(cust, gui);
-//    				gui.animationPanel.addGui(gc);
-//    				cust.setGui(gc);
-//    				if (isHungry){
-//    		    		gc.setHungry();
-//    		    		}
-//    				
-//    				System.out.println("added " + cust.getCustomerName());
-//    			}
-    	}
+//    		
+//    	}
     	
-    	if (type.equals("Waiters")){
-			WaiterAgent newWaiter = new WaiterAgent(name, host, cook, cashier);
-    
-    		WaiterGui waiterGui = new WaiterGui(newWaiter, newWaiter.tables, 60 + 30 * waiters.size(), 0);
-    		newWaiter.setGui(waiterGui);
-    		newWaiter.startThread();
-    		host.waiterAdded();
-    		waiters.add(newWaiter);
-  
-    		gui.animationPanel.addGui(waiterGui);
-    		host.addWaiter(newWaiter);
-		}
+//    	if (type.equals("Waiters")){
+//			WaiterAgent newWaiter = new WaiterAgent(name, host, cook, cashier);
+//    
+//    		WaiterGui waiterGui = new WaiterGui(newWaiter, newWaiter.tables, 120 + 30 * waiters.size(), 0);
+//    		newWaiter.setGui(waiterGui);
+//    		newWaiter.startThread();
+//    		host.waiterAdded();
+//    		waiters.add(newWaiter);
+//    		newWaiter.setAnimPanel(gui.animationPanel);
+//    		gui.animationPanel.addGui(waiterGui);
+//    		host.addWaiter(newWaiter);
+//		}
     }
+
+	public void addCustomer(String type, Customer c, boolean b) {
+		//CustomerAgent c = new CustomerAgent(name);	
+		CustomerGui g = new CustomerGui(c, gui);
+
+		gui.animationPanel.addGui(g);// dw
+		c.setHost(host);
+		c.setGui(g);
+		customers.add(c);
+		//c.startThread();
+		c.setAnimPanel(gui.animationPanel);
+		g.setHungry();
+	}
+
+	public void addHost(HostAgent c) {
+		this.host = c;
+		host.setRestaurant(gui.rest);
+		//host.setTellers(b.getWorkingTellers());
+		//gui.rest.tellTellers(host);
+		//host.setGui(g);
+		gui.rest.setWorkingHost(c);
+		host.setAnimPanel(gui.animationPanel);
+		host.tables = tables;
+		c.setWaiters();
+	}
+
+	public void addWaiter(WaiterAgent c) {
+
+		c.rest = gui.rest;
+		c.menu = gui.rest.menu;
+		gui.rest.setWorkingWaiter(c);
+		c.setAnimPanel(gui.animationPanel);
+		c.tables = tables;
+		
+		WaiterGui waiterGui = new WaiterGui(c, c.tables, 120 + 30 * waiters.size(), 0);
+		c.setGui(waiterGui);
+		if (gui.rest.workingHost != null)
+			gui.rest.workingHost.waiterAdded();
+		waiters.add(c);
+		gui.animationPanel.addGui(waiterGui);
+		//host.addWaiter(c);
+	}
+
+	public void addCook(CookAgent c) {
+		c.setRestaurant(gui.rest);
+		//host.setTellers(b.getWorkingTellers());
+		//gui.rest.tellTellers(host);
+		//host.setGui(g);
+		gui.rest.setWorkingCook(c);
+		CookGui g = new CookGui(c, gui);
+	    c.setGui(g);
+	    gui.animationPanel.addGui(g);// dw
+	    c.setAnimPanel(gui.animationPanel);
+	}
+
+	public void addCashier(CashierAgent c) {
+		c.setRestaurant(gui.rest);
+		gui.rest.setWorkingCashier(c);
+	}
+
+    
+
+	
+	
     
 //    public void addWaiter(String name){
 //    	WaiterAgent w = new restaurant.WaiterAgent(name);

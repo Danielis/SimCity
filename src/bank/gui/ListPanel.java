@@ -68,7 +68,7 @@ public class ListPanel extends JPanel implements ActionListener {
         bottomPart_waiter.setLayout(new BorderLayout());
         
         setLayout(new BorderLayout());
-        JLabel name = new JLabel("<html><pre> <u>" + type + "</u><br></pre></html>");
+        JLabel name = new JLabel("Current Bank Customers");
         name.setAlignmentY(CENTER_ALIGNMENT);
         
         if (type == "Customers"){
@@ -185,7 +185,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     
     
-    public void addCustomer(BankCustomer customer) {
+    public void addCustomer(BankCustomerRole customer) {
         if (customer != null) {
             JButton button = new JButton(customer.getName());
             button.setBackground(Color.white);

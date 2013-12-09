@@ -26,13 +26,11 @@ public class CookGui implements Gui{
 	private int movementTicker = 0;
 	
 	//finals
-	private final int cookSize = 20;
 	private final int deltadivider = 100;
 
 	//self agent
 	private Cook agent = null;
 
-	//private HostAgent host;
 	RestaurantGui gui;
 	
 	//Coordinates

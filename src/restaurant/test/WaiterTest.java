@@ -40,7 +40,7 @@ public class WaiterTest extends TestCase
         super.setUp();                
         System.out.println("SET UP");
         testRest = new Restaurant(new RestaurantGui(), "Test");
-        MWR = new ModernWaiterRole("Waiter", testRest);
+        MWR = new ModernWaiterRole("Waiter", testRest, 100);
         cook = new MockCook("MockCook", 1000);
         MWR.setCook(cook);
         customer = new MockCustomer("Mock Customer");

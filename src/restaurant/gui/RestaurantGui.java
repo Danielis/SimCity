@@ -32,9 +32,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
  
     public RestaurantPanel restPanel = new RestaurantPanel(this);
     
-    /* customerInformationPanel holds information about the clicked customer, if there is one*/
     private JPanel customerInformationPanel;
-    private JPanel waiterInformationPanel;
     private JPanel InformationPanel;
     private JPanel buttonPanel;
     
@@ -42,14 +40,11 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private JLabel infoWaiterLabel;
 
     private JCheckBox customerStateCheckBox;
-    //private JCheckBox waiterBreakCheckBox;
     private JButton waiterON = new JButton("Go On Break");
     private JButton waiterOFF = new JButton("Go Off Break");
 
     private Customer currentCustomer;
-    private Waiter currentWaiter;
 
-    private JButton pauseButton;
     private JButton refreshButton;
     private JPanel ButtonPanel;
     private JButton MrKrabsButton;
@@ -90,8 +85,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         restPanel.setMinimumSize(restDim);
         restPanel.setMaximumSize(restDim);
         
-        pauseButton = new JButton("PAUSE");
-        pauseButton.addActionListener(this);
+        //pauseButton = new JButton("PAUSE");
+        //pauseButton.addActionListener(this);
         refreshButton = new JButton("REFRESH");
         refreshButton.addActionListener(this);
         
@@ -110,11 +105,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
         customerInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
         infoCustomerLabel = new JLabel(); 
-        infoCustomerLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
+        infoCustomerLabel.setText("<html><pre><i>There are no restaurant customers.</i></pre></html>");
         customerInformationPanel.add(infoCustomerLabel);
         customerInformationPanel.add(customerStateCheckBox);
         
-//WAITER PANEL INFORMATION
+//WAITER PANEL INFORMATION/*
+        /*
         Dimension infoDimWaiter = new Dimension(WINDOWX, (int) (WINDOWY * .12));
         waiterInformationPanel = new JPanel();
         waiterInformationPanel.setPreferredSize(infoDimWaiter);
@@ -124,18 +120,18 @@ public class RestaurantGui extends JFrame implements ActionListener {
 
         waiterON.addActionListener(this);
         waiterOFF.addActionListener(this);
-        
-        waiterInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
+       	*/
+        //waiterInformationPanel.setLayout(new GridLayout(1, 2, 30, 0));
 
         infoWaiterLabel = new JLabel();
         infoWaiterLabel.setText("<html><pre><i>Click Add to make waiters</i></pre></html>");
-        waiterInformationPanel.add(infoWaiterLabel);
+        //waiterInformationPanel.add(infoWaiterLabel);
         waiterON.setVisible(false);
         waiterOFF.setVisible(false);
-        waiterInformationPanel.add(waiterON);
-        waiterInformationPanel.add(waiterOFF);
+        //waiterInformationPanel.add(waiterON);
+        //waiterInformationPanel.add(waiterOFF);
         RestaurantPortion.add(restPanel, BorderLayout.NORTH);
-        InformationPanel.add(customerInformationPanel, BorderLayout.NORTH);
+        InformationPanel.add(customerInformationPanel, BorderLayout.CENTER);
         MrKrabsButton = new JButton(MrKrabs);
         RamsayButton = new JButton(Ramsay);
         MrKrabsButton.addActionListener(this);
@@ -144,10 +140,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
         ButtonPanel.add(MrKrabsButton, BorderLayout.WEST);
         ButtonPanel.add(RamsayButton, BorderLayout.EAST);
         InformationPanel.add(ButtonPanel, BorderLayout.SOUTH);
-        InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
+        //InformationPanel.add(waiterInformationPanel, BorderLayout.CENTER);
         RestaurantPortion.add(InformationPanel, BorderLayout.CENTER);
-        buttonPanel.add(pauseButton, BorderLayout.CENTER);
-        buttonPanel.add(refreshButton, BorderLayout.EAST);
+        //buttonPanel.add(pauseButton, BorderLayout.CENTER);
+        buttonPanel.add(refreshButton, BorderLayout.CENTER);
         RestaurantPortion.add(buttonPanel, BorderLayout.SOUTH);
 
         add(animationPanel, BorderLayout.CENTER);
@@ -185,6 +181,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     	//empty
     }
     
+    /*
     public void updateWaiterInformationPanel(Waiter person) {
     	waiterON.setVisible(true);
     	waiterOFF.setVisible(true);
@@ -193,7 +190,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     	infoWaiterLabel.setText(
                 "<html><pre>     Name: " + waiter.getName() + " </pre></html>");
         waiterInformationPanel.validate();
-    }
+    }*/
     
     /**
      * Action listener method that reacts to the checkbox being clicked;
@@ -208,6 +205,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
             c.getGui().setHungry();
             customerStateCheckBox.setEnabled(false);
         }
+        /*
         if (e.getSource() == waiterON)
         {
         	Waiter w = currentWaiter;
@@ -217,7 +215,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
         {
         	Waiter w = currentWaiter;
         	w.getGui().AskGoOffBreak();
-        }
+        }*/
 //        if (e.getSource() == MrKrabsButton)
 //        {
 //        	this.restPanel.cashier.setBalance(0.0f);

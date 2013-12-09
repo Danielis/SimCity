@@ -43,7 +43,6 @@ public class CashierRole extends Role implements Cashier{
 	private String name = "Squidward";
 	private double mymoney;
 	private float account;
-	private double  balance;
 	
 	public double salary = 50;
 	//Other 
@@ -168,6 +167,7 @@ public class CashierRole extends Role implements Cashier{
 
 	public void msgGetPaid(){
 		mymoney += this.r.takePaymentForWork(salary);
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.RESTAURANT, "CashierRole", "I got paid $" + salary + " and my balance is now $" + mymoney, new Date()));
 	}
 
 	public void msgLeaveWork()
@@ -279,15 +279,10 @@ public class CashierRole extends Role implements Cashier{
 		
 		if (myState == WorkState.needToLeave)
 		{
-			//Check if there's no host
-			System.out.println("Checks: " + checks.size() + "/Payments: " + payments.size());
-			if
-				(
-					checks.size() == 0 &&
-					payments.size() == 0
-				)
+			if(checks.size() == 0 && payments.size() == 0 && r.canLeave())
 			{
 				LeaveWork();
+				return true;
 			}
 		}
 		
