@@ -57,6 +57,7 @@ public class PersonGui implements Gui{
 	
 	Coordinate checkpointHouse;
 
+	String direct = "down";
 	
 	Coordinate position;
 	Coordinate destination;
@@ -104,7 +105,6 @@ public class PersonGui implements Gui{
 //		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
 		
-
 		//checkpointA = new Coordinate(395,250);
 		//checkpointB = new Coordinate(395,125);
 		//checkpointC = new Coordinate(320,125);
@@ -297,46 +297,51 @@ public class PersonGui implements Gui{
 
             if (position.x < destination.x)
             {
-            	setImg("right");
+            	direct = "right";
+            	setImage();
                 position.x += (1 + deltax/deltadivider);
                 movementTicker++;
             }
             else if (position.x > destination.x)
             {
-            	setImg("left");
+            	direct = "left";
+            	setImage();
                 position.x -= (1 + deltax/deltadivider);
                 movementTicker++;
             }
 
             else if (position.y < destination.y)
             {
-            	setImg("up");
+            	direct = "down";
+            	setImage();
                 position.y += (1 + deltay/deltadivider);
                 movementTicker++;
             }
             
             else if (position.y > destination.y)
             {
-            	setImg("down");
+            	direct = "up";
+            	setImage();
                 position.y -= (1 + deltay/deltadivider);
                 movementTicker++;
             }
-            if(!agent.hasCar()){
-            	if (movementTicker < 30)
-            	{
-            		setAnim1();
-            	}
-            	else if (movementTicker < 60)
-            	{
-            		setAnim2();
-            	}
-            	else if (movementTicker >= 60)
-            	{
-            		movementTicker = 0;
-            	}
-            }
+//            if(!agent.hasCar()){
+//            	if (movementTicker < 30)
+//            	{
+//            		//setAnim1();
+//            	}
+//            	else if (movementTicker < 60)
+//            	{
+//            		//setAnim2();
+//            	}
+//            	else if (movementTicker >= 60)
+//            	{
+//            		movementTicker = 0;
+//            	}
+//            }
             if (position.x == destination.x && position.y == destination.y)
             {
+            	setImage();
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
             }
@@ -346,36 +351,60 @@ public class PersonGui implements Gui{
 			setDefault();
 		}
 	}
-
-	private void setImg(String string) {
-		if (agent.hasCar()){
-			if (string.equals("up")){
+    
+    private void setImage(){
+    	if (agent.hasCar()){
+			if (direct.equals("down")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
 				} catch (IOException e ) {}
 			}
 
-			if (string.equals("down")){
+			if (direct.equals("up")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
 				} catch (IOException e ) {}
 			}
-			if (string.equals("right")){
+			if (direct.equals("right")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
 				} catch (IOException e ) {}
 			}
-			if (string.equals("left")){
+			if (direct.equals("left")){
 				try
 				{
 				imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
 				} catch (IOException e ) {}
 			}
 		}
+    	else{
+		String start = "/resources/globalSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (movementTicker >= 50 || !goingSomewhere){
+			num = "0";
+			movementTicker = 0;
+		}
+        else if (movementTicker < 25)
+        	num = "2";
+        else if (movementTicker < 50)
+        	num = "1";
+    
+       // resource/globalSprites/None/left0.png
+		String collapse = start + agent.job.type.toString() + "/" + mid + num + end;
+		//System.out.println(collapse);
+		 try
+	        {
+	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
+    	}
 	}
+
+
 
 
 	public void draw(Graphics2D g) 

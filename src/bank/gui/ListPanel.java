@@ -185,7 +185,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
     
     
-    public void addCustomer(BankCustomer customer) {
+    public void addCustomer(BankCustomerRole customer) {
         if (customer != null) {
             JButton button = new JButton(customer.getName());
             button.setBackground(Color.white);
