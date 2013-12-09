@@ -84,8 +84,8 @@ public class PersonGui implements Gui{
 		this.gui = gui2;
 		
 
-		checkpointA = new Coordinate(257,474);//restaurant
-		checkpointB = new Coordinate(385,474);//bottom street corner  
+		checkpointA = new Coordinate(257,472);//restaurant
+		checkpointB = new Coordinate(385,472);//bottom street corner  
 		checkpointC = new Coordinate(385,362);//middle lower street corner
 		checkpointD = new Coordinate(385,275);//middle higher street corner
 		checkpointE = new Coordinate(280,275);//in front of market
@@ -126,6 +126,7 @@ public class PersonGui implements Gui{
     	position = new Coordinate(x1, y1);
     	
     	
+    	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -163,53 +164,53 @@ public class PersonGui implements Gui{
 
     		if (deltax < 0) deltax *= -1;
     		if (deltay < 0) deltay *= -1;
-   
 
-            if (position.x < destination.x)
-            {
-            	setImg("right");
-                position.x += (1 + deltax/deltadivider);
-                movementTicker++;
-            }
-            else if (position.x > destination.x)
-            {
-            	setImg("left");
-                position.x -= (1 + deltax/deltadivider);
-                movementTicker++;
-            }
 
-            else if (position.y < destination.y)
-            {
-            	setImg("up");
-                position.y += (1 + deltay/deltadivider);
-                movementTicker++;
-            }
-            
-            else if (position.y > destination.y)
-            {
-            	setImg("down");
-                position.y -= (1 + deltay/deltadivider);
-                movementTicker++;
-            }
-            if(!agent.hasCar()){
-            	if (movementTicker < 30)
-            	{
-            		setAnim1();
-            	}
-            	else if (movementTicker < 60)
-            	{
-            		setAnim2();
-            	}
-            	else if (movementTicker >= 60)
-            	{
-            		movementTicker = 0;
-            	}
-            }
-            if (position.x == destination.x && position.y == destination.y)
-            {
-            	goingSomewhere = false;
-            	agent.DoneWithAnimation();
-            }
+    		if (position.x < destination.x)
+    		{
+    			setImg("right");
+    			position.x += (1 + deltax/deltadivider);
+    			movementTicker++;
+    		}
+    		else if (position.x > destination.x)
+    		{
+    			setImg("left");
+    			position.x -= (1 + deltax/deltadivider);
+    			movementTicker++;
+    		}
+
+    		else if (position.y < destination.y)
+    		{
+    			setImg("up");
+    			position.y += (1 + deltay/deltadivider);
+    			movementTicker++;
+    		}
+
+    		else if (position.y > destination.y)
+    		{
+    			setImg("down");
+    			position.y -= (1 + deltay/deltadivider);
+    			movementTicker++;
+    		}
+    		if(!agent.hasCar()){
+    			if (movementTicker < 30)
+    			{
+    				setAnim1();
+    			}
+    			else if (movementTicker < 60)
+    			{
+    				setAnim2();
+    			}
+    			else if (movementTicker >= 60)
+    			{
+    				movementTicker = 0;
+    			}
+    		}
+    		if (position.x == destination.x && position.y == destination.y)
+    		{
+    			goingSomewhere = false;
+    			agent.DoneWithAnimation();
+    		}
     	}
 		else
 		{

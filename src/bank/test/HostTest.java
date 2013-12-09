@@ -1,6 +1,8 @@
 package bank.test;
 
 
+import java.util.concurrent.Semaphore;
+
 import bank.test.mock.*;
 import bank.interfaces.*;
 import bank.*;
@@ -30,7 +32,6 @@ public class HostTest extends TestCase
     public void setUp() throws Exception{
             super.setUp();                
             System.out.println("SET UP");
-            
             per = new PersonAgent("Person", "None", "Wealthy");
             host = new BankHostRole("host");
             cust = new MockCustomer("customer");

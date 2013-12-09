@@ -114,6 +114,7 @@ public class CityListPanel extends JPanel implements ActionListener {
     //Add Person to the List
     public void addPerson(String name, String job, String wealth) {
         if (name != null) {
+        	System.out.println("AddPerson in CityPanelList reached and person added.");
             JButton button = new JButton(name);
             button.setBackground(Color.white);
 

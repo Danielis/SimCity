@@ -1,5 +1,7 @@
 package city.test;
 
+import java.util.concurrent.Semaphore;
+
 import city.*;
 import city.PersonAgent.JobType;
 import city.PersonAgent.WealthLevel;
@@ -27,6 +29,7 @@ public class CityRunTests extends TestCase {
 	CityGui gui;
 	TrackerGui trackerWindow;
 	Restaurant r;
+	
     public void setUp() throws Exception{
     	
     	super.setUp();
