@@ -213,10 +213,19 @@ public class PersonAgent extends Agent implements Person
 				daysWorking.add(Day.thursday);
 				daysWorking.add(Day.friday);
 				
-			if (type != JobType.bankHost && type != JobType.teller){ //banks closed on weekends
+			if (workBuilding != null &&
+			workBuilding.equals(buildingType.restaurant) && // 
+			workBuilding.owner.equals("Norman")){
+					daysWorking.add(Day.saturday);
+					daysWorking.add(Day.sunday);
+			}
+			else if (workBuilding != null &&
+				!workBuilding.equals(buildingType.bank)){ //banks closed on weekends
 				daysWorking.add(Day.saturday);
 				daysWorking.add(Day.sunday);
 			}
+			
+			
 			
 //			int sameJob = 0;
 //			for (PersonAgent p : people){
@@ -1082,7 +1091,17 @@ public class PersonAgent extends Agent implements Person
 
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
-		return (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd);
+		if (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && 
+				TimeManager.getInstance().getHour() < Job.timeEnd){
+		{
+			for (Day d : job.daysWorking){
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+			return false;
 	}
 	private boolean AIandNotWorking() {
 		return (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
@@ -1171,11 +1190,16 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	private void GoToRestaurant(Building r){
+		if (r != null){
 		if (r.owner.equals("Aleena"))
 			GoToRestaurantA(r);
 		if (r.owner.equals("Norman"))
 			GoToRestaurantN(r);
-
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 	}
 
 	private boolean isHungry() {
@@ -1418,8 +1442,9 @@ public class PersonAgent extends Agent implements Person
 
 	private void GoToBank()
 	{
-
 		Building r2 = findOpenBuilding(buildingType.bank);
+		
+		if (r2 != null){
 		Bank r = (Bank) r2;
 	
 		gui.setPresent(true);
@@ -1447,6 +1472,11 @@ public class PersonAgent extends Agent implements Person
 		c.setActivity(true);
 		c.setTrackerGui(trackingWindow);
 		r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 	}
 	
 
