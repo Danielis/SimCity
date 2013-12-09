@@ -125,12 +125,20 @@ public void CallScenarioTest(CityPanel c) {
 
 	TimeManager.getInstance().setDivider(20);
 	TimeManager.getInstance().setOffset(300000);
-	c.addWorker("Host", "Restaurant Host", "Average");
+	c.addWorker("Host 1", "Restaurant Host", "Average");
 	c.addWorker("W 1", "Waiter", "Average");
 	c.addWorker("W 2", "Waiter", "Average");
 	c.addWorker("W 3", "Waiter", "Average");
-	c.addWorker("Cashier", "Cashier", "Average");
-	c.addWorker("Chef", "Cook", "Average");
+	c.addWorker("Cashier 1", "Cashier", "Average");
+	c.addWorker("Chef 1", "Cook", "Average");
+	
+
+	c.addWorker("Host 2", "Restaurant Host", "Average");
+	c.addWorker("W 4", "Waiter", "Average");
+	c.addWorker("W 5", "Waiter", "Average");
+	c.addWorker("W 6", "Waiter", "Average");
+	c.addWorker("Cashier 2", "Cashier", "Average");
+	c.addWorker("Chef 2", "Cook", "Average");
 }
 
 }

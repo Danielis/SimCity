@@ -980,7 +980,7 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 			if (Status.getNourishmnet() == nourishment.Hungry &&
-					Status.getLocation() == location.outside) {
+					Status.getLocation() == location.outside && CheckRestaurantOpen()) {
 				Building r = findOpenBuilding(buildingType.restaurant);
 				GoToRestaurant(r);
 				return true;
@@ -1145,7 +1145,7 @@ public class PersonAgent extends Agent implements Person
 		Building r = null;
 		r = findOpenBuilding(buildingType.restaurant);
 		
-		if (CheckRestOpen()){
+		if (r != null){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
 			if (wealthLevel == WealthLevel.wealthy && num <= 9){
 					restaurant = true;
@@ -1250,6 +1250,25 @@ public class PersonAgent extends Agent implements Person
 			print("Aww.. bank is closed :(");	
 			gui.setBusy(false);
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
+			return false;
+		
+	}
+	
+	private Boolean CheckRestaurantOpen(){
+		print("I need to go to a restaurant!");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to a restaurant!", new Date()));
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.restaurant && b.isOpen()){
+					return true;
+				}
+			}
+		}
+		
+			print("Aww.. all restaurants are closed :(");	
+			gui.setBusy(false);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... all restaurants are closed :(", new Date()));
 			return false;
 		
 	}
@@ -1601,11 +1620,9 @@ public class PersonAgent extends Agent implements Person
 			{
 				restaurantA.WaiterAgent c = new restaurantA.ModernWaiterAgent(this.getName(), r, this.cash);
 				c.setSalary((double)50);
-				c.setTrackerGui(trackingWindow);
 				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c = new restaurantA.WaiterAgent(this.getName());
 				c.setTrackerGui(trackingWindow);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
 				c.setPerson(this);
 				roles.add(c);
@@ -1617,15 +1634,12 @@ public class PersonAgent extends Agent implements Person
 				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c.setSalary((double)50);
 				c.setTrackerGui(trackingWindow);
-				c = new restaurantA.WaiterAgent(this.getName());
-				c.setTrackerGui(trackingWindow);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
 				c.setPerson(this);
 				roles.add(c);
 				c.setActivity(true);
-			}
-			if (waiterindexA>5) waiterindex = 0;
+		}
+			//if (waiterindexA>5) waiterindex = 0;
 		}
 		
 		if (job.type == JobType.cook)
