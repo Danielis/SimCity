@@ -35,6 +35,7 @@ public void EmployBank(CityPanel c) {
 	c.addWorker("Teller 1", "Teller", "Average");
 	c.addWorker("Teller 2", "Teller", "Average");
 	c.addWorker("Teller 3", "Teller", "Average");
+	
 }
 
 
@@ -98,7 +99,7 @@ public void CallScenarioR(CityPanel c){
 //	Some workplaces are closed on the weekend.
 //	Show that people naturally avoid them and seek alternatives.
 	TimeManager.getInstance().setDivider(2);
-	TimeManager.getInstance().setOffset(760420000);
+	TimeManager.getInstance().setOffset(760390000);
 	fillWork(c);
 
 	

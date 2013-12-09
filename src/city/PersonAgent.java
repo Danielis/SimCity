@@ -99,7 +99,7 @@ public class PersonAgent extends Agent implements Person
 		public Coordinate location;
 		int timeStart = 8;
 		static final int timeEnd = 20;
-		private Building workBuilding;
+		public Building workBuilding;
 		List <Day> daysWorking = new ArrayList<Day>();
 		
 		public Job(JobType parseJob) {
@@ -1541,7 +1541,7 @@ public class PersonAgent extends Agent implements Person
 			Waiter (Low-wage student)   |   50  per shift
 		  =====================================================================*/
 
-		takeBusIfApplicable(2);
+		//takeBusIfApplicable(2);
 
 	
 		Restaurant r = (Restaurant) job.workBuilding;
@@ -1707,7 +1707,7 @@ public class PersonAgent extends Agent implements Person
 		Teller (Accountant)		 		|   110  per shift
 		=====================================================================*/
 
-		takeBusIfApplicable(0);
+		//takeBusIfApplicable(0);
 
 		//Role c = null;
 		Bank r = (Bank) job.workBuilding;
