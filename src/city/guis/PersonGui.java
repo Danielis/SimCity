@@ -57,7 +57,7 @@ public class PersonGui implements Gui{
 	
 	Coordinate checkpointHouse;
 
-	String direct = "up";
+	String direct = "down";
 	
 	Coordinate position;
 	Coordinate destination;
@@ -353,6 +353,34 @@ public class PersonGui implements Gui{
 	}
     
     private void setImage(){
+    	if (agent.hasCar()){
+			if (direct.equals("down")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
+				} catch (IOException e ) {}
+			}
+
+			if (direct.equals("up")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
+				} catch (IOException e ) {}
+			}
+			if (direct.equals("right")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
+				} catch (IOException e ) {}
+			}
+			if (direct.equals("left")){
+				try
+				{
+				imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
+				} catch (IOException e ) {}
+			}
+		}
+    	else{
 		String start = "/resources/globalSprites/";
 		String mid = direct;
 		String num = "0";
@@ -368,41 +396,15 @@ public class PersonGui implements Gui{
     
        // resource/globalSprites/None/left0.png
 		String collapse = start + agent.job.type.toString() + "/" + mid + num + end;
+		//System.out.println(collapse);
 		 try
 	        {
 	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
 	        } catch (IOException e ) {}
+    	}
 	}
 
-	private void setImg(String string) {
-		if (agent.hasCar()){
-			if (string.equals("up")){
-				try
-				{
-				imgTrainer = ImageIO.read(getClass().getResource("/resources/ucar.png"));
-				} catch (IOException e ) {}
-			}
 
-			if (string.equals("down")){
-				try
-				{
-				imgTrainer = ImageIO.read(getClass().getResource("/resources/dcar.png"));
-				} catch (IOException e ) {}
-			}
-			if (string.equals("right")){
-				try
-				{
-				imgTrainer = ImageIO.read(getClass().getResource("/resources/rcar.png"));
-				} catch (IOException e ) {}
-			}
-			if (string.equals("left")){
-				try
-				{
-				imgTrainer = ImageIO.read(getClass().getResource("/resources/lcar.png"));
-				} catch (IOException e ) {}
-			}
-		}
-	}
 
 
 	public void draw(Graphics2D g) 
