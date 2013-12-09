@@ -1,6 +1,10 @@
 package bank.test;
 
+
+import java.util.concurrent.Semaphore;
+
 import city.BankDatabase;
+
 import city.PersonAgent;
 import bank.BankCustomerRole;
 import bank.BankCustomerRole.customerPurpose;
@@ -39,12 +43,11 @@ public class CustomerTest extends TestCase
     BankCustomerRole cust;
     BankCustomerRole cust2;
     PersonAgent per;
-    
+   
     public void setUp() throws Exception{
             super.setUp();                
             System.out.println("SET UP");
 
-            
             host = new MockHost("host");
             teller = new MockTeller("teller");
             cust = new BankCustomerRole("customer", "Deposit", 1500, 2500, "None");

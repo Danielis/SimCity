@@ -1,5 +1,7 @@
 package bank.test;
 
+import java.util.concurrent.Semaphore;
+
 import bank.*;
 import city.*;
 import bank.test.mock.*;
@@ -29,12 +31,13 @@ public class TellerTest extends TestCase
     public void setUp() throws Exception{
             super.setUp();                
             System.out.println("SET UP");
-            
+        	
+        	
             teller = new TellerRole();
             host = new MockHost("host");
             cust = new MockCustomer("customer");
             
-            per = new PersonAgent("Person", "None", "Wealthy");     
+            per = new PersonAgent("Person", "None", "Wealthy");
             teller.setPerson(per);
             
             b = new Bank();

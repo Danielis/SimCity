@@ -340,7 +340,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 
 		//City Element Creation
-		createRestaurant("Norman's Restaurant", 257, 474);
+		createRestaurant("Norman's Restaurant", 257, 472);
 		createBank("Aleena's Bank - North", 73, 74);
 		createBank("Aleena's Bank - South", 16, 619);
 		createRestaurantA("Aleena Restaurant", 183, 266);

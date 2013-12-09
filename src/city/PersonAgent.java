@@ -55,17 +55,17 @@ import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
 
 
-
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 public class PersonAgent extends Agent implements Person
-{
+{	
 	/*****************************************************************************
 	 								VARIABLES
 	 ******************************************************************************/
-
+    
+    
 	 //Lists: Roles, Restaurants
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	public Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
@@ -582,7 +582,6 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 									 UTILITIES
 	 ******************************************************************************/
-
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
 	}
@@ -1711,6 +1710,10 @@ public class PersonAgent extends Agent implements Person
 		Status.setNourishment(nourishment.goingToFood);
 	
 		takeBusIfApplicable(2);
+		
+		gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('A');
+
 
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
@@ -1843,16 +1846,12 @@ public class PersonAgent extends Agent implements Person
 
 	}
 
-		public void setHungry() {
-			timeSinceLastAte = -90000;
-		}
+	public void setHungry() {
+		timeSinceLastAte = -90000;
+	}
 
-		public void GiveCar() {
-			addItem("Car", 1);
-		}
-
+	public void GiveCar() {
+		addItem("Car", 1);
+	}
 	
-
-		
-
 }

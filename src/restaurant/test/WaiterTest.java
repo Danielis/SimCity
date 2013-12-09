@@ -1,6 +1,7 @@
 package restaurant.test;
 
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import city.PersonAgent;
 import junit.framework.TestCase;
@@ -33,7 +34,7 @@ public class WaiterTest extends TestCase
 	MockCustomer customer;
 	PersonAgent myPerson;
 	TrackerGui trackingWindow;
-	
+    
 	public void setUp() throws Exception
 	{
         super.setUp();                
@@ -43,7 +44,9 @@ public class WaiterTest extends TestCase
         cook = new MockCook("MockCook", 1000);
         MWR.setCook(cook);
         customer = new MockCustomer("Mock Customer");
+        
         myPerson = new PersonAgent("TestPerson", "No AI", "Average");
+        
         MWR.setPerson(myPerson);
         trackingWindow = new TrackerGui();
         MWR.setTrackerGui(trackingWindow); //Solves errors

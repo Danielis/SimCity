@@ -85,8 +85,8 @@ public class PersonGui implements Gui{
 		this.gui = gui2;
 		
 
-		checkpointA = new Coordinate(257,474);//restaurant
-		checkpointB = new Coordinate(385,474);//bottom street corner  
+		checkpointA = new Coordinate(257,472);//restaurant
+		checkpointB = new Coordinate(385,472);//bottom street corner  
 		checkpointC = new Coordinate(385,362);//middle lower street corner
 		checkpointD = new Coordinate(385,275);//middle higher street corner
 		checkpointE = new Coordinate(280,275);//in front of market
@@ -124,6 +124,7 @@ public class PersonGui implements Gui{
     	int x1=r.nextInt(500-50) + 50;
 		
     	position = new Coordinate(x1, y1);
+    	
     	
     	
     	cashier = new Coordinate(255, 75);
@@ -293,8 +294,7 @@ public class PersonGui implements Gui{
 
     		if (deltax < 0) deltax *= -1;
     		if (deltay < 0) deltay *= -1;
-   
-
+    		
             if (position.x < destination.x)
             {
             	direct = "right";
@@ -345,6 +345,7 @@ public class PersonGui implements Gui{
             	goingSomewhere = false;
             	agent.DoneWithAnimation();
             }
+
     	}
 		else
 		{

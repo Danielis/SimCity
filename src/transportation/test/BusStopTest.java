@@ -1,5 +1,10 @@
 package transportation.test;
 
+
+
+import java.util.concurrent.Semaphore;
+
+import city.Interfaces.*;
 import city.PersonAgent;
 import city.test.mock.MockPerson;
 import junit.framework.TestCase;
@@ -35,7 +40,6 @@ public class BusStopTest extends TestCase
     //TransportationCompany company; //won't need to unti test busStop since it mostly interacts with bus
     PersonAgent poorPerson;
     PersonAgent wealthyPerson;
-
     
     public void setUp() throws Exception{
             super.setUp();                
@@ -43,7 +47,7 @@ public class BusStopTest extends TestCase
             bus = new MockBus("Bus");
             stop = new MockBusStop("Stop");
             poorPerson = new PersonAgent("Poor","No AI","Poor");  
-            poorPerson = new PersonAgent("Wealthy","No AI","Wealthy");     
+            wealthyPerson = new PersonAgent("Wealthy","No AI","Wealthy");     
             
     }  
     
