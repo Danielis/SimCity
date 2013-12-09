@@ -64,8 +64,7 @@ public class PersonAgent extends Agent implements Person
 	/*****************************************************************************
 	 								VARIABLES
 	 ******************************************************************************/
-    
-    
+ 
 	 //Lists: Roles, Restaurants
 	public List<Role> roles = Collections.synchronizedList(new ArrayList<Role>());
 	public Vector<Building> buildings = new Vector<Building>(); //City Gui won't let me implement Lists
@@ -1172,10 +1171,11 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	private void GoToRestaurant(Building r){
-		if (r.owner.equals("Norman"))
-			GoToRestaurantN(r);
 		if (r.owner.equals("Aleena"))
 			GoToRestaurantA(r);
+		if (r.owner.equals("Norman"))
+			GoToRestaurantN(r);
+
 	}
 
 	private boolean isHungry() {
@@ -1428,9 +1428,6 @@ public class PersonAgent extends Agent implements Person
 		c.setActivity(true);
 		c.setTrackerGui(trackingWindow);
 		r.panel.customerPanel.addCustomer((BankCustomerRole) c);
-		//}
-		//else 
-		//	stateChanged();
 	}
 	
 
@@ -1550,7 +1547,7 @@ public class PersonAgent extends Agent implements Person
 				roles.add(c);
 				c.setActivity(true);
 			}
-			else if(randval %2 == 1)
+			else
 			{
 				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r, this.cash);
 				r.panel.addWaiter((TraditionalWaiterRole) c, waiterindex);
@@ -1613,7 +1610,7 @@ public class PersonAgent extends Agent implements Person
 				roles.add(c);
 				c.setActivity(true);
 			}
-			else if(randval %2 == 1)
+			else
 			{
 				restaurantA.WaiterAgent c = new TraditionalWaiterAgent(this.getName(), r, this.cash);
 				r.workingWaiters.add((restaurantA.WaiterAgent) c);

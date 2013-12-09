@@ -138,10 +138,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton scenP = new JButton("Scenario P");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
-	
 
 	private JButton tempGo = new JButton("Test");
-
 
 	private JButton close = new JButton("Close");
 	private JButton closeRestN = new JButton("Close RestN");
@@ -340,7 +338,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 
 		//City Element Creation
-		createRestaurant("Norman's Restaurant", 257, 472);
+		createRestaurant("Norman's Restaurant", 257, 474);
 		createBank("Aleena's Bank - North", 73, 74);
 		createBank("Aleena's Bank - South", 16, 619);
 		createRestaurantA("Aleena Restaurant", 183, 266);

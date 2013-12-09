@@ -193,23 +193,16 @@ public class HostAgent extends Role {
 		
 		if (!waitingCustomers.isEmpty()){
 			synchronized(tables){
-			for (Table table : tables) {
-				//print("Checking table " + table.tableNumber + " to see if empty");
-					if (!table.isOccupied() && !waiters.isEmpty()) {
-						WaiterAgent waiterTemp = selectWaiter();
-							seatCustomer(waitingCustomers.get(0), table, waiterTemp);//the action
-							return true;//return true to the abstract agent to reinvoke the scheduler.
-							
-							//else
-								//return true; //keep checking waiters since there is a customer waiting
-					
+				for (Table table : tables) {
+					//print("Checking table " + table.tableNumber + " to see if empty");
+						if (!table.isOccupied() && !waiters.isEmpty()) {
+							WaiterAgent waiterTemp = selectWaiter();
+								seatCustomer(waitingCustomers.get(0), table, waiterTemp);//the action
+								return true;//return true to the abstract agent to reinvoke the scheduler.
+					}
 				}
 			}
-					//else
-						//return true; //keep checking tables since there is a customer waiting
-			}
 			TellWaitingCustomersFull();
-		//return true;
 		}
 		
 		if (leave && waitingCustomers.isEmpty())

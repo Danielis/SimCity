@@ -78,7 +78,7 @@ public class RestaurantPanel extends JPanel {
 		}
 		for (int ix = 0; ix < numTables/2; ix++) {
 			Table tempTable = new Table(ix, startingX+spacerX*ix, startingY + spacerY);
-			tables.add(tempTable);//how you add to a collections
+			tables.add(tempTable);
 		}
 	}
 
@@ -99,8 +99,6 @@ public class RestaurantPanel extends JPanel {
         
         
         if (type.equals("Waiters")) {
-        	//System.out.println("waiter pressed");
-
             for (int i = 0; i < waiters.size(); i++) {
                 WaiterAgent temp = waiters.get(i);
                 
@@ -114,14 +112,12 @@ public class RestaurantPanel extends JPanel {
     }
 
 	public void addCustomer(String type, Customer c, boolean b) {
-		//CustomerAgent c = new CustomerAgent(name);	
 		CustomerGui g = new CustomerGui(c, gui);
 
-		gui.animationPanel.addGui(g);// dw
+		gui.animationPanel.addGui(g);
 		c.setHost(host);
 		c.setGui(g);
 		customers.add(c);
-		//c.startThread();
 		c.setAnimPanel(gui.animationPanel);
 		g.setHungry();
 	}
@@ -129,9 +125,6 @@ public class RestaurantPanel extends JPanel {
 	public void addHost(HostAgent c) {
 		this.host = c;
 		host.setRestaurant(gui.rest);
-		//host.setTellers(b.getWorkingTellers());
-		//gui.rest.tellTellers(host);
-		//host.setGui(g);
 		gui.rest.setWorkingHost(c);
 		host.setAnimPanel(gui.animationPanel);
 		host.tables = tables;
@@ -152,14 +145,10 @@ public class RestaurantPanel extends JPanel {
 			gui.rest.workingHost.waiterAdded();
 		waiters.add(c);
 		gui.animationPanel.addGui(waiterGui);
-		//host.addWaiter(c);
 	}
 
 	public void addCook(CookAgent c) {
 		c.setRestaurant(gui.rest);
-		//host.setTellers(b.getWorkingTellers());
-		//gui.rest.tellTellers(host);
-		//host.setGui(g);
 		gui.rest.setWorkingCook(c);
 		CookGui g = new CookGui(c, gui);
 	    c.setGui(g);
@@ -171,21 +160,5 @@ public class RestaurantPanel extends JPanel {
 		c.setRestaurant(gui.rest);
 		gui.rest.setWorkingCashier(c);
 	}
-
-    
-
-	
-	
-    
-//    public void addWaiter(String name){
-//    	WaiterAgent w = new restaurant.WaiterAgent(name);
-// //   	WaiterGui g = newWaiterGui(w, gui);
-// //   	gui.animationPanel.addGui(g);
-//    	
-//    	w.setHost(host);
-//  //  	w.setGui(g);
-//    	w.startThread();
-//    	host.setWaiterAgent(w);
-//    }
 
 }

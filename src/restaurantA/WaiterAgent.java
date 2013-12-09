@@ -39,6 +39,7 @@ public class WaiterAgent extends Role implements Waiter {
 	public RestaurantA rest;
 	Timer timer = new Timer();
 	double salary;
+	public boolean isAssigned = false;
 
 	public AnimationPanel copyOfAnimPanel;
 	public WaiterAgent(String name, HostAgent host, CookAgent cook, CashierAgent cashier) {
@@ -55,6 +56,16 @@ public class WaiterAgent extends Role implements Waiter {
 	public WaiterAgent(String name) {
 		super();
 		this.name = name;
+	}
+	
+	public void setAssigned()
+	{
+		isAssigned = true;
+	}
+	
+	public boolean isAssigned()
+	{
+		return isAssigned;
 	}
 	
 	public boolean onBreak = false;

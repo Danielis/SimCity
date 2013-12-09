@@ -112,7 +112,7 @@ public class RestaurantPanel extends JPanel
     
     public void addWaiter(Waiter w, int waiterindex) 
     {
-		WaiterGui g = new WaiterGui(w, gui, waiterindex);
+		WaiterGui g = new WaiterGui(w, gui, waiters.size()+1);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
 		w.setAnimPanel(gui.animationPanel);

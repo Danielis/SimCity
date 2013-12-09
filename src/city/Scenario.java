@@ -132,4 +132,5 @@ public void CallScenarioTest(CityPanel c) {
 	c.addWorker("Cashier", "Cashier", "Average");
 	c.addWorker("Chef", "Cook", "Average");
 }
+
 }
