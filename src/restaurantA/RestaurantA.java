@@ -22,9 +22,9 @@ import city.*;
 public class RestaurantA extends RestBase{
 	public RestaurantGui gui;
 	public RestaurantPanel panel;
-	public String name; //Name of the restaurant
+	public String name;
     public Coordinate location;
-   // public ProducerConsumerMonitor theMonitor;
+    public ProducerConsumerMonitor theMonitor;
     public int numWaitersWorking = 0;
 	public Boolean hasHost = false;
     public Boolean hasCook = false;
@@ -52,7 +52,7 @@ public class RestaurantA extends RestBase{
         rg.setAlwaysOnTop(false);
         rg.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         owner = "Aleena";
-      // theMonitor = new ProducerConsumerMonitor();
+        theMonitor = new ProducerConsumerMonitor();
         
     	int Inv = 40;
 		int Cap = 5;

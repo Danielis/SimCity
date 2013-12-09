@@ -1,13 +1,11 @@
 package restaurantA;
 
-import agent.Agent;
 import restaurantA.RestaurantA.*;
 import restaurantA.ProducerConsumerMonitor.Ticket;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
 import restaurantA.gui.AnimationPanel;
 import restaurantA.gui.CookGui;
-import restaurantA.gui.CustomerGui;
 import restaurantA.interfaces.*;
 import roles.*;
 
@@ -111,8 +109,6 @@ public class CookAgent extends Role implements Cook {
 		marketIndex++;
 	}
 
-
-
 	public String getName() {
 		return name;
 	}
@@ -121,6 +117,10 @@ public class CookAgent extends Role implements Cook {
 	/* MESSAGES*******************************************************************/
 	public void msgFoodDone(Order o){
 		stateChanged();
+	}
+	
+	public void msgHereIsMonitor(ProducerConsumerMonitor theMonitor2) {
+		theMonitor = theMonitor2;
 	}
 	
 	public void msgNotEmpty() {
