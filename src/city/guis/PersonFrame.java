@@ -57,5 +57,6 @@ public class PersonFrame extends JFrame{
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setAlwaysOnTop(true);
 	}
 }
