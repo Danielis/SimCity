@@ -2,6 +2,7 @@ package restaurantA;
 
 import agent.Agent;
 import restaurantA.RestaurantA.*;
+import restaurantA.ProducerConsumerMonitor.Ticket;
 import restaurantA.WaiterAgent.customerState;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
@@ -13,57 +14,45 @@ import roles.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.Semaphore;
 
-/**
- * Restaurant Host Agent
- */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
 public class CookAgent extends Role implements Cook {
-	
- private class CookTimerTask extends TimerTask {
-		  Order o;
-		  CookAgent cook;
-		  public CookTimerTask(Order o, CookAgent cook) {
-		   this.o = o;
-		   this.cook = cook;
-		  }
-		  @Override
-		  public void run() {
-		 
-		  }
-		 }
-	
-	
+
+	private class CookTimerTask extends TimerTask {
+		Order o;
+		CookAgent cook;
+		public CookTimerTask(Order o, CookAgent cook) {
+			this.o = o;
+			this.cook = cook;
+		}
+		@Override
+		public void run() {
+
+		}
+	}
+
 	public class Order {
 		WaiterAgent w;
 		String choice;
 		Table table;
 		orderState s;
 		CustomerAgent c;
-		
 
-		Order(WaiterAgent w, String choice, Table table, orderState s, CustomerAgent c){
+
+		public Order(WaiterAgent w, String choice, Table table, orderState s, CustomerAgent c){
 			this.w = w;
 			this.choice = choice;
 			this.table = table;
 			this.s = s;
 			this.c = c;
 		}
-		}
+	}
 
 	enum orderState {
 		pending, cooking, done, finished, reorder, pickedUp
 	}
-	
-	
 
-
+	
 	Timer timer = new Timer();
-	//map(string, Food) foods;
 	private String name;
 	public Collection<Order> orders;
 	public List<MyMenuItem> menu;
@@ -76,6 +65,9 @@ public class CookAgent extends Role implements Cook {
 	public RestaurantA rest = null;
 	private Boolean leave = false;
 	private double balance = 0;
+	
+	ProducerConsumerMonitor theMonitor;
+	
 	public CookAgent(String name, CashierAgent cashier) {
 		super();
 		this.name = name;
@@ -84,18 +76,20 @@ public class CookAgent extends Role implements Cook {
 		//menu = rest.menu;
 		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
 		for (int i = 0; i < 3; i++)
-		addMarket();
+			addMarket();
 		addMarket(15);
 	}
+	
 	public CookAgent(String name2) {
 		this.name = name2;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
-		
+
 		markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
 		for (int i = 0; i < 3; i++)
-		addMarket();
+			addMarket();
 		addMarket(15);
 	}
+	
 	public void setAnimPanel(AnimationPanel animationPanel)
 	{
 		copyOfAnimPanel = animationPanel;
@@ -125,11 +119,14 @@ public class CookAgent extends Role implements Cook {
 	}
 
 
-	// Messages
-	
+	/* MESSAGES*******************************************************************/
 	public void msgFoodDone(Order o){
-		//print("test");
 		stateChanged();
+	}
+	
+	public void msgNotEmpty() {
+		stateChanged();
+		
 	}
 
 	public void msgHereIsOrder(WaiterAgent w, String choice, Table table, CustomerAgent c) { 
@@ -144,12 +141,12 @@ public class CookAgent extends Role implements Cook {
 			if (o.c == c)
 				o.s = orderState.pickedUp;
 			if (o.s == orderState.finished)
-					temp++;
+				temp++;
 		}
 		if (temp == 0)
 			cookGui.DonePlateFood();
 	}
-	
+
 	public void msgHereIsFood(Market market, String food, int quantity) { 
 		//synchronized(menu){
 		for (MyMenuItem m : menu){
@@ -161,7 +158,7 @@ public class CookAgent extends Role implements Cook {
 		//}
 		stateChanged();
 	}
-	
+
 	public void msgCanOnlyFullfillPartial(Market mark, String food, int quantity){
 		for (MyMenuItem m : menu){
 			if (m.name == food){
@@ -173,90 +170,82 @@ public class CookAgent extends Role implements Cook {
 		print("Received message that " + mark.getName() + " cannot fulfill full order for " + food + " so will order more from another market");
 		stateChanged();
 	}
-	
+
 	public void msgOutOfFood(Market market, String food) { 
 		synchronized(menu){
-		for (MyMenuItem m : menu){
-			if (m.name == food){
-				m.s = itemState.needsReOrder;
+			for (MyMenuItem m : menu){
+				if (m.name == food){
+					m.s = itemState.needsReOrder;
+				}
 			}
 		}
-		}
-		
-//		synchronized(markets){
-//		for (Market m : markets){
-//			if (market == m)
-//				markets.remove(m);
-//		}
-//		}
 		stateChanged();
 	}
-	
+
 	public void msgGuiCallToOrderMore(){
 		synchronized(menu){
-		for (MyMenuItem m : menu){
+			for (MyMenuItem m : menu){
 				if (m.s != itemState.orderedMore)
-				m.s = itemState.checkReOrder;
-		}
+					m.s = itemState.checkReOrder;
+			}
 		}
 		stateChanged();
 	}
-		
 
-	/**
-	 * Scheduler.  Determine what action is called for, and do it.
-	 */
+
+	/* SCHEDULER ***************************************************************/
 	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
-	//	print("scheduler called");
 		synchronized(menu){
-		for (MyMenuItem m : menu){
-		//	if (m.s == itemState.normal)
-			//	print("normal");
-			//if (m.s == itemState.orderedMore)
-			//	print("orderedMore");
-//			if (m.s == itemState.checkReOrder){
-//				print("reached check reorder check");
-//				CheckStock();
-//				return true;
-//			}
-			if (m.s == itemState.needsReOrder){
-				OrderMore(m, m.capacity - m.stock);
-				return true;
-			}
-		}}
-
-		if (orders.size() > 0){
-			synchronized(orders){
-			for (Order order : orders) {
-			if (order.s == orderState.done){
-				plateIt(order);
-				return true;
+			for (MyMenuItem m : menu)
+			{
+				if (m.s == itemState.needsReOrder){
+					OrderMore(m, m.capacity - m.stock);
+					return true;
 				}
 			}
 		}
+
+		if (orders.size() > 0){
 			synchronized(orders){
-		for (Order order : orders){
-			if (order.s == orderState.pending){
-				CheckAndCook(order);
-				return true;
+				for (Order order : orders) {
+					if (order.s == orderState.done){
+						plateIt(order);
+						return true;
+					}
+				}
 			}
-		}}
+			synchronized(orders){
+				for (Order order : orders){
+					if (order.s == orderState.pending){
+						CheckAndCook(order);
+						return true;
+					}
+				}
+			}
 		}
-		
-		if (leave && rest.workingWaiters.isEmpty()){
+
+		if (leave && rest.workingWaiters.isEmpty())
+		{
 			boolean temp = true;
-			for (Order o : orders){
+			for (Order o : orders)
+			{
 				if (o.s != orderState.finished)
 					temp = false;
 			}
 			if (temp)
 				LeaveWork();
 		}
+		
+		if (theMonitor != null && theMonitor.getCount() > 0){
+			 TakeTicket();
+			 return true;
+		}
+		
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -264,156 +253,141 @@ public class CookAgent extends Role implements Cook {
 	}
 
 	// Actions
-	
+
 	private void LeaveWork() {
 		rest.NoCook();
 		cookGui.setDone();
 		myPerson.msgLeftWork(this, balance);
-		
+
 	}
 	private void CheckAndCook(Order o){
 		synchronized(menu){
-		for (MyMenuItem f : menu){
-			
-			if (f.name == o.choice){
-				print(f.name + " stock: " + f.stock);
-				
-				if (f.stock <= 0 ){
-					
-					if(f.s != itemState.orderedMore){ // if you haven't already ordered more
-						f.s = itemState.needsReOrder;
-					}
+			for (MyMenuItem f : menu){
+
+				if (f.name == o.choice){
+					print(f.name + " stock: " + f.stock);
+
+					if (f.stock <= 0 ){
+
+						if(f.s != itemState.orderedMore){ // if you haven't already ordered more
+							f.s = itemState.needsReOrder;
+						}
 						OutOfFood(o);
 						print("Out of stock of " + f.name);
 						return;
-				}
-				else{
-					f.stock = f.stock - 1;
-					print(f.name + " stock reduced to: " + f.stock);
-					if (f.stock <= f.threshold){
-						print("Stock is below threshold for " + f.name);
-						if(f.s != itemState.orderedMore) // if you haven't already ordered more
-							f.s = itemState.needsReOrder;
+					}
+					else{
+						f.stock = f.stock - 1;
+						print(f.name + " stock reduced to: " + f.stock);
+						if (f.stock <= f.threshold){
+							print("Stock is below threshold for " + f.name);
+							if(f.s != itemState.orderedMore) // if you haven't already ordered more
+								f.s = itemState.needsReOrder;
 						}
-					CookIt(o);
+						CookIt(o);
+					}
+					print(f.name + " stock: " + f.stock);
+					return;
 				}
-				print(f.name + " stock: " + f.stock);
-				return;
 			}
-		}
 		}
 	}
-	
+
 	public void CheckStock(){
 		synchronized(menu){
-for (MyMenuItem f : menu){
+			for (MyMenuItem f : menu){
 
-		if (f.stock <= f.threshold){
-			print("Stock is below threshold for " + f.name);
-			if(f.s != itemState.orderedMore) // if you haven't already ordered more
-				//f.s = itemState.needsReOrder;
-				OrderMore(f, f.capacity - f.stock);
-			}
-		else{
-			f.s = itemState.normal;
-			print("We have enough of " + f.name);
-		}
-		
-	}	
+				if (f.stock <= f.threshold){
+					print("Stock is below threshold for " + f.name);
+					if(f.s != itemState.orderedMore) // if you haven't already ordered more
+						//f.s = itemState.needsReOrder;
+						OrderMore(f, f.capacity - f.stock);
+				}
+				else{
+					f.s = itemState.normal;
+					print("We have enough of " + f.name);
+				}
+
+			}	
 		}
 		stateChanged();
-}
+	}
 
-	
+
 	private void OutOfFood(Order o){
 		o.w.msgOutOfFood(this, o.choice, o.table, o.c);
 		o.s = orderState.reorder;
 	}
-	
+
 	private void OrderMore(MyMenuItem f, int quantity){
 		// this is dumb
 		f.s = itemState.orderedMore;
 		int rand = (int )(Math.random() * markets.size());
 		//print("~~~~~~~going to order from market " + rand);
-		
+
 		if (f.ordered > 0){
 			quantity = quantity - f.ordered;
 			f.ordered = 0;
 		}
-		
+
 		if (markets.size() == 0)
 			print("There are no more markets with food");
 		else{
 			synchronized(markets){
-			for (MarketAgent m : markets){
-				//print("market index: " + m.getIndex() + ", rand: " + rand);
-				if (m.getIndex() == rand)
-				{
-					if (!m.OutOfStock){
-					m.msgNeedFood(this, f.name, quantity);
-					print("Ordering " + f.name + " (" + quantity + ")");
+				for (MarketAgent m : markets){
+					//print("market index: " + m.getIndex() + ", rand: " + rand);
+					if (m.getIndex() == rand)
+					{
+						if (!m.OutOfStock){
+							m.msgNeedFood(this, f.name, quantity);
+							print("Ordering " + f.name + " (" + quantity + ")");
+						}
 					}
 				}
 			}
-			}
 		}
-		
+
 	}
-	
+
 	private void plateIt(Order o) {
 		print("Plating " + o.choice + " for customer " + o.c.getName() + " at table " + o.table.tableNumber);
 		o.s = orderState.finished;
 		cookGui.DoPlateFood(o.choice);
 		o.w.msgOrderDone(this, o.choice, o.table, o.c);
 	}
-	
+
 	private void CookIt(Order o){
 		print("Cooking " + o.choice + " for customer " + o.c.getName() + " at table " + o.table.tableNumber);
-		//o.s = orderState.done;
-		
-		//TODO
-//		timer.schedule(new TimerTask() {
-//			@SuppressWarnings("unused")
-//			Object cookie = 1;
-//			public void run() {
-//				o.s = orderState.done;
-		
-//			}
-//		},
-//		5000);
-		
-			o.s = orderState.cooking;
-			cookGui.DoGrillFood(o.choice);
-			timer.schedule(new CookTimerTask(o, this) {
-				Object cookie = 1;
-				public void run() {
-					cookGui.DoneGrillFood();
+		o.s = orderState.cooking;
+		cookGui.DoGrillFood(o.choice);
+		timer.schedule(new CookTimerTask(o, this) {
+			Object cookie = 1;
+			public void run() {
+				cookGui.DoneGrillFood();
 				//	cookingFood.release();
-					o.s = orderState.done;
-					cook.msgFoodDone(o);
-					print("Cooked " + o.choice + " for customer " + o.c.getName() + " at table " + o.table.tableNumber);
-					
-					stateChanged();
-				}
-			},
-			5000);
-			
-		//	try {
-				//cookingFood.acquire();
-		//	} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-			//	e.printStackTrace();
-		//	}
-			
-			//o.s = orderState.done;
-			//print("Cooked " + o.choice + " for customer " + o.c.getName() + " at table " + o.table.tableNumber);
-			
-			
+				o.s = orderState.done;
+				cook.msgFoodDone(o);
+				print("Cooked " + o.choice + " for customer " + o.c.getName() + " at table " + o.table.tableNumber);
+
+				stateChanged();
+			}
+		},
+		5000);
 	}
 	
+	private void TakeTicket()
+	{
+		 Ticket data = theMonitor.remove();
+		 consume_item(data);
+	}
+	
+	private void consume_item(Ticket data)
+	{
+		orders.add(new Order((WaiterAgent)data.w, data.choice, data.table, orderState.pending, (CustomerAgent)data.cu));
+	}
+
 	public void setGui(CookGui g) {
 		cookGui = g;
-		//print("gui set");
 	}
 	@Override
 	public void msgLeaveWork() {
@@ -423,25 +397,12 @@ for (MyMenuItem f : menu){
 	@Override
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
-		
+
 	}
 	public void setRestaurant(RestaurantA rest2) {
 		rest = rest2;
 		menu = rest.menu;
 	}
-
-
-
-
-	//utilities
-
-
-	
-	
-	
-	
-	
-
 }
 
 

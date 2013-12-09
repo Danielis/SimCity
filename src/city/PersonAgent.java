@@ -1441,9 +1441,9 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.cashier || job.type == JobType.cook || job.type == JobType.waiter  || job.type == JobType.restHost){
 
 			if (job.workBuilding.owner.equals("Norman"))
-			WorkAtRest();
+				WorkAtRest();
 			else if (job.workBuilding.owner.equals("Aleena"))
-			WorkAtRestA();
+				WorkAtRestA();
 
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
@@ -1560,7 +1560,6 @@ public class PersonAgent extends Agent implements Person
 	public void WorkAtRestA() {
 
 		//takeBusIfApplicable(2);
-
 		
 		RestaurantA r = (RestaurantA) job.workBuilding;
 				

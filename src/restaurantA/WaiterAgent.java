@@ -3,16 +3,12 @@ package restaurantA;
 import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import agent.Agent;
-
 import java.util.concurrent.Semaphore;
 
 import restaurantA.CookAgent;
 import restaurantA.Table;
 import restaurantA.RestaurantA.*;
 import restaurantA.gui.AnimationPanel;
-import restaurantA.gui.HostGui;
 import restaurantA.gui.WaiterGui;
 import restaurantA.interfaces.Cook;
 import restaurantA.interfaces.Customer;
@@ -29,16 +25,16 @@ import roles.*;
 //is proceeded as he wishes.
 public class WaiterAgent extends Role implements Waiter {
 	public static final int NTABLES = 3;
-	private Semaphore atTable = new Semaphore(0,true);
-	private Semaphore atCook = new Semaphore(0,true);
-	private Semaphore atOrigin = new Semaphore(0,true);
-	private Boolean imHere = true;
-	private Boolean leave = false;
+	public Semaphore atTable = new Semaphore(0,true);
+	public Semaphore atCook = new Semaphore(0,true);
+	public Semaphore atOrigin = new Semaphore(0,true);
+	public Boolean imHere = true;
+	public Boolean leave = false;
 	public Semaphore waitForOrder = new Semaphore(0);
 	public ArrayList<Table> tables;
-	private String name;
-	private double balance = 0;
-	private List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	public String name;
+	public double balance = 0;
+	public List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
     //public CookAgent cook = new CookAgent("Chef"); // ask cameron where i should be storing this lol
     public int numCust = 0;
     public HostAgent host;
@@ -297,13 +293,13 @@ public class WaiterAgent extends Role implements Waiter {
 		//and wait.
 	}
 
-private void LeaveWork() {
+	public void LeaveWork() {
 		rest.removeMe(this);
 		waiterGui.setDone();
 		myPerson.msgLeftWork(this, balance);
 		
 	}
-private void enjoyBreak() {
+	public void enjoyBreak() {
 	print("***** Enjoying break");
 	timer.schedule(new TimerTask() {
 		Object cookie = 1;
@@ -317,7 +313,7 @@ private void enjoyBreak() {
 	//print("**done with break");
 }
 
-private void escortCustomer(MyCustomer c){
+	public void escortCustomer(MyCustomer c){
 	//print("escort*********" + c.c.getCustomerName());
 	print("Picking up customer " + c.c.getCustomerName());
 	c.c.msgSitAtTable(this, c.table);
@@ -331,7 +327,7 @@ private void escortCustomer(MyCustomer c){
 	}
 }
 
-	private void WalkCustomerToTable(MyCustomer c, Table table) {
+	public void WalkCustomerToTable(MyCustomer c, Table table) {
 		print("Walking customer " + c.c.getCustomerName() + " to table " + table.tableNumber);
 		
 		c.s = customerState.WAITINGFORESCORT;
@@ -352,7 +348,7 @@ private void escortCustomer(MyCustomer c){
 	}
 
 	
-	private void multiStepWaiter(MyCustomer c) {
+	public void multiStepWaiter(MyCustomer c) {
 		
 		if (c.s == customerState.REORDER){
 			print("Sorry " + c.c.getCustomerName() + ", you have to re-order.");
@@ -382,7 +378,7 @@ private void escortCustomer(MyCustomer c){
     }
 	// The animation DoXYZ() routines
 	
-	private void DeliverOrder(MyCustomer c){
+	public void DeliverOrder(MyCustomer c){
 		//createCheck(c);
 		waiterGui.DoSendOrder(); //animation pick up and deliver food
 		print("Picking up order for " + c.c.getCustomerName());
@@ -407,11 +403,6 @@ private void escortCustomer(MyCustomer c){
 		
 		stateChanged();
 	}
-
-//	private void createCheck(MyCustomer c) {
-//		if (c.check == null)
-//		c.check = new Check(c.choice, c.table, c.c);			
-//	}
 
 	public void TakeOrder(MyCustomer c){
 		print("Taking order from customer " + c.c.getCustomerName());
@@ -485,30 +476,7 @@ private void escortCustomer(MyCustomer c){
 	public WaiterGui getGui() {
 		return waiterGui;
 	}
-	
-	private class MyCustomer{
-		CustomerAgent c;
-		Table table;
-		String choice;
-		customerState s;
-		Check check;
-		
-		MyCustomer(CustomerAgent c, Table table, customerState s) {
-			this.c = c;
-			this.table = table;
-			this.s = s;
-		}
 
-//		private MyCustomer find(CustomerAgent c2) {
-//			for (MyCustomer customer : myCustomers) {
-//				if (customer.c == c2)
-//					return customer;
-//			}
-//			return null;
-//		}
-		
-
-	}
 	 public Semaphore waitForOrder() {
 	    	return waitForOrder;
 	    }
