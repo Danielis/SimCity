@@ -31,7 +31,7 @@ public class CustomerGui implements Gui{
 	private final int table_divider = 127;
 
 	//self agent
-	private BankCustomer agent = null;
+	private BankCustomerRole agent = null;
 	
 	int move = 0;
 
@@ -66,7 +66,7 @@ public class CustomerGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
  
     
-	public CustomerGui(BankCustomer c, BankGui gui){
+	public CustomerGui(BankCustomerRole c, BankGui gui){
 		for (int i = 0; i < 5; i++)
 		{
 			tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
@@ -131,11 +131,11 @@ public class CustomerGui implements Gui{
 	}
 	
 	private void setImage(Boolean noMove){
-		String start = "/resources/bankSprites/";
+		String start = "/resources/globalSprites/";
 		String mid = direct;
 		String num = "0";
 		String end = ".png";
-		if (move >= 50 || noMove){
+		if (move >= 50 || !goingSomewhere){
 			num = "0";
 			move = 0;
 		}
@@ -144,13 +144,15 @@ public class CustomerGui implements Gui{
         else if (move < 50)
         	num = "1";
     
-       
-		String collapse = start + mid + num + end;
+       // resource/globalSprites/None/left0.png
+		String collapse = start + agent.job + "/" + mid + num + end;
+		//System.out.println(collapse);
 		 try
 	        {
 	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));
 	        } catch (IOException e ) {}
-	}
+    }
+	
 
 	private void setLeftImage() {
 		//String temp = Integer.toString(i);

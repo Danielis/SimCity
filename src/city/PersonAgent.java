@@ -1417,7 +1417,7 @@ public class PersonAgent extends Agent implements Person
 		
 		//if (CheckBankOpen()){
 		gui.setPresent(false);
-		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash);
+		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
 		if (!accounts.isEmpty())
 			c.setAccount(accounts.get(0));
 		if (!accounts.isEmpty())
@@ -1427,7 +1427,7 @@ public class PersonAgent extends Agent implements Person
 		roles.add(c);
 		c.setActivity(true);
 		c.setTrackerGui(trackingWindow);
-		r.panel.customerPanel.addCustomer((BankCustomer) c);
+		r.panel.customerPanel.addCustomer((BankCustomerRole) c);
 		//}
 		//else 
 		//	stateChanged();

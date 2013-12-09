@@ -47,8 +47,8 @@ public class CustomerTest extends TestCase
             
             host = new MockHost("host");
             teller = new MockTeller("teller");
-            cust = new BankCustomerRole("customer", "Deposit", 1500, 2500);
-            cust2 = new BankCustomerRole("customer", "New Loan", 1500, 2500);
+            cust = new BankCustomerRole("customer", "Deposit", 1500, 2500, "None");
+            cust2 = new BankCustomerRole("customer", "New Loan", 1500, 2500, "None");
         	cust.h = host; 
             cust.setTrackerGui(new TrackerGui());
         	b = new Bank();
