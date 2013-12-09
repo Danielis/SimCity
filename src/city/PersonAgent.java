@@ -2,6 +2,7 @@ package city;
 
 //Package Imports
 import java.awt.Point;
+import java.lang.Math;
 
 import restaurantA.*;
 
@@ -1114,27 +1115,27 @@ public class PersonAgent extends Agent implements Person
 	
 	private Building findOpenBuilding(buildingType type){
 		//Building r = null;
-		List<Building> temp = new ArrayList<Building>();
+		Building r = null;
+		double smallestDistance = 999999999;
 		synchronized(buildings) {
 			for (Building b: buildings){
 				if (b.getType() == type){
-					print(" added " + b);
-					if (b.isOpen()){
-						temp.add(b);
+					//print(" added " + b);
+					double distance = Math.sqrt((Math.pow(b.entrance.x - gui.getXPosition(), 2)) + (Math.pow(b.entrance.x - gui.getXPosition(), 2)));
+			
+					if (b.isOpen() && distance < smallestDistance){
+						r = b;
+						smallestDistance = distance;
 					}
 				}
 			}
 		}
-		if (temp.size() == 0){
+		if (r == null){
 			gui.setBusy(false);
 			return null;
 		}
-		if (temp.size() > 1){
-			//TODO some type of find closest building
-			return temp.get(0);
-		}
 		else
-			return temp.get(0);
+			return r;
 	}
 
 	private void GoEat() {
