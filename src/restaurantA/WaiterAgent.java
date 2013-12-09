@@ -481,9 +481,6 @@ public class WaiterAgent extends Role implements Waiter {
 	    	return waitForOrder;
 	    }
 
-	enum customerState {FOLLOWING, WAITINGFORESCORT, FOODTABLE, SEATED, READY, ORDERING,
-		ORDERED, WAITING, FOODREADY, EATING, FINISHED, DONE, REORDER, RECEIVEDCHECK, NEEDSCHECK, CHECKREADY}
-
 	public void msgGoOffBreak() {
 		waiterGui.SetOffBreak();
 	}

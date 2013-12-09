@@ -1,7 +1,5 @@
 package restaurantA;
 
-import restaurantA.WaiterAgent.customerState;
-
 public class MyCustomer{
 	CustomerAgent c;
 	Table table;

@@ -3,7 +3,6 @@ package restaurantA;
 import agent.Agent;
 import restaurantA.RestaurantA.*;
 import restaurantA.ProducerConsumerMonitor.Ticket;
-import restaurantA.WaiterAgent.customerState;
 import restaurantA.MarketAgent;
 import restaurantA.Table;
 import restaurantA.gui.AnimationPanel;

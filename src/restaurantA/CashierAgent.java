@@ -8,7 +8,6 @@ import java.util.List;
 import restaurantA.Check;
 import restaurantA.Check.checkState;
 import restaurantA.HostAgent.MyWaiter;
-import restaurantA.WaiterAgent.customerState;
 import restaurantA.interfaces.*;
 import agent.Agent;
 import roles.*;
