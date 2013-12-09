@@ -125,7 +125,7 @@ public class MarketPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param c2 name of person
      */
-    public void addCustomer(MarketCustomer c) 
+    public void addCustomer(MarketCustomerRole c) 
     {
     	c.setHost(host);
 		MarketCustomerGui g = new MarketCustomerGui(c, gui);

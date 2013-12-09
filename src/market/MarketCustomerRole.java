@@ -35,7 +35,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	public MarketAnimationPanel copyOfAnimPanel; // for gui
 	MarketWorker t;
 	double balance = 0;
-
+	public String job = "None";
 	private MarketCustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
@@ -58,9 +58,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		state = marketCustomerState.outside;
 	}
 
-	public MarketCustomerRole(String name, String item, double marketQuantity, double money) {
+	public MarketCustomerRole(String name, String item, double marketQuantity, double money, String j) {
 		super();
 		this.name = name;
+		job = j;
 		this.item = item;
 		quantityWanted = (int) marketQuantity;
 		balance = money;

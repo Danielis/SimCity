@@ -1786,13 +1786,13 @@ public class PersonAgent extends Agent implements Person
 		print("At market entrance");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "At market entrance", new Date()));
 		gui.setPresent(false);
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
 		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		r.panel.customerPanel.addCustomer((MarketCustomer) c);
+		r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
 		r.gui.customerStateCheckBox.setSelected(true);
 		
 	}
