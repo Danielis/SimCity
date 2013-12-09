@@ -8,6 +8,7 @@ import market.gui.MarketAnimationPanel;
 import market.gui.MarketCustomerGui;
 import market.interfaces.*;
 import agent.Agent;
+import bank.BankCustomerRole.customerPurpose;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -219,7 +220,22 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void AskForAssistance(){
 		state = marketCustomerState.waiting;
-
+		
+		if (item == "Steak")
+			customerGui.setSpeechBubble("buysteak");
+		if (item == "Chicken")
+			customerGui.setSpeechBubble("buychicken");
+		if (item == "Pizza")
+			customerGui.setSpeechBubble("buypizza");
+		if (item == "Salad")
+			customerGui.setSpeechBubble("buysalad");
+		if (item == "Car")
+			customerGui.setSpeechBubble("buycar");
+		if (item == "Juice")
+			customerGui.setSpeechBubble("buyjuice");
+		if (item == "Eggs")
+			customerGui.setSpeechBubble("buyeggs");
+	    
 		timer.schedule( new TimerTask()
 		{
 			public void run()
