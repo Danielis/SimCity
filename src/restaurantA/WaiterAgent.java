@@ -16,13 +16,7 @@ import restaurantA.interfaces.Waiter;
 
 import java.util.*;
 import roles.*;
-/**
- * Restaurant Waiter Agent
- */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
+
 public class WaiterAgent extends Role implements Waiter {
 	public static final int NTABLES = 3;
 	public Semaphore atTable = new Semaphore(0,true);
@@ -44,6 +38,7 @@ public class WaiterAgent extends Role implements Waiter {
 	public Collection<MyMenuItem> menu;
 	public RestaurantA rest;
 	Timer timer = new Timer();
+	double salary;
 
 	public AnimationPanel copyOfAnimPanel;
 	public WaiterAgent(String name, HostAgent host, CookAgent cook, CashierAgent cashier) {
@@ -61,6 +56,7 @@ public class WaiterAgent extends Role implements Waiter {
 		super();
 		this.name = name;
 	}
+	
 	public boolean onBreak = false;
 
 	public void msgGoOnBreak(){
@@ -170,18 +166,17 @@ public class WaiterAgent extends Role implements Waiter {
 		}
 	}
 	
-	public void msgAtTable() {//from animation
-		atTable.release();// = true;
+	public void msgAtTable() {
+		atTable.release();
 		stateChanged();
 	}
 	
-	public void msgAtCook() {//from animation
-		atCook.release();// = true;
+	public void msgAtCook() {
+		atCook.release();
 		stateChanged();
 	}
 	
-	public void msgAtOrigin() {//from animation
-		// = true;
+	public void msgAtOrigin() {
 		
 		if (imHere == true){
 			//print("msg at origin flicker called");
@@ -192,26 +187,10 @@ public class WaiterAgent extends Role implements Waiter {
 		
 	}
 
-//	public void msgDoneEating(CustomerAgent c){
-//		cust = new MyCustomer (myCustomers.find(c));
-//		cust.s = customerState.FINISHED;
-//		
-//		print("message 5 rec");
-//	}
-//	
-	
-	// scheduler
-	// TODO
 	public boolean pickAndExecuteAnAction() {
-		
-		//print("waiter scheduler called");
-		
-		
-		
+
 		for (MyCustomer customer : myCustomers)
 		{
-			//print("checking customer " + customer.c.getCustomerName() + " (state: " + customer.s.toString() +")");
-		
 			if (customer.s == customerState.WAITINGFORESCORT){
 				escortCustomer(customer);
 				return true;
@@ -226,8 +205,6 @@ public class WaiterAgent extends Role implements Waiter {
 		
 		for (MyCustomer customer : myCustomers)
 		{	
-			//print("state: " + customer.s);
-			
 			if (customer.s == customerState.CHECKREADY){
 				GiveCheck(customer);
 				return true;
@@ -272,9 +249,9 @@ public class WaiterAgent extends Role implements Waiter {
 		}
 		}
 		
-		if (!waiterGui.atHome()){ //if there's nothing to do, return to origin
+		if (!waiterGui.atHome()){
 			waiterGui.DoReturnHome();
-			return false; //TODO a more elegant implementation of this lol...
+			return false;
 		}
 		
 		if (leave){
@@ -288,9 +265,6 @@ public class WaiterAgent extends Role implements Waiter {
 		}
 		
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 
 	public void LeaveWork() {
@@ -309,12 +283,9 @@ public class WaiterAgent extends Role implements Waiter {
 		}
 	},
 	15000);
-
-	//print("**done with break");
 }
 
 	public void escortCustomer(MyCustomer c){
-	//print("escort*********" + c.c.getCustomerName());
 	print("Picking up customer " + c.c.getCustomerName());
 	c.c.msgSitAtTable(this, c.table);
 	waiterGui.DoGoToTable(c.c, c.table);
@@ -340,11 +311,8 @@ public class WaiterAgent extends Role implements Waiter {
 		try {
 			atOrigin.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
-		//waiterGui.DoReturnOrigin();
 	}
 
 	
@@ -371,21 +339,16 @@ public class WaiterAgent extends Role implements Waiter {
     		atCook.acquire();
     	} catch(Exception ex) {
     	}
-    	
-    	//c.c.waitForFood().release();    
-    	
     	stateChanged();
     }
 	// The animation DoXYZ() routines
 	
 	public void DeliverOrder(MyCustomer c){
-		//createCheck(c);
-		waiterGui.DoSendOrder(); //animation pick up and deliver food
+		waiterGui.DoSendOrder();
 		print("Picking up order for " + c.c.getCustomerName());
 		try {
 			atCook.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		rest.workingCook.msgPickedUpFood(c.c);
@@ -413,13 +376,11 @@ public class WaiterAgent extends Role implements Waiter {
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public void SendOrder(MyCustomer c){
-		//DoSendOrder(); //animation
 		c.s = customerState.WAITING;
 		print("Bringing customer " + c.c.getCustomerName() + "'s order of " + c.choice + " to the cook");
 		rest.workingCook.msgHereIsOrder(this, c.choice, c.table, c.c);
@@ -454,12 +415,10 @@ public class WaiterAgent extends Role implements Waiter {
 	
 	
 	public boolean isBusy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setHost(HostAgent host) {
-		// TODO Auto-generated method stub
 		this.host = host;
 		this.tables = host.tables;
 	}
@@ -494,6 +453,11 @@ public class WaiterAgent extends Role implements Waiter {
 	public void msgLeaveWork() {
 		leave = true;
 		stateChanged();
+	}
+	
+	public void setSalary(double sal)
+	{
+		salary = sal;
 	}
 
 	@Override

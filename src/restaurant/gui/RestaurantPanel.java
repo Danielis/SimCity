@@ -41,8 +41,6 @@ public class RestaurantPanel extends JPanel
     public MarketAgent market1 = new MarketAgent("Market 1");
     public MarketAgent market2 = new MarketAgent("Market 2");
     public MarketAgent market3 = new MarketAgent("Market 3");
-    
-    int waiterindex = 0; 		//To assign waiters individual locations
 
     private JPanel restLabel = new JPanel();
     public ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -112,9 +110,8 @@ public class RestaurantPanel extends JPanel
 		customers.add(c);
     }
     
-    public void addWaiter(Waiter w) 
+    public void addWaiter(Waiter w, int waiterindex) 
     {
-    	waiterindex++;
 		WaiterGui g = new WaiterGui(w, gui, waiterindex);
 		gui.animationPanel.addGui(g);
 		w.setHost(host);
@@ -128,7 +125,6 @@ public class RestaurantPanel extends JPanel
 		w.setCashier(cashier);
 		w.setGui(g);
 		waiters.add(w);
-		if (waiterindex > 5) waiterindex = 0;
     }
     
     public void removeCustomer(Customer customer)

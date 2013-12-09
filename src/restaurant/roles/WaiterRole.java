@@ -49,20 +49,7 @@ public class WaiterRole extends Role implements Waiter
 	
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
-	
-	//Constructors
-	/*
-	public WaiterRole()
-	{
-		super();
-		print("initialized waiter");
-		
-		//set all items of food available
-		for (int i = 0; i<4; i++)
-		{
-			foodsAvailable.add(true);
-		}
-	}*/
+
 	public WaiterRole(String name, Restaurant rest) {
 		super();
 		this.rest = rest;

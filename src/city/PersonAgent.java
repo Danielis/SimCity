@@ -88,6 +88,7 @@ public class PersonAgent extends Agent implements Person
 	public CityAnimationPanel CityAnimPanel;
 	Timer timer = new Timer();
 	public int waiterindex = 0;
+	public int waiterindexA = 0;
 	
 	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
@@ -1539,21 +1540,21 @@ public class PersonAgent extends Agent implements Person
 		}
 		if (job.type == JobType.waiter){
 			Random rand = new Random();
-			waiterindex = rand.nextInt();
-			if (waiterindex % 2 == 0)
+			double randval = rand.nextInt();
+			if (randval % 2 == 0)
 			{
 				ModernWaiterRole c = new ModernWaiterRole(this.getName(), r, this.cash);
-				r.panel.addWaiter((ModernWaiterRole) c);
+				r.panel.addWaiter((ModernWaiterRole) c, waiterindex);
 				c.setPerson(this);
 				c.setSalary(50);
 				c.setTrackerGui(trackingWindow);
 				roles.add(c);
 				c.setActivity(true);
 			}
-			else if(waiterindex %2 == 1)
+			else if(randval %2 == 1)
 			{
 				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), r, this.cash);
-				r.panel.addWaiter((TraditionalWaiterRole) c);
+				r.panel.addWaiter((TraditionalWaiterRole) c, waiterindex);
 				c.setPerson(this);
 				c.setSalary(50);
 				c.setTrackerGui(trackingWindow);
@@ -1565,6 +1566,15 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	public void WorkAtRestA() {
+		
+		/*	=====================================================================
+						RESTAURANT A SALARIES
+			=====================================================================
+				Cashier (Economist)  		|   100 per shift
+				Host (Manager)		 		|   80  per shift
+				Cook (Culinary Grad) 		|   80  per shift
+				Waiter (Low-wage student)   |   50  per shift
+			=====================================================================*/
 
 		//takeBusIfApplicable(2);
 		
@@ -1574,51 +1584,81 @@ public class PersonAgent extends Agent implements Person
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
-		Role c = null;
 		
 		if (job.type == JobType.restHost)
 		{
-			c = new restaurantA.HostAgent(this.getName());
+			restaurantA.HostAgent c = new restaurantA.HostAgent(this.getName());
 			c.setTrackerGui(trackingWindow);
 			r.workingHost = (restaurantA.HostAgent) c;
-			r.panel.customerPanel.addHost((restaurantA.HostAgent) c);
+			r.panel.customerPanel.addHost((restaurantA.HostAgent) c);	
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
 		}
 		
 		if (job.type == JobType.waiter)
 		{
-			c = new restaurantA.WaiterAgent(this.getName());
-			c.setTrackerGui(trackingWindow);
-			r.workingWaiters.add((restaurantA.WaiterAgent) c);
-			r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
+			Random rand = new Random();
+			double randval = rand.nextInt();
+			if (randval % 2 == 0)
+			{
+				restaurantA.WaiterAgent c = new restaurantA.ModernWaiterAgent(this.getName(), r, this.cash);
+				c.setSalary((double)50);
+				c.setTrackerGui(trackingWindow);
+				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				c = new restaurantA.WaiterAgent(this.getName());
+				c.setTrackerGui(trackingWindow);
+				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
+				c.setPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+			}
+			else if(randval %2 == 1)
+			{
+				restaurantA.WaiterAgent c = new TraditionalWaiterAgent(this.getName(), r, this.cash);
+				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				c.setSalary(50);
+				c.setTrackerGui(trackingWindow);
+				c = new restaurantA.WaiterAgent(this.getName());
+				c.setTrackerGui(trackingWindow);
+				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
+				c.setPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+			}
+			if (waiterindexA>5) waiterindex = 0;
 		}
 		
 		if (job.type == JobType.cook)
 		{
-			c = new restaurantA.CookAgent(this.getName());
+			restaurantA.CookAgent c = new restaurantA.CookAgent(this.getName());
 			c.setTrackerGui(trackingWindow);
 			r.workingCook = (restaurantA.CookAgent) c;
 			r.panel.customerPanel.addCook((restaurantA.CookAgent) c);
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
 		}
 		
 		if (job.type == JobType.cashier)
 		{
-			c = new restaurantA.CashierAgent(this.getName());
+			restaurantA.CashierAgent c = new restaurantA.CashierAgent(this.getName());
 			c.setTrackerGui(trackingWindow);
 			r.workingCashier = (restaurantA.CashierAgent) c;
 			r.panel.customerPanel.addCashier((restaurantA.CashierAgent) c);
-		}
-		
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
-		
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+		}	
 
 	}
 
 	public void WorkAtBank() {
 		
 		/*=====================================================================
-			RESTAURANT SALARIES
+									BANK SALARIES
 		=====================================================================
 		Host (Manager)  				|   80 per shift
 		Teller (Accountant)		 		|   110  per shift

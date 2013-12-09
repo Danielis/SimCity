@@ -1,16 +1,5 @@
 package restaurantA;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Semaphore;
-
-import restaurantA.RestaurantA.MyMenuItem;
-import restaurantA.gui.AnimationPanel;
-import restaurantA.gui.WaiterGui;
 import restaurantA.interfaces.*;
 
 public class TraditionalWaiterAgent extends WaiterAgent implements Waiter{
@@ -21,10 +10,17 @@ public class TraditionalWaiterAgent extends WaiterAgent implements Waiter{
 	    this.host = host;
 	    this.tables = host.tables;
 	    this.cook = cook;
-	    print("menu: " + rest.menu);
 	    this.menu = rest.menu;
 	    this.cashier = cashier;
 	}
+	
+	public TraditionalWaiterAgent(String name, RestaurantA r, double bal) {
+		super(name);
+		this.name = name;
+		print("I'm a traditional waiter from Restaurant A! I hate the ticket system.");
+		this.rest = r;
+		balance = bal;
+		}
 	
 	public void msgReadyToOrder(Customer c)
 	{
