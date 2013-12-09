@@ -62,6 +62,7 @@ public class CookAgent extends Role implements Cook {
 	public RestaurantA rest = null;
 	private Boolean leave = false;
 	private double balance = 0;
+	double salary;
 	
 	ProducerConsumerMonitor theMonitor;
 	
@@ -395,12 +396,17 @@ public class CookAgent extends Role implements Cook {
 	}
 	@Override
 	public void msgGetPaid() {
-		// TODO Auto-generated method stub
+		balance += this.rest.takePaymentForWork(salary);
 
 	}
 	public void setRestaurant(RestaurantA rest2) {
 		rest = rest2;
 		menu = rest.menu;
+	}
+
+	public void setSalary(double i) {
+		salary = i;
+		
 	}
 }
 

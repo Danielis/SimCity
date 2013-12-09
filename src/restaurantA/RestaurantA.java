@@ -62,6 +62,12 @@ public class RestaurantA extends RestBase{
 		menu.add( new MyMenuItem("Pizza", 5, Inv, Thr, Cap, 9) );
 		menu.add( new MyMenuItem("Salad", 5, Inv, Thr, Cap, 6) );
     }
+	
+	public double takePaymentForWork(double amount)
+	{
+		this.PaymentFund -= amount;
+		return amount;
+	}
 
 	public boolean hostIsHere() {
 		return hasHost;

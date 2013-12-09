@@ -40,6 +40,7 @@ public class HostAgent extends Role {
 	public AnimationPanel copyOfAnimPanel = null;
 	private double balance = 0;
 	private Boolean leave = false;
+	double salary;
 	class MyWaiter{
 		WaiterAgent w;
 		waiterState s;
@@ -317,8 +318,7 @@ public class HostAgent extends Role {
 
 	@Override
 	public void msgGetPaid() {
-		// TODO Auto-generated method stub
-		
+		balance += this.rest.takePaymentForWork(salary);		
 	}
 
 	public void setRestaurant(RestaurantA rest) {
@@ -328,6 +328,11 @@ public class HostAgent extends Role {
 
 	public void setAnimPanel(AnimationPanel animationPanel) {
 		copyOfAnimPanel = animationPanel;
+	}
+
+	public void setSalary(double i) {
+		salary = i;
+		
 	}
 
 	

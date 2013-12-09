@@ -1590,6 +1590,7 @@ public class PersonAgent extends Agent implements Person
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
+			c.setSalary(80);
 		}
 		
 		if (job.type == JobType.waiter)
@@ -1614,7 +1615,7 @@ public class PersonAgent extends Agent implements Person
 			{
 				restaurantA.WaiterAgent c = new TraditionalWaiterAgent(this.getName(), r, this.cash);
 				r.workingWaiters.add((restaurantA.WaiterAgent) c);
-				c.setSalary(50);
+				c.setSalary((double)50);
 				c.setTrackerGui(trackingWindow);
 				c = new restaurantA.WaiterAgent(this.getName());
 				c.setTrackerGui(trackingWindow);
@@ -1636,6 +1637,7 @@ public class PersonAgent extends Agent implements Person
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
+			c.setSalary(80);
 		}
 		
 		if (job.type == JobType.cashier)
@@ -1647,6 +1649,7 @@ public class PersonAgent extends Agent implements Person
 			c.setPerson(this);
 			roles.add(c);
 			c.setActivity(true);
+			c.setSalary(100);
 		}	
 
 	}

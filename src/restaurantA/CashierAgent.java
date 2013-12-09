@@ -19,6 +19,7 @@ public class CashierAgent extends Role implements Cashier {
 	private double savings;
 	private Boolean leave = false;
 	private double balance = 0;
+	double salary;
 	public CashierAgent(String name){
 		super();
 		this.name = name;
@@ -139,6 +140,11 @@ public class CashierAgent extends Role implements Cashier {
 		c.w.msgPickUpCheck(c);
 	}
 	
+	public void setSalary(double s)
+	{
+		salary = s;
+	}
+	
 	private void TellOffCustomer(Check c){
 		print("You better pay next time.");
 		c.setS(checkState.Paid);
@@ -195,7 +201,7 @@ public class CashierAgent extends Role implements Cashier {
 	}
 	@Override
 	public void msgGetPaid() {
-		// TODO Auto-generated method stub
+		balance += this.rest.takePaymentForWork(salary);
 		
 	}
 	public void setRestaurant(RestaurantA rest) {
