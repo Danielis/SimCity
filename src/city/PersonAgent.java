@@ -195,6 +195,10 @@ public class PersonAgent extends Agent implements Person
 			{
 			}
 			
+			else if(type == JobType.professor)
+			{
+			}
+			
 			assignWorkDay(parseJob);
 		}
 		
@@ -997,6 +1001,12 @@ public class PersonAgent extends Agent implements Person
 		
 		if (AIandNotWorking()){	
 			
+			if (job.type == JobType.professor)
+			{
+				PrepareForQuestions();
+				return true;
+			}
+			
 			if (job.type == JobType.student)
 			{
 				AskForRubric();
@@ -1068,14 +1078,12 @@ public class PersonAgent extends Agent implements Person
 			return true;
 
 
-		if (!gui.getBusy() && job.type != JobType.noAI){
+		if (!gui.getBusy() && job.type != JobType.noAI && job.type != JobType.student){
 			WalkAimlessly();
 		}
 
 		return false;
 	}
-	
-	
 
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
@@ -1845,21 +1853,39 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 	
+	
+	
+
+	private void PrepareForQuestions() {
+		gui.DoGoToLocation(423,  320);
+		gui.showBubble = false;
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.work);
+		Scenario.getInstance().fillStudents(c, 20);
+	}
+	
 	public void AskForRubric()
 	{
 		gui.showBubble = true;
-		gui.DoGoToLocation(400,400);
+		double radius = 50;
+		Coordinate point = getRandomPointFromCircle(423,320, radius);
+		gui.DoGoToLocation(point.x, point.y);
+		gui.showBubble = false;
+		gui.setBubble(-1);
 		Status.setWorkStatus(workStatus.working);
-		this.Status.setLocation(location.outside);
-		//RunTimer
-		timer.schedule(new TimerTask()
-		{
-			public void run()
-			{
-				gui.showBubble = true;
-				StopAsking();
-			}
-		}, 6 * 1000);
+		this.Status.setLocation(location.work);
+	}
+	
+	Coordinate getRandomPointFromCircle(int x, int y, double radius)
+	{
+		Coordinate answer = new Coordinate(0,0);
+		
+		double angle = Math.random()* Math.PI*2;
+		
+		answer.x = x + (int) (Math.cos(angle)*radius);
+		answer.y = y + (int) (Math.sin(angle)*radius);
+		
+		return answer;
 	}
 	
 	public void StopAsking()

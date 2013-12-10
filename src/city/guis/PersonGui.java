@@ -284,6 +284,18 @@ public class PersonGui implements Gui{
    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook3.png"));
    	       } catch (IOException e ) {}
      	}
+    	else if (agent.job.type.equals(JobType.student)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/student3.png"));
+  	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.professor)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/professor3.png"));
+  	       } catch (IOException e ) {}
+    	}
     	else if (agent.job.type.equals(JobType.crook)){
    		 try
   	       {
@@ -488,9 +500,6 @@ public class PersonGui implements Gui{
     	}
 	}
 
-
-
-
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
@@ -498,7 +507,7 @@ public class PersonGui implements Gui{
 		newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
 		
 		if (drawBubble)
-			newG2.drawImage(imgBubble, position.x - 100, position.y - 50, agent.CityAnimPanel);
+			newG2.drawImage(imgBubble, position.x - 150, position.y - 50, agent.CityAnimPanel);
 	}
 	
 

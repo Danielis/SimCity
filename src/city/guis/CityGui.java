@@ -733,6 +733,7 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		
 		if (e.getSource() == rubric){
+			Scenario.getInstance().setCityPanel(this.cityPanel);
 			Scenario.getInstance().CallScenarioRubric(this.cityPanel);
 			silenceScenButtons();
 		}
@@ -936,9 +937,6 @@ public class CityGui extends JFrame implements ActionListener {
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
 		trackingWindow.trackerFrame.setAlwaysOnTop(true);
-		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
-
 	}
 
 

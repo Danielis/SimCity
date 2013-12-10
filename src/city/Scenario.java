@@ -1,12 +1,17 @@
 package city;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import city.guis.CityGui;
 import city.*;
 import city.guis.CityPanel;
 
 
 public class Scenario {
-
+	
+	Timer timer = new Timer();
+	CityPanel cp;
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 
 	private static Scenario instance = null;
@@ -162,28 +167,37 @@ public class Scenario {
 		fillWork(c);
 	}
 
+	public void setCityPanel(CityPanel c)
+	{
+		this.cp = c;
+	}
 
 	public void CallScenarioRubric(CityPanel c) {
-		//STUB 
 		System.out.println("Testing button");
 		
 		workShift();
-//		c.addStudent("Norman", "Student", "Average");
-//		c.addStudent("Aleena", "Student", "Average");
-//		c.addStudent("Daniel", "Student", "Average");
-//		c.addStudent("Chris", "Student", "Average");
-//		
-		PersonAgent p2 = new PersonAgent("Student", "Student", "Average");
-		c.addPerson(p2);
+
+		PersonAgent prof = new PersonAgent("Wilczynski", "Professor", "Average");
+		c.addPerson(prof);
 		
-		//PersonAgent p1 = new PersonAgent("Norman", "Student", "Average");
-		//PersonAgent p2 = new PersonAgent("Aleena", "Student", "Average");
-		//PersonAgent p3 = new PersonAgent("Daniel", "Student", "Average");
-		//PersonAgent p4 = new PersonAgent("Chris", "Student", "Average");
+		fillStudents(c, 20);
+		/*
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{				
+				
+			}
+		}, 7 * 1000);*/
+	}
+	
+	public void fillStudents(CityPanel c, int numstudents)
+	{
 		
-		//c.addPerson(p1);
-		//c.addPerson(p2);
-		//c.addPerson(p3);
-		//c.addPerson(p4);
+		for (int i = 0; i < numstudents; i++)
+		{
+			PersonAgent p = new PersonAgent("Student", "Student", "Average");
+			c.addPerson(p);
+		}
 	}
 }
