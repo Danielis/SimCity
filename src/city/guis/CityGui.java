@@ -36,6 +36,7 @@ import city.Scenario;
 import city.TimeManager;
 
 
+
 //Import Java utilities
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -53,11 +54,14 @@ import java.util.Date;
 import java.util.Vector;
 
 import restaurantA.*;
+import restaurantC.RestaurantC;
 import bank.*;
 public class CityGui extends JFrame implements ActionListener {
 
 	Restaurant tempRes;
 	RestaurantA tempResA;
+	RestaurantC tempResC;
+	
 	Bank tempBan;
 	Apartment tempApa;
 	Market tempMar;
@@ -361,6 +365,7 @@ public class CityGui extends JFrame implements ActionListener {
 		createBank("Aleena's Bank - North", 73, 74);
 		createBank("Aleena's Bank - South", 16, 619);
 		createRestaurantA("Aleena Restaurant", 183, 266);
+		createRestaurantC("Chris's Restaurant", 528, 473);
 		createMarket("Aleena's Market", 280, 265);
 		createApartment("The Chris Apartment Complex", 319, 90);
 
@@ -406,7 +411,6 @@ public class CityGui extends JFrame implements ActionListener {
 
 				if ((x<159) && (y<85) && (x>0) && (y>0))
 				{
-
 					for (Building b: buildings){
 						if (b.getType() == buildingType.bank && b.name.equals("Aleena's Bank - North")){
 							Bank r = (Bank) b;
@@ -429,7 +433,6 @@ public class CityGui extends JFrame implements ActionListener {
 				
 				if ((x<140) && (y<619) && (x>32) && (y>554))
 				{
-
 					for (Building b: buildings){
 						if (b.getType() == buildingType.bank && b.name.equals("Aleena's Bank - South")){
 							Bank r = (Bank) b;
@@ -493,6 +496,35 @@ public class CityGui extends JFrame implements ActionListener {
 							r.gui.addWindowListener(new WindowAdapter() {
 								public void windowClosing(WindowEvent e) {
 									tempResA.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									cityGui.setAlwaysOnTop(false);
+									setState(Frame.NORMAL);
+								}
+
+								public void mouseEntered(MouseEvent e) {}
+								public void mouseExited(MouseEvent arg0) {}
+								public void mousePressed(MouseEvent arg0) {}
+								public void mouseReleased(MouseEvent arg0) {}
+
+							});
+						}
+
+					}
+				}
+				
+				if ((x<608) && (y<472) && (x>514) && (y>397))
+				{
+					for (Building b: buildings){
+						if (b.getType() == buildingType.restaurant && b.owner.equals("Chris")){
+							RestaurantC r = (RestaurantC) b;
+							//r.setPaymentFund(GovernmentFunds);
+							tempResC = r;
+							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempResC.gui.setAlwaysOnTop(false);
 									cityGui.setAlwaysOnTop(true);
 									cityGui.setAlwaysOnTop(false);
 									setState(Frame.NORMAL);
@@ -846,6 +878,15 @@ public class CityGui extends JFrame implements ActionListener {
 			restaurantA.RestaurantA r = new restaurantA.RestaurantA(rg, name);
 			rg.setRestaurant(r);
 			r.setEntrance(x,y);
+			buildings.add(r);
+	}
+	
+	public void createRestaurantC(String name, int x, int y) {
+			restaurantC.gui.RestaurantGui rg = new restaurantC.gui.RestaurantGui();
+			rg.setTrackerGui(trackingWindow);
+			restaurantC.RestaurantC r = new restaurantC.RestaurantC(rg, name);
+			rg.setRestaurant(r);
+			r.setEntrance(x, y);
 			buildings.add(r);
 	}
 

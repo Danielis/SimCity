@@ -2,6 +2,8 @@ package restaurantC.gui;
 
 import javax.swing.*;
 
+import restaurantC.RestaurantC;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,6 +65,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
+	public RestaurantC rest;
 
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -210,4 +213,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void removeOrder(int table) {
     	tableIcons.get(table - 1).choice = "";
     }
+
+	public void setRest(RestaurantC rest) {
+		this.rest = rest;
+	}
 }

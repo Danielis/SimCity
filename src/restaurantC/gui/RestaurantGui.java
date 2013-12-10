@@ -3,10 +3,13 @@ package restaurantC.gui;
 import javax.swing.*;
 
 import restaurantC.CustomerRole;
+import restaurantC.RestaurantC;
 import restaurantC.WaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
+
+import logging.TrackerGui;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -22,12 +25,15 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    public RestaurantPanel restPanel = new RestaurantPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
     private JLabel infoLabel; //part of infoPanel
     private JCheckBox stateCB;//part of infoLabel
+    
+    //associated restaurant class
+    public RestaurantC rest;
     
     //panel for creation of a customer
     private JPanel myPanel;
@@ -35,6 +41,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
 
+    //tracking gui for printout statements
+    private TrackerGui trackingWindow;
+    
     /**
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
@@ -91,6 +100,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
         add(infoPanel);
+    }
+    
+    public void setTrackerGui(TrackerGui t) {
+    	trackingWindow = t;
     }
     
     /**
@@ -169,4 +182,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    
+	public void setRestaurant(RestaurantC r) {
+		rest = r;
+        animationPanel.setRest(rest);
+	}
 }
