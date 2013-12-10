@@ -78,9 +78,9 @@ public class RestaurantPanel extends JPanel {
 		addMarket("Food 4 Less");
 		
 		//start threads
-		host.startThread();
-		cook.startThread();
-		cashier.startThread();
+		//host.startThread();
+		//cook.startThread();
+		//cashier.startThread();
 		
 		
 		//layout stuff
