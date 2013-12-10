@@ -1,6 +1,6 @@
 package housing.guis;
 
-import housing.HousingWorkerAgent;
+import housing.*;
 import housing.LandlordAgent;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
@@ -138,10 +138,10 @@ public class HousingPanel extends JPanel {
 		tenant.startThread();
     }*/
     
-    public void addTenant(HousingCustomer c, int n, String homePurpose) 
+    public void addTenant(HousingCustomerRole c, int n, String homePurpose) 
     {
 		//HousingCustomerAgent p = new HousingCustomerAgent(name);
-    	HousingCustomer hc = c;
+    	HousingCustomerRole hc = c;
     	c.setPurpose(homePurpose);
 		HousingCustomerGui g = new HousingCustomerGui(hc, gui, n);
 		gui.housingAnimationPanel.addGui(g);

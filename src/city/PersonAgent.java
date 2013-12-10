@@ -1243,8 +1243,10 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private Boolean CheckBankOpen() {
+		if (TimeManager.getInstance().getDay() != Day.saturday && TimeManager.getInstance().getDay() != Day.sunday){
 		print("I need to go to the bank!");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to the bank!", new Date()));
+		}
 		Bank r = null;
 		synchronized(buildings) {
 			for (Building b: buildings){
@@ -1254,9 +1256,11 @@ public class PersonAgent extends Agent implements Person
 			}
 		}
 		
+		if (TimeManager.getInstance().getDay() != Day.saturday && TimeManager.getInstance().getDay() != Day.sunday){
 			print("Aww.. bank is closed :(");	
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));	
+		}
 			gui.setBusy(false);
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... bank is closed :(", new Date()));
 			return false;
 		
 	}
@@ -1425,12 +1429,12 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 		
 		//Role terminologies
-		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory);
+		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-		a.panel.tenantPanel.addTenant((HousingCustomer) c, homePurpose);
+		a.panel.tenantPanel.addTenant(c, homePurpose);
 	}
 
 	private void GoToBank()

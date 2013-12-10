@@ -29,12 +29,13 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------Utilities---------------------
 	//-----------------------------------------------
 	//constructor
-	public HousingCustomerRole(String name2, double b, List<Item> inventory) {
+	public HousingCustomerRole(String name2, double b, List<Item> inventory, String j) {
 		name = name2;
 		balance = b;
 		needsLoan = false;
 		houseNeedsRepairs = false;
 		hungry = false;
+		job = j;
 		System.out.println("Housing Customer created.");
 		this.inventory = inventory;
 	}
@@ -76,7 +77,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//how much money owned/owed 
 	double balance;
 	double bill;
-
+	public String job = "None";
 	Timer timer= new Timer();
 	//booleans to track loan needs and repairs
 	private Boolean needsLoan;
