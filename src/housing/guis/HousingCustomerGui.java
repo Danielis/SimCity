@@ -56,8 +56,8 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 			avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 		} catch (IOException e ) {}
 
-		outside = new Coordinate(475,650);
-		position = new Coordinate(475,650);
+		outside = new Coordinate(475,600);
+		position = new Coordinate(475,600);
 		cashier = new Coordinate(255, 75);
 		waitingroom = new Coordinate(140,70);
 		destination = new Coordinate(475,20 + (100*roomIndex));
