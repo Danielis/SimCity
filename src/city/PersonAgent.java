@@ -1861,7 +1861,7 @@ public class PersonAgent extends Agent implements Person
 		gui.showBubble = false;
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.work);
-		Scenario.getInstance().fillStudents(c, 20);
+		//Scenario.getInstance().fillStudents(, 20);
 	}
 	
 	public void AskForRubric()
