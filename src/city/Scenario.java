@@ -169,6 +169,37 @@ public class Scenario {
 
 		workShift();
 		fillWork(c);
+		
+		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
+		PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
+		PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
+		PersonAgent p5 = new PersonAgent("No Job 4", "None", "Average");
+		PersonAgent p6 = new PersonAgent("Chris", "None", "Wealthy");
+		PersonAgent p7 = new PersonAgent("No Job 6", "None", "Poor");
+		
+
+		p5.setHungry();
+		p4.setHungry();
+
+		c.addPerson(p2);
+		c.addPerson(p3);
+		c.addPerson(p4);
+		c.addPerson(p5);
+		c.addPerson(p6);
+		c.addPerson(p7);
+		
+		PersonAgent p = new PersonAgent("Norman", "None", "Wealthy");
+		p.GiveCar();
+		p.addItem("Juice", 0, 2, 2);
+		c.addPerson(p);
+
+		PersonAgent p8 = new PersonAgent("Aleena", "None", "Average");
+		c.addPerson(p8);
+
+		PersonAgent p9 = new PersonAgent("Daniel", "None", "Wealthy");
+		p9.GiveCar();
+		p9.setHungry();
+		c.addPerson(p9);
 	}
 
 	public void setCityPanel(CityPanel c)

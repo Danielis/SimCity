@@ -1111,7 +1111,7 @@ public class PersonAgent extends Agent implements Person
 			return true;
 
 
-		if (!gui.getBusy() && job.type != JobType.noAI && job.type != JobType.student && job.type != JobType.professor){
+		if (notBusy()){
 			WalkAimlessly();
 		}
 
@@ -1123,19 +1123,23 @@ public class PersonAgent extends Agent implements Person
 		
 		if  (job.type == JobType.student) return true;
 		if (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && 
-				TimeManager.getInstance().getHour() < Job.timeEnd && !job.workBuilding.forceClosed){
-		{
-			for (Day d : job.daysWorking){
-					return true;
-				}
-			}
-			return false;
+			TimeManager.getInstance().getHour() < Job.timeEnd && job.workBuilding != null &&
+			!job.workBuilding.forceClosed){
+				for (Day d : job.daysWorking){
+						return true;
+					}
+				return false;
 		}
 		else
 			return false;
 	}
+	
 	private boolean AIandNotWorking() {
 		return (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
+	}
+	
+	private Boolean notBusy(){
+		return (!gui.getBusy() && job.type != JobType.noAI && job.type != JobType.student && job.type != JobType.professor);
 	}
 	
 	private void GoToSleep() {
