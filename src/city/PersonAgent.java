@@ -88,7 +88,6 @@ public class PersonAgent extends Agent implements Person
 	Timer timer = new Timer();
 	public int waiterindex = 0;
 	public int waiterindexA = 0;
-	
 	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
@@ -101,6 +100,7 @@ public class PersonAgent extends Agent implements Person
 		static final int timeEnd = 20;
 		public Building workBuilding;
 		List <Day> daysWorking = new ArrayList<Day>();
+		private Day dayLastRobbed = Day.friday;
 		
 		public Job(JobType parseJob) {
 			type = parseJob;
@@ -1352,37 +1352,47 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private boolean needsBankTransaction() {
-		if (job.type.equals(JobType.crook)){ //TODO modify this so they dont cont. rob lol
-			bankPurpose = "Rob";
-			bankAmount = 200;
-			return true;
+		//print(job.dayLastRobbed.toString());
+		//dayLastRobbed = Day.wednesday;
+		//print(job.dayLastRobbed.toString());
+		//print(TimeManager.getInstance().getDay().toString());
+		if (job.type.equals(JobType.crook)){
+			if (TimeManager.getInstance().getDay() != job.dayLastRobbed){ //TODO modify this so they dont cont. rob lol
+				bankPurpose = "Rob";
+				bankAmount = 200;
+				return true;
+			}
+			else 
+				return false;
 		}
-		else if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
-			bankPurpose = "Pay Loan";
-			bankAmount = cash - getCashThresholdUp();
-			return true;
+		else {
+			if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
+				bankPurpose = "Pay Loan";
+				bankAmount = cash - getCashThresholdUp();
+				return true;
+			}
+			else if (cash > getCashThresholdUp() && hasCar()){ //if has too much cash, and hasn't bought a car
+				bankPurpose = "Deposit";
+				bankAmount = cash - getCashThresholdUp();
+				return true;
+			}
+			else if (cash < getCashThresholdLow()){			
+				bankPurpose = "Withdraw";
+				bankAmount = getCashThresholdLow() - cash;
+				return true;
+			}
+			else if (getTotalMoney() < getMoneyThreshold()){
+				bankPurpose = "Take Loan";
+				bankAmount = getMoneyThreshold() - getTotalMoney();
+				return true;
+			}
+			else if (accounts.size() == 0){
+				bankPurpose = "New Account";
+				bankAmount = cash - getCashThresholdUp();
+				return true;
+			}
+			else return false;
 		}
-		else if (cash > getCashThresholdUp() && hasCar()){ //if has too much cash, and hasn't bought a car
-			bankPurpose = "Deposit";
-			bankAmount = cash - getCashThresholdUp();
-			return true;
-		}
-		else if (cash < getCashThresholdLow()){			
-			bankPurpose = "Withdraw";
-			bankAmount = getCashThresholdLow() - cash;
-			return true;
-		}
-		else if (getTotalMoney() < getMoneyThreshold()){
-			bankPurpose = "Take Loan";
-			bankAmount = getMoneyThreshold() - getTotalMoney();
-			return true;
-		}
-		else if (accounts.size() == 0){
-			bankPurpose = "New Account";
-			bankAmount = cash - getCashThresholdUp();
-			return true;
-		}
-		else return false;
 	}
 
 	private double getTotalMoney() {
@@ -1445,6 +1455,12 @@ public class PersonAgent extends Agent implements Person
 		Building r2 = findOpenBuilding(buildingType.bank);
 		
 		if (r2 != null){
+			
+			if(bankPurpose.equals("Rob"))
+			{
+				job.dayLastRobbed = TimeManager.getInstance().getDay();
+			}
+			
 		Bank r = (Bank) r2;
 	
 		gui.setPresent(true);
