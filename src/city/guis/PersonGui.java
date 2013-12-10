@@ -67,6 +67,7 @@ public class PersonGui implements Gui{
 	Coordinate waitingroom;
 	
 	public BufferedImage imgTrainer;
+	public BufferedImage imgBubble;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -283,6 +284,70 @@ public class PersonGui implements Gui{
     	{
     		imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
     	} catch (IOException e ) {}
+    }
+    
+    public void setBubble(double value)
+    {
+    	if (value == 0){
+      		 try
+     	       {
+     			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble0.png"));
+     	       } catch (IOException e ) {}
+       	}
+       	else if (value == 1){
+     		 try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble1.png"));
+   	       } catch (IOException e ) {}
+     	}
+       	else if (value == 2){
+     		 try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble2.png"));
+   	       } catch (IOException e ) {}
+     	}
+       	else if (value == 3){
+     		 try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble3.png"));
+   	       } catch (IOException e ) {}
+     	}
+       	else if (value == 4){
+     		 try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble4.png"));
+   	       } catch (IOException e ) {}
+     	}
+       	else if (value == 5){
+     		 try
+    	       {
+    			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble5.png"));
+    	       } catch (IOException e ) {}
+      	}
+       	else if (value == 6){
+    		 try
+  	       {
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble6.png"));
+  	       } catch (IOException e ) {}
+    	}
+      	else if (value == 7){
+    		 try
+  	       {
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble7.png"));
+  	       } catch (IOException e ) {}
+    	}
+      	else if (value == 8){
+    		 try
+  	       {
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble8.png"));
+  	       } catch (IOException e ) {}
+    	}
+      	else if (value == 9){
+    		 try
+  	       {
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble9.png"));
+  	       } catch (IOException e ) {}
+    	}
     }
 
     public void updatePosition() {

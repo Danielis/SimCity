@@ -14,6 +14,7 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 import restaurant.Restaurant;
+import restaurant.CookAgent.state;
 import restaurant.gui.CookGui;
 import restaurant.gui.HostGui;
 import restaurant.gui.RestaurantAnimationPanel;
@@ -55,6 +56,7 @@ import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
 
 
+
 //Utility Imports
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -92,6 +94,9 @@ public class PersonAgent extends Agent implements Person
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
 	
+	public boolean changeBubble = false;
+	public double bubbleValue = 0;
+	public int bubbleIndex = 0;
 
 	public class Job{
 		public JobType type;
@@ -276,6 +281,7 @@ public class PersonAgent extends Agent implements Person
 		timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime() - num2; // sets random time for ate, before added
 		
 	}	
+	
 	public double setWealth() {
 		if (wealthLevel.equals(WealthLevel.average)){
 			addItem("Car", 0, 1, 1);
@@ -962,6 +968,17 @@ public class PersonAgent extends Agent implements Person
 	@Override
 
 	public boolean pickAndExecuteAnAction() {
+		
+		if (changeBubble)
+		{
+			bubbleValue++;
+			if (bubbleValue > 40)
+			{
+				Random rand = new Random();
+				bubbleValue = 0;
+				bubbleIndex = Math.abs(rand.nextInt() % 10);
+			}
+		}
 
 		if (job.type == JobType.noAI){		
 
@@ -1494,10 +1511,14 @@ public class PersonAgent extends Agent implements Person
 				WorkAtRest();
 			else if (job.workBuilding.owner.equals("Aleena"))
 				WorkAtRestA();
-
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
+		}
+		
+		if (job.type == JobType.student)
+		{
+			AskForRubric();
 		}
 
 		Status.loc = location.work;
@@ -1741,8 +1762,6 @@ public class PersonAgent extends Agent implements Person
 
 	public void GoToRestaurantN(Building b)
 	{
-		
-		
 		Restaurant r = (Restaurant) b;
 		gui.setPresent(true);
 		gui.setBusy(true);
@@ -1796,9 +1815,7 @@ public class PersonAgent extends Agent implements Person
 		r.panel.customerPanel.addCustomer((restaurantA.CustomerAgent) c, r);
 	
 	}
-	
 
-	
 	public void GoToMarket(){
 		Market r = null;
 		gui.setPresent(true);
@@ -1836,6 +1853,29 @@ public class PersonAgent extends Agent implements Person
 		r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
 		r.gui.customerStateCheckBox.setSelected(true);
 		
+	}
+	
+	public void AskForRubric()
+	{
+		Coordinate studentLoc = new Coordinate(400,400);
+		gui.DoGoToLocation(studentLoc);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.outside);
+		//RunTimer
+		timer.schedule(new TimerTask()
+		{
+			public void run()
+			{
+				changeBubble = true;
+				gui.setBubble(bubbleIndex);
+				StopAsking();
+			}
+		}, 7 * 1000);
+	}
+	
+	public void StopAsking()
+	{
+		changeBubble = false;
 	}
 	
 	public void takeBusIfApplicable(int destin){
