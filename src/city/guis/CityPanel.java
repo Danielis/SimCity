@@ -157,9 +157,12 @@ public class CityPanel extends JPanel {
 		p.setAI(noAI);
 		p.setGui(g);
 		
+		System.out.println("************************");
+		System.out.println(" " + gui);
+		
 		Random rand = new Random();
 		
-		g.setPosition(Math.abs(rand.nextInt() % 200 + 200), Math.abs(rand.nextInt() % 200 + 200));
+		g.setPosition(100,100);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
 		if(Math.random() > .49)

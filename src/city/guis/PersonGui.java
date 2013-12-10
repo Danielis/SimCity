@@ -304,68 +304,68 @@ public class PersonGui implements Gui{
     	if (value == 0){
       		 try
      	       {
-     			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble0.png"));
+     			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble0.png"));
      	       } catch (IOException e ) {}
        	}
        	else if (value == 1){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble1.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble1.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 2){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble2.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 3){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble3.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble3.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 4){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble4.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble4.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 5){
      		 try
     	       {
-    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble5.png"));
+    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble5.png"));
     	       } catch (IOException e ) {}
       	}
        	else if (value == 6){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble6.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble6.png"));
   	       } catch (IOException e ) {}
     	}
       	else if (value == 7){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble7.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble7.png"));
   	       } catch (IOException e ) {}
     	}
       	else if (value == 8){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble8.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble8.png"));
   	       } catch (IOException e ) {}
     	}
       	else if (value == 9){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble9.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble9.png"));
   	       } catch (IOException e ) {}
     	}
-      	else if (value > 10)
+      	else if (value >= 10)
       	{
       		try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble2.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
    	       } catch (IOException e ) {}
       	}
     }
@@ -496,8 +496,9 @@ public class PersonGui implements Gui{
 		Graphics2D newG = (Graphics2D)g;
 		Graphics2D newG2 = (Graphics2D)g;
 		newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
+		
 		if (drawBubble)
-			newG2.drawImage(imgBubble, position.x, position.y - 50, agent.CityAnimPanel);
+			newG2.drawImage(imgBubble, position.x - 100, position.y - 50, agent.CityAnimPanel);
 	}
 	
 

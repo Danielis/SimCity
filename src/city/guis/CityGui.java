@@ -703,7 +703,6 @@ public class CityGui extends JFrame implements ActionListener {
 		if (e.getSource() == rubric){
 			Scenario.getInstance().CallScenarioRubric(this.cityPanel);
 			silenceScenButtons();
-			silenceButtons();
 		}
 
 		if (currentPerson != null){

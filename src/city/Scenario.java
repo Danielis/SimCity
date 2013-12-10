@@ -167,10 +167,14 @@ public class Scenario {
 		//STUB 
 		System.out.println("Testing button");
 		
-		c.addStudent("Norman", "Student", "Average");
-		c.addStudent("Aleena", "Student", "Average");
-		c.addStudent("Daniel", "Student", "Average");
-		c.addStudent("Chris", "Student", "Average");
+		workShift();
+//		c.addStudent("Norman", "Student", "Average");
+//		c.addStudent("Aleena", "Student", "Average");
+//		c.addStudent("Daniel", "Student", "Average");
+//		c.addStudent("Chris", "Student", "Average");
+//		
+		PersonAgent p2 = new PersonAgent("Student", "Student", "Average");
+		c.addPerson(p2);
 		
 		//PersonAgent p1 = new PersonAgent("Norman", "Student", "Average");
 		//PersonAgent p2 = new PersonAgent("Aleena", "Student", "Average");

@@ -193,7 +193,6 @@ public class PersonAgent extends Agent implements Person
 			
 			else if(type == JobType.student)
 			{
-				workBuilding = null;
 			}
 			
 			assignWorkDay(parseJob);
@@ -997,6 +996,12 @@ public class PersonAgent extends Agent implements Person
 		
 		
 		if (AIandNotWorking()){	
+			
+			if (job.type == JobType.student)
+			{
+				AskForRubric();
+				return true;
+			}
 
 			//print(" role no active, should be true" + noRoleActive());
 			//print("is gui busy, should be false" + gui.getBusy());
@@ -1074,6 +1079,8 @@ public class PersonAgent extends Agent implements Person
 
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
+		
+		if  (job.type == JobType.student) return true;
 		if (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && 
 				TimeManager.getInstance().getHour() < Job.timeEnd && !job.workBuilding.forceClosed){
 		{
@@ -1504,12 +1511,6 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
 		}
-		
-		if (job.type == JobType.student)
-		{
-			AskForRubric();
-		}
-
 		Status.loc = location.work;
 
 	}
@@ -1846,8 +1847,8 @@ public class PersonAgent extends Agent implements Person
 	
 	public void AskForRubric()
 	{
-		Coordinate studentLoc = new Coordinate(400,400);
-		gui.DoGoToLocation(studentLoc);
+		gui.showBubble = true;
+		gui.DoGoToLocation(400,400);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.outside);
 		//RunTimer
