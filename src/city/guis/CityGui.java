@@ -153,7 +153,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton closeRestN = new JButton("Close RestN");
 	private JButton closeRestA = new JButton("Close RestA");
 	private JButton closeBank = new JButton("Close Banks");
-	private JButton closeMarket = new JButton("Close Market");
+	private JButton closeMarket = new JButton("Close Markets");
 	
 
 	private JButton fillBank = new JButton("Fill");

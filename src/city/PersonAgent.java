@@ -1514,19 +1514,24 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.bank);
 		
-		//if (CheckBankOpen()){
-		gui.setPresent(false);
-		BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
-		if (!accounts.isEmpty())
-			c.setAccount(accounts.get(0));
-		if (!accounts.isEmpty())
-			c.setLoan(loans);
-		
-		c.setPerson(this);
-		roles.add(c);
-		c.setActivity(true);
-		c.setTrackerGui(trackingWindow);
-		r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+		if (r.isOpen()){
+			gui.setPresent(false);
+			BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
+			if (!accounts.isEmpty())
+				c.setAccount(accounts.get(0));
+			if (!accounts.isEmpty())
+				c.setLoan(loans);
+			
+			c.setPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+			c.setTrackerGui(trackingWindow);
+			r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 		}
 		else{
 			gui.setBusy(false);
@@ -1837,17 +1842,22 @@ public class PersonAgent extends Agent implements Person
 		//takeBusIfApplicable(2);
 		
 		gui.DoGoToLocation(r.entrance);
+		
+		if (r.isOpen()){
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
-
 		//Role terminologies
 		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
-	//	r.panel.customerPanel.hungry.setSelected(true);
 		r.panel.customerPanel.addCustomer((restaurantA.CustomerAgent) c, r);
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 	
 	}
 
@@ -1868,6 +1878,8 @@ public class PersonAgent extends Agent implements Person
 		this.Status.setLocation(location.market);
 		print("At market entrance");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "At market entrance", new Date()));
+		
+		if (r.isOpen()){
 		gui.setPresent(false);
 		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
@@ -1877,7 +1889,11 @@ public class PersonAgent extends Agent implements Person
 		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
 		r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
 		r.gui.customerStateCheckBox.setSelected(true);
-		
+		}
+		else {
+			gui.setBusy(false);
+			stateChanged();
+		}
 		}
 		else{
 			gui.setBusy(false);

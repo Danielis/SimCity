@@ -69,7 +69,8 @@ public class Scenario {
 		//	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
 
 		workShift();
-		fillWork(c);
+		EmployBank(c);
+		EmployRest(c);
 
 		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 		p.addItem("Juice", 0, 2, 2);
