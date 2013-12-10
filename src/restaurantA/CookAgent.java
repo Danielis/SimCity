@@ -234,19 +234,13 @@ public class CookAgent extends Role implements Cook {
 			 return true;
 		}
 		
-		if (leave && rest.workingWaiters.isEmpty())
-		{
-			boolean temp = true;
-			for (Order o : orders)
-			{
-				if (o.s != orderState.finished)
-					temp = false;
-			}
-			if (temp)
+		if (leave){
+			if (canLeave())
 				LeaveWork();
 			else
-				stateChanged();
+				return true;
 		}
+		
 		
 		
 		return false;
@@ -256,6 +250,21 @@ public class CookAgent extends Role implements Cook {
 	}
 
 	// Actions
+
+	private boolean canLeave() {
+		if (rest.workingWaiters.isEmpty()  && rest.currentCustomers.isEmpty())
+		{
+			boolean temp = true;
+			for (Order o : orders)
+			{
+				if (o.s != orderState.finished)
+					temp = false;
+			}
+			return temp;
+		}
+		else
+			return false;
+	}
 
 	private void LeaveWork() {
 		rest.NoCook();

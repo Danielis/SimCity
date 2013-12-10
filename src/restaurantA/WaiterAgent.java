@@ -268,22 +268,31 @@ public class WaiterAgent extends Role implements Waiter {
 		}
 		
 		if (leave){
-			boolean temp = true;
-			for (MyCustomer c : myCustomers){
-				if (c.s != customerState.DONE)
-					temp = false;
-			}
-			if (temp)
-				LeaveWork();
-			else
-				return true;
+				if (canLeave())
+					LeaveWork();
+				else
+					return true;
 		}
 		
 		return false;
 	}
+	
+	private Boolean canLeave(){
+		 if(rest.currentCustomers.isEmpty()){
+		 boolean temp = true;
+			for (MyCustomer c : myCustomers){
+				if (c.s != customerState.DONE)
+					temp = false;
+			}
+			return (temp);
+		 }
+		 else return false;
+	}
 
 	public void LeaveWork() {
+		//print("sizE: " + rest.workingWaiters.size());
 		rest.removeMe(this);
+	//	print("sizE: " + rest.workingWaiters.size());
 		waiterGui.setDone();
 		myPerson.msgLeftWork(this, balance);
 		

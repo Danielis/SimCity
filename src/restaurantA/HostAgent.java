@@ -206,8 +206,12 @@ public class HostAgent extends Role {
 			TellWaitingCustomersFull();
 		}
 		
-		if (leave && waitingCustomers.isEmpty())
-			LeaveWork();
+		if (leave){
+			if (waitingCustomers.isEmpty() && rest.currentCustomers.isEmpty())
+				LeaveWork();
+			else
+				return true;
+		}
 
 		return false;
 		//we have tried all our rules and found

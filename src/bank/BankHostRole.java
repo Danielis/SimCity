@@ -247,10 +247,12 @@ public class BankHostRole extends Role implements BankHost {
 			}
 			//print("reached gui call");
 			hostGui.DoGoToHomePosition();
-			if (leave && CanLeave())
-				LeaveWork();
-			else
-				return true;
+			if (leave){
+				if(CanLeave())
+					LeaveWork();
+				else
+					return true;
+			}
 			
 			return false;
 		}

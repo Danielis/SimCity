@@ -35,7 +35,7 @@ public class CustomerAgent extends Role implements Customer {
     private double money = 0;
 	public AnimationPanel copyOfAnimPanel;
 	// agent correspondents
-
+	private RestaurantA rest;
 	public String job = "none";
 	private HostAgent host;
 
@@ -199,6 +199,7 @@ public class CustomerAgent extends Role implements Customer {
 		//setMoney();
 		event = AgentEvent.doneLeaving;
 		this.myPerson.msgLeavingRestaurant(this, money);
+		rest.removeCust(this);
 		//print("reached origin");
 		stateChanged();
 	}
@@ -563,6 +564,10 @@ public class CustomerAgent extends Role implements Customer {
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setRestaurant(RestaurantA rest2) {
+		rest = rest2;
 	}
 
 
