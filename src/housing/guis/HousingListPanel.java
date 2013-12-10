@@ -1,11 +1,5 @@
 package housing.guis;
 
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import housing.HousingCustomerAgent;
-import housing.HousingWorkerAgent;
 import housing.interfaces.HousingCustomer;
 
 import javax.swing.*;
@@ -36,8 +30,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	private JButton addPersonButton = new JButton("Add");
 	private JTextField nameFieldForPerson = new JTextField("");
 	private HousingCustomer currentTenant;
-	private HousingCustomerAgent lastPersonClicked;
-	private HousingWorkerAgent currentWorker;
+	private HousingCustomerRole lastPersonClicked;
+	private HousingWorkerRole currentWorker;
 
 	//GENERAL STUFF
 	private HousingPanel housingPanel;
@@ -178,7 +172,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	{
 		currentTenant = temp;
 	}
-	public void updateWorker(HousingWorkerAgent temp)
+	public void updateWorker(HousingWorkerRole temp)
 	{
 		currentWorker = temp;
 

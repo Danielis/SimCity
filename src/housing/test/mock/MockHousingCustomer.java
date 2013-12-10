@@ -1,10 +1,11 @@
 package housing.test.mock;
 
 
-import housing.LandlordAgent;
+import housing.LandlordRole;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
 import housing.interfaces.HousingCustomer;
+import housing.interfaces.Landlord;
 
 import java.util.List;
 
@@ -53,11 +54,6 @@ public class MockHousingCustomer extends Mock implements HousingCustomer {
 
 	}
 
-	@Override
-	public void setLandlord(LandlordAgent landlord) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void EatAtHome() {
@@ -93,6 +89,12 @@ public class MockHousingCustomer extends Mock implements HousingCustomer {
 	public void WaitForAnimation() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setLandlord(LandlordRole landlord) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

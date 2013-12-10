@@ -48,8 +48,8 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		trackingWindow = t;
 	}
 
-
-	public void setLandlord(LandlordAgent landlord2) {
+	@Override
+	public void setLandlord(LandlordRole landlord2) {
 		landlord = landlord2;
 	}
 
@@ -72,7 +72,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	private HousingCustomerGui gui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	//landlord agent for the customer
-	private LandlordAgent landlord;
+	private LandlordRole landlord;
 	Boolean leavingHouse = false;
 	//how much money owned/owed 
 	double balance;
@@ -317,5 +317,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

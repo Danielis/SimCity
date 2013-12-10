@@ -1,9 +1,10 @@
 package housing.interfaces;
 
-import housing.LandlordAgent.HousingComplex;
+import housing.LandlordRole.HousingComplex;
 
 public interface Landlord {
 
-	void HereIsRent(HousingCustomer housingCustomer, double balance);
-	void MyHouseNeedsRepairs(HousingCustomer housingCustomerAgent);
+	public abstract void HereIsRent(HousingCustomer housingCustomer, double balance);
+	public abstract void MyHouseNeedsRepairs(HousingCustomer housingCustomerAgent);
+	public abstract void RepairsCompleted(HousingComplex c, double bill);
 }

@@ -90,6 +90,7 @@ public class PersonAgent extends Agent implements Person
 	Timer timer = new Timer();
 	public int waiterindex = 0;
 	public int waiterindexA = 0;
+	public int waiterindexC = 0;
 	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
@@ -134,7 +135,6 @@ public class PersonAgent extends Agent implements Person
 						}
 					}
 				}
-				
 			}
 			else if (type == JobType.cook){
 				for (Building b : buildings){
@@ -142,7 +142,6 @@ public class PersonAgent extends Agent implements Person
 						RestBase ba = (RestBase) b;
 						if (ba.needsCook()){
 							ba.setCook();
-
 							print("set c");
 							workBuilding = b;
 						}
@@ -155,7 +154,6 @@ public class PersonAgent extends Agent implements Person
 						RestBase ba = (RestBase) b;
 						if (ba.needsCashier()){
 							ba.setCashier();
-
 							print("set cas");
 							workBuilding = b;
 						}
@@ -168,7 +166,6 @@ public class PersonAgent extends Agent implements Person
 						RestBase ba = (RestBase) b;
 						if (ba.needsWaiter()){
 							ba.setWaiter();
-
 							print("set w");
 							workBuilding = b;
 						}
@@ -261,7 +258,6 @@ public class PersonAgent extends Agent implements Person
 		timeSinceLastAte = TimeManager.getInstance().getCurrentSimTime() - num; // sets random time for ate, before added
 		int num2 = (int)(Math.random() * ((30000 - 10000) + 10000));
 		timeSinceLastSlept = TimeManager.getInstance().getCurrentSimTime() - num2; // sets random time for ate, before added
-		
 	}	
 
 	public PersonAgent(String name, String j, String wealth){

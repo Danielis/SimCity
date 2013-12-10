@@ -3,11 +3,13 @@ package housing;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import roles.Role;
 import city.PersonAgent;
 import logging.Alert;
 import logging.AlertLevel;
@@ -15,14 +17,14 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
 
-public class LandlordAgent extends Agent {
+public class LandlordRole extends Role {
 
 
 	//--------------------------------------------------------
 	//-------------------Utilities----------------------------
 	//--------------------------------------------------------
 	//constructor
-	public LandlordAgent() {
+	public LandlordRole() {
 		complexes.add(new HousingComplex());
 		System.out.println("Landlord created.");
 		balance = 10000;
@@ -237,6 +239,33 @@ public class LandlordAgent extends Agent {
 			System.out.println("Landlord: Loan needed.");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Loan needed", new Date()));
 		}
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void DoneWithAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public ImageObserver copyOfAnimationPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void WaitForAnimation() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,7 +1,7 @@
 package housing.interfaces;
 
-import housing.LandlordAgent;
-import housing.LandlordAgent.HousingComplex;
+import housing.LandlordRole;
+import housing.LandlordRole.HousingComplex;
 import housing.guis.HousingWorkerGui;
 
 public interface HousingWorker {
@@ -12,6 +12,6 @@ public interface HousingWorker {
 
 	public abstract void setGui(HousingWorkerGui g);
 
-	public abstract void setLandlord(LandlordAgent landlord);
+	public abstract void setLandlord(LandlordRole landlord);
 
 }

@@ -1,7 +1,8 @@
 package housing.guis;
 
-import housing.HousingWorkerRole;
-import housing.interfaces.HousingWorker;
+
+import housing.LandlordRole;
+import housing.interfaces.Landlord;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,7 +17,7 @@ import restaurant.HostAgent;
 import city.PersonAgent;
 import city.guis.CityGui;
 
-public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
+public class LandlordGui implements Gui, restaurant.gui.Gui{
 
 	//variables
 		private boolean isPresent = true;
@@ -31,7 +32,7 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		private final int table_divider = 100;
 
 		//self agent
-		private HousingWorkerRole agent = null;
+		private LandlordRole agent = null;
 
 		//private HostAgent host;
 		HousingGui gui;
@@ -47,10 +48,10 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public HousingWorkerGui(HousingWorker p, HousingGui gui3){
+		public LandlordGui(Landlord p, HousingGui gui3){
 			
 	        
-			agent = (HousingWorkerRole) p;
+			agent = (LandlordRole) p;
 			this.gui = gui3;
 			
 			try
