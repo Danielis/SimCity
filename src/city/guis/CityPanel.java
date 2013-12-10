@@ -125,7 +125,12 @@ public class CityPanel extends JPanel {
 		gui.cityAnimationPanel.addGui(g);
 		p.setAI(noAI);
 		p.setGui(g);
-		//g.setPosition(p., Y);
+		
+		int offsetX = (int)(Math.random() * 100);
+		int offsetY = (int)(Math.random() * 20);
+		
+		
+		g.setPosition(p.job.workBuilding.entrance.x + offsetX, p.job.workBuilding.entrance.y + offsetY);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
 		//p.setBuildings(buildings);

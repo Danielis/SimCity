@@ -8,6 +8,7 @@ import market.gui.MarketAnimationPanel;
 import market.gui.MarketCustomerGui;
 import market.interfaces.*;
 import agent.Agent;
+import bank.BankCustomerRole.customerPurpose;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -35,7 +36,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	public MarketAnimationPanel copyOfAnimPanel; // for gui
 	MarketWorker t;
 	double balance = 0;
-
+	public String job = "None";
 	private MarketCustomerGui customerGui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
 	public String name;
@@ -58,9 +59,10 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		state = marketCustomerState.outside;
 	}
 
-	public MarketCustomerRole(String name, String item, double marketQuantity, double money) {
+	public MarketCustomerRole(String name, String item, double marketQuantity, double money, String j) {
 		super();
 		this.name = name;
+		job = j;
 		this.item = item;
 		quantityWanted = (int) marketQuantity;
 		balance = money;
@@ -218,7 +220,22 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void AskForAssistance(){
 		state = marketCustomerState.waiting;
-
+		
+		if (item == "Steak")
+			customerGui.setSpeechBubble("buysteak");
+		if (item == "Chicken")
+			customerGui.setSpeechBubble("buychicken");
+		if (item == "Pizza")
+			customerGui.setSpeechBubble("buypizza");
+		if (item == "Salad")
+			customerGui.setSpeechBubble("buysalad");
+		if (item == "Car")
+			customerGui.setSpeechBubble("buycar");
+		if (item == "Juice")
+			customerGui.setSpeechBubble("buyjuice");
+		if (item == "Eggs")
+			customerGui.setSpeechBubble("buyeggs");
+	    
 		timer.schedule( new TimerTask()
 		{
 			public void run()

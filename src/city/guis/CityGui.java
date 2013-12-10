@@ -131,11 +131,13 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton restaurantGo = new JButton("Go");
 	private JPanel otherFunction = new JPanel(); 
 	private JButton busGo = new JButton("Bus");
-	private JButton scen1 = new JButton("Scenario O");
 
-	private JButton scenA = new JButton("Scenario A");
-	private JButton scenB = new JButton("Scenario B");
-	private JButton scenP = new JButton("Scenario P");
+	private JButton scenA = new JButton("A");
+	private JButton scenB = new JButton("B");
+	private JButton scenF = new JButton("F");
+	private JButton scenJ = new JButton("J");
+	private JButton scenO = new JButton("O");
+	private JButton scenR = new JButton("R");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
 
@@ -146,6 +148,10 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton closeRestA = new JButton("Close RestA");
 	private JButton closeBank = new JButton("Close Banks");
 	private JButton closeMarket = new JButton("Close Market");
+	
+
+	private JButton fillBank = new JButton("Fill");
+	private JButton fillRestaurant = new JButton("Fill");
 
 	// ************ END FUNCTION PANEL *********************
 
@@ -238,6 +244,7 @@ public class CityGui extends JFrame implements ActionListener {
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
 		bankPanel.add(closeBank);
+		bankPanel.add(fillBank);
 
 		TitledBorder marketTitle = BorderFactory.createTitledBorder(loweredetched, "Market");
 		functionPanel.add(marketPanel);
@@ -266,6 +273,7 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantPanel.add(restaurantGo);
 		restaurantPanel.add(closeRestA);
 		restaurantPanel.add(closeRestN);
+		restaurantPanel.add(fillRestaurant);
 
 		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
 		functionPanel.add(otherFunction);
@@ -273,18 +281,22 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.setBorder(funct);
 		otherFunction.add(workGo);
 		otherFunction.add(busGo);
-		otherFunction.add(scen1);
 		otherFunction.add(scenA);
 		otherFunction.add(scenB);
-		otherFunction.add(scenP);
+		otherFunction.add(scenF);
+		otherFunction.add(scenJ);
+		otherFunction.add(scenO);
+		otherFunction.add(scenR);
 		otherFunction.add(noAIGo);
 		otherFunction.add(tempGo);
 
 		busGo.addActionListener(this);
-		scen1.addActionListener(this);
+		scenO.addActionListener(this);
 		scenA.addActionListener(this);
 		scenB.addActionListener(this);
-		scenP.addActionListener(this);
+		scenF.addActionListener(this);
+		scenJ.addActionListener(this);
+		scenR.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -292,6 +304,8 @@ public class CityGui extends JFrame implements ActionListener {
 		workGo.addActionListener(this);
 		housingList.addActionListener(this);
 		noAIGo.addActionListener(this);
+		fillBank.addActionListener(this);
+		fillRestaurant.addActionListener(this);
 
 		closeRestA.addActionListener(this);
 		closeRestN.addActionListener(this);
@@ -331,7 +345,7 @@ public class CityGui extends JFrame implements ActionListener {
 		// cityPanel.add(InformationPanel, BorderLayout.SOUTH);
 		buttonPanel.add(pauseButton, BorderLayout.CENTER);
 		buttonPanel.add(refreshButton, BorderLayout.EAST);
-		RestaurantPortion.add(personInformationPanel, BorderLayout.SOUTH);
+		//RestaurantPortion.add(personInformationPanel, BorderLayout.SOUTH);
 		add(cityAnimationPanel);
 		add(RestaurantPortion);
 
@@ -584,10 +598,12 @@ public class CityGui extends JFrame implements ActionListener {
 	}
 	
 	private void silenceScenButtons(){
-		scen1.setEnabled(false);
+		scenO.setEnabled(false);
 		scenA.setEnabled(false);
+		scenF.setEnabled(false);
+		scenJ.setEnabled(false);
 		scenB.setEnabled(false);
-		scenP.setEnabled(false);
+		scenR.setEnabled(false);
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
@@ -612,6 +628,13 @@ public class CityGui extends JFrame implements ActionListener {
 			}
 			closeRestA.setEnabled(false);
 		}
+		if (e.getSource() == fillBank){
+			Scenario.getInstance().EmployBank(this.cityPanel);
+		}
+		if (e.getSource() == fillRestaurant){
+
+			Scenario.getInstance().EmployRest(this.cityPanel);
+		}
 		if (e.getSource() == closeMarket){
 			for (Building b : buildings){
 				if (b.getType() == buildingType.market)
@@ -624,8 +647,16 @@ public class CityGui extends JFrame implements ActionListener {
 			this.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
 			busGo.setEnabled(false);
 		}
-		if (e.getSource() == scen1){
-			Scenario.getInstance().CallScenario1(this.cityPanel);
+		if (e.getSource() == scenO){
+			Scenario.getInstance().CallScenarioO(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenF){
+			Scenario.getInstance().CallScenarioF(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenJ){
+			Scenario.getInstance().CallScenarioJ(this.cityPanel);
 			silenceScenButtons();
 		}
 		if (e.getSource() == scenA){
@@ -636,8 +667,8 @@ public class CityGui extends JFrame implements ActionListener {
 			Scenario.getInstance().CallScenarioB(this.cityPanel);
 			silenceScenButtons();
 		}
-		if (e.getSource() == scenP){
-			Scenario.getInstance().CallScenarioP(this.cityPanel);
+		if (e.getSource() == scenR){
+			Scenario.getInstance().CallScenarioR(this.cityPanel);
 			silenceScenButtons();
 		}
 		if (e.getSource() == noAIGo){

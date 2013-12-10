@@ -97,6 +97,8 @@ public class WaiterAgent extends Role implements Waiter {
 		//print ("Waiter received message to bring customer " + customer.getCustomerName() + " to table " + table.tableNumber + ".");
 		this.host = host;
 		this.numCust ++;
+		print("cust: " + customer + " table: " + table + " host: " + host);
+		print("person " + myPerson);
 		stateChanged();
 	}
 	

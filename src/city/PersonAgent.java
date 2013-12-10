@@ -88,7 +88,6 @@ public class PersonAgent extends Agent implements Person
 	Timer timer = new Timer();
 	public int waiterindex = 0;
 	public int waiterindexA = 0;
-	
 	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
@@ -99,8 +98,9 @@ public class PersonAgent extends Agent implements Person
 		public Coordinate location;
 		int timeStart = 8;
 		static final int timeEnd = 20;
-		private Building workBuilding;
+		public Building workBuilding;
 		List <Day> daysWorking = new ArrayList<Day>();
+		private Day dayLastRobbed = Day.friday;
 		
 		public Job(JobType parseJob) {
 			type = parseJob;
@@ -213,10 +213,19 @@ public class PersonAgent extends Agent implements Person
 				daysWorking.add(Day.thursday);
 				daysWorking.add(Day.friday);
 				
-			if (type != JobType.bankHost && type != JobType.teller){ //banks closed on weekends
+			if (workBuilding != null &&
+			workBuilding.equals(buildingType.restaurant) && // 
+			workBuilding.owner.equals("Norman")){
+					daysWorking.add(Day.saturday);
+					daysWorking.add(Day.sunday);
+			}
+			else if (workBuilding != null &&
+				!workBuilding.equals(buildingType.bank)){ //banks closed on weekends
 				daysWorking.add(Day.saturday);
 				daysWorking.add(Day.sunday);
 			}
+			
+			
 			
 //			int sameJob = 0;
 //			for (PersonAgent p : people){
@@ -984,7 +993,7 @@ public class PersonAgent extends Agent implements Person
 				return true;
 			}
 			if (Status.getNourishmnet() == nourishment.Hungry &&
-					Status.getLocation() == location.outside) {
+					Status.getLocation() == location.outside && CheckRestaurantOpen()) {
 				Building r = findOpenBuilding(buildingType.restaurant);
 				GoToRestaurant(r);
 				return true;
@@ -1086,7 +1095,17 @@ public class PersonAgent extends Agent implements Person
 
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
-		return (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && TimeManager.getInstance().getHour() < Job.timeEnd);
+		if (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && 
+				TimeManager.getInstance().getHour() < Job.timeEnd){
+		{
+			for (Day d : job.daysWorking){
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+			return false;
 	}
 	private boolean AIandNotWorking() {
 		return (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
@@ -1149,7 +1168,7 @@ public class PersonAgent extends Agent implements Person
 		Building r = null;
 		r = findOpenBuilding(buildingType.restaurant);
 		
-		if (CheckRestOpen()){
+		if (r != null){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
 			if (wealthLevel == WealthLevel.wealthy && num <= 9){
 					restaurant = true;
@@ -1175,11 +1194,16 @@ public class PersonAgent extends Agent implements Person
 	}
 	
 	private void GoToRestaurant(Building r){
+		if (r != null){
 		if (r.owner.equals("Aleena"))
 			GoToRestaurantA(r);
 		if (r.owner.equals("Norman"))
 			GoToRestaurantN(r);
-
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 	}
 
 	private boolean isHungry() {
@@ -1257,6 +1281,25 @@ public class PersonAgent extends Agent implements Person
 			return false;
 		
 	}
+	
+	private Boolean CheckRestaurantOpen(){
+		print("I need to go to a restaurant!");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "I need to go to a restaurant!", new Date()));
+		Bank r = null;
+		synchronized(buildings) {
+			for (Building b: buildings){
+				if (b.getType() == buildingType.restaurant && b.isOpen()){
+					return true;
+				}
+			}
+		}
+		
+			print("Aww.. all restaurants are closed :(");	
+			gui.setBusy(false);
+			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "Person Agent", "Aww... all restaurants are closed :(", new Date()));
+			return false;
+		
+	}
 
 	private Boolean CheckMarketOpen() {
 		Market r = null;
@@ -1313,37 +1356,47 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private boolean needsBankTransaction() {
-		if (job.type.equals(JobType.crook)){ //TODO modify this so they dont cont. rob lol
-			bankPurpose = "Rob";
-			bankAmount = 200;
-			return true;
+		//print(job.dayLastRobbed.toString());
+		//dayLastRobbed = Day.wednesday;
+		//print(job.dayLastRobbed.toString());
+		//print(TimeManager.getInstance().getDay().toString());
+		if (job.type.equals(JobType.crook)){
+			if (TimeManager.getInstance().getDay() != job.dayLastRobbed){ //TODO modify this so they dont cont. rob lol
+				bankPurpose = "Rob";
+				bankAmount = 200;
+				return true;
+			}
+			else 
+				return false;
 		}
-		else if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
-			bankPurpose = "Pay Loan";
-			bankAmount = cash - getCashThresholdUp();
-			return true;
+		else {
+			if (hasLoan() && cash > getCashThresholdUp()){ //if has loan, and has enough cash to live
+				bankPurpose = "Pay Loan";
+				bankAmount = cash - getCashThresholdUp();
+				return true;
+			}
+			else if (cash > getCashThresholdUp() && hasCar()){ //if has too much cash, and hasn't bought a car
+				bankPurpose = "Deposit";
+				bankAmount = cash - getCashThresholdUp();
+				return true;
+			}
+			else if (cash < getCashThresholdLow()){			
+				bankPurpose = "Withdraw";
+				bankAmount = getCashThresholdLow() - cash;
+				return true;
+			}
+			else if (getTotalMoney() < getMoneyThreshold()){
+				bankPurpose = "Take Loan";
+				bankAmount = getMoneyThreshold() - getTotalMoney();
+				return true;
+			}
+			else if (accounts.size() == 0){
+				bankPurpose = "New Account";
+				bankAmount = cash - getCashThresholdUp();
+				return true;
+			}
+			else return false;
 		}
-		else if (cash > getCashThresholdUp() && hasCar()){ //if has too much cash, and hasn't bought a car
-			bankPurpose = "Deposit";
-			bankAmount = cash - getCashThresholdUp();
-			return true;
-		}
-		else if (cash < getCashThresholdLow()){			
-			bankPurpose = "Withdraw";
-			bankAmount = getCashThresholdLow() - cash;
-			return true;
-		}
-		else if (getTotalMoney() < getMoneyThreshold()){
-			bankPurpose = "Take Loan";
-			bankAmount = getMoneyThreshold() - getTotalMoney();
-			return true;
-		}
-		else if (accounts.size() == 0){
-			bankPurpose = "New Account";
-			bankAmount = cash - getCashThresholdUp();
-			return true;
-		}
-		else return false;
 	}
 
 	private double getTotalMoney() {
@@ -1403,8 +1456,15 @@ public class PersonAgent extends Agent implements Person
 
 	private void GoToBank()
 	{
-
 		Building r2 = findOpenBuilding(buildingType.bank);
+		
+		if (r2 != null){
+			
+			if(bankPurpose.equals("Rob"))
+			{
+				job.dayLastRobbed = TimeManager.getInstance().getDay();
+			}
+			
 		Bank r = (Bank) r2;
 	
 		gui.setPresent(true);
@@ -1432,6 +1492,11 @@ public class PersonAgent extends Agent implements Person
 		c.setActivity(true);
 		c.setTrackerGui(trackingWindow);
 		r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 	}
 	
 
@@ -1496,7 +1561,7 @@ public class PersonAgent extends Agent implements Person
 			Waiter (Low-wage student)   |   50  per shift
 		  =====================================================================*/
 
-		takeBusIfApplicable(2);
+		//takeBusIfApplicable(2);
 
 	
 		Restaurant r = (Restaurant) job.workBuilding;
@@ -1605,11 +1670,9 @@ public class PersonAgent extends Agent implements Person
 			{
 				restaurantA.WaiterAgent c = new restaurantA.ModernWaiterAgent(this.getName(), r, this.cash);
 				c.setSalary((double)50);
-				c.setTrackerGui(trackingWindow);
 				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c = new restaurantA.WaiterAgent(this.getName());
 				c.setTrackerGui(trackingWindow);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
 				c.setPerson(this);
 				roles.add(c);
@@ -1621,15 +1684,12 @@ public class PersonAgent extends Agent implements Person
 				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c.setSalary((double)50);
 				c.setTrackerGui(trackingWindow);
-				c = new restaurantA.WaiterAgent(this.getName());
-				c.setTrackerGui(trackingWindow);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
 				c.setPerson(this);
 				roles.add(c);
 				c.setActivity(true);
-			}
-			if (waiterindexA>5) waiterindex = 0;
+		}
+			//if (waiterindexA>5) waiterindex = 0;
 		}
 		
 		if (job.type == JobType.cook)
@@ -1667,7 +1727,7 @@ public class PersonAgent extends Agent implements Person
 		Teller (Accountant)		 		|   110  per shift
 		=====================================================================*/
 
-		takeBusIfApplicable(0);
+		//takeBusIfApplicable(0);
 
 		//Role c = null;
 		Bank r = (Bank) job.workBuilding;
@@ -1790,13 +1850,13 @@ public class PersonAgent extends Agent implements Person
 		print("At market entrance");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "At market entrance", new Date()));
 		gui.setPresent(false);
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash);
+		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
 		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		r.panel.customerPanel.addCustomer((MarketCustomer) c);
+		r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
 		r.gui.customerStateCheckBox.setSelected(true);
 		
 	}
