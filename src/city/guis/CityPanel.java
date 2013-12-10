@@ -117,6 +117,27 @@ public class CityPanel extends JPanel {
 		
     }
     
+    public void addPerson(PersonAgent p, boolean b) 
+    {
+    	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
+		p.setBuildings(buildings);
+    	PersonGui g = new PersonGui(p, gui, b);
+		p.setTrackerGui(gui.trackingWindow);
+		gui.cityAnimationPanel.addGui(g);
+		p.setAI(noAI);
+		p.setGui(g);
+		p.setAnimationPanel(gui.cityAnimationPanel);
+		p.setMetro(metro);
+		//p.setBuildings(buildings);
+		if(Math.random() > .49)
+			p.setBus(true);
+		if(p.getName().equals("Bus"))
+			p.setBus(true);
+		people.add(p);
+		p.startThread();
+		
+    }
+    
     public void addWorker(String name, String job, String wealth) 
     {
     	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));

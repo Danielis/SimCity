@@ -3,6 +3,8 @@ package city;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import city.PersonAgent.Job;
+import city.PersonAgent.JobType;
 import city.guis.CityGui;
 import city.*;
 import city.guis.CityPanel;
@@ -12,6 +14,8 @@ public class Scenario {
 	
 	Timer timer = new Timer();
 	CityPanel cp;
+	int numStudentsArrived = 0;
+	
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 
 	private static Scenario instance = null;
@@ -176,11 +180,11 @@ public class Scenario {
 		System.out.println("Testing button");
 		
 		workShift();
+		
+		cp = c;
 
 		PersonAgent prof = new PersonAgent("Wilczynski", "Professor", "Average");
-		c.addPerson(prof);
-		
-		fillStudents(c, 20);
+		c.addPerson(prof, true);
 		/*
 		timer.schedule( new TimerTask()
 		{
@@ -191,13 +195,57 @@ public class Scenario {
 		}, 7 * 1000);*/
 	}
 	
-	public void fillStudents(CityPanel c, int numstudents)
+	public void fillStudents(int numstudents)
 	{
 		
 		for (int i = 0; i < numstudents; i++)
 		{
 			PersonAgent p = new PersonAgent("Student", "Student", "Average");
-			c.addPerson(p);
+			cp.addPerson(p, false);
+		}
+	}
+	
+	public boolean AllThere()
+	{
+		return (numStudentsArrived >= 20);
+	}
+	
+	public void Continue1()
+	{
+		numStudentsArrived++;
+		System.out.println(numStudentsArrived);
+		if (AllThere())
+		{
+			HeartAttack();
+		}
+	}
+	
+	public void HeartAttack()
+	{
+		for (PersonAgent p: cp.people)
+		{
+			if (p.job != null)
+			{
+				if(p.job.type == JobType.professor)
+				{
+					System.out.println("Got message ***");
+					p.msgHaveHeartAttack();
+				}
+			}
+		}
+	}
+	
+	public void finish()
+	{
+		for (PersonAgent p: cp.people)
+		{
+			if (p.job != null)
+			{
+				if(p.job.type == JobType.student)
+				{
+					p.msgGoBotherTheCPs();
+				}
+			}
 		}
 	}
 }

@@ -93,7 +93,12 @@ public class PersonAgent extends Agent implements Person
 	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
+	public ProfessorState professorState = ProfessorState.none;
+	public StudentState studentState = StudentState.none;
 
+	public enum ProfessorState{none, needsHeartAttack, isHavingHeartAttack};
+	public enum StudentState{none, needsToLeave, leaving};
+	
 	public class Job{
 		public JobType type;
 		public Coordinate location;
@@ -911,17 +916,33 @@ public class PersonAgent extends Agent implements Person
 	public void msgAtBusStop(){
 		this.DoneWithBus(); // msgBusStopReached() should release agent to do other actions
 	}
-	/* removed since Person does not need to be told to go to stop just go to Restaurant or Market or so forth
-	public void msgGoToStop(BusStopAgent curStop,BusStopAgent dest){
-	 
-		print("Person going to STOP");
-		this.curStop = curStop;
-		this.destinationStop = dest;
-		this.Status.setTransportationStatus(transportStatus.goingToBusStop);
-		this.goingToStop = true;
-		stateChanged();
+	
+	public void msgHaveHeartAttack()
+	{
+		if (job != null)
+		{
+			if (job.type == JobType.professor)
+			{
+				print("got a");
+				professorState = ProfessorState.needsHeartAttack;
+				stateChanged();
+			}
+		}
 	}
-	*/
+	
+
+	public void msgGoBotherTheCPs() {
+		if (job != null)
+		{
+			if (job.type == JobType.student)
+			{
+				studentState = StudentState.needsToLeave;
+				stateChanged();
+			}
+		}
+	}
+	
+	
 	public void setDestinationStop(BusStopAgent P){
 		this.destinationStop = P;
 	}
@@ -967,6 +988,18 @@ public class PersonAgent extends Agent implements Person
 	@Override
 
 	public boolean pickAndExecuteAnAction() {
+		
+		if (professorState == ProfessorState.needsHeartAttack)
+		{
+			HaveHeartAttack();
+			return true;
+		}
+		
+		if (studentState == StudentState.needsToLeave)
+		{
+			GoBotherTheCPsInGitHub();
+			return true;
+		}
 
 		if (job.type == JobType.noAI){		
 
@@ -1078,7 +1111,7 @@ public class PersonAgent extends Agent implements Person
 			return true;
 
 
-		if (!gui.getBusy() && job.type != JobType.noAI && job.type != JobType.student){
+		if (!gui.getBusy() && job.type != JobType.noAI && job.type != JobType.student && job.type != JobType.professor){
 			WalkAimlessly();
 		}
 
@@ -1852,16 +1885,87 @@ public class PersonAgent extends Agent implements Person
 		r.gui.customerStateCheckBox.setSelected(true);
 		
 	}
-	
-	
-	
 
 	private void PrepareForQuestions() {
 		gui.DoGoToLocation(423,  320);
 		gui.showBubble = false;
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.work);
-		//Scenario.getInstance().fillStudents(, 20);
+		Scenario.getInstance().fillStudents(20);
+	}
+	
+	public void HaveHeartAttack()
+	{
+		print("Got to action");
+		professorState = ProfessorState.isHavingHeartAttack;
+		gui.setDeath();
+		gui.playdeath = true;
+		gui.showBubble = true;
+		gui.drawBubble = true;
+	}
+	
+	public void GoBotherTheCPsInGitHub()
+	{
+		studentState = StudentState.leaving;
+		gui.part1 = false;
+		gui.showBubble = true;
+		gui.drawBubble = true;
+		Random rand = new Random();
+		int temp = Math.abs(rand.nextInt() % 4);
+		if (temp == 0)
+		{
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+		}
+		else if (temp == 1)
+		{
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+		}
+		else if (temp == 2)
+		{
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() + 100 + Math.abs(rand.nextInt() % 250));
+		}
+		else if (temp == 3)
+		{
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
+		}
 	}
 	
 	public void AskForRubric()
@@ -1872,6 +1976,7 @@ public class PersonAgent extends Agent implements Person
 		gui.DoGoToLocation(point.x, point.y);
 		gui.showBubble = false;
 		gui.setBubble(-1);
+		Scenario.getInstance().Continue1();
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.work);
 	}
@@ -1950,5 +2055,6 @@ public class PersonAgent extends Agent implements Person
 	public void GiveCar() {
 		addItem("Car", 1);
 	}
+
 	
 }
