@@ -31,7 +31,7 @@ public class CookGui implements Gui{
 		
 		 try
 	        {
-	        	img = ImageIO.read(getClass().getResource("/resources/restSprites/A/cook.png"));
+	        	img = ImageIO.read(getClass().getResource("/resources/globalSprites/cook/down0.png"));
 	        } catch (IOException e ) {}
 		 try
 	        {

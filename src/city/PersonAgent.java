@@ -1636,7 +1636,7 @@ public class PersonAgent extends Agent implements Person
 			{
 				restaurantA.WaiterAgent c = new restaurantA.ModernWaiterAgent(this.getName(), r, this.cash);
 				c.setSalary((double)50);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				//r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c = new restaurantA.WaiterAgent(this.getName());
 				c.setTrackerGui(trackingWindow);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
@@ -1647,7 +1647,7 @@ public class PersonAgent extends Agent implements Person
 			else
 			{
 				restaurantA.WaiterAgent c = new TraditionalWaiterAgent(this.getName(), r, this.cash);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				//r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c.setSalary((double)50);
 				c.setTrackerGui(trackingWindow);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
@@ -1776,13 +1776,13 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 
 		//Role terminologies
-		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash);
+		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
 	//	r.panel.customerPanel.hungry.setSelected(true);
-		r.panel.customerPanel.addCustomer((restaurantA.interfaces.Customer) c, r);
+		r.panel.customerPanel.addCustomer((restaurantA.CustomerAgent) c, r);
 	
 	}
 	

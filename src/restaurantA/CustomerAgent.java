@@ -35,6 +35,8 @@ public class CustomerAgent extends Role implements Customer {
     private double money = 0;
 	public AnimationPanel copyOfAnimPanel;
 	// agent correspondents
+
+	public String job = "none";
 	private HostAgent host;
 
 	//    private boolean isHungry = false; //hack for gui
@@ -53,10 +55,11 @@ public class CustomerAgent extends Role implements Customer {
 	 * @param cash 
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name, double cash){
+	public CustomerAgent(String name, double cash, String job){
 		super();
 		this.name = name;
 		money = cash;
+		this.job = job;
 		//setMoney();
 	}
 
