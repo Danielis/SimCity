@@ -141,6 +141,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton scenR = new JButton("R");
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
+	private JButton rubric = new JButton("Rubric");
 
 	private JButton tempGo = new JButton("Test");
 
@@ -290,7 +291,8 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(scenR);
 		otherFunction.add(noAIGo);
 		otherFunction.add(tempGo);
-
+		otherFunction.add(rubric);
+		
 		busGo.addActionListener(this);
 		scenO.addActionListener(this);
 		scenA.addActionListener(this);
@@ -315,6 +317,8 @@ public class CityGui extends JFrame implements ActionListener {
 		closeMarket.addActionListener(this);
 
 		tempGo.addActionListener(this);
+		
+		rubric.addActionListener(this);
 
 
 
@@ -605,6 +609,7 @@ public class CityGui extends JFrame implements ActionListener {
 		scenJ.setEnabled(false);
 		scenB.setEnabled(false);
 		scenR.setEnabled(false);
+		rubric.setEnabled(false);
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
@@ -692,6 +697,10 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == tempGo){
 			Scenario.getInstance().CallScenarioTest(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == rubric){
+			Scenario.getInstance().CallScenarioRubric(this.cityPanel);
 			silenceScenButtons();
 		}
 		if (currentPerson != null){
