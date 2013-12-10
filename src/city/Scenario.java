@@ -98,13 +98,13 @@ public void CallScenarioR(CityPanel c){
 //	Weekend behavior is different
 //	Some workplaces are closed on the weekend.
 //	Show that people naturally avoid them and seek alternatives.
-	TimeManager.getInstance().setDivider(2);
-	TimeManager.getInstance().setOffset(760390000);
+	//TimeManager.getInstance().setDivider(2);
+	//TimeManager.getInstance().setOffset(760390000);
+	TimeManager.getInstance().setDivider(30);
+	TimeManager.getInstance().setOffset(70420000);
 	fillWork(c);
 
 	
-	//TimeManager.getInstance().setDivider(30);
-	//TimeManager.getInstance().setOffset(70420000);
 
 	PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
 	PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");

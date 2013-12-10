@@ -134,16 +134,6 @@ public class PersonAgent extends Agent implements Person
 					}
 				}
 				
-//				for (Building b : buildings){
-//					if (workBuilding == null && b.type == buildingType.restaurant){
-//						RestaurantA ba = (RestaurantA) b;
-//						if (ba.needsHost()){
-//							print("set b");
-//							ba.sethost();
-//							workBuilding = b;
-//						}
-//					}
-//				}
 			}
 			else if (type == JobType.cook){
 				for (Building b : buildings){
@@ -206,57 +196,34 @@ public class PersonAgent extends Agent implements Person
 		
 		
 		public void assignWorkDay(JobType parseJob) {
-			
+			// so if all buildings are full employed 
+			// they wont get stuck trying to go to work
+			if(workBuilding != null){			
 				daysWorking.add(Day.monday);
 				daysWorking.add(Day.tuesday);
 				daysWorking.add(Day.wednesday);
 				daysWorking.add(Day.thursday);
 				daysWorking.add(Day.friday);
+			
+				print("build" + workBuilding.type.toString());
 				
-			if (workBuilding != null &&
-			workBuilding.equals(buildingType.restaurant) && // 
-			workBuilding.owner.equals("Norman")){
+				print("owner" + workBuilding.owner);
+				if (workBuilding.type.equals(buildingType.restaurant)){
+					if (workBuilding.owner.equals("Norman") ||
+						workBuilding.owner.equals("Daniel")){
 					daysWorking.add(Day.saturday);
 					daysWorking.add(Day.sunday);
+					}
+				}
+			
+				else if (!workBuilding.type.equals(buildingType.bank)){ //banks closed on weekends
+					daysWorking.add(Day.saturday);
+					daysWorking.add(Day.sunday);
+				}
+			
 			}
-			else if (workBuilding != null &&
-				!workBuilding.equals(buildingType.bank)){ //banks closed on weekends
-				daysWorking.add(Day.saturday);
-				daysWorking.add(Day.sunday);
-			}
 			
-			
-			
-//			int sameJob = 0;
-//			for (PersonAgent p : people){
-//				if (p.job.type == parseJob){
-//					sameJob++;
-//				}
-//			}
-//			if (sameJob % 2 == 0)
-//				assignWorkSet(1);
-//			else
-//				assignWorkSet(2);
-//			
 		}
-
-//		public void assignWorkSet(int i) {
-//			if (i == 1){
-//				if (type == JobType.bankHost || type == JobType.teller){
-//					daysWorking.add(Day.monday);
-//					daysWorking.add(Day.wednesday);
-//					daysWorking.add(Day.friday);
-//				}
-//			}
-//			else{
-//				if (type == JobType.bankHost || type == JobType.teller){
-//					daysWorking.add(Day.tuesday);
-//					daysWorking.add(Day.wednesday);
-//					daysWorking.add(Day.friday);
-//				}
-//			}
-//		}
-		
 		
 	}
 	
