@@ -134,16 +134,6 @@ public class PersonAgent extends Agent implements Person
 					}
 				}
 				
-//				for (Building b : buildings){
-//					if (workBuilding == null && b.type == buildingType.restaurant){
-//						RestaurantA ba = (RestaurantA) b;
-//						if (ba.needsHost()){
-//							print("set b");
-//							ba.sethost();
-//							workBuilding = b;
-//						}
-//					}
-//				}
 			}
 			else if (type == JobType.cook){
 				for (Building b : buildings){
@@ -211,57 +201,34 @@ public class PersonAgent extends Agent implements Person
 		
 		
 		public void assignWorkDay(JobType parseJob) {
-			
+			// so if all buildings are full employed 
+			// they wont get stuck trying to go to work
+			if(workBuilding != null){			
 				daysWorking.add(Day.monday);
 				daysWorking.add(Day.tuesday);
 				daysWorking.add(Day.wednesday);
 				daysWorking.add(Day.thursday);
 				daysWorking.add(Day.friday);
+			
+				print("build" + workBuilding.type.toString());
 				
-			if (workBuilding != null &&
-			workBuilding.equals(buildingType.restaurant) && // 
-			workBuilding.owner.equals("Norman")){
+				print("owner" + workBuilding.owner);
+				if (workBuilding.type.equals(buildingType.restaurant)){
+					if (workBuilding.owner.equals("Norman") ||
+						workBuilding.owner.equals("Daniel")){
 					daysWorking.add(Day.saturday);
 					daysWorking.add(Day.sunday);
+					}
+				}
+			
+				else if (!workBuilding.type.equals(buildingType.bank)){ //banks closed on weekends
+					daysWorking.add(Day.saturday);
+					daysWorking.add(Day.sunday);
+				}
+			
 			}
-			else if (workBuilding != null &&
-				!workBuilding.equals(buildingType.bank)){ //banks closed on weekends
-				daysWorking.add(Day.saturday);
-				daysWorking.add(Day.sunday);
-			}
 			
-			
-			
-//			int sameJob = 0;
-//			for (PersonAgent p : people){
-//				if (p.job.type == parseJob){
-//					sameJob++;
-//				}
-//			}
-//			if (sameJob % 2 == 0)
-//				assignWorkSet(1);
-//			else
-//				assignWorkSet(2);
-//			
 		}
-
-//		public void assignWorkSet(int i) {
-//			if (i == 1){
-//				if (type == JobType.bankHost || type == JobType.teller){
-//					daysWorking.add(Day.monday);
-//					daysWorking.add(Day.wednesday);
-//					daysWorking.add(Day.friday);
-//				}
-//			}
-//			else{
-//				if (type == JobType.bankHost || type == JobType.teller){
-//					daysWorking.add(Day.tuesday);
-//					daysWorking.add(Day.wednesday);
-//					daysWorking.add(Day.friday);
-//				}
-//			}
-//		}
-		
 		
 	}
 	
@@ -1037,8 +1004,7 @@ public class PersonAgent extends Agent implements Person
 
 			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 			if (needToWork()){
-				for (Day d : job.daysWorking){ //if it is the correct day to work
-					//print("time to go to work");
+				for (Day d : job.daysWorking){
 					if (d == TimeManager.getInstance().getDay()){
 						GoToWork();
 						return true;
@@ -1107,7 +1073,7 @@ public class PersonAgent extends Agent implements Person
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
 		if (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && 
-				TimeManager.getInstance().getHour() < Job.timeEnd){
+				TimeManager.getInstance().getHour() < Job.timeEnd && !job.workBuilding.forceClosed){
 		{
 			for (Day d : job.daysWorking){
 					return true;
@@ -1218,7 +1184,7 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private boolean isHungry() {
-		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 90000){
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
 			print("Hmm... I'm hungry. I better eat soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
 			
@@ -1681,7 +1647,7 @@ public class PersonAgent extends Agent implements Person
 			{
 				restaurantA.WaiterAgent c = new restaurantA.ModernWaiterAgent(this.getName(), r, this.cash);
 				c.setSalary((double)50);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				//r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c = new restaurantA.WaiterAgent(this.getName());
 				c.setTrackerGui(trackingWindow);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
@@ -1692,7 +1658,7 @@ public class PersonAgent extends Agent implements Person
 			else
 			{
 				restaurantA.WaiterAgent c = new TraditionalWaiterAgent(this.getName(), r, this.cash);
-				r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				//r.workingWaiters.add((restaurantA.WaiterAgent) c);
 				c.setSalary((double)50);
 				c.setTrackerGui(trackingWindow);
 				r.panel.customerPanel.addWaiter((restaurantA.WaiterAgent) c);
@@ -1821,13 +1787,13 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 
 		//Role terminologies
-		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash);
+		restaurantA.CustomerAgent c = new restaurantA.CustomerAgent(this.getName(), cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
 	//	r.panel.customerPanel.hungry.setSelected(true);
-		r.panel.customerPanel.addCustomer((restaurantA.interfaces.Customer) c, r);
+		r.panel.customerPanel.addCustomer((restaurantA.CustomerAgent) c, r);
 	
 	}
 	
@@ -1922,7 +1888,7 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void setHungry() {
-		timeSinceLastAte = -90000;
+		timeSinceLastAte = -190000;
 	}
 
 	public void GiveCar() {

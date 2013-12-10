@@ -30,13 +30,15 @@ public class WaiterGui implements Gui {
     public ArrayList<Table> tables;
     Timer timer;
     Image img, food;
+	String direct = "up";
+	int move = 0;
     private boolean isPresent = true;
     public WaiterGui(WaiterAgent agent, ArrayList<Table> tables, int xHome, int yHome) {
         this.agent = agent;
     	this.tables = tables;    	
     	buttons   =   new JLabel[0][0];
     	this.xHome = xHome;
-    	this.yHome = yHome;
+    	this.yHome = yHome + 20;
     	//System.out.println("test" + xHome + " " + yHome);
     	 try
          {
@@ -49,15 +51,31 @@ public class WaiterGui implements Gui {
     }
 
     public void updatePosition() {
-        if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
+    	if (xPos < xDestination){
+			direct = "right";
+            setImage(false);
+			xPos++;
+			move ++;
+		}
+		else if (xPos > xDestination){
+			direct = "left";
+		    setImage(false);
+			xPos--;
+			move ++;
+		}
 
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
+		else if (yPos < yDestination){
+			direct = "down";
+            setImage(false);
+			yPos++;
+			move ++;
+		}
+		else if (yPos > yDestination){
+			direct = "up";
+            setImage(false);
+			yPos--;
+			move ++;
+		}
         //System.out.println(xPos + " " + yPos);
         //System.out.println(xDestination + " " + yDestination);
        // System.out.println(tables);
@@ -68,7 +86,7 @@ public class WaiterGui implements Gui {
         }
         
         else if ((xPos == xDestination && yPos == yDestination) && (xPos != xOrigin && yPos != yOrigin) && (tables != null)) {
-     
+        	setImage(true);
         	agent.msgAtTable();
         	foodOn = false;
 //        	for (Table t : tables){
@@ -89,7 +107,28 @@ public class WaiterGui implements Gui {
       
     }
 
-  
+    private void setImage(Boolean noMove){
+		String start = "/resources/globalSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (move >= 50 || noMove){
+			num = "0";
+			move = 0;
+		}
+        else if (move < 25)
+        	num = "2";
+        else if (move < 50)
+        	num = "1";
+    
+       // resource/globalSprites/None/left0.png
+		String collapse = start + "waiter" + "/" + mid + num + end;
+		//System.out.println(collapse);
+		 try
+	        {
+	        	img = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
+    }
 
 	public void draw(Graphics2D g) {
 

@@ -46,7 +46,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	Timer timer = new Timer();
 	Loan loan;
 	Account acct;
-	
+	Bank bank = null;
 	Boolean isHappy = true;
 	Boolean isRobber = false;
 	public String job = "None";
@@ -470,6 +470,7 @@ private void LeaveBank(){
 		if (loan != null)
 			this.myPerson.msgNewLoan(this,loan);
 	    getCustomerGui().finishedTransaction();
+	    bank.removeCustomer(this);
 }
 	
 	
@@ -568,6 +569,9 @@ private void LeaveBank(){
 		//	loan = loans.get(0);
 	}
 
+	public void setBank(Bank b){
+		bank = b;
+	}
 
 
 	

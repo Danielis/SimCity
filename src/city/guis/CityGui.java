@@ -16,6 +16,7 @@ import roles.Building;
 import roles.Building.buildingType;
 import housing.guis.HousingGui;
 import bank.Bank;
+import bank.interfaces.*;
 import bank.gui.BankGui;
 import logging.Alert;
 import logging.AlertLevel;
@@ -52,7 +53,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import restaurantA.*;
-
+import bank.*;
 public class CityGui extends JFrame implements ActionListener {
 
 	Restaurant tempRes;
@@ -609,8 +610,14 @@ public class CityGui extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == closeBank){
 			for (Building b : buildings){
-				if (b.getType() == buildingType.bank)
+				if (b.getType() == buildingType.bank){
 					b.ForceClosed();
+					Bank r = (Bank) b;
+					r.workingHost.msgLeaveWork();
+					for (Teller t : r.workingTellers){
+						t.msgLeaveWork();
+					}
+				}
 			}
 			closeBank.setEnabled(false);
 		}
@@ -623,8 +630,16 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == closeRestA){
 			for (Building b : buildings){
-				if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena"))
+				if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena")){
 					b.ForceClosed();
+//					RestaurantA r = (RestaurantA) b;
+//					r.workingHost.msgLeaveWork();
+//					r.workingCashier.msgLeaveWork();
+//					r.workingCook.msgLeaveWork();
+//					for (restaurantA.WaiterAgent t : r.workingWaiters){
+//						t.msgLeaveWork();
+//					}
+				}
 			}
 			closeRestA.setEnabled(false);
 		}

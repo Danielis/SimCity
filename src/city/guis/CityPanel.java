@@ -126,7 +126,9 @@ public class CityPanel extends JPanel {
 		p.setAI(noAI);
 		p.setGui(g);
 		
-		int offsetX = (int)(Math.random() * 100);
+		
+		int offsetX = (int)(Math.random() * 300);
+		offsetX -= 150;
 		int offsetY = (int)(Math.random() * 20);
 		
 		

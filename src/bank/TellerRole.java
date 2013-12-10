@@ -42,7 +42,7 @@ public class TellerRole extends Role implements Teller {
 	private int loanAccountThreshold = 500;
 	private Boolean hasGun = false;
 	double salary;
-	
+	Timer timer = new Timer();
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
@@ -328,6 +328,8 @@ public void PayMyLoan(BankCustomer c, double amount, Loan loan){
 			waiterGui.DoGoToHomePosition();
 			if (leave && canLeave())
 				LeaveWork();
+			else
+				return true;
 			return false;
 		}
 		catch(ConcurrentModificationException e)
@@ -338,20 +340,35 @@ public void PayMyLoan(BankCustomer c, double amount, Loan loan){
 	}
 
 private boolean canLeave() {
+	//print("size: " + bank.currentCustomers.size());
 	for (Transaction t : transactions){
 		if (t.status == transactionStatus.noAccount || t.status == transactionStatus.unresolved || t.status == transactionStatus.noLoan)
 			return false;
 	}
+	if (!bank.currentCustomers.isEmpty())
+		return false;
 	return true;
 	
 }
 //ACTIONS********************************************************
 	
+	
 	private void LeaveWork() {
+		int ran = (int) Math.random() * 15000;
+		 timer.schedule( new TimerTask()
+			{
+				public void run()
+				{				
+					PhysicallyLeave();
+				}
+			}, ran);
+
+			
+	}
+	private void PhysicallyLeave(){
 		bank.imLeaving(this);
 		waiterGui.setDone();
 		myPerson.msgLeftWork(this, balance);
-		
 	}
 	
 	private void HandleNoLoan(Transaction t){

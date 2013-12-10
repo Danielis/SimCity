@@ -229,6 +229,11 @@ public class CookAgent extends Role implements Cook {
 			}
 		}
 
+		if (theMonitor != null && theMonitor.getCount() > 0){
+			 TakeTicket();
+			 return true;
+		}
+		
 		if (leave && rest.workingWaiters.isEmpty())
 		{
 			boolean temp = true;
@@ -239,12 +244,10 @@ public class CookAgent extends Role implements Cook {
 			}
 			if (temp)
 				LeaveWork();
+			else
+				stateChanged();
 		}
 		
-		if (theMonitor != null && theMonitor.getCount() > 0){
-			 TakeTicket();
-			 return true;
-		}
 		
 		return false;
 		//we have tried all our rules and found

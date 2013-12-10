@@ -65,11 +65,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
          } catch (IOException e ) {}
     	 try
          {
-    		 hostimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/host.png"));
+    		 hostimg = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost/down0.png"));
          } catch (IOException e ) {}
     	 try
          {
-    		 cashierimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashier.png"));
+    		 cashierimg = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier/down0.png"));
          } catch (IOException e ) {}
     }
 

@@ -63,7 +63,7 @@ public class ListPanel extends JPanel implements ActionListener {
     }
 
 
-	public void addCustomer(Customer c, RestaurantA r) {
+	public void addCustomer(CustomerAgent c, RestaurantA r) {
 		 JButton button = new JButton(c.getName());
          button.setBackground(Color.white);
 
