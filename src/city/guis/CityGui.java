@@ -612,11 +612,11 @@ public class CityGui extends JFrame implements ActionListener {
 			for (Building b : buildings){
 				if (b.getType() == buildingType.bank){
 					b.ForceClosed();
-//					Bank r = (Bank) b;
-//					r.workingHost.msgLeaveWork();
-//					for (Teller t : r.workingTellers){
-//						t.msgLeaveWork();
-//					}
+					Bank r = (Bank) b;
+					r.workingHost.msgLeaveWork();
+					for (Teller t : r.workingTellers){
+						t.msgLeaveWork();
+					}
 				}
 			}
 			closeBank.setEnabled(false);

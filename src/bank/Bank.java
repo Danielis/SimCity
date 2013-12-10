@@ -26,6 +26,8 @@ public class Bank extends Building{
 	public List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 
+	public List <BankCustomerRole> currentCustomers = new ArrayList<BankCustomerRole>();
+	
 	public BankGui gui;
 	public BankPanel panel;
     public Coordinate location;
@@ -66,7 +68,15 @@ public class Bank extends Building{
 	public void imLeaving(Teller t){
 		workingTellers.remove(t);
 	}
+
+	public void addCustomer(BankCustomerRole t){
+		currentCustomers.add(t);
+		System.out.println("added customer to bank");
+	}
 	
+	public void removeCustomer(BankCustomerRole t){
+		currentCustomers.remove(t);
+	}
 	
 	public int setTableNum(){
 		assignTable();
@@ -98,7 +108,10 @@ public class Bank extends Building{
 //	}
 
 	public Boolean isOpen(){
-		if (forceClosed || TimeManager.getInstance().getDay().equals(Day.sunday) || TimeManager.getInstance().getDay().equals(Day.saturday) || workingHost == null)
+		if (forceClosed || TimeManager.getInstance().getDay().equals(Day.sunday) || 
+				TimeManager.getInstance().getDay().equals(Day.saturday) || workingHost == null)
+			return false;
+		else if (workingHost != null && !workingHost.acceptingCustomers)
 			return false;
 		else
 			return true;

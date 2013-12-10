@@ -31,6 +31,7 @@ public class BankHostRole extends Role implements BankHost {
 	public BankAnimationPanel copyOfAnimPanel;
 	public double salary;
 	Timer timer = new Timer();
+	public Boolean acceptingCustomers = true;
 	//CONSTRUCTOR
 	public BankHostRole(String name) {
 		super();
@@ -246,8 +247,11 @@ public class BankHostRole extends Role implements BankHost {
 			}
 			//print("reached gui call");
 			hostGui.DoGoToHomePosition();
-			if (leave)
+			if (leave && CanLeave())
 				LeaveWork();
+			else
+				return true;
+			
 			return false;
 		}
 
@@ -258,6 +262,14 @@ public class BankHostRole extends Role implements BankHost {
 	}
 
 //ACTIONS********************************************************
+	
+	private boolean CanLeave() {
+		if(bank.currentCustomers.isEmpty())
+			return true;
+		else
+			return false;
+	}
+	
 	
 	private void LeaveWork() {
 		int ran = (int) Math.random() * 5000;

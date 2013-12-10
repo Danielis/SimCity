@@ -105,11 +105,13 @@ public class BankPanel extends JPanel {
     {
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
+		b.addCustomer(c);
 		c.setHost(host);  
 		c.setGui(g);
 		g.setAction();
 		c.setAnimPanel(gui.animationPanel);
 		customers.add(c);
+		c.setBank(b);
     }
     
     public void addHost(BankHost host) {
