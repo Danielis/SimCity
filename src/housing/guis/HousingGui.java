@@ -142,7 +142,7 @@ public class HousingGui extends JFrame implements ActionListener {
 	
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
-        housingPanel.landlord.setTrackerGui(trackingWindow);
+        //housingPanel.landlord.setTrackerGui(trackingWindow);
         for(HousingWorkerRole h : housingPanel.workers) {
         	h.setTrackerGui(trackingWindow);
         }

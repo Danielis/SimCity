@@ -24,7 +24,7 @@ import java.util.Vector;
 public class HousingPanel extends JPanel {
 
     //declare agents.  for now one landlord, one worker, and one customer
-	public LandlordRole landlord = new LandlordRole();
+	public LandlordRole landlord;
 	public HousingCustomer tenant;
 	private HousingWorkerRole worker;
         
@@ -143,7 +143,6 @@ public class HousingPanel extends JPanel {
 		gui.housingAnimationPanel.addGui(g);
 		hc.setGui(g);
 		g.setAction();
-        landlord.addCustomer(hc);
         hc.setLandlord(landlord);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		tenant = hc;
@@ -164,6 +163,16 @@ public class HousingPanel extends JPanel {
 		worker = (HousingWorkerRole) p;
 		workers.add(worker);
 		worker.startThread();
+    }
+    
+    public void addLandlord(LandlordRole l) 
+    {
+		LandlordGui g = new LandlordGui(l, gui);
+		gui.housingAnimationPanel.addGui(g);
+		l.setGui(g);
+    	//p.setAnimationPanel(gui.cityAnimationPanel);
+		landlord = l;
+		landlord.startThread();
     }
     
     public void pause()

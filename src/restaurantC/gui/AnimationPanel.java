@@ -1,5 +1,6 @@
 package restaurantC.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import restaurantC.RestaurantC;
@@ -7,6 +8,7 @@ import restaurantC.RestaurantC;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -28,6 +30,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private static final int COUNTERX = 350;
     private static final int COUNTERY = 10;
     private static final int COUNTERY2 = 85;
+    
+    private Image blue_floor;
     
    
     private class myOrder{
@@ -79,6 +83,13 @@ public class AnimationPanel extends JPanel implements ActionListener {
         tableIcons.add(new tableOrder("", 2));
         tableIcons.add(new tableOrder("", 3));
  
+        
+		try
+        {
+            blue_floor = ImageIO.read(getClass().getResource("/resources/blue_floor.png"));
+        } catch (IOException e ) {}
+		
+		
     	Timer timer = new Timer(20, this );
     	timer.start();
     }
@@ -93,6 +104,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
+        g2.drawImage(blue_floor, 0, 0, this);
 
         //Here is the table
         g2.setColor(Color.ORANGE);

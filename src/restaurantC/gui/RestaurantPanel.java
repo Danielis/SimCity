@@ -19,9 +19,6 @@ import java.util.concurrent.Semaphore;
  * including host, cook, waiters, and customers.
  */
 public class RestaurantPanel extends JPanel {
-
-	private boolean paused = false;
-	private Semaphore pauseThreads = new Semaphore(0);
 	
 	//int values to keep track of the number of waiters
 	private int waiterGuiCount = 0;
@@ -76,11 +73,6 @@ public class RestaurantPanel extends JPanel {
 		addMarket("Ralph's");
 		addMarket("Safeway");
 		addMarket("Food 4 Less");
-		
-		//start threads
-		//host.startThread();
-		//cook.startThread();
-		//cashier.startThread();
 		
 		
 		//layout stuff

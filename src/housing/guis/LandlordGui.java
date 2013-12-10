@@ -48,10 +48,10 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public LandlordGui(Landlord p, HousingGui gui3){
+		public LandlordGui(LandlordRole l, HousingGui gui3){
 			
 	        
-			agent = (LandlordRole) p;
+			agent = (LandlordRole) l;
 			this.gui = gui3;
 			
 			try
@@ -59,7 +59,7 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 	        } catch (IOException e ) {}
 			
-			position = new Coordinate(475,750);			
+			position = new Coordinate(475,475);			
 			outside = new Coordinate(475,750);
 			destination = new Coordinate(475, 750);
 	    	workarea = new Coordinate(12,80);

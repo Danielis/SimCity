@@ -1,5 +1,6 @@
 package housing;
 
+import housing.guis.LandlordGui;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 
@@ -24,10 +25,11 @@ public class LandlordRole extends Role {
 	//-------------------Utilities----------------------------
 	//--------------------------------------------------------
 	//constructor
-	public LandlordRole() {
+	public LandlordRole(String s) {
 		complexes.add(new HousingComplex());
 		System.out.println("Landlord created.");
 		balance = 10000;
+		name = s;
 	}
 	
 	public void setTrackerGui(TrackerGui t) {
@@ -51,6 +53,8 @@ public class LandlordRole extends Role {
 	public List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
 	public double balance;
 	public TrackerGui trackingWindow;
+	public String name;
+	private LandlordGui gui;
 
 	public class HousingComplex {
 		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();
@@ -266,6 +270,10 @@ public class LandlordRole extends Role {
 	public void WaitForAnimation() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setGui(LandlordGui g) {
+		this.gui = g;
 	}
 
 }
