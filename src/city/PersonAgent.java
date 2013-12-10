@@ -200,6 +200,11 @@ public class PersonAgent extends Agent implements Person
 				//timeEnd = 4;
 			}
 			
+			else if(type == JobType.student)
+			{
+				workBuilding = null;
+			}
+			
 			assignWorkDay(parseJob);
 		}
 		
@@ -534,8 +539,6 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 	
-	
-	
 	public void addItem(String item, int q){
 		for (Item i : inventory){
 			if (i.type.equals(item)){
@@ -581,7 +584,7 @@ public class PersonAgent extends Agent implements Person
 	//Enum States
 	enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
 	enum location		{outside,home,restaurant,bank,market,transportation,work}
-	enum destination	{outside,home,restaurant,bank,market,transportation,work}
+	enum destination	{outside,home,restaurant,bank,market,transportation,work,Wilczynski}
 	enum workStatus		{notWorking,working,onBreak,goingToWork}
 	enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
 	enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
@@ -830,6 +833,16 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 		stateChanged();
 	}
+	
+	//Special
+	public void msgGoToWilczynski()
+	{
+		print("Asking for a rubric");
+		Status.setLocation(location.outside);
+		Status.setDestination(destination.Wilczynski);
+		gui.setPresent(true);
+		stateChanged();
+	}
 
 	//Housing
 	public void msgGoToHome(String purpose){
@@ -839,8 +852,6 @@ public class PersonAgent extends Agent implements Person
 	    gui.setPresent(true);
 	    stateChanged();
 	}
-	
-
 
 	//Restaurant
 	public void msgGoToRestaurant(){ // sent from gui
