@@ -1820,13 +1820,13 @@ public class PersonAgent extends Agent implements Person
 		gui.setPresent(false);
 
 		//Role terminologies
-		CustomerRole c = new CustomerRole(this.getName(), cash);
+		CustomerRole c = new CustomerRole(this.getName(), cash, job.type.toString());
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
 		c.setActivity(true);
 		//r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		r.panel.customerPanel.addCustomer((Customer) c, r);
+		r.panel.customerPanel.addCustomer(c, r);
 	
 	}
 	

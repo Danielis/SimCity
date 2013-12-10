@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
-
+import restaurant.roles.*;
 /**
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
@@ -188,7 +188,7 @@ public class ListPanel extends JPanel implements ActionListener {
         }
     }*/
     
-    public void addCustomer(Customer customer, Restaurant r) {
+    public void addCustomer(CustomerRole customer, Restaurant r) {
         if (customer.getName() != null) {
             JButton button = new JButton(customer.getName());
             button.setBackground(Color.white);

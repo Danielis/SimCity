@@ -111,6 +111,7 @@ public class Scenario {
 		//starts on sat:
 		TimeManager.getInstance().setDivider(2);
 		TimeManager.getInstance().setDayOffset(5);
+		TimeManager.getInstance().setOffset(50000);
 
 		//starts on fri:
 		//	TimeManager.getInstance().setDivider(1);
