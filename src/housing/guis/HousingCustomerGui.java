@@ -1,6 +1,6 @@
 package housing.guis;
 
-import housing.HousingCustomerAgent;
+import housing.*;
 import housing.interfaces.HousingCustomer;
 
 import java.awt.Color;
@@ -25,7 +25,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	private final int deltadivider = 100;
 
 	//self agent
-	private HousingCustomer agent = null;
+	private HousingCustomerRole agent = null;
 
 	//private HostAgent host;
 	HousingGui gui;
@@ -39,11 +39,12 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	Coordinate outside;
 	Coordinate cashier;
 	Coordinate waitingroom;
-	
+	String direct = "down";
+	int move = 0;
 	//images
 	//List of tables
 
-	public HousingCustomerGui(HousingCustomer c, HousingGui gui3, int n){
+	public HousingCustomerGui(HousingCustomerRole c, HousingGui gui3, int n){
 
 		roomIndex = n;
 
@@ -55,8 +56,8 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 			avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 		} catch (IOException e ) {}
 
-		outside = new Coordinate(475,750);
-		position = new Coordinate(475,750);
+		outside = new Coordinate(475,650);
+		position = new Coordinate(475,650);
 		cashier = new Coordinate(255, 75);
 		waitingroom = new Coordinate(140,70);
 		destination = new Coordinate(475,20 + (100*roomIndex));
@@ -96,36 +97,70 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 
 	public void updatePosition() {
 		if (goingSomewhere)
-		{
-			//Do you like my Delta Movement System?
-			//I thought of it myself :D
-			//EC PLS
+    	{
+        	int deltax = destination.x - position.x;
+        	int deltay = destination.y - position.y;
+        	
+        	if (deltax < 0) deltax *= -1;
+        	if (deltay < 0) deltay *= -1;
+        	
+        	if (position.x > destination.x){
+                position.x -= (1 + deltax/deltadivider);
+                direct = "left";
+                setImage(false);
+                move++;
+            }
+            else if (position.y < destination.y){
+                position.y += (1 + deltay/deltadivider);
+                direct = "down";
+                setImage(false);
+                move++;
+            }
+            else if (position.y > destination.y){
+                position.y -= (1 + deltay/deltadivider);
+                direct = "up";
+                setImage(false);
+                move++;
+            }
+            else if (position.x < destination.x){
+                position.x += (1 + deltax/deltadivider);
+                direct = "right";
+                setImage(false);
+                move++;
+            }
 
-			int deltax = destination.x - position.x;
-			int deltay = destination.y - position.y;
-
-			if (deltax < 0) deltax *= -1;
-			if (deltay < 0) deltay *= -1;
-
-			if (position.x < destination.x)
-				position.x += (1 + deltax/deltadivider);
-			else if (position.x > destination.x)
-				position.x -= (1 + deltax/deltadivider);
-
-			if (position.y < destination.y)
-				position.y += (1 + deltay/deltadivider);
-			else if (position.y > destination.y)
-				position.y -= (1 + deltay/deltadivider);
-
-
-			if (position.x == destination.x && position.y == destination.y)
-			{
-			//	System.out.println("reached dest");
-					goingSomewhere = false;
-					agent.DoneWithAnimation();
-			}
-		}
+            if (position.x == destination.x && position.y == destination.y)
+            {
+            	goingSomewhere = false;
+            	setImage(true);
+            	agent.DoneWithAnimation();
+            }
+            
+    	}
 	}
+	
+	private void setImage(Boolean noMove){
+		String start = "/resources/globalSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (move >= 50 || !goingSomewhere){
+			num = "0";
+			move = 0;
+		}
+        else if (move < 25)
+        	num = "2";
+        else if (move < 50)
+        	num = "1";
+    
+       // resource/globalSprites/None/left0.png
+		String collapse = start + agent.job + "/" + mid + num + end;
+		//System.out.println(collapse);
+		 try
+	        {
+			 avatar = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
+    }
 
 	public void draw(Graphics2D g) 
 	{

@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
-
+import housing.*;
 /**
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
@@ -128,7 +128,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 		}
 	}*/
 	
-	public void addTenant(HousingCustomer c, String homePurpose) {
+	public void addTenant(HousingCustomerRole c, String homePurpose) {
 			JButton button = new JButton(c.getName());
 			button.setBackground(Color.white);
 			Dimension paneSize = personPane.getSize();

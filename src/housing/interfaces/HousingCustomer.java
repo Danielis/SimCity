@@ -10,6 +10,7 @@ public interface HousingCustomer {
 
 	boolean hungry = false;
 	boolean houseNeedsRepairs = false;
+	String job = null;
 
 	public abstract void HereIsChange(double d);
 
