@@ -23,7 +23,7 @@ public class Bank extends Building{
 	double balance;
 //	List <Account> accounts = new ArrayList<Account>();
 //	List <Loan> loans = new ArrayList<Loan>();
-	private List <Teller> workingTellers = new ArrayList<Teller>();
+	public List <Teller> workingTellers = new ArrayList<Teller>();
 //	List <TellerTable> tellerTables = new ArrayList<TellerTable>();
 
 	public BankGui gui;

@@ -309,6 +309,8 @@ public class MarketWorkerAgent extends Agent implements MarketWorker {
 			waiterGui.setSpeechBubble("heresjuice");
 		if (o.item == "Eggs")
 			waiterGui.setSpeechBubble("hereseggs");
+		if (o.item == "Milk")
+			waiterGui.setSpeechBubble("heresmilk");
 		
 		o.c.HereIsOrder(o.item, o.quantity);
 		

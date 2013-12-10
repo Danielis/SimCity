@@ -42,7 +42,7 @@ public class TellerRole extends Role implements Teller {
 	private int loanAccountThreshold = 500;
 	private Boolean hasGun = false;
 	double salary;
-	
+	Timer timer = new Timer();
 	//Semaphore
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	
@@ -347,11 +347,23 @@ private boolean canLeave() {
 }
 //ACTIONS********************************************************
 	
+	
 	private void LeaveWork() {
+		int ran = (int) Math.random() * 15000;
+		 timer.schedule( new TimerTask()
+			{
+				public void run()
+				{				
+					PhysicallyLeave();
+				}
+			}, ran);
+
+			
+	}
+	private void PhysicallyLeave(){
 		bank.imLeaving(this);
 		waiterGui.setDone();
 		myPerson.msgLeftWork(this, balance);
-		
 	}
 	
 	private void HandleNoLoan(Transaction t){

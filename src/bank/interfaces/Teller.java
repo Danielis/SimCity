@@ -34,7 +34,8 @@ public interface Teller
 	public void setGui(TellerGui g);
 	public void setTableNum(int tellerNunmber);
 	public void setHost(BankHost host2);
-	public void IAmRobbing(BankCustomer bankCustomerRole, double amount);		
+	public void IAmRobbing(BankCustomer bankCustomerRole, double amount);
+	public void msgLeaveWork();		
 		
 
 }

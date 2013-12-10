@@ -235,6 +235,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			customerGui.setSpeechBubble("buyjuice");
 		if (item == "Eggs")
 			customerGui.setSpeechBubble("buyeggs");
+		if (item == "Milk")
+			customerGui.setSpeechBubble("buymilk");
 	    
 		timer.schedule( new TimerTask()
 		{

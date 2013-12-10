@@ -16,8 +16,8 @@ public class TimeManager {
 	private int hours;
 	private int days;
 	private int weeks;
-	private int offset = 0;
-	
+	private long offset = 0;
+	private int dayOffset = 0;
 	
 	TimeManager(){
 	}
@@ -71,20 +71,20 @@ public class TimeManager {
 		weeks = (days / 7) | 0;
 		days -= weeks * 7;
 		
-		if (days % 7 == 0)
-			dayOfWeek = Day.monday;
-		if (days % 7 == 1)
-			dayOfWeek = Day.tuesday;
-		if (days % 7 == 2)
-			dayOfWeek = Day.wednesday;
-		if (days % 7 == 3)
-			dayOfWeek = Day.thursday;
-		if (days % 7 == 4)
-			dayOfWeek = Day.friday;
-		if (days % 7 == 5)
-			dayOfWeek = Day.saturday;
-		if (days % 7 == 6)
+		if (days % 7 == (dayOffset + 6) % 7)
 			dayOfWeek = Day.sunday;
+		if (days % 7 == (dayOffset + 5) % 7)
+			dayOfWeek = Day.saturday;
+		if (days % 7 == (dayOffset + 4) % 7)
+			dayOfWeek = Day.friday;
+		if (days % 7 == (dayOffset + 3) % 7)
+			dayOfWeek = Day.thursday;
+		if (days % 7 == (dayOffset + 2)  % 7)
+			dayOfWeek = Day.wednesday;
+		if (days % 7 == (dayOffset + 1) % 7)
+			dayOfWeek = Day.tuesday;
+		if (days % 7 == dayOffset % 7)
+			dayOfWeek = Day.monday;
 	}
 	
 	public int getHour(){
@@ -130,8 +130,12 @@ public class TimeManager {
 	}
 
 
-	public void setOffset(int i) {
+	public void setOffset(long i) {
 		offset = i;
+	}
+
+	public void setDayOffset(int i) {
+		dayOffset = -i;
 	}
 	
 }

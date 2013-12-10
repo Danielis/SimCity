@@ -30,7 +30,7 @@ public class BankHostRole extends Role implements BankHost {
 	public Semaphore animSemaphore = new Semaphore(0,true);
 	public BankAnimationPanel copyOfAnimPanel;
 	public double salary;
-
+	Timer timer = new Timer();
 	//CONSTRUCTOR
 	public BankHostRole(String name) {
 		super();
@@ -260,11 +260,23 @@ public class BankHostRole extends Role implements BankHost {
 //ACTIONS********************************************************
 	
 	private void LeaveWork() {
+		int ran = (int) Math.random() * 5000;
+		 timer.schedule( new TimerTask()
+			{
+				public void run()
+				{				
+					PhysicallyLeave();
+				}
+			}, ran);
+
+			
+	}
+	private void PhysicallyLeave(){
 		bank.Leaving();
 		hostGui.setDone();
 		myPerson.msgLeftWork(this, balance);
-		
 	}
+	
 	private void NoTellers(MyCustomer c){
 		print("Sorry the bank is closed");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.BANK, "BankHostRole","Sorry the bank is closed", new Date()));

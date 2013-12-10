@@ -115,6 +115,8 @@ public class CashierAgent extends Role implements Cashier {
 		}
 		if (temp)
 			LeaveWork();
+		else
+			return true;
 		}
 
 		return false;

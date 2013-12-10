@@ -275,6 +275,8 @@ public class WaiterAgent extends Role implements Waiter {
 			}
 			if (temp)
 				LeaveWork();
+			else
+				return true;
 		}
 		
 		return false;

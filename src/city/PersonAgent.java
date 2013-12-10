@@ -993,8 +993,7 @@ public class PersonAgent extends Agent implements Person
 
 			//	if (job.type != JobType.none && TimeManager.getInstance().getHour() > (Job.timeStart - 2) && TimeManager.getInstance().getHour() < Job.timeEnd){
 			if (needToWork()){
-				for (Day d : job.daysWorking){ //if it is the correct day to work
-					//print("time to go to work");
+				for (Day d : job.daysWorking){
 					if (d == TimeManager.getInstance().getDay()){
 						GoToWork();
 						return true;
@@ -1063,7 +1062,7 @@ public class PersonAgent extends Agent implements Person
 	//////////////////////////////////////////////Scheduler ends here ////////////////////////////////////
 	private Boolean needToWork(){
 		if (job.type != JobType.none && job.type != JobType.crook && TimeManager.getInstance().getHour() > (3) && 
-				TimeManager.getInstance().getHour() < Job.timeEnd){
+				TimeManager.getInstance().getHour() < Job.timeEnd && !job.workBuilding.forceClosed){
 		{
 			for (Day d : job.daysWorking){
 					return true;
@@ -1174,7 +1173,7 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	private boolean isHungry() {
-		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 90000){
+		if (TimeManager.getInstance().getCurrentSimTime() - timeSinceLastAte > 60000){
 			print("Hmm... I'm hungry. I better eat soon");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.PERSON, "Person Agent", "Hmm... I'm hungry. I better eat soon", new Date()));
 			
@@ -1878,7 +1877,7 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void setHungry() {
-		timeSinceLastAte = -90000;
+		timeSinceLastAte = -190000;
 	}
 
 	public void GiveCar() {
