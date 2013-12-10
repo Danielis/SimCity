@@ -251,7 +251,8 @@ public class PersonAgent extends Agent implements Person
 		
 	}
 	
-	public enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, restHost, cook, cashier, waiter, landLord, repairman, crook}
+	public enum JobType {noAI, none, marketWorker, marketHost, bankHost, teller, 
+		restHost, cook, cashier, waiter, landLord, repairman, crook, student, professor}
 	public Job job;
 	
 	public enum WealthLevel {average, wealthy, poor}
@@ -362,7 +363,6 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	//Class Declarations
-
 	public JobType parseJob(String job) {
 	
 	if (job.equals("No AI"))
@@ -393,6 +393,10 @@ public class PersonAgent extends Agent implements Person
 		cash = 0;
 		return JobType.crook;
 	}
+	else if (job.equals("Student"))
+		return JobType.student;
+	else if (job.equals("Professor"))
+		return JobType.professor;
 	else
 		return null;
 	}
