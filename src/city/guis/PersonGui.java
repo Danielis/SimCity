@@ -137,7 +137,7 @@ public class PersonGui implements Gui{
     	int y1=x.nextInt(500-50) + 50;
     	
 		Random r = new Random();
-    	int x1=r.nextInt(500-50) + 50;
+    	int x1=r.nextInt(600-50) + 50;
 		
     	position = new Coordinate(x1, y1);
     	

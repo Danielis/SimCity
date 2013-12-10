@@ -1509,7 +1509,7 @@ public class PersonAgent extends Agent implements Person
 		Status.setMoneyStatus(bankStatus.goingToBank);
 
 
-		takeBusIfApplicable(0);
+		//takeBusIfApplicable(0);
 		
 		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.bank);
@@ -1852,27 +1852,17 @@ public class PersonAgent extends Agent implements Person
 	}
 
 	public void GoToMarket(){
-		Market r = null;
+		Building r2 = findOpenBuilding(buildingType.market);
+		
+		if (r2 != null){
+			
+		
+		Market r = (Market) r2;
 		gui.setPresent(true);
 		gui.setBusy(true);
 		print("Going to market to buy " + marketQuantity + " of " + marketPurpose);
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to market to buy " + marketQuantity + " of " + marketPurpose, new Date()));
-
 		Status.market = marketStatus.waiting;
-		takeBusIfApplicable(1);
-	
-		synchronized(buildings)
-		{
-			for (Building b: buildings){
-				if (b.getType() == buildingType.market){
-					//print("found market");
-					r = (Market) b;
-				}
-			}
-		}
 		gui.DoGoToLocation(r.entrance);
-		
-		
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		this.Status.setLocation(location.market);
@@ -1888,6 +1878,11 @@ public class PersonAgent extends Agent implements Person
 		r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
 		r.gui.customerStateCheckBox.setSelected(true);
 		
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
 	}
 
 	private void PrepareForQuestions() {

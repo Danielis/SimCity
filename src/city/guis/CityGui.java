@@ -126,7 +126,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JTextField marketQ = new JTextField("");
 
 	private JPanel housingPanel = new JPanel();
-	String[] housingOptions = { "Pay Rent", "Call for Repair", "Cook", "Sleep" };
+	String[] housingOptions = { "Cook", "Pay Rent", "Call for Repair", "Sleep" };
 	JComboBox housingList = new JComboBox(housingOptions);
 	String[] foodOptions = { "Pasta", "Chicken", "Eggs" };
 	JComboBox foodList = new JComboBox(foodOptions);
@@ -366,7 +366,8 @@ public class CityGui extends JFrame implements ActionListener {
 		createBank("Aleena's Bank - South", 16, 619);
 		createRestaurantA("Aleena Restaurant", 183, 266);
 		createRestaurantC("Chris's Restaurant", 528, 473);
-		createMarket("Aleena's Market", 280, 265);
+		createMarket("Aleena's Market - East", 577, 81);
+		createMarket("Aleena's Market - West", 280, 265);
 		createApartment("The Chris Apartment Complex", 319, 90);
 
 		this.setAlwaysOnTop(false);
@@ -567,8 +568,33 @@ public class CityGui extends JFrame implements ActionListener {
 
 				if ((x<315) && (y<258) && (x>258) && (y>212))
 				{
+					
 					for (Building b: buildings){
-						if (b.getType() == buildingType.market){
+						//System.out.println("t: " + b.getType() + " name" + b.name);
+						if (b.getType() == buildingType.market && b.name.equals("Aleena's Market - West")){
+							Market r = (Market) b;
+							tempMar = r;
+							r.gui.setVisible(true);
+							cityGui.setAlwaysOnTop(false);
+							r.gui.setAlwaysOnTop(true);
+							r.gui.addWindowListener(new WindowAdapter() {
+								public void windowClosing(WindowEvent e) {
+									tempMar.gui.setAlwaysOnTop(false);
+									cityGui.setAlwaysOnTop(true);
+									setState(Frame.NORMAL);
+								}
+							});
+						}
+					} 
+				}
+				
+				
+				if ((x<606) && (y<84) && (x>546) && (y>27))
+				{
+					
+					for (Building b: buildings){
+					//	System.out.println("t: " + b.getType() + " name" + b.name);
+						if (b.getType() == buildingType.market && b.name.equals("Aleena's Market - East")){
 							Market r = (Market) b;
 							tempMar = r;
 							r.gui.setVisible(true);
