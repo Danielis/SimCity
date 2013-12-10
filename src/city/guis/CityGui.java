@@ -699,10 +699,13 @@ public class CityGui extends JFrame implements ActionListener {
 			Scenario.getInstance().CallScenarioTest(this.cityPanel);
 			silenceScenButtons();
 		}
+		
 		if (e.getSource() == rubric){
 			Scenario.getInstance().CallScenarioRubric(this.cityPanel);
 			silenceScenButtons();
+			silenceButtons();
 		}
+
 		if (currentPerson != null){
 			if (e.getSource() == restaurantGo) 
 			{

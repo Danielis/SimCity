@@ -93,10 +93,6 @@ public class PersonAgent extends Agent implements Person
 	public long timeSinceLastAte;
 	String bankPurpose, marketPurpose, homePurpose;
 	double marketQuantity, bankAmount;
-	
-	public boolean changeBubble = false;
-	public double bubbleValue = 0;
-	public int bubbleIndex = 0;
 
 	public class Job{
 		public JobType type;
@@ -968,17 +964,6 @@ public class PersonAgent extends Agent implements Person
 	@Override
 
 	public boolean pickAndExecuteAnAction() {
-		
-		if (changeBubble)
-		{
-			bubbleValue++;
-			if (bubbleValue > 40)
-			{
-				Random rand = new Random();
-				bubbleValue = 0;
-				bubbleIndex = Math.abs(rand.nextInt() % 10);
-			}
-		}
 
 		if (job.type == JobType.noAI){		
 
@@ -1866,16 +1851,16 @@ public class PersonAgent extends Agent implements Person
 		{
 			public void run()
 			{
-				changeBubble = true;
-				gui.setBubble(bubbleIndex);
+				gui.showBubble = true;
 				StopAsking();
 			}
-		}, 7 * 1000);
+		}, 6 * 1000);
 	}
 	
 	public void StopAsking()
 	{
-		changeBubble = false;
+		gui.showBubble = false;
+		gui.setBubble(-1);
 	}
 	
 	public void takeBusIfApplicable(int destin){

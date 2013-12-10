@@ -35,7 +35,6 @@ public class Scenario {
 		c.addWorker("Teller 1", "Teller", "Average");
 		c.addWorker("Teller 2", "Teller", "Average");
 		c.addWorker("Teller 3", "Teller", "Average");
-
 	}
 
 
@@ -164,10 +163,23 @@ public class Scenario {
 	}
 
 
-	public void CallScenarioRubric(CityPanel cityPanel) {
+	public void CallScenarioRubric(CityPanel c) {
 		//STUB 
 		System.out.println("Testing button");
+		
+		c.addStudent("Norman", "Student", "Average");
+		c.addStudent("Aleena", "Student", "Average");
+		c.addStudent("Daniel", "Student", "Average");
+		c.addStudent("Chris", "Student", "Average");
+		
+		//PersonAgent p1 = new PersonAgent("Norman", "Student", "Average");
+		//PersonAgent p2 = new PersonAgent("Aleena", "Student", "Average");
+		//PersonAgent p3 = new PersonAgent("Daniel", "Student", "Average");
+		//PersonAgent p4 = new PersonAgent("Chris", "Student", "Average");
+		
+		//c.addPerson(p1);
+		//c.addPerson(p2);
+		//c.addPerson(p3);
+		//c.addPerson(p4);
 	}
-
-
 }

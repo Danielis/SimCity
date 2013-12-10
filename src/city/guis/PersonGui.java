@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -68,6 +69,12 @@ public class PersonGui implements Gui{
 	
 	public BufferedImage imgTrainer;
 	public BufferedImage imgBubble;
+	public boolean drawBubble = false;
+	
+	
+	public boolean showBubble = false;
+	public double bubbleValue = 0;
+	public int bubbleIndex = 0;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -77,8 +84,12 @@ public class PersonGui implements Gui{
         try
         {
         	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
-        } catch (IOException e ) {}
-       
+        } catch (IOException e ) {}  
+        
+        try
+        {
+        	imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
+        } catch (IOException e ) {} 
 		
 		//System.out.println("Got to the persongui constructor");
 		
@@ -288,71 +299,92 @@ public class PersonGui implements Gui{
     
     public void setBubble(double value)
     {
+    	if (value > 0) drawBubble = true;
+    	else drawBubble = false;
     	if (value == 0){
       		 try
      	       {
-     			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble0.png"));
+     			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble0.png"));
      	       } catch (IOException e ) {}
        	}
        	else if (value == 1){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble1.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble1.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 2){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble2.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble2.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 3){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble3.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble3.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 4){
      		 try
    	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble4.png"));
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble4.png"));
    	       } catch (IOException e ) {}
      	}
        	else if (value == 5){
      		 try
     	       {
-    			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble5.png"));
+    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble5.png"));
     	       } catch (IOException e ) {}
       	}
        	else if (value == 6){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble6.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble6.png"));
   	       } catch (IOException e ) {}
     	}
       	else if (value == 7){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble7.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble7.png"));
   	       } catch (IOException e ) {}
     	}
       	else if (value == 8){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble8.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble8.png"));
   	       } catch (IOException e ) {}
     	}
       	else if (value == 9){
     		 try
   	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/bubble9.png"));
+  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble9.png"));
   	       } catch (IOException e ) {}
     	}
+      	else if (value > 10)
+      	{
+      		try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble2.png"));
+   	       } catch (IOException e ) {}
+      	}
     }
 
     public void updatePosition() {
     	if (goingSomewhere)
-    	{			
+    	{		
+    		if (showBubble)
+    		{
+				bubbleValue++;
+				if (bubbleValue > 40)
+				{
+					bubbleValue = 0;
+					Random rand = new Random();
+					bubbleIndex = Math.abs(rand.nextInt() % 15);
+				}
+				
+            	setBubble(bubbleIndex);
+    		}
 
     		int deltax = destination.x - position.x;
     		int deltay = destination.y - position.y;
@@ -390,20 +422,6 @@ public class PersonGui implements Gui{
                 position.y -= (1 + deltay/deltadivider);
                 movementTicker++;
             }
-//            if(!agent.hasCar()){
-//            	if (movementTicker < 30)
-//            	{
-//            		//setAnim1();
-//            	}
-//            	else if (movementTicker < 60)
-//            	{
-//            		//setAnim2();
-//            	}
-//            	else if (movementTicker >= 60)
-//            	{
-//            		movementTicker = 0;
-//            	}
-//            }
             if (position.x == destination.x && position.y == destination.y)
             {
             	setImage();
@@ -476,7 +494,10 @@ public class PersonGui implements Gui{
 	public void draw(Graphics2D g) 
 	{
 		Graphics2D newG = (Graphics2D)g;
+		Graphics2D newG2 = (Graphics2D)g;
 		newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
+		if (drawBubble)
+			newG2.drawImage(imgBubble, position.x, position.y - 50, agent.CityAnimPanel);
 	}
 	
 
