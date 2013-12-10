@@ -119,7 +119,9 @@ public class RestaurantPanel extends JPanel {
 		c.setGui(g);
 		customers.add(c);
 		c.setAnimPanel(gui.animationPanel);
+		gui.rest.addCust(c);
 		g.setHungry();
+		c.setRestaurant(gui.rest);
 	}
 
 	public void addHost(HostAgent c) {

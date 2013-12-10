@@ -107,21 +107,28 @@ public class CashierAgent extends Role implements Cashier {
 			}
 		}
 		}
-		if (leave && rest.workingCook == null){
-		boolean temp = true;
-		for (Check c : checks){
-			if (c.getS() != checkState.Paid)
-				temp = false;
-		}
-		if (temp)
-			LeaveWork();
-		else
-			return true;
+		if (leave){
+			if (canLeave())
+				LeaveWork();
+			else
+				return true;
 		}
 
 		return false;
 	}
 	
+	private boolean canLeave() {
+		if (rest.workingCook == null && rest.currentCustomers.isEmpty()){
+			boolean temp = true;
+			for (Check c : checks){
+				if (c.getS() != checkState.Paid)
+					temp = false;
+			}
+			return temp;
+		}
+		else
+			return false;
+	}
 	private void LeaveWork() {
 		print("Leaving work");
 		rest.noCashier();

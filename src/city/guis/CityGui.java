@@ -618,10 +618,10 @@ public class CityGui extends JFrame implements ActionListener {
 				if (b.getType() == buildingType.bank){
 					b.ForceClosed();
 					Bank r = (Bank) b;
-					r.workingHost.msgLeaveWork();
 					for (Teller t : r.workingTellers){
 						t.msgLeaveWork();
 					}
+					r.workingHost.msgLeaveWork();
 				}
 			}
 			closeBank.setEnabled(false);
@@ -637,13 +637,13 @@ public class CityGui extends JFrame implements ActionListener {
 			for (Building b : buildings){
 				if (b.getType() == buildingType.restaurant && b.owner.equals("Aleena")){
 					b.ForceClosed();
-//					RestaurantA r = (RestaurantA) b;
-//					r.workingHost.msgLeaveWork();
-//					r.workingCashier.msgLeaveWork();
-//					r.workingCook.msgLeaveWork();
-//					for (restaurantA.WaiterAgent t : r.workingWaiters){
-//						t.msgLeaveWork();
-//					}
+					RestaurantA r = (RestaurantA) b;
+					r.workingHost.msgLeaveWork();
+					r.workingCashier.msgLeaveWork();
+					r.workingCook.msgLeaveWork();
+					for (restaurantA.WaiterAgent t : r.workingWaiters){
+						t.msgLeaveWork();
+					}
 				}
 			}
 			closeRestA.setEnabled(false);

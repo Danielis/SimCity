@@ -326,10 +326,14 @@ public void PayMyLoan(BankCustomer c, double amount, Loan loan){
 				return true;
 			}
 			waiterGui.DoGoToHomePosition();
-			if (leave && canLeave())
+			if (leave){
+				if (canLeave())
 				LeaveWork();
-			else
-				return true;
+				else
+					return true;
+			}
+			
+			
 			return false;
 		}
 		catch(ConcurrentModificationException e)
@@ -354,6 +358,7 @@ private boolean canLeave() {
 	
 	
 	private void LeaveWork() {
+		leave = false;
 		int ran = (int) Math.random() * 15000;
 		 timer.schedule( new TimerTask()
 			{
