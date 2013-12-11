@@ -38,9 +38,11 @@
 ### Notes
 We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. 
 
+!!For V2, the professor told us to use our discretion in deciding what parts of the project we can and can't do with our smaller group. 
+
 For V1, we were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the no-contribution team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. 
 
-For V2, the professor told us to use our discretion in deciding what parts of the project we can and can't do with our smaller group. 
+There's only three restaurants integrated, Chris had trouble integrating his because he was sick.
 
 Our no-contribution team member was assigned to work on:
 + Market (which we fully implemented two of, but not fully integrated)
@@ -50,10 +52,9 @@ Our no-contribution team member was assigned to work on:
 
 Because we had to spend time working on these missing core features, we missed some of the minute details outlined on the rubric.
 
-Additionally, one of our team members, Chris, was sick and then hospitalized during key integration period (he has talked with the professor about this). Despite being ill, Chris was able to make full contributions to the project, but we were unable to address some smaller details and integration requirements for the project due to further stressed time constraints and inability to meet as a full team. 
-
-// NORMAN WRITE A NOTE HERE !!
-
+Additionally, one of our team members, Chris, was sick and then hospitalized during key integration period (he has talked with the professor about this). Despite being ill, Chris was able to make full contributions to the project, but we were unable to address some smaller details and integration requirements for the project due to further stressed time constraints and inability to meet as a full team. At one point we were three team members with Chris in the hospital.
+ 
+We added a lot of things that were not required for our team for the sake of the deadline (great animations, extraneous scenarios, spriting, a lot of market work). Please take this into account as well.
 
 ##Normative Scenarios – Baseline, i.e., little or no interleaving
 
@@ -72,7 +73,7 @@ Additionally, one of our team members, Chris, was sick and then hospitalized dur
   N/A: Small team
 
 ####E. Scenario: [Shows bus-stop behavior]
-1.  Do XYZ
+1.  Click [Bus] button, then create a No AI Person that goes to the Market.
 
 ##Non-Normative Scenarios – Baseline, i.e., minimum interleaving
 
@@ -116,16 +117,10 @@ People eat at home based upon their wealth class and inventory. People decide wh
 5.  Since the town has no police, robberies are a usual occurrence and so the tellers, hosts, and other customers are unfazed by a nearby robbery.
 
 ####P. Scenario: Vehicle accident
-
-
-
-
+1. Click [PQ] button to run scenario. Both P and Q run in the same scenario. When a car hits another car, the car that got hit gets totalled. When a car hits a pedestrian, it slows down and slightly taps it so it doesn't run the person over but just bumps it. People can jump over cars.
 
 ####Q. Scenario: Vehicle hits pedestrian
-
-
-
-
+1. Click [PQ] button to run scenario. Both P and Q run in the same scenario. When a car hits another car, the car that got hit gets totalled. When a car hits a pedestrian, it slows down and slightly taps it so it doesn't run the person over but just bumps it. People can jump over cars.
 
 ####R. Scenario: Weekend behavior is different
 1.  Press button 'R', which fully employees the city and move the clock time to Saturday at the normal work shift.
@@ -145,8 +140,9 @@ People eat at home based upon their wealth class and inventory. People decide wh
 #### What doesn't work
 1.  We have a living system for apartments. We did not have time to add in housing (See notes)
 2.  Landlords do not automatically collect rent. The housing system for this interaction was built correctly (by Chris), but it was not integrated in time for v2 (by team).
-3.  Market is fully implemented, but employees are robots right now, working 24/7 (See notes above)
+3.  Market is fully implemented, but employees are robots right now, working 24/7 (See notes above). We didn't need a market to begin with.
 4.  RestaurantA (Aleena's restaurant) has animation issues that arose during integration.
+5.  One restaurant is not 100% integrated. One is mostly integrated.
 
 #### Breakdown of work done
 Norman
