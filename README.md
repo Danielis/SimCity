@@ -222,6 +222,10 @@ Daniel
   + Unit Testing BusStopAgent
   + Unit Testing BusAgent
   + the two unit tests are the main components used in transportation.
+  + Added stops at intersections to simulate a real city. The cars stop for a bit before continueing.
+  + Added in extra functionality for people moving around the city.
+  + Handled collisions between people, cars and buses.
+  + Implemented test for P Q and E.
 
 Aleena
   + PersonAgent AI design & implementation
