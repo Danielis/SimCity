@@ -32,7 +32,7 @@ public class BusGui implements Gui{
 	
 	//finals
 	private final int customerSize = 20;
-	private final int deltadivider = 100;
+	private final int deltadivider = 20;
 
 	//self agent
 	private BusAgent agent = null;

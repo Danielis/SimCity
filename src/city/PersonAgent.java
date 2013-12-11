@@ -1321,13 +1321,13 @@ public class PersonAgent extends Agent implements Person
 		
 		if (r != null){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
-			if (wealthLevel == WealthLevel.wealthy && num <= 9){
+			if (wealthLevel == WealthLevel.wealthy && num <= 8){
 					restaurant = true;
 			}
-			else if (wealthLevel == WealthLevel.average && num <=7){
+			else if (wealthLevel == WealthLevel.average && num <=5){
 					restaurant = true;
 			}
-			else if (wealthLevel == WealthLevel.poor && num <=3){
+			else if (wealthLevel == WealthLevel.poor && num <=2){
 					restaurant = true;
 			}
 		}

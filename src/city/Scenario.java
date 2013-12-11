@@ -372,8 +372,9 @@ public class Scenario {
 		PersonAgent p995 = new PersonAgent("Robber", "Crook", "Average");
 		PersonAgent p996 = new PersonAgent("Chris", "None", "Wealthy");
 		PersonAgent p997 = new PersonAgent("No Job 6", "None", "Poor");
-		
-
+		p995.GiveCar();
+		p996.GiveCar();
+		p999.GiveCar();
 		p999.setHungry();
 		p99.setHungry();
 
