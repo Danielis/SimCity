@@ -1,7 +1,6 @@
 package city;
 
 import java.util.TimerTask;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,7 +9,11 @@ import city.PersonAgent.JobType;
 import city.guis.CityGui;
 import city.*;
 import city.guis.CityPanel;
+
 import java.util.Timer;
+
+import roles.Building;
+import roles.Building.buildingType;
 
 public class Scenario {
 
@@ -151,31 +154,31 @@ public class Scenario {
 //		
 		c.addPerson("Person1", "No AI", "Wealthy");
 		PersonAgent p1= c.people.lastElement();
-		p1.setPosition(100, 100);
-		p1.addItem("Car",1);
+		p1.setPosition(100, 165);
 		
-//		c.addPerson("Person4", "No AI", "Wealthy");
-//		PersonAgent p4= c.people.lastElement();
-//		p4.setPosition(110, 100);
-//		p4.addItem("Car",1);
-//		
-//		c.addPerson("Person2", "No AI", "Wealthy");
-//		PersonAgent p2= c.people.lastElement();
-//		p2.setPosition(441,250);
-//		p2.addItem("Car",1);
-//		
-//		c.addPerson("Person2", "No AI", "Wealthy");
-//		PersonAgent p3= c.people.lastElement();
-//		p3.setPosition(400,425);
+		
+		c.addPerson("Person4", "No AI", "Wealthy");
+		PersonAgent p4= c.people.lastElement();
+		p4.setPosition(100, 137);
+		p4.addItem("Car",1);
+		
+		c.addPerson("Person2", "No AI", "Wealthy");
+		PersonAgent p2= c.people.lastElement();
+		p2.setPosition(400,105);
+		p2.addItem("Car",1);
+		
+		c.addPerson("Person2", "No AI", "Wealthy");
+		PersonAgent p3= c.people.lastElement();
+		p3.setPosition(100,90);
 
 
 		p1.msgGoToMarket("Car", 1);
-//		p4.msgGoToMarket("Car", 1);
+		p4.msgGoToMarket("Car", 1);
 //		
-//		p2.msgGoToMarket("Car", 1);
-//		p3.msgGoToMarket("Car", 1);
+		p2.msgGoToBank("Deposit",100);
+		p3.msgGoToMarket("Car", 1);
 //			
-		//p2.getGui().DoGoToLocation(100, 100);
+//		p2.getGui().DoGoToLocation(100,100);
 	}
 
 	public void fillWork(CityPanel c){
@@ -183,6 +186,13 @@ public class Scenario {
 		EmployBank(c);
 		EmployRest(c);
 		EmployRest(c);
+		EmployHousing(c);
+	}
+	
+	public void oneBuildEmployed(CityPanel c){
+		EmployBank(c);
+		EmployRest(c);
+		EmployHousing(c);
 	}
 
 	public void EmployBank(CityPanel c) {
@@ -193,6 +203,13 @@ public class Scenario {
 		c.addWorker("Teller 3", "Teller", "Average");
 	}
 
+	public void EmployHousing(CityPanel c) {
+
+		c.addWorker("Landlord", "Landlord", "Average");
+		c.addWorker("Repairman 1", "Repairman", "Average");
+		c.addWorker("Repairman 2", "Repairman", "Average");
+		c.addWorker("Repairman 3", "Repairman", "Average");
+	}
 
 	public void EmployRest(CityPanel c) {
 		c.addWorker("Host 1", "Restaurant Host", "Average");
@@ -207,6 +224,14 @@ public class Scenario {
 		TimeManager.getInstance().setDivider(20);
 		TimeManager.getInstance().setOffset(300000);
 	}
+	
+	public void setDanielRestClosed(CityPanel c){
+		for (Building b : c.buildings){
+			if (b.type.equals(buildingType.restaurant) && b.owner.equals("Daniel")){
+				b.ForceClosed();
+			}
+		}
+	}
 
 	public void CallScenarioA(CityPanel c){				// for points 1-4
 		// 	A:
@@ -214,11 +239,10 @@ public class Scenario {
 		//	Day starts and all workers go to work.
 		//	One not-working person eats at home, then visits all the workplaces by walking.
 		//	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
-
+		
 		workShift();
-		EmployBank(c);
-		EmployRest(c);
-
+		setDanielRestClosed(c);
+		oneBuildEmployed(c);
 		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 		p.addItem("Juice", 0, 2, 2);
 		c.addPerson(p);
@@ -233,7 +257,8 @@ public class Scenario {
 		//	[one should walk; one should take a car; one should take a bus.]
 
 		workShift();
-		fillWork(c);
+		setDanielRestClosed(c);
+		oneBuildEmployed(c);
 
 		PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
 		p.GiveCar();
@@ -282,6 +307,7 @@ public class Scenario {
 		//	An evil person decides to rob a bank.
 		//	On entrance he ... (you design it)
 		workShift();
+		setDanielRestClosed(c);
 		EmployBank(c);
 		PersonAgent p2 = new PersonAgent("Robber", "Crook", "Average");
 		c.addPerson(p2);
@@ -291,6 +317,7 @@ public class Scenario {
 	public void CallScenarioTest(CityPanel c) {
 
 		workShift();
+		setDanielRestClosed(c);
 		EmployRest(c);
 		EmployRest(c);
 	}
@@ -303,7 +330,8 @@ public class Scenario {
 		//	Show how one not-working person still visits all the workplaces but not the ones that are down. 
 		//	Say you only have one bank and it is down, the person should avoid all banking behavior.
 		workShift();
-		fillWork(c);
+		setDanielRestClosed(c);
+		oneBuildEmployed(c);
 	}
 
 	public void CallScenarioJ(CityPanel c) {
@@ -317,12 +345,13 @@ public class Scenario {
 		//	Vehicles stop for pedestrians with right of way.
 
 		workShift();
+		setDanielRestClosed(c);
 		fillWork(c);
 		
 		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
 		PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
 		PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
-		PersonAgent p5 = new PersonAgent("No Job 4", "None", "Average");
+		PersonAgent p5 = new PersonAgent("Robber", "Crook", "Average");
 		PersonAgent p6 = new PersonAgent("Chris", "None", "Wealthy");
 		PersonAgent p7 = new PersonAgent("No Job 6", "None", "Poor");
 		
@@ -360,6 +389,7 @@ public class Scenario {
 		System.out.println("Where's the rubric...?");
 		
 		workShift();
+		setDanielRestClosed(c);
 		
 		cp = c;
 

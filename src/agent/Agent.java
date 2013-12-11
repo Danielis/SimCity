@@ -12,11 +12,15 @@ import logging.AlertLevel;
  * Base class for simple agents
  */
 public abstract class Agent {
-	Boolean isPaused = false;
+	boolean isPaused = false;
 	Semaphore Pause = new Semaphore(0, true);
     Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
     private AgentThread agentThread;
-
+    //Daniel
+    Semaphore pauseStates = new Semaphore(1,true);
+    private boolean pauseBool = false;
+    
+    
     protected Agent() {
     }
 
@@ -145,6 +149,16 @@ public abstract class Agent {
                         print("Unexpected exception caught in Agent thread:", e);
                     }
                 }
+            	else if(pauseBool){
+            		try
+                	{
+            			pauseStates.acquire();
+                	} catch (InterruptedException e) {
+                        // no action - expected when stopping or when deadline changed
+                    } catch (Exception e) {
+                        print("Unexpected exception caught in Agent thread:", e);
+                    }
+            	}
             	else
             	{
 	                try 
@@ -170,6 +184,14 @@ public abstract class Agent {
             goOn = false;
             this.interrupt();
         }
+    }
+    
+    public void togglePause(){
+    	pauseBool=!pauseBool;
+    }
+    public void pauseRelease(){
+    	pauseStates.release();
+    	pauseBool=false;
     }
 }
 

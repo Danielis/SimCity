@@ -61,7 +61,17 @@ public class WaiterRole extends Role implements Waiter
 		}
 	}
 
-//UTILITIES***************************************************
+	public WaiterRole(String name) {
+		super();
+		this.name = name;
+		
+		for (int i = 0; i<4; i++)
+		{
+			foodsAvailable.add(true);
+		}
+	}
+
+	//UTILITIES***************************************************
 	public void recalculateInventory(List<Boolean> temp)
 	{
 		foodsAvailable.clear();

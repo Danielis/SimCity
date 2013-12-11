@@ -125,20 +125,22 @@ public class PersonGui implements Gui{
 		agent = c;
 		this.gui = gui2;
 
-		checkpointA = new Coordinate(383,105);//left top
-		checkpointB = new Coordinate(383,170);
-		checkpointC = new Coordinate(383,278);
-		checkpointD = new Coordinate(383,347);
-		checkpointE = new Coordinate(383,473);
-		checkpointF = new Coordinate(383,540);//left bot
+		checkpointA = new Coordinate(380,90);//left top
+		checkpointB = new Coordinate(380,165);
+		checkpointC = new Coordinate(380,278);
+		checkpointD = new Coordinate(380,347);
+		checkpointE = new Coordinate(380,473);
+		checkpointF = new Coordinate(380,540);//left bot
 		checkpointG = new Coordinate(450,540);//right bot
 		checkpointH = new Coordinate(450,473);
 		checkpointI = new Coordinate(450,347);
 		checkpointJ = new Coordinate(450,278);
-		checkpointK = new Coordinate(450,170);
-		checkpointL = new Coordinate(450,105);//right top
+		checkpointK = new Coordinate(450,165);
+		checkpointL = new Coordinate(450,90);//right top
+		
+		
 		checkpointM = new Coordinate(430,120);//mid-right top
-		checkpointN = new Coordinate(430,145);
+		checkpointN = new Coordinate(430,137);
 		checkpointO = new Coordinate(430,300);
 		checkpointP = new Coordinate(430,320);
 		checkpointQ = new Coordinate(430,492);
@@ -147,7 +149,7 @@ public class PersonGui implements Gui{
 		checkpointT = new Coordinate(402,492);
 		checkpointU = new Coordinate(402,320);
 		checkpointV = new Coordinate(402,300);
-		checkpointW = new Coordinate(402,145);
+		checkpointW = new Coordinate(402,139);
 		checkpointX = new Coordinate(402,120);//mid-left top
 		destCheckpoint = checkpointX;
 
@@ -639,7 +641,7 @@ public class PersonGui implements Gui{
     		
     		//Move the person, speed based on car or not
     		if(agent.hasCar()){
-    			if (Math.abs( position.x - destination.x) <=3){
+    			if (Math.abs( position.x - destination.x) <=3 && Math.abs( position.x - destination.x)!=0 ){
     				setImage(); 
     				position.x = destination.x;
     			}
@@ -653,7 +655,7 @@ public class PersonGui implements Gui{
     				setImage();
     				position.x -= 3;
     			}
-    			if (Math.abs( position.y-destination.y ) <=3){
+    			else if (Math.abs( position.y-destination.y ) <=3 && Math.abs( position.y-destination.y )!=0){
     				setImage(); 
     				position.y = destination.y;
     			}

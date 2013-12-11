@@ -6,6 +6,8 @@ import java.lang.Math;
 
 import restaurantA.*;
 import restaurantC.RestaurantC;
+import restaurantD.RestaurantD;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -822,7 +824,7 @@ public class PersonAgent extends Agent implements Person
 		if( gui.getXPosition() < 300){
 			//Which level are you on in the y-axis?
 			if(gui.getYPosition() < 200){
-				gui.DoGoToLocation(gui.getXPosition(), 145);
+				gui.DoGoToLocation(gui.getXPosition(), 137);
 			}
 			else if(gui.getYPosition() < 400){
 				gui.DoGoToLocation(gui.getXPosition(), 320);
@@ -1595,9 +1597,20 @@ public class PersonAgent extends Agent implements Person
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going home to " + homePurpose, new Date()));
 		Status.setHousingStatus(houseStatus.goingHome);
 
+//		takeBusIfApplicable(0);
 		takeBusIfApplicable(0);
+		if(hasCar()){
+			//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+			while(gui.doMoveAsCar() != gui.getCheckPoint('X') );
+			gui.DoGoToLocation(a.entrance);
+		}
+
+		else{
+			gui.DoGoToCheckpoint('A');
+			gui.DoGoToLocation(a.entrance);
+		}
 		
-		gui.DoGoToLocation(a.entrance);
+		//gui.DoGoToLocation(a.entrance);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
 		
@@ -1635,7 +1648,34 @@ public class PersonAgent extends Agent implements Person
 
 		//takeBusIfApplicable(0);
 		
-		gui.DoGoToLocation(r.entrance);
+		//		gui.DoGoToLocation(r.entrance);
+		if(r.name.equals("Aleena's Bank - North")){
+			takeBusIfApplicable(0);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('X') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('A');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name.equals("Aleena's Bank - South")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('S') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('F');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}		
+		
 		this.Status.setLocation(location.bank);
 		
 		if (r.isOpen()){
@@ -1699,7 +1739,20 @@ public class PersonAgent extends Agent implements Person
 		Apartment a = (Apartment) job.workBuilding;
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.home);
-		gui.DoGoToLocation(a.entrance);
+//		gui.DoGoToLocation(a.entrance);
+		
+		takeBusIfApplicable(0);
+		if(hasCar()){
+			//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+			while(gui.doMoveAsCar() != gui.getCheckPoint('X') );
+			gui.DoGoToLocation(a.entrance);
+		}
+		else{
+			gui.DoGoToCheckpoint('A');
+			gui.DoGoToLocation(a.entrance);
+		}
+		
+		
 		gui.setPresent(false);
 		gui.setBusy(true);
 		if (job.type == JobType.landLord)
@@ -1740,10 +1793,48 @@ public class PersonAgent extends Agent implements Person
 
 		//takeBusIfApplicable(2);
 
-	
+
 		Restaurant r = (Restaurant) job.workBuilding;
-				
-		gui.DoGoToLocation(r.entrance);
+
+		//		gui.DoGoToLocation(r.entrance);
+
+		if(r.name. equals("Aleena Restaurant") || r.name. equals("Daniel's Restaurant") ){
+			takeBusIfApplicable(1);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('C');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Norman's Restaurant")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('T') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('E');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Chris's Restaurant")){
+			takeBusIfApplicable(3);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('R') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('H');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -1822,7 +1913,45 @@ public class PersonAgent extends Agent implements Person
 		
 		RestaurantA r = (RestaurantA) job.workBuilding;
 				
-		gui.DoGoToLocation(r.entrance);
+//		gui.DoGoToLocation(r.entrance);
+		if(r.name. equals("Aleena Restaurant") || r.name. equals("Daniel's Restaurant") ){
+			takeBusIfApplicable(1);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('C');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Norman's Restaurant")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('T') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('E');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Chris's Restaurant")){
+			takeBusIfApplicable(3);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('R') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('H');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
@@ -2008,7 +2137,36 @@ public void WorkAtRestC() {
 		//Role c = null;
 		Bank r = (Bank) job.workBuilding;
 	
-		gui.DoGoToLocation(r.entrance);
+		//gui.DoGoToLocation(r.entrance);
+		
+		if(r.name.equals("Aleena's Bank - North")){
+			takeBusIfApplicable(0);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('X') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('A');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name.equals("Aleena's Bank - South")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('S') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('F');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}		
+		
+		
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
@@ -2047,13 +2205,50 @@ public void WorkAtRestC() {
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to Norman's restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 	
-		takeBusIfApplicable(2);
+//		takeBusIfApplicable(2);
+//		
+//		gui.DoGoToCheckpoint('B');
+//		//gui.DoGoToCheckpoint('A');
+		if(r.name. equals("Aleena Restaurant") || r.name. equals("Daniel's Restaurant") ){
+			takeBusIfApplicable(1);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('C');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Norman's Restaurant")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('T') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('E');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Chris's Restaurant")){
+			takeBusIfApplicable(3);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('R') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('H');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
 		
-		gui.DoGoToCheckpoint('B');
-		//gui.DoGoToCheckpoint('A');
 
-
-		gui.DoGoToLocation(r.entrance);
+//		gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
 		gui.setPresent(false);
 
@@ -2077,9 +2272,43 @@ public void WorkAtRestC() {
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to Aleena's Restaurant.", new Date()));
 		Status.setNourishment(nourishment.goingToFood);
 
-		//takeBusIfApplicable(2);
-		
-		gui.DoGoToLocation(r.entrance);
+		if(r.name. equals("Aleena Restaurant") || r.name. equals("Daniel's Restaurant") ){
+			takeBusIfApplicable(1);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('C');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Norman's Restaurant")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('T') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('E');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Chris's Restaurant")){
+			takeBusIfApplicable(3);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('R') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('H');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
 		
 		if (r.isOpen()){
 		this.Status.setLocation(location.restaurant);
@@ -2112,6 +2341,43 @@ public void WorkAtRestC() {
 		//takeBusIfApplicable(2);
 		
 		gui.DoGoToLocation(r.entrance);
+		if(r.name. equals("Aleena Restaurant") || r.name. equals("Daniel's Restaurant") ){
+			takeBusIfApplicable(1);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+				gui.DoGoToLocation(r.entrance);
+			}
+
+			else{
+				gui.DoGoToCheckpoint('C');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Norman's Restaurant")){
+			takeBusIfApplicable(2);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('T') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('E');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
+		else if(r.name. equals("Chris's Restaurant")){
+			takeBusIfApplicable(3);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('R') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('H');
+				gui.DoGoToLocation(r.entrance);
+			}
+		}
 		
 		if (r.isOpen()){
 		this.Status.setLocation(location.restaurant);
@@ -2124,6 +2390,7 @@ public void WorkAtRestC() {
 		roles.add(c);
 		r.panel.addCustomer((restaurantC.CustomerRole) c, r);
 		c.gotHungry();
+
 		}
 		else{
 			gui.setBusy(false);
@@ -2154,18 +2421,31 @@ public void WorkAtRestC() {
 				}
 			}
 		}
-		
-		takeBusIfApplicable(1);
-		if(hasCar()){
-			 print("Semaphore Count: " + this.animSemaphore.availablePermits() );
-			while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
-			gui.DoGoToLocation(r.entrance);
+
+		if(r.name.equals("Aleena's Market - East")){
+			takeBusIfApplicable(5);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('M') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('L');
+				gui.DoGoToLocation(r.entrance);
+			}
 		}
-		else{
-			gui.DoGoToCheckpoint('C');
-			gui.DoGoToLocation(r.entrance);
+		else if(r.name.equals("Aleena's Market - West")){
+			takeBusIfApplicable(1);
+			if(hasCar()){
+				//print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+				while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+				gui.DoGoToLocation(r.entrance);
+			}
+			else{
+				gui.DoGoToCheckpoint('C');
+				gui.DoGoToLocation(r.entrance);
+			}
 		}
-		
 		this.Status.setLocation(location.bank);
 		gui.setPresent(false);
 		this.Status.setLocation(location.market);
