@@ -6,6 +6,7 @@ import restaurant.gui.HostGui;
 import agent.StringUtil;
 import city.PersonAgent;
 import city.Interfaces.Person;
+import city.test.mock.TestPerson;
 
 public abstract class Role
 {
@@ -44,6 +45,11 @@ public abstract class Role
 	public PersonAgent getPersonAgent()
 	{
 		return myPerson;
+	}
+	
+	public Person getTestPerson()
+	{
+		return myTestPerson;
 	}
 	
 	public void stateChanged()
