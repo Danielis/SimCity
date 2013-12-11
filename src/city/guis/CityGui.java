@@ -142,7 +142,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton busGo = new JButton("Bus");
 
 	private JButton scenP = new JButton("Scenario P");
-	private JButton scenCrash = new JButton("CrashTest"); 
+	private JButton scenCrash = new JButton("P Q"); 
 	private JButton scenA = new JButton("A");
 	private JButton scenB = new JButton("B");
 	private JButton scenF = new JButton("F");
