@@ -22,7 +22,7 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 	int roomIndex;
 
 	//finals
-	private final int deltadivider = 100;
+	private final int deltadivider = 40;
 
 	//self agent
 	private HousingCustomerRole agent = null;

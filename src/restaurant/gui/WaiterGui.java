@@ -24,7 +24,7 @@ public class WaiterGui implements Gui {
 	//finals
 	private final int tables_y = 450;
 	private final int waiterSize = 20;
-	private final int deltadivider = 100;
+	private final int deltadivider = 40;
 	private final int starting_X = 150;
 	private final int table_divider = 100;
 	

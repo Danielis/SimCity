@@ -43,7 +43,7 @@ public class PersonGui implements Gui{
 	
 	//finals
 	//private final int customerSize = 20;
-	private final int deltadivider = 100;
+	private final int deltadivider = 40;
 	
 	int movementTicker = 0;
 
@@ -126,7 +126,7 @@ public class PersonGui implements Gui{
 
 		checkpointA = new Coordinate(380,90);//left top
 		checkpointB = new Coordinate(380,165);
-		checkpointC = new Coordinate(380,278);
+		checkpointC = new Coordinate(380,270);
 		checkpointD = new Coordinate(380,347);
 		checkpointE = new Coordinate(380,473);
 		checkpointF = new Coordinate(380,540);//left bot
@@ -172,7 +172,7 @@ public class PersonGui implements Gui{
 		Random r = new Random();
     	int x1=r.nextInt(600-50) + 50;
 		
-    	position = new Coordinate(x1, y1); 
+    	position = new Coordinate(x1, 94); 
     	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
@@ -674,16 +674,16 @@ public class PersonGui implements Gui{
     			{
     				direct = "right";
     				setImage();
-//    				position.x += (1 + deltax/deltadivider);
-    				position.x += 1;
+    				position.x += (1 + deltax/deltadivider);
+    				//position.x += 1;
     				movementTicker++;
     			}
     			else if (position.x > destination.x)
     			{
     				direct = "left";
     				setImage();
-//    				position.x -= (1 + deltax/deltadivider);
-    				position.x -= 1;
+    				position.x -= (1 + deltax/deltadivider);
+    				//position.x -= 1;
     				movementTicker++;
     			}
 
@@ -691,8 +691,8 @@ public class PersonGui implements Gui{
     			{
     				direct = "down";
     				setImage();
-//    				position.y += (1 + deltay/deltadivider);
-    				position.y += 1;
+    				position.y += (1 + deltay/deltadivider);
+    				//position.y += 1;
     				movementTicker++;
     			}
 
@@ -700,8 +700,8 @@ public class PersonGui implements Gui{
     			{
     				direct = "up";
     				setImage();   				
-//    				position.y -= (1 + deltay/deltadivider);
-    				position.y -= 1;
+    				position.y -= (1 + deltay/deltadivider);
+    				//position.y -= 1;
     				movementTicker++;
     			}
     		}

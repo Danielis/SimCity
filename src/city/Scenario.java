@@ -20,6 +20,8 @@ public class Scenario {
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	Timer timer = new Timer();
 	
+	int numstudents = 20;
+	
 	CityPanel cp;
 	int numStudentsArrived = 0;
 
@@ -202,7 +204,7 @@ public class Scenario {
 	public void oneBuildEmployed(CityPanel c){
 		EmployBank(c);
 		EmployRest(c);
-		EmployHousing(c);
+		//EmployHousing(c);
 	}
 
 	public void EmployBank(CityPanel c) {
@@ -376,6 +378,25 @@ public class Scenario {
 		c.addPerson(p6);
 		c.addPerson(p7);
 		
+		PersonAgent p998 = new PersonAgent("No Job 1", "None", "Wealthy");
+		PersonAgent p999 = new PersonAgent("No Job 2", "None", "Poor");
+		PersonAgent p99 = new PersonAgent("No Job 3", "None", "Average");
+		PersonAgent p995 = new PersonAgent("Robber", "Crook", "Average");
+		PersonAgent p996 = new PersonAgent("Chris", "None", "Wealthy");
+		PersonAgent p997 = new PersonAgent("No Job 6", "None", "Poor");
+		p995.GiveCar();
+		p996.GiveCar();
+		p999.GiveCar();
+		p999.setHungry();
+		p99.setHungry();
+
+		c.addPerson(p998);
+		c.addPerson(p999);
+		c.addPerson(p99);
+		c.addPerson(p995);
+		c.addPerson(p996);
+		c.addPerson(p997);
+		
 		PersonAgent p = new PersonAgent("Norman", "None", "Wealthy");
 		p.GiveCar();
 		p.addItem("Juice", 0, 2, 2);
@@ -405,17 +426,9 @@ public class Scenario {
 
 		PersonAgent prof = new PersonAgent("Wilczynski", "Professor", "Average");
 		c.addPerson(prof, true);
-		/*
-		timer.schedule( new TimerTask()
-		{
-			public void run()
-			{				
-				
-			}
-		}, 7 * 1000);*/
 	}
 	
-	public void fillStudents(int numstudents)
+	public void fillStudents()
 	{
 		
 		for (int i = 0; i < numstudents; i++)
@@ -427,7 +440,7 @@ public class Scenario {
 	
 	public boolean AllThere()
 	{
-		return (numStudentsArrived >= 20);
+		return (numStudentsArrived >= numstudents);
 	}
 	
 	public void Continue1()

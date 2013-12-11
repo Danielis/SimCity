@@ -2048,7 +2048,7 @@ public void WorkAtBank(MockBank bank) {
 		gui.showBubble = false;
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.work);
-		Scenario.getInstance().fillStudents(20);
+		Scenario.getInstance().fillStudents();
 	}
 	
 	public void HaveHeartAttack()
