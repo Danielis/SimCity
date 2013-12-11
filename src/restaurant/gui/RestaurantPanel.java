@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
-
+import restaurant.roles.*;
 /**
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
@@ -97,9 +97,9 @@ public class RestaurantPanel extends JPanel
         }
     }
  
-    public void addCustomer(Customer customer, Restaurant r) 
+    public void addCustomer(CustomerRole customer, Restaurant r) 
     {
-		Customer c = customer;
+    	CustomerRole c = customer;
 		CustomerGui g = new CustomerGui(c, gui);
 		gui.animationPanel.addGui(g);
 		c.setBuilding(r);

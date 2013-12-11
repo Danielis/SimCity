@@ -5,10 +5,12 @@ import logging.TrackerGui;
 import restaurant.gui.HostGui;
 import agent.StringUtil;
 import city.PersonAgent;
+import city.Interfaces.Person;
 
 public abstract class Role
 {
 	public PersonAgent myPerson;
+	public Person myTestPerson;
 	public Boolean active;
 	public TrackerGui trackingWindow;
 	public Building building;
@@ -32,6 +34,11 @@ public abstract class Role
 	public void setPerson(PersonAgent a)
 	{
 		myPerson = a;
+	}
+	
+	public void setTestPerson(Person a)
+	{
+		myTestPerson = a;
 	}
 	
 	public PersonAgent getPersonAgent()

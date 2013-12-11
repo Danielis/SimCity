@@ -60,7 +60,7 @@ public class WaiterGui implements Gui {
     	
         try
         {
-        	imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_stand.png"));
+        	imgWaiter = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter/down0.png"));
         } catch (IOException e ) {}
     	
         this.agent = w;
@@ -103,21 +103,21 @@ public class WaiterGui implements Gui {
 	private void setAnim1() {
 		 try
 	       {
-			 imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_1.png"));
+			 imgWaiter = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter/down1.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setAnim2() {
 		 try
 	       {
-			 imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_2.png"));
+			 imgWaiter = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter/down2.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setDefault() {
 		 try
 	       {
-			 imgWaiter = ImageIO.read(getClass().getResource("/resources/waiter_stand.png"));
+			 imgWaiter = ImageIO.read(getClass().getResource("/resources/globalSprites/waiter/down0.png"));
 	       } catch (IOException e ) {}
 		
 	}

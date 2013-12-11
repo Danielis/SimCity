@@ -56,20 +56,22 @@ public class CustomerRole extends Role implements Customer {
 	Boolean imusthavethisitem = false;			//To bypass re-selection
 	Boolean reordering = false;					//To check if he's reordering
 	public Semaphore animSemaphore = new Semaphore(0, true);
-	
+
+	public String job;
 	//List of foods available
 	private List<Boolean> foodOptions = new ArrayList<Boolean>();
 
 	private Restaurant restaurant;
 	
 	//Constructor
-	public CustomerRole(String name, double balance){
+	public CustomerRole(String name, double balance, String j){
 		super();
 		this.name = name;
 		random = new Random();
 		timer = new Timer();
 		myMoney = (float)balance;
 		bill = 0;
+		job = j;
 		
 		for (int i = 0; i<4; i++)
 		{

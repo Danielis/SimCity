@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
+import restaurant.roles.*;
 public class CustomerGui implements Gui{
 	
 	//variables
@@ -33,7 +33,7 @@ public class CustomerGui implements Gui{
 	private int movementTicker = 0;
 
 	//self agent
-	private Customer agent = null;
+	private CustomerRole agent = null;
 
 	//private HostAgent host;
 	RestaurantGui gui;
@@ -56,7 +56,7 @@ public class CustomerGui implements Gui{
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
 
-	public CustomerGui(Customer c, RestaurantGui gui){
+	public CustomerGui(CustomerRole c, RestaurantGui gui){
 		
         try
         {
@@ -123,23 +123,26 @@ public class CustomerGui implements Gui{
     
 	private void setAnim1()
 	{
+		String temp = "/resources/globalSprites/" + agent.job + "/down1.png";
 		 try
 	     {
-			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_1.png"));
+			 imgTrainer = ImageIO.read(getClass().getResource(temp));
 	     } catch (IOException e ) {}
 	}
 	
 	private void setAnim2() {
+		String temp = "/resources/globalSprites/" + agent.job + "/down2.png";
 		 try
 	     {
-			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer_2.png"));
+			 imgTrainer = ImageIO.read(getClass().getResource(temp));
 	     } catch (IOException e ) {}
 	}
 	
 	private void setDefault() {
+		String temp = "/resources/globalSprites/" + agent.job + "/down0.png";
 		 try
 	     {
-			 imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+			 imgTrainer = ImageIO.read(getClass().getResource(temp));
 	     } catch (IOException e ) {}
 		
 	}

@@ -43,7 +43,7 @@ public class HostGui implements Gui{
 	{
 		try
         {
-        	imgHost = ImageIO.read(getClass().getResource("/resources/host.png"));
+        	imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost/down0.png"));
         } catch (IOException e ) {}
         
 		agent = host;
@@ -79,21 +79,21 @@ public class HostGui implements Gui{
     private void setAnim1() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/host_1.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost/down1.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setAnim2() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/host_2.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost/down2.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setDefault() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/host.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost/down0.png"));
 	       } catch (IOException e ) {}
 	}
     

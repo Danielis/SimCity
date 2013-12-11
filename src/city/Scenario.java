@@ -1,12 +1,21 @@
 package city;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import city.PersonAgent.Job;
+import city.PersonAgent.JobType;
 import city.guis.CityGui;
 import city.*;
 import city.guis.CityPanel;
 
 
 public class Scenario {
-
+	
+	Timer timer = new Timer();
+	CityPanel cp;
+	int numStudentsArrived = 0;
+	
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 
 	private static Scenario instance = null;
@@ -60,7 +69,8 @@ public class Scenario {
 		//	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
 
 		workShift();
-		fillWork(c);
+		EmployBank(c);
+		EmployRest(c);
 
 		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 		p.addItem("Juice", 0, 2, 2);
@@ -101,6 +111,7 @@ public class Scenario {
 		//starts on sat:
 		TimeManager.getInstance().setDivider(2);
 		TimeManager.getInstance().setDayOffset(5);
+		TimeManager.getInstance().setOffset(50000);
 
 		//starts on fri:
 		//	TimeManager.getInstance().setDivider(1);
@@ -160,26 +171,112 @@ public class Scenario {
 
 		workShift();
 		fillWork(c);
+		
+		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
+		PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
+		PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
+		PersonAgent p5 = new PersonAgent("No Job 4", "None", "Average");
+		PersonAgent p6 = new PersonAgent("Chris", "None", "Wealthy");
+		PersonAgent p7 = new PersonAgent("No Job 6", "None", "Poor");
+		
+
+		p5.setHungry();
+		p4.setHungry();
+
+		c.addPerson(p2);
+		c.addPerson(p3);
+		c.addPerson(p4);
+		c.addPerson(p5);
+		c.addPerson(p6);
+		c.addPerson(p7);
+		
+		PersonAgent p = new PersonAgent("Norman", "None", "Wealthy");
+		p.GiveCar();
+		p.addItem("Juice", 0, 2, 2);
+		c.addPerson(p);
+
+		PersonAgent p8 = new PersonAgent("Aleena", "None", "Average");
+		c.addPerson(p8);
+
+		PersonAgent p9 = new PersonAgent("Daniel", "None", "Wealthy");
+		p9.GiveCar();
+		p9.setHungry();
+		c.addPerson(p9);
 	}
 
+	public void setCityPanel(CityPanel c)
+	{
+		this.cp = c;
+	}
 
 	public void CallScenarioRubric(CityPanel c) {
-		//STUB 
-		System.out.println("Testing button");
+		System.out.println("Where's the rubric...?");
 		
-		c.addStudent("Norman", "Student", "Average");
-		c.addStudent("Aleena", "Student", "Average");
-		c.addStudent("Daniel", "Student", "Average");
-		c.addStudent("Chris", "Student", "Average");
+		workShift();
 		
-		//PersonAgent p1 = new PersonAgent("Norman", "Student", "Average");
-		//PersonAgent p2 = new PersonAgent("Aleena", "Student", "Average");
-		//PersonAgent p3 = new PersonAgent("Daniel", "Student", "Average");
-		//PersonAgent p4 = new PersonAgent("Chris", "Student", "Average");
+		cp = c;
+
+		PersonAgent prof = new PersonAgent("Wilczynski", "Professor", "Average");
+		c.addPerson(prof, true);
+		/*
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{				
+				
+			}
+		}, 7 * 1000);*/
+	}
+	
+	public void fillStudents(int numstudents)
+	{
 		
-		//c.addPerson(p1);
-		//c.addPerson(p2);
-		//c.addPerson(p3);
-		//c.addPerson(p4);
+		for (int i = 0; i < numstudents; i++)
+		{
+			PersonAgent p = new PersonAgent("Student", "Student", "Average");
+			cp.addPerson(p, false);
+		}
+	}
+	
+	public boolean AllThere()
+	{
+		return (numStudentsArrived >= 20);
+	}
+	
+	public void Continue1()
+	{
+		numStudentsArrived++;
+		if (AllThere())
+		{
+			HeartAttack();
+		}
+	}
+	
+	public void HeartAttack()
+	{
+		for (PersonAgent p: cp.people)
+		{
+			if (p.job != null)
+			{
+				if(p.job.type == JobType.professor)
+				{
+					p.msgHaveHeartAttack();
+				}
+			}
+		}
+	}
+	
+	public void finish()
+	{
+		for (PersonAgent p: cp.people)
+		{
+			if (p.job != null)
+			{
+				if(p.job.type == JobType.student)
+				{
+					p.msgGoBotherTheCPs();
+				}
+			}
+		}
 	}
 }

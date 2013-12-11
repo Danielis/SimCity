@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 import roles.Coordinate;
 import city.PersonAgent;
+import city.Scenario;
 import city.PersonAgent.*;
 public class PersonGui implements Gui{
 	
@@ -28,6 +29,8 @@ public class PersonGui implements Gui{
 	
 	private boolean goingSomewhere = false;
 	private boolean isBusy = false;
+	
+	public boolean part1 = true;
 	
 	//finals
 	//private final int customerSize = 20;
@@ -70,11 +73,13 @@ public class PersonGui implements Gui{
 	public BufferedImage imgTrainer;
 	public BufferedImage imgBubble;
 	public boolean drawBubble = false;
-	
-	
+	public boolean deathBubble = false;
 	public boolean showBubble = false;
 	public double bubbleValue = 0;
 	public int bubbleIndex = 0;
+	
+	public boolean playdeath = false;
+	public double deathValue = 0;
 	
 	//List of tables
     public List<Coordinate> tables = new ArrayList<Coordinate>();
@@ -95,7 +100,6 @@ public class PersonGui implements Gui{
 		
 		agent = c;
 		this.gui = gui2;
-		
 
 		checkpointA = new Coordinate(257,472);//restaurant
 		checkpointB = new Coordinate(385,472);//bottom street corner  
@@ -133,12 +137,75 @@ public class PersonGui implements Gui{
     	int y1=x.nextInt(500-50) + 50;
     	
 		Random r = new Random();
-    	int x1=r.nextInt(500-50) + 50;
+    	int x1=r.nextInt(600-50) + 50;
 		
     	position = new Coordinate(x1, y1);
     	
     	
     	
+    	cashier = new Coordinate(255, 75);
+    	waitingroom = new Coordinate(140,70);
+    	destination = outside;
+	}
+	
+	public PersonGui(PersonAgent c, CityGui gui2, boolean b){
+        
+        try
+        {
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/trainer.png"));
+        } catch (IOException e ) {}  
+        
+        try
+        {
+        	imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
+        } catch (IOException e ) {} 
+		
+		//System.out.println("Got to the persongui constructor");
+		
+		agent = c;
+		this.gui = gui2;
+
+		checkpointA = new Coordinate(257,472);//restaurant
+		checkpointB = new Coordinate(385,472);//bottom street corner  
+		checkpointC = new Coordinate(385,362);//middle lower street corner
+		checkpointD = new Coordinate(385,275);//middle higher street corner
+		checkpointE = new Coordinate(280,275);//in front of market
+		checkpointF = new Coordinate(280,265);//Market
+		checkpointG = new Coordinate(385,106);//Top street corner
+		checkpointH = new Coordinate(319,106);//in front of Apartments
+		checkpointI = new Coordinate(319,90);//Apartments
+		checkpointJ = new Coordinate(73,106);//in front of bank
+		checkpointK = new Coordinate(73,74);//Bank
+
+		checkpointL = new Coordinate(485,474);
+		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
+//		checkpointA = new Coordinate(395,250);
+//		checkpointB = new Coordinate(395,125);
+//		checkpointC = new Coordinate(320,125);
+//		checkpointD = new Coordinate(320,100);
+		checkpointHouse = new Coordinate(536,473);
+		
+		//checkpointA = new Coordinate(395,250);
+		//checkpointB = new Coordinate(395,125);
+		//checkpointC = new Coordinate(320,125);
+		//checkpointD = new Coordinate(320,100);
+		//checkpointHouse = new Coordinate(329,88);
+		Coordinate bank = new Coordinate(80,74);
+
+		outside = new Coordinate(700, 250);
+		
+		Random x = new Random();
+		int y1;
+		if (b)
+			y1 = 320;
+		else 
+			y1 = 320 + x.nextInt()%100;
+    	
+		Random r = new Random();
+    	int x1 = 1000 + r.nextInt()%300;
+		
+    	position = new Coordinate(x1, y1);
+
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
     	destination = outside;
@@ -284,6 +351,28 @@ public class PersonGui implements Gui{
    			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/cook3.png"));
    	       } catch (IOException e ) {}
      	}
+    	else if (agent.job.type.equals(JobType.student)){
+   		 try
+  	       {
+  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/student3.png"));
+  	       } catch (IOException e ) {}
+    	}
+    	else if (agent.job.type.equals(JobType.professor)){
+    		if (playdeath)
+    		{
+		   		 try
+		  	       {
+		  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/coma.png"));
+		  	       } catch (IOException e ) {}
+    		}
+    		else
+    		{
+    			try
+		  	       {
+		  			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/professor3.png"));
+		  	       } catch (IOException e ) {}
+    		}
+    	}
     	else if (agent.job.type.equals(JobType.crook)){
    		 try
   	       {
@@ -297,77 +386,197 @@ public class PersonGui implements Gui{
     	} catch (IOException e ) {}
     }
     
+    public void setBubbleProfessor(double value)
+    {
+    	double step = 40;
+    	if (value < step)	
+    	{
+    		try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble10.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (value < step * 2)
+    	{
+    		try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble11.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	else if (value < step * 3)
+    	{
+    		try
+   	       {
+   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble12.png"));
+   	       } catch (IOException e ) {}
+    	}
+    	
+    	else if (value < step * 4)
+    	{
+    		try
+    	       {
+    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble13.png"));
+    	       } catch (IOException e ) {}
+     		
+     		Scenario.getInstance().finish();
+    	}
+    	else if (value < step * 5)
+    	{
+     		//this.drawBubble = false;
+    	}
+    }
+    
+    public void setDeath()
+    {
+    	playdeath = true;
+    }
+    
     public void setBubble(double value)
     {
     	if (value > 0) drawBubble = true;
     	else drawBubble = false;
-    	if (value == 0){
-      		 try
-     	       {
-     			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble0.png"));
-     	       } catch (IOException e ) {}
-       	}
-       	else if (value == 1){
-     		 try
-   	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble1.png"));
-   	       } catch (IOException e ) {}
-     	}
-       	else if (value == 2){
-     		 try
-   	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble2.png"));
-   	       } catch (IOException e ) {}
-     	}
-       	else if (value == 3){
-     		 try
-   	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble3.png"));
-   	       } catch (IOException e ) {}
-     	}
-       	else if (value == 4){
-     		 try
-   	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble4.png"));
-   	       } catch (IOException e ) {}
-     	}
-       	else if (value == 5){
-     		 try
-    	       {
-    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble5.png"));
-    	       } catch (IOException e ) {}
-      	}
-       	else if (value == 6){
-    		 try
-  	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble6.png"));
-  	       } catch (IOException e ) {}
+    	
+    	if (part1)
+	    {
+	    	if (value == 0){
+	      		 try
+	     	       {
+	     			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble0.png"));
+	     	       } catch (IOException e ) {}
+	       	}
+	       	else if (value == 1){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble1.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 2){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 3){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble3.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 4){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble4.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 5){
+	     		 try
+	    	       {
+	    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble5.png"));
+	    	       } catch (IOException e ) {}
+	      	}
+	       	else if (value == 6){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble6.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value == 7){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble7.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value == 8){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble8.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value == 9){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble9.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value >= 10)
+	      	{
+	      		try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
+	   	       } catch (IOException e ) {}
+	      	}
+	    }
+    	else
+    	{
+    		value = value % 11;
+    		if (value == 0){
+	      		 try
+	     	       {
+	     			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble2.png"));
+	     	       } catch (IOException e ) {}
+	       	}
+	       	else if (value == 1){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble5.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 2){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/bubble7.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 3){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_1.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 4){
+	     		 try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_2.png"));
+	   	       } catch (IOException e ) {}
+	     	}
+	       	else if (value == 5){
+	     		 try
+	    	       {
+	    			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_3.png"));
+	    	       } catch (IOException e ) {}
+	      	}
+	       	else if (value == 6){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_4.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value == 7){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_5.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value == 8){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_6.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value == 9){
+	    		 try
+	  	       {
+	  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_7.png"));
+	  	       } catch (IOException e ) {}
+	    	}
+	      	else if (value >= 10)
+	      	{
+	      		try
+	   	       {
+	   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscen/b_4.png"));
+	   	       } catch (IOException e ) {}
+	      	}
     	}
-      	else if (value == 7){
-    		 try
-  	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble7.png"));
-  	       } catch (IOException e ) {}
-    	}
-      	else if (value == 8){
-    		 try
-  	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble8.png"));
-  	       } catch (IOException e ) {}
-    	}
-      	else if (value == 9){
-    		 try
-  	       {
-  			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble9.png"));
-  	       } catch (IOException e ) {}
-    	}
-      	else if (value > 10)
-      	{
-      		try
-   	       {
-   			 imgBubble = ImageIO.read(getClass().getResource("/resources/profscren/bubble2.png"));
-   	       } catch (IOException e ) {}
-      	}
     }
 
     public void updatePosition() {
@@ -488,16 +697,26 @@ public class PersonGui implements Gui{
     	}
 	}
 
-
-
-
 	public void draw(Graphics2D g) 
 	{
+		
+		if (playdeath)
+		{
+			setBubbleProfessor(deathValue);
+			deathValue++;
+		}
+		
 		Graphics2D newG = (Graphics2D)g;
 		Graphics2D newG2 = (Graphics2D)g;
 		newG.drawImage(imgTrainer, position.x, position.y, agent.CityAnimPanel);
+		
 		if (drawBubble)
-			newG2.drawImage(imgBubble, position.x, position.y - 50, agent.CityAnimPanel);
+		{
+			if(playdeath)
+				newG2.drawImage(imgBubble, position.x - 150, position.y - 110, agent.CityAnimPanel);
+			else
+				newG2.drawImage(imgBubble, position.x - 150, position.y - 50, agent.CityAnimPanel);
+		}
 	}
 	
 

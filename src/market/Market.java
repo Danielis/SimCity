@@ -13,7 +13,6 @@ public class Market extends Building {
 	double balance;
 	List <Item> inventory = new ArrayList<Item>();
 	int idIncr = 0;
-	String name;
 	public MarketGui gui;
 	public MarketPanel panel;
 
