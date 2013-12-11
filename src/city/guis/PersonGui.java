@@ -44,7 +44,7 @@ public class PersonGui implements Gui{
 	
 	//finals
 	//private final int customerSize = 20;
-	private final int deltadivider = 100;
+	private final int deltadivider = 40;
 	
 	int movementTicker = 0;
 
@@ -675,16 +675,16 @@ public class PersonGui implements Gui{
     			{
     				direct = "right";
     				setImage();
-//    				position.x += (1 + deltax/deltadivider);
-    				position.x += 1;
+    				position.x += (1 + deltax/deltadivider);
+    				//position.x += 1;
     				movementTicker++;
     			}
     			else if (position.x > destination.x)
     			{
     				direct = "left";
     				setImage();
-//    				position.x -= (1 + deltax/deltadivider);
-    				position.x -= 1;
+    				position.x -= (1 + deltax/deltadivider);
+    				//position.x -= 1;
     				movementTicker++;
     			}
 
@@ -692,8 +692,8 @@ public class PersonGui implements Gui{
     			{
     				direct = "down";
     				setImage();
-//    				position.y += (1 + deltay/deltadivider);
-    				position.y += 1;
+    				position.y += (1 + deltay/deltadivider);
+    				//position.y += 1;
     				movementTicker++;
     			}
 
@@ -701,8 +701,8 @@ public class PersonGui implements Gui{
     			{
     				direct = "up";
     				setImage();   				
-//    				position.y -= (1 + deltay/deltadivider);
-    				position.y -= 1;
+    				position.y -= (1 + deltay/deltadivider);
+    				//position.y -= 1;
     				movementTicker++;
     			}
     		}

@@ -20,6 +20,8 @@ public class Scenario {
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	Timer timer = new Timer();
 	
+	int numstudents = 20;
+	
 	CityPanel cp;
 	int numStudentsArrived = 0;
 
@@ -414,17 +416,9 @@ public class Scenario {
 
 		PersonAgent prof = new PersonAgent("Wilczynski", "Professor", "Average");
 		c.addPerson(prof, true);
-		/*
-		timer.schedule( new TimerTask()
-		{
-			public void run()
-			{				
-				
-			}
-		}, 7 * 1000);*/
 	}
 	
-	public void fillStudents(int numstudents)
+	public void fillStudents()
 	{
 		
 		for (int i = 0; i < numstudents; i++)
@@ -436,7 +430,7 @@ public class Scenario {
 	
 	public boolean AllThere()
 	{
-		return (numStudentsArrived >= 20);
+		return (numStudentsArrived >= numstudents);
 	}
 	
 	public void Continue1()
