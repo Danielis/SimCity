@@ -257,7 +257,7 @@ public class CityGui extends JFrame implements ActionListener {
 		bankPanel.add(transactionList);
 		bankPanel.add(bankGo);
 		bankPanel.add(closeBank);
-		bankPanel.add(fillBank);
+		//bankPanel.add(fillBank);
 
 		TitledBorder marketTitle = BorderFactory.createTitledBorder(loweredetched, "Market");
 		functionPanel.add(marketPanel);
@@ -286,14 +286,14 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantPanel.add(restaurantGo);
 		restaurantPanel.add(closeRestA);
 		restaurantPanel.add(closeRestN);
-		restaurantPanel.add(closeRestC);
-		restaurantPanel.add(fillRestaurant);
+		//restaurantPanel.add(closeRestC);
+		//restaurantPanel.add(fillRestaurant);
 
 		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
 		functionPanel.add(otherFunction);
 		otherFunction.setLayout(new FlowLayout());
 		otherFunction.setBorder(funct);
-		otherFunction.add(workGo);
+		//otherFunction.add(workGo);
 		otherFunction.add(busGo);
 		otherFunction.add(scenA);
 		otherFunction.add(scenB);
@@ -305,7 +305,7 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(scenO);
 		otherFunction.add(scenR);
 		//otherFunction.add(noAIGo);
-		otherFunction.add(tempGo);
+		//otherFunction.add(tempGo);
 		otherFunction.add(rubric);
 		
 		busGo.addActionListener(this);
