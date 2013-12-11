@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.lang.Math;
 
 import restaurantA.*;
+import restaurantD.RestaurantD;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,7 @@ import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
+
 
 
 
@@ -1348,6 +1350,10 @@ public class PersonAgent extends Agent implements Person
 			GoToRestaurantA(r);
 		if (r.owner.equals("Norman"))
 			GoToRestaurantN(r);
+		//if (r.owner.equals("Chris"))
+	//		GoToRestaurantC(r);
+		if (r.owner.equals("Daniel"))
+			GoToRestaurantD(r);
 		}
 		else{
 			gui.setBusy(false);
@@ -1995,6 +2001,37 @@ public class PersonAgent extends Agent implements Person
 	
 	}
 
+	public void GoToRestaurantD(Building b)
+	{
+		RestaurantD r = (RestaurantD) b;
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to Daniel's Restaurant");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to Daniel's Restaurant.", new Date()));
+		Status.setNourishment(nourishment.goingToFood);
+
+		//takeBusIfApplicable(2);
+		
+		gui.DoGoToLocation(r.entrance);
+		
+		if (r.isOpen()){
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		//Role terminologies
+		restaurantD.CustomerAgent c = new restaurantD.CustomerAgent(this.getName(), cash, job.type.toString());
+		c.setTrackerGui(trackingWindow);
+		c.setPerson(this);
+		roles.add(c);
+		c.setActivity(true);
+		r.panel.customerPanel.addPerson((restaurantD.CustomerAgent) c, r);
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
+	
+	}
+	
 	public void GoToMarket(){
 		Building r2 = findOpenBuilding(buildingType.market);
 		

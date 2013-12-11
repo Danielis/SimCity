@@ -1,7 +1,9 @@
 package restaurantD.gui;
 
+import restaurantA.RestaurantA;
 import restaurantD.CustomerAgent;
 import restaurantD.HostAgent;
+import restaurantD.RestaurantD;
 
 import javax.swing.*;
 
@@ -37,6 +39,7 @@ public class ListPanel extends JPanel implements ActionListener {
     public ListPanel(RestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
+  
 
         setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
         JLabel typeLabel = new JLabel(type);
@@ -68,19 +71,19 @@ public class ListPanel extends JPanel implements ActionListener {
      * Handles the event of the add button being pressed
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addPersonB) {
-        	// Chapter 2.19 describes showInputDialog()
-            addPerson(nameField.getText());
-        }
-        else {
-        	// Isn't the second for loop more beautiful?
-            /*for (int i = 0; i < list.size(); i++) {
-                JButton temp = list.get(i);*/
-        	for (JButton temp:list){
-                if (e.getSource() == temp)
-                    restPanel.showInfo(type, temp.getText());
-            }
-        }
+//        if (e.getSource() == addPersonB) {
+//        	// Chapter 2.19 describes showInputDialog()
+//            addPerson(nameField.getText());
+//        }
+//        else {
+//        	// Isn't the second for loop more beautiful?
+//            /*for (int i = 0; i < list.size(); i++) {
+//                JButton temp = list.get(i);*/
+//        	for (JButton temp:list){
+//                if (e.getSource() == temp)
+//                    restPanel.showInfo(type, temp.getText());
+//            }
+//        }
     }
 
     /**
@@ -90,24 +93,25 @@ public class ListPanel extends JPanel implements ActionListener {
      *
      * @param name name of new person
      */
-    public void addPerson(String name) {
-        if (name != null) {
-            JButton button = new JButton(name);
-            button.setBackground(Color.white);
+    public void addPerson(CustomerAgent c, RestaurantD r) {
+     
+    	JButton button = new JButton(c.getName());
+        button.setBackground(Color.white);
 
-            Dimension paneSize = pane.getSize();
-            Dimension buttonSize = new Dimension(paneSize.width - 20,
-                    (int) (paneSize.height / 7));
-            button.setPreferredSize(buttonSize);
-            button.setMinimumSize(buttonSize);
-            button.setMaximumSize(buttonSize);
-            button.addActionListener(this);
-            list.add(button);
-            view.add(button);
-            restPanel.addPerson(type, name);//puts customer on list
-            restPanel.showInfo(type, name);//puts hungry button on panel
-            validate();
-        }
+        Dimension paneSize = pane.getSize();
+        Dimension buttonSize = new Dimension(paneSize.width - 20,
+                (int) (paneSize.height / 10));
+        button.setPreferredSize(buttonSize);
+        button.setMinimumSize(buttonSize);
+        button.setMaximumSize(buttonSize);
+        button.addActionListener(this);
+        list.add(button);
+        view.add(button);
+     
+        restPanel.addCustomer(type, c, true);//puts customer on list
+        restPanel.showInfo(type, c.getName());//puts hungry button on panel
+        validate();
+        
     }
     /**
      * If Pause button is pressed then it will flip it's text and send a message to the Agent Base class

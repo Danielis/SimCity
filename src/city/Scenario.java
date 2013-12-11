@@ -1,7 +1,6 @@
 package city;
 
 import java.util.TimerTask;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,7 +9,11 @@ import city.PersonAgent.JobType;
 import city.guis.CityGui;
 import city.*;
 import city.guis.CityPanel;
+
 import java.util.Timer;
+
+import roles.Building;
+import roles.Building.buildingType;
 
 public class Scenario {
 
@@ -221,6 +224,14 @@ public class Scenario {
 		TimeManager.getInstance().setDivider(20);
 		TimeManager.getInstance().setOffset(300000);
 	}
+	
+	public void setDanielRestClosed(CityPanel c){
+		for (Building b : c.buildings){
+			if (b.type.equals(buildingType.restaurant) && b.owner.equals("Daniel")){
+				b.ForceClosed();
+			}
+		}
+	}
 
 	public void CallScenarioA(CityPanel c){				// for points 1-4
 		// 	A:
@@ -228,10 +239,10 @@ public class Scenario {
 		//	Day starts and all workers go to work.
 		//	One not-working person eats at home, then visits all the workplaces by walking.
 		//	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
-
+		
 		workShift();
+		setDanielRestClosed(c);
 		oneBuildEmployed(c);
-
 		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 		p.addItem("Juice", 0, 2, 2);
 		c.addPerson(p);
@@ -246,6 +257,7 @@ public class Scenario {
 		//	[one should walk; one should take a car; one should take a bus.]
 
 		workShift();
+		setDanielRestClosed(c);
 		oneBuildEmployed(c);
 
 		PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
@@ -295,6 +307,7 @@ public class Scenario {
 		//	An evil person decides to rob a bank.
 		//	On entrance he ... (you design it)
 		workShift();
+		setDanielRestClosed(c);
 		EmployBank(c);
 		PersonAgent p2 = new PersonAgent("Robber", "Crook", "Average");
 		c.addPerson(p2);
@@ -304,6 +317,7 @@ public class Scenario {
 	public void CallScenarioTest(CityPanel c) {
 
 		workShift();
+		setDanielRestClosed(c);
 		EmployRest(c);
 		EmployRest(c);
 	}
@@ -316,6 +330,7 @@ public class Scenario {
 		//	Show how one not-working person still visits all the workplaces but not the ones that are down. 
 		//	Say you only have one bank and it is down, the person should avoid all banking behavior.
 		workShift();
+		setDanielRestClosed(c);
 		oneBuildEmployed(c);
 	}
 
@@ -330,6 +345,7 @@ public class Scenario {
 		//	Vehicles stop for pedestrians with right of way.
 
 		workShift();
+		setDanielRestClosed(c);
 		fillWork(c);
 		
 		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
@@ -373,6 +389,7 @@ public class Scenario {
 		System.out.println("Where's the rubric...?");
 		
 		workShift();
+		setDanielRestClosed(c);
 		
 		cp = c;
 

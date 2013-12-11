@@ -24,7 +24,7 @@ public class CustomerGui implements Gui{
         public static final int xTable2 = 300;
         public static final int yTable2 = 250;
 
-        public CustomerGui(CustomerAgent c, RestaurantGui gui,int position){ //HostAgent m) {
+        public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
                 agent = c;
                 xPos = -40;
                 yPos = -40;

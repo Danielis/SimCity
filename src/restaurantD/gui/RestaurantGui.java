@@ -1,7 +1,9 @@
 package restaurantD.gui;
 
+import restaurantA.RestaurantA;
 import restaurantD.CustomerAgent;
 import restaurantD.MarketAgent;
+import restaurantD.RestaurantD;
 import restaurantD.WaiterAgent;
 
 import javax.swing.*;
@@ -10,6 +12,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import logging.TrackerGui;
 /**
  * Main GUI class.
  * Contains the main frame and subsequent panels
@@ -26,7 +30,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    public RestaurantPanel restPanel = new RestaurantPanel(this);
     private JPanel leftBox = new JPanel();
     private JPanel rightBox = new JPanel();
     /* infoPanel holds information about the clicked customer, if there is one*/
@@ -34,6 +38,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     private JLabel infoLabel; //part of infoPanel
     private JCheckBox stateCB;//part of infoLabel
 
+    public RestaurantD rest;
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
 
@@ -184,4 +189,12 @@ public class RestaurantGui extends JFrame implements ActionListener {
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+	public void setTrackerGui(TrackerGui trackingWindow) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRestaurant(RestaurantD r) {
+		rest = r;
+        animationPanel.setRest(rest);
+	}
 }

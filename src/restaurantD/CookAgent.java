@@ -147,7 +147,6 @@ public class CookAgent extends Agent {
 			O.setState(OrderState.cooking);
 			O.timeCook();
 			inventory.setUsed(O.getChoice());
-			inventory.setLow(inventory.isLow());
 		}
 	}
 	public void orderUP(Order O){

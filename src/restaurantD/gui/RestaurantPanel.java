@@ -1,5 +1,6 @@
 package restaurantD.gui;
 
+import restaurantA.gui.CustomerGui;
 import restaurantD.CashierAgent;
 import restaurantD.CookAgent;
 import restaurantD.CustomerAgent;
@@ -31,7 +32,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    public ListPanel customerPanel = new ListPanel(this, "Customers");
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     private ListPanel marketPanel = new ListPanel(this, "Markets");
     private JPanel group = new JPanel();
@@ -52,7 +53,10 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         cook.startThread();//Hack to start thread
         cashier.startThread(); // taken off to be able to run tests in unit testing
         //cashier.setmenu(cook.getMenu(), cook.getMenuPrice());
-        
+
+        addPerson("Waiters", "Waiter 1");
+        addPerson("Waiters", "Waiter 2");
+        addPerson("Waiters", "Waiter 3");
 
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
@@ -140,9 +144,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     	for(int i=0;i<waiters.size();i++){
       	   waiters.get(i).togglePause();;
          }
-    	for(int i=0;i<customers.size();i++){
-    		customers.get(i).togglePause();
-    	}
+    	
     }
     public void restart(){
     	cook.pauseRelease();
@@ -150,9 +152,6 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     	for(int i=0;i<waiters.size();i++){
      	   waiters.get(i).pauseRelease();
         }
-    	for(int i=0;i<customers.size();i++){
-    		customers.get(i).pauseRelease();
-    	}
     }
     /**
      * Adds a customer or waiter to the appropriate list
@@ -163,16 +162,16 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     public void addPerson(String type, String name) {
     	System.out.println("The Person's name is: " + name);
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);	
-    		CustomerGui g = new CustomerGui(c, gui, customers.size());
-
-    		gui.animationPanel.addGui(g);// dw
-    		c.setHost(host);
-    		c.setCashier(cashier);
-    		c.setGui(g);
-    		g.updatePosition();
-    		customers.add(c);
-    		c.startThread();
+//    		//CustomerAgent c = new CustomerAgent(name);	
+//    		CustomerGui g = new CustomerGui(c, gui, customers.size());
+//
+//    		gui.animationPanel.addGui(g);// dw
+//    		c.setHost(host);
+//    		c.setCashier(cashier);
+//    		c.setGui(g);
+//    		g.updatePosition();
+//    		customers.add(c);
+//    		c.startThread();
     	}
     	else if(type.equals("Waiters")) {
     		WaiterAgent w = new WaiterAgent(name);
@@ -199,5 +198,18 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     		m.startThread();
     	}
     }
+
+	public void addCustomer(String type, CustomerAgent c, boolean b) {
+		restaurantD.gui.CustomerGui g = new restaurantD.gui.CustomerGui(c, gui);
+
+		gui.animationPanel.addGui(g);
+		c.setHost(host);
+		c.setGui(g);
+		customers.add(c);
+		c.setAnimPanel(gui.animationPanel);
+		gui.rest.addCust(c);
+		g.setHungry();
+		c.setRestaurant(gui.rest);
+	}
     
 }

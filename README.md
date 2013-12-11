@@ -138,7 +138,7 @@ People eat at home based upon their wealth class and inventory. People decide wh
 
 ####T. Proper implementation of producer-consumer code
 1.  Aleena: implementation for Restaurant, testing for RestaurantA
-2.  Norman: implementation for RestaurantA, testing for testing for RestaurantC
+2.  Norman: implementation for RestaurantA, testing for RestaurantC
 3.  Chris: implementation RestaurantC, testing for RestaurantC
 4.  Daniel: implementation RestaurantD, testing for RestaurantD
 
@@ -205,10 +205,11 @@ Aleena
   + City GUI controls
   + Time management singleton
   + Clock class
-  + Sprites, animation for bank, market
+  + Animation for bank, market
   + Integrating banks, markets
   + Inventory management
   + Shared data monitor in restaurant
   + In-building GUI clean-up
   + Bank unit testing
   + (some of) personAgent AI testing
+  + Sprites for city
