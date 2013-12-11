@@ -7,7 +7,10 @@ import restaurantC.CookRole;
 import restaurantC.CustomerRole;
 import restaurantC.HostRole;
 import restaurantC.MarketAgent;
+import restaurantC.RestaurantC;
 import restaurantC.WaiterRole;
+import roles.Building;
+import roles.Role;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -55,7 +58,7 @@ public class RestaurantPanel extends JPanel {
 	public JButton pauseButton = new JButton("Pause");
 
 	//customer panel
-	private ListPanel customerPanel = new ListPanel(this, "Customers");
+	public ListPanel customerPanel = new ListPanel(this, "Customers");
 	private JPanel group = new JPanel();
 	//waiter panel
 
@@ -130,37 +133,26 @@ public class RestaurantPanel extends JPanel {
 	}
 
 	//adds customer
-	public void addPerson(String type, String name, boolean hunger) {
-		if (type.equals("Customers")) {
-			CustomerRole c = new CustomerRole(name);	
+	public void addCustomer(CustomerRole c2, RestaurantC r) {
+			CustomerRole c = (CustomerRole)c2;	
 			CustomerGui g = new CustomerGui(c, gui, customerGuiCount);
 			gui.animationPanel.addGui(g);// dw
 			c.setHost(host);
 			c.setGui(g);
-			c.setCashier(cashier);
 			customers.add(c);
-			if(hunger)
-			{
-				c.getGui().setHungry();
-			}
-			inputHunger.setSelected(false);
-			c.startThread();
+			c.getGui().setHungry();
 			customerGuiCount++;
-		}
-		//right now this code won't ever execute, but in time it will
-		if(type.equals("Waiters")) {
-			WaiterRole w = new WaiterRole(name);
-			w.setCashier(cashier);
+	}
+	
+	//adds customer
+	public void addWaiter(WaiterRole c2, RestaurantC r) {
+			WaiterRole w = (WaiterRole) c2;
 			WaiterGui wgui = new WaiterGui(w, gui, waiterGuiCount);
 			w.setGui(wgui);
 			gui.animationPanel.addGui(wgui);
-			w.setCook(cook);
-			w.setHost(host);
+			w.setAnimationPanel(this.gui.animationPanel);
 			waiters.add(w);
-			host.setWaiter(w);
-			w.startThread();
 			waiterGuiCount++;
-		}
 	}
 	
 	//add market
@@ -176,36 +168,25 @@ public class RestaurantPanel extends JPanel {
 
 	public void pause()
 	{
-		/*
-		paused = !paused;
-		if(paused) {
-			for(WaiterRole w:waiters) {
-				w.pause();
-			}
-			for(CustomerRole c:customers) {
-				c.pause();
-			}
-			for(MarketAgent m:markets) {
-				m.pause();
-			}
-			cashier.pause();
-			cook.pause();
-			host.pause();
-		}
-		else {
-			for(WaiterRole w:waiters) {
-				w.restart();
-			}
-			for(CustomerRole c:customers) {
-				c.restart();
-			}
-			for(MarketAgent m:markets) {
-				m.restart();
-			}
-			cook.restart();
-			host.restart();
-			cashier.restart();
-		}
-		*/
+
+	}
+
+	public void addHost(restaurantC.HostRole c) {
+		HostRole hr = c;
+		hr.building = gui.rest;
+	}
+	public void addCook(restaurantC.CookRole c) {
+		CookRole cr = c;
+		cr.building = gui.rest;
+		CookGui cg = new CookGui(cr, this.gui);
+		cr.setAnimationPanel(this.gui.animationPanel);
+		gui.animationPanel.addGui(cg);
+		cr.setGui(cg);
+	}
+	public void addCashier(restaurantC.CashierRole c) {
+		CashierRole cr = c;
+		cr.building = gui.rest;
+		gui.animationPanel.hasCashier = true;
 	}
 }
+

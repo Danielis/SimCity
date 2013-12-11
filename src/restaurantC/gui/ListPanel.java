@@ -2,6 +2,7 @@ package restaurantC.gui;
 
 import restaurant.CustomerAgent;
 import restaurant.WaiterAgent;
+import restaurantC.WaiterRole;
 
 import javax.swing.*;
 
@@ -91,7 +92,7 @@ public class ListPanel extends JPanel implements ActionListener {
         }
         else if(e.getSource() == restPanel.waiterButton) {
         	//add waitier
-        	addWaiter(restPanel.waiterText.getText());
+        	//addWaiter(restPanel.waiterText.getText());
         	restPanel.waiterText.setEnabled(true);
         	restPanel.inputPanel.setVisible(false);
         	restPanel.waiterText.setText("");
@@ -143,14 +144,14 @@ public class ListPanel extends JPanel implements ActionListener {
             button.addActionListener(this);
             list.add(button);
             view.add(button);
-            restPanel.addPerson(type, name, hunger);//puts customer on list
+            //restPanel.addPerson(type, name, hunger);//puts customer on list
             restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         }
     }
     
-    public void addWaiter(String name) {
-    	JButton button = new JButton(name);
+    public void addWaiter(WaiterRole c) {
+    	JButton button = new JButton(c.name);
     	button.setBackground(Color.white);
     	Dimension waiterPaneSize = waiterPane.getSize();
     	Dimension waiterButtonSize = new Dimension(waiterPaneSize.width - 20, (int) (waiterPaneSize.height/7));
@@ -160,6 +161,7 @@ public class ListPanel extends JPanel implements ActionListener {
     	button.addActionListener(this);;
     	waiterList.add(button);
     	waiterView.add(button);
-    	restPanel.addPerson("Waiters", name, false);
+    	//restPanel.addPerson("Waiters", c, false);
     }
+
 }

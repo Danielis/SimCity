@@ -33,6 +33,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     private Image blue_floor;
     private Image table;
+    private Image person;
    
     private class myOrder{
     	public String choice;
@@ -70,6 +71,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     private List<Gui> guis = new ArrayList<Gui>();
 	public RestaurantC rest;
+	public boolean hasCashier = false;
 
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -95,6 +97,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
             table = ImageIO.read(getClass().getResource("/resources/desk.png"));
         } catch (IOException e ) {}
 		
+		try
+        {
+            person = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
+        } catch (IOException e ) {}
+		
+		
     	Timer timer = new Timer(20, this );
     	timer.start();
     }
@@ -119,6 +127,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
         //here is the third table, same color
         g2.drawImage(table, TABLEX3, TABLEY3, this);
 
+        g2.drawImage(table,  480, 480, this);
+        
+        if(hasCashier) {
+        	g2.drawImage(person, 500, 500, this);
+        }
+ 
         
         //here is the counter 
         g2.setColor(Color.LIGHT_GRAY);
@@ -171,9 +185,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
             }
         }
     }
-  
 
-    public void addGui(CustomerGui gui) {
+
+	private boolean hasCashier() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void addGui(CustomerGui gui) {
         guis.add(gui);
     }
     

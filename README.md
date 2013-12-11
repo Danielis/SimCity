@@ -1,4 +1,4 @@
-###Team 05
+﻿###Team 05
 ####Team Information
 
   + Team Name: Victorious Secret
@@ -150,28 +150,54 @@ People eat at home based upon their wealth class and inventory. People decide wh
 
 #### Breakdown of work done
 Norman
-* Original owner of source code, including ovearching architecture of the gui/panel/animation panels
-* Working building model used to branching into individual tasks
-* Along with Aleena modified source code for city semantics, two windows, and foundation for everyone to branch off and work on their own buildings and individual contributions
-* Researched how to import images to the program, how to run image/state based animations, how to properly load them, how to run a sequence given source of sprite files, move them a certain rate, switch them based on states (eg direction). This system is used everywhere in the city.
-* Delta Gui movement system that is implemented in every building and in city layout, a comperehensive movement system for everyone to navigate their gui
-* Worked extensively on PersonAgent methodology, especially early, looking at the designs given in class to create the role/person interactions, Role class, interfaces (even for other buildings, created the main interfaces so roles are able to be passed around the city), integrating them and creating a system for people to use and modify for specific tasks (eg, transportation, work systems, timer systems, etc).
-* Organized CityGui Layouts, CityLists layouts/Java interfaces, the City Animation Panel, implemented Person Gui
-* Personal functioning restaurant with polished spriting and animations, and integrated in to city
-* City animated environment (Transparent clouds that move about the city independently)
-* Integrating everyone's individual contribution into the city involving personAgent and roles (Which involves fixing and adding functionality to interfaces for each of the agents that enter a building, creating role classes for every agent that is passed into the city, particularly the "customers", copying and deleting individual code so that roles run with the right interfaces, created Restaurant, Apartment, Bank classes with their respective panels for people to keep working on their implementations and send their people into their buildings, a person/money retainment system to keep track of money/inventories as well as returning to the city)
-* Gui listener system using JObjects (With Aleena) that trigger functions that trigger events, messages, and actions.
-* Lots of photoshop and parsing work for sprites, background images, specialized tile sets, for transportation, restaurant animations.
-* How to click the buildings so that windows are displayed with what is inside in the city view rather than creating a new building each time, and a way for GUI not to pause itself when moving out of the window.
-* Found spriting layout/themes/sprites for the city.
-* Clicking people in the city opens up a new window with information about the person, closing this frame won't quit the program. Also closing any frame that is not the city won't quit the program.
-* Hand-merging branches
-* Figuring out a system for people to go in and out of work, setting buildings to open or closed based on whether there are enough workers and the proper roles are created, and let people in and out based on that. Workers in the restaurant are able to go in at properly. Buildings also now don't limit gui movements because they are replaced by the city rather than minimized. Added Guis for every role in the restaurant, because some did not need gui before and now they do because sometimes the restaurant has no cashier. Added images and animation also for those (host, cashier).
+* Created source code gui and panels
+* Helped modify source code for city semantics, two windows, and foundation for everyone to branch off and work on their own buildings and individual contributions
+* Image importing, loading, displaying
+* State-based image animations in Guis
+* Gui movement system based on coordinates in all guis
+* Worked extensively on PersonAgent methodology,looking at the designs given in class to create the role/person interactions, Role class, interfaces (even for other buildings, created the main interfaces so roles are able to be passed around the city), integrating them and creating a system for people to use and modify for specific tasks (eg, transportation, work systems, timer systems, etc).
+* Helped with CityGui Layout, CityLists layouts/Java interfaces, the City Animation Panel
+* Implemented Person Gui to move about
+* Personal functioning restaurant with polished spriting and animations
+* Animated city environment (Transparent Clouds!)
+* Integrating others individual contributions into the city involving personAgent and roles (fixing/adding functionality to interfaces for building agents that enter a building, creating base role classes for all agents passed from person)
+* Money retainment system from person to role
+* Partial gui listener system using JObjects that trigger functions that trigger events, messages, and actions.
+* Photoshop and parsing work for some sprites, background images, specialized tile sets, for transportation, restaurant animations, etc.
+* How to click the buildings so that windows are displayed with what is inside in the city
+* Created system to move windows around rather than closing to prevent gui from stopping the messaging
+* Helped with spriting layout/themes/sprites for the city.
+* Clicking people in the city opens up a new window with information about the person, closing this frame won't quit the program.
+* Preventing unimportant frames from quitting the program
+* System for people going in and out of work
+* Setting buildings to open/closed based on available roles
+* Figured out a system for people to go in and out of work, setting buildings to open or closed based on whether there are enough workers and the proper roles are 
+* Added extra guis for every role in the restaurant, (some did not need gui before because people did not leave) and animated them
 * People can now leave work given specific conditions for restaurant (eg cashier not having customers, and tables being empty) for work shifts
 * Unit testing producer/consumer model in restaurant
 * Unit tested people properly added into the city
 * Unit tested basic roles added to person
-* A lot of my role involved me creating new content for people to use as a basis to branch off and add functionality.
+* Lots of random bug fixes everywhere, always anticipated but usually not taken into credit
+* Worked on government class that funds buildings with payment funds for their workers
+* Salary system for people to get paid in all working restaurants
+* Salary system for people to get paid in Banks
+* System for workers to enter/leave restaurants
+* Cleaned up Restaurant Gui/Panels
+* Cleaned up Bank Guis/Panels
+* Cleaned up Market Guis/Panels
+* Added image labels to replace waiter panels in market/banks
+* Gui Clean up, removing irrelevant buttons/panels and keeping the restaurant panel consitent with the customers
+* producer/consumer for restaurant A
+* A lot of the rubric case hard-coding along with everyone else
+* Set up TestPerson for everyone to create classes and test their parts
+* Testing Wilczynski has a heart attack
+* Testing Going to Restaurant AI and MockRestaurant
+* Testing Going to Bank AI and MockMank
+* Testing Going to Market AI and MockBank
+* Testing basic person addition
+* Testing all restaurant working roles
+* Testing all bank working roles
+* NOTE: On github, I had two accounts for some reason (one that has a picture and one that doesn't, it created a second one and only recorded my work for the second one once I added an icon for my picture) and so my added lines and number of commits is split between them :(
 
 Chris
   + Restaurant Design Doc
