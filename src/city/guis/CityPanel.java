@@ -92,7 +92,7 @@ public class CityPanel extends JPanel {
 		if(p.getName().equals("Bus"))
 			p.setBus(true);
 		people.add(p);
-		//p.startThread();
+		p.startThread();
     }
     
     public void addPerson(PersonAgent p) 

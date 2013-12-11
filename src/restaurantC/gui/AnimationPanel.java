@@ -32,7 +32,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private static final int COUNTERY2 = 85;
     
     private Image blue_floor;
-    
+    private Image table;
    
     private class myOrder{
     	public String choice;
@@ -84,11 +84,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
         tableIcons.add(new tableOrder("", 3));
  
         
+        //images
 		try
         {
             blue_floor = ImageIO.read(getClass().getResource("/resources/blue_floor.png"));
         } catch (IOException e ) {}
 		
+		try
+        {
+            table = ImageIO.read(getClass().getResource("/resources/desk.png"));
+        } catch (IOException e ) {}
 		
     	Timer timer = new Timer(20, this );
     	timer.start();
@@ -108,11 +113,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         //Here is the table
         g2.setColor(Color.ORANGE);
-        g2.fillRect(TABLEX, TABLEY, TABLESIDE, TABLESIDE);
+        g2.drawImage(table, TABLEX, TABLEY, this);
         //Here is the second table, same color
-        g2.fillRect(TABLEX2, TABLEY2, TABLESIDE, TABLESIDE);
+        g2.drawImage(table, TABLEX2, TABLEY2, this);
         //here is the third table, same color
-        g2.fillRect(TABLEX3, TABLEY3, TABLESIDE, TABLESIDE);
+        g2.drawImage(table, TABLEX3, TABLEY3, this);
+
         
         //here is the counter 
         g2.setColor(Color.LIGHT_GRAY);

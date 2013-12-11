@@ -186,8 +186,9 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 			else if (type == JobType.landLord || type == JobType.repairman){
+				timeStart = 8;
 				for (Building b : buildings){
-					if (workBuilding == null && b.type == buildingType.housingComplex){
+					if (b.type == buildingType.housingComplex){
 						workBuilding = b;
 					}
 				}
@@ -200,8 +201,6 @@ public class PersonAgent extends Agent implements Person
 
 			assignWorkDay(parseJob);
 		}
-
-
 
 		public void assignWorkDay(JobType parseJob) {
 			// so if all buildings are full employed 
@@ -218,7 +217,7 @@ public class PersonAgent extends Agent implements Person
 				print("owner" + workBuilding.owner);
 				if (workBuilding.type.equals(buildingType.restaurant)){
 					if (workBuilding.owner.equals("Norman") ||
-							workBuilding.owner.equals("Daniel")){
+							workBuilding.owner.equals("Daniel") || workBuilding.owner.equals("Chris")){
 						daysWorking.add(Day.saturday);
 						daysWorking.add(Day.sunday);
 					}
@@ -368,8 +367,9 @@ public class PersonAgent extends Agent implements Person
 			return JobType.cashier;
 		else if (job.equals("Waiter"))
 			return JobType.waiter;
-		else if (job.equals("Landlord"))
+		else if (job.equals("Landlord")) {
 			return JobType.landLord;
+		}
 		else if (job.equals("Repairman"))
 			return JobType.repairman;
 		else if (job.equals("Crook")){
@@ -964,9 +964,7 @@ public class PersonAgent extends Agent implements Person
 	@Override
 
 	public boolean pickAndExecuteAnAction() {
-
 		if (job.type == JobType.noAI){		
-
 			if (Status.getWork() == workStatus.notWorking &&
 					Status.getDestination() == destination.work) {
 				GoToWork();
@@ -997,7 +995,6 @@ public class PersonAgent extends Agent implements Person
 
 
 		if (AIandNotWorking()){	
-
 			//print(" role no active, should be true" + noRoleActive());
 			//print("is gui busy, should be false" + gui.getBusy());
 			//print("ai type, should be anything but NOAI" + job.type);
@@ -1517,24 +1514,27 @@ public class PersonAgent extends Agent implements Person
 
 	private void WorkAtApartment() {
 		Apartment a = (Apartment) job.workBuilding;
-		takeBusIfApplicable(0);
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('H');
-		gui.DoGoToCheckpoint('I');
+		gui.DoGoToLocation(a.entrance);
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.home);
 		gui.setPresent(false);
+
 		if (job.type == JobType.landLord)
 		{
-						Role r = new LandlordRole(this.getName());
-						a.panel.addLandlord((LandlordRole) r);
+			LandlordRole r = new LandlordRole(this.getName());
+			a.panel.addLandlord((LandlordRole) r);
+			r.setPerson(this);
+			roles.add(r);
+			r.setActivity(true);
 		}
 		if (job.type == JobType.repairman)
 		{
-			//			c = new RestaurantHostRole(this.getName());
-			//			r.panel.customerPanel.addHost((BankHost) c);
+			LandlordRole r = new LandlordRole(this.getName());
+			a.panel.addLandlord((LandlordRole) r);
+			r.setPerson(this);
+			roles.add(r);
+			r.setActivity(true);
 		}
-		
 	}
 
 	public void WorkAtRest() {

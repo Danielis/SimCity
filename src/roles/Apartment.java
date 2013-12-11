@@ -25,6 +25,7 @@ public class Apartment extends Building{
     
     public Apartment(String name, HousingGui gui)
     {
+    	this.owner = "Chris";
     	type = buildingType.housingComplex;
     	this.gui = gui;
     	this.panel = gui.housingPanel;

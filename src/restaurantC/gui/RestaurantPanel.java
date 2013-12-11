@@ -26,15 +26,15 @@ public class RestaurantPanel extends JPanel {
 	
 	//Agents
 	//host
-	private HostRole host = new HostRole("Sarah");
+	private HostRole host;
 	//waiters
 	private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
 	//customer
 	private Vector<CustomerRole> customers = new Vector<CustomerRole>();
 	//cook
-	private CookRole cook = new CookRole("Spongebob");
+	private CookRole cook;
 	//cashier
-	private CashierRole cashier = new CashierRole("Squidward");
+	private CashierRole cashier;
 	//markets
 	private Vector<MarketAgent> markets = new Vector<MarketAgent>();
 
@@ -63,11 +63,6 @@ public class RestaurantPanel extends JPanel {
 	
 	public RestaurantPanel(RestaurantGui gui) {
 		this.gui = gui;
-
-		//sets cook gui
-		CookGui cg = new CookGui(cook, gui);
-		gui.animationPanel.addGui(cg);// dw
-		cook.setGui(cg);
 		
 		//add three markets
 		addMarket("Ralph's");
@@ -172,8 +167,6 @@ public class RestaurantPanel extends JPanel {
 	public void addMarket(String name) {
 		MarketAgent market = new MarketAgent(name);
 		markets.add(market);
-		cook.setMarket(market);
-		market.setCashier(cashier);
 		market.startThread();
 	}
 	
