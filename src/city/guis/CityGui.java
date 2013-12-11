@@ -136,6 +136,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton scenA = new JButton("Scenario A");
 	private JButton scenB = new JButton("Scenario B");
 	private JButton scenP = new JButton("Scenario P");
+	private JButton scenCrash = new JButton("CrashTest"); 
 	private JButton workGo = new JButton("Work");
 	private JButton noAIGo = new JButton("Turn off all AI");
 	
@@ -278,7 +279,8 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(scen1);
 		otherFunction.add(scenA);
 		otherFunction.add(scenB);
-		otherFunction.add(scenP);
+		//otherFunction.add(scenP);
+		otherFunction.add(scenCrash);
 		otherFunction.add(noAIGo);
 		otherFunction.add(tempGo);
 
@@ -287,6 +289,7 @@ public class CityGui extends JFrame implements ActionListener {
 		scenA.addActionListener(this);
 		scenB.addActionListener(this);
 		scenP.addActionListener(this);
+		scenCrash.addActionListener(this);
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -590,6 +593,7 @@ public class CityGui extends JFrame implements ActionListener {
 		scenA.setEnabled(false);
 		scenB.setEnabled(false);
 		scenP.setEnabled(false);
+		scenCrash.setEnabled(false);
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
@@ -640,6 +644,10 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == scenP){
 			Scenario.getInstance().CallScenarioP(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenCrash){
+			Scenario.getInstance().collisionTest(this.cityPanel);
 			silenceScenButtons();
 		}
 		if (e.getSource() == noAIGo){
@@ -841,7 +849,7 @@ public class CityGui extends JFrame implements ActionListener {
 		gui.setVisible(true);
 		trackingWindow.trackerFrame.setAlwaysOnTop(true);
 		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
-		//   gui.cityPanel.sendPersonToStop(); // trans: will remove piece by piece as I integrate bus sustem into city
+		//gui.cityPanel.collisionTest(); // trans: will remove piece by piece as I integrate bus sustem into city
 
 	}
 

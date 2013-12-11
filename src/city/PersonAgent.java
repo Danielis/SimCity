@@ -683,6 +683,10 @@ public class PersonAgent extends Agent implements Person
 	}
 	public void setMetro(TransportationCompanyAgent m){
 		this.metro = m;
+		metro.addPersonGui(this.gui);
+	}
+	public void carMoved(){
+	metro.CarMoved(this.gui);
 	}
 	/** closestBusStop()
 	 *  Will return the closest BusStopAgent to the Person so that they can travel to the destination stop determined by the action they are trying to do
@@ -709,26 +713,134 @@ public class PersonAgent extends Agent implements Person
 	 */
 	public void closestCheckpoint(){
 		double C;
-		char P = 'G';
-		C = checkPointDistance(385,106); // Assign G
-		//print("C is " + C + " My current check C is: " + checkPointDistance(385,278) + "  P is " + P);
-		if ( C > checkPointDistance(385,278)){
-			C = checkPointDistance(385,278);//assign D
-			P = 'D';
+		char P = 'A';
+		if(this.hasCar()){
+			doGoToStreet();
+			P = 'M';
+			C = checkPointDistance(gui.getCheckPoint('M').x,gui.getCheckPoint('m').y);
+
+			if ( C > checkPointDistance(gui.getCheckPoint('N').x,gui.getCheckPoint('N').y)){
+				C = checkPointDistance(gui.getCheckPoint('N').x,gui.getCheckPoint('N').y);
+				P = 'N';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('O').x,gui.getCheckPoint('O').y)){
+				C = checkPointDistance(gui.getCheckPoint('O').x,gui.getCheckPoint('O').y);
+				P = 'O';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('P').x,gui.getCheckPoint('P').y)){
+				C = checkPointDistance(gui.getCheckPoint('P').x,gui.getCheckPoint('P').y);
+				P = 'P';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('Q').x,gui.getCheckPoint('Q').y)){
+				C = checkPointDistance(gui.getCheckPoint('Q').x,gui.getCheckPoint('Q').y);
+				P = 'Q';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('R').x,gui.getCheckPoint('R').y)){
+				C = checkPointDistance(gui.getCheckPoint('R').x,gui.getCheckPoint('R').y);//right bot
+				P = 'R';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('S').x,gui.getCheckPoint('S').y)){
+				C = checkPointDistance(gui.getCheckPoint('S').x,gui.getCheckPoint('S').y);
+				P = 'S';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('T').x,gui.getCheckPoint('T').y)){
+				C = checkPointDistance(gui.getCheckPoint('T').x,gui.getCheckPoint('T').y);
+				P = 'T';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('U').x,gui.getCheckPoint('U').y)){
+				C = checkPointDistance(gui.getCheckPoint('U').x,gui.getCheckPoint('U').y);
+				P = 'U';
+			}
+				C = checkPointDistance(gui.getCheckPoint('V').x,gui.getCheckPoint('V').y);
+				if ( C > checkPointDistance(gui.getCheckPoint('V').x,gui.getCheckPoint('V').y)){
+				P = 'V';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('W').x,gui.getCheckPoint('W').y)){
+				C = checkPointDistance(gui.getCheckPoint('W').x,gui.getCheckPoint('W').y);
+				P = 'W';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('X').x,gui.getCheckPoint('X').y)){
+				C = checkPointDistance(gui.getCheckPoint('X').x,gui.getCheckPoint('X').y);
+				P = 'X';
+			}
 		}
-		//print("C is " + C + " My current check C is: " + checkPointDistance(385,362) + "  P is " + P);
-		if ( C > checkPointDistance(385,362)){
-			C = checkPointDistance(385,362);//assign C
-		P = 'C';
-		}
-		//print("C is " + C + " My current check C is: " + checkPointDistance(385,474) + "  P is " + P);
-		if ( C > checkPointDistance(385,474)){
-			C = checkPointDistance(385,474);//assign B
-			P = 'B';
+		else{
+			C = checkPointDistance(gui.getCheckPoint('A').x,gui.getCheckPoint('A').y);//left top
+
+			if ( C > checkPointDistance(gui.getCheckPoint('B').x,gui.getCheckPoint('B').y)){
+				C = checkPointDistance(gui.getCheckPoint('B').x,gui.getCheckPoint('B').y);
+				P = 'B';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('C').x,gui.getCheckPoint('C').y)){
+				C = checkPointDistance(gui.getCheckPoint('C').x,gui.getCheckPoint('C').y);
+				P = 'C';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('D').x,gui.getCheckPoint('D').y)){
+				C = checkPointDistance(gui.getCheckPoint('D').x,gui.getCheckPoint('D').y);
+				P = 'D';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('E').x,gui.getCheckPoint('E').y)){
+				C = checkPointDistance(gui.getCheckPoint('E').x,gui.getCheckPoint('E').y);
+				P = 'E';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('F').x,gui.getCheckPoint('F').y)){
+				C = checkPointDistance(gui.getCheckPoint('F').x,gui.getCheckPoint('F').y);
+				P = 'F';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('G').x,gui.getCheckPoint('G').y)){
+				C = checkPointDistance(gui.getCheckPoint('G').x,gui.getCheckPoint('G').y);
+				P = 'G';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('H').x,gui.getCheckPoint('H').y)){
+				C = checkPointDistance(gui.getCheckPoint('H').x,gui.getCheckPoint('H').y);
+				P = 'H';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('I').x,gui.getCheckPoint('I').y)){
+				C = checkPointDistance(gui.getCheckPoint('I').x,gui.getCheckPoint('I').y);
+				P = 'I';
+			}
+			if ( C >  checkPointDistance(gui.getCheckPoint('J').x,gui.getCheckPoint('J').y)){
+				C = checkPointDistance(gui.getCheckPoint('J').x,gui.getCheckPoint('J').y);
+				P = 'J';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('K').x,gui.getCheckPoint('K').y)){
+				C = checkPointDistance(gui.getCheckPoint('K').x,gui.getCheckPoint('K').y);
+				P = 'K';
+			}
+			if ( C > checkPointDistance(gui.getCheckPoint('L').x,gui.getCheckPoint('L').y)){
+				C = checkPointDistance(gui.getCheckPoint('L').x,gui.getCheckPoint('L').y);
+				P = 'L';
+			}
 		}
 		//print("C is " + C + "  P is " + P);
 		//print("Going To Point " + P);
 		gui.DoGoToCheckpoint(P);
+	}
+	public void doGoToStreet(){
+		//Are you to the left or right?
+		if( gui.getXPosition() < 300){
+			//Which level are you on in the y-axis?
+			if(gui.getYPosition() < 200){
+				gui.DoGoToLocation(gui.getXPosition(), 145);
+			}
+			else if(gui.getYPosition() < 400){
+				gui.DoGoToLocation(gui.getXPosition(), 320);
+			}
+			else{
+				gui.DoGoToLocation(gui.getXPosition(), 512);
+			}
+		}
+		else{
+			if(gui.getYPosition() < 200){
+				gui.DoGoToLocation(gui.getXPosition(), 120);
+			}
+			else if(gui.getYPosition() < 400){
+				gui.DoGoToLocation(gui.getXPosition(), 300);
+			}
+			else{
+				gui.DoGoToLocation(gui.getXPosition(), 492);
+			}
+		}
 	}
 	/** checkPointDistance(int x, int y) is mainly used in closestCheckPoint() to determine where a person should go to begin their journey somewhere
 	 * 
@@ -1726,7 +1838,6 @@ public class PersonAgent extends Agent implements Person
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to market to buy " + marketQuantity + " of " + marketPurpose, new Date()));
 
 		Status.market = marketStatus.waiting;
-		takeBusIfApplicable(1);
 	
 		synchronized(buildings)
 		{
@@ -1737,7 +1848,17 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 		}
-		gui.DoGoToLocation(r.entrance);
+		
+		takeBusIfApplicable(1);
+		if(hasCar()){
+			 print("Semaphore Count: " + this.animSemaphore.availablePermits() );
+			while(gui.doMoveAsCar() != gui.getCheckPoint('V') );
+			gui.DoGoToLocation(r.entrance);
+		}
+		else{
+			gui.DoGoToCheckpoint('C');
+			gui.DoGoToLocation(r.entrance);
+		}
 		
 		
 		this.Status.setLocation(location.bank);
@@ -1813,5 +1934,14 @@ public class PersonAgent extends Agent implements Person
 	public void GiveCar() {
 		addItem("Car", 1);
 	}
-	
+	public void removeCar(){
+		synchronized(inventory){
+			for(Item i:inventory) {
+				if(i.getType().equals("Car")) {
+					inventory.remove(i);
+					print("Removed Car");
+				}
+			}
+		}
+	}
 }

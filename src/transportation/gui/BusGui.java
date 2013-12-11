@@ -10,11 +10,14 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
 import city.PersonAgent;
 import city.guis.CityGui;
+import java.util.Timer;
+
 
 public class BusGui implements Gui{
 	
@@ -22,6 +25,10 @@ public class BusGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean goingSomewhere = false;
+	
+	//Semaphore to Pause animation from moving
+		boolean collisionstop = false;
+		Timer timer = new Timer();
 	
 	//finals
 	private final int customerSize = 20;
@@ -62,12 +69,12 @@ public class BusGui implements Gui{
 		agent = c;
 		this.gui = gui2;
 		
-		checkpointA = new Coordinate(395,125);
-		checkpointB = new Coordinate(395,300);
-		checkpointC = new Coordinate(395,500);
-		checkpointD = new Coordinate(435,500);
-		checkpointE = new Coordinate(435,300);
-		checkpointF = new Coordinate(435,125);
+		checkpointA = new Coordinate(402,125);
+		checkpointB = new Coordinate(402,300);
+		checkpointC = new Coordinate(402,500);
+		checkpointD = new Coordinate(430,500);
+		checkpointE = new Coordinate(430,300);
+		checkpointF = new Coordinate(430,125);
 		
 		
 		outside = new Coordinate(100, 100);
@@ -95,7 +102,7 @@ public class BusGui implements Gui{
     }
     
 	public void updatePosition() {
-		if (goingSomewhere)
+		if (goingSomewhere && !collisionstop)
     	{	
         	int deltax = destination.x - position.x;
         	int deltay = destination.y - position.y;        
@@ -127,15 +134,24 @@ public class BusGui implements Gui{
     	        } catch (IOException e ) {}
         	}
         	
-            if (position.x < destination.x)
-                position.x += (1 + deltax/deltadivider);
+        	if (Math.abs( position.x - destination.x) <=2){
+            	position.x = destination.x;
+            }
+        	else if (position.x < destination.x)
+//                position.x += (1 + deltax/deltadivider);
+            	position.x += 2;
             else if (position.x > destination.x)
-                position.x -= (1 + deltax/deltadivider);
-
-            if (position.y < destination.y)
-                position.y += (1 + deltay/deltadivider);
+//            	position.x -= (1 + deltax/deltadivider);
+            	position.x -= 2;
+            if (Math.abs( position.y-destination.y ) <=2){
+            	position.y = destination.y;
+            }
+            else if (position.y < destination.y)
+//            	position.y += (1 + deltay/deltadivider);
+            	position.y += 2;
             else if (position.y > destination.y)
-                position.y -= (1 + deltay/deltadivider);
+//                position.y -= (1 + deltay/deltadivider);
+            	position.y -= 2;
             
 
             if (position.x == destination.x && position.y == destination.y)
@@ -145,6 +161,7 @@ public class BusGui implements Gui{
             	agent.DoneWithAnimation();
             	agent.msgBusGuiMoved();
             }
+            agent.carMoved();
     	}
 	}
 
@@ -239,8 +256,33 @@ public class BusGui implements Gui{
 	public int getYPosition(){
 		return this.position.y;
 	}
+	public int getImgX(){
+		return imgBus.getTileWidth();
+	}
+	public int getImgY(){
+		return imgBus.getTileHeight();
+	}
 	public void setPosition(int X, int Y){
 		this.position.x = X;
 		this.position.y = Y;
+	}
+	public void pauseGuiAnimation(){
+		collisionstop = true;
+	}
+	public void releaseGuiAnimation(){
+		collisionstop = false;
+	}
+	public void collision(){
+		pauseGuiAnimation();
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{	
+				agent.carMoved();
+			}
+		}, 1000);
+	}
+	public BusAgent getAgent(){
+		return agent;
 	}
 }
