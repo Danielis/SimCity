@@ -20,7 +20,7 @@ public class Scenario {
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	Timer timer = new Timer();
 	
-	int numstudents = 15;
+	int numstudents = 20;
 	
 	CityPanel cp;
 	int numStudentsArrived = 0;
