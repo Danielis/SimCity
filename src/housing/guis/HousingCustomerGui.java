@@ -60,7 +60,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		position = new Coordinate(475,600);
 		cashier = new Coordinate(255, 75);
 		waitingroom = new Coordinate(140,70);
-		//destination = new Coordinate(475,20 + (100*roomIndex));
 		goingSomewhere = true;
 	}
 
@@ -197,10 +196,14 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		//agent.WaitForAnimation();
 		agent.WaitForAnimation();
 	}
-
 	public void DoGoToThreshold() {
 		goingSomewhere = true;
 		destination = new Coordinate(475, 20 + (100*(roomIndex/5)));
+		agent.WaitForAnimation();
+	}
+	public void DoGoOverBed() {
+		goingSomewhere = true;
+		destination = new Coordinate(525 + (roomIndex % 5), 20 + (100*(roomIndex/5)));
 		agent.WaitForAnimation();
 	}
 	public void DoGoToBed() {
@@ -208,7 +211,6 @@ public class HousingCustomerGui implements Gui, restaurant.gui.Gui{
 		destination = new Coordinate(525 + (roomIndex % 5), 100 + (100*(roomIndex/5)));
 		agent.WaitForAnimation();
 	}
-
 	public void DoGoToLandlord() {
 		goingSomewhere = true;
 		destination = new Coordinate(325,50);

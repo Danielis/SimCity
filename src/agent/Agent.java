@@ -12,7 +12,7 @@ import logging.AlertLevel;
  * Base class for simple agents
  */
 public abstract class Agent {
-	Boolean isPaused = false;
+	boolean isPaused = false;
 	Semaphore Pause = new Semaphore(0, true);
     Semaphore stateChange = new Semaphore(1, true);//binary semaphore, fair
     private AgentThread agentThread;

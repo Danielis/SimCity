@@ -183,6 +183,13 @@ public class Scenario {
 		EmployBank(c);
 		EmployRest(c);
 		EmployRest(c);
+		EmployHousing(c);
+	}
+	
+	public void oneBuildEmployed(CityPanel c){
+		EmployBank(c);
+		EmployRest(c);
+		EmployHousing(c);
 	}
 
 	public void EmployBank(CityPanel c) {
@@ -193,6 +200,13 @@ public class Scenario {
 		c.addWorker("Teller 3", "Teller", "Average");
 	}
 
+	public void EmployHousing(CityPanel c) {
+
+		c.addWorker("Landlord", "Landlord", "Average");
+		c.addWorker("Repairman 1", "Repairman", "Average");
+		c.addWorker("Repairman 2", "Repairman", "Average");
+		c.addWorker("Repairman 3", "Repairman", "Average");
+	}
 
 	public void EmployRest(CityPanel c) {
 		c.addWorker("Host 1", "Restaurant Host", "Average");
@@ -216,8 +230,7 @@ public class Scenario {
 		//	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
 
 		workShift();
-		EmployBank(c);
-		EmployRest(c);
+		oneBuildEmployed(c);
 
 		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 		p.addItem("Juice", 0, 2, 2);
@@ -233,7 +246,7 @@ public class Scenario {
 		//	[one should walk; one should take a car; one should take a bus.]
 
 		workShift();
-		fillWork(c);
+		oneBuildEmployed(c);
 
 		PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
 		p.GiveCar();
@@ -303,7 +316,7 @@ public class Scenario {
 		//	Show how one not-working person still visits all the workplaces but not the ones that are down. 
 		//	Say you only have one bank and it is down, the person should avoid all banking behavior.
 		workShift();
-		fillWork(c);
+		oneBuildEmployed(c);
 	}
 
 	public void CallScenarioJ(CityPanel c) {
@@ -322,7 +335,7 @@ public class Scenario {
 		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
 		PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
 		PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
-		PersonAgent p5 = new PersonAgent("No Job 4", "None", "Average");
+		PersonAgent p5 = new PersonAgent("Robber", "Crook", "Average");
 		PersonAgent p6 = new PersonAgent("Chris", "None", "Wealthy");
 		PersonAgent p7 = new PersonAgent("No Job 6", "None", "Poor");
 		

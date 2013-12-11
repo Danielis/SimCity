@@ -25,7 +25,7 @@ import restaurant.test.mock.MockWaiter;
 import restaurant.test.mock.MockMarket;
 import restaurant.test.mock.MockCook.state;
 
-public class WaiterTest extends TestCase
+public class ProducerConsumerTests extends TestCase
 {
 	
 	Restaurant testRest;

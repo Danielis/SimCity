@@ -10,6 +10,7 @@ import restaurant.interfaces.*;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.test.MockRestaurant;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
@@ -40,9 +41,19 @@ public class ModernWaiterRole extends WaiterRole implements Waiter {
 		theMonitor = r.theMonitor;
 		print("I'm a modern waiter! I love the ticket system.");
 	}
+	
+	public ModernWaiterRole(String name, double cash) {
+		super(name);
+		this.name = name;
+		balance = cash;
+		//theMonitor = r.theMonitor;
+		print("I'm a modern waiter! I love the ticket system.");
+	}
 
 //MESSAGES****************************************************
 	
+
+
 	public void msgLeaveWork()
 	{
 		myWorkState = WorkState.needToLeave;
