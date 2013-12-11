@@ -151,31 +151,31 @@ public class Scenario {
 //		
 		c.addPerson("Person1", "No AI", "Wealthy");
 		PersonAgent p1= c.people.lastElement();
-		p1.setPosition(100, 100);
-		p1.addItem("Car",1);
+		p1.setPosition(100, 165);
 		
-//		c.addPerson("Person4", "No AI", "Wealthy");
-//		PersonAgent p4= c.people.lastElement();
-//		p4.setPosition(110, 100);
-//		p4.addItem("Car",1);
-//		
-//		c.addPerson("Person2", "No AI", "Wealthy");
-//		PersonAgent p2= c.people.lastElement();
-//		p2.setPosition(441,250);
-//		p2.addItem("Car",1);
-//		
-//		c.addPerson("Person2", "No AI", "Wealthy");
-//		PersonAgent p3= c.people.lastElement();
-//		p3.setPosition(400,425);
+		
+		c.addPerson("Person4", "No AI", "Wealthy");
+		PersonAgent p4= c.people.lastElement();
+		p4.setPosition(100, 137);
+		p4.addItem("Car",1);
+		
+		c.addPerson("Person2", "No AI", "Wealthy");
+		PersonAgent p2= c.people.lastElement();
+		p2.setPosition(400,105);
+		p2.addItem("Car",1);
+		
+		c.addPerson("Person2", "No AI", "Wealthy");
+		PersonAgent p3= c.people.lastElement();
+		p3.setPosition(100,90);
 
 
 		p1.msgGoToMarket("Car", 1);
-//		p4.msgGoToMarket("Car", 1);
+		p4.msgGoToMarket("Car", 1);
 //		
-//		p2.msgGoToMarket("Car", 1);
-//		p3.msgGoToMarket("Car", 1);
+		p2.msgGoToBank("Deposit",100);
+		p3.msgGoToMarket("Car", 1);
 //			
-		//p2.getGui().DoGoToLocation(100, 100);
+//		p2.getGui().DoGoToLocation(100,100);
 	}
 
 	public void fillWork(CityPanel c){
