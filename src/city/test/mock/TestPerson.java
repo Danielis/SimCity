@@ -69,6 +69,9 @@ import city.TimeManager.Day;
 import city.Interfaces.Person;
 import city.guis.CityAnimationPanel;
 import city.guis.PersonGui;
+import city.test.MockBank;
+import city.test.MockMarket;
+import city.test.MockRestaurant;
 
 public class TestPerson implements Person{
 	
@@ -100,13 +103,17 @@ public class TestPerson implements Person{
 	public int waiterindex = 0;
 	public int waiterindexA = 0;
 	public long timeSinceLastAte;
-	String bankPurpose, marketPurpose, homePurpose;
+	public String bankPurpose;
+	public String marketPurpose;
+	public String homePurpose;
 	double marketQuantity, bankAmount;
 	public ProfessorState professorState = ProfessorState.none;
 	public StudentState studentState = StudentState.none;
 
 	public enum ProfessorState{none, needsHeartAttack, isHavingHeartAttack};
 	public enum StudentState{none, needsToLeave, leaving};
+	
+	public boolean bankForce = false; //to force bank to be open/closed
 	
 	public class Job{
 		public JobType type;
@@ -387,16 +394,15 @@ public class TestPerson implements Person{
 	 ******************************************************************************/
 	public class PersonStatus
 	{
-		nourishment nour;
-		location loc;
-		destination des;
-		workStatus work;
-		bankStatus bank;
-		houseStatus house;
-		marketStatus market;
-		transportStatus trans;
-		morality moral;    
-		//will require constructor and set and gets for the components
+		public nourishment nour;
+		public location loc;
+		public destination des;
+		public workStatus work;
+		public bankStatus bank;
+		public houseStatus house;
+		public marketStatus market;
+		public transportStatus trans;
+		public morality moral;    
 
 		PersonStatus()
 		{
@@ -542,17 +548,15 @@ public class TestPerson implements Person{
 		}
 	}
 	//Enum States
-	enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
-	enum location		{outside,home,restaurant,bank,market,transportation,work}
-	enum destination	{outside,home,restaurant,bank,market,transportation,work,Wilczynski}
-	enum workStatus		{notWorking,working,onBreak,goingToWork}
-	enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
-	enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
-	enum marketStatus	{nothing,buying,waiting}
-	enum transportStatus{nothing, walking,car,bus}
-	enum morality		{good,bad} // may be used for theifs later on for non-norms
-	//other potentials: rent, 
-
+	public enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
+	public enum location		{outside,home,restaurant,bank,market,transportation,work}
+	public enum destination	{outside,home,restaurant,bank,market,transportation,work,Wilczynski}
+	public enum workStatus		{notWorking,working,onBreak,goingToWork}
+	public enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
+	public enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
+	public enum marketStatus	{nothing,buying,waiting}
+	public enum transportStatus{nothing, walking,car,bus}
+	public enum morality		{good,bad} // may be used for theifs later on for non-norms
 
 	/*****************************************************************************
 									 UTILITIES
@@ -788,7 +792,7 @@ public class TestPerson implements Person{
 	{
 		Status.setLocation(location.outside);
 		Status.setDestination(destination.Wilczynski);
-		gui.setPresent(true);
+		//gui.setPresent(true);
 		////stateChanged();
 	}
 
@@ -974,8 +978,8 @@ public class TestPerson implements Person{
 			}
 			if (Status.getNourishmnet() == nourishment.Hungry &&
 					Status.getLocation() == location.outside && CheckRestaurantOpen()) {
-				Building r = findOpenBuilding(buildingType.restaurant);
-				GoToRestaurant(r);
+				//Building r = findOpenBuilding(buildingType.restaurant);
+				//GoToRestaurant(r);
 				return true;
 			}
 			if (Status.getMoneyStatus() == bankStatus.withdraw &&
@@ -1091,11 +1095,11 @@ public class TestPerson implements Person{
 	}
 	
 	private boolean AIandNotWorking() {
-		return (!gui.getBusy() && job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
+		return (job.type != JobType.noAI && Status.getWork() != workStatus.working && noRoleActive());
 	}
 	
 	private Boolean notBusy(){
-		return (!gui.getBusy() && job.type != JobType.noAI && job.type != JobType.student && job.type != JobType.professor);
+		return (job.type != JobType.noAI && job.type != JobType.student && job.type != JobType.professor);
 	}
 	
 	private void GoToSleep() {
@@ -1139,7 +1143,7 @@ public class TestPerson implements Person{
 			}
 		}
 		if (r == null){
-			gui.setBusy(false);
+			//gui.setBusy(false);
 			return null;
 		}
 		else
@@ -1148,8 +1152,8 @@ public class TestPerson implements Person{
 
 	private void GoEat() {
 		Boolean restaurant = false;
-		Building r = null;
-		r = findOpenBuilding(buildingType.restaurant);
+		MockRestaurant r = null;
+		//r = findOpenBuilding(buildingType.restaurant);
 		
 		if (r != null){
 			int num = (int)(Math.random() * ((10 - 0) + 0));
@@ -1176,7 +1180,7 @@ public class TestPerson implements Person{
 		
 	}
 	
-	private void GoToRestaurant(Building r){
+	private void GoToRestaurant(MockRestaurant r){
 		if (r != null){
 		if (r.owner.equals("Aleena"))
 			GoToRestaurantA(r);
@@ -1423,50 +1427,109 @@ public class TestPerson implements Person{
 		a.panel.tenantPanel.addTenant(c, homePurpose);*/
 	}
 
-	private void GoToBank()
+	public void GoToBank()
 	{
 		Building r2 = findOpenBuilding(buildingType.bank);
 		
 		if (r2 != null){
-			
+
 			if(bankPurpose.equals("Rob"))
 			{
 				job.dayLastRobbed = TimeManager.getInstance().getDay();
 			}
-			
-		Bank r = (Bank) r2;
-	
-		gui.setPresent(true);
-		gui.setBusy(true);
-		Status.setMoneyStatus(bankStatus.goingToBank);
+
+			Bank r = (Bank) r2;
+
+			Status.setMoneyStatus(bankStatus.goingToBank);
 
 
-		//takeBusIfApplicable(0);
-		
-		gui.DoGoToLocation(r.entrance);
-		this.Status.setLocation(location.bank);
-		
-		if (r.isOpen()){
-			gui.setPresent(false);
-			BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
-			if (!accounts.isEmpty())
-				c.setAccount(accounts.get(0));
-			if (!accounts.isEmpty())
-				c.setLoan(loans);
-			
-			c.setTestPerson(this);
-			roles.add(c);
-			c.setActivity(true);
-			c.setTrackerGui(trackingWindow);
-			r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+			//takeBusIfApplicable(0);
+
+			//gui.DoGoToLocation(r.entrance);
+			this.Status.setLocation(location.bank);
+
+			if (r.isOpen()){
+				//gui.setPresent(false);
+				BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
+				if (!accounts.isEmpty())
+					c.setAccount(accounts.get(0));
+				if (!accounts.isEmpty())
+					c.setLoan(loans);
+
+				c.setTestPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+				c.setTrackerGui(trackingWindow);
+				r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+			}
+			else{
+				//gui.setBusy(false);
+				//stateChanged();
+			}
 		}
 		else{
-			gui.setBusy(false);
+			//gui.setBusy(false);
 			//stateChanged();
 		}
+	}
+	
+	
+	public void GoToBank(MockBank b)
+	{
+		MockBank r2 = b;
+		
+		if (r2 != null){
+
+			//if(bankPurpose.equals("Rob"))
+			//{
+			//	job.dayLastRobbed = TimeManager.getInstance().getDay();
+			//}
+
+			MockBank r = (MockBank) r2;
+
+			Status.setMoneyStatus(bankStatus.goingToBank);
+
+
+			//takeBusIfApplicable(0);
+
+			//gui.DoGoToLocation(r.entrance);
+			this.Status.setLocation(location.bank);
+
+			if (r.ForceOpen(this.bankForce)){
+				//gui.setPresent(false);
+				BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
+				if (!accounts.isEmpty())
+					c.setAccount(accounts.get(0));
+				if (!accounts.isEmpty())
+					c.setLoan(loans);
+
+				c.setTestPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+				c.setTrackerGui(trackingWindow);
+				//r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+			}
+			if (r.isOpen()){
+				//gui.setPresent(false);
+				BankCustomerRole c = new BankCustomerRole(this.getName(), bankPurpose, bankAmount, cash, job.type.toString());
+				if (!accounts.isEmpty())
+					c.setAccount(accounts.get(0));
+				if (!accounts.isEmpty())
+					c.setLoan(loans);
+
+				c.setTestPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+				c.setTrackerGui(trackingWindow);
+				r.panel.customerPanel.addCustomer((BankCustomerRole) c);
+			}
+			else{
+				//gui.setBusy(false);
+				//stateChanged();
+			}
 		}
 		else{
-			gui.setBusy(false);
+			//gui.setBusy(false);
 			//stateChanged();
 		}
 	}
@@ -1730,22 +1793,22 @@ public class TestPerson implements Person{
 
 	}
 
-	public void GoToRestaurantN(Building b)
+	public void GoToRestaurantN(MockRestaurant b)
 	{
-		Restaurant r = (Restaurant) b;
-		gui.setPresent(true);
-		gui.setBusy(true);
+		MockRestaurant r = (MockRestaurant) b;
+		//gui.setPresent(true);
+		//gui.setBusy(true);
 		Status.setNourishment(nourishment.goingToFood);
 	
-		takeBusIfApplicable(2);
+		//takeBusIfApplicable(2);
 		
-		gui.DoGoToCheckpoint('B');
+		//gui.DoGoToCheckpoint('B');
 		//gui.DoGoToCheckpoint('A');
 
 
-		gui.DoGoToLocation(r.entrance);
+		//gui.DoGoToLocation(r.entrance);
 		this.Status.setLocation(location.restaurant);
-		gui.setPresent(false);
+		//gui.setPresent(false);
 
 		//Role terminologies
 		CustomerRole c = new CustomerRole(this.getName(), cash, job.type.toString());
@@ -1754,7 +1817,7 @@ public class TestPerson implements Person{
 		roles.add(c);
 		c.setActivity(true);
 		//r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		r.panel.customerPanel.addCustomer(c, r);
+		//r.panel.customerPanel.addCustomer(c, r);
 	
 	}
 	
@@ -1789,37 +1852,70 @@ public class TestPerson implements Person{
 
 	public void GoToMarket(){
 		Building r2 = findOpenBuilding(buildingType.market);
-		
+
 		if (r2 != null){
-			
-		
-		Market r = (Market) r2;
-		gui.setPresent(true);
-		gui.setBusy(true);
-		Status.market = marketStatus.waiting;
-		gui.DoGoToLocation(r.entrance);
-		this.Status.setLocation(location.bank);
-		gui.setPresent(false);
-		this.Status.setLocation(location.market);
-		
-		if (r.isOpen()){
-		gui.setPresent(false);
-		MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash, job.type.toString());
-		c.setTrackerGui(trackingWindow);
-		c.setTestPerson(this);
-		roles.add(c);
-		c.setActivity(true);
-		r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
-		r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
-		r.gui.customerStateCheckBox.setSelected(true);
-		}
-		else {
-			gui.setBusy(false);
-			//stateChanged();
-		}
+			Market r = (Market) r2;
+			gui.setPresent(true);
+			gui.setBusy(true);
+			Status.market = marketStatus.waiting;
+			gui.DoGoToLocation(r.entrance);
+			this.Status.setLocation(location.bank);
+			gui.setPresent(false);
+			this.Status.setLocation(location.market);
+
+			if (r.isOpen()){
+				gui.setPresent(false);
+				MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash, job.type.toString());
+				c.setTrackerGui(trackingWindow);
+				c.setTestPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+				r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+				r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
+				r.gui.customerStateCheckBox.setSelected(true);
+			}
+			else {
+				gui.setBusy(false);
+				//stateChanged();
+			}
 		}
 		else{
 			gui.setBusy(false);
+			//stateChanged();
+		}
+	}
+	
+	public void GoToMarket(MockMarket m){
+		MockMarket r2 = m;
+
+		if (r2 != null){
+			MockMarket r = (MockMarket) r2;
+			//gui.setPresent(true);
+			//gui.setBusy(true);
+			Status.market = marketStatus.waiting;
+			//gui.DoGoToLocation(r.entrance);
+			this.Status.setLocation(location.bank);
+			//gui.setPresent(false);
+			this.Status.setLocation(location.market);
+
+			if (r.isOpen()){
+				//gui.setPresent(false);
+				MarketCustomerRole c = new MarketCustomerRole(this.getName(), marketPurpose, marketQuantity, cash, job.type.toString());
+				c.setTrackerGui(trackingWindow);
+				c.setTestPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+				//r.panel.customerPanel.customerHungryCheckBox.setSelected(true);
+				//r.panel.customerPanel.addCustomer((MarketCustomerRole) c);
+				//r.gui.customerStateCheckBox.setSelected(true);
+			}
+			else {
+				//gui.setBusy(false);
+				//stateChanged();
+			}
+		}
+		else{
+			//gui.setBusy(false);
 			//stateChanged();
 		}
 	}
@@ -1835,35 +1931,36 @@ public class TestPerson implements Person{
 	public void HaveHeartAttack()
 	{
 		professorState = ProfessorState.isHavingHeartAttack;
-		gui.setDeath();
-		gui.playdeath = true;
-		gui.showBubble = true;
-		gui.drawBubble = true;
+		//gui.setDeath();
+		//gui.playdeath = true;
+		//gui.showBubble = true;
+		//gui.drawBubble = true;
 	}
 	
 	public void GoBotherTheCPsInGitHub()
 	{
 		studentState = StudentState.leaving;
-		gui.part1 = false;
-		gui.showBubble = true;
-		gui.drawBubble = true;
+		//gui.part1 = false;
+		//gui.showBubble = true;
+		//gui.drawBubble = true;
+		/*
 		Random rand = new Random();
 		int temp = Math.abs(rand.nextInt() % 4);
 		if (temp == 0)
 		{
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
-			gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), //gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), //gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), //gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), //gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), //gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), //gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(//gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
+			//gui.DoGoToLocation(gui.getXPosition() - 100 - Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
 		}
 		else if (temp == 1)
-		{
+		{/*
 			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
 			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
 			gui.DoGoToLocation(gui.getXPosition() +100 + Math.abs(rand.nextInt() % 250), gui.getYPosition() + rand.nextInt() % 250);
@@ -1902,18 +1999,18 @@ public class TestPerson implements Person{
 			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
 			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
 			gui.DoGoToLocation(gui.getXPosition() + rand.nextInt() % 250, gui.getYPosition() - 100 - Math.abs(rand.nextInt() % 250));
-		}
+		}*/
 	}
 	
 	public void AskForRubric()
 	{
-		gui.showBubble = true;
+		//gui.showBubble = true;
 		double radius = 50;
 		Coordinate point = getRandomPointFromCircle(423,320, radius);
-		gui.DoGoToLocation(point.x, point.y);
-		gui.showBubble = false;
-		gui.setBubble(-1);
-		Scenario.getInstance().Continue1();
+		//gui.DoGoToLocation(point.x, point.y);
+		//gui.showBubble = false;
+		//gui.setBubble(-1);
+		//Scenario.getInstance().Continue1();
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.work);
 	}
@@ -1964,7 +2061,6 @@ public class TestPerson implements Person{
 
 	public void setThreshold(int q) {
 		// TODO Auto-generated method stub
-
 	}
 
 
@@ -1982,7 +2078,6 @@ public class TestPerson implements Person{
 
 	public void removeItem() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void setHungry() {
