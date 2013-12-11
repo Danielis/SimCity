@@ -982,11 +982,11 @@ public class CityGui extends JFrame implements ActionListener {
 	
 	public void createRestaurantD(String name, int x, int y)
 	{
-			restaurantD.gui.RestaurantGui rg = new restaurantD.gui.RestaurantGui();
-			rg.setTrackerGui(trackingWindow);
-			restaurantD.RestaurantD r = new restaurantD.RestaurantD(rg, name);
-			rg.setRestaurant(r);
-			r.setEntrance(x,y);
+			//restaurantD.gui.RestaurantGui rg = new restaurantD.gui.RestaurantGui();
+			//rg.setTrackerGui(trackingWindow);
+			//restaurantD.RestaurantD r = new restaurantD.RestaurantD(rg, name);
+			//rg.setRestaurant(r);
+			//r.setEntrance(x,y);
 			//buildings.add(r);
 	}
 	

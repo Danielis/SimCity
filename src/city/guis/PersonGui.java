@@ -127,7 +127,7 @@ public class PersonGui implements Gui{
 
 		checkpointA = new Coordinate(380,90);//left top
 		checkpointB = new Coordinate(380,165);
-		checkpointC = new Coordinate(380,278);
+		checkpointC = new Coordinate(380,270);
 		checkpointD = new Coordinate(380,347);
 		checkpointE = new Coordinate(380,473);
 		checkpointF = new Coordinate(380,540);//left bot
@@ -173,7 +173,7 @@ public class PersonGui implements Gui{
 		Random r = new Random();
     	int x1=r.nextInt(600-50) + 50;
 		
-    	position = new Coordinate(x1, y1); 
+    	position = new Coordinate(x1, 94); 
     	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
