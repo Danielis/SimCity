@@ -151,18 +151,13 @@ public class HousingPanel extends JPanel {
 		//tenant.startThread();
     }
     
-    public void addWorker(String name) 
+    public void addWorker(HousingWorkerRole w) 
     {
-    	HousingWorker p = new HousingWorkerRole(name);
-		HousingWorkerGui g = new HousingWorkerGui(p, gui);
+		HousingWorkerGui g = new HousingWorkerGui(w, gui, workers.size());
 		gui.housingAnimationPanel.addGui(g);
-		p.setGui(g);
-        landlord.addWorker(p);
-        p.setLandlord(landlord);
+		w.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
-		worker = (HousingWorkerRole) p;
-		workers.add(worker);
-		worker.startThread();
+		workers.add(w);
     }
     
     public void addLandlord(LandlordRole l) 

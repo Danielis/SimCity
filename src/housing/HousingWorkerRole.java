@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import roles.Apartment;
 import roles.Role;
 import logging.Alert;
 import logging.AlertLevel;
@@ -20,6 +21,7 @@ import housing.interfaces.Landlord;
 public class HousingWorkerRole extends Role implements HousingWorker {
 
 	// HOUSING WORKER DATA
+	Apartment building;
 	LandlordRole landlord;
 	public String name;
 	private List<Job> myJobs = new ArrayList<Job>();
@@ -149,5 +151,9 @@ public class HousingWorkerRole extends Role implements HousingWorker {
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setApartment(Apartment a) {
+		building = a;
 	}
 }

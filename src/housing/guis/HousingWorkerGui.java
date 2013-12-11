@@ -22,6 +22,7 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		private boolean isPresent = true;
 		private boolean isHungry = false;
 		private boolean goingSomewhere = false;
+		private int seatIndex = 0;
 		
 		//finals
 		private final int tables_y = 450;
@@ -47,9 +48,9 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		//images
 		//List of tables
 
-		public HousingWorkerGui(HousingWorker p, HousingGui gui3){
+		public HousingWorkerGui(HousingWorker p, HousingGui gui3, int i){
 			
-	        
+	        seatIndex = i;
 			agent = (HousingWorkerRole) p;
 			this.gui = gui3;
 			
@@ -59,9 +60,9 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 	        } catch (IOException e ) {}
 			
 			position = new Coordinate(475,750);			
-			outside = new Coordinate(475,750);
-			destination = new Coordinate(475, 750);
+			destination = new Coordinate(10, 295 + 25 * seatIndex);
 	    	workarea = new Coordinate(12,80);
+	    	goingSomewhere = true;
 
 		}
 		//UTILITIES ***********************************************

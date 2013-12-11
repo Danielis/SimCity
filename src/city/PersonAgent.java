@@ -50,11 +50,13 @@ import market.*;
 import market.interfaces.MarketCustomer;
 import transportation.BusStopAgent; // needed for BusStop variable
 import housing.HousingCustomerRole;
+import housing.HousingWorkerRole;
 import housing.LandlordRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
+
 
 
 
@@ -1486,6 +1488,8 @@ public class PersonAgent extends Agent implements Person
 		
 		//Role terminologies
 		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory, job.type.toString());
+		c.setApartment(a);
+		a.tenants.add(c);
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
@@ -1583,7 +1587,9 @@ public class PersonAgent extends Agent implements Person
 		if (job.type == JobType.landLord)
 		{
 			LandlordRole r = new LandlordRole(this.getName());
-			a.panel.addLandlord((LandlordRole) r);
+			r.setAparment(a);
+			a.landlord = r;
+			a.panel.addLandlord(r);
 			r.setPerson(this);
 			roles.add(r);
 			r.setActivity(true);
@@ -1591,8 +1597,10 @@ public class PersonAgent extends Agent implements Person
 		}
 		if (job.type == JobType.repairman)
 		{
-			LandlordRole r = new LandlordRole(this.getName());
-			a.panel.addLandlord((LandlordRole) r);
+			HousingWorkerRole r = new HousingWorkerRole(this.getName());
+			r.setApartment(a);
+			a.workers.add(r);
+			a.panel.addWorker(r);
 			r.setPerson(this);
 			roles.add(r);
 			r.setActivity(true);

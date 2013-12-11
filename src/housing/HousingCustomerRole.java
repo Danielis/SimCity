@@ -5,13 +5,13 @@ import java.util.Random;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import java.util.concurrent.Semaphore;
 
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
+import roles.Apartment;
 import roles.Role;
 import city.PersonAgent;
 import city.PersonAgent.Item;
@@ -39,11 +39,11 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		System.out.println("Housing Customer created.");
 		this.inventory = inventory;
 	}
-	
+
 	public PersonAgent getPerson() {
 		return myPerson;
 	}
-	
+
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
 	}
@@ -85,23 +85,24 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	public Boolean hungry;
 	private Boolean leave = false;
 	private Boolean sleep = false;
-	 List<Item> inventory;
+	List<Item> inventory;
 	public TrackerGui trackingWindow;
+	Apartment myHome;
 
 	public String getName()
 	{
 		return name;
 	}
-	
+
 	//-----------------------------------------------
 	//------------------Messages---------------------
 	//-----------------------------------------------
 	//arriving at house
-	
+
 	public void msgGetPaid(){
 		//balance =+50;
 	}
-	
+
 	public void enteringHouse() {
 
 	}
@@ -146,10 +147,10 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		System.out.println("Tenant scheduler.");
-//		if(leave){
-//			LeaveApartment();
-//			return true;
-//		}
+		//		if(leave){
+		//			LeaveApartment();
+		//			return true;
+		//		}
 		if(sleep){
 			GoToSleep();
 			return false;
@@ -181,16 +182,16 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		gui.DoGoToBed();
 		sleep = false;
 		//TODO: PLEASE FIX THIS LOL, semaphore?
-//		timer.schedule(new TimerTask()
-//		{
-//			public void run()
-//			{
-//				
-//				print("Woke up!");
-//			}
-//		}, 5000);
-		
-		
+		//		timer.schedule(new TimerTask()
+		//		{
+		//			public void run()
+		//			{
+		//				
+		//				print("Woke up!");
+		//			}
+		//		}, 5000);
+
+
 	}
 
 	//------------------------------------------------
@@ -227,7 +228,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		//gui.DoGoToBed();	
 		System.out.println("Tenant: called landlord for repairs.");
 
-		}
+	}
 
 	private void TakeOutLoan(){
 		//GoToBank(); //stub;
@@ -239,7 +240,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	private void GetFood() {
 		print("Going to cook food.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Going to cook food", new Date()));
-	//	gui.DoGoToThreshold();
+		//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
 		PickItem();
@@ -263,7 +264,7 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Consumed " + myPerson.getInvetory().get(j).getType(), new Date()));
 		}
 	}
-	
+
 	private void LeaveApartment(){
 		houseNeedsRepairs = false;
 		hungry = false;
@@ -301,10 +302,10 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		{
 			this.animSemaphore.acquire();	
 		} catch (InterruptedException e) {
-            // no action - expected when stopping or when deadline changed
-        } catch (Exception e) {
-            print("Unexpected exception caught in Agent thread:", e);
-        }
+			// no action - expected when stopping or when deadline changed
+		} catch (Exception e) {
+			print("Unexpected exception caught in Agent thread:", e);
+		}
 	}
 
 	public void msgLeaveHome() {
@@ -315,7 +316,11 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	@Override
 	public void msgLeaveWork() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void setApartment(Apartment a) {
+		building = a;		
 	}
 
 
