@@ -242,7 +242,7 @@ public class LandlordRole extends Role {
 			t.s = ticketStatus.paid;
 			t.w.p.HereIsMoney(t.complex, t.bill);
 			System.out.println("Landlord: Ticket being paid.");
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Being paid", new Date()));
+			//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Being paid", new Date()));
 		}
 		else{
 			//TakeOutLoan(t.bill); //stub

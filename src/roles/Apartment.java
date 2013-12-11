@@ -43,4 +43,17 @@ public class Apartment extends Building{
 	public Boolean isOpen() {
 		return true;
 	}
+
+	public void syncRolesWithBuilding() {
+		if(landlord != null) {
+			for(HousingWorkerRole h : workers) {
+				landlord.addWorker(h);
+				h.setLandlord(landlord);
+			}
+			for(HousingCustomerRole c : tenants) {
+				landlord.addCustomer(c);
+				c.setLandlord(landlord);
+			}
+		}
+	}
 }

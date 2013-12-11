@@ -136,7 +136,7 @@ public class HousingWorkerRole extends Role implements HousingWorker {
 		landlord.RepairsCompleted(job.c, job.bill);
 		job.s = jobState.billed;
 		System.out.println("Worker: Asking for pay.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
+		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
 	}
 
 

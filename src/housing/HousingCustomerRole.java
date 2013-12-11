@@ -67,7 +67,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	//-----------------------------------------------
 	//name
 	public String name;
-	//private Semaphore waitingForAnimation = new Semaphore(0);
 	private HousingAnimationPanel animationPanel;
 	private HousingCustomerGui gui;
 	public Semaphore animSemaphore = new Semaphore(0, true);
@@ -107,7 +106,6 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 
 	}
 	public void msgDoSomething() {
-		//print("dosmth");
 		stateChanged();
 	}
 	//sent from landlord.  rent bill
@@ -181,16 +179,21 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 		gui.DoGoToThreshold();
 		gui.DoGoToBed();
 		sleep = false;
-		//TODO: PLEASE FIX THIS LOL, semaphore?
-		//		timer.schedule(new TimerTask()
-		//		{
-		//			public void run()
-		//			{
-		//				
-		//				print("Woke up!");
-		//			}
-		//		}, 5000);
 
+		//TODO: PLEASE FIX THIS LOL, semaphore?
+				timer.schedule(new TimerTask()
+				{
+				public void run()
+					{
+					animSemaphore.release();
+				}
+			}, 10000);
+				try {
+					animSemaphore.acquire();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 	}
 

@@ -1490,6 +1490,7 @@ public class PersonAgent extends Agent implements Person
 		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory, job.type.toString());
 		c.setApartment(a);
 		a.tenants.add(c);
+		a.syncRolesWithBuilding();
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
@@ -1592,6 +1593,7 @@ public class PersonAgent extends Agent implements Person
 			a.panel.addLandlord(r);
 			r.setPerson(this);
 			roles.add(r);
+			a.syncRolesWithBuilding();
 			r.setActivity(true);
 
 		}
@@ -1603,8 +1605,8 @@ public class PersonAgent extends Agent implements Person
 			a.panel.addWorker(r);
 			r.setPerson(this);
 			roles.add(r);
+			a.syncRolesWithBuilding();
 			r.setActivity(true);
-
 		}
 	}
 
