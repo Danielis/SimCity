@@ -1,8 +1,5 @@
 package housing.test;
 
-import housing.LandlordAgent;
-import housing.LandlordAgent.paymentState;
-import housing.LandlordAgent.ticketStatus;
 import housing.test.mock.MockHousingCustomer;
 import housing.test.mock.MockHousingWorker;
 import junit.framework.TestCase;
@@ -23,7 +20,7 @@ import restaurant.test.mock.MockMarket;
  */
 public class LandlordTest extends TestCase
 {
-    //these are instantiated for each test separately via the setUp() method.
+    /*these are instantiated for each test separately via the setUp() method.
     LandlordAgent landlord;
     MockHousingCustomer customer;
     MockHousingWorker worker;
@@ -114,5 +111,5 @@ public class LandlordTest extends TestCase
             assertEquals("MockHousingWorker should now have a logged event saying it received HereIsMoney Message.", "HereIsMoney", worker.log.getLastLoggedEvent().getMessage());
             assertEquals("The landlord should have 9600.0", landlord.balance, 9600.0);
     }//end one normal customer scenario
-        
+      */  
 }

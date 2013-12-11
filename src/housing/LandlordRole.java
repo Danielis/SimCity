@@ -1,13 +1,17 @@
 package housing;
 
+import housing.guis.LandlordGui;
 import housing.interfaces.HousingCustomer;
 import housing.interfaces.HousingWorker;
 
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import roles.Apartment;
+import roles.Role;
 import city.PersonAgent;
 import logging.Alert;
 import logging.AlertLevel;
@@ -15,19 +19,23 @@ import logging.AlertTag;
 import logging.TrackerGui;
 import agent.Agent;
 
-public class LandlordAgent extends Agent {
+public class LandlordRole extends Role {
 
 
 	//--------------------------------------------------------
 	//-------------------Utilities----------------------------
 	//--------------------------------------------------------
 	//constructor
-	public LandlordAgent() {
+	public LandlordRole(String s) {
 		complexes.add(new HousingComplex());
 		System.out.println("Landlord created.");
 		balance = 10000;
+		name = s;
 	}
 	
+	public void setAparment(Apartment a) {
+		complexes.get(0).building = a;
+	}
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
 	}
@@ -49,16 +57,20 @@ public class LandlordAgent extends Agent {
 	public List<MaintenanceWorker> workers = new ArrayList<MaintenanceWorker>();
 	public double balance;
 	public TrackerGui trackingWindow;
+	public String name;
+	private LandlordGui gui;
 
 	public class HousingComplex {
 		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();
 		complexType type;
 		double rent;
+		Apartment building;
 		public HousingComplex() {
 			type = complexType.apartment;
 			rent = 1000;
 		}
 	}
+	
 	enum complexType {apartment, house};
 
 	public class Payment{
@@ -230,13 +242,44 @@ public class LandlordAgent extends Agent {
 			t.s = ticketStatus.paid;
 			t.w.p.HereIsMoney(t.complex, t.bill);
 			System.out.println("Landlord: Ticket being paid.");
-			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Being paid", new Date()));
+			//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Being paid", new Date()));
 		}
 		else{
 			//TakeOutLoan(t.bill); //stub
 			System.out.println("Landlord: Loan needed.");
 			trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Loan needed", new Date()));
 		}
+	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void DoneWithAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public ImageObserver copyOfAnimationPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void WaitForAnimation() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setGui(LandlordGui g) {
+		this.gui = g;
 	}
 
 }

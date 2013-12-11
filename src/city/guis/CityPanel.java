@@ -86,14 +86,13 @@ public class CityPanel extends JPanel {
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
-		//p.setBuildings(buildings);
+		p.setBuildings(buildings);
 		if(Math.random() > .49)
 			p.setBus(true);
 		if(p.getName().equals("Bus"))
 			p.setBus(true);
 		people.add(p);
 		p.startThread();
-	
     }
     
     public void addPerson(PersonAgent p) 
@@ -114,7 +113,6 @@ public class CityPanel extends JPanel {
 			p.setBus(true);
 		people.add(p);
 		p.startThread();
-		
     }
     
     public void addPerson(PersonAgent p, boolean b) 

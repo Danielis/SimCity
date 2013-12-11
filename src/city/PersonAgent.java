@@ -50,10 +50,14 @@ import market.*;
 import market.interfaces.MarketCustomer;
 import transportation.BusStopAgent; // needed for BusStop variable
 import housing.HousingCustomerRole;
+import housing.HousingWorkerRole;
+import housing.LandlordRole;
 import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
+
+
 
 
 
@@ -192,8 +196,11 @@ public class PersonAgent extends Agent implements Person
 				}
 			}
 			else if (type == JobType.landLord || type == JobType.repairman){
-				//timeStart = 8;
-				//timeEnd = 4;
+				for (Building b : buildings){
+					if (workBuilding == null && b.type == buildingType.housingComplex){
+						workBuilding = b;
+					}
+				}
 			}
 			
 			else if(type == JobType.student)
@@ -224,7 +231,8 @@ public class PersonAgent extends Agent implements Person
 				print("owner" + workBuilding.owner);
 				if (workBuilding.type.equals(buildingType.restaurant)){
 					if (workBuilding.owner.equals("Norman") ||
-						workBuilding.owner.equals("Daniel")){
+						workBuilding.owner.equals("Daniel") ||
+						workBuilding.owner.equals("Chris")){
 					daysWorking.add(Day.saturday);
 					daysWorking.add(Day.sunday);
 					}
@@ -1480,6 +1488,9 @@ public class PersonAgent extends Agent implements Person
 		
 		//Role terminologies
 		HousingCustomerRole c = new HousingCustomerRole(this.getName(), cash, inventory, job.type.toString());
+		c.setApartment(a);
+		a.tenants.add(c);
+		a.syncRolesWithBuilding();
 		c.setTrackerGui(trackingWindow);
 		c.setPerson(this);
 		roles.add(c);
@@ -1566,23 +1577,36 @@ public class PersonAgent extends Agent implements Person
 	
 	private void WorkAtApartment() {
 
-		takeBusIfApplicable(0);
+		//takeBusIfApplicable(0);
 		
-		gui.DoGoToCheckpoint('G');
-		gui.DoGoToCheckpoint('H');
-		gui.DoGoToCheckpoint('I');
+		Apartment a = (Apartment) job.workBuilding;
 		Status.setWorkStatus(workStatus.working);
 		this.Status.setLocation(location.home);
+		gui.DoGoToLocation(a.entrance);
 		gui.setPresent(false);
+		gui.setBusy(true);
 		if (job.type == JobType.landLord)
 		{
-//			c = new RestaurantHostRole(this.getName());
-//			r.panel.customerPanel.addHost((BankHost) c);
+			LandlordRole r = new LandlordRole(this.getName());
+			r.setAparment(a);
+			a.landlord = r;
+			a.panel.addLandlord(r);
+			r.setPerson(this);
+			roles.add(r);
+			a.syncRolesWithBuilding();
+			r.setActivity(true);
+
 		}
 		if (job.type == JobType.repairman)
 		{
-//			c = new RestaurantHostRole(this.getName());
-//			r.panel.customerPanel.addHost((BankHost) c);
+			HousingWorkerRole r = new HousingWorkerRole(this.getName());
+			r.setApartment(a);
+			a.workers.add(r);
+			a.panel.addWorker(r);
+			r.setPerson(this);
+			roles.add(r);
+			a.syncRolesWithBuilding();
+			r.setActivity(true);
 		}
 	}
 

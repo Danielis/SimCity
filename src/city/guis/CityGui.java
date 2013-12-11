@@ -152,6 +152,7 @@ public class CityGui extends JFrame implements ActionListener {
 	private JButton close = new JButton("Close");
 	private JButton closeRestN = new JButton("Close RestN");
 	private JButton closeRestA = new JButton("Close RestA");
+	private JButton closeRestC = new JButton("Close RestC");
 	private JButton closeBank = new JButton("Close Banks");
 	private JButton closeMarket = new JButton("Close Markets");
 	
@@ -279,6 +280,7 @@ public class CityGui extends JFrame implements ActionListener {
 		restaurantPanel.add(restaurantGo);
 		restaurantPanel.add(closeRestA);
 		restaurantPanel.add(closeRestN);
+		restaurantPanel.add(closeRestC);
 		restaurantPanel.add(fillRestaurant);
 
 		TitledBorder funct = BorderFactory.createTitledBorder(loweredetched, "City");
@@ -316,6 +318,7 @@ public class CityGui extends JFrame implements ActionListener {
 
 		closeRestA.addActionListener(this);
 		closeRestN.addActionListener(this);
+		closeRestC.addActionListener(this);
 		closeMarket.addActionListener(this);
 		closeBank.addActionListener(this);
 		closeMarket.addActionListener(this);
@@ -705,6 +708,21 @@ public class CityGui extends JFrame implements ActionListener {
 				}
 			}
 			closeRestA.setEnabled(false);
+		}
+		if (e.getSource() == closeRestC){
+			for (Building b : buildings){
+				if (b.getType() == buildingType.restaurant && b.owner.equals("Chris")){
+					b.ForceClosed();
+					RestaurantC r = (RestaurantC) b;
+					r.workingHost.msgLeaveWork();
+					r.workingCashier.msgLeaveWork();
+					r.workingCook.msgLeaveWork();
+					for (restaurantC.WaiterRole t : r.workingWaiters){
+						t.msgLeaveWork();
+					}
+				}
+			}
+			closeRestC.setEnabled(false);
 		}
 		if (e.getSource() == fillBank){
 			Scenario.getInstance().EmployBank(this.cityPanel);

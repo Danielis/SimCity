@@ -5,22 +5,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import roles.Apartment;
+import roles.Role;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
 import logging.TrackerGui;
-import agent.Agent;
-import housing.LandlordAgent.HousingComplex;
+import housing.LandlordRole.HousingComplex;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingGui;
 import housing.guis.HousingWorkerGui;
 import housing.interfaces.HousingWorker;
 import housing.interfaces.Landlord;
 
-public class HousingWorkerAgent extends Agent implements HousingWorker {
+public class HousingWorkerRole extends Role implements HousingWorker {
 
 	// HOUSING WORKER DATA
-	LandlordAgent landlord;
+	Apartment building;
+	LandlordRole landlord;
 	public String name;
 	private List<Job> myJobs = new ArrayList<Job>();
 	double balance;
@@ -46,7 +48,7 @@ public class HousingWorkerAgent extends Agent implements HousingWorker {
 	//-----------------Utilities----------------------------
 	//------------------------------------------------------
 	//constructor
-	public HousingWorkerAgent(String name1){
+	public HousingWorkerRole(String name1){
 		this.name = name1;
 		System.out.println("Housing Worker Created.");
 		balance = 0;
@@ -56,7 +58,7 @@ public class HousingWorkerAgent extends Agent implements HousingWorker {
 		trackingWindow = t;
 	}
 
-	public void setLandlord(LandlordAgent l) {
+	public void setLandlord(LandlordRole l) {
 		landlord = l;
 	}
 
@@ -104,7 +106,7 @@ public class HousingWorkerAgent extends Agent implements HousingWorker {
 	//-----------------Scheduler-----------------------------
 	//------------------------------------------------------
 	@Override
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		for(Job job:myJobs) {
 			if(job.s == jobState.completed) {
 				AskForPay(job);
@@ -134,6 +136,24 @@ public class HousingWorkerAgent extends Agent implements HousingWorker {
 		landlord.RepairsCompleted(job.c, job.bill);
 		job.s = jobState.billed;
 		System.out.println("Worker: Asking for pay.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
+		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
+	}
+
+
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setApartment(Apartment a) {
+		building = a;
 	}
 }
