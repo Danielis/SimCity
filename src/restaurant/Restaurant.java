@@ -69,7 +69,7 @@ public class Restaurant extends RestBase{
 	}
 	
 	public Boolean isOpen(){
-		return (panel.host != null && panel.cashier != null && panel.cook != null);
+		return (!forceClosed && panel.host != null && panel.cashier != null && panel.cook != null);
 	}
 	
 	public int getWaiterNumber(){

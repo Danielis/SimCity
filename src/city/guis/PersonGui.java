@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
-
 import java.util.TimerTask;
 import java.util.Random;
 
@@ -44,7 +43,7 @@ public class PersonGui implements Gui{
 	
 	//finals
 	//private final int customerSize = 20;
-	private final int deltadivider = 100;
+	private final int deltadivider = 40;
 	
 	int movementTicker = 0;
 
@@ -127,7 +126,7 @@ public class PersonGui implements Gui{
 
 		checkpointA = new Coordinate(380,90);//left top
 		checkpointB = new Coordinate(380,165);
-		checkpointC = new Coordinate(380,278);
+		checkpointC = new Coordinate(380,270);
 		checkpointD = new Coordinate(380,347);
 		checkpointE = new Coordinate(380,473);
 		checkpointF = new Coordinate(380,540);//left bot
@@ -173,7 +172,7 @@ public class PersonGui implements Gui{
 		Random r = new Random();
     	int x1=r.nextInt(600-50) + 50;
 		
-    	position = new Coordinate(x1, y1); 
+    	position = new Coordinate(x1, 94); 
     	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
@@ -196,25 +195,25 @@ public class PersonGui implements Gui{
 		
 		agent = c;
 		this.gui = gui2;
-
-		checkpointA = new Coordinate(257,472);//restaurant
-		checkpointB = new Coordinate(385,472);//bottom street corner  
-		checkpointC = new Coordinate(385,362);//middle lower street corner
-		checkpointD = new Coordinate(385,275);//middle higher street corner
-		checkpointE = new Coordinate(280,275);//in front of market
-		checkpointF = new Coordinate(280,265);//Market
-		checkpointG = new Coordinate(385,106);//Top street corner
-		checkpointH = new Coordinate(319,106);//in front of Apartments
-		checkpointI = new Coordinate(319,90);//Apartments
-		checkpointJ = new Coordinate(73,106);//in front of bank
-		checkpointK = new Coordinate(73,74);//Bank
-
-		checkpointL = new Coordinate(485,474);
-		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
-//		checkpointA = new Coordinate(395,250);
-//		checkpointB = new Coordinate(395,125);
-//		checkpointC = new Coordinate(320,125);
-//		checkpointD = new Coordinate(320,100);
+//
+//		checkpointA = new Coordinate(257,472);//restaurant
+//		checkpointB = new Coordinate(385,472);//bottom street corner  
+//		checkpointC = new Coordinate(385,362);//middle lower street corner
+//		checkpointD = new Coordinate(385,275);//middle higher street corner
+//		checkpointE = new Coordinate(280,275);//in front of market
+//		checkpointF = new Coordinate(280,265);//Market
+//		checkpointG = new Coordinate(385,106);//Top street corner
+//		checkpointH = new Coordinate(319,106);//in front of Apartments
+//		checkpointI = new Coordinate(319,90);//Apartments
+//		checkpointJ = new Coordinate(73,106);//in front of bank
+//		checkpointK = new Coordinate(73,74);//Bank
+//
+//		checkpointL = new Coordinate(485,474);
+//		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
+////		checkpointA = new Coordinate(395,250);
+////		checkpointB = new Coordinate(395,125);
+////		checkpointC = new Coordinate(320,125);
+////		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
 		
 		//checkpointA = new Coordinate(395,250);
@@ -675,16 +674,16 @@ public class PersonGui implements Gui{
     			{
     				direct = "right";
     				setImage();
-//    				position.x += (1 + deltax/deltadivider);
-    				position.x += 1;
+    				position.x += (1 + deltax/deltadivider);
+    				//position.x += 1;
     				movementTicker++;
     			}
     			else if (position.x > destination.x)
     			{
     				direct = "left";
     				setImage();
-//    				position.x -= (1 + deltax/deltadivider);
-    				position.x -= 1;
+    				position.x -= (1 + deltax/deltadivider);
+    				//position.x -= 1;
     				movementTicker++;
     			}
 
@@ -692,8 +691,8 @@ public class PersonGui implements Gui{
     			{
     				direct = "down";
     				setImage();
-//    				position.y += (1 + deltay/deltadivider);
-    				position.y += 1;
+    				position.y += (1 + deltay/deltadivider);
+    				//position.y += 1;
     				movementTicker++;
     			}
 
@@ -701,8 +700,8 @@ public class PersonGui implements Gui{
     			{
     				direct = "up";
     				setImage();   				
-//    				position.y -= (1 + deltay/deltadivider);
-    				position.y -= 1;
+    				position.y -= (1 + deltay/deltadivider);
+    				//position.y -= 1;
     				movementTicker++;
     			}
     		}
@@ -737,6 +736,81 @@ public class PersonGui implements Gui{
 //                position.y -= (1 + deltay/deltadivider);
 //                movementTicker++;
 //            }
+    		//Implementing a pause at lights
+    		if(agent.hasCar() && position.x > 375 && position.x < 380 && deltax>0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.x > 450 && position.x < 455 && deltax<0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 255 && position.y < 260 && deltay<0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 470 && position.y < 475 && deltay>0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 367 && position.y < 372 && deltay <0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 170 && position.y < 175 && deltay<0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		
+    		
             if (position.x == destination.x && position.y == destination.y)
             {
     			

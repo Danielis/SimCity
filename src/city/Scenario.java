@@ -20,6 +20,8 @@ public class Scenario {
 	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	Timer timer = new Timer();
 	
+	int numstudents = 20;
+	
 	CityPanel cp;
 	int numStudentsArrived = 0;
 
@@ -155,6 +157,7 @@ public class Scenario {
 		c.addPerson("Person1", "No AI", "Wealthy");
 		PersonAgent p1= c.people.lastElement();
 		p1.setPosition(100, 165);
+		p1.addItem("Car",1);
 		
 		
 		c.addPerson("Person4", "No AI", "Wealthy");
@@ -164,21 +167,30 @@ public class Scenario {
 		
 		c.addPerson("Person2", "No AI", "Wealthy");
 		PersonAgent p2= c.people.lastElement();
-		p2.setPosition(400,105);
+		p2.setPosition(100,530);
 		p2.addItem("Car",1);
 		
-		c.addPerson("Person2", "No AI", "Wealthy");
+		c.addPerson("Person3", "No AI", "Wealthy");
 		PersonAgent p3= c.people.lastElement();
 		p3.setPosition(100,90);
 
+		c.addPerson("Person5", "No AI", "Wealthy");
+		PersonAgent p5= c.people.lastElement();
+		p5.setPosition(300,100);
+		p5.addItem("Car",1);
+		
+		c.addPerson("Person6", "No AI", "Wealthy");
+		PersonAgent p6= c.people.lastElement();
+		p6.setPosition(100,450);
+		
 
 		p1.msgGoToMarket("Car", 1);
 		p4.msgGoToMarket("Car", 1);
 //		
-		p2.msgGoToBank("Deposit",100);
+		p2.msgGoToHome("Sleep");
 		p3.msgGoToMarket("Car", 1);
 //			
-//		p2.getGui().DoGoToLocation(100,100);
+		p6.msgGoToMarket("Car",1);
 	}
 
 	public void fillWork(CityPanel c){
@@ -192,7 +204,7 @@ public class Scenario {
 	public void oneBuildEmployed(CityPanel c){
 		EmployBank(c);
 		EmployRest(c);
-		EmployHousing(c);
+		//EmployHousing(c);
 	}
 
 	public void EmployBank(CityPanel c) {
@@ -366,6 +378,25 @@ public class Scenario {
 		c.addPerson(p6);
 		c.addPerson(p7);
 		
+		PersonAgent p998 = new PersonAgent("No Job 1", "None", "Wealthy");
+		PersonAgent p999 = new PersonAgent("No Job 2", "None", "Poor");
+		PersonAgent p99 = new PersonAgent("No Job 3", "None", "Average");
+		PersonAgent p995 = new PersonAgent("Robber", "Crook", "Average");
+		PersonAgent p996 = new PersonAgent("Chris", "None", "Wealthy");
+		PersonAgent p997 = new PersonAgent("No Job 6", "None", "Poor");
+		p995.GiveCar();
+		p996.GiveCar();
+		p999.GiveCar();
+		p999.setHungry();
+		p99.setHungry();
+
+		c.addPerson(p998);
+		c.addPerson(p999);
+		c.addPerson(p99);
+		c.addPerson(p995);
+		c.addPerson(p996);
+		c.addPerson(p997);
+		
 		PersonAgent p = new PersonAgent("Norman", "None", "Wealthy");
 		p.GiveCar();
 		p.addItem("Juice", 0, 2, 2);
@@ -395,17 +426,9 @@ public class Scenario {
 
 		PersonAgent prof = new PersonAgent("Wilczynski", "Professor", "Average");
 		c.addPerson(prof, true);
-		/*
-		timer.schedule( new TimerTask()
-		{
-			public void run()
-			{				
-				
-			}
-		}, 7 * 1000);*/
 	}
 	
-	public void fillStudents(int numstudents)
+	public void fillStudents()
 	{
 		
 		for (int i = 0; i < numstudents; i++)
@@ -417,7 +440,7 @@ public class Scenario {
 	
 	public boolean AllThere()
 	{
-		return (numStudentsArrived >= 20);
+		return (numStudentsArrived >= numstudents);
 	}
 	
 	public void Continue1()
