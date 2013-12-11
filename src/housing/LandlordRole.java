@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import roles.Apartment;
 import roles.Role;
 import city.PersonAgent;
 import logging.Alert;
@@ -32,6 +33,9 @@ public class LandlordRole extends Role {
 		name = s;
 	}
 	
+	public void setAparment(Apartment a) {
+		complexes.get(0).building = a;
+	}
 	public void setTrackerGui(TrackerGui t) {
 		trackingWindow = t;
 	}
@@ -60,11 +64,13 @@ public class LandlordRole extends Role {
 		List<HousingCustomer> inhabitants = new ArrayList<HousingCustomer>();
 		complexType type;
 		double rent;
+		Apartment building;
 		public HousingComplex() {
 			type = complexType.apartment;
 			rent = 1000;
 		}
 	}
+	
 	enum complexType {apartment, house};
 
 	public class Payment{
