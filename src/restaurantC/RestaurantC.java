@@ -69,7 +69,8 @@ public class RestaurantC extends RestBase{
 
 	@Override
 	public Boolean isOpen() {
-		return (!forceClosed && workingHost != null && workingCashier != null && workingCook != null && !workingWaiters.isEmpty());
+		//return (!forceClosed && workingHost != null && workingCashier != null && workingCook != null && !workingWaiters.isEmpty());
+		return false;
 	}
 
 	public boolean needsHost() {

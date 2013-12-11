@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.lang.Math;
 
 import restaurantA.*;
+import restaurantC.RestaurantC;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,7 @@ import housing.interfaces.HousingCustomer;
 import bank.*;
 import transportation.TransportationCompanyAgent;
 import roles.Coordinate;
+
 
 
 
@@ -151,7 +153,6 @@ public class PersonAgent extends Agent implements Person
 						RestBase ba = (RestBase) b;
 						if (ba.needsCook()){
 							ba.setCook();
-
 							print("set c");
 							workBuilding = b;
 						}
@@ -1348,6 +1349,8 @@ public class PersonAgent extends Agent implements Person
 			GoToRestaurantA(r);
 		if (r.owner.equals("Norman"))
 			GoToRestaurantN(r);
+		if(r.owner.equals("Chris"))
+			GoToRestaurantC(r);
 		}
 		else{
 			gui.setBusy(false);
@@ -1678,6 +1681,8 @@ public class PersonAgent extends Agent implements Person
 				WorkAtRest();
 			else if (job.workBuilding.owner.equals("Aleena"))
 				WorkAtRestA();
+			else if (job.workBuilding.owner.equals("Chris"))
+				WorkAtRestC();
 		}
 		if (job.type == JobType.landLord || job.type == JobType.repairman){
 			WorkAtApartment();
@@ -1889,6 +1894,105 @@ public class PersonAgent extends Agent implements Person
 		}	
 
 	}
+	
+	
+	
+	
+public void WorkAtRestC() {
+		
+		/*	=====================================================================
+						RESTAURANT A SALARIES
+			=====================================================================
+				Cashier (Economist)  		|   100 per shift
+				Host (Manager)		 		|   80  per shift
+				Cook (Culinary Grad) 		|   80  per shift
+				Waiter (Low-wage student)   |   50  per shift
+			=====================================================================*/
+
+		//takeBusIfApplicable(2);
+		
+		RestaurantC r = (RestaurantC) job.workBuilding;
+				
+		gui.DoGoToLocation(r.entrance);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		
+		if (job.type == JobType.restHost)
+		{
+			restaurantC.HostRole c = new restaurantC.HostRole(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingHost = (restaurantC.HostRole) c;
+			r.panel.addHost((restaurantC.HostRole) c);	
+			c.setPerson(this);
+			c.restaurant = r;
+			roles.add(c);
+			c.setActivity(true);
+			c.setSalary(80);
+		}
+		
+		if (job.type == JobType.waiter)
+		{
+			Random rand = new Random();
+			double randval = rand.nextInt();
+			/*if (randval % 2 == 0)
+			{
+				restaurantC.WaiterRole c = new restaurantC.WaiterRole(this.getName(), r, this.cash);
+				c.setSalary((double)50);
+				//r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				c = new restaurantC.WaiterRole(this.getName());
+				c.setTrackerGui(trackingWindow);
+				r.panel.customerPanel.addWaiter((restaurantC.WaiterRole) c);
+				c.setPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+			}
+			else
+			{
+			*/
+				restaurantC.WaiterRole c = new restaurantC.WaiterRole(this.getName());
+				//restaurantA.WaiterAgent c = new TraditionalWaiterAgent(this.getName(), r, this.cash);
+				//r.workingWaiters.add((restaurantA.WaiterAgent) c);
+				c.setSalary((double)50);
+				c.setTrackerGui(trackingWindow);
+				r.panel.addWaiter((restaurantC.WaiterRole) c, r);
+				c.restaurant = r;
+				c.setPerson(this);
+				roles.add(c);
+				c.setActivity(true);
+		///}
+			//if (waiterindexA>5) waiterindex = 0;
+		}
+		
+		if (job.type == JobType.cook)
+		{
+			restaurantC.CookRole c = new restaurantC.CookRole(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingCook = (restaurantC.CookRole) c;
+			r.panel.addCook((restaurantC.CookRole) c);
+			c.setPerson(this);
+			c.restaurant = r;
+			roles.add(c);
+			c.setActivity(true);
+			c.setSalary(80);
+		}
+		
+		if (job.type == JobType.cashier)
+		{
+			restaurantC.CashierRole c = new restaurantC.CashierRole(this.getName());
+			c.setTrackerGui(trackingWindow);
+			r.workingCashier = (restaurantC.CashierRole) c;
+			r.panel.addCashier((restaurantC.CashierRole) c);
+			c.setPerson(this);
+			c.restaurant = r;
+			roles.add(c);
+			c.setActivity(true);
+			c.setSalary(100);
+		}	
+	}
+
+
+
 
 	public void WorkAtBank() {
 		
@@ -1995,6 +2099,39 @@ public class PersonAgent extends Agent implements Person
 	
 	}
 
+	
+	public void GoToRestaurantC(Building b)
+	{
+		RestaurantC r = (RestaurantC) b;
+		gui.setPresent(true);
+		gui.setBusy(true);
+		print("Going to Chris's Restaurant");
+		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "PersonAgent", "Going to Aleena's Restaurant.", new Date()));
+		Status.setNourishment(nourishment.goingToFood);
+
+		//takeBusIfApplicable(2);
+		
+		gui.DoGoToLocation(r.entrance);
+		
+		if (r.isOpen()){
+		this.Status.setLocation(location.restaurant);
+		gui.setPresent(false);
+		//Role terminologies
+		restaurantC.CustomerRole c = new restaurantC.CustomerRole(this.getName(), cash, job.type.toString());
+		c.setTrackerGui(trackingWindow);
+		c.setPerson(this);
+		c.restaurant = r;
+		roles.add(c);
+		r.panel.addCustomer((restaurantC.CustomerRole) c, r);
+		c.gotHungry();
+		}
+		else{
+			gui.setBusy(false);
+			stateChanged();
+		}
+	
+	}
+	
 	public void GoToMarket(){
 		Building r2 = findOpenBuilding(buildingType.market);
 		

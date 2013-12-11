@@ -18,7 +18,7 @@ public class HostRole extends Role {
 
 	//list that tracks the customers
 	public List<CustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<CustomerRole>());
-
+	public RestaurantC restaurant;
 	//collection of tables
 	public Collection<Table> tables;
 
@@ -43,7 +43,6 @@ public class HostRole extends Role {
 	//constructor
 	public HostRole(String name) {
 		super();
-
 		this.name = name;
 		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
@@ -77,6 +76,10 @@ public class HostRole extends Role {
 	//-----------------------------------------------------------
 	//customer asked for food.  add him to waiting customers thing
 	public void IWantFood(CustomerRole cust) {
+		waiters.clear();
+		for(WaiterRole wr : restaurant.workingWaiters){
+			setWaiter(wr);
+		}
 		waitingCustomers.add(cust);
 		stateChanged();
 	}
@@ -233,6 +236,11 @@ public class HostRole extends Role {
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public void setSalary(int i) {
+
 	}
 }
 

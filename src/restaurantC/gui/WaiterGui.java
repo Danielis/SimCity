@@ -1,6 +1,9 @@
 package restaurantC.gui;
 
 import java.awt.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import restaurantC.WaiterRole;
 
@@ -11,6 +14,8 @@ public class WaiterGui implements Gui {
 	private int homeX;
 	private int xPos = 0, yPos = 0;//default waiter position
 	private int xDestination, yDestination; //destination positions
+	
+	private Image person; 
 	
 	RestaurantGui gui;
 	
@@ -30,6 +35,13 @@ public class WaiterGui implements Gui {
 		xDestination = homeX; 
 		yDestination = 20;
 		this.gui = g;
+		
+		
+		try
+        {
+            person = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
+        } catch (IOException e ) {}
+		
 	}
 
 	public void updatePosition() {
@@ -68,8 +80,7 @@ public class WaiterGui implements Gui {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
-		g.fillRect(xPos, yPos, 20, 20);
+		g.drawImage(person, xPos, yPos, agent.copyOfAnimationPanel());
 	}
 
 	public boolean isPresent() {
