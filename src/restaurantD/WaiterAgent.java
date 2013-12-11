@@ -181,7 +181,7 @@ public class WaiterAgent extends Agent implements Waiter{
 				wCustomers.get(i).setCheck(num);
 				wCustomers.get(i).setState(CustomerState.recievingCheck);
 				stateChanged();
-				print("Giving check to customer");
+				//print("Giving check to customer");
 			}
 		}
 	}

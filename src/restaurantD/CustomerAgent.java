@@ -1,9 +1,11 @@
 package restaurantD;
 
 import agent.Agent;
+import restaurantD.gui.AnimationPanel;
 import restaurantD.gui.CustomerGui;
 import restaurantD.gui.RestaurantGui;
 import restaurantD.interfaces.*;
+import roles.Role;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,7 +14,7 @@ import java.util.HashMap;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer{
+public class CustomerAgent extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	private int tableNumber;
@@ -22,12 +24,13 @@ public class CustomerAgent extends Agent implements Customer{
 	private double check;
 	public HashMap<Integer,String> menu;
 	public HashMap<String,Double> menuPrice;
-	
+	public String job = "None";
 	// agent correspondents
 	private HostAgent host;
 	private Waiter waiter = null;
 	private Cashier cashier;
-
+	public AnimationPanel copyofAnimPanel = null;
+	private RestaurantD rest;
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, ReadyToOrder, Ordered, Eating,CheckPlease, Paying, Leaving,OrderedAgain};
@@ -41,21 +44,15 @@ public class CustomerAgent extends Agent implements Customer{
 	 * Constructor for CustomerAgent class
 	 *
 	 * @param name name of the customer
+	 * @param job 
+	 * @param cash 
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name){
+	public CustomerAgent(String name, double cash, String job){
 		super();
 		this.name = name;
-		money = 20;
-		if(name.equals("Salad")){
-			money =5.99;
-		}
-		if(name.equals("Broke")){
-			money =0.0;
-		}
-		if(name.equals("IDK")){
-			money =0.0;
-		}
+		this.money = cash;
+		this.job = job;
 	}
 	// Hack to set the menu for Cook
 	public void setmenu(HashMap<Integer,String> menu,HashMap<String,Double> menuPrice){
@@ -122,6 +119,7 @@ public class CustomerAgent extends Agent implements Customer{
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
 		event = AgentEvent.doneLeaving;
+		this.myPerson.msgLeavingRestaurant(this, money);
 		stateChanged();
 	}
 	//--------V2-------//
@@ -148,7 +146,7 @@ public class CustomerAgent extends Agent implements Customer{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
@@ -224,12 +222,12 @@ public class CustomerAgent extends Agent implements Customer{
 	// Actions
 
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		print("Going to restaurant");
 		host.msgIWantFood(this);//send our instance, so he can respond to us
 	}
 
 	private void SitDown() {
-		Do("Being seated. Going to table");
+		print("Being seated. Going to table");
 		customerGui.DoGoToSeat(tableNumber);//hack; only one table
 	}
 	
@@ -259,7 +257,7 @@ public class CustomerAgent extends Agent implements Customer{
 		waiter.hereIsMyChoice(this,menu.get(2)); //Hack since person will always choose chicken for now
 	}
 	private void EatFood() {
-		Do("Eating Food");
+		print("Eating Food");
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
 		//When that time elapses, it will call back to the run routine
@@ -305,7 +303,7 @@ public class CustomerAgent extends Agent implements Customer{
 		5000);
 	}
 	private void leaveTable() {
-		Do("Leaving.");
+		print("Leaving.");
 		waiter.msgLeavingTable(this);
 		customerGui.DoExitRestaurant();
 	}
@@ -336,6 +334,22 @@ public class CustomerAgent extends Agent implements Customer{
 
 	public CustomerGui getGui() {
 		return customerGui;
+	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgGetPaid() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setAnimPanel(AnimationPanel animationPanel) {
+		copyofAnimPanel = animationPanel;
+	}
+	public void setRestaurant(RestaurantD rest) {
+		this.rest = rest;
 	}
 }
 

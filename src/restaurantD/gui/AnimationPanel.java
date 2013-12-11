@@ -2,6 +2,8 @@ package restaurantD.gui;
 
 import javax.swing.*;
 
+import restaurantD.RestaurantD;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +20,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private static int TABLEDIVIDER = 100;
     private Image bufferImage;
     private Dimension bufferSize;
-
+    public RestaurantD rest;
     private List<Gui> guis = new ArrayList<Gui>();
     
     public AnimationPanel() {
@@ -74,4 +76,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void addGui(CookGui gui){
     	guis.add(gui);
     }
+
+	public void setRest(RestaurantD rest) {
+		this.rest = rest;
+	}
 }
