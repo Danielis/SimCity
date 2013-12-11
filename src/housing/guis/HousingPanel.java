@@ -172,7 +172,6 @@ public class HousingPanel extends JPanel {
 		l.setGui(g);
     	//p.setAnimationPanel(gui.cityAnimationPanel);
 		landlord = l;
-		landlord.startThread();
     }
     
     public void pause()

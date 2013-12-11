@@ -59,10 +59,9 @@ public class LandlordGui implements Gui, restaurant.gui.Gui{
 	            avatar = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
 	        } catch (IOException e ) {}
 			
-			position = new Coordinate(475,475);			
-			outside = new Coordinate(475,750);
-			destination = new Coordinate(475, 750);
-	    	workarea = new Coordinate(12,80);
+			position = new Coordinate(335,-10);			
+			destination = new Coordinate(335, 10);
+	    	goingSomewhere = true;
 
 		}
 		//UTILITIES ***********************************************

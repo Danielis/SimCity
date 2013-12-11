@@ -24,7 +24,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	private Image wood_floor;
 	private Image kitchen; 
 	private Image bed;
-	private Image landlord_office;
+	private Image landlord_desk;
 	
 	private List<Gui> guis = new ArrayList<Gui>();
 
@@ -49,7 +49,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		
 		try
         {
-            landlord_office = ImageIO.read(getClass().getResource("/resources/landlord.png"));
+            landlord_desk = ImageIO.read(getClass().getResource("/resources/desk.png"));
         } catch (IOException e ) {}
 		
 		Timer timer = new Timer(20, this );
@@ -71,7 +71,7 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.setStroke(new BasicStroke(3));
 		background.drawImage(wood_floor, 0, 0, this);
 		background.drawImage(kitchen, 0, 0, 288, 241, this);
-		background.drawImage(landlord_office, 300, 0, this);
+		background.drawImage(landlord_desk, 320, 30, this);
 		//first row of beds
 		background.drawImage(bed, 525, 100, this);
 		background.drawImage(bed, 550, 100, this);
