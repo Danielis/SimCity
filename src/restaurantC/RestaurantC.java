@@ -40,7 +40,7 @@ public class RestaurantC extends RestBase{
     	type = buildingType.restaurant;
         rg.setTitle(name);
         rg.setVisible(true);
-        rg.setState(Frame.NORMAL);
+        rg.setState(Frame.ICONIFIED);
         rg.setResizable(false);
         rg.setAlwaysOnTop(true);
         rg.setAlwaysOnTop(false);
