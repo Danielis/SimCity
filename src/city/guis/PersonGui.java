@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
-
 import java.util.TimerTask;
 import java.util.Random;
 
@@ -196,25 +195,25 @@ public class PersonGui implements Gui{
 		
 		agent = c;
 		this.gui = gui2;
-
-		checkpointA = new Coordinate(257,472);//restaurant
-		checkpointB = new Coordinate(385,472);//bottom street corner  
-		checkpointC = new Coordinate(385,362);//middle lower street corner
-		checkpointD = new Coordinate(385,275);//middle higher street corner
-		checkpointE = new Coordinate(280,275);//in front of market
-		checkpointF = new Coordinate(280,265);//Market
-		checkpointG = new Coordinate(385,106);//Top street corner
-		checkpointH = new Coordinate(319,106);//in front of Apartments
-		checkpointI = new Coordinate(319,90);//Apartments
-		checkpointJ = new Coordinate(73,106);//in front of bank
-		checkpointK = new Coordinate(73,74);//Bank
-
-		checkpointL = new Coordinate(485,474);
-		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
-//		checkpointA = new Coordinate(395,250);
-//		checkpointB = new Coordinate(395,125);
-//		checkpointC = new Coordinate(320,125);
-//		checkpointD = new Coordinate(320,100);
+//
+//		checkpointA = new Coordinate(257,472);//restaurant
+//		checkpointB = new Coordinate(385,472);//bottom street corner  
+//		checkpointC = new Coordinate(385,362);//middle lower street corner
+//		checkpointD = new Coordinate(385,275);//middle higher street corner
+//		checkpointE = new Coordinate(280,275);//in front of market
+//		checkpointF = new Coordinate(280,265);//Market
+//		checkpointG = new Coordinate(385,106);//Top street corner
+//		checkpointH = new Coordinate(319,106);//in front of Apartments
+//		checkpointI = new Coordinate(319,90);//Apartments
+//		checkpointJ = new Coordinate(73,106);//in front of bank
+//		checkpointK = new Coordinate(73,74);//Bank
+//
+//		checkpointL = new Coordinate(485,474);
+//		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
+////		checkpointA = new Coordinate(395,250);
+////		checkpointB = new Coordinate(395,125);
+////		checkpointC = new Coordinate(320,125);
+////		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
 		
 		//checkpointA = new Coordinate(395,250);
@@ -737,6 +736,81 @@ public class PersonGui implements Gui{
 //                position.y -= (1 + deltay/deltadivider);
 //                movementTicker++;
 //            }
+    		//Implementing a pause at lights
+    		if(agent.hasCar() && position.x > 375 && position.x < 380 && deltax>0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.x > 450 && position.x < 455 && deltax<0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 255 && position.y < 260 && deltay<0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 470 && position.y < 475 && deltay>0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 367 && position.y < 372 && deltay <0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		if(agent.hasCar() && position.y > 170 && position.y < 175 && deltay<0){
+    			System.out.println("Should have stopped at corner");
+    			goingSomewhere = false;
+    			timer.schedule( new TimerTask()
+    			{
+    				public void run()
+    				{	
+    					goingSomewhere = true;
+//    					releaseGuiAnimation();
+    				}
+    			}, 2000);
+    		}
+    		
+    		
             if (position.x == destination.x && position.y == destination.y)
             {
     			

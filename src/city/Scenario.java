@@ -157,6 +157,7 @@ public class Scenario {
 		c.addPerson("Person1", "No AI", "Wealthy");
 		PersonAgent p1= c.people.lastElement();
 		p1.setPosition(100, 165);
+		p1.addItem("Car",1);
 		
 		
 		c.addPerson("Person4", "No AI", "Wealthy");
@@ -166,21 +167,30 @@ public class Scenario {
 		
 		c.addPerson("Person2", "No AI", "Wealthy");
 		PersonAgent p2= c.people.lastElement();
-		p2.setPosition(400,105);
+		p2.setPosition(100,530);
 		p2.addItem("Car",1);
 		
-		c.addPerson("Person2", "No AI", "Wealthy");
+		c.addPerson("Person3", "No AI", "Wealthy");
 		PersonAgent p3= c.people.lastElement();
 		p3.setPosition(100,90);
 
+		c.addPerson("Person5", "No AI", "Wealthy");
+		PersonAgent p5= c.people.lastElement();
+		p5.setPosition(300,100);
+		p5.addItem("Car",1);
+		
+		c.addPerson("Person6", "No AI", "Wealthy");
+		PersonAgent p6= c.people.lastElement();
+		p6.setPosition(100,450);
+		
 
 		p1.msgGoToMarket("Car", 1);
 		p4.msgGoToMarket("Car", 1);
 //		
-		p2.msgGoToBank("Deposit",100);
+		p2.msgGoToHome("Sleep");
 		p3.msgGoToMarket("Car", 1);
 //			
-//		p2.getGui().DoGoToLocation(100,100);
+		p6.msgGoToMarket("Car",1);
 	}
 
 	public void fillWork(CityPanel c){
