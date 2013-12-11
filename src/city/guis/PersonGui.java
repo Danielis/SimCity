@@ -738,7 +738,7 @@ public class PersonGui implements Gui{
 //            }
     		//Implementing a pause at lights
     		if(agent.hasCar() && position.x > 375 && position.x < 380 && deltax>0){
-    			System.out.println("Should have stopped at corner");
+//    			System.out.println("Should have stopped at corner");
     			goingSomewhere = false;
     			timer.schedule( new TimerTask()
     			{
@@ -750,7 +750,7 @@ public class PersonGui implements Gui{
     			}, 2000);
     		}
     		if(agent.hasCar() && position.x > 450 && position.x < 455 && deltax<0){
-    			System.out.println("Should have stopped at corner");
+//    			System.out.println("Should have stopped at corner");
     			goingSomewhere = false;
     			timer.schedule( new TimerTask()
     			{
@@ -762,7 +762,7 @@ public class PersonGui implements Gui{
     			}, 2000);
     		}
     		if(agent.hasCar() && position.y > 255 && position.y < 260 && deltay<0){
-    			System.out.println("Should have stopped at corner");
+//    			System.out.println("Should have stopped at corner");
     			goingSomewhere = false;
     			timer.schedule( new TimerTask()
     			{
@@ -774,7 +774,7 @@ public class PersonGui implements Gui{
     			}, 2000);
     		}
     		if(agent.hasCar() && position.y > 470 && position.y < 475 && deltay>0){
-    			System.out.println("Should have stopped at corner");
+//    			System.out.println("Should have stopped at corner");
     			goingSomewhere = false;
     			timer.schedule( new TimerTask()
     			{
@@ -786,7 +786,7 @@ public class PersonGui implements Gui{
     			}, 2000);
     		}
     		if(agent.hasCar() && position.y > 367 && position.y < 372 && deltay <0){
-    			System.out.println("Should have stopped at corner");
+//    			System.out.println("Should have stopped at corner");
     			goingSomewhere = false;
     			timer.schedule( new TimerTask()
     			{
@@ -798,7 +798,7 @@ public class PersonGui implements Gui{
     			}, 2000);
     		}
     		if(agent.hasCar() && position.y > 170 && position.y < 175 && deltay<0){
-    			System.out.println("Should have stopped at corner");
+//    			System.out.println("Should have stopped at corner");
     			goingSomewhere = false;
     			timer.schedule( new TimerTask()
     			{
@@ -816,13 +816,13 @@ public class PersonGui implements Gui{
     			
     			if(moveCarCalled){
     				moveCarCalled = false;
-    				System.out.println("Entered the destination equals position scheduler");
+//    				System.out.println("Entered the destination equals position scheduler");
     				setImage();
     				agent.DoneWithAnimation();
 //    				doMoveCar();
     			}
     			else{
-    				System.out.println("BLAH BLAH NOT FROM CAR");
+//    				System.out.println("BLAH BLAH NOT FROM CAR");
     				setImage();
     				goingSomewhere = false;
     				agent.DoneWithAnimation();
@@ -1210,7 +1210,7 @@ public class PersonGui implements Gui{
 //			return destination;
 //		}
 //		else{
-			System.out.println("doMoveAsCar(char) reached");
+//			System.out.println("doMoveAsCar(char) reached");
 			doGoToNextCheckPoint(destination);
 			return destination;
 //		}
@@ -1335,7 +1335,7 @@ public class PersonGui implements Gui{
 
 	public void doGoToNextCheckPoint( Coordinate a){
 		//Car will only deal with M and higher
-		System.out.println("doGoToNextCheckPoint reached");
+//		System.out.println("doGoToNextCheckPoint reached");
 		moveCarCalled = true;
 		if(a == checkpointM)
 		{
@@ -1393,14 +1393,14 @@ public class PersonGui implements Gui{
 		}
 		else if(a == checkpointV)
 		{
-			System.out.println("V was registered");
+//			System.out.println("V was registered");
 			goingSomewhere = true;
 			destination = checkpointU;
 			agent.WaitForAnimation();
 		}
 		else if(a == checkpointW)
 		{
-			System.out.println("W was registered");
+//			System.out.println("W was registered");
 			goingSomewhere = true;
 			destination = checkpointV;
 			agent.WaitForAnimation();
