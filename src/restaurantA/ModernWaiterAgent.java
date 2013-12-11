@@ -4,10 +4,11 @@ import restaurantA.ProducerConsumerMonitor.Ticket;
 import restaurantA.MyCustomer;
 import restaurantA.WaiterAgent.*;
 import restaurantA.interfaces.*;
+import restaurantA.test.mock.MockCook;
 
 public class ModernWaiterAgent extends WaiterAgent implements Waiter{
 	
-	ProducerConsumerMonitor theMonitor;
+	private ProducerConsumerMonitor theMonitor;
 
 	public ModernWaiterAgent(String name, HostAgent host, CookAgent cook, CashierAgent cashier) {
 		super(name, host, cook, cashier);
@@ -24,7 +25,7 @@ public class ModernWaiterAgent extends WaiterAgent implements Waiter{
 		super(name);
 		this.rest = r;
 		this.name = name;
-		theMonitor = r.theMonitor;
+		setTheMonitor(r.theMonitor);
 		balance = bal;
 		print("I'm a modern waiter from Restaurant A! I love the ticket system.");
 	}
@@ -133,9 +134,9 @@ public class ModernWaiterAgent extends WaiterAgent implements Waiter{
 	
 	public Ticket produce_item(Waiter w, Cook ck, String choice, Table newTable, Customer cu){
 		Ticket data;
-		data = theMonitor.new Ticket(this, ck, choice, newTable, cu);
+		data = getTheMonitor().new Ticket(this, ck, choice, newTable, cu);
 		print("Creating new ticket for table " + data.table + " with order of " + data.choice);
-		cook.msgHereIsMonitor(theMonitor);
+		cook.msgHereIsMonitor(getTheMonitor());
 		return data;
 	}
 	
@@ -144,6 +145,18 @@ public class ModernWaiterAgent extends WaiterAgent implements Waiter{
 		c.s = customerState.WAITING;
 		print("Placing " + c.c.getCustomerName() + "'s order of " + c.choice + " as a ticket.");
 		Ticket data = produce_item(this, this.cook, c.choice, c.table, c.c);
-		theMonitor.insert(data);
+		getTheMonitor().insert(data);
+	}
+
+	public void setCook(Cook cook) {
+		this.cook = (CookAgent) cook;
+	}
+
+	public ProducerConsumerMonitor getTheMonitor() {
+		return theMonitor;
+	}
+
+	public void setTheMonitor(ProducerConsumerMonitor theMonitor) {
+		this.theMonitor = theMonitor;
 	}
 }

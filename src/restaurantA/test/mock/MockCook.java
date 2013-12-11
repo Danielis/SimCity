@@ -33,5 +33,10 @@ public class MockCook extends Mock implements Cook {
 		
 	}
 
+	public boolean pickAndExecuteAnAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
