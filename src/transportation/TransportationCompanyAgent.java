@@ -163,7 +163,9 @@ public class TransportationCompanyAgent extends Agent implements TransportationC
 				}
 				else{
 					print("Car hit a Person");
-					g.collision();
+					if(people.get(i).isPresent()){
+						g.collision();
+					}
 					//					people.get(i).setPosition(ox+100,oy);
 				}
 			}
