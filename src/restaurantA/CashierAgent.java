@@ -19,6 +19,7 @@ public class CashierAgent extends Role implements Cashier {
 	private double savings;
 	private Boolean leave = false;
 	private double balance = 0;
+	double salary;
 	public CashierAgent(String name){
 		super();
 		this.name = name;
@@ -106,19 +107,28 @@ public class CashierAgent extends Role implements Cashier {
 			}
 		}
 		}
-		if (leave && rest.workingCook == null){
-		boolean temp = true;
-		for (Check c : checks){
-			if (c.getS() != checkState.Paid)
-				temp = false;
-		}
-		if (temp)
-			LeaveWork();
+		if (leave){
+			if (canLeave())
+				LeaveWork();
+			else
+				return true;
 		}
 
 		return false;
 	}
 	
+	private boolean canLeave() {
+		if (rest.workingCook == null && rest.currentCustomers.isEmpty()){
+			boolean temp = true;
+			for (Check c : checks){
+				if (c.getS() != checkState.Paid)
+					temp = false;
+			}
+			return temp;
+		}
+		else
+			return false;
+	}
 	private void LeaveWork() {
 		print("Leaving work");
 		rest.noCashier();
@@ -137,6 +147,11 @@ public class CashierAgent extends Role implements Cashier {
 		print("Please pick-up the check for " + c.c.getCustomerName());
 		c.setS(checkState.notPaid);
 		c.w.msgPickUpCheck(c);
+	}
+	
+	public void setSalary(double s)
+	{
+		salary = s;
 	}
 	
 	private void TellOffCustomer(Check c){
@@ -195,7 +210,7 @@ public class CashierAgent extends Role implements Cashier {
 	}
 	@Override
 	public void msgGetPaid() {
-		// TODO Auto-generated method stub
+		balance += this.rest.takePaymentForWork(salary);
 		
 	}
 	public void setRestaurant(RestaurantA rest) {

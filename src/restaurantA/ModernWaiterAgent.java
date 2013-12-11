@@ -20,6 +20,15 @@ public class ModernWaiterAgent extends WaiterAgent implements Waiter{
 		this.cashier = cashier;
 	}
 	
+	public ModernWaiterAgent(String name, RestaurantA r, double bal) {
+		super(name);
+		this.rest = r;
+		this.name = name;
+		theMonitor = r.theMonitor;
+		balance = bal;
+		print("I'm a modern waiter from Restaurant A! I love the ticket system.");
+	}
+	
 	public void msgTicketIsReady(Cook cook, String choice, Table table, Customer c)
 	{
 		for (MyCustomer customer: myCustomers) {

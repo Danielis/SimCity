@@ -44,7 +44,7 @@ public class CashierGui implements Gui{
 	{
 		try
         {
-        	imgHost = ImageIO.read(getClass().getResource("/resources/cashier.png"));
+        	imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier/down0.png"));
         } catch (IOException e ) {}
         
 		agent = cashier;
@@ -80,21 +80,21 @@ public class CashierGui implements Gui{
     private void setAnim1() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/cashier_1.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier/down1.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setAnim2() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/cashier_2.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier/down2.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setDefault() {
 		 try
 	       {
-			 imgHost = ImageIO.read(getClass().getResource("/resources/cashier.png"));
+			 imgHost = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier/down0.png"));
 	       } catch (IOException e ) {}
 	}
     

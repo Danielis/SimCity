@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -121,22 +122,24 @@ public class CityAnimationPanel extends JPanel implements ActionListener
 			Graphics2D c3 = (Graphics2D)g;
 			
 
+			try{
 
-			synchronized(guis){
-            for(Gui gui : guis) {
-                    if (gui.isPresent()) {
-                    	gui.updatePosition();
-                    }
-            }
-			}
-			
-			synchronized(guis){
-            for(Gui gui : guis) {
-                    if (gui.isPresent()) {
-                    	gui.draw(images);
-                    }
-            }
-			}
+				synchronized(guis){
+		            for(Gui gui : guis) {
+		                    if (gui.isPresent()) {
+		                    	gui.updatePosition();
+		                    }
+		            }
+				}
+				
+				synchronized(guis){
+		            for(Gui gui : guis) {
+		                    if (gui.isPresent()) {
+		                    	gui.draw(images);
+		                    }
+		            }
+				}
+			} catch (ConcurrentModificationException e){}
 			
 			c1.drawImage(cloud1, c_position1.x, c_position1.y, this);
 			c2.drawImage(cloud2, c_position2.x, c_position2.y, this);

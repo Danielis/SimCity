@@ -1,6 +1,6 @@
 package housing.interfaces;
 
-import housing.LandlordAgent;
+import housing.LandlordRole;
 import housing.guis.HousingAnimationPanel;
 import housing.guis.HousingCustomerGui;
 
@@ -10,6 +10,7 @@ public interface HousingCustomer {
 
 	boolean hungry = false;
 	boolean houseNeedsRepairs = false;
+	String job = null;
 
 	public abstract void HereIsChange(double d);
 
@@ -25,7 +26,7 @@ public interface HousingCustomer {
 
 	public abstract void setGui(HousingCustomerGui g);
 
-	public abstract void setLandlord(LandlordAgent landlord);
+	public abstract void setLandlord(LandlordRole landlord);
 
 	public abstract void EatAtHome();
 

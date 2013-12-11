@@ -1,11 +1,5 @@
 package housing.guis;
 
-import restaurant.CustomerAgent;
-import restaurant.HostAgent;
-import restaurant.WaiterAgent;
-import restaurant.CookAgent;
-import housing.HousingCustomerAgent;
-import housing.HousingWorkerAgent;
 import housing.interfaces.HousingCustomer;
 
 import javax.swing.*;
@@ -16,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
-
+import housing.*;
 /**
  * Subpanel of restaurantPanel.
  * This holds the scroll panes for the customers and, later, for waiters
@@ -36,8 +30,8 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	private JButton addPersonButton = new JButton("Add");
 	private JTextField nameFieldForPerson = new JTextField("");
 	private HousingCustomer currentTenant;
-	private HousingCustomerAgent lastPersonClicked;
-	private HousingWorkerAgent currentWorker;
+	private HousingCustomerRole lastPersonClicked;
+	private HousingWorkerRole currentWorker;
 
 	//GENERAL STUFF
 	private HousingPanel housingPanel;
@@ -128,7 +122,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 		}
 	}*/
 	
-	public void addTenant(HousingCustomer c, String homePurpose) {
+	public void addTenant(HousingCustomerRole c, String homePurpose) {
 			JButton button = new JButton(c.getName());
 			button.setBackground(Color.white);
 			Dimension paneSize = personPane.getSize();
@@ -158,7 +152,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 			button.addActionListener(this);
 			listForWorkers.add(button);
 			viewForWorker.add(button);
-			housingPanel.addWorker(name);
+			//housingPanel.addWorker(new HousingWorkerRole());
 			housingPanel.showWorkerInfo(name);
 			validate();
 		}
@@ -178,7 +172,7 @@ public class HousingListPanel extends JPanel implements ActionListener {
 	{
 		currentTenant = temp;
 	}
-	public void updateWorker(HousingWorkerAgent temp)
+	public void updateWorker(HousingWorkerRole temp)
 	{
 		currentWorker = temp;
 

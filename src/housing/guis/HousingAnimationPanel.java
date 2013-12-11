@@ -24,7 +24,8 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	private Image wood_floor;
 	private Image kitchen; 
 	private Image bed;
-	private Image landlord_office;
+	private Image landlord_desk;
+	private Image chair;
 	
 	private List<Gui> guis = new ArrayList<Gui>();
 
@@ -49,7 +50,12 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		
 		try
         {
-            landlord_office = ImageIO.read(getClass().getResource("/resources/landlord.png"));
+            landlord_desk = ImageIO.read(getClass().getResource("/resources/desk.png"));
+        } catch (IOException e ) {}
+		
+		try
+        {
+            chair = ImageIO.read(getClass().getResource("/resources/houseChair.png"));
         } catch (IOException e ) {}
 		
 		Timer timer = new Timer(20, this );
@@ -71,7 +77,8 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.setStroke(new BasicStroke(3));
 		background.drawImage(wood_floor, 0, 0, this);
 		background.drawImage(kitchen, 0, 0, 288, 241, this);
-		background.drawImage(landlord_office, 300, 0, this);
+		background.drawImage(chair, 337, 10, this);
+		background.drawImage(landlord_desk, 320, 30, this);
 		//first row of beds
 		background.drawImage(bed, 525, 100, this);
 		background.drawImage(bed, 550, 100, this);
@@ -110,6 +117,10 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 		background.drawImage(bed, 575, 610, this);
 		background.drawImage(bed, 600, 610, this);
 		background.drawImage(bed, 625, 610, this);
+		//worker chairs
+		for(int i = 0; i < 6; i++) {
+			background.drawImage(chair, 10, 300 + 25 * i, this);
+		}
 		
 		//BACKGROUND INITIATION
 		for(Gui gui : guis) {
@@ -130,6 +141,8 @@ public class HousingAnimationPanel extends JPanel implements ActionListener {
 	}
 	public void addGui(HousingWorkerGui gui) {
 		guis.add(gui);
-		System.out.println("Gui size: " + guis.size());
+	}
+	public void addGui(LandlordGui gui) {
+		guis.add(gui);
 	}
 }

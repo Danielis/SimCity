@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class CustomerGui implements Gui{
 
-	private Customer agent = null;
+	private CustomerAgent agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean isEating = false;
@@ -27,9 +27,9 @@ public class CustomerGui implements Gui{
 	private enum Command {noCommand, GoToSeat, LeaveRestaurant, GoToCashier};
 	private Command command=Command.noCommand;
 	Image img, food;
-
-
-	public CustomerGui(Customer c, RestaurantGui gui){ //HostAgent m) {
+	String direct = "up";
+	int move = 0;
+	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
@@ -50,17 +50,35 @@ public class CustomerGui implements Gui{
 	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
+		if (xPos < xDestination){
+			direct = "right";
+            setImage(false);
 			xPos++;
-		else if (xPos > xDestination)
+			move ++;
+		}
+		else if (xPos > xDestination){
+			direct = "left";
+		    setImage(false);
 			xPos--;
+			move ++;
+		}
 
-		if (yPos < yDestination)
+		else if (yPos < yDestination){
+			direct = "down";
+            setImage(false);
 			yPos++;
-		else if (yPos > yDestination)
+			move ++;
+		}
+		else if (yPos > yDestination){
+			direct = "up";
+            setImage(false);
 			yPos--;
+			move ++;
+		}
 
 		if (xPos == xDestination && yPos == yDestination) {
+
+            setImage(true);
 			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
@@ -75,7 +93,29 @@ public class CustomerGui implements Gui{
 			command=Command.noCommand;
 		}
 	}
-
+	private void setImage(Boolean noMove){
+		String start = "/resources/globalSprites/";
+		String mid = direct;
+		String num = "0";
+		String end = ".png";
+		if (move >= 50 || noMove){
+			num = "0";
+			move = 0;
+		}
+        else if (move < 25)
+        	num = "2";
+        else if (move < 50)
+        	num = "1";
+    
+       // resource/globalSprites/None/left0.png
+		String collapse = start + agent.job + "/" + mid + num + end;
+		//System.out.println(collapse);
+		 try
+	        {
+	        	img = ImageIO.read(getClass().getResource(collapse));
+	        } catch (IOException e ) {}
+    }
+	
 	public void draw(Graphics2D g) {
 		g.drawImage(img, xPos, yPos, agent.copyOfAnimPanel);
 

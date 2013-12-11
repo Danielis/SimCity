@@ -31,7 +31,7 @@ public class MarketCustomerGui implements Gui{
 	private final int table_divider = 127;
 
 	//self agent
-	private MarketCustomer agent = null;
+	private MarketCustomerRole agent = null;
 	
 	
 
@@ -66,7 +66,7 @@ public class MarketCustomerGui implements Gui{
     public List<Coordinate> tables = new ArrayList<Coordinate>();
  
     
-	public MarketCustomerGui(MarketCustomer c, MarketGui gui){
+	public MarketCustomerGui(MarketCustomerRole c, MarketGui gui){
 		for (int i = 0; i < 5; i++)
 		{
 			tables.add(new Coordinate(starting_X + table_divider*i, tables_y));
@@ -136,21 +136,22 @@ public class MarketCustomerGui implements Gui{
 	}
 	
 	private void setImage(Boolean noMove){
-		String start = "/resources/bankSprites/";
+		String start = "/resources/globalSprites/";
 		String mid = direct;
 		String num = "0";
 		String end = ".png";
-		if (move >= 40 || noMove){
-			move = 0;
+		if (move >= 50 || !goingSomewhere){
 			num = "0";
+			move = 0;
 		}
-        else if (move < 20)
+        else if (move < 25)
         	num = "2";
-        else if (move < 40)
+        else if (move < 50)
         	num = "1";
     
-       
-		String collapse = start + mid + num + end;
+       // resource/globalSprites/None/left0.png
+		String collapse = start + agent.job + "/" + mid + num + end;
+		//System.out.println(collapse);
 		 try
 	        {
 	        	imgTrainer = ImageIO.read(getClass().getResource(collapse));

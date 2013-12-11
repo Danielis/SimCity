@@ -67,7 +67,7 @@ public class TellerGui implements Gui {
     	
         try
         {
-        	imgTrainer = ImageIO.read(getClass().getResource("/resources/bankSprites/teller.png"));
+        	imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/teller/down0.png"));
         } catch (IOException e ) {}
     	
   

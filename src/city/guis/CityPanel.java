@@ -14,6 +14,7 @@ import city.PersonAgent.Item;
 
 import java.awt.*;
 import java.util.Date;
+import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
@@ -86,14 +87,13 @@ public class CityPanel extends JPanel {
 		p.setGui(g);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
-		//p.setBuildings(buildings);
+		p.setBuildings(buildings);
 		if(Math.random() > .49)
 			p.setBus(true);
 		if(p.getName().equals("Bus"))
 			p.setBus(true);
 		people.add(p);
 		p.startThread();
-	
     }
     
     public void addPerson(PersonAgent p) 
@@ -101,6 +101,26 @@ public class CityPanel extends JPanel {
     	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
 		p.setBuildings(buildings);
     	PersonGui g = new PersonGui(p, gui);
+		p.setTrackerGui(gui.trackingWindow);
+		gui.cityAnimationPanel.addGui(g);
+		p.setAI(noAI);
+		p.setGui(g);
+		p.setAnimationPanel(gui.cityAnimationPanel);
+		p.setMetro(metro);
+		//p.setBuildings(buildings);
+		if(Math.random() > .49)
+			p.setBus(true);
+		if(p.getName().equals("Bus"))
+			p.setBus(true);
+		people.add(p);
+		p.startThread();
+    }
+    
+    public void addPerson(PersonAgent p, boolean b) 
+    {
+    	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
+		p.setBuildings(buildings);
+    	PersonGui g = new PersonGui(p, gui, b);
 		p.setTrackerGui(gui.trackingWindow);
 		gui.cityAnimationPanel.addGui(g);
 		p.setAI(noAI);
@@ -126,7 +146,14 @@ public class CityPanel extends JPanel {
 		gui.cityAnimationPanel.addGui(g);
 		p.setAI(noAI);
 		p.setGui(g);
-		//g.setPosition(p., Y);
+		
+		
+		int offsetX = (int)(Math.random() * 300);
+		offsetX -= 150;
+		int offsetY = (int)(Math.random() * 20);
+		
+		
+		g.setPosition(p.job.workBuilding.entrance.x + offsetX, p.job.workBuilding.entrance.y + offsetY);
 		p.setAnimationPanel(gui.cityAnimationPanel);
 		p.setMetro(metro);
 		//p.setBuildings(buildings);
@@ -140,6 +167,33 @@ public class CityPanel extends JPanel {
 	
     }
     
+    public void addStudent(String name, String job, String wealth) 
+    {
+    	//gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Person Created", new Date()));
+    	PersonAgent p = new PersonAgent(name, job, wealth, buildings);
+		PersonGui g = new PersonGui(p, gui);
+		p.setTrackerGui(gui.trackingWindow);
+		gui.cityAnimationPanel.addGui(g);
+		p.setAI(noAI);
+		p.setGui(g);
+		
+		System.out.println("************************");
+		System.out.println(" " + gui);
+		
+		Random rand = new Random();
+		
+		g.setPosition(100,100);
+		p.setAnimationPanel(gui.cityAnimationPanel);
+		p.setMetro(metro);
+		if(Math.random() > .49)
+			p.setBus(true);
+		if(p.getName().equals("Bus"))
+			p.setBus(true);
+		people.add(p);
+		p.startThread();
+		p.setBus(false);
+	
+    }
     public void createBusSystem() //Trans: Once AI and adding implementations are done, we can make this just an addBus or addStop function
     {
     	gui.trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.GENERAL_CITY, "CityPanel", "Bus System Created", new Date()));

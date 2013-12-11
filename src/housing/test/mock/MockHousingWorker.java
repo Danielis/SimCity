@@ -1,10 +1,10 @@
 package housing.test.mock;
 
-
-import housing.LandlordAgent;
-import housing.LandlordAgent.HousingComplex;
+import housing.LandlordRole;
+import housing.LandlordRole.HousingComplex;
 import housing.guis.HousingWorkerGui;
 import housing.interfaces.HousingWorker;
+import housing.interfaces.Landlord;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class MockHousingWorker extends Mock implements HousingWorker {
 	}
 
 	@Override
-	public void setLandlord(LandlordAgent landlord) {
+	public void setLandlord(LandlordRole landlord) {
 		// TODO Auto-generated method stub
 		
 	}

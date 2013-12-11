@@ -236,7 +236,7 @@ public class CookAgent extends Agent implements Cook{
 	}
 	
 	//enum State
-	enum state
+	public enum state
 	{
 		needsProcessing, pending, cooking, done, complete
 	};

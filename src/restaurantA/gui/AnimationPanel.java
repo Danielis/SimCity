@@ -65,11 +65,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
          } catch (IOException e ) {}
     	 try
          {
-    		 hostimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/host.png"));
+    		 hostimg = ImageIO.read(getClass().getResource("/resources/globalSprites/restHost/down0.png"));
          } catch (IOException e ) {}
     	 try
          {
-    		 cashierimg = ImageIO.read(getClass().getResource("/resources/restSprites/A/cashier.png"));
+    		 cashierimg = ImageIO.read(getClass().getResource("/resources/globalSprites/cashier/down0.png"));
          } catch (IOException e ) {}
     }
 
@@ -107,11 +107,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		//g2.fillRect(30, 0, 20, 20);
         g2.drawImage(cashMachine, 60, 0, this);
        
-        if (rest.workingHost != null){
+        if (rest != null && rest.workingHost != null){
         g2.drawImage(hostimg, 20, 7, this);
          }
         
-        if (rest.workingCashier != null){
+        if (rest != null && rest.workingCashier != null){
         g2.drawImage(cashierimg, 80, 7, this);
          }
         

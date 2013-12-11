@@ -17,7 +17,7 @@ public interface Customer
 	public RestaurantAnimationPanel copyOfAnimPanel = null;
 	public iconState icon = null;
 	public int mySeat = 0;
-
+	
 	public abstract String getName();
 	
 	public abstract void msgGotHungry();

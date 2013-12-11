@@ -62,6 +62,7 @@ public class CookAgent extends Role implements Cook {
 	public RestaurantA rest = null;
 	private Boolean leave = false;
 	private double balance = 0;
+	double salary;
 	
 	ProducerConsumerMonitor theMonitor;
 	
@@ -228,22 +229,19 @@ public class CookAgent extends Role implements Cook {
 			}
 		}
 
-		if (leave && rest.workingWaiters.isEmpty())
-		{
-			boolean temp = true;
-			for (Order o : orders)
-			{
-				if (o.s != orderState.finished)
-					temp = false;
-			}
-			if (temp)
-				LeaveWork();
-		}
-		
 		if (theMonitor != null && theMonitor.getCount() > 0){
 			 TakeTicket();
 			 return true;
 		}
+		
+		if (leave){
+			if (canLeave())
+				LeaveWork();
+			else
+				return true;
+		}
+		
+		
 		
 		return false;
 		//we have tried all our rules and found
@@ -252,6 +250,21 @@ public class CookAgent extends Role implements Cook {
 	}
 
 	// Actions
+
+	private boolean canLeave() {
+		if (rest.workingWaiters.isEmpty()  && rest.currentCustomers.isEmpty())
+		{
+			boolean temp = true;
+			for (Order o : orders)
+			{
+				if (o.s != orderState.finished)
+					temp = false;
+			}
+			return temp;
+		}
+		else
+			return false;
+	}
 
 	private void LeaveWork() {
 		rest.NoCook();
@@ -395,12 +408,17 @@ public class CookAgent extends Role implements Cook {
 	}
 	@Override
 	public void msgGetPaid() {
-		// TODO Auto-generated method stub
+		balance += this.rest.takePaymentForWork(salary);
 
 	}
 	public void setRestaurant(RestaurantA rest2) {
 		rest = rest2;
 		menu = rest.menu;
+	}
+
+	public void setSalary(double i) {
+		salary = i;
+		
 	}
 }
 

@@ -52,7 +52,7 @@ public class CookGui implements Gui{
 	{
 		try
         {
-        	imgCook = ImageIO.read(getClass().getResource("/resources/cook.png"));
+        	imgCook = ImageIO.read(getClass().getResource("/resources/globalSprites/cook/down0.png"));
         } catch (IOException e ) {}
 		
         try
@@ -109,21 +109,21 @@ public class CookGui implements Gui{
     private void setAnim1() {
 		 try
 	       {
-			 imgCook = ImageIO.read(getClass().getResource("/resources/cook_1.png"));
+			 imgCook = ImageIO.read(getClass().getResource("/resources/globalSprites/cook/down1.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setAnim2() {
 		 try
 	       {
-			 imgCook = ImageIO.read(getClass().getResource("/resources/cook_2.png"));
+			 imgCook = ImageIO.read(getClass().getResource("/resources/globalSprites/cook/down2.png"));
 	       } catch (IOException e ) {}
 	}
 	
 	private void setDefault() {
 		 try
 	       {
-			 imgCook = ImageIO.read(getClass().getResource("/resources/cook.png"));
+			 imgCook = ImageIO.read(getClass().getResource("/resources/globalSprites/cook/down0.png"));
 	       } catch (IOException e ) {}
 	}
     

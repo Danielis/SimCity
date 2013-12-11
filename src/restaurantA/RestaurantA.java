@@ -36,6 +36,7 @@ public class RestaurantA extends RestBase{
 	public CashierAgent workingCashier = null;
 	public CookAgent workingCook = null;
 	public List<WaiterAgent> workingWaiters = new ArrayList<WaiterAgent>();
+	public List<CustomerAgent> currentCustomers = new ArrayList<CustomerAgent>();
 	
 	
 	public RestaurantA(restaurantA.gui.RestaurantGui rg, String name)
@@ -62,6 +63,12 @@ public class RestaurantA extends RestBase{
 		menu.add( new MyMenuItem("Pizza", 5, Inv, Thr, Cap, 9) );
 		menu.add( new MyMenuItem("Salad", 5, Inv, Thr, Cap, 6) );
     }
+	
+	public double takePaymentForWork(double amount)
+	{
+		this.PaymentFund -= amount;
+		return amount;
+	}
 
 	public boolean hostIsHere() {
 		return hasHost;
@@ -153,12 +160,23 @@ public class RestaurantA extends RestBase{
 
 	public void removeMe(WaiterAgent waiterAgent) {
 		workingWaiters.remove(waiterAgent);
+		workingCook.stateChanged();
 	}
 
 	public void NoCook() {
 		workingCook = null;
+		workingCashier.stateChanged();
 	}
 
+	public void addCust(CustomerAgent c) {
+		currentCustomers.remove(c);
+	}
+	
+	public void removeCust(CustomerAgent c) {
+		currentCustomers.remove(c);
+		workingCook.stateChanged();
+		workingCashier.stateChanged();
+	}
 	
 
 }

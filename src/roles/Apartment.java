@@ -3,35 +3,29 @@ package roles;
 import java.util.ArrayList;
 import java.util.List;
 
-import housing.HousingCustomerAgent;
-import housing.HousingWorkerAgent;
-import housing.LandlordAgent;
+import housing.HousingCustomerRole;
+import housing.HousingWorkerRole;
+import housing.LandlordRole;
 import housing.guis.HousingGui;
 import housing.guis.HousingPanel;
 
 import javax.swing.JFrame;
 
-import agent.RestaurantMenu;
-import restaurant.HostAgent;
-import restaurant.CookAgent;
-import restaurant.CashierAgent;
-import restaurant.ProducerConsumerMonitor;
-import restaurant.gui.RestaurantGui;
-import restaurant.gui.RestaurantPanel;
 import roles.Building.buildingType;
 
 public class Apartment extends Building{
 	public HousingGui gui;
 	public HousingPanel panel;
 	public String name; //Name of the restaurant
-    public LandlordAgent landlord;
-    public List<HousingWorkerAgent> workers = new ArrayList<HousingWorkerAgent>();
-    public List<HousingCustomerAgent> tenants = new ArrayList<HousingCustomerAgent>();
+    public LandlordRole landlord;
+    public List<HousingWorkerRole> workers = new ArrayList<HousingWorkerRole>();
+    public List<HousingCustomerRole> tenants = new ArrayList<HousingCustomerRole>();
     //public String customerRole; //value is something like "Restaurant1CustomerRole"
     //public String type;
     
     public Apartment(String name, HousingGui gui)
     {
+    	this.owner = "Chris";
     	type = buildingType.housingComplex;
     	this.gui = gui;
     	this.panel = gui.housingPanel;
@@ -48,5 +42,18 @@ public class Apartment extends Building{
 	@Override
 	public Boolean isOpen() {
 		return true;
+	}
+
+	public void syncRolesWithBuilding() {
+		if(landlord != null) {
+			for(HousingWorkerRole h : workers) {
+				landlord.addWorker(h);
+				h.setLandlord(landlord);
+			}
+			for(HousingCustomerRole c : tenants) {
+				landlord.addCustomer(c);
+				c.setLandlord(landlord);
+			}
+		}
 	}
 }

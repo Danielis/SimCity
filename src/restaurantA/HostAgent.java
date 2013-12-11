@@ -40,6 +40,7 @@ public class HostAgent extends Role {
 	public AnimationPanel copyOfAnimPanel = null;
 	private double balance = 0;
 	private Boolean leave = false;
+	double salary;
 	class MyWaiter{
 		WaiterAgent w;
 		waiterState s;
@@ -193,27 +194,24 @@ public class HostAgent extends Role {
 		
 		if (!waitingCustomers.isEmpty()){
 			synchronized(tables){
-			for (Table table : tables) {
-				//print("Checking table " + table.tableNumber + " to see if empty");
-					if (!table.isOccupied() && !waiters.isEmpty()) {
-						WaiterAgent waiterTemp = selectWaiter();
-							seatCustomer(waitingCustomers.get(0), table, waiterTemp);//the action
-							return true;//return true to the abstract agent to reinvoke the scheduler.
-							
-							//else
-								//return true; //keep checking waiters since there is a customer waiting
-					
+				for (Table table : tables) {
+					//print("Checking table " + table.tableNumber + " to see if empty");
+						if (!table.isOccupied() && !waiters.isEmpty()) {
+							WaiterAgent waiterTemp = selectWaiter();
+								seatCustomer(waitingCustomers.get(0), table, waiterTemp);//the action
+								return true;//return true to the abstract agent to reinvoke the scheduler.
+					}
 				}
 			}
-					//else
-						//return true; //keep checking tables since there is a customer waiting
-			}
 			TellWaitingCustomersFull();
-		//return true;
 		}
 		
-		if (leave && waitingCustomers.isEmpty())
-			LeaveWork();
+		if (leave){
+			if (waitingCustomers.isEmpty() && rest.currentCustomers.isEmpty())
+				LeaveWork();
+			else
+				return true;
+		}
 
 		return false;
 		//we have tried all our rules and found
@@ -324,8 +322,7 @@ public class HostAgent extends Role {
 
 	@Override
 	public void msgGetPaid() {
-		// TODO Auto-generated method stub
-		
+		balance += this.rest.takePaymentForWork(salary);		
 	}
 
 	public void setRestaurant(RestaurantA rest) {
@@ -335,6 +332,11 @@ public class HostAgent extends Role {
 
 	public void setAnimPanel(AnimationPanel animationPanel) {
 		copyOfAnimPanel = animationPanel;
+	}
+
+	public void setSalary(double i) {
+		salary = i;
+		
 	}
 
 	
