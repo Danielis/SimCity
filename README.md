@@ -143,6 +143,7 @@ People eat at home based upon their wealth class and inventory. People decide wh
 3.  Market is fully implemented, but employees are robots right now, working 24/7 (See notes above). We didn't need a market to begin with.
 4.  RestaurantA (Aleena's restaurant) has animation issues that arose during integration.
 5.  One restaurant is not 100% integrated. One is mostly integrated.
+6. There's a bug with cars crashing into each other.
 
 #### Breakdown of work done
 Norman
