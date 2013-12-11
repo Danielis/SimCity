@@ -150,14 +150,17 @@ public class HousingWorkerGui implements Gui, restaurant.gui.Gui{
 		public void DoGoHome()
 		{
 			goingSomewhere = true;
-			destination = new Coordinate(475, 750);
+			destination = new Coordinate(10, 295 + 25 * seatIndex);
 			agent.WaitForAnimation();
 		}
-		
-		
 		public void DoGoToComplex() {
 			goingSomewhere = true;
 			destination = new Coordinate(12, 80);
+			agent.WaitForAnimation();
+		}
+		public void DoGoToLandLord() {
+			goingSomewhere = true;
+			destination = new Coordinate(335, 50);
 			agent.WaitForAnimation();
 		}
 

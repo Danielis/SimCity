@@ -10,6 +10,7 @@ import transportation.gui.BusStopGui;
 import javax.swing.*;
 
 import city.PersonAgent;
+import city.PersonAgent.Item;
 
 import java.awt.*;
 import java.util.Date;
@@ -202,7 +203,7 @@ public class CityPanel extends JPanel {
         gui.cityAnimationPanel.addGui(Bg);
         B.setCompany(metro);
         B.setGui(Bg);
-        Bg.setPosition(435,300);//395,125);
+        Bg.setPosition(430,300);//395,125);
         Bg.setPresent(true);
         B.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBus(B);
@@ -213,7 +214,7 @@ public class CityPanel extends JPanel {
         gui.cityAnimationPanel.addGui(B2g);
         B2.setCompany(metro);
         B2.setGui(B2g);
-        B2g.setPosition(395,300);//435,500);
+        B2g.setPosition(402,300);//435,500);
         B2g.setPresent(true);
         B2.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBus(B2);
@@ -226,7 +227,7 @@ public class CityPanel extends JPanel {
         gui.cityAnimationPanel.addGui(Sg);
         S.setCompany(metro);
         S.setGui(Sg);
-        Sg.setPosition(395,125);
+        Sg.setPosition(402,125);
         S.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S);
         Sg.setPresent(true);
@@ -236,7 +237,7 @@ public class CityPanel extends JPanel {
         BusStopGui S2g = new BusStopGui(S2,gui);
         gui.cityAnimationPanel.addGui(S2g);
         S2.setGui(S2g);
-        S2g.setPosition(395,300);
+        S2g.setPosition(402,300);
         S2.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S2);
         S2g.setPresent(true);
@@ -246,7 +247,7 @@ public class CityPanel extends JPanel {
         BusStopGui S3g = new BusStopGui(S3,gui);
         gui.cityAnimationPanel.addGui(S3g);
         S3.setGui(S3g);
-        S3g.setPosition(395,500);
+        S3g.setPosition(402,500);
         S3.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S3);
         S3g.setPresent(true);
@@ -256,7 +257,7 @@ public class CityPanel extends JPanel {
         BusStopGui S4g = new BusStopGui(S4,gui);
         gui.cityAnimationPanel.addGui(S4g);
         S4.setGui(S4g);
-        S4g.setPosition(435,500);
+        S4g.setPosition(430,500);
         S4.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S4);
         S4g.setPresent(true);
@@ -266,7 +267,7 @@ public class CityPanel extends JPanel {
         BusStopGui S5g = new BusStopGui(S5,gui);
         gui.cityAnimationPanel.addGui(S5g);
         S5.setGui(S5g);
-        S5g.setPosition(435,300);
+        S5g.setPosition(430,300);
         S5.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S5);
         S5g.setPresent(true);
@@ -276,7 +277,7 @@ public class CityPanel extends JPanel {
         BusStopGui S6g = new BusStopGui(S6,gui);
         gui.cityAnimationPanel.addGui(S6g);
         S6.setGui(S6g);
-        S6g.setPosition(435,125);
+        S6g.setPosition(430,125);
         S6.setAnimationPanel(gui.cityAnimationPanel);
         metro.addBusStop(S6);
         S6g.setPresent(true);
@@ -284,7 +285,6 @@ public class CityPanel extends JPanel {
         
        
     }
-
     
     public void setRestPanel(RestaurantPanel panel)
     {

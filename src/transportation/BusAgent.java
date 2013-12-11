@@ -35,6 +35,7 @@ public class BusAgent extends Agent implements Bus
 	TransportationCompany company;
 	Timer timer;
 	BusAgent myself;
+	int busStopTime;
 
 	
 	public List<PersonAgent> people = Collections.synchronizedList(new ArrayList<PersonAgent>());
@@ -51,6 +52,7 @@ public class BusAgent extends Agent implements Bus
 		nextStop = true;
 		timer = new Timer();
 		myself =this;
+		busStopTime = 1000;
 	}
 	
 	public String getName(){
@@ -170,17 +172,25 @@ public class BusAgent extends Agent implements Bus
 			public void run()
 			{	
 				myself.DoneWithAnimation();
+				busStopTime = 1000;
 //				print("The time has finished");
 			}
-		}, 1000);
+		}, busStopTime);
 		this.WaitForAnimation();
 		this.atStop = false;
 		msgNextStop();
 	}
 	
+	public void setBusStopTime(int x)
+	{
+		busStopTime = x;
+	}
 	public void ActionNextStop(){
 		nextStop = false;
 		gui.NextStop();
+	}
+	public void carMoved(){
+		company.BusMoved(this);
 	}
 
 }

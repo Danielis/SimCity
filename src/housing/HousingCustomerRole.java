@@ -177,24 +177,25 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 
 	private void GoToSleep() {
 		gui.DoGoToThreshold();
+		gui.DoGoOverBed();
 		gui.DoGoToBed();
 		sleep = false;
 
-		//TODO: PLEASE FIX THIS LOL, semaphore?
-				timer.schedule(new TimerTask()
-				{
-				public void run()
-					{
-					animSemaphore.release();
-				}
-			}, 10000);
-				try {
-					animSemaphore.acquire();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+		timer.schedule(new TimerTask()
+		{
+			public void run()
+			{
+				animSemaphore.release();
+			}
+		}, 10000);
+		try {
+			animSemaphore.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gui.DoGoOverBed();
+		gui.DoGoToThreshold();
 	}
 
 	//------------------------------------------------
@@ -223,12 +224,9 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	private void CallLandlordRepairs(){
 		print("Calling landlord");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Calling landlord", new Date()));
-		gui.DoGoToThreshold();
 		gui.DoGoToPhone();
 		houseNeedsRepairs = false;
 		landlord.MyHouseNeedsRepairs(this);
-		gui.DoGoToThreshold();
-		//gui.DoGoToBed();	
 		System.out.println("Tenant: called landlord for repairs.");
 
 	}
@@ -243,15 +241,12 @@ public class HousingCustomerRole extends Role implements HousingCustomer{
 	private void GetFood() {
 		print("Going to cook food.");
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Going to cook food", new Date()));
-		//	gui.DoGoToThreshold();
 		gui.DoGoToKitchen();
 		gui.DoGoToFridge();
 		PickItem();
 		gui.DoGoToTable();
 		hungry = false;
 		gui.DoGoToKitchen();
-		gui.DoGoToThreshold();
-		//gui.DoGoToBed();
 		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingCustomerRole", "Done Eating", new Date()));
 		System.out.println("Done Eating.");
 	}

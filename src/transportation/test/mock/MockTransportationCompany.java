@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 
 import city.PersonAgent;
 import city.guis.CityAnimationPanel;
+import city.guis.PersonGui;
 import restaurant.HostAgent;
 import restaurant.CustomerState;
 import restaurant.MyCustomer;
@@ -51,12 +52,18 @@ public class MockTransportationCompany extends Mock implements TransportationCom
                 super(name);
                 log = new EventLog();
         }
-     // After any movement of Bus the transportation must check the location of bus with the busStops so call after Bus movement
+//      After any movement of Bus the transportation must check the location of bus with the busStops so call after Bus movement
     	public void busMoved(){ // need to call in Bus when it's gui makes a move.
     		//stateChanged();
     		Check(); //basically removed semaphore since it was slowing process down
     		// Semaphore would build up too many permits and execution of code would at times be slower than it had to be so a bus would not officially take a person until some time after he had already left the stop
     		// With this the function is called right away every time the bus moves and like a computer executed when the bus is at the stop.
+    	}
+        public void CarMoved(PersonGui g){
+    		//Collision(g);
+    	}
+    	public void BusMoved(BusAgent g){
+    		//Collision(g.gui);
     	}
     	@Override
     	public boolean pickAndExecuteAnAction() {

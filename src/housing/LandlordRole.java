@@ -201,8 +201,7 @@ public class LandlordRole extends Role {
 		t.s = ticketStatus.assigned;
 		t.w.p.GoRepair(t.complex);
 		System.out.println("Landlord: Ticket assigned.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Assigned", new Date()));
-
+		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "LandlordAgent", "Ticket Assigned", new Date()));
 	}
 
 	private void SendBill(Payment p){

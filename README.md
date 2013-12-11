@@ -98,35 +98,105 @@ Aleena
 
 #### How to run system
 ![](http://i.imgur.com/bKOvnio.png)
-  + Build from ant file, compile, run, and choose an option below
+  + Build from ant file, compile, run 'CityGui', and choose an option below
   + Double-click on the building to open the window
   + Exit the building window to go back to city
-  + GUI controls for Bank, Market, Housing, Restaurant on left side only affect 'non AI' agents, or any agent once the system is placed in 'Turn off AI' mode
-  + Bus system is off by default (because some Windows computers have some issues with it), you can turn it on by selecting 'Bus' under City Controls
-  + Ignore the 'in-building' GUI, we will remove / edit for v2
+  + GUI controls for Bank, Market, Housing, Restaurant on left side only affect 'non AI' agents
+  + Bus system is off by default (because some computers have some issues with it), you can turn it on by selecting 'Bus' under City Controls
 
-##### Press "Scenario 1" button to run the normative scenario
-  + This creates: 1 bank host, 3 bank tellers, 1 cashier, 1 cook, 1 restaurant host, 2 waiters, and many different types of jobless citizens.
-  + Before 3AM, everyone will shop at the store, filling their inventories, or buying cars. 
-  + After 3AM the workers will head to work. 
-  + The jobless citizens then may go to the bank to open an account and deposit money, or go home to eat or sleep, or go to the restaurant. 
-  + The work shift ends at 8PM, but workers finish up remaining jobs before leaving. 
-  + The default action (personAgent scheduler returns false) is to wander around the streets).
+### Notes
+#### We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. 
 
-##### Press "Turn off AI" to test individual component functions
-  + Add neccesary workers for a building (bank: 1 host, 1 teller; restaurant: 1 cashier, 1 cook, 1 waiter, 1 host)
-  + Press "Work" after adding each worker.
-  + Add a person with "None" for job. 
-  + Use the GUI controls listed under Bank, Market, Housing, City (selection drop down options, input quantities, etc. Select 'Go')
-  + Although AI is turned off, they will still wander the streets if they have nothing to do
+For V1, we were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. 
+
+For V2, the professor told us to use our discretion in deciding what parts of the project we can and can't do with our smaller group. 
+
+Our drop-out team member was assigned to work on:
++ Market (which we fully implemented, but not fully integrated)
++ Transportation (with Daniel, who would take over the entire segment)
++ Person role and AI design (which the rest of our group and to take over)
+
+Because we had to spend time working on these missing core features, we missed some of the details outlined on the rubric.
+
+Additionally, one of our team members, Chris, was sick and then hospitalized during key integration period. 
+
+// NORMAN WRITE A NOTE HERE.
+
+
+###Normative Scenarios – Baseline, i.e., little or no interleaving
+####A. Scenario: [Tests all the behaviors.]
+1.  Press button 'A'
+2.  North bank, Norman's restaurant, and both markets will be employed, one non-worker will go about his day.
+####B. Scenario: [Tests all the behaviors.]
+1.  Press button 'B'
+2.  North bank, Norman's restaurant, X's restaurant, and both markets will be employed, three non-workers will go about their day.
+####C. Scenario: [Tests cook, cashier, market interaction.]
+  N/A: Team member responsible dropped course
+####D. Scenario: For large teams [Tests party behavior.]
+  N/A: Small team
+####E. Scenario: [Shows bus-stop behavior]
+1.  Do XYZ
+###Non-Normative Scenarios – Baseline, i.e., minimum interleaving
+####F. Scenario: [Shows that people know they can't visit certain workplaces.]
+1.  Press button 'F'. North bank, Norman's restaurant, and both markets will be employed.
+For each building B:
+1. Create a 'No AI' person, click 'Go' under category B. This person will go to B and interact.
+2. Click 'Close B' button, workers will leave
+3. Create another 'No AI' person, click 'Go' under category B. This person will not go to B because it is closed.
+This scenario works for: banks, markets, and restaurants.
+  
+####G. Scenario: [Tests market behavior]
+  N/A: Team member responsible dropped course
+####H. Scenario: For large teams [Tests party behavior.]
+  N/A: Small team
+####I. Scenario: For large teams [Tests party behavior.]
+  N/A: Small team
+###Normative Scenarios – Normal operation, i.e., normal interleaving
+####J. Scenario:
+Citizens:
+1.  Bank: 3 tellers, 1 host (x2)
+2.  Restaurants: 1 host, 1 cashier, 1 cook, 3 waiters (x4)
+3.  Markets: 3 tellers, 1 host (x2)
+4.  Housing: 1 landlord, 3 repairman (x1)
+5.  No Job: 6+
+Total: 50+
+
+2.  People eat at home based upon their wealth class and inventory. People decide which building to visit based on distance.
+###Non-Normative Scenarios – 3 points a scenario; you design them
+####O. Scenario: Bank Robbery
+1.  Press button 'O', creates workers for 1 bank, and 1 robber
+2.  After employees go to bank, robber will enter.
+3.  Each worker has a 20% chance of having a gun on them, if they do the robbery will fail. Otherwise the robbery will succeed.
+4.  The robber will try to rob a bank once a day, otherwise he will go about his day like a normal person (though he does not try to go to the bank to do 'normal' activities so that he is not recognized).
+5.  Since the town has no police, robberies are a usual occurrence and so the tellers, hosts, and other customers are unfazed by a nearby robbery.
+####P. Scenario: Vehicle accident
+
+
+
+
+
+####Q. Scenario: Vehicle hits pedestrian
+
+
+
+
+
+####R. Scenario: Weekend behavior is different
+1.  Press button 'R', which fully employees the city and move the clock time to Saturday at the normal work shift.
+2.  The banks are closed on weekends (and so bank workers go about their day-to-day business) and two restaurants are closed (Aleena's, Chris'). 
+####S. Scenario: Job Changing/Firing/Shifts
+  N/A: Team member responsible dropped course
+###Rubric for Individual Grades
+Here EACH of your components is subject to the following:
+####T. Proper implementation of producer-consumer code
+1.  Aleena did the producer-consumer code for Restaurant
+2.  Norman for RestaurantA
+3.  Chris for RestaurantC
+4.  Daniel for RestaurantD
+
 
 #### What doesn't work
-  + We have a living system for apartments. Housing will be in v2.
-  + Landlords do not automatically collect rent. The housing system for this interaction was built correctly (by Chris), but it was not integrated in time for v1 (by team).
-  + Employees are not paid yet.
-  + Market is fully implemented. Market workers are static right now (no shifts, roles, read disclaimer)*
-  + People go to sleep and instantly wake up. (integration issue)
-  + The housing worker is static.
+  + We have a living system for apartments. We did not have time to add in housing (See notes)
+  + Landlords do not automatically collect rent. The housing system for this interaction was built correctly (by Chris), but it was not integrated in time for v2 (by team).
+  + Market is fully implemented, but employees are robots right now, working 24/7 (See notes above)
 
-
-* *We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. We were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. Again we are a small team, but please take a look at our long, extended and committed history on github. It would be a nice bump of extra credit if you could give us credit for extra deliverables despite a 4-man team.

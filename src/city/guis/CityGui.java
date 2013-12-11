@@ -137,6 +137,8 @@ public class CityGui extends JFrame implements ActionListener {
 	private JPanel otherFunction = new JPanel(); 
 	private JButton busGo = new JButton("Bus");
 
+	private JButton scenP = new JButton("Scenario P");
+	private JButton scenCrash = new JButton("CrashTest"); 
 	private JButton scenA = new JButton("A");
 	private JButton scenB = new JButton("B");
 	private JButton scenF = new JButton("F");
@@ -291,6 +293,9 @@ public class CityGui extends JFrame implements ActionListener {
 		otherFunction.add(busGo);
 		otherFunction.add(scenA);
 		otherFunction.add(scenB);
+
+		//otherFunction.add(scenP);
+		otherFunction.add(scenCrash);
 		otherFunction.add(scenF);
 		otherFunction.add(scenJ);
 		otherFunction.add(scenO);
@@ -303,9 +308,14 @@ public class CityGui extends JFrame implements ActionListener {
 		scenO.addActionListener(this);
 		scenA.addActionListener(this);
 		scenB.addActionListener(this);
+
+		scenP.addActionListener(this);
+		scenCrash.addActionListener(this);
+
 		scenF.addActionListener(this);
 		scenJ.addActionListener(this);
 		scenR.addActionListener(this);
+
 		bankGo.addActionListener(this);
 		marketGo.addActionListener(this);
 		housingGo.addActionListener(this);
@@ -669,8 +679,13 @@ public class CityGui extends JFrame implements ActionListener {
 		scenF.setEnabled(false);
 		scenJ.setEnabled(false);
 		scenB.setEnabled(false);
+
+		scenP.setEnabled(false);
+		scenCrash.setEnabled(false);
+
 		scenR.setEnabled(false);
 		rubric.setEnabled(false);
+
 	}
 	//Action Listener
 	public void actionPerformed(ActionEvent e) {
@@ -765,6 +780,10 @@ public class CityGui extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == scenR){
 			Scenario.getInstance().CallScenarioR(this.cityPanel);
+			silenceScenButtons();
+		}
+		if (e.getSource() == scenCrash){
+			Scenario.getInstance().collisionTest(this.cityPanel);
 			silenceScenButtons();
 		}
 		if (e.getSource() == noAIGo){
@@ -981,6 +1000,9 @@ public class CityGui extends JFrame implements ActionListener {
 		CityGui gui = new CityGui();
 		gui.setVisible(true);
 		trackingWindow.trackerFrame.setAlwaysOnTop(true);
+
+		//gui.cityPanel.createBusSystem(); // trans: will remove piece by piece as I integrate bus sustem into city
+		//gui.cityPanel.collisionTest(); // trans: will remove piece by piece as I integrate bus sustem into city
 	}
 
 

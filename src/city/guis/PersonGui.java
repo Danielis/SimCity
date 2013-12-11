@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.util.ArrayList;
+
+import java.util.TimerTask;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -17,6 +19,10 @@ import roles.Coordinate;
 import city.PersonAgent;
 import city.Scenario;
 import city.PersonAgent.*;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class PersonGui implements Gui{
 	
 	//variables
@@ -28,8 +34,12 @@ public class PersonGui implements Gui{
 	private boolean isWorking = false;
 	
 	private boolean goingSomewhere = false;
+	private boolean moveCarCalled = false;
 	private boolean isBusy = false;
 	
+	//Semaphore to Pause animation from moving
+	boolean collisionstop = false;
+	Timer timer = new Timer();
 	public boolean part1 = true;
 	
 	//finals
@@ -58,6 +68,20 @@ public class PersonGui implements Gui{
 	Coordinate checkpointJ; 
 	Coordinate checkpointK;
 	Coordinate checkpointL;
+	Coordinate checkpointM; 
+	Coordinate checkpointN; 
+	Coordinate checkpointO; 
+	Coordinate checkpointP;
+	Coordinate checkpointQ;
+	Coordinate checkpointR;
+	Coordinate checkpointS; 
+	Coordinate checkpointT; 
+	Coordinate checkpointU; 
+	Coordinate checkpointV;
+	Coordinate checkpointW;
+	Coordinate checkpointX;
+	Coordinate destCheckpoint;
+	
 	
 	Coordinate checkpointHouse;
 
@@ -101,24 +125,32 @@ public class PersonGui implements Gui{
 		agent = c;
 		this.gui = gui2;
 
-		checkpointA = new Coordinate(257,472);//restaurant
-		checkpointB = new Coordinate(385,472);//bottom street corner  
-		checkpointC = new Coordinate(385,362);//middle lower street corner
-		checkpointD = new Coordinate(385,275);//middle higher street corner
-		checkpointE = new Coordinate(280,275);//in front of market
-		checkpointF = new Coordinate(280,265);//Market
-		checkpointG = new Coordinate(385,106);//Top street corner
-		checkpointH = new Coordinate(319,106);//in front of Apartments
-		checkpointI = new Coordinate(319,90);//Apartments
-		checkpointJ = new Coordinate(73,106);//in front of bank
-		checkpointK = new Coordinate(73,74);//Bank
+		checkpointA = new Coordinate(383,105);//left top
+		checkpointB = new Coordinate(383,170);
+		checkpointC = new Coordinate(383,278);
+		checkpointD = new Coordinate(383,347);
+		checkpointE = new Coordinate(383,473);
+		checkpointF = new Coordinate(383,540);//left bot
+		checkpointG = new Coordinate(450,540);//right bot
+		checkpointH = new Coordinate(450,473);
+		checkpointI = new Coordinate(450,347);
+		checkpointJ = new Coordinate(450,278);
+		checkpointK = new Coordinate(450,170);
+		checkpointL = new Coordinate(450,105);//right top
+		checkpointM = new Coordinate(430,120);//mid-right top
+		checkpointN = new Coordinate(430,145);
+		checkpointO = new Coordinate(430,300);
+		checkpointP = new Coordinate(430,320);
+		checkpointQ = new Coordinate(430,492);
+		checkpointR = new Coordinate(430,512);//mid-right bot
+		checkpointS = new Coordinate(402,522);//mid-left bot
+		checkpointT = new Coordinate(402,492);
+		checkpointU = new Coordinate(402,320);
+		checkpointV = new Coordinate(402,300);
+		checkpointW = new Coordinate(402,145);
+		checkpointX = new Coordinate(402,120);//mid-left top
+		destCheckpoint = checkpointX;
 
-		checkpointL = new Coordinate(485,474);
-		//Daniel: These are not correct points may have been incorrectly added with a merge from someone else
-//		checkpointA = new Coordinate(395,250);
-//		checkpointB = new Coordinate(395,125);
-//		checkpointC = new Coordinate(320,125);
-//		checkpointD = new Coordinate(320,100);
 		checkpointHouse = new Coordinate(536,473);
 		
 		//checkpointA = new Coordinate(395,250);
@@ -139,9 +171,7 @@ public class PersonGui implements Gui{
 		Random r = new Random();
     	int x1=r.nextInt(600-50) + 50;
 		
-    	position = new Coordinate(x1, y1);
-    	
-    	
+    	position = new Coordinate(x1, y1); 
     	
     	cashier = new Coordinate(255, 75);
     	waitingroom = new Coordinate(140,70);
@@ -316,7 +346,8 @@ public class PersonGui implements Gui{
 
     private void setDefault() {
     	if (agent.job.type.equals(JobType.bankHost)){
-      		 try
+      		System.out.println("BankHost reached inside"); 
+    		try
       	       {
       			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/bankHost3.png"));
       	       } catch (IOException e ) {}
@@ -379,6 +410,9 @@ public class PersonGui implements Gui{
   			 imgTrainer = ImageIO.read(getClass().getResource("/resources/globalSprites/crook3.png"));
   	       } catch (IOException e ) {}
     	}
+       	else if(agent.hasCar()){
+       			setImage();
+       	}	
        	else
        		try
     	{
@@ -580,8 +614,10 @@ public class PersonGui implements Gui{
     }
 
     public void updatePosition() {
-    	if (goingSomewhere)
+
+    	if (goingSomewhere && !collisionstop)
     	{		
+//    		System.out.println("Updating Position");	
     		if (showBubble)
     		{
 				bubbleValue++;
@@ -601,49 +637,132 @@ public class PersonGui implements Gui{
     		if (deltax < 0) deltax *= -1;
     		if (deltay < 0) deltay *= -1;
     		
-            if (position.x < destination.x)
-            {
-            	direct = "right";
-            	setImage();
-                position.x += (1 + deltax/deltadivider);
-                movementTicker++;
-            }
-            else if (position.x > destination.x)
-            {
-            	direct = "left";
-            	setImage();
-                position.x -= (1 + deltax/deltadivider);
-                movementTicker++;
-            }
+    		//Move the person, speed based on car or not
+    		if(agent.hasCar()){
+    			if (Math.abs( position.x - destination.x) <=3){
+    				setImage(); 
+    				position.x = destination.x;
+    			}
+    			else if (position.x < destination.x){
+    				direct = "right";
+    				setImage();
+    				position.x += 3;
+    			}
+    			else if (position.x > destination.x){
+    				direct = "left";
+    				setImage();
+    				position.x -= 3;
+    			}
+    			if (Math.abs( position.y-destination.y ) <=3){
+    				setImage(); 
+    				position.y = destination.y;
+    			}
+    			else if (position.y < destination.y){
+    				direct = "down";
+    				setImage();
+    				position.y += 3;
+    			}
+    			else if (position.y > destination.y){
+    				direct = "up";
+    				setImage(); 
+    				position.y -= 3;
+    			}
+    		}
+    		else{
+    			if (position.x < destination.x)
+    			{
+    				direct = "right";
+    				setImage();
+//    				position.x += (1 + deltax/deltadivider);
+    				position.x += 1;
+    				movementTicker++;
+    			}
+    			else if (position.x > destination.x)
+    			{
+    				direct = "left";
+    				setImage();
+//    				position.x -= (1 + deltax/deltadivider);
+    				position.x -= 1;
+    				movementTicker++;
+    			}
 
-            else if (position.y < destination.y)
-            {
-            	direct = "down";
-            	setImage();
-                position.y += (1 + deltay/deltadivider);
-                movementTicker++;
-            }
-            
-            else if (position.y > destination.y)
-            {
-            	direct = "up";
-            	setImage();
-                position.y -= (1 + deltay/deltadivider);
-                movementTicker++;
-            }
+    			else if (position.y < destination.y)
+    			{
+    				direct = "down";
+    				setImage();
+//    				position.y += (1 + deltay/deltadivider);
+    				position.y += 1;
+    				movementTicker++;
+    			}
+
+    			else if (position.y > destination.y)
+    			{
+    				direct = "up";
+    				setImage();   				
+//    				position.y -= (1 + deltay/deltadivider);
+    				position.y -= 1;
+    				movementTicker++;
+    			}
+    		}
+    		//            if(!agent.hasCar()){
+    		//            	if (movementTicker < 30)
+    		//            	{
+    		//            		//setAnim1();
+    		//            	}
+    		//            	else if (movementTicker < 60)
+    		//            	{
+    		//            		//setAnim2();
+    		//            	}
+    		//            	else if (movementTicker >= 60)
+    		//            	{
+    		//            		movementTicker = 0;
+    		//            	}
+    		//            }
+//    		System.out.println("Looked at the destination equals position scheduler");
+//    		if (position.x == destination.x && position.y == destination.y)
+//            else if (position.y < destination.y)
+//            {
+//            	direct = "down";
+//            	setImage();
+//                position.y += (1 + deltay/deltadivider);
+//                movementTicker++;
+//            }
+//            
+//            else if (position.y > destination.y)
+//            {
+//            	direct = "up";
+//            	setImage();
+//                position.y -= (1 + deltay/deltadivider);
+//                movementTicker++;
+//            }
             if (position.x == destination.x && position.y == destination.y)
             {
-            	setImage();
-            	goingSomewhere = false;
-            	agent.DoneWithAnimation();
+    			
+    			if(moveCarCalled){
+    				moveCarCalled = false;
+    				System.out.println("Entered the destination equals position scheduler");
+    				setImage();
+    				agent.DoneWithAnimation();
+//    				doMoveCar();
+    			}
+    			else{
+    				System.out.println("BLAH BLAH NOT FROM CAR");
+    				setImage();
+    				goingSomewhere = false;
+    				agent.DoneWithAnimation();
+    			}
             }
+         // Tells transportation company to check for a car on _____ collision
+        	if(agent.hasCar()){
+        		agent.carMoved();
+        	}
 
     	}
-		else
-		{
-			setDefault();
-		}
-	}
+    	else
+    	{
+    		setDefault();
+    	}
+    }
     
     private void setImage(){
     	if (agent.hasCar()){
@@ -877,6 +996,78 @@ public class PersonGui implements Gui{
               destination = checkpointL;
               agent.WaitForAnimation();
           }
+	      else if(a == 'M' || a == 'm')
+          {
+              goingSomewhere = true;
+              destination = checkpointM;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'N' || a == 'n')
+          {
+              goingSomewhere = true;
+              destination = checkpointN;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'O' || a == 'o')
+          {
+              goingSomewhere = true;
+              destination = checkpointO;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'P' || a == 'p')
+          {
+              goingSomewhere = true;
+              destination = checkpointP;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'Q' || a == 'Q')
+          {
+              goingSomewhere = true;
+              destination = checkpointQ;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'R' || a == 'r')
+          {
+              goingSomewhere = true;
+              destination = checkpointR;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'S' || a == 's')
+          {
+              goingSomewhere = true;
+              destination = checkpointS;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'T' || a == 't')
+          {
+              goingSomewhere = true;
+              destination = checkpointT;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'U' || a == 'u')
+          {
+              goingSomewhere = true;
+              destination = checkpointU;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'V' || a == 'v')
+          {
+              goingSomewhere = true;
+              destination = checkpointV;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'W' || a == 'w')
+          {
+              goingSomewhere = true;
+              destination = checkpointW;
+              agent.WaitForAnimation();
+          }
+	      else if(a == 'X' || a == 'x')
+          {
+              goingSomewhere = true;
+              destination = checkpointX;
+              agent.WaitForAnimation();
+          }
 	}
 	public void DoGoToLocation(int X,int Y){
 		goingSomewhere = true;
@@ -891,6 +1082,15 @@ public class PersonGui implements Gui{
 	public int getYPosition(){
 		return this.position.y;
 	}
+	public int getImgX(){
+		return imgTrainer.getTileWidth();
+	}
+	public int getImgY(){
+		return imgTrainer.getTileHeight();
+	}
+	public boolean hasCar(){
+		return agent.hasCar();
+	}
 	public void setPosition(int X, int Y){
 		position.x = X;
 		position.y = Y;
@@ -900,8 +1100,243 @@ public class PersonGui implements Gui{
 		DoGoToLocation(entrance.x, entrance.y);
 	}
 
-
-
+	public void pauseGuiAnimation(){
+		collisionstop = true;
+		//		try{
+		//			this.pauseSemaphore.acquire();
+		//		} catch (InterruptedException e) {
+		//			// no action - expected when stopping or when deadline changed
+		//		} catch (Exception e) {
+		//			System.out.println("Unexpected exception caught in Agent thread:" + e);
+		//		}
+	}
+	public void releaseGuiAnimation(){
+		collisionstop = false;
+		//		this.pauseSemaphore.release();
+	}
+	public void collision(){
+		pauseGuiAnimation();
+		timer.schedule( new TimerTask()
+		{
+			public void run()
+			{	
+				agent.carMoved();
+//				releaseGuiAnimation();
+			}
+		}, 1000);
+	}
+	public Coordinate doMoveAsCar(){
+//		destCheckpoint = getCheckPoint(D);
+		goingSomewhere = true;
+//		if(position.x == getCheckPoint(D).x && position.y == getCheckPoint(D).y){
+//			System.out.println("doMoveAsCar(char) end reached");
+//			this.goingSomewhere = false;
+//			return destination;
+//		}
+//		else{
+			System.out.println("doMoveAsCar(char) reached");
+			doGoToNextCheckPoint(destination);
+			return destination;
+//		}
+	}
 	
+//	public void doMoveCar(){
+//		goingSomewhere = true;
+//		if(position.x == destCheckpoint.x && position.y == destCheckpoint.y){
+//			moveCarCalled = false;
+//			System.out.println("doMoveCar end reached");
+//			this.goingSomewhere = false;
+//			agent.DoneWithAnimation();
+//		}
+//		else{
+//			System.out.println("doMoveCar else reached");
+//			agent.DoneWithAnimation();
+//			doGoToNextCheckPoint(destination);
+//		}
+//	}
+	
+	public Coordinate getCheckPoint(char a){
+		if(a == 'A' || a == 'a')
+		{
+			return checkpointA;
+		}
+		else if(a == 'B' || a == 'b')
+		{
+			return checkpointB;
+		}
+		else if(a == 'C' || a == 'c')
+		{
+			return checkpointC;
+		}
+		else if(a == 'D' || a == 'd')
+		{
+			return checkpointD;
+		}
+		else if(a == 'E' || a == 'E')
+		{
+			return checkpointE;
+		}
+		else if(a == 'F' || a == 'f')
+		{
+			return checkpointF;
+		}
+		else if(a == 'G' || a == 'g')
+		{
+			return checkpointG;
+		}
+		else if(a == 'H' || a == 'h')
+		{
+			return checkpointH;
+		}
+		else if(a == 'I' || a == 'i')
+		{
+			return checkpointI;
+		}
+		else if(a == 'J' || a == 'j')
+		{
+			return checkpointJ;
+		}
+		else if(a == 'K' || a == 'k')
+		{
+			return checkpointK;
+		}
+		else if(a == 'L' || a == 'l')
+		{
+			return checkpointL;
+		}
+		else if(a == 'M' || a == 'm')
+		{
+			return checkpointM;
+		}
+		else if(a == 'N' || a == 'n')
+		{
+			return checkpointN;
+		}
+		else if(a == 'O' || a == 'o')
+		{
+			return checkpointO;
+		}
+		else if(a == 'P' || a == 'p')
+		{
+			return checkpointP;
+		}
+		else if(a == 'Q' || a == 'Q')
+		{
+			return checkpointQ;
+		}
+		else if(a == 'R' || a == 'r')
+		{
+			return checkpointR;
+		}
+		else if(a == 'S' || a == 's')
+		{
+			return checkpointS;
+		}
+		else if(a == 'T' || a == 't')
+		{
+			return checkpointT;
+		}
+		else if(a == 'U' || a == 'u')
+		{
+			return checkpointU;
+		}
+		else if(a == 'V' || a == 'v')
+		{
+			return checkpointV;
+		}
+		else if(a == 'W' || a == 'w')
+		{
+			return checkpointW;
+		}
+		else if(a == 'X' || a == 'x')
+		{
+			return checkpointX;
+		}
+		else{
+			return null;
+		}
+	}
 
+	public void doGoToNextCheckPoint( Coordinate a){
+		//Car will only deal with M and higher
+		System.out.println("doGoToNextCheckPoint reached");
+		moveCarCalled = true;
+		if(a == checkpointM)
+		{
+			goingSomewhere = true;
+			destination = checkpointX;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointN)
+		{
+			goingSomewhere = true;
+			destination = checkpointM;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointO)
+		{
+			goingSomewhere = true;
+			destination = checkpointN;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointP)
+		{
+			goingSomewhere = true;
+			destination = checkpointO;	
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointQ)
+		{
+			goingSomewhere = true;
+			destination = checkpointP;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointR)
+		{
+			goingSomewhere = true;
+			destination = checkpointQ;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointS)
+		{
+			goingSomewhere = true;
+			destination = checkpointR;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointT)
+		{
+			goingSomewhere = true;
+			destination = checkpointS;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointU)
+		{
+			goingSomewhere = true;
+			destination = checkpointT;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointV)
+		{
+			System.out.println("V was registered");
+			goingSomewhere = true;
+			destination = checkpointU;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointW)
+		{
+			System.out.println("W was registered");
+			goingSomewhere = true;
+			destination = checkpointV;
+			agent.WaitForAnimation();
+		}
+		else if(a == checkpointX)
+		{
+			goingSomewhere = true;
+			destination = checkpointW;
+			agent.WaitForAnimation();
+		}
+	}
+	public void removeCar(){
+		agent.removeCar();
+	}
 }

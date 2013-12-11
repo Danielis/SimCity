@@ -1,5 +1,7 @@
 package city;
 
+import java.util.TimerTask;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,15 +10,15 @@ import city.PersonAgent.JobType;
 import city.guis.CityGui;
 import city.*;
 import city.guis.CityPanel;
-
+import java.util.Timer;
 
 public class Scenario {
-	
+
+	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 	Timer timer = new Timer();
+	
 	CityPanel cp;
 	int numStudentsArrived = 0;
-	
-	enum Day{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
 
 	private static Scenario instance = null;
 
@@ -31,11 +33,163 @@ public class Scenario {
 		return instance;
 	}
 
+//	public void fillWork(CityPanel c){
+//		c.addWorker("Bank Host", "Bank Host", "Average");
+//		c.addWorker("Teller 1", "Teller", "Average");
+//		c.addWorker("Teller 2", "Teller", "Average");
+//		c.addWorker("Teller 3", "Teller", "Average");
+//
+//		c.addWorker("Bank Host", "Bank Host", "Average");
+//		c.addWorker("Teller 1", "Teller", "Average");
+//		c.addWorker("Teller 2", "Teller", "Average");
+//		c.addWorker("Teller 3", "Teller", "Average");
+//
+//		//for restaurant: need to repeat for all restaurants
+//		c.addWorker("Chef", "Cook", "Average");
+//		c.addWorker("Waiter 1", "Waiter", "Average");
+//		c.addWorker("Waiter 2", "Waiter", "Average");
+//		c.addWorker("Cashier", "Cashier", "Average");
+//		c.addWorker("Restaurant Host", "Restaurant Host", "Average");
+//	}
+//
+//
+//	public void CallScenarioA(CityPanel c){				// for points 1-4
+//
+//		fillWork(c);
+//		TimeManager.getInstance().setDivider(20);
+//		TimeManager.getInstance().setOffset(300000);
+//		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
+//		c.addPerson(p);
+//
+//		p.setHungry();
+//		p.setBus(false);
+//	}
+//
+//	public void CallScenarioB(CityPanel c){
+//
+//		fillWork(c);
+//		TimeManager.getInstance().setDivider(20);
+//		TimeManager.getInstance().setOffset(300000);
+//
+//		PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
+//		p.GiveCar();
+//		p.addItem("Juice", 0, 2, 2);
+//		p.setBus(false);
+//		c.addPerson(p);
+//
+//		PersonAgent p2 = new PersonAgent("Busser", "None", "Average");
+//		p2.setBus(true);
+//		c.addPerson(p2);
+//
+//		PersonAgent p3 = new PersonAgent("Walker", "None", "Poor");
+//		p3.setBus(false);
+//		p3.setHungry();
+//		c.addPerson(p3);
+//
+//	}
+	public void CallScenarioP(CityPanel c){
+		c.addWorker("Bank Host", "Bank Host", "Wealthy");
+		c.addWorker("Teller 1", "Teller", "Poor");
+		c.addWorker("Teller 2", "Teller", "Poor");
+		c.addWorker("Teller 3", "Teller", "Average");
+
+		c.addWorker("Bank Host", "Bank Host", "Average");
+		c.addWorker("Teller 1", "Teller", "Average");
+		c.addWorker("Teller 2", "Teller", "Wealthy");
+		c.addWorker("Teller 3", "Teller", "Poor");
+
+		//for restaurant: need to repeat for all restaurants
+		c.addWorker("Chef", "Cook", "Average");
+		c.addWorker("Waiter 1", "Waiter", "Average");
+		c.addWorker("Waiter 2", "Waiter", "Average");
+		c.addWorker("Cashier", "Cashier", "Average");
+		c.addWorker("Restaurant Host", "Restaurant Host", "Wealthy");
+
+
+		TimeManager.getInstance().setDivider(30);
+		TimeManager.getInstance().setOffset(70420000);
+
+		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
+		PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
+		PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
+
+		c.addPerson(p2);
+		c.addPerson(p3);
+		c.addPerson(p4);
+
+
+	}
+//
+//	public void CallScenario1(CityPanel c){ // scen o, robbery
+//		TimeManager.getInstance().setDivider(20);
+//		TimeManager.getInstance().setOffset(300000);
+//		c.addWorker("Bank Host", "Bank Host", "Average");
+//		c.addWorker("Teller 1", "Teller", "Average");
+//		c.addWorker("Teller 2", "Teller", "Average");
+//		c.addWorker("Teller 3", "Teller", "Average");
+//
+//		PersonAgent p2 = new PersonAgent("Robber", "Crook", "Average");
+//		c.addPerson(p2);
+//
+//	}
+//
+//
+//	public void CallScenarioTest(CityPanel c) {
+//
+//		TimeManager.getInstance().setDivider(20);
+//		TimeManager.getInstance().setOffset(300000);
+//		c.addWorker("Host", "Restaurant Host", "Average");
+//		c.addWorker("W 1", "Waiter", "Average");
+//		c.addWorker("W 2", "Waiter", "Average");
+//		c.addWorker("W 3", "Waiter", "Average");
+//		c.addWorker("Cashier", "Cashier", "Average");
+//		c.addWorker("Chef", "Cook", "Average");
+//	}
+
+	public void collisionTest(CityPanel c){
+//		c.createBusSystem();
+//		
+		c.addPerson("Person1", "No AI", "Wealthy");
+		PersonAgent p1= c.people.lastElement();
+		p1.setPosition(100, 100);
+		p1.addItem("Car",1);
+		
+//		c.addPerson("Person4", "No AI", "Wealthy");
+//		PersonAgent p4= c.people.lastElement();
+//		p4.setPosition(110, 100);
+//		p4.addItem("Car",1);
+//		
+//		c.addPerson("Person2", "No AI", "Wealthy");
+//		PersonAgent p2= c.people.lastElement();
+//		p2.setPosition(441,250);
+//		p2.addItem("Car",1);
+//		
+//		c.addPerson("Person2", "No AI", "Wealthy");
+//		PersonAgent p3= c.people.lastElement();
+//		p3.setPosition(400,425);
+
+
+		p1.msgGoToMarket("Car", 1);
+//		p4.msgGoToMarket("Car", 1);
+//		
+//		p2.msgGoToMarket("Car", 1);
+//		p3.msgGoToMarket("Car", 1);
+//			
+		//p2.getGui().DoGoToLocation(100, 100);
+	}
+
 	public void fillWork(CityPanel c){
 		EmployBank(c);
 		EmployBank(c);
 		EmployRest(c);
 		EmployRest(c);
+		EmployHousing(c);
+	}
+	
+	public void oneBuildEmployed(CityPanel c){
+		EmployBank(c);
+		EmployRest(c);
+		EmployHousing(c);
 	}
 
 	public void EmployBank(CityPanel c) {
@@ -46,6 +200,13 @@ public class Scenario {
 		c.addWorker("Teller 3", "Teller", "Average");
 	}
 
+	public void EmployHousing(CityPanel c) {
+
+		c.addWorker("Landlord", "Landlord", "Average");
+		c.addWorker("Repairman 1", "Repairman", "Average");
+		c.addWorker("Repairman 2", "Repairman", "Average");
+		c.addWorker("Repairman 3", "Repairman", "Average");
+	}
 
 	public void EmployRest(CityPanel c) {
 		c.addWorker("Host 1", "Restaurant Host", "Average");
@@ -69,8 +230,7 @@ public class Scenario {
 		//	Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
 
 		workShift();
-		EmployBank(c);
-		EmployRest(c);
+		oneBuildEmployed(c);
 
 		PersonAgent p = new PersonAgent("Scen A", "None", "Wealthy");
 		p.addItem("Juice", 0, 2, 2);
@@ -86,7 +246,7 @@ public class Scenario {
 		//	[one should walk; one should take a car; one should take a bus.]
 
 		workShift();
-		fillWork(c);
+		oneBuildEmployed(c);
 
 		PersonAgent p = new PersonAgent("Driver", "None", "Wealthy");
 		p.GiveCar();
@@ -156,7 +316,7 @@ public class Scenario {
 		//	Show how one not-working person still visits all the workplaces but not the ones that are down. 
 		//	Say you only have one bank and it is down, the person should avoid all banking behavior.
 		workShift();
-		fillWork(c);
+		oneBuildEmployed(c);
 	}
 
 	public void CallScenarioJ(CityPanel c) {
@@ -175,7 +335,7 @@ public class Scenario {
 		PersonAgent p2 = new PersonAgent("No Job 1", "None", "Wealthy");
 		PersonAgent p3 = new PersonAgent("No Job 2", "None", "Poor");
 		PersonAgent p4 = new PersonAgent("No Job 3", "None", "Average");
-		PersonAgent p5 = new PersonAgent("No Job 4", "None", "Average");
+		PersonAgent p5 = new PersonAgent("Robber", "Crook", "Average");
 		PersonAgent p6 = new PersonAgent("Chris", "None", "Wealthy");
 		PersonAgent p7 = new PersonAgent("No Job 6", "None", "Poor");
 		

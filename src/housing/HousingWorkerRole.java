@@ -26,7 +26,7 @@ public class HousingWorkerRole extends Role implements HousingWorker {
 	public String name;
 	private List<Job> myJobs = new ArrayList<Job>();
 	double balance;
-	private Semaphore waitingForAnimation = new Semaphore(0);
+	private Semaphore waitingForAnimation = new Semaphore(-1);
 	private HousingAnimationPanel animationPanel;
 	private HousingWorkerGui gui;
 	public TrackerGui trackingWindow;
@@ -125,18 +125,18 @@ public class HousingWorkerRole extends Role implements HousingWorker {
 	//------------------------------------------------------
 	private void CompleteJob(Job job){
 		gui.DoGoToComplex();
-		//DoRepairComplex(j.c);
 		job.s = jobState.completed;
 		System.out.println("Worker: Job completed.");
-		trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Job Completed", new Date()));
+		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Job Completed", new Date()));
 	}
 
 	private void AskForPay(Job job){
-		gui.DoGoHome();
+		gui.DoGoToLandLord();
 		landlord.RepairsCompleted(job.c, job.bill);
 		job.s = jobState.billed;
 		System.out.println("Worker: Asking for pay.");
 		//trackingWindow.tracker.alertOccurred(new Alert(AlertLevel.INFO, AlertTag.HOUSING, "HousingWorkerAgent", "Asking for Pay", new Date()));
+		gui.DoGoHome();
 	}
 
 
