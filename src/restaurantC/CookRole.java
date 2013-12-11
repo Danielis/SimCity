@@ -1,8 +1,10 @@
 package restaurantC;
 
+import java.awt.image.ImageObserver;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import restaurantC.gui.AnimationPanel;
 import restaurantC.gui.CookGui;
 import roles.Role;
 
@@ -23,7 +25,8 @@ public class CookRole extends Role {
 	private Semaphore cookSemaphore = new Semaphore(0);
 	private List<MarketAgent> markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
 	private CookGui cookGui;
-	
+	public RestaurantC restaurant;
+
 	//inner class to handle foods
 	private class Food {
 		String type;
@@ -36,19 +39,19 @@ public class CookRole extends Role {
 			type = t;
 			if(t == "Steak") {
 				cookTime = 5;
-				remaining = 3;
+				remaining = 50;
 			}
 			else if (t == "Salad") {
 				cookTime = 2; 
-				remaining = 3;
+				remaining = 50;
 			}
 			else if(t == "Pizza") {
 				cookTime = 3;
-				remaining = 3;
+				remaining = 50;
 			}
 			else if(t == "Chicken") {
 				cookTime = 4;
-				remaining = 3;
+				remaining = 50;
 			}
 		}
 	}
@@ -82,6 +85,8 @@ public class CookRole extends Role {
 	private Food pizza = new Food("Pizza");
 	private Food salad = new Food("Salad");
 	private Food chicken = new Food("Chicken");
+	private int salary;
+	private AnimationPanel animationPanel;
 
 	//constructor
 	public CookRole(String name) {
@@ -255,6 +260,18 @@ public class CookRole extends Role {
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setSalary(int i) {
+		salary = i;
+	}
+
+	public AnimationPanel copyOfAnimationPanel() {
+		return this.animationPanel;
+	}
+
+	public void setAnimationPanel(AnimationPanel animationPanel2) {
+		this.animationPanel = animationPanel2;
 	}	
 }
 

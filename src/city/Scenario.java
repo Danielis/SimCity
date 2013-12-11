@@ -183,6 +183,11 @@ public class Scenario {
 		PersonAgent p6= c.people.lastElement();
 		p6.setPosition(100,450);
 		
+		c.addPerson("Person7", "No AI", "Wealthy");
+		PersonAgent p7= c.people.lastElement();
+		p7.setPosition(350,520);
+		p7.addItem("Car",1);
+		
 
 		p1.msgGoToMarket("Car", 1);
 		p4.msgGoToMarket("Car", 1);
@@ -196,6 +201,7 @@ public class Scenario {
 	public void fillWork(CityPanel c){
 		EmployBank(c);
 		EmployBank(c);
+		EmployRest(c);
 		EmployRest(c);
 		EmployRest(c);
 		EmployHousing(c);

@@ -1,9 +1,11 @@
 package restaurantC;
 
+import java.awt.image.ImageObserver;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.*;
 
+import restaurantC.gui.AnimationPanel;
 import restaurantC.gui.WaiterGui;
 import restaurantC.interfaces.Cashier;
 import restaurantC.interfaces.Customer;
@@ -32,9 +34,12 @@ public class WaiterRole extends Role implements Waiter {
 		//boolean for being on break
 		public boolean wantToGoOnBreak;
 		public boolean onBreak;
+		public RestaurantC restaurant;
 
 		//name
 		public String name;
+		
+		public AnimationPanel animationPanel;
 
 		//private class to keep track of customers, and a data structure to hold them
 		private class myCustomer {
@@ -82,6 +87,7 @@ public class WaiterRole extends Role implements Waiter {
 		//message from host to seat the customer.
 		public void seatCustomer(CustomerRole cust, int table)
 		{
+			setHost(restaurant.workingHost);
 			System.out.println(name +" has been told to seat customer");
 			//creates new customer and adds it to the list
 			myCustomer tempCust = new myCustomer();
@@ -101,6 +107,7 @@ public class WaiterRole extends Role implements Waiter {
 
 		//sent from customer, ready to order
 		public void readyToOrder(Customer cust){
+			setCook(restaurant.workingCook);
 			synchronized(customers) {
 				for(myCustomer customer:customers)
 					if(customer.c == cust){
@@ -157,6 +164,7 @@ public class WaiterRole extends Role implements Waiter {
 		}
 		//sent from customer, wants the check
 		public void checkPlease(Customer cust) {
+			setCashier(restaurant.workingCashier);
 			synchronized(customers) {
 				for(myCustomer customer:customers)
 					if(customer.c == cust){
@@ -441,6 +449,19 @@ public class WaiterRole extends Role implements Waiter {
 		public void msgGetPaid() {
 			// TODO Auto-generated method stub
 			
+		}
+
+		public void setSalary(double d) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public ImageObserver copyOfAnimationPanel() {
+			return animationPanel;
+		}
+
+		public void setAnimationPanel(AnimationPanel animationPanel2) {
+			this.animationPanel = animationPanel2;
 		}
 
 }

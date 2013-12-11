@@ -1,6 +1,9 @@
 package restaurantC.gui;
 
 import java.awt.*;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import restaurantC.CookRole;
 
@@ -18,7 +21,8 @@ public class CookGui implements Gui{
 	private int xDestination, yDestination;
 	//boolean for making sure the at-table call is only sometimes done
 	boolean callToAgent = true;
-
+	
+	Image cookImage;
 
 	public boolean isPresent() {
 		return isPresent;
@@ -32,6 +36,13 @@ public class CookGui implements Gui{
 		xDestination = 400;
 		yDestination = 50;
 		this.gui = gui;
+		
+		
+		try
+        {
+        	cookImage = ImageIO.read(getClass().getResource("/resources/trainer2.png"));
+        } catch (IOException e ) {}
+		
 	}
 
 	//Updates Position.  This will be repeating in order to move the gui
@@ -49,8 +60,7 @@ public class CookGui implements Gui{
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.RED);
-		g.fillRect(xPos, yPos, 20, 20);
+		g.drawImage(cookImage, xPos, yPos, agent.copyOfAnimationPanel());
 	}
 
     public void showOrder(String s) {
@@ -64,4 +74,6 @@ public class CookGui implements Gui{
     public void removeOrder(String s) {
     	gui.animationPanel.removeOrder(s);
     }
+
+
 }

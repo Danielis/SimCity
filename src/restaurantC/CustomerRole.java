@@ -22,6 +22,7 @@ public class CustomerRole extends Role implements Customer {
 	//amount owed
 	private double amountOwed;			//amount the customer owes
 	private double spendingMoney;		//amount the customer has
+	public RestaurantC restaurant;
 
 	//semaphore that will manage the agent's interaction with the gui
 	private Semaphore waitingForAnimation = new Semaphore(0); 
@@ -43,18 +44,13 @@ public class CustomerRole extends Role implements Customer {
 	AgentEvent event = AgentEvent.none;
 	
 	//Constructor
-	public CustomerRole(String name){
+	public CustomerRole(String name, double cash, String string){
 		super();
 		this.name = name;					//sets name
 		this.choice = "none";				//sets choice to none
 		amountOwed = 0.00;						//owes no money right now
 		//hack for non-normative scenarios
-		if(name.equals("Thief") || name.equals("Broke")) {
-			spendingMoney = 2.00;
-		}
-		else {
-			spendingMoney = 25.00;
-		}
+		spendingMoney = cash;
 		System.out.println(name + ": I have $" + spendingMoney);
 	}
 
@@ -88,7 +84,9 @@ public class CustomerRole extends Role implements Customer {
 	//---------------------------------------------------
 	//message from animation saying "I'm hungry."  Starts the chain of reaction.
 	public void gotHungry() {
+		setHost(restaurant.workingHost);
 		System.out.println(name + ": I'm hungry");
+		state = AgentState.DoingNothing;
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
@@ -144,6 +142,7 @@ public class CustomerRole extends Role implements Customer {
 	}
 	//message from waiter, asks if customer needs anything else
 	public void anythingElse() {
+		this.setCashier(restaurant.workingCashier);
 		event = AgentEvent.AnythingElse;
 		stateChanged();
 	}
@@ -178,6 +177,7 @@ public class CustomerRole extends Role implements Customer {
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
 			event = AgentEvent.none;
 			state = AgentState.WaitingInRestaurant;
+			System.out.println("Does the customer ever realize it should go to restaurant?");
 			goToRestaurant();
 			return true;
 		}

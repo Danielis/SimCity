@@ -23,6 +23,7 @@ public class CashierRole extends Role implements Cashier {
 	//-------------Data---------------------------------
 	public String name;
 	private double money;
+	public RestaurantC restaurant;
 
 	//inner class to track a meal with waiter, price, table, choice
 	public class Meal {
@@ -45,6 +46,7 @@ public class CashierRole extends Role implements Cashier {
 	public List<MyMarket> markets = Collections.synchronizedList(new ArrayList<MyMarket>());
 	//vector of meals
 	private List<Meal> meals = Collections.synchronizedList(new ArrayList <Meal>());
+	private int salary;
 	//constructor
 	public CashierRole(String name) {
 		super();
@@ -199,6 +201,9 @@ public class CashierRole extends Role implements Cashier {
 	public void msgGetPaid() {
 		// TODO Auto-generated method stub
 		
+	}
+	public void setSalary(int i) {
+		salary = i;
 	}
 
 
