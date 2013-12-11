@@ -97,7 +97,7 @@ Aleena
 
 
 #### How to run system
-![](http://i.imgur.com/bKOvnio.png)
+![](http://i.imgur.com/jszVPXs.png)
   + Build from ant file, compile, run 'CityGui', and choose an option below
   + Double-click on the building to open the window
   + Exit the building window to go back to city
@@ -105,7 +105,7 @@ Aleena
   + Bus system is off by default (because some computers have some issues with it), you can turn it on by selecting 'Bus' under City Controls
 
 ### Notes
-#### We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. 
+We've discussed with Professor Wilczynski about an issue with teammate work, so please take that into consideration for grading. We please ask you to contact him for the details. We are a four-person team creating a 6-person project with great emphasis on aesthetics and animation. We are down two people, one who dropped the course and one who submitted zero lines of code to the project and has not showing up to meetings. 
 
 For V1, we were instructed to "include a simple market from one of your Restaurant deliveries, no animation" because of the missing team member, but we were able to add a fully functioning market to our city, but we unfortunately ran out of time for full integration. 
 
@@ -118,7 +118,7 @@ Our drop-out team member was assigned to work on:
 
 Because we had to spend time working on these missing core features, we missed some of the details outlined on the rubric.
 
-Additionally, one of our team members, Chris, was sick and then hospitalized during key integration period. 
+Additionally, one of our team members, Chris, was sick and then hospitalized during key integration period. Despite being ill, Chris was able to make full contributions to the project, but we were unable to fix some smaller details of the project (as described below). 
 
 // NORMAN WRITE A NOTE HERE.
 
