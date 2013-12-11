@@ -12,6 +12,7 @@ import java.awt.Menu;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import city.test.MockRestaurant;
 import logging.Alert;
 import logging.AlertLevel;
 import logging.AlertTag;
@@ -40,9 +41,27 @@ public class TraditionalWaiterRole extends WaiterRole implements Waiter {
 
 		print("I'm a traditional waiter! I hate the ticket system.");
 	}
+	
+	public TraditionalWaiterRole(String name, double cash)
+	{
+		super(name);
+		//this.rest = r;
+		this.name = name;
+		balance = cash;
+		
+		//set all items of food available
+		for (int i = 0; i<4; i++)
+		{
+			foodsAvailable.add(true);
+		}
+
+		print("I'm a traditional waiter! I hate the ticket system.");
+	}
 
 
 //MESSAGES****************************************************
+
+
 
 	public void msgLeaveWork()
 	{

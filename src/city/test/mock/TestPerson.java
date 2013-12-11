@@ -1536,8 +1536,8 @@ public class TestPerson implements Person{
 	
 
 	public void GoToWork(){
-		gui.setPresent(true);
-		gui.setBusy(true);
+		//gui.setPresent(true);
+		//gui.setBusy(true);
 		Status.setWorkStatus(workStatus.goingToWork);
 		
 		
@@ -1581,6 +1581,86 @@ public class TestPerson implements Person{
 		}
 	}
 
+	public void WorkAtRest(MockRestaurant restaurant) {
+
+		/*=====================================================================
+		  						RESTAURANT SALARIES
+		  =====================================================================
+			Cashier (Economist)  		|   100 per shift
+			Host (Manager)		 		|   80  per shift
+			Cook (Culinary Grad) 		|   80  per shift
+			Waiter (Low-wage student)   |   50  per shift
+		  =====================================================================*/
+
+		//takeBusIfApplicable(2);
+
+	
+		MockRestaurant r = restaurant;
+				
+		//gui.DoGoToLocation(r.entrance);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.restaurant);
+		//gui.setPresent(false);
+
+		if (job.type == JobType.restHost)
+		{
+			HostRole c = new HostRole(this.getName(), this.cash);
+			//c.setBuilding(r);
+			c.setSalary(80);
+			c.setTrackerGui(trackingWindow);
+			c.setTestPerson(this);
+			//r.panel.addHost((HostRole) c);
+			roles.add(c);
+			c.setActivity(true);
+		}
+		
+		if (job.type == JobType.cook){
+			CookRole c = new CookRole(this.getName(), this.cash);
+			//c.setBuilding(r);
+			c.setSalary(80);
+			c.setTrackerGui(trackingWindow);
+			//r.panel.addCook((CookRole) c);
+			c.setTestPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+		}
+		if (job.type == JobType.cashier){
+			CashierRole c = new CashierRole(this.getName(), this.cash);
+			//c.setBuilding(r);
+			c.setSalary(100);
+			c.setTrackerGui(trackingWindow);
+			//r.panel.addCashier((CashierRole) c);
+			c.setTestPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+		}
+		if (job.type == JobType.waiter){
+			Random rand = new Random();
+			double randval = rand.nextInt();
+			if (randval % 2 == 0)
+			{
+				ModernWaiterRole c = new ModernWaiterRole(this.getName(), this.cash);
+				//r.panel.addWaiter((ModernWaiterRole) c, waiterindex);
+				c.setTestPerson(this);
+				c.setSalary(50);
+				c.setTrackerGui(trackingWindow);
+				roles.add(c);
+				c.setActivity(true);
+			}
+			else
+			{
+				TraditionalWaiterRole c = new TraditionalWaiterRole(this.getName(), this.cash);
+				//r.panel.addWaiter((TraditionalWaiterRole) c, waiterindex);
+				c.setTestPerson(this);
+				c.setSalary(50);
+				c.setTrackerGui(trackingWindow);
+				roles.add(c);
+				c.setActivity(true);
+			}
+			if (waiterindex>5) waiterindex = 0;
+		}
+	}
+	
 	public void WorkAtRest() {
 
 		/*=====================================================================
@@ -1786,6 +1866,49 @@ public class TestPerson implements Person{
 			c.setSalary(110);
 			r.panel.customerPanel.addTeller((Teller) c);
 
+			c.setTestPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+		}
+
+	}
+	
+public void WorkAtBank(MockBank bank) {
+		
+		/*=====================================================================
+									BANK SALARIES
+		=====================================================================
+		Host (Manager)  				|   80 per shift
+		Teller (Accountant)		 		|   110  per shift
+		=====================================================================*/
+
+		//takeBusIfApplicable(0);
+
+		//Role c = null;
+		MockBank r = bank;
+	
+		//gui.DoGoToLocation(r.entrance);
+		Status.setWorkStatus(workStatus.working);
+		this.Status.setLocation(location.bank);
+		//gui.setPresent(false);
+		
+		if (job.type == JobType.bankHost && r.workingHost == null)
+		{
+			BankHostRole c = new BankHostRole(this.getName());
+			c.setTrackerGui(trackingWindow);
+			c.setSalary(80);
+			r.workingHost = (BankHostRole) c;
+			//r.panel.customerPanel.addHost((BankHost) c);
+
+			c.setTestPerson(this);
+			roles.add(c);
+			c.setActivity(true);
+		}
+		if (job.type == JobType.teller){
+			TellerRole c = new TellerRole(this.getName());
+			c.setTrackerGui(trackingWindow);
+			c.setSalary(110);
+			//r.panel.customerPanel.addTeller((Teller) c);
 			c.setTestPerson(this);
 			roles.add(c);
 			c.setActivity(true);
