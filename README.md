@@ -203,6 +203,9 @@ Chris
   + Issue tracker: created a new window that took each console output and created an alert and displayed it appropriately.  This involved working with each file and tailoring it to this new system.
   + Developed some restaurant-market interactions before we knew it wasn't going to be required of us.  This will be utilized in v2.
   + Unit testing for LandlordAgent in housing
+  + Incorporated Landlord and Repairman to work with the PersonAgent role system.
+  + Incorporated my individual restaurant.  Workers can go to work at restaurant, but customers don't start the restaurant scenario.
+  + Fixed sleeping timer in the apartment complex.  
 
 Daniel 
   + PersonAgent Design Doc
