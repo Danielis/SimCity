@@ -210,7 +210,7 @@ public class Scenario {
 	}
 
 	public void CallScenarioRubric(CityPanel c) {
-		System.out.println("Testing button");
+		System.out.println("Where's the rubric...?");
 		
 		workShift();
 		
@@ -246,7 +246,6 @@ public class Scenario {
 	public void Continue1()
 	{
 		numStudentsArrived++;
-		System.out.println(numStudentsArrived);
 		if (AllThere())
 		{
 			HeartAttack();
@@ -261,7 +260,6 @@ public class Scenario {
 			{
 				if(p.job.type == JobType.professor)
 				{
-					System.out.println("Got message ***");
 					p.msgHaveHeartAttack();
 				}
 			}

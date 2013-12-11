@@ -559,16 +559,15 @@ public class PersonAgent extends Agent implements Person
 		}
 	}
 	//Enum States
-	enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
-	enum location		{outside,home,restaurant,bank,market,transportation,work}
-	enum destination	{outside,home,restaurant,bank,market,transportation,work,Wilczynski}
-	enum workStatus		{notWorking,working,onBreak,goingToWork}
-	enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
-	enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
-	enum marketStatus	{nothing,buying,waiting}
-	enum transportStatus{nothing, walking,car,bus}
-	enum morality		{good,bad} // may be used for theifs later on for non-norms
-	//other potentials: rent, 
+	public enum nourishment	{notHungry,Hungry,goingToFood} // may not need goingToFood
+	public enum location		{outside,home,restaurant,bank,market,transportation,work}
+	public enum destination	{outside,home,restaurant,bank,market,transportation,work,Wilczynski}
+	public enum workStatus		{notWorking,working,onBreak,goingToWork}
+	public enum bankStatus		{nothing,withdraw,deposit,owe,goingToBank}
+	public enum houseStatus	{notHome,home,noHome,goingHome,needsToGo} //no home may be used for deadbeats
+	public enum marketStatus	{nothing,buying,waiting}
+	public enum transportStatus{nothing, walking,car,bus}
+	public enum morality		{good,bad} // may be used for theifs later on for non-norms
 
 
 	/*****************************************************************************
@@ -923,7 +922,6 @@ public class PersonAgent extends Agent implements Person
 		{
 			if (job.type == JobType.professor)
 			{
-				print("got a");
 				professorState = ProfessorState.needsHeartAttack;
 				stateChanged();
 			}
@@ -1911,7 +1909,6 @@ public class PersonAgent extends Agent implements Person
 	
 	public void HaveHeartAttack()
 	{
-		print("Got to action");
 		professorState = ProfessorState.isHavingHeartAttack;
 		gui.setDeath();
 		gui.playdeath = true;

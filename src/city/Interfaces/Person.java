@@ -28,12 +28,8 @@ public interface Person {
 
 	public void msgGoToWork() ;
 
-
-
 	//Housing
 	public void msgGoToHome(String purpose);
-
-
 
 	//Restaurant
 	public void msgGoToRestaurant();
