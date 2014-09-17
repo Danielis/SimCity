@@ -1,9 +1,8 @@
 ﻿###Team 05
-####Team Information
 
-  + Team Name: Victorious Secret
-  + Team E-Mail: usc-csci201-fall2013-team05-l@mymaillists.usc.edu
-  + Team Mentor: Daniel Bloznalis <bloznali@usc.edu>
+### Description
+
+#### This was a class project. I've made a public repository for viewing.
 
 ####Resources
 
